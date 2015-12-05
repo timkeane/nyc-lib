@@ -1,0 +1,237 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+import groovy.util.AntBuilder
+import java.util.ArrayList
+
+plugins{
+    id 'base'
+    id 'jetty'
+    id 'org.hidetake.ssh' version '1.1.2'
+}
+
+ext{
+	ver = '1.0.0'
+	remoteDir = "nyc-lib/${ver}"
+	olCssFiles = [
+		'control-common.css', 
+		'collapsible.css', 
+		'directions.css', 
+		'draw.css', 
+		'featuretip.css', 
+		'lang.css', 
+		'legend.css', 
+		'popup.css', 
+		'share.css', 
+		'zoomsearch.css'
+	]
+	leafCssFiles = [
+		'control-common.css', 
+		'collapsible.css', 
+		'directions.css', 
+		'lang.css', 
+		'legend.css', 
+		'share.css', 
+		'zoomsearch.css'
+	]
+	cartoCssFiles = [
+		'control-common.css', 
+		'chart.css', 
+		'collapsible.css', 
+		'directions.css', 
+		'lang.css', 
+		'legend.css', 
+		'share.css', 
+		'zoomsearch.css'
+	]
+	olJsFiles = [
+		'nyc.js', 
+		'collapsible.js', 
+		'collapsible-radio.js', 
+		'content.js', 
+		'directions.js',
+		'geocoder.js', 
+		'lang.js', 
+		'legend.js', 
+		'locate.js', 
+		'share.js',
+		'zoomsearch.js',
+		'ol/ol.js', 
+		'ol/draw.js', 
+		'ol/featuretip.js', 
+		'ol/locate.js', 
+		'ol/popup.js', 
+		'ol/control/zoomsearch.js',
+		'ol/geoserver/getfeature.js', 
+		'ol/source/arcgiscache.js', 
+		'ol/source/decorating.js', 
+		'ol/source/filteringandsorting.js',
+		'ol/layer/baselayer.js'
+	]
+	leafJsFiles = [
+		'nyc.js', 
+		'collapsible.js', 
+		'collapsible-radio.js', 
+		'content.js', 
+		'directions.js',
+		'geocoder.js', 
+		'lang.js', 
+		'legend.js', 
+		'locate.js', 
+		'share.js',
+		'zoomsearch.js',
+		'leaf/leaf.js', 
+		'leaf/locate.js', 
+		'leaf/zoomsearch.js'
+	]
+	cartoJsFiles = [
+		'nyc.js', 
+		'collapsible.js', 
+		'collapsible-radio.js', 
+		'content.js', 
+		'directions.js',
+		'geocoder.js', 
+		'lang.js', 
+		'legend.js', 
+		'locate.js', 
+		'share.js',
+		'zoomsearch.js',
+		'leaf/leaf.js', 
+		'leaf/locate.js', 
+		'leaf/zoomsearch.js',
+		'carto/chart.js', 
+		'carto/view.js'
+	]
+	closureComiler = "etc/closure/compiler.jar"
+}
+
+task setup() << {
+ 	archive.archiveName = "nyc-lib-${ver}.zip"
+	archive.from {'build/nyc-lib'}
+}
+
+task minifyJs() << {
+	def libName = 'nyc-ol-lib'
+	MinifyJs.minify(libName, olJsFiles, ver)
+	libName = 'nyc-leaf-lib'
+	MinifyJs.minify(libName, leafJsFiles, ver)
+	libName = 'nyc-carto-lib'
+	MinifyJs.minify(libName, cartoJsFiles, ver)
+	println "\nCleaning up..."
+	delete fileTree(dir: '.' , include: '**/*.sh')
+	delete fileTree(dir: '.' , include: '*.bat')
+}
+
+task minifyCss() << {
+	println ''
+	def libName = 'nyc-ol-lib'
+	MinifyCss.minify(libName, olCssFiles, ver)
+	libName = 'nyc-leaf-lib'
+	MinifyCss.minify(libName, leafCssFiles, ver)
+	libName = 'nyc-carto-lib'
+	MinifyCss.minify(libName, cartoCssFiles, ver)
+}
+
+task archive(type: Zip, dependsOn: [setup, minifyJs, minifyCss]) {}
+
+remotes {
+	deployTarget {}
+}
+
+task deploy(dependsOn: [archive]) << {
+	def archiveDir = project.ext['archive.dir']
+	def mobileDir = project.ext['mobile.dir']
+	def deployDir = "${mobileDir}/${remoteDir}"
+	
+	remotes.deployTarget.host = project.ext["${env}.host"]
+    remotes.deployTarget.user = project.ext["${env}.user"]	
+    remotes.deployTarget.identity = file("${System.properties['user.home']}/.ssh/id_rsa")
+	
+	ssh.run {
+        session(remotes.deployTarget) {
+            put "build/distributions/${archive.archiveName}", archiveDir
+            execute "cp -R ${deployDir} ${deployDir}.bak"
+            execute "rm -rf ${deployDir}"
+            execute "unzip ${archiveDir}/${archive.archiveName} -d ${deployDir}"
+            execute "rm -rf ${deployDir}.bak"
+        }
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion '2.9'
+}
+
+class MinifyCss {
+	static void minify(String libName, ArrayList<String> cssFiles, String ver) {
+		println "writing ${libName}.css version ${ver}\n"
+		def build = new File('build/nyc-lib')
+		build.mkdirs()
+		def cssOut = new File("build/nyc-lib/${libName}.css")
+		cssOut.append("/* ${libName} version ${ver} */\n")
+		cssFiles.each{ cssFile ->
+			def css = new File("src/main/css/${cssFile}").getText('UTF-8')
+			css = css.replaceAll(/[\n\r]+\s*/, '')
+			css = css.replaceAll(/\s+/, ' ')
+			css = css.replaceAll(/\s?([:,;{}])\s?/, '$1')
+			css = css.replaceAll(/([\s:]0)(px|pt|%|em)/, '$1')
+			css = css.replaceAll(/\/\*[\d\D]*?\*\//, '')
+			cssOut.append(css)
+		}
+	}
+}
+
+class MinifyJs {
+	static String closureComiler = 'etc/closure/compiler.jar'
+	static boolean isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
+	static String[] compilerArgs = [
+		"--warning_level VERBOSE",
+		"--compilation_level WHITESPACE_ONLY",
+		//"--compilation_level SIMPLE_OPTIMIZATIONS",
+		"--charset utf8",
+		'--source_map_location_mapping "src/main/js/|./"',
+	]
+	static void minify(String libName, ArrayList<String> jsFiles, String ver) {
+		println "\ncompiling ${libName} version ${ver}\n"
+		def build = new File('build/nyc-lib')
+		build.mkdirs()
+		def compilerArgs = this.args(libName, jsFiles, "/* ${libName} version ${ver} */\n")
+		def scriptFileName = this.makeScript(libName, compilerArgs)
+		println "\nexecuting script ${scriptFileName}"
+	    if (!this.isWindows){
+	    	scriptFileName = "./${scriptFileName}"
+	    }
+		scriptFileName.execute();
+	}
+	static String makeScript(String libName, String compilerArgs){
+		def scriptFileName = this.isWindows ? "${libName}.bat" : "${libName}.sh"
+		def scriptFilePath = this.isWindows ? scriptFileName : "build/${scriptFileName}"
+		def scriptFile = new File(scriptFilePath)
+		def scriptSrc = "java -jar ${this.closureComiler} ${compilerArgs}"
+		println "writing script ${scriptFileName}\n\n${scriptSrc}\n"
+		scriptFile.text = scriptSrc
+	    if (!this.isWindows){
+			def ant = new AntBuilder()
+			ant.sequential{
+				copy(file: scriptFilePath, tofile: scriptFileName)
+				chmod(file: scriptFileName, perm: '0755')
+			}
+		}
+		return scriptFileName
+	}
+	static String args(String libName, ArrayList<String> jsFiles, String info) {
+		def args = ''
+		this.compilerArgs.each{ arg ->
+			args += " ${arg}"
+		}
+		jsFiles.each{ arg ->
+			args += " src/main/js/nyc/${arg}"
+		}
+		args += (' ' + "--js_output_file build/nyc-lib/${libName}.js")
+		args += (' ' + "--create_source_map build/nyc-lib/${libName}.js.map")
+		if (this.isWindows){
+			args += " --output_wrapper \"${info}%%output%%//# sourceMappingURL=${libName}.js.map\""
+		}else{
+			args += " --output_wrapper \"${info}%output%//# sourceMappingURL=${libName}.js.map\""
+		}
+		return args
+	}	
+}
