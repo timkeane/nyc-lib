@@ -3,18 +3,22 @@ import groovy.util.AntBuilder
 import java.util.ArrayList
 import com.eriwen.gradle.js.tasks.CombineJsTask
 import com.eriwen.gradle.js.tasks.MinifyJsTask
+import com.eriwen.gradle.css.tasks.CombineCssTask
+import com.eriwen.gradle.css.tasks.MinifyCssTask
 
 plugins{
     id 'base'
     id 'jetty'
     id 'org.hidetake.ssh' version '1.1.2'
-	id "com.eriwen.gradle.js" version "1.12.1"
+	id 'com.eriwen.gradle.js' version '1.12.1'
+	id 'com.eriwen.gradle.css' version '1.11.1'
 }
 
 ext{
 	ver = 'v0.0.1-beta.1'
 	remoteDir = "nyc-lib/${ver}"
 	jsSrcDir = 'src/main/js/nyc'
+	cssSrcDir = 'src/main/css'
 	olJsFiles = [
 		"${jsSrcDir}/nyc.js", 
 		"${jsSrcDir}/collapsible.js", 
@@ -77,51 +81,51 @@ ext{
 		"${jsSrcDir}/carto/chart.js"
 	]
 	olCssFiles = [
-		'control-common.css', 
-		'collapsible.css', 
-		'directions.css', 
-		'draw.css', 
-		'featuretip.css', 
-		'lang.css', 
-		'legend.css', 
-		'popup.css', 
-		'share.css', 
-		'zoomsearch.css'
+		"${cssSrcDir}/control-common.css", 
+		"${cssSrcDir}/collapsible.css", 
+		"${cssSrcDir}/directions.css", 
+		"${cssSrcDir}/draw.css", 
+		"${cssSrcDir}/featuretip.css", 
+		"${cssSrcDir}/lang.css", 
+		"${cssSrcDir}/legend.css", 
+		"${cssSrcDir}/popup.css", 
+		"${cssSrcDir}/share.css", 
+		"${cssSrcDir}/zoomsearch.css"
 	]
 	leafCssFiles = [
-		'control-common.css', 
-		'collapsible.css', 
-		'directions.css', 
-		'lang.css', 
-		'legend.css', 
-		'share.css', 
-		'zoomsearch.css'
+		"${cssSrcDir}/control-common.css", 
+		"${cssSrcDir}/collapsible.css", 
+		"${cssSrcDir}/directions.css", 
+		"${cssSrcDir}/lang.css", 
+		"${cssSrcDir}/legend.css", 
+		"${cssSrcDir}/share.css", 
+		"${cssSrcDir}/zoomsearch.css"
 	]
 	cartoCssFiles = [
-		'control-common.css', 
-		'chart.css', 
-		'collapsible.css', 
-		'directions.css', 
-		'lang.css', 
-		'legend.css', 
-		'share.css', 
-		'zoomsearch.css'
+		"${cssSrcDir}/control-common.css", 
+		"${cssSrcDir}/chart.css", 
+		"${cssSrcDir}/collapsible.css", 
+		"${cssSrcDir}/directions.css", 
+		"${cssSrcDir}/lang.css", 
+		"${cssSrcDir}/legend.css", 
+		"${cssSrcDir}/share.css", 
+		"${cssSrcDir}/zoomsearch.css"
 	]
 }
 
 task combineJsOl(type: CombineJsTask) {
     source = olJsFiles
-    dest = file("${buildDir}/nyc-ol-lib-${ver}-all.js")
+    dest = file("${buildDir}/nyc-ol-lib-debug.js")
 }
 
 task combineJsLeaf(type: CombineJsTask) {
     source = leafJsFiles
-    dest = file("${buildDir}/nyc-leaf-lib-${ver}-all.js")
+    dest = file("${buildDir}/nyc-leaf-lib-debug.js")
 }
 
 task combineJsCarto(type: CombineJsTask) {
     source = cartoJsFiles
-    dest = file("${buildDir}/nyc-carto-lib-${ver}-all.js")
+    dest = file("${buildDir}/nyc-carto-lib-debug.js")
 }
 
 task minifyJsOl(type: MinifyJsTask) {
@@ -156,35 +160,76 @@ task minifyJsCarto(type: MinifyJsTask) {
     }
 }
 
-task outputWrapperOl(dependsOn: [minifyJsOl]) << {
+task combineCssOl(type: CombineCssTask) {
+    source = olCssFiles
+    dest = "${buildDir}/nyc-ol-lib-all.css"
+}
+
+task combineCssLeaf(type: CombineCssTask) {
+    source = leafCssFiles
+    dest = "${buildDir}/nyc-leaf-lib-all.css"
+}
+
+task combineCssCarto(type: CombineCssTask) {
+    source = cartoCssFiles
+    dest = "${buildDir}/nyc-carto-lib-all.css"
+}
+
+task minifyCssOl(type: MinifyCssTask) {
+    source = combineCssOl
+    dest = "${buildDir}/${ver}/nyc-ol-lib.css"
+    yuicompressor {
+        lineBreakPos = -1
+    }
+}
+
+task minifyCssLeaf(type: MinifyCssTask) {
+    source = combineCssLeaf
+    dest = "${buildDir}/${ver}/nyc-leaf-lib.css"
+    yuicompressor {
+        lineBreakPos = -1
+    }
+}
+
+task minifyCssCarto(type: MinifyCssTask) {
+    source = combineCssCarto
+    dest = "${buildDir}/${ver}/nyc-carto-lib.css"
+    yuicompressor {
+        lineBreakPos = -1
+    }
+}
+
+task appendSrcMappingOl(dependsOn: [minifyJsOl]) << {
 	def info = "/ * nyc-ol-lib${ver} */"
 	def script = file("${buildDir}/${ver}/nyc-ol-lib.js")
-	def src = script.text
-	def wrapped = " --output_wrapper \"${info}\n${src}\n# sourceMappingURL=nyc-ol-lib.js.map\""
-	script.text = wrapped
+	script.append("\n//# sourceMappingURL=nyc-ol-lib-${ver}.js.map")
 }
 
-task outputWrapperLeaf(dependsOn: [minifyJsLeaf]) << {
+task appendSrcMappingLeaf(dependsOn: [minifyJsLeaf]) << {
 	def info = "/ * nyc-leaf-lib${ver} */"
 	def script = file("${buildDir}/${ver}/nyc-leaf-lib.js")
-	def src = script.text
-	def wrapped = " --output_wrapper \"${info}\n${src}\n# sourceMappingURL=nyc-leaf-lib.js.map\""
-	script.text = wrapped
+	script.append("\n//# sourceMappingURL=nyc-leaf-lib-${ver}.js.map")
 }
 
-task outputWrapperCarto(dependsOn: [minifyJsCarto]) << {
+task appendSrcMappingCarto(dependsOn: [minifyJsCarto]) << {
 	def info = "/ * nyc-carto-lib${ver} */"
 	def script = file("${buildDir}/${ver}/nyc-carto-lib.js")
-	def src = script.text
-	def wrapped = " --output_wrapper \"${info}\n${src}\n# sourceMappingURL=nyc-carto-lib.js.map\""
-	script.text = wrapped
+	script.append("\n//# sourceMappingURL=nyc-carto-lib-${ver}.js.map")
 }
 
-task outputWrapper(dependsOn: [outputWrapperOl, outputWrapperLeaf, outputWrapperCarto]) << {}
+task appendSrcMapping(dependsOn: [appendSrcMappingOl, appendSrcMappingLeaf, appendSrcMappingCarto]) << {}
+task allCss(dependsOn: [minifyCssOl, minifyCssLeaf, minifyCssCarto]) << {}
 
-task archive(type: Zip, dependsOn: [outputWrapper]) {
+task archive(type: Zip, dependsOn: [appendSrcMapping, allCss]) {
 	archiveName = "nyc-lib-${ver}.zip"
 	from {"build/${ver}"}
+}
+archive.doFirst {
+	copy {
+		from 'build'
+		include '*-debug.js'
+		into "build/${ver}"
+	}
 }
 
 remotes {
