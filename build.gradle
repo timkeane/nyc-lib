@@ -9,8 +9,8 @@ plugins{
 }
 
 ext{
-	ver = '0.0.1'
-	remoteDir = "nyc-lib/v${ver}"
+	ver = 'v0.0.1-alpha'
+	remoteDir = "nyc-lib/${ver}"
 	olCssFiles = [
 		'control-common.css', 
 		'collapsible.css', 
@@ -105,7 +105,7 @@ ext{
 }
 
 task setup() << {
- 	archive.archiveName = "nyc-lib-v${ver}.zip"
+ 	archive.archiveName = "nyc-lib-${ver}.zip"
 	archive.from {'build/nyc-lib'}
 }
 
@@ -164,11 +164,11 @@ task wrapper(type: Wrapper) {
 
 class MinifyCss {
 	static void minify(String libName, ArrayList<String> cssFiles, String ver) {
-		println "writing ${libName}.css v${ver}\n"
+		println "writing ${libName}.css ${ver}\n"
 		def build = new File('build/nyc-lib')
 		build.mkdirs()
 		def cssOut = new File("build/nyc-lib/${libName}.css")
-		cssOut.append("/* ${libName} v${ver} */\n")
+		cssOut.append("/* ${libName} ${ver} */\n")
 		cssFiles.each{ cssFile ->
 			def css = new File("src/main/css/${cssFile}").getText('UTF-8')
 			css = css.replaceAll(/[\n\r]+\s*/, '')
@@ -192,10 +192,10 @@ class MinifyJs {
 		'--source_map_location_mapping "src/main/js/|./"',
 	]
 	static void minify(String libName, ArrayList<String> jsFiles, String ver) {
-		println "\ncompiling ${libName} v${ver}\n"
+		println "\ncompiling ${libName} ${ver}\n"
 		def build = new File('build/nyc-lib')
 		build.mkdirs()
-		def compilerArgs = this.args(libName, jsFiles, "/* ${libName} v${ver} */\n")
+		def compilerArgs = this.args(libName, jsFiles, "/* ${libName} ${ver} */\n")
 		def scriptFileName = this.makeScript(libName, compilerArgs)
 		println "\nexecuting script ${scriptFileName}"
 	    if (!this.isWindows){
