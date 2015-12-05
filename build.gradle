@@ -1,16 +1,81 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 import groovy.util.AntBuilder
 import java.util.ArrayList
+import com.eriwen.gradle.js.tasks.CombineJsTask
+import com.eriwen.gradle.js.tasks.MinifyJsTask
 
 plugins{
     id 'base'
     id 'jetty'
     id 'org.hidetake.ssh' version '1.1.2'
+	id "com.eriwen.gradle.js" version "1.12.1"
 }
 
 ext{
-	ver = 'v0.0.1-beta'
+	ver = 'v0.0.1-beta.1'
 	remoteDir = "nyc-lib/${ver}"
+	jsSrcDir = 'src/main/js/nyc'
+	olJsFiles = [
+		"${jsSrcDir}/nyc.js", 
+		"${jsSrcDir}/collapsible.js", 
+		"${jsSrcDir}/collapsible-radio.js", 
+		"${jsSrcDir}/collapsible-month-range.js", 
+		"${jsSrcDir}/content.js", 
+		"${jsSrcDir}/directions.js",
+		"${jsSrcDir}/geocoder.js", 
+		"${jsSrcDir}/lang.js", 
+		"${jsSrcDir}/legend.js", 
+		"${jsSrcDir}/locate.js", 
+		"${jsSrcDir}/share.js",
+		"${jsSrcDir}/zoomsearch.js",
+		"${jsSrcDir}/ol/ol.js", 
+		"${jsSrcDir}/ol/draw.js", 
+		"${jsSrcDir}/ol/featuretip.js", 
+		"${jsSrcDir}/ol/locate.js", 
+		"${jsSrcDir}/ol/popup.js", 
+		"${jsSrcDir}/ol/control/zoomsearch.js",
+		"${jsSrcDir}/ol/geoserver/getfeature.js", 
+		"${jsSrcDir}/ol/source/arcgiscache.js", 
+		"${jsSrcDir}/ol/source/decorating.js", 
+		"${jsSrcDir}/ol/source/filteringandsorting.js",
+		"${jsSrcDir}/ol/layer/baselayer.js"
+	]
+	leafJsFiles = [
+		"${jsSrcDir}/nyc.js", 
+		"${jsSrcDir}/collapsible.js", 
+		"${jsSrcDir}/collapsible-radio.js", 
+		"${jsSrcDir}/collapsible-month-range.js", 
+		"${jsSrcDir}/content.js", 
+		"${jsSrcDir}/directions.js",
+		"${jsSrcDir}/geocoder.js", 
+		"${jsSrcDir}/lang.js", 
+		"${jsSrcDir}/legend.js", 
+		"${jsSrcDir}/locate.js", 
+		"${jsSrcDir}/share.js",
+		"${jsSrcDir}/zoomsearch.js",
+		"${jsSrcDir}/leaf/leaf.js", 
+		"${jsSrcDir}/leaf/locate.js", 
+		"${jsSrcDir}/leaf/zoomsearch.js"
+	]
+	cartoJsFiles = [
+		"${jsSrcDir}/nyc.js", 
+		"${jsSrcDir}/collapsible.js", 
+		"${jsSrcDir}/collapsible-radio.js", 
+		"${jsSrcDir}/collapsible-month-range.js", 
+		"${jsSrcDir}/content.js", 
+		"${jsSrcDir}/directions.js",
+		"${jsSrcDir}/geocoder.js", 
+		"${jsSrcDir}/lang.js", 
+		"${jsSrcDir}/legend.js", 
+		"${jsSrcDir}/locate.js", 
+		"${jsSrcDir}/share.js",
+		"${jsSrcDir}/zoomsearch.js",
+		"${jsSrcDir}/leaf/leaf.js", 
+		"${jsSrcDir}/leaf/locate.js", 
+		"${jsSrcDir}/leaf/zoomsearch.js",
+		"${jsSrcDir}/carto/view.js",
+		"${jsSrcDir}/carto/chart.js"
+	]
 	olCssFiles = [
 		'control-common.css', 
 		'collapsible.css', 
@@ -42,119 +107,91 @@ ext{
 		'share.css', 
 		'zoomsearch.css'
 	]
-	olJsFiles = [
-		'nyc.js', 
-		'collapsible.js', 
-		'collapsible-radio.js', 
-		'content.js', 
-		'directions.js',
-		'geocoder.js', 
-		'lang.js', 
-		'legend.js', 
-		'locate.js', 
-		'share.js',
-		'zoomsearch.js',
-		'ol/ol.js', 
-		'ol/draw.js', 
-		'ol/featuretip.js', 
-		'ol/locate.js', 
-		'ol/popup.js', 
-		'ol/control/zoomsearch.js',
-		'ol/geoserver/getfeature.js', 
-		'ol/source/arcgiscache.js', 
-		'ol/source/decorating.js', 
-		'ol/source/filteringandsorting.js',
-		'ol/layer/baselayer.js'
-	]
-	leafJsFiles = [
-		'nyc.js', 
-		'collapsible.js', 
-		'collapsible-radio.js', 
-		'content.js', 
-		'directions.js',
-		'geocoder.js', 
-		'lang.js', 
-		'legend.js', 
-		'locate.js', 
-		'share.js',
-		'zoomsearch.js',
-		'leaf/leaf.js', 
-		'leaf/locate.js', 
-		'leaf/zoomsearch.js'
-	]
-	cartoJsFiles = [
-		'nyc.js', 
-		'collapsible.js', 
-		'collapsible-radio.js', 
-		'collapsible-month-range.js', 
-		'content.js', 
-		'directions.js',
-		'geocoder.js', 
-		'lang.js', 
-		'legend.js', 
-		'locate.js', 
-		'share.js',
-		'zoomsearch.js',
-		'leaf/leaf.js', 
-		'leaf/locate.js', 
-		'leaf/zoomsearch.js',
-		'carto/view.js',
-		'carto/chart.js'
-	]
-	closureComiler = "etc/closure/compiler.jar"
-	jsdocDir = "../jsdoc/"
 }
 
-task setup() << {
- 	archive.archiveName = "nyc-lib-${ver}.zip"
-	archive.from {'build/nyc-lib'}
+task combineJsOl(type: CombineJsTask) {
+    source = olJsFiles
+    dest = file("${buildDir}/nyc-ol-lib-${ver}-all.js")
 }
 
-task minifyJs() << {
-	def libName = 'nyc-ol-lib'
-	MinifyJs.minify(libName, olJsFiles, ver)
-	libName = 'nyc-leaf-lib'
-	MinifyJs.minify(libName, leafJsFiles, ver)
-	libName = 'nyc-carto-lib'
-	MinifyJs.minify(libName, cartoJsFiles, ver)
-	println "\nCleaning up..."
-	delete fileTree(dir: '.' , include: '**/*.sh')
-	delete fileTree(dir: '.' , include: '*.bat')
+task combineJsLeaf(type: CombineJsTask) {
+    source = leafJsFiles
+    dest = file("${buildDir}/nyc-leaf-lib-${ver}-all.js")
 }
 
-task minifyCss() << {
-	println ''
-	def libName = 'nyc-ol-lib'
-	MinifyCss.minify(libName, olCssFiles, ver)
-	libName = 'nyc-leaf-lib'
-	MinifyCss.minify(libName, leafCssFiles, ver)
-	libName = 'nyc-carto-lib'
-	MinifyCss.minify(libName, cartoCssFiles, ver)
+task combineJsCarto(type: CombineJsTask) {
+    source = cartoJsFiles
+    dest = file("${buildDir}/nyc-carto-lib-${ver}-all.js")
 }
 
-task jsdoc() << {
-	def build = new File('build/jsdoc')
-	build.mkdirs()
-	def script = new File('build/doc.sh')
-	script.text = "cd ${jsdocDir}\n" +
-		'./jsdoc --verbose --recurse ../nyc-lib/src/main/js/nyc/ --destination ../nyc-lib/build/jsdoc\n' +
-		'cd ../nyc-lib/build\n' +
-		"zip nyc-lib-doc-${ver}.zip jsdoc/**"
-	ant.sequential{
-		move(file: 'build/doc.sh', tofile: 'doc.sh')
-		chmod(file: 'doc.sh', perm: '0755')
-	}
-	exec {commandLine = ['./doc.sh']}
-	delete 'doc.sh'
+task minifyJsOl(type: MinifyJsTask) {
+    source = combineJsOl
+    dest = file("${buildDir}/${ver}/nyc-ol-lib.js")
+    sourceMap = file("${buildDir}/${ver}/nyc-ol-lib.js.map")
+    closure {
+	    compilationLevel = 'WHITESPACE_ONLY'
+        warningLevel = 'VERBOSE'
+        //output_wrapper = isWindows ? '"%%output%%//# sourceMappingURL=nyc-min.js.map"' : '--output_wrapper "%output%//# sourceMappingURL=nyc-min.js.map"'
+        //output_wrapper "/* nyc-ol-lib${ver} */\n"
+    }
 }
 
-task archive(type: Zip, dependsOn: [setup, minifyJs, minifyCss]) {}
+task minifyJsLeaf(type: MinifyJsTask) {
+    source = combineJsLeaf
+    dest = file("${buildDir}/${ver}/nyc-leaf-lib.js")
+    sourceMap = file("${buildDir}/${ver}/nyc-leaf-lib.js.map")
+    closure {
+	    compilationLevel = 'WHITESPACE_ONLY'
+        warningLevel = 'VERBOSE'
+    }
+}
+
+task minifyJsCarto(type: MinifyJsTask) {
+    source = combineJsCarto
+    dest = file("${buildDir}/${ver}/nyc-carto-lib.js")
+    sourceMap = file("${buildDir}/${ver}/nyc-carto-lib.js.map")
+    closure {
+	    compilationLevel = 'WHITESPACE_ONLY'
+        warningLevel = 'VERBOSE'
+    }
+}
+
+task outputWrapperOl(dependsOn: [minifyJsOl]) << {
+	def info = "/ * nyc-ol-lib${ver} */"
+	def script = file("${buildDir}/${ver}/nyc-ol-lib.js")
+	def src = script.text
+	def wrapped = " --output_wrapper \"${info}\n${src}\n# sourceMappingURL=nyc-ol-lib.js.map\""
+	script.text = wrapped
+}
+
+task outputWrapperLeaf(dependsOn: [minifyJsLeaf]) << {
+	def info = "/ * nyc-leaf-lib${ver} */"
+	def script = file("${buildDir}/${ver}/nyc-leaf-lib.js")
+	def src = script.text
+	def wrapped = " --output_wrapper \"${info}\n${src}\n# sourceMappingURL=nyc-leaf-lib.js.map\""
+	script.text = wrapped
+}
+
+task outputWrapperCarto(dependsOn: [minifyJsCarto]) << {
+	def info = "/ * nyc-carto-lib${ver} */"
+	def script = file("${buildDir}/${ver}/nyc-carto-lib.js")
+	def src = script.text
+	def wrapped = " --output_wrapper \"${info}\n${src}\n# sourceMappingURL=nyc-carto-lib.js.map\""
+	script.text = wrapped
+}
+
+task outputWrapper(dependsOn: [outputWrapperOl, outputWrapperLeaf, outputWrapperCarto]) << {}
+
+task archive(type: Zip, dependsOn: [outputWrapper]) {
+	archiveName = "nyc-lib-${ver}.zip"
+	from {"build/${ver}"}
+}
 
 remotes {
 	deployTarget {}
 }
 
-task deploy(dependsOn: [archive]) << {
+task deploy(dependsOn: []) << {
 	def archiveDir = project.ext['archive.dir']
 	def mobileDir = project.ext['mobile.dir']
 	def deployDir = "${mobileDir}/${remoteDir}"
@@ -177,80 +214,4 @@ task deploy(dependsOn: [archive]) << {
 
 task wrapper(type: Wrapper) {
     gradleVersion '2.9'
-}
-
-class MinifyCss {
-	static void minify(String libName, ArrayList<String> cssFiles, String ver) {
-		println "writing ${libName}.css ${ver}\n"
-		def build = new File('build/nyc-lib')
-		build.mkdirs()
-		def cssOut = new File("build/nyc-lib/${libName}.css")
-		cssOut.append("/* ${libName} ${ver} */\n")
-		cssFiles.each{ cssFile ->
-			def css = new File("src/main/css/${cssFile}").getText('UTF-8')
-			css = css.replaceAll(/[\n\r]+\s*/, '')
-			css = css.replaceAll(/\s+/, ' ')
-			css = css.replaceAll(/\s?([:,;{}])\s?/, '$1')
-			css = css.replaceAll(/([\s:]0)(px|pt|%|em)/, '$1')
-			css = css.replaceAll(/\/\*[\d\D]*?\*\//, '')
-			cssOut.append(css)
-		}
-	}
-}
-
-class MinifyJs {
-	static String closureComiler = 'etc/closure/compiler.jar'
-	static boolean isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
-	static String[] compilerArgs = [
-		"--warning_level VERBOSE",
-		"--compilation_level WHITESPACE_ONLY",
-		//"--compilation_level SIMPLE_OPTIMIZATIONS",
-		"--charset utf8",
-		'--source_map_location_mapping "src/main/js/|./"',
-	]
-	static void minify(String libName, ArrayList<String> jsFiles, String ver) {
-		println "\ncompiling ${libName} ${ver}\n"
-		def build = new File('build/nyc-lib')
-		build.mkdirs()
-		def compilerArgs = this.args(libName, jsFiles, "/* ${libName} ${ver} */\n")
-		def scriptFileName = this.makeScript(libName, compilerArgs)
-		println "\nexecuting script ${scriptFileName}"
-	    if (!this.isWindows){
-	    	scriptFileName = "./${scriptFileName}"
-	    }
-		scriptFileName.execute();
-	}
-	static String makeScript(String libName, String compilerArgs){
-		def scriptFileName = this.isWindows ? "${libName}.bat" : "${libName}.sh"
-		def scriptFilePath = this.isWindows ? scriptFileName : "build/${scriptFileName}"
-		def scriptFile = new File(scriptFilePath)
-		def scriptSrc = "java -jar ${this.closureComiler} ${compilerArgs}"
-		println "writing script ${scriptFileName}\n\n${scriptSrc}\n"
-		scriptFile.text = scriptSrc
-	    if (!this.isWindows){
-			def ant = new AntBuilder()
-			ant.sequential{
-				copy(file: scriptFilePath, tofile: scriptFileName)
-				chmod(file: scriptFileName, perm: '0755')
-			}
-		}
-		return scriptFileName
-	}
-	static String args(String libName, ArrayList<String> jsFiles, String info) {
-		def args = ''
-		this.compilerArgs.each{ arg ->
-			args += " ${arg}"
-		}
-		jsFiles.each{ arg ->
-			args += " src/main/js/nyc/${arg}"
-		}
-		args += (' ' + "--js_output_file build/nyc-lib/${libName}.js")
-		args += (' ' + "--create_source_map build/nyc-lib/${libName}.js.map")
-		if (this.isWindows){
-			args += " --output_wrapper \"${info}%%output%%//# sourceMappingURL=${libName}.js.map\""
-		}else{
-			args += " --output_wrapper \"${info}%output%//# sourceMappingURL=${libName}.js.map\""
-		}
-		return args
-	}	
 }
