@@ -9,7 +9,7 @@ plugins{
 }
 
 ext{
-	ver = 'v0.0.1-alpha'
+	ver = 'v0.0.1-beta'
 	remoteDir = "nyc-lib/${ver}"
 	olCssFiles = [
 		'control-common.css', 
@@ -102,6 +102,7 @@ ext{
 		'carto/chart.js'
 	]
 	closureComiler = "etc/closure/compiler.jar"
+	jsdocDir = "../jsdoc/"
 }
 
 task setup() << {
@@ -129,6 +130,21 @@ task minifyCss() << {
 	MinifyCss.minify(libName, leafCssFiles, ver)
 	libName = 'nyc-carto-lib'
 	MinifyCss.minify(libName, cartoCssFiles, ver)
+}
+
+task jsdoc() << {
+	def build = new File('build/jsdoc')
+	build.mkdirs()
+	def script = new File('build/doc.sh')
+	script.text = "cd ${jsdocDir}\n" +
+		'./jsdoc --verbose --recurse ../nyc-lib/src/main/js/nyc/ --destination ../nyc-lib/build/jsdoc\n' +
+		'cd ../nyc-lib/build\n' +
+		"zip nyc-lib-doc-${ver}.zip jsdoc/**"
+	ant.sequential{
+		move(file: 'build/doc.sh', tofile: 'doc.sh')
+		chmod(file: 'doc.sh', perm: '0755')
+	}
+	exec {commandLine = ['./doc.sh']}
 }
 
 task archive(type: Zip, dependsOn: [setup, minifyJs, minifyCss]) {}
