@@ -1,0 +1,23 @@
+.ctl {
+	position: fixed;
+} 
+.ui-page-theme-a a.ui-btn.ui-corner-all, .ui-page-theme-a button.ui-btn.ui-corner-all, .ui-page-theme-a div.ui-controlgroup-controls  {
+	border-radius: .6em;
+}
+.ctl-btn {
+	width: 36px;
+	height: 36px;
+}
+.ctl-btn.ui-btn, .ctl-btn.ui-btn:visited {
+	background-color: rgba(0,0,0,0.5);
+}
+.ctl-btn.ui-btn:hover {
+	background-color: black;
+}
+.ctl-btn.ui-btn:after, .ctl-btn.ui-btn:hover:after {
+	background-color: transparent;
+	background-size: 19px;
+}
+.noshow {
+	display: none;
+}

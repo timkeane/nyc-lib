@@ -1,0 +1,107 @@
+#dir-page {
+	overflow: hidden;
+}
+#dir-main {
+	position: fixed;
+	top: 44px;
+	left: 0;
+	height: 100%;
+	width: calc(100% - 320px);
+}
+#dir-map {
+	width: 100%;
+	height: 100%;
+}
+#dir-panel {
+	position: fixed;
+	top: 44px;
+	right: 0;
+	height: 100%;
+	width: 320px;
+	background-color: white;
+	box-shadow: 5px 10px 20px 5px rgba(8,80,149,0.5);
+	z-index: 1000;
+}
+.ui-input-text input  {
+	color: #085095;
+}
+#dir-content {
+	margin: 5px;
+}	
+#directions {
+	margin: 5px 0 0 5px;	
+	overflow: auto;
+}
+.fld-lbl {
+	font-weight: bold;
+}
+#fld-from {
+	width: 100%;
+	border-radius: 4px;
+	font-size: 17px;
+}
+#dir-mode {
+	width: 100%;
+	border-collapse: collapse;
+	height: 50px;
+}
+#dir-mode td {
+	padding: 0 13px;	
+}
+.dir-mode-btn {
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 20px;
+}
+#mode-car {
+	background-image: url(../img/car.png);
+}
+#mode-transit {	
+	background-image: url(../img/rail.png);
+}
+#mode-bike {
+	background-image: url(../img/bike.png);
+}
+#mode-walk {
+	background-image: url(../img/walk.png);
+}
+#dir-toggle {
+	display: none;
+}
+#dir-mode .dir-mode-btn {
+	background-color: rgba(8, 80, 149,0.5); 	
+}
+#dir-mode .dir-mode-btn.active-mode, #dir-mode .dir-mode-btn: hover {
+	background-color: rgba(1,51,100,1); 
+}
+.adp-agencies {
+    font-size: 100%;
+}
+@media only screen and (max-width : 485px) {
+	#dir-toggle {
+		display: block;
+		position: fixed;
+		top: 0;
+		right: 0;
+		margin: 48px 2px;
+		z-index: 1000
+	}
+	#dir-content {
+		margin: 22px 5px 5px 5px;
+	}
+	#dir-toggle a {
+		font-size: 13px;
+	}
+	#dir-main {
+		width: 100%;
+	}
+	#dir-panel {
+		width: 100%;
+	}
+	#directions {
+		/* overflow: hidden; */
+	}	
+}

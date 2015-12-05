@@ -1,0 +1,125 @@
+table.legend {
+	width: 100%;
+}
+table.legend td.leg-bin {
+	width: 1%;
+}
+table.legend caption {
+	text-align: left;
+}
+table.legend td.leg-bin {
+	text-align: center;
+}
+table.legend td.leg-bin-desc {
+	padding-left: 5px;
+}
+/* precinct */
+table.legend.precinct img {
+	width: 20px;
+	height: 20px;
+	border: 2px solid rgba(0,0,0,0.5);
+}
+table.legend.precinct .leg-bin-0 img {
+	background-color: rgba(254,237,222, 0.5);
+}
+table.legend.precinct .leg-bin-1 img {
+	background-color: rgba(253,190,133, 0.5);
+}
+table.legend.precinct .leg-bin-2 img {
+	background-color: rgba(253,141,60, 0.5);
+}
+table.legend.precinct .leg-bin-3 img {
+	background-color: rgba(230,85,13, 0.5);
+}
+table.legend.precinct .leg-bin-4 img {
+	background-color: rgba(166,54,3, 0.5);
+}
+/* location */
+table.legend.location img {
+	background-color: rgba(95,174,231,0.7);
+	border: 2px solid rgba(0,0,0,0.5);
+}
+table.legend.location .leg-bin-0 img {
+	border-radius: 9px;
+	width: 9px;
+	height: 9px;
+}
+table.legend.location .leg-bin-1 img {
+	border-radius: 19px;
+	width: 19px;
+	height: 19px;
+}
+table.legend.location .leg-bin-2 img {
+	border-radius: 29px;
+	width: 29px;
+	height: 29px;
+}
+table.legend.location .leg-bin-3 img {
+	border-radius: 39px;
+	width: 39px;
+	height: 39px;
+}
+table.legend.location .leg-bin-4 img {
+	border-radius: 49px;
+	width: 49px;
+	height: 49px;
+}
+.small table.legend.location .leg-bin-0 img {
+	border-radius: 4px;
+	width: 4px;
+	height: 4px;
+}
+.small table.legend.location .leg-bin-1 img {
+	border-radius: 9px;
+	width: 9px;
+	height: 9px;
+}
+.small table.legend.location .leg-bin-2 img {
+	border-radius: 14px;
+	width: 14px;
+	height: 14px;
+}
+.small table.legend.location .leg-bin-3 img {
+	border-radius: 19px;
+	width: 19px;
+	height: 19px;
+}
+.small table.legend.location .leg-bin-4 img {
+	border-radius: 24px;
+	width: 24px;
+	height: 24px;
+}
+/* heat */
+table.legend.heat {
+	border-collapse: collapse;
+	margin-left: 3px;
+}
+table.legend.heat caption{
+	margin-left: -3px;
+	margin-bottom: 3px;
+}
+table.legend.heat td.leg-bin{
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	border-left: 2px solid rgba(0,0,0,0.5);
+	border-right: 2px solid rgba(0,0,0,0.5);
+}
+table.legend.heat .leg-bin-0 {
+	border-top: 2px solid rgba(0,0,0,0.5);
+	background-color: rgba(254,237,222,0.7);
+}
+table.legend.heat .leg-bin-1 {
+	background-color: rgba(253,190,133,0.7);
+}
+table.legend.heat .leg-bin-2 {
+	background-color: rgba(253,141,60,0.7);
+}
+table.legend.heat .leg-bin-3 {
+	background-color: rgba(230,85,13,0.7);
+}
+table.legend.heat .leg-bin-4 {
+	background-color: rgba(166,54,3,0.7);
+	border-bottom: 2px solid rgba(0,0,0,0.5);
+}
+

@@ -1,0 +1,119 @@
+#btn-z-in {
+	left: 3px;
+	top: 43px;
+}
+#btn-z-out {
+	left: 3px;
+	top: 85px;
+}
+#btn-geo {
+    left: 3px;
+    top: 127px;
+    background-image: url(../img/geo.png);
+    background-size: 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#fld-srch-container {
+	position: absolute;
+	top: -3px;
+	left: 40px;
+	right: 3px;
+	max-width: 400px;
+	padding: 0 5px;
+}
+#fld-srch-container .ui-input-search {
+	opacity: 0.7;
+}
+#fld-srch-container .ui-input-search.ui-focus {
+	opacity: 1;
+}
+#fld-srch-container .ui-corner-all {
+	border-radius: 0.6em;
+}
+#fld-srch-container input {
+	font-size: 17px;
+}
+#fld-srch-container a.ui-input-clear {
+	border: none;
+	border-radius: 22px;
+	background-color: transparent;
+	width: 22px;
+	height: 22px;
+	margin: -11px 6px 0 0;
+}
+#fld-srch-container a.searching:after {
+	background-image: url(../img/searching.gif);
+	background-size: 13px;
+}
+.ui-listview>.ui-li-static {
+	cursor: pointer;
+	padding: 8px;
+	margin: 0;
+}
+.ui-listview>.ui-li-static {
+	cursor: pointer;
+	background-color: white;
+	color: black;
+	text-shadow: none;
+}
+.ui-listview>.ui-li-static:hover {
+	background-color: rgba(0,0,0,0.5);
+	color: white;
+}
+.ui-listview>.ui-li-static:hover .ui-btn-icon-left:after {
+	background-color: black;
+}
+#fld-srch-container ul {
+	right: 3px;
+	left: 45px;
+	max-width: 400px;
+	max-height: 400px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	margin: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
+	z-index: 3000;
+}
+#mnu-srch-typ {
+	display: none;
+}
+#fld-srch-retention {
+	position: absolute;
+	left: -1000px;
+	top: -1000px;
+}
+#btn-srch-typ {
+	position: absolute;
+	right: 10px;
+	top: 7px;
+	background-color: transparent;
+	border: none;
+	opacity: 0.6;
+}
+#btn-srch-typ.ctl-active, #btn-srch-typ:hover {
+	opacity: 1;
+}
+#btn-srch-typ:after, #fld-srch-container .ui-input-clear:after, #mnu-srch-typ .ui-btn-icon-left:after {
+	background-color: rgba(0,0,0,0.5);
+}
+#btn-srch-typ:hover:after, #fld-srch-container .ui-input-clear:hover:after {
+	background-color: black;
+}
+#srch-type-geo span:after {
+	background-image: url(../img/geo.png);
+	background-size: 16px 16px;
+}
+span.srch-upk-icon:after {
+	background-image: url(../img/hand.png);
+	background-size: 16px 16px;
+}
+.srch-types .ui-input-clear {
+	display: none;
+}
+@media only screen and (max-width : 405px) {
+	#fld-srch-container {
+		width: auto;
+		right: 0;
+	}
+}

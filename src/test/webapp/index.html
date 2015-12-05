@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>nyc-lib QUnit Tests</title>
+	<link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.18.0.css">
+	<style>
+		.test-map, #dir-map, .test-html {
+			position: fixed;
+			left: -1000px;
+			top: -1000px;
+		}
+		.test-map, #dir-map {
+			width: 1000px;
+			height: 1000px;
+		}
+		.ui-loader {
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div id="qunit"></div>
+	<div id="qunit-fixture"></div>
+	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script src="//code.jquery.com/qunit/qunit-1.18.0.js"></script>
+	<script src="//libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+	<script src="http://openlayers.org/en/v3.11.2/build/ol-debug.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+	<script src="../../main/webapp/js/proj4/proj4.js"></script>
+
+	<!-- sources -->
+	<script src="../../main/webapp/js/nyc/nyc.js"></script>
+	<script src="../../main/webapp/js/nyc/content.js"></script>
+	<script src="../../main/webapp/js/nyc/lang.js"></script>
+	<script src="../../main/webapp/js/nyc/collapsible.js"></script>
+	<script src="../../main/webapp/js/nyc/collapsible-month-range.js"></script>
+	<script src="../../main/webapp/js/nyc/collapsible-radio.js"></script>
+	<script src="../../main/webapp/js/nyc/locate.js"></script>
+	<script src="../../main/webapp/js/nyc/geocoder.js"></script>
+	<script src="../../main/webapp/js/nyc/legend.js"></script>
+	<script src="../../main/webapp/js/nyc/share.js"></script>
+	<script src="../../main/webapp/js/nyc/zoomsearch.js"></script>
+	
+	<script src="../../main/webapp/js/nyc/carto/view.js"></script>
+	<script src="../../main/webapp/js/nyc/carto/chart.js"></script>
+	
+	<script src="../../main/webapp/js/nyc/leaf/leaf.js"></script>
+	<script src="../../main/webapp/js/nyc/leaf/zoomsearch.js"></script>
+	<script src="../../main/webapp/js/nyc/leaf/locate.js"></script>
+	
+	<script src="../../main/webapp/js/nyc/ol/ol.js"></script>
+	<script src="../../main/webapp/js/nyc/ol/control/zoomsearch.js"></script>
+	<script src="../../main/webapp/js/nyc/ol/source/arcgiscache.js"></script>
+	<script src="../../main/webapp/js/nyc/ol/source/decorating.js"></script>
+	<script src="../../main/webapp/js/nyc/ol/source/filteringandsorting.js"></script>
+	<script src="../../main/webapp/js/nyc/ol/layer/baselayer.js"></script>
+	
+	<script src="../../main/webapp/js/nyc/directions.js"></script>
+	<script src="../../main/webapp/js/nyc/ol/locate.js"></script>
+	<script src="../../main/webapp/js/nyc/ol/popup.js"></script>
+	<script src="../../main/webapp/js/nyc/ol/featuretip.js"></script>
+	
+	<!-- tests -->
+	<script src="js/setup-teardown.js"></script>
+	
+	<script src="js/nyc/nyc.js"></script>
+	<script src="js/nyc/content.js"></script>
+	<script src="js/nyc/lang.js"></script>
+	<script src="js/nyc/collapsible.js"></script>
+	<script src="js/nyc/collapsible-month-range.js"></script>
+	<script src="js/nyc/collapsible-radio.js"></script>
+	<script src="js/nyc/geocoder.js"></script>
+	<script src="js/nyc/legend.js"></script>
+	<script src="js/nyc/share.js"></script>
+	<script src="js/nyc/zoomsearch.js"></script>
+	
+	<script src="js/nyc/carto/view.js"></script>
+	<script src="js/nyc/carto/chart.js"></script>
+	
+	<script src="js/nyc/leaf/zoomsearch.js"></script>
+	<script src="js/nyc/leaf/locate.js"></script>
+	
+	<script src="js/nyc/ol/control/zoomsearch.js"></script>
+	<script src="js/nyc/ol/source/arcgiscache.js"></script>
+	<script src="js/nyc/ol/source/decorating.js"></script>
+	<script src="js/nyc/ol/source/filteringandsorting.js"></script>
+	<script src="js/nyc/ol/layer/baselayer.js"></script>
+	
+	<script src="js/nyc/directions.js"></script>
+	<script src="js/nyc/ol/locate.js"></script>
+	<script src="js/nyc/ol/popup.js"></script>
+	<script src="js/nyc/ol/featuretip.js"></script>
+	
+</body>
+</html>

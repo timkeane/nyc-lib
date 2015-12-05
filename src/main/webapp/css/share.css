@@ -1,0 +1,42 @@
+#share-btn {
+	position: fixed;
+	left: 3px;
+	bottom: 7px;
+	background-image: url(../img/share.png);
+}
+#share-btn.ctl-btn, #share-btns .ctl-btn {
+	padding: 0;
+}
+#share-btns {
+	left: 43px;
+	bottom: 10px;
+	display: none;
+}
+#share-btn, #share-btns a {
+	background-size: 28px 28px;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+#share-btns a {
+	position: relative;
+	display: inline-block;
+	margin: 0 2px 0 3px;
+}
+#facebook-btn {
+	background-image: url(../img/facebook.png);
+}
+#twitter-btn {
+	background-image: url(../img/twitter.png);
+}
+#google-btn {
+	background-image: url(../img/google.png);
+}
+#linkedin-btn {
+	background-image: url(../img/linkedin.png);
+}
+#tumblr-btn {
+	background-image: url(../img/tumblr.png);
+}
+#email-btn {
+	background-image: url(../img/email.png);
+}

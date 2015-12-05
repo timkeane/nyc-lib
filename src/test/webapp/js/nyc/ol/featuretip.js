@@ -1,0 +1,1 @@
+QUnit.module('nyc.ol.FeatureTip');
