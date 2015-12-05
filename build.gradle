@@ -86,6 +86,7 @@ ext{
 		'nyc.js', 
 		'collapsible.js', 
 		'collapsible-radio.js', 
+		'collapsible-month-range.js', 
 		'content.js', 
 		'directions.js',
 		'geocoder.js', 
@@ -97,8 +98,8 @@ ext{
 		'leaf/leaf.js', 
 		'leaf/locate.js', 
 		'leaf/zoomsearch.js',
-		'carto/chart.js', 
-		'carto/view.js'
+		'carto/view.js',
+		'carto/chart.js'
 	]
 	closureComiler = "etc/closure/compiler.jar"
 }
