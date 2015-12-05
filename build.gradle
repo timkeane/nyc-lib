@@ -145,6 +145,7 @@ task jsdoc() << {
 		chmod(file: 'doc.sh', perm: '0755')
 	}
 	exec {commandLine = ['./doc.sh']}
+	delete 'doc.sh'
 }
 
 task archive(type: Zip, dependsOn: [setup, minifyJs, minifyCss]) {}
