@@ -1,6 +1,3 @@
-import org.apache.tools.ant.taskdefs.condition.Os
-import groovy.util.AntBuilder
-import java.util.ArrayList
 import com.eriwen.gradle.js.tasks.CombineJsTask
 import com.eriwen.gradle.js.tasks.MinifyJsTask
 import com.eriwen.gradle.css.tasks.CombineCssTask
