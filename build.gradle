@@ -132,6 +132,13 @@ task minifyCss() << {
 }
 
 task archive(type: Zip, dependsOn: [setup, minifyJs, minifyCss]) {}
+archive.doLast {
+	copy {
+		from 'build/distributions'
+		include '*.zip'
+		into 'dist' 
+	}
+}
 
 remotes {
 	deployTarget {}
