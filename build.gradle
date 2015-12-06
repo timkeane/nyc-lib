@@ -1,5 +1,3 @@
-import com.eriwen.gradle.css.tasks.CombineCssTask
-import com.eriwen.gradle.css.tasks.MinifyCssTask
 import groovy.util.AntBuilder
 
 plugins {
@@ -127,61 +125,40 @@ ext {
 task minifyJsOl(type: MinifyJavaScript) {
 	version = ver
 	libName = 'nyc-ol-lib'
-	scripts = olJsFiles
-	destinationDir = "${project.buildDir}/${version}/js"
+	fileNames = olJsFiles
+	destinationDir = "${buildDir}/${ver}/js"
 }
 
 task minifyJsLeaf(type: MinifyJavaScript) {
 	version = ver
 	libName = 'nyc-leaf-lib'
-	scripts = leafJsFiles
-	destinationDir = "${project.buildDir}/${version}/js"
+	fileNames = leafJsFiles
+	destinationDir = "${buildDir}/${ver}/js"
 }
 
 task minifyJsCarto(type: MinifyJavaScript) {
 	version = ver
 	libName = 'nyc-carto-lib'
-	scripts = leafJsFiles
-	destinationDir = "${project.buildDir}/${version}/js"
+	fileNames = leafJsFiles
+	destinationDir = "${buildDir}/${ver}/js"
 }
 
-task combineCssOl(type: CombineCssTask) {
-    source = olCssFiles
-    dest = "${buildDir}/nyc-ol-lib-all.css"
+task minifyCssOl(type: MinifyStyleSheet) {
+	libName = 'nyc-ol-lib'
+	fileNames = olCssFiles
+	destinationDir = "${buildDir}/${ver}/css"
 }
 
-task combineCssLeaf(type: CombineCssTask) {
-    source = leafCssFiles
-    dest = "${buildDir}/nyc-leaf-lib-all.css"
+task minifyCssLeaf(type: MinifyStyleSheet) {
+	libName = 'nyc-leaf-lib'
+	fileNames = leafCssFiles
+	destinationDir = "${buildDir}/${ver}/css"
 }
 
-task combineCssCarto(type: CombineCssTask) {
-    source = cartoCssFiles
-    dest = "${buildDir}/nyc-carto-lib-all.css"
-}
-
-task minifyCssOl(type: MinifyCssTask) {
-    source = combineCssOl
-    dest = "${buildDir}/${ver}/nyc-ol-lib.css"
-    yuicompressor {
-        lineBreakPos = -1
-    }
-}
-
-task minifyCssLeaf(type: MinifyCssTask) {
-    source = combineCssLeaf
-    dest = "${buildDir}/${ver}/nyc-leaf-lib.css"
-    yuicompressor {
-        lineBreakPos = -1
-    }
-}
-
-task minifyCssCarto(type: MinifyCssTask) {
-    source = combineCssCarto
-    dest = "${buildDir}/${ver}/nyc-carto-lib.css"
-    yuicompressor {
-        lineBreakPos = -1
-    }
+task minifyCssCarto(type: MinifyStyleSheet) {
+	libName = 'nyc-carto-lib'
+	fileNames = cartoCssFiles
+	destinationDir = "${buildDir}/${ver}/css"
 }
 
 task allJs(dependsOn: [minifyJsOl, minifyJsLeaf, minifyJsCarto]) << {}
@@ -265,14 +242,35 @@ class Docs {
 	}
 }
 
+class MinifyStyleSheet extends DefaultTask {
+	def libName = ''
+	def fileNames = []
+	def destinationDir = ''
+	@TaskAction
+	public void minify(){
+		def dir = new File(destinationDir)
+		dir.mkdirs()
+		def cssOut = new File("${destinationDir}/${libName}.css")
+		fileNames.each{ file ->
+			def css = new File(file).getText('UTF-8')
+			css = css.replaceAll(/[\n\r]+\s*/, '')
+			css = css.replaceAll(/\s+/, ' ')
+			css = css.replaceAll(/\s?([:,;{}])\s?/, '$1')
+			css = css.replaceAll(/([\s:]0)(px|pt|%|em)/, '$1')
+			css = css.replaceAll(/\/\*[\d\D]*?\*\//, '')
+			cssOut.append(css)
+		}		
+	}
+}
+
 class MinifyJavaScript extends JavaExec {
 	def libName = ''
 	def version = ''
-	def scripts = []
+	def fileNames = []
 	def destinationDir = ''
 	def compilationLevel = 'WHITESPACE_ONLY'
 	def warningLevel = 'VERBOSE'
-	def sourceMapLocationMapping = 'src/main/js/nyc/|../src/js/nyc/'
+	def sourceMapLocationMapping = 'src/main/js/nyc/|../src/js/nyc/' //todo can we set to 'src/main/js/|../src/js/' 
 	def compilerOptions = []
 	public MinifyJavaScript() {
 		main 'com.google.javascript.jscomp.CommandLineRunner'
@@ -282,8 +280,8 @@ class MinifyJavaScript extends JavaExec {
 	@Override
 	public void exec(){
 		def arguments = []
-		for (def i = 0; i < scripts.size(); i++) {
-		  	arguments << scripts[i]
+		for (def i = 0; i < fileNames.size(); i++) { //todo can we use diff loop syntax
+		  	arguments << fileNames[i]
 		}
 		for (def i = 0; i < compilerOptions.size(); i++) {
 		  	arguments << compilerOptions[i]
@@ -298,7 +296,15 @@ class MinifyJavaScript extends JavaExec {
 		println arguments
 		args arguments
 		super.exec();
+		def dir = new File(destinationDir)
+		dir.mkdirs()
 		ant.move(file: "${libName}.js", todir: destinationDir)
 		ant.move(file: "${libName}.sourcemap.json", todir: destinationDir)
+	}
+	private void move(){
+		def dir = new File(destinationDir)
+		dir.mkdirs()
+		ant.move(file: "${libName}.js", todir: destinationDir)
+		ant.move(file: "${libName}.sourcemap.json", todir: destinationDir)	
 	}
 }
