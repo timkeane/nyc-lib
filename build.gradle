@@ -82,35 +82,35 @@ ext {
 		'carto/chart.js'
 	]
 	olCssFiles = [
-		"${cssSrcDir}/control-common.css", 
-		"${cssSrcDir}/collapsible.css", 
-		"${cssSrcDir}/directions.css", 
-		"${cssSrcDir}/draw.css", 
-		"${cssSrcDir}/featuretip.css", 
-		"${cssSrcDir}/lang.css", 
-		"${cssSrcDir}/legend.css", 
-		"${cssSrcDir}/popup.css", 
-		"${cssSrcDir}/share.css", 
-		"${cssSrcDir}/zoomsearch.css"
+		'control-common.css', 
+		'collapsible.css', 
+		'directions.css', 
+		'draw.css', 
+		'featuretip.css', 
+		'lang.css', 
+		'legend.css', 
+		'popup.css', 
+		'share.css', 
+		'zoomsearch.css'
 	]
 	leafCssFiles = [
-		"${cssSrcDir}/control-common.css", 
-		"${cssSrcDir}/collapsible.css", 
-		"${cssSrcDir}/directions.css", 
-		"${cssSrcDir}/lang.css", 
-		"${cssSrcDir}/legend.css", 
-		"${cssSrcDir}/share.css", 
-		"${cssSrcDir}/zoomsearch.css"
+		'control-common.css', 
+		'collapsible.css', 
+		'directions.css', 
+		'lang.css', 
+		'legend.css', 
+		'share.css', 
+		'zoomsearch.css'
 	]
 	cartoCssFiles = [
-		"${cssSrcDir}/control-common.css", 
-		"${cssSrcDir}/chart.css", 
-		"${cssSrcDir}/collapsible.css", 
-		"${cssSrcDir}/directions.css", 
-		"${cssSrcDir}/lang.css", 
-		"${cssSrcDir}/legend.css", 
-		"${cssSrcDir}/share.css", 
-		"${cssSrcDir}/zoomsearch.css"
+		'control-common.css', 
+		'chart.css', 
+		'collapsible.css', 
+		'directions.css', 
+		'lang.css', 
+		'legend.css', 
+		'share.css', 
+		'zoomsearch.css'
 	]
 	closureArgs = [
 		'--charset=utf8',
@@ -152,18 +152,21 @@ task minifyJsCarto(type: MinifyJs) {
 task minifyCssOl(type: MinifyCss) {
 	libName = 'nyc-ol-lib'
 	fileNames = olCssFiles
+	sourceDir = cssSrcDir
 	destinationDir = "${buildDir}/${ver}/css"
 }
 
 task minifyCssLeaf(type: MinifyCss) {
 	libName = 'nyc-leaf-lib'
 	fileNames = leafCssFiles
+	sourceDir = cssSrcDir
 	destinationDir = "${buildDir}/${ver}/css"
 }
 
 task minifyCssCarto(type: MinifyCss) {
 	libName = 'nyc-carto-lib'
 	fileNames = cartoCssFiles
+	sourceDir = cssSrcDir
 	destinationDir = "${buildDir}/${ver}/css"
 }
 
@@ -241,6 +244,7 @@ class JsDoc extends DefaultTask {
 class MinifyCss extends DefaultTask {
 	def libName = ''
 	def fileNames = []
+	def sourceDir = ''
 	def destinationDir = ''
 	@TaskAction
 	public void minify(){
@@ -248,7 +252,7 @@ class MinifyCss extends DefaultTask {
 		dir.mkdirs()
 		def cssOut = new File("${destinationDir}/${libName}.css")
 		fileNames.each{ file ->
-			def css = new File(file).getText('UTF-8')
+			def css = new File("${sourceDir}/${file}").getText('UTF-8')
 			css = css.replaceAll(/[\n\r]+\s*/, '')
 			css = css.replaceAll(/\s+/, ' ')
 			css = css.replaceAll(/\s?([:,;{}])\s?/, '$1')
@@ -287,12 +291,16 @@ class MinifyJs extends JavaExec {
 		arguments << "--warning_level=${warningLevel}"
 		arguments << "--compilation_level=${compilationLevel}"
 		arguments << "--create_source_map=${libName}.sourcemap.json"
-		arguments << "--js_output_file=${libName}.js"  
-		arguments << "--source_map_location_mapping=\"${sourceDir}|src/js\""
+		arguments << "--js_output_file=${libName}.js"
+		arguments << "--source_map_location_mapping=\"${this.getSourceMapLocationMapping()}\""
 		arguments << "--output_wrapper=\"/* ${libName}-${version} */ %output% //# sourceMappingURL=${libName}.sourcemap.json\""
 		args arguments
 		super.exec();
 		this.move()
+	}
+	private String getSourceMapLocationMapping(){
+		if (sourceMapLocationMapping != '') return sourceMapLocationMapping;
+		return "${sourceDir}|../src/js"
 	}
 	private void move(){
 		def dir = new File(destinationDir)
