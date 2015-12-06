@@ -270,6 +270,10 @@ class MinifyJavaScript extends JavaExec {
 	def version = ''
 	def scripts = []
 	def destinationDir = ''
+	def compilationLevel = 'WHITESPACE_ONLY'
+	def warningLevel = 'VERBOSE'
+	def sourceMapLocationMapping = 'src/main/js/nyc/|../src/js/nyc/'
+	def compilerOptions = []
 	public MinifyJavaScript() {
 		main 'com.google.javascript.jscomp.CommandLineRunner'
 		classpath project.configurations.closureCompiler
@@ -281,12 +285,15 @@ class MinifyJavaScript extends JavaExec {
 		for (def i = 0; i < scripts.size(); i++) {
 		  	arguments << scripts[i]
 		}
+		for (def i = 0; i < compilerOptions.size(); i++) {
+		  	arguments << compilerOptions[i]
+		}
 		arguments << '--charset=utf8'
-		arguments << '--warning_level=VERBOSE'
-		arguments << '--compilation_level=WHITESPACE_ONLY'
+		arguments << "--warning_level=${warningLevel}"
+		arguments << "--compilation_level=${compilationLevel}"
 		arguments << "--create_source_map=${libName}.sourcemap.json"
 		arguments << "--js_output_file=${libName}.js"  
-		arguments << "--source_map_location_mapping=\"src/main/js/nyc/|../src/js/nyc/\""
+		arguments << "--source_map_location_mapping=\"${sourceMapLocationMapping}\""
 		arguments << "--output_wrapper=\"/* ${libName}-${version} */ %output% //# sourceMappingURL=${libName}.sourcemap.json\""
 		println arguments
 		args arguments
