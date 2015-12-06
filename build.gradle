@@ -1,5 +1,3 @@
-import groovy.util.AntBuilder
-
 plugins {
     id 'base'
     id 'jetty'
@@ -20,68 +18,68 @@ dependencies {
 ext {
 	ver = 'v0.0.1-beta.2'
 	remoteDir = "nyc-lib/${ver}"
-	jsSrcDir = 'src/main/js/nyc'
-	cssSrcDir = 'src/main/css'
+	jsSrcDir = "${projectDir}/src/main/js/nyc"
+	cssSrcDir = "${projectDir}/src/main/css"
 	olJsFiles = [
-		"${jsSrcDir}/nyc.js", 
-		"${jsSrcDir}/collapsible.js", 
-		"${jsSrcDir}/collapsible-radio.js", 
-		"${jsSrcDir}/collapsible-month-range.js", 
-		"${jsSrcDir}/content.js", 
-		"${jsSrcDir}/directions.js",
-		"${jsSrcDir}/geocoder.js", 
-		"${jsSrcDir}/lang.js", 
-		"${jsSrcDir}/legend.js", 
-		"${jsSrcDir}/locate.js", 
-		"${jsSrcDir}/share.js",
-		"${jsSrcDir}/zoomsearch.js",
-		"${jsSrcDir}/ol/ol.js", 
-		"${jsSrcDir}/ol/draw.js", 
-		"${jsSrcDir}/ol/featuretip.js", 
-		"${jsSrcDir}/ol/locate.js", 
-		"${jsSrcDir}/ol/popup.js", 
-		"${jsSrcDir}/ol/control/zoomsearch.js",
-		"${jsSrcDir}/ol/geoserver/getfeature.js", 
-		"${jsSrcDir}/ol/source/arcgiscache.js", 
-		"${jsSrcDir}/ol/source/decorating.js", 
-		"${jsSrcDir}/ol/source/filteringandsorting.js",
-		"${jsSrcDir}/ol/layer/baselayer.js"
+		'nyc.js', 
+		'collapsible.js', 
+		'collapsible-radio.js', 
+		'collapsible-month-range.js', 
+		'content.js', 
+		'directions.js',
+		'geocoder.js', 
+		'lang.js', 
+		'legend.js', 
+		'locate.js', 
+		'share.js',
+		'zoomsearch.js',
+		'ol/ol.js', 
+		'ol/draw.js', 
+		'ol/featuretip.js', 
+		'ol/locate.js', 
+		'ol/popup.js', 
+		'ol/control/zoomsearch.js',
+		'ol/geoserver/getfeature.js', 
+		'ol/source/arcgiscache.js', 
+		'ol/source/decorating.js', 
+		'ol/source/filteringandsorting.js',
+		'ol/layer/baselayer.js'
 	]
 	leafJsFiles = [
-		"${jsSrcDir}/nyc.js", 
-		"${jsSrcDir}/collapsible.js", 
-		"${jsSrcDir}/collapsible-radio.js", 
-		"${jsSrcDir}/collapsible-month-range.js", 
-		"${jsSrcDir}/content.js", 
-		"${jsSrcDir}/directions.js",
-		"${jsSrcDir}/geocoder.js", 
-		"${jsSrcDir}/lang.js", 
-		"${jsSrcDir}/legend.js", 
-		"${jsSrcDir}/locate.js", 
-		"${jsSrcDir}/share.js",
-		"${jsSrcDir}/zoomsearch.js",
-		"${jsSrcDir}/leaf/leaf.js", 
-		"${jsSrcDir}/leaf/locate.js", 
-		"${jsSrcDir}/leaf/zoomsearch.js"
+		'nyc.js', 
+		'collapsible.js', 
+		'collapsible-radio.js', 
+		'collapsible-month-range.js', 
+		'content.js', 
+		'directions.js',
+		'geocoder.js', 
+		'lang.js', 
+		'legend.js', 
+		'locate.js', 
+		'share.js',
+		'zoomsearch.js',
+		'leaf/leaf.js', 
+		'leaf/locate.js', 
+		'leaf/zoomsearch.js'
 	]
 	cartoJsFiles = [
-		"${jsSrcDir}/nyc.js", 
-		"${jsSrcDir}/collapsible.js", 
-		"${jsSrcDir}/collapsible-radio.js", 
-		"${jsSrcDir}/collapsible-month-range.js", 
-		"${jsSrcDir}/content.js", 
-		"${jsSrcDir}/directions.js",
-		"${jsSrcDir}/geocoder.js", 
-		"${jsSrcDir}/lang.js", 
-		"${jsSrcDir}/legend.js", 
-		"${jsSrcDir}/locate.js", 
-		"${jsSrcDir}/share.js",
-		"${jsSrcDir}/zoomsearch.js",
-		"${jsSrcDir}/leaf/leaf.js", 
-		"${jsSrcDir}/leaf/locate.js", 
-		"${jsSrcDir}/leaf/zoomsearch.js",
-		"${jsSrcDir}/carto/view.js",
-		"${jsSrcDir}/carto/chart.js"
+		'nyc.js', 
+		'collapsible.js', 
+		'collapsible-radio.js', 
+		'collapsible-month-range.js', 
+		'content.js', 
+		'directions.js',
+		'geocoder.js', 
+		'lang.js', 
+		'legend.js', 
+		'locate.js', 
+		'share.js',
+		'zoomsearch.js',
+		'leaf/leaf.js', 
+		'leaf/locate.js', 
+		'leaf/zoomsearch.js',
+		'carto/view.js',
+		'carto/chart.js'
 	]
 	olCssFiles = [
 		"${cssSrcDir}/control-common.css", 
@@ -122,40 +120,48 @@ ext {
 	currentLib = 'leaf'
 }
 
-task minifyJsOl(type: MinifyJavaScript) {
+task jsdoc(type: JsDoc) {
+	sourceDir = "${jsSrcDir}/nyc"
+	destinationDir = "${buildDir}/${ver}/doc"
+}
+
+task minifyJsOl(type: MinifyJs) {
 	version = ver
 	libName = 'nyc-ol-lib'
 	fileNames = olJsFiles
+	sourceDir = jsSrcDir
 	destinationDir = "${buildDir}/${ver}/js"
 }
 
-task minifyJsLeaf(type: MinifyJavaScript) {
+task minifyJsLeaf(type: MinifyJs) {
 	version = ver
 	libName = 'nyc-leaf-lib'
 	fileNames = leafJsFiles
+	sourceDir = jsSrcDir
 	destinationDir = "${buildDir}/${ver}/js"
 }
 
-task minifyJsCarto(type: MinifyJavaScript) {
+task minifyJsCarto(type: MinifyJs) {
 	version = ver
 	libName = 'nyc-carto-lib'
 	fileNames = leafJsFiles
+	sourceDir = jsSrcDir
 	destinationDir = "${buildDir}/${ver}/js"
 }
 
-task minifyCssOl(type: MinifyStyleSheet) {
+task minifyCssOl(type: MinifyCss) {
 	libName = 'nyc-ol-lib'
 	fileNames = olCssFiles
 	destinationDir = "${buildDir}/${ver}/css"
 }
 
-task minifyCssLeaf(type: MinifyStyleSheet) {
+task minifyCssLeaf(type: MinifyCss) {
 	libName = 'nyc-leaf-lib'
 	fileNames = leafCssFiles
 	destinationDir = "${buildDir}/${ver}/css"
 }
 
-task minifyCssCarto(type: MinifyStyleSheet) {
+task minifyCssCarto(type: MinifyCss) {
 	libName = 'nyc-carto-lib'
 	fileNames = cartoCssFiles
 	destinationDir = "${buildDir}/${ver}/css"
@@ -173,13 +179,7 @@ prepareFiles.doFirst {
 		}
 }
 
-task doc() << {
-	println '\nbuilding jsDoc...\n'
-	exec {commandLine = [Docs.script(buildDir, ver)]}
-	println ''
-}
-
-task archive(type: Zip, dependsOn: [doc, prepareFiles]) {
+task archive(type: Zip, dependsOn: [jsdoc, prepareFiles]) {
 	archiveName = "nyc-lib-${ver}.zip"
 	from {"${buildDir}/${ver}"}
 }
@@ -221,28 +221,24 @@ task wrapper(type: Wrapper) {
     gradleVersion '2.9'
 }
 
-class Docs {
-	static String jsdocDir = '../jsdoc'
-	static AntBuilder ant = new AntBuilder()
-	static String script(File buildDir, String ver){
-		def docs = new File("${buildDir}/${ver}/doc")
-		def tmp = new File("${buildDir}/tmp")
-		def scriptName = "${buildDir}/tmp/doc.sh"
+class JsDoc extends DefaultTask {
+	def jsdocDir = '../jsdoc'
+	def sourceDir = ''
+	def destinationDir = ''
+	@TaskAction
+	public void build(){
+		def docs = new File(destinationDir)
+		def scriptName = "${destinationDir}/doc.sh"
 		docs.mkdirs()
-		tmp.mkdirs()
 		def script = new File(scriptName)
 		script.text = "cd ${jsdocDir}\n" +
-			"./jsdoc --verbose --recurse ../nyc-lib/src/main/js/nyc/ " +
-			"--destination ../nyc-lib/build/${ver}/doc\n"
-		ant.sequential{
-			move(file: scriptName, tofile: 'doc.sh')
-			chmod(file: 'doc.sh', perm: '0755')
-		}
-		return './doc.sh'
+			"./jsdoc --verbose --recurse ${sourceDir} --destination ${destinationDir}"
+		ant.chmod(file: scriptName, perm: '0755')
+		scriptName.execute()
 	}
 }
 
-class MinifyStyleSheet extends DefaultTask {
+class MinifyCss extends DefaultTask {
 	def libName = ''
 	def fileNames = []
 	def destinationDir = ''
@@ -263,16 +259,17 @@ class MinifyStyleSheet extends DefaultTask {
 	}
 }
 
-class MinifyJavaScript extends JavaExec {
+class MinifyJs extends JavaExec {
 	def libName = ''
 	def version = ''
 	def fileNames = []
+	def sourceDir = ''
 	def destinationDir = ''
 	def compilationLevel = 'WHITESPACE_ONLY'
 	def warningLevel = 'VERBOSE'
-	def sourceMapLocationMapping = 'src/main/js/nyc/|../src/js/nyc/' //todo can we set to 'src/main/js/|../src/js/' 
+	def sourceMapLocationMapping = '' 
 	def compilerOptions = []
-	public MinifyJavaScript() {
+	public MinifyJs() {
 		main 'com.google.javascript.jscomp.CommandLineRunner'
 		classpath project.configurations.closureCompiler
 	}
@@ -281,7 +278,7 @@ class MinifyJavaScript extends JavaExec {
 	public void exec(){
 		def arguments = []
 		for (def i = 0; i < fileNames.size(); i++) { //todo can we use diff loop syntax
-		  	arguments << fileNames[i]
+		  	arguments << "${sourceDir}/${fileNames[i]}"
 		}
 		for (def i = 0; i < compilerOptions.size(); i++) {
 		  	arguments << compilerOptions[i]
@@ -291,9 +288,8 @@ class MinifyJavaScript extends JavaExec {
 		arguments << "--compilation_level=${compilationLevel}"
 		arguments << "--create_source_map=${libName}.sourcemap.json"
 		arguments << "--js_output_file=${libName}.js"  
-		arguments << "--source_map_location_mapping=\"${sourceMapLocationMapping}\""
+		arguments << "--source_map_location_mapping=\"${sourceDir}|src/js\""
 		arguments << "--output_wrapper=\"/* ${libName}-${version} */ %output% //# sourceMappingURL=${libName}.sourcemap.json\""
-		println arguments
 		args arguments
 		super.exec();
 		this.move()
