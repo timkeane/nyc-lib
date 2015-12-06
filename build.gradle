@@ -18,7 +18,7 @@ dependencies {
 }
 
 ext {
-	ver = 'v0.0.1-beta.2'
+	ver = 'v0.0.1-beta.3'
 	isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
 	remoteDir = "nyc-lib/${ver}"
 	jsSrcDir = "${projectDir}/src/main/js"
