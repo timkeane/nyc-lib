@@ -173,12 +173,8 @@ task minifyCssCarto(type: MinifyCss) {
 
 task allJs(dependsOn: [minifyJsOl, minifyJsLeaf, minifyJsCarto]) << {}
 task allCss(dependsOn: [minifyCssOl, minifyCssLeaf, minifyCssCarto]) << {}
-
-task archive(type: Zip, dependsOn: [allJs, allCss, jsDoc]) {
-	archiveName = "nyc-lib-${ver}.zip"
-	from {"${buildDir}/${ver}"}
-}
-archive.doFirst {
+task buildLibs(dependsOn: [allJs, allCss]) << {}
+buildLibs.doFirst {
 	copy {
 		from imgDir
 		include '*'
@@ -189,6 +185,11 @@ archive.doFirst {
 		include '*'
 		into "${buildDir}/${ver}/src/img"
 	}
+}
+
+task archive(type: Zip, dependsOn: [buildLibs, jsDoc]) {
+	archiveName = "nyc-lib-${ver}.zip"
+	from {"${buildDir}/${ver}"}
 }
 
 remotes {
