@@ -296,10 +296,7 @@ class MinifyJavaScript extends JavaExec {
 		println arguments
 		args arguments
 		super.exec();
-		def dir = new File(destinationDir)
-		dir.mkdirs()
-		ant.move(file: "${libName}.js", todir: destinationDir)
-		ant.move(file: "${libName}.sourcemap.json", todir: destinationDir)
+		this.move()
 	}
 	private void move(){
 		def dir = new File(destinationDir)
