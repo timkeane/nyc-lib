@@ -13,7 +13,7 @@ plugins{
 }
 
 ext{
-	ver = 'v0.0.1-beta.1'
+	ver = 'v0.0.1-beta.2'
 	remoteDir = "nyc-lib/${ver}"
 	jsSrcDir = 'src/main/js/nyc'
 	cssSrcDir = 'src/main/css'
