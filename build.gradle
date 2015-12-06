@@ -2,6 +2,7 @@ import com.eriwen.gradle.js.tasks.CombineJsTask
 import com.eriwen.gradle.js.tasks.MinifyJsTask
 import com.eriwen.gradle.css.tasks.CombineCssTask
 import com.eriwen.gradle.css.tasks.MinifyCssTask
+import groovy.util.AntBuilder
 
 plugins{
     id 'base'
@@ -112,23 +113,23 @@ ext{
 
 task combineJsOl(type: CombineJsTask) {
     source = olJsFiles
-    dest = file("${buildDir}/nyc-ol-lib-debug.js")
+    dest = file("${buildDir}/nyc-ol-lib.debug.js")
 }
 
 task combineJsLeaf(type: CombineJsTask) {
     source = leafJsFiles
-    dest = file("${buildDir}/nyc-leaf-lib-debug.js")
+    dest = file("${buildDir}/nyc-leaf-lib.debug.js")
 }
 
 task combineJsCarto(type: CombineJsTask) {
     source = cartoJsFiles
-    dest = file("${buildDir}/nyc-carto-lib-debug.js")
+    dest = file("${buildDir}/nyc-carto-lib.debug.js")
 }
 
 task minifyJsOl(type: MinifyJsTask) {
     source = combineJsOl
     dest = file("${buildDir}/${ver}/nyc-ol-lib.js")
-    sourceMap = file("${buildDir}/${ver}/nyc-ol-lib.js.map")
+    sourceMap = file("${buildDir}/${ver}/nyc-ol-lib.sourcemap.json")
     closure {
 	    compilationLevel = 'WHITESPACE_ONLY'
         warningLevel = 'VERBOSE'
@@ -140,7 +141,7 @@ task minifyJsOl(type: MinifyJsTask) {
 task minifyJsLeaf(type: MinifyJsTask) {
     source = combineJsLeaf
     dest = file("${buildDir}/${ver}/nyc-leaf-lib.js")
-    sourceMap = file("${buildDir}/${ver}/nyc-leaf-lib.js.map")
+    sourceMap = file("${buildDir}/${ver}/nyc-leaf-lib.sourcemap.json")
     closure {
 	    compilationLevel = 'WHITESPACE_ONLY'
         warningLevel = 'VERBOSE'
@@ -150,7 +151,7 @@ task minifyJsLeaf(type: MinifyJsTask) {
 task minifyJsCarto(type: MinifyJsTask) {
     source = combineJsCarto
     dest = file("${buildDir}/${ver}/nyc-carto-lib.js")
-    sourceMap = file("${buildDir}/${ver}/nyc-carto-lib.js.map")
+    sourceMap = file("${buildDir}/${ver}/nyc-carto-lib.sourcemap.json")
     closure {
 	    compilationLevel = 'WHITESPACE_ONLY'
         warningLevel = 'VERBOSE'
@@ -197,37 +198,60 @@ task minifyCssCarto(type: MinifyCssTask) {
 }
 
 task appendSrcMappingOl(dependsOn: [minifyJsOl]) << {
-	def info = "/ * nyc-ol-lib${ver} */"
+	def info = "/* nyc-ol-lib-${ver} */"
 	def script = file("${buildDir}/${ver}/nyc-ol-lib.js")
-	script.append("\n//# sourceMappingURL=nyc-ol-lib-${ver}.js.map")
+	script.append("\n${info}\n//# sourceMappingURL=nyc-ol-lib.sourcemap.json")
+	def map = file("${buildDir}/${ver}/nyc-ol-lib.sourcemap.json")
+	map.text = map.text.replace(/${buildDir}\//, '')
 }
 
 task appendSrcMappingLeaf(dependsOn: [minifyJsLeaf]) << {
-	def info = "/ * nyc-leaf-lib${ver} */"
+	def info = "/* nyc-leaf-lib-${ver} */"
 	def script = file("${buildDir}/${ver}/nyc-leaf-lib.js")
-	script.append("\n//# sourceMappingURL=nyc-leaf-lib-${ver}.js.map")
+	script.append("\n${info}\n//# sourceMappingURL=nyc-leaf-lib.sourcemap.json")
+	def map = file("${buildDir}/${ver}/nyc-leaf-lib.sourcemap.json")
+	map.text = map.text.replace(/${buildDir}\//, '')
 }
 
 task appendSrcMappingCarto(dependsOn: [minifyJsCarto]) << {
-	def info = "/ * nyc-carto-lib${ver} */"
+	def info = "/* nyc-carto-lib-${ver} */"
 	def script = file("${buildDir}/${ver}/nyc-carto-lib.js")
-	script.append("\n//# sourceMappingURL=nyc-carto-lib-${ver}.js.map")
+	script.append("\n${info}\n//# sourceMappingURL=nyc-carto-lib.sourcemap.json")
+	def map = file("${buildDir}/${ver}/nyc-carto-lib.sourcemap.json")
+	map.text = map.text.replace(/${buildDir}\//, '')
 }
 
-task appendSrcMapping(dependsOn: [appendSrcMappingOl, appendSrcMappingLeaf, appendSrcMappingCarto]) << {}
+
+task allJs(dependsOn: [appendSrcMappingOl, appendSrcMappingLeaf, appendSrcMappingCarto]) << {}
 task allCss(dependsOn: [minifyCssOl, minifyCssLeaf, minifyCssCarto]) << {}
 
-task archive(type: Zip, dependsOn: [appendSrcMapping, allCss]) {
+task prepareFiles(dependsOn: [allJs, allCss]) << {}
+prepareFiles.doFirst {
+	copy {
+			from 'src/main'
+			include '**'
+			into "${buildDir}/${ver}/src"
+		}
+}
+
+task doc() << {
+	println '\nbuilding jsDoc...\n'
+	exec {commandLine = [Docs.script(buildDir, ver)]}
+	println ''
+}
+
+task archive(type: Zip, dependsOn: [doc, prepareFiles]) {
 	archiveName = "nyc-lib-${ver}.zip"
-	from {"build/${ver}"}
+	from {"${buildDir}/${ver}"}
 }
 archive.doFirst {
 	copy {
 		from 'build'
-		include '*-debug.js'
-		into "build/${ver}"
+		include '*.debug.js'
+		into "${buildDir}/${ver}"
 	}
 }
+
 
 remotes {
 	deployTarget {}
@@ -256,4 +280,25 @@ task deploy(dependsOn: []) << {
 
 task wrapper(type: Wrapper) {
     gradleVersion '2.9'
+}
+
+class Docs {
+	static String jsdocDir = '../jsdoc'
+	static AntBuilder ant = new AntBuilder()
+	static String script(File buildDir, String ver){
+		def docs = new File("${buildDir}/${ver}/doc")
+		def tmp = new File("${buildDir}/tmp")
+		def scriptName = "${buildDir}/tmp/doc.sh"
+		docs.mkdirs()
+		tmp.mkdirs()
+		def script = new File(scriptName)
+		script.text = "cd ${jsdocDir}\n" +
+			"./jsdoc --verbose --recurse ../nyc-lib/src/main/js/nyc/ " +
+			"--destination ../nyc-lib/build/${ver}/doc\n"
+		ant.sequential{
+			move(file: scriptName, tofile: 'doc.sh')
+			chmod(file: 'doc.sh', perm: '0755')
+		}
+		return './doc.sh'
+	}
 }

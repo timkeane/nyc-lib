@@ -77,7 +77,7 @@ nyc.BinLegend.prototype = {
 	 * @export
 	 * @method
 	 * @param {string} caption
-	 * @param {Array<string|string>} bins
+	 * @param {Array<string|number>} bins
 	 * @return {JQuery}
 	 */
 	html: function(caption, bins){
