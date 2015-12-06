@@ -51,6 +51,11 @@ nyc.ZoomSearch.prototype = {
 	 * @abstract
 	 */
 	zoom: function(e){},
+	/**
+	 * @private
+	 * @method
+	 * @param {boolean} useSearchTypeMenu
+	 */
 	render: function(useSearchTypeMenu){
 		var html = nyc.ZoomSearch[useSearchTypeMenu ? 'SEARCH_TYPES_HTML' : 'BASIC_HTML'];
 		this.container().append(html).trigger('create');

@@ -14,7 +14,7 @@ nyc.ol.DrawOptions;
 /**
  * @export
  * @constructor
- * @param {nyc.ol.DrawOptions}
+ * @param {nyc.ol.DrawOptions} options
  */
 nyc.ol.Draw = function(options){
 	var me = this, features = new ol.Collection();
@@ -271,7 +271,7 @@ nyc.ol.Draw.prototype = {
 	},
 	/**
 	 * @private
-	 * @param {ol.Feature}
+	 * @param {ol.Feature} feature
 	 */
 	showContextMenu: function(feature){
 		var me = this, ctxMnu = $(nyc.ol.Draw.CONTEXT_MENU_HTML);
@@ -293,7 +293,7 @@ nyc.ol.Draw.prototype = {
     },
 	/**
 	 * @private
-	 * @param {ol.Feature}
+	 * @param {ol.Feature} feature
 	 */
 	removeFeature: function(feature){
 		this.source.removeFeature(feature);

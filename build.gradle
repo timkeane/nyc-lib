@@ -18,7 +18,7 @@ dependencies {
 }
 
 ext {
-	ver = 'v0.0.1-beta.3'
+	ver = 'v0.0.1'
 	isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
 	remoteDir = "nyc-lib/${ver}"
 	jsSrcDir = "${projectDir}/src/main/js"
@@ -180,7 +180,7 @@ task minifyCssCarto(type: MinifyCss) {
 task allJs(dependsOn: [minifyJsOl, minifyJsLeaf, minifyJsCarto]) << {}
 task allCss(dependsOn: [minifyCssOl, minifyCssLeaf, minifyCssCarto]) << {}
 
-task archive(type: Zip, dependsOn: [jsDoc, allJs, allCss]) {
+task archive(type: Zip, dependsOn: [allJs, allCss, jsDoc]) {
 	archiveName = "nyc-lib-${ver}.zip"
 	from {"${buildDir}/${ver}"}
 }
@@ -228,7 +228,8 @@ class JsDoc extends DefaultTask {
 		def script = isWindows ? "jsdoc" : "./jsdoc"
 		scriptFile.text = "cd ${jsdocDir}\n${script} --verbose --recurse ${sourceDir} --destination ${destinationDir}"
 		ant.chmod(file: scriptName, perm: '0755')
-		scriptName.execute()
+		def proc = scriptName.execute()
+		proc.waitForProcessOutput(System.out, System.err)
 		ant.delete(file: scriptName)
 	}
 }

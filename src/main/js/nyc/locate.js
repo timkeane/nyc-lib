@@ -16,14 +16,12 @@ nyc.Locate.prototype = {
 	 * Locate once using device geolocation
 	 * @export
 	 * @method
-	 * @abstract
 	 */
 	locate: function(){},
 	/**
 	 * Track using device geolocation
 	 * @export
 	 * @method
-	 * @abstract
 	 * @param {boolean} track
 	 */
 	track: function(track){},
@@ -31,7 +29,6 @@ nyc.Locate.prototype = {
 	 * Geocode an input string and trigger an event of nyc.Locate.LocateEventType with nyc.Locate.LocateResult or nyc.LocateAmbiguoud data
 	 * @export
 	 * @method
-	 * @abstract
 	 * @param {string} input
 	 */
 	search: function(input){}
