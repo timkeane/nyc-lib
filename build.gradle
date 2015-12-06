@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 plugins {
     id 'base'
     id 'jetty'
@@ -6,7 +8,7 @@ plugins {
 }
 
 repositories {
-  mavenCentral() //or jcenter()
+  mavenCentral()
 }
 configurations {
   closureCompiler
@@ -17,69 +19,70 @@ dependencies {
 
 ext {
 	ver = 'v0.0.1-beta.2'
+	isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
 	remoteDir = "nyc-lib/${ver}"
-	jsSrcDir = "${projectDir}/src/main/js/nyc"
+	jsSrcDir = "${projectDir}/src/main/js"
 	cssSrcDir = "${projectDir}/src/main/css"
 	olJsFiles = [
-		'nyc.js', 
-		'collapsible.js', 
-		'collapsible-radio.js', 
-		'collapsible-month-range.js', 
-		'content.js', 
-		'directions.js',
-		'geocoder.js', 
-		'lang.js', 
-		'legend.js', 
-		'locate.js', 
-		'share.js',
-		'zoomsearch.js',
-		'ol/ol.js', 
-		'ol/draw.js', 
-		'ol/featuretip.js', 
-		'ol/locate.js', 
-		'ol/popup.js', 
-		'ol/control/zoomsearch.js',
-		'ol/geoserver/getfeature.js', 
-		'ol/source/arcgiscache.js', 
-		'ol/source/decorating.js', 
-		'ol/source/filteringandsorting.js',
-		'ol/layer/baselayer.js'
+		'nyc/nyc.js', 
+		'nyc/collapsible.js', 
+		'nyc/collapsible-radio.js', 
+		'nyc/collapsible-month-range.js', 
+		'nyc/content.js', 
+		'nyc/directions.js',
+		'nyc/geocoder.js', 
+		'nyc/lang.js', 
+		'nyc/legend.js', 
+		'nyc/locate.js', 
+		'nyc/share.js',
+		'nyc/zoomsearch.js',
+		'nyc/ol/ol.js', 
+		'nyc/ol/draw.js', 
+		'nyc/ol/featuretip.js', 
+		'nyc/ol/locate.js', 
+		'nyc/ol/popup.js', 
+		'nyc/ol/control/zoomsearch.js',
+		'nyc/ol/geoserver/getfeature.js', 
+		'nyc/ol/source/arcgiscache.js', 
+		'nyc/ol/source/decorating.js', 
+		'nyc/ol/source/filteringandsorting.js',
+		'nyc/ol/layer/baselayer.js'
 	]
 	leafJsFiles = [
-		'nyc.js', 
-		'collapsible.js', 
-		'collapsible-radio.js', 
-		'collapsible-month-range.js', 
-		'content.js', 
-		'directions.js',
-		'geocoder.js', 
-		'lang.js', 
-		'legend.js', 
-		'locate.js', 
-		'share.js',
-		'zoomsearch.js',
-		'leaf/leaf.js', 
-		'leaf/locate.js', 
-		'leaf/zoomsearch.js'
+		'nyc/nyc.js', 
+		'nyc/collapsible.js', 
+		'nyc/collapsible-radio.js', 
+		'nyc/collapsible-month-range.js', 
+		'nyc/content.js', 
+		'nyc/directions.js',
+		'nyc/geocoder.js', 
+		'nyc/lang.js', 
+		'nyc/legend.js', 
+		'nyc/locate.js', 
+		'nyc/share.js',
+		'nyc/zoomsearch.js',
+		'nyc/leaf/leaf.js', 
+		'nyc/leaf/locate.js', 
+		'nyc/leaf/zoomsearch.js'
 	]
 	cartoJsFiles = [
-		'nyc.js', 
-		'collapsible.js', 
-		'collapsible-radio.js', 
-		'collapsible-month-range.js', 
-		'content.js', 
-		'directions.js',
-		'geocoder.js', 
-		'lang.js', 
-		'legend.js', 
-		'locate.js', 
-		'share.js',
-		'zoomsearch.js',
-		'leaf/leaf.js', 
-		'leaf/locate.js', 
-		'leaf/zoomsearch.js',
-		'carto/view.js',
-		'carto/chart.js'
+		'nyc/nyc.js', 
+		'nyc/collapsible.js', 
+		'nyc/collapsible-radio.js', 
+		'nyc/collapsible-month-range.js', 
+		'nyc/content.js', 
+		'nyc/directions.js',
+		'nyc/geocoder.js', 
+		'nyc/lang.js', 
+		'nyc/legend.js', 
+		'nyc/locate.js', 
+		'nyc/share.js',
+		'nyc/zoomsearch.js',
+		'nyc/leaf/leaf.js', 
+		'nyc/leaf/locate.js', 
+		'nyc/leaf/zoomsearch.js',
+		'nyc/carto/view.js',
+		'nyc/carto/chart.js'
 	]
 	olCssFiles = [
 		'control-common.css', 
@@ -120,9 +123,10 @@ ext {
 	currentLib = 'leaf'
 }
 
-task jsdoc(type: JsDoc) {
+task jsDoc(type: JsDoc) {
 	sourceDir = "${jsSrcDir}/nyc"
 	destinationDir = "${buildDir}/${ver}/doc"
+	isWindows = isWindows
 }
 
 task minifyJsOl(type: MinifyJs) {
@@ -131,6 +135,7 @@ task minifyJsOl(type: MinifyJs) {
 	fileNames = olJsFiles
 	sourceDir = jsSrcDir
 	destinationDir = "${buildDir}/${ver}/js"
+	isWindows = isWindows
 }
 
 task minifyJsLeaf(type: MinifyJs) {
@@ -139,6 +144,7 @@ task minifyJsLeaf(type: MinifyJs) {
 	fileNames = leafJsFiles
 	sourceDir = jsSrcDir
 	destinationDir = "${buildDir}/${ver}/js"
+	isWindows = isWindows
 }
 
 task minifyJsCarto(type: MinifyJs) {
@@ -147,6 +153,7 @@ task minifyJsCarto(type: MinifyJs) {
 	fileNames = leafJsFiles
 	sourceDir = jsSrcDir
 	destinationDir = "${buildDir}/${ver}/js"
+	isWindows = isWindows
 }
 
 task minifyCssOl(type: MinifyCss) {
@@ -173,27 +180,10 @@ task minifyCssCarto(type: MinifyCss) {
 task allJs(dependsOn: [minifyJsOl, minifyJsLeaf, minifyJsCarto]) << {}
 task allCss(dependsOn: [minifyCssOl, minifyCssLeaf, minifyCssCarto]) << {}
 
-task prepareFiles(dependsOn: [allJs, allCss]) << {}
-prepareFiles.doFirst {
-	copy {
-			from 'src/main'
-			include '**'
-			into "${buildDir}/${ver}/src"
-		}
-}
-
-task archive(type: Zip, dependsOn: [jsdoc, prepareFiles]) {
+task archive(type: Zip, dependsOn: [jsDoc, allJs, allCss]) {
 	archiveName = "nyc-lib-${ver}.zip"
 	from {"${buildDir}/${ver}"}
 }
-archive.doFirst {
-	copy {
-		from 'build'
-		include '*.debug.js'
-		into "${buildDir}/${ver}"
-	}
-}
-
 
 remotes {
 	deployTarget {}
@@ -225,6 +215,7 @@ task wrapper(type: Wrapper) {
 }
 
 class JsDoc extends DefaultTask {
+	def isWindows = false
 	def jsdocDir = '../jsdoc'
 	def sourceDir = ''
 	def destinationDir = ''
@@ -233,11 +224,12 @@ class JsDoc extends DefaultTask {
 		def docs = new File(destinationDir)
 		def scriptName = "${destinationDir}/doc.sh"
 		docs.mkdirs()
-		def script = new File(scriptName)
-		script.text = "cd ${jsdocDir}\n" +
-			"./jsdoc --verbose --recurse ${sourceDir} --destination ${destinationDir}"
+		def scriptFile = new File(scriptName)
+		def script = isWindows ? "jsdoc" : "./jsdoc"
+		scriptFile.text = "cd ${jsdocDir}\n${script} --verbose --recurse ${sourceDir} --destination ${destinationDir}"
 		ant.chmod(file: scriptName, perm: '0755')
 		scriptName.execute()
+		ant.delete(file: scriptName)
 	}
 }
 
@@ -251,19 +243,24 @@ class MinifyCss extends DefaultTask {
 		def dir = new File(destinationDir)
 		dir.mkdirs()
 		def cssOut = new File("${destinationDir}/${libName}.css")
-		fileNames.each{ file ->
-			def css = new File("${sourceDir}/${file}").getText('UTF-8')
+		for (def i = 0; i < fileNames.size(); i++) {
+			def css = new File("${sourceDir}/${fileNames[i]}").getText('UTF-8')
 			css = css.replaceAll(/[\n\r]+\s*/, '')
 			css = css.replaceAll(/\s+/, ' ')
 			css = css.replaceAll(/\s?([:,;{}])\s?/, '$1')
 			css = css.replaceAll(/([\s:]0)(px|pt|%|em)/, '$1')
 			css = css.replaceAll(/\/\*[\d\D]*?\*\//, '')
 			cssOut.append(css)
+			this.copySource(fileNames[i])
 		}		
+	}
+	private void copySource(String file){
+		ant.copy(file: "${sourceDir}/${file}", tofile: "${destinationDir}/../src/css/${file}")
 	}
 }
 
 class MinifyJs extends JavaExec {
+	def isWindows = false
 	def libName = ''
 	def version = ''
 	def fileNames = []
@@ -281,8 +278,9 @@ class MinifyJs extends JavaExec {
 	@Override
 	public void exec(){
 		def arguments = []
-		for (def i = 0; i < fileNames.size(); i++) { //todo can we use diff loop syntax
+		for (def i = 0; i < fileNames.size(); i++) {
 		  	arguments << "${sourceDir}/${fileNames[i]}"
+		  	this.copySource(fileNames[i])
 		}
 		for (def i = 0; i < compilerOptions.size(); i++) {
 		  	arguments << compilerOptions[i]
@@ -293,10 +291,17 @@ class MinifyJs extends JavaExec {
 		arguments << "--create_source_map=${libName}.sourcemap.json"
 		arguments << "--js_output_file=${libName}.js"
 		arguments << "--source_map_location_mapping=\"${this.getSourceMapLocationMapping()}\""
-		arguments << "--output_wrapper=\"/* ${libName}-${version} */ %output% //# sourceMappingURL=${libName}.sourcemap.json\""
+		arguments << "--output_wrapper=\"${this.getOutputWrapper()}\""
 		args arguments
 		super.exec();
 		this.move()
+	}
+	private void copySource(String file){
+		ant.copy(file: "${sourceDir}/${file}", tofile: "${destinationDir}/../src/js/${file}")
+	}
+	private String getOutputWrapper(){
+		def output = isWindows ? '%%output%%' : '%output%'
+		return "/* ${libName}-${version} */ ${output} //# sourceMappingURL=${libName}.sourcemap.json"
 	}
 	private String getSourceMapLocationMapping(){
 		if (sourceMapLocationMapping != '') return sourceMapLocationMapping;
