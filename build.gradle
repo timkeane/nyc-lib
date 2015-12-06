@@ -1,18 +1,25 @@
-import com.eriwen.gradle.js.tasks.CombineJsTask
-import com.eriwen.gradle.js.tasks.MinifyJsTask
 import com.eriwen.gradle.css.tasks.CombineCssTask
 import com.eriwen.gradle.css.tasks.MinifyCssTask
 import groovy.util.AntBuilder
 
-plugins{
+plugins {
     id 'base'
     id 'jetty'
     id 'org.hidetake.ssh' version '1.1.2'
-	id 'com.eriwen.gradle.js' version '1.12.1'
 	id 'com.eriwen.gradle.css' version '1.11.1'
 }
 
-ext{
+repositories {
+  mavenCentral() //or jcenter()
+}
+configurations {
+  closureCompiler
+}
+dependencies {
+  closureCompiler 'com.google.javascript:closure-compiler:v20150609'
+}
+
+ext {
 	ver = 'v0.0.1-beta.2'
 	remoteDir = "nyc-lib/${ver}"
 	jsSrcDir = 'src/main/js/nyc'
@@ -109,53 +116,33 @@ ext{
 		"${cssSrcDir}/share.css", 
 		"${cssSrcDir}/zoomsearch.css"
 	]
+	closureArgs = [
+		'--charset=utf8',
+		'--warning_level=VERBOSE',
+		'--compilation_level=WHITESPACE_ONLY'
+	]
+	currentLib = 'leaf'
 }
 
-task combineJsOl(type: CombineJsTask) {
-    source = olJsFiles
-    dest = file("${buildDir}/nyc-ol-lib.debug.js")
+task minifyJsOl(type: MinifyJavaScript) {
+	version = ver
+	libName = 'nyc-ol-lib'
+	scripts = olJsFiles
+	destinationDir = "${project.buildDir}/${version}/js"
 }
 
-task combineJsLeaf(type: CombineJsTask) {
-    source = leafJsFiles
-    dest = file("${buildDir}/nyc-leaf-lib.debug.js")
+task minifyJsLeaf(type: MinifyJavaScript) {
+	version = ver
+	libName = 'nyc-leaf-lib'
+	scripts = leafJsFiles
+	destinationDir = "${project.buildDir}/${version}/js"
 }
 
-task combineJsCarto(type: CombineJsTask) {
-    source = cartoJsFiles
-    dest = file("${buildDir}/nyc-carto-lib.debug.js")
-}
-
-task minifyJsOl(type: MinifyJsTask) {
-    source = combineJsOl
-    dest = file("${buildDir}/${ver}/nyc-ol-lib.js")
-    sourceMap = file("${buildDir}/${ver}/nyc-ol-lib.sourcemap.json")
-    closure {
-	    compilationLevel = 'WHITESPACE_ONLY'
-        warningLevel = 'VERBOSE'
-        //output_wrapper = isWindows ? '"%%output%%//# sourceMappingURL=nyc-min.js.map"' : '--output_wrapper "%output%//# sourceMappingURL=nyc-min.js.map"'
-        //output_wrapper "/* nyc-ol-lib${ver} */\n"
-    }
-}
-
-task minifyJsLeaf(type: MinifyJsTask) {
-    source = combineJsLeaf
-    dest = file("${buildDir}/${ver}/nyc-leaf-lib.js")
-    sourceMap = file("${buildDir}/${ver}/nyc-leaf-lib.sourcemap.json")
-    closure {
-	    compilationLevel = 'WHITESPACE_ONLY'
-        warningLevel = 'VERBOSE'
-    }
-}
-
-task minifyJsCarto(type: MinifyJsTask) {
-    source = combineJsCarto
-    dest = file("${buildDir}/${ver}/nyc-carto-lib.js")
-    sourceMap = file("${buildDir}/${ver}/nyc-carto-lib.sourcemap.json")
-    closure {
-	    compilationLevel = 'WHITESPACE_ONLY'
-        warningLevel = 'VERBOSE'
-    }
+task minifyJsCarto(type: MinifyJavaScript) {
+	version = ver
+	libName = 'nyc-carto-lib'
+	scripts = leafJsFiles
+	destinationDir = "${project.buildDir}/${version}/js"
 }
 
 task combineCssOl(type: CombineCssTask) {
@@ -197,32 +184,7 @@ task minifyCssCarto(type: MinifyCssTask) {
     }
 }
 
-task appendSrcMappingOl(dependsOn: [minifyJsOl]) << {
-	def info = "/* nyc-ol-lib-${ver} */"
-	def script = file("${buildDir}/${ver}/nyc-ol-lib.js")
-	script.append("\n${info}\n//# sourceMappingURL=nyc-ol-lib.sourcemap.json")
-	def map = file("${buildDir}/${ver}/nyc-ol-lib.sourcemap.json")
-	map.text = map.text.replace(/${buildDir}\//, '')
-}
-
-task appendSrcMappingLeaf(dependsOn: [minifyJsLeaf]) << {
-	def info = "/* nyc-leaf-lib-${ver} */"
-	def script = file("${buildDir}/${ver}/nyc-leaf-lib.js")
-	script.append("\n${info}\n//# sourceMappingURL=nyc-leaf-lib.sourcemap.json")
-	def map = file("${buildDir}/${ver}/nyc-leaf-lib.sourcemap.json")
-	map.text = map.text.replace(/${buildDir}\//, '')
-}
-
-task appendSrcMappingCarto(dependsOn: [minifyJsCarto]) << {
-	def info = "/* nyc-carto-lib-${ver} */"
-	def script = file("${buildDir}/${ver}/nyc-carto-lib.js")
-	script.append("\n${info}\n//# sourceMappingURL=nyc-carto-lib.sourcemap.json")
-	def map = file("${buildDir}/${ver}/nyc-carto-lib.sourcemap.json")
-	map.text = map.text.replace(/${buildDir}\//, '')
-}
-
-
-task allJs(dependsOn: [appendSrcMappingOl, appendSrcMappingLeaf, appendSrcMappingCarto]) << {}
+task allJs(dependsOn: [minifyJsOl, minifyJsLeaf, minifyJsCarto]) << {}
 task allCss(dependsOn: [minifyCssOl, minifyCssLeaf, minifyCssCarto]) << {}
 
 task prepareFiles(dependsOn: [allJs, allCss]) << {}
@@ -300,5 +262,36 @@ class Docs {
 			chmod(file: 'doc.sh', perm: '0755')
 		}
 		return './doc.sh'
+	}
+}
+
+class MinifyJavaScript extends JavaExec {
+	def libName = ''
+	def version = ''
+	def scripts = []
+	def destinationDir = ''
+	public MinifyJavaScript() {
+		main 'com.google.javascript.jscomp.CommandLineRunner'
+		classpath project.configurations.closureCompiler
+	}
+	@TaskAction
+	@Override
+	public void exec(){
+		def arguments = []
+		for (def i = 0; i < scripts.size(); i++) {
+		  	arguments << scripts[i]
+		}
+		arguments << '--charset=utf8'
+		arguments << '--warning_level=VERBOSE'
+		arguments << '--compilation_level=WHITESPACE_ONLY'
+		arguments << "--create_source_map=${libName}.sourcemap.json"
+		arguments << "--js_output_file=${libName}.js"  
+		arguments << "--source_map_location_mapping=\"src/main/js/nyc/|../src/js/nyc/\""
+		arguments << "--output_wrapper=\"/* ${libName}-${version} */ %output% //# sourceMappingURL=${libName}.sourcemap.json\""
+		println arguments
+		args arguments
+		super.exec();
+		ant.move(file: "${libName}.js", todir: destinationDir)
+		ant.move(file: "${libName}.sourcemap.json", todir: destinationDir)
 	}
 }
