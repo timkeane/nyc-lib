@@ -23,6 +23,7 @@ ext {
 	remoteDir = "nyc-lib/${ver}"
 	jsSrcDir = "${projectDir}/src/main/js"
 	cssSrcDir = "${projectDir}/src/main/css"
+	imgDir = "${projectDir}/src/main/img/"
 	olJsFiles = [
 		'nyc/nyc.js', 
 		'nyc/collapsible.js', 
@@ -115,18 +116,11 @@ ext {
 		'share.css', 
 		'zoomsearch.css'
 	]
-	closureArgs = [
-		'--charset=utf8',
-		'--warning_level=VERBOSE',
-		'--compilation_level=WHITESPACE_ONLY'
-	]
-	currentLib = 'leaf'
 }
 
 task jsDoc(type: JsDoc) {
 	sourceDir = "${jsSrcDir}/nyc"
 	destinationDir = "${buildDir}/${ver}/doc"
-	isWindows = isWindows
 }
 
 task minifyJsOl(type: MinifyJs) {
@@ -184,6 +178,18 @@ task archive(type: Zip, dependsOn: [allJs, allCss, jsDoc]) {
 	archiveName = "nyc-lib-${ver}.zip"
 	from {"${buildDir}/${ver}"}
 }
+archive.doFirst {
+	copy {
+		from imgDir
+		include '*'
+		into "${buildDir}/${ver}/img"
+	}
+	copy {
+		from imgDir
+		include '*'
+		into "${buildDir}/${ver}/src/img"
+	}
+}
 
 remotes {
 	deployTarget {}
@@ -215,22 +221,23 @@ task wrapper(type: Wrapper) {
 }
 
 class JsDoc extends DefaultTask {
-	def isWindows = false
-	def jsdocDir = '../jsdoc'
+	def jsdocDir = '../node_modules/jsdoc'
 	def sourceDir = ''
 	def destinationDir = ''
 	@TaskAction
 	public void build(){
 		def docs = new File(destinationDir)
-		def scriptName = "${destinationDir}/doc.sh"
-		docs.mkdirs()
-		def scriptFile = new File(scriptName)
-		def script = isWindows ? "jsdoc" : "./jsdoc"
-		scriptFile.text = "cd ${jsdocDir}\n${script} --verbose --recurse ${sourceDir} --destination ${destinationDir}"
-		ant.chmod(file: scriptName, perm: '0755')
-		def proc = scriptName.execute()
-		proc.waitForProcessOutput(System.out, System.err)
-		ant.delete(file: scriptName)
+		def cmd = new File("${jsdocDir}/jsdoc.js")
+		if (cmd.exists()){
+			docs.mkdirs()
+			cmd = "${cmd} --verbose --recurse ${sourceDir} --destination ${destinationDir}"
+			def proc = cmd.execute()
+			proc.waitForProcessOutput(System.out, System.err)
+		}else{
+			throw new FileNotFoundException(
+				"File '${jsdocDir}/jsdoc.js' not found! Is jsdoc installed? Set 'jsdocDir' property on task '${this.getName()}'."
+			)
+		}
 	}
 }
 
@@ -271,6 +278,7 @@ class MinifyJs extends JavaExec {
 	def warningLevel = 'VERBOSE'
 	def sourceMapLocationMapping = '' 
 	def compilerOptions = []
+	def comment = '' 
 	public MinifyJs() {
 		main 'com.google.javascript.jscomp.CommandLineRunner'
 		classpath project.configurations.closureCompiler
@@ -292,7 +300,7 @@ class MinifyJs extends JavaExec {
 		arguments << "--create_source_map=${libName}.sourcemap.json"
 		arguments << "--js_output_file=${libName}.js"
 		arguments << "--source_map_location_mapping=\"${this.getSourceMapLocationMapping()}\""
-		arguments << "--output_wrapper=\"${this.getOutputWrapper()}\""
+		arguments << "--output_wrapper=${this.getOutputWrapper()}"
 		args arguments
 		super.exec();
 		this.move()
@@ -302,7 +310,9 @@ class MinifyJs extends JavaExec {
 	}
 	private String getOutputWrapper(){
 		def output = isWindows ? '%%output%%' : '%output%'
-		return "/* ${libName}-${version} */ ${output} //# sourceMappingURL=${libName}.sourcemap.json"
+		def name = "${libName}-${version}"
+		def block = comment != '' ? "${name}\n\n${comment}" : name
+		return "/*\n\n${block}\n\n*/\n${output}\n//# sourceMappingURL=${libName}.sourcemap.json"
 	}
 	private String getSourceMapLocationMapping(){
 		if (sourceMapLocationMapping != '') return sourceMapLocationMapping;
