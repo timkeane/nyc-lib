@@ -181,24 +181,30 @@ QUnit.test('search (zip code)', function(assert){
 
 QUnit.test('search (address)', function(assert){
 	assert.expect(1);
-	var done = assert.async();
-	
-	var test = function(data){
-		assert.deepEqual(
-			data,
-			{
-				type: nyc.Locate.LocateResultType.GEOCODE,
-				coordinates: [982037, 197460],
-				accuracy: nyc.Geocoder.Accuracy.HIGH,
-				name: '59 Maiden Lane, Manhattan, NY 10038'			
-			}
-		);
-		done();
-	};
+	if (this.GEOCLIENT_URL.indexOf('YOUR_APP_KEY') == -1){
+		
+		var done = assert.async();
+		
+		var test = function(data){
+			assert.deepEqual(
+				data,
+				{
+					type: nyc.Locate.LocateResultType.GEOCODE,
+					coordinates: [982037, 197460],
+					accuracy: nyc.Geocoder.Accuracy.HIGH,
+					name: '59 Maiden Lane, Manhattan, NY 10038'			
+				}
+			);
+			done();
+		};
 
-	var geocoder = new nyc.Geoclient(this.GEOCLIENT_URL);
-	geocoder.one(nyc.Locate.LocateEventType.GEOCODE, test);
-	geocoder.search('59 maiden mn');
+		var geocoder = new nyc.Geoclient(this.GEOCLIENT_URL);
+		geocoder.one(nyc.Locate.LocateEventType.GEOCODE, test);
+		geocoder.search('59 maiden mn');
+		
+	}else{
+		assert.ok(false, 'Valid geoclient appKey and appId required to run this test. See README.md for configuration details.')
+	}
 });
 
 QUnit.test('search (error)', function(assert){

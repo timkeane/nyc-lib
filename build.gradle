@@ -18,7 +18,7 @@ dependencies {
 }
 
 ext {
-	ver = 'v0.0.2'
+	ver = 'v0.0.3-SNAPSHOT'
 	isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
 	remoteDir = "nyc-lib/${ver}"
 	jsSrcDir = "${projectDir}/src/main/js"
@@ -215,6 +215,33 @@ task deploy(dependsOn: []) << {
             execute "rm -rf ${deployDir}.bak"
         }
     }
+}
+
+[jettyRun]*.with {
+    webXml = file("etc/jetty/webdefault.xml")
+}
+
+jettyRun {
+	webAppSourceDirectory file('./')
+	contextPath ''
+	httpPort 8088
+	stopPort 8090
+	stopKey 'stopKey'
+	reload 'automatic'
+	scanIntervalSeconds 2
+}
+jettyRun.doFirst { 
+    ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
+	ant.replace(file: 'src/test/js/setup-teardown.js', token: project.ext['git.geoclient.url'], value: project.ext['test.geoclient.url'])
+}
+
+jettyStop {
+	stopPort 8090
+	stopKey 'stopKey'
+}
+jettyStop.doFirst { 
+    ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
+	ant.replace(file: 'src/test/js/setup-teardown.js', token: project.ext['test.geoclient.url'], value: project.ext['git.geoclient.url'])
 }
 
 task wrapper(type: Wrapper) {
