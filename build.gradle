@@ -38,16 +38,18 @@ ext {
 		'nyc/share.js',
 		'nyc/zoomsearch.js',
 		'nyc/ol/ol.js', 
-		'nyc/ol/draw.js', 
 		'nyc/ol/featuretip.js', 
 		'nyc/ol/locate.js', 
 		'nyc/ol/popup.js', 
 		'nyc/ol/control/zoomsearch.js',
-		'nyc/ol/geoserver/getfeature.js', 
 		'nyc/ol/source/arcgiscache.js', 
 		'nyc/ol/source/decorating.js', 
 		'nyc/ol/source/filteringandsorting.js',
 		'nyc/ol/layer/baselayer.js'
+	]
+	olRedLineJsFiles = [
+		'nyc/ol/draw.js', 
+		'nyc/ol/geoserver/getfeature.js'
 	]
 	leafJsFiles = [
 		'nyc/nyc.js', 
@@ -97,6 +99,9 @@ ext {
 		'share.css', 
 		'zoomsearch.css'
 	]
+	olRedLineCssFiles = [
+		'draw.css'
+	]
 	leafCssFiles = [
 		'control-common.css', 
 		'collapsible.css', 
@@ -132,6 +137,15 @@ task minifyJsOl(type: MinifyJs) {
 	isWindows = isWindows
 }
 
+task minifyJsOlRedLine(type: MinifyJs) {
+	version = ver
+	libName = 'nyc-ol-redline-lib'
+	fileNames = olRedLineJsFiles
+	sourceDir = jsSrcDir
+	destinationDir = "${buildDir}/${ver}/js"
+	isWindows = isWindows
+}
+
 task minifyJsLeaf(type: MinifyJs) {
 	version = ver
 	libName = 'nyc-leaf-lib'
@@ -157,6 +171,13 @@ task minifyCssOl(type: MinifyCss) {
 	destinationDir = "${buildDir}/${ver}/css"
 }
 
+task minifyCssOlRedLine(type: MinifyCss) {
+	libName = 'nyc-ol-redline-lib'
+	fileNames = olRedLineCssFiles
+	sourceDir = cssSrcDir
+	destinationDir = "${buildDir}/${ver}/css"
+}
+
 task minifyCssLeaf(type: MinifyCss) {
 	libName = 'nyc-leaf-lib'
 	fileNames = leafCssFiles
@@ -171,8 +192,8 @@ task minifyCssCarto(type: MinifyCss) {
 	destinationDir = "${buildDir}/${ver}/css"
 }
 
-task allJs(dependsOn: [minifyJsOl, minifyJsLeaf, minifyJsCarto]) << {}
-task allCss(dependsOn: [minifyCssOl, minifyCssLeaf, minifyCssCarto]) << {}
+task allJs(dependsOn: [minifyJsOl, minifyJsOlRedLine, minifyJsLeaf, minifyJsCarto]) << {}
+task allCss(dependsOn: [minifyCssOl, minifyCssOlRedLine, minifyCssLeaf, minifyCssCarto]) << {}
 task buildLibs(dependsOn: [allJs, allCss]) << {}
 buildLibs.doFirst {
 	copy {
@@ -262,9 +283,12 @@ class JsDoc extends DefaultTask {
 			def proc = cmd.execute()
 			proc.waitForProcessOutput(System.out, System.err)
 		}else{
-			throw new FileNotFoundException(
-				"File '${jsdocDir}/jsdoc.js' not found! Is jsdoc installed? Set 'jsdocDir' property on task '${this.getName()}'."
-			)
+			println '----------------------------------------------------------------------'
+			println	"	File '${jsdocDir}/jsdoc.js' not found!"
+			println	'	Is JsDoc installed?'
+			println	"	Set 'jsdocDir' property on task '${this.getName()}'"
+			println	"	Skipping task '${this.getName()}'"
+			println '----------------------------------------------------------------------'
 		}
 	}
 }

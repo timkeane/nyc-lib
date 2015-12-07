@@ -16,8 +16,8 @@ A set of common libraries used to develop NYC mapping applications
 
 ###Build###
 * ```gradle buildLibs``` or ```gradlew buildLibs```
-	* builds libraries ```nyc-ol-lib.js```, ```nyc-leaf-lib.js```, ```nyc.carto-lib.js```
+	* builds libraries ```nyc-ol-lib.js```, ```nyc-ol-redline-lib.js```, ```nyc-leaf-lib.js```, ```nyc.carto-lib.js```
 * ```gradle jsDoc``` or ```gradlew jsDoc``` 
 	* builds [JsDoc](http://usejsdoc.org/)
 * ```gradle archive``` or ```gradlew archive``` 
-	* builds and zips libraries ```nyc-ol-lib.js```, ```nyc-leaf-lib.js```, ```nyc.carto-lib.js``` with [JsDoc](http://usejsdoc.org/)
+	* builds and zips libraries ```nyc-ol-lib.js```, ```nyc-ol-redline-lib.js```, ```nyc-leaf-lib.js```, ```nyc.carto-lib.js``` with [JsDoc](http://usejsdoc.org/)
