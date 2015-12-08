@@ -228,7 +228,7 @@ task deploy(dependsOn: []) << {
 	
 	ssh.run {
         session(remotes.deployTarget) {
-        	execute "mkdir ${archiveDir}"
+        	execute "mkdir -p ${archiveDir}"
             put "build/distributions/${archive.archiveName}", archiveDir
             execute "cp -R ${deployDir} ${deployDir}.bak"
             execute "rm -rf ${deployDir}"
