@@ -123,3 +123,6 @@ span.srch-upk-icon:after {
 		right: 0;
 	}
 }
+.ol-zoom, .ol-attribution {
+	display: none;
+}

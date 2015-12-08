@@ -19,8 +19,10 @@ nyc.Share = function(target){
 	$(target).append(html).trigger('create');
 
 	$('*').click(function(e){
-		if ($('#share-btns').css('opacity') == 1)
+		if ($('#share-btns').css('opacity') == 1){
 			$('#share-btns').fadeOut();
+		}
+		return false;
 	});
 	if (this.isIosAppMode()){
 		$('#email-btn').attr('target', '_blank');

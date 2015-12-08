@@ -1,5 +1,6 @@
 .ctl {
 	position: fixed;
+	z-index: 100;
 } 
 .ui-page-theme-a a.ui-btn.ui-corner-all, .ui-page-theme-a button.ui-btn.ui-corner-all, .ui-page-theme-a div.ui-controlgroup-controls  {
 	border-radius: .6em;
