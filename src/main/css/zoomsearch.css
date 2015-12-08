@@ -53,16 +53,16 @@
 }
 .ui-listview>.ui-li-static {
 	cursor: pointer;
-	background-color: white;
-	color: black;
+	background-color: #fff;
+	color: #000;
 	text-shadow: none;
 }
 .ui-listview>.ui-li-static:hover {
 	background-color: rgba(0,0,0,0.5);
-	color: white;
+	color: #fff;
 }
 .ui-listview>.ui-li-static:hover .ui-btn-icon-left:after {
-	background-color: black;
+	background-color: #000;
 }
 #fld-srch-container ul {
 	right: 3px;
@@ -98,7 +98,7 @@
 	background-color: rgba(0,0,0,0.5);
 }
 #btn-srch-typ:hover:after, #fld-srch-container .ui-input-clear:hover:after {
-	background-color: black;
+	background-color: #000;
 }
 #srch-type-geo span:after {
 	background-image: url(../img/geo.png);

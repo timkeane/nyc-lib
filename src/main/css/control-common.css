@@ -12,7 +12,7 @@
 	background-color: rgba(0,0,0,0.5);
 }
 .ctl-btn.ui-btn:hover {
-	background-color: black;
+	background-color: #000;
 }
 .ctl-btn.ui-btn:after, .ctl-btn.ui-btn:hover:after {
 	background-color: transparent;

@@ -18,12 +18,12 @@
 	right: 0;
 	height: 100%;
 	width: 320px;
-	background-color: white;
-	box-shadow: 5px 10px 20px 5px rgba(8,80,149,0.5);
+	background-color: #fff;
+	box-shadow: 5px 10px 20px 5px rgba(0,0,0,0.5);
 	z-index: 1000;
 }
 .ui-input-text input  {
-	color: #085095;
+	color: #000;
 }
 #dir-content {
 	margin: 5px;
@@ -72,10 +72,10 @@
 	display: none;
 }
 #dir-mode .dir-mode-btn {
-	background-color: rgba(8, 80, 149,0.5); 	
+	background-color: rgba(0,0,0,0.5); 	
 }
 #dir-mode .dir-mode-btn.active-mode, #dir-mode .dir-mode-btn: hover {
-	background-color: rgba(1,51,100,1); 
+	background-color: #000; 
 }
 .adp-agencies {
     font-size: 100%;

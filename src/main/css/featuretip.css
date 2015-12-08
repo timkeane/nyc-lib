@@ -7,14 +7,5 @@
 	text-align: center;
 	background-color: rgba(255,255,255,0.8);
 	font-family: helvetica;
-	box-shadow: 0 1px 3px rgba(8,80,149,0.5);	
-}
-.tip-center {
-	text-align: left;
-}
-.tip-center div.access {
-	background-image: url(../img/access1.svg);
-	background-repeat: no-repeat;
-	background-size: 22px;
-	padding: 2px 0 2px 24px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.5);	
 }

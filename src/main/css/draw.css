@@ -20,7 +20,7 @@
 }
 .draw-ctx-mnu button, .draw-btn-mnu button{
 	font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
-	color: white;
+	color: #fff;
 	font-size: 14px;
 }
 .draw-btn-mnu {
