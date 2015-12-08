@@ -158,7 +158,7 @@ task minifyJsLeaf(type: MinifyJs) {
 task minifyJsCarto(type: MinifyJs) {
 	version = ver
 	libName = 'nyc-carto-lib'
-	fileNames = leafJsFiles
+	fileNames = cartoJsFiles
 	sourceDir = jsSrcDir
 	destinationDir = "${buildDir}/${ver}/js"
 	isWindows = isWindows
