@@ -125,6 +125,7 @@ ext {
 task jsDoc(type: JsDoc) {
 	sourceDir = "${jsSrcDir}/nyc"
 	destinationDir = "${buildDir}/${ver}/doc"
+	isWindows = project.ext.isWindows
 }
 
 task minifyJsOl(type: MinifyJs) {
@@ -257,13 +258,14 @@ task wrapper(type: Wrapper) {
 }
 
 class JsDoc extends DefaultTask {
-	def jsdocDir = '../node_modules/jsdoc'
+	def jsdocDir = '../node_modules/.bin'
 	def sourceDir = ''
 	def destinationDir = ''
+	def isWindows = false
 	@TaskAction
 	public void build(){
 		def docs = new File(destinationDir)
-		def cmd = new File("${jsdocDir}/jsdoc.js")
+		def cmd = isWindows ? new File("${jsdocDir}/jsdoc.cmd") : new File("${jsdocDir}/jsdoc") 
 		if (cmd.exists()){
 			docs.mkdirs()
 			cmd = "${cmd} --verbose --recurse ${sourceDir} --destination ${destinationDir}"
@@ -348,14 +350,15 @@ class MinifyJs extends JavaExec {
 		ant.copy(file: "${sourceDir}/${file}", tofile: "${destinationDir}/../src/js/${file}")
 	}
 	private String getOutputWrapper(){
-		def output = isWindows ? '%%output%%' : '%output%'
+		def output = '%output%'
 		def name = "${libName}-${version}"
 		def block = comment != '' ? "${name}\n\n${comment}" : name
 		return "/*\n\n${block}\n\n*/\n${output}\n//# sourceMappingURL=${libName}.sourcemap.json"
 	}
 	private String getSourceMapLocationMapping(){
 		if (sourceMapLocationMapping != '') return sourceMapLocationMapping;
-		return "${sourceDir}|../src/js"
+		def srcDir = sourceDir.replaceAll('\\\\', '/')
+		return "${srcDir}|../src/js"
 	}
 	private void move(){
 		def dir = new File(destinationDir)
