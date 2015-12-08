@@ -55,7 +55,7 @@ function setup(assert, hooks){
 		var map = new ol.Map({
 			target: div,
 			view: new ol.View({
-				projection: nyc.EPSG_2263,
+				projection: 'EPSG:2263',
 				resolutions: nyc.ol.layer.BaseLayer.RESOLUTIONS
 			})
 		});

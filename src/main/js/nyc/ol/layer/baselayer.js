@@ -71,7 +71,7 @@ nyc.ol.layer.BaseLayer.BASIC_OPTIONS = {
 	source: new nyc.ol.source.AcrGisCache({
 		urls: nyc.ol.layer.BaseLayer.BASIC_URLS,
 		imageExtension : nyc.ol.layer.BaseLayer.IMAGE_EXTENSION,
-		projection: nyc.EPSG_2263,
+		projection: 'EPSG:2263',
 		tileGrid: new ol.tilegrid.TileGrid({
 			origin: nyc.ol.layer.BaseLayer.ORIGIN,
 			extent: nyc.ol.layer.BaseLayer.EXTENT,
@@ -97,7 +97,7 @@ nyc.ol.layer.BaseLayer.ORTHO_OPTIONS = {
 	source: new nyc.ol.source.AcrGisCache({
 		urls: nyc.ol.layer.BaseLayer.ORTHO_URLS,
 		imageExtension : nyc.ol.layer.BaseLayer.IMAGE_EXTENSION,
-		projection: nyc.EPSG_2263,
+		projection: 'EPSG:2263',
 		tileGrid: new ol.tilegrid.TileGrid({
 			origin: nyc.ol.layer.BaseLayer.ORIGIN,
 			extent: nyc.ol.layer.BaseLayer.EXTENT,
