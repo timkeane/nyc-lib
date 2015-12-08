@@ -23,7 +23,6 @@ ext {
 	remoteDir = "nyc-lib/${ver}"
 	jsSrcDir = "${projectDir}/src/main/js"
 	cssSrcDir = "${projectDir}/src/main/css"
-	imgDir = "${projectDir}/src/main/img/"
 	olJsFiles = [
 		'nyc/nyc.js', 
 		'nyc/collapsible.js', 
@@ -195,18 +194,6 @@ task minifyCssCarto(type: MinifyCss) {
 task allJs(dependsOn: [minifyJsOl, minifyJsOlRedLine, minifyJsLeaf, minifyJsCarto]) << {}
 task allCss(dependsOn: [minifyCssOl, minifyCssOlRedLine, minifyCssLeaf, minifyCssCarto]) << {}
 task buildLibs(dependsOn: [allJs, allCss]) << {}
-buildLibs.doFirst {
-	copy {
-		from imgDir
-		include '*'
-		into "${buildDir}/${ver}/img"
-	}
-	copy {
-		from imgDir
-		include '*'
-		into "${buildDir}/${ver}/src/img"
-	}
-}
 
 task archive(type: Zip, dependsOn: [buildLibs, jsDoc]) {
 	archiveName = "nyc-lib-${ver}.zip"
