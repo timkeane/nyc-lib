@@ -1,4 +1,5 @@
 import org.apache.tools.ant.taskdefs.condition.Os
+import gov.nyc.doitt.nyc.gis.gradle.*
 
 plugins {
     id 'base'
@@ -122,70 +123,66 @@ ext {
 	]
 }
 
-task jsDoc(type: JsDoc) {
+task jsDoc(type: JsDocTask) {
 	sourceDir = "${jsSrcDir}/nyc"
 	destinationDir = "${buildDir}/${ver}/doc"
 	isWindows = project.ext.isWindows
 }
 
-task minifyJsOl(type: MinifyJs) {
+task minifyJsOl(type: MiniJsTask) {
 	version = ver
 	libName = 'nyc-ol-lib'
 	fileNames = olJsFiles
 	sourceDir = jsSrcDir
 	destinationDir = "${buildDir}/${ver}/js"
-	isWindows = isWindows
 }
 
-task minifyJsOlRedLine(type: MinifyJs) {
+task minifyJsOlRedLine(type: MiniJsTask) {
 	version = ver
 	libName = 'nyc-ol-redline-lib'
 	fileNames = olRedLineJsFiles
 	sourceDir = jsSrcDir
 	destinationDir = "${buildDir}/${ver}/js"
-	isWindows = isWindows
 }
 
-task minifyJsLeaf(type: MinifyJs) {
+task minifyJsLeaf(type: MiniJsTask) {
 	version = ver
 	libName = 'nyc-leaf-lib'
 	fileNames = leafJsFiles
 	sourceDir = jsSrcDir
 	destinationDir = "${buildDir}/${ver}/js"
-	isWindows = isWindows
 }
 
-task minifyJsCarto(type: MinifyJs) {
+task minifyJsCarto(type: MiniJsTask) {
 	version = ver
 	libName = 'nyc-carto-lib'
 	fileNames = cartoJsFiles
 	sourceDir = jsSrcDir
 	destinationDir = "${buildDir}/${ver}/js"
-	isWindows = isWindows
 }
 
-task minifyCssOl(type: MinifyCss) {
+task minifyCssOl(type: MiniCssTask) {
 	libName = 'nyc-ol-lib'
 	fileNames = olCssFiles
 	sourceDir = cssSrcDir
 	destinationDir = "${buildDir}/${ver}/css"
 }
 
-task minifyCssOlRedLine(type: MinifyCss) {
+task minifyCssOlRedLine(type: MiniCssTask) {
 	libName = 'nyc-ol-redline-lib'
 	fileNames = olRedLineCssFiles
 	sourceDir = cssSrcDir
 	destinationDir = "${buildDir}/${ver}/css"
 }
 
-task minifyCssLeaf(type: MinifyCss) {
+task minifyCssLeaf(type: MiniCssTask) {
 	libName = 'nyc-leaf-lib'
 	fileNames = leafCssFiles
 	sourceDir = cssSrcDir
 	destinationDir = "${buildDir}/${ver}/css"
 }
 
-task minifyCssCarto(type: MinifyCss) {
+task minifyCssCarto(type: MiniCssTask) {
 	libName = 'nyc-carto-lib'
 	fileNames = cartoCssFiles
 	sourceDir = cssSrcDir
@@ -225,146 +222,4 @@ task deploy(dependsOn: [archive]) << {
             execute "rm -rf ${deployDir}.bak"
         }
     }
-}
-
-[jettyRun]*.with {
-    webXml = file("etc/jetty/webdefault.xml")
-}
-
-jettyRun {
-	webAppSourceDirectory file('./')
-	contextPath ''
-	httpPort 8088
-	stopPort 8090
-	stopKey 'stopKey'
-	reload 'automatic'
-	scanIntervalSeconds 2
-}
-jettyRun.doFirst { 
-    ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
-	ant.replace(file: 'src/test/js/setup-teardown.js', token: project.ext['git.geoclient.url'], value: project.ext['test.geoclient.url'])
-}
-
-jettyStop {
-	stopPort 8090
-	stopKey 'stopKey'
-}
-jettyStop.doFirst { 
-    ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
-	ant.replace(file: 'src/test/js/setup-teardown.js', token: project.ext['test.geoclient.url'], value: project.ext['git.geoclient.url'])
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion '2.9'
-}
-
-class JsDoc extends DefaultTask {
-	def jsdocDir = '../node_modules/.bin'
-	def sourceDir = ''
-	def destinationDir = ''
-	def isWindows = false
-	@TaskAction
-	public void build(){
-		def docs = new File(destinationDir)
-		def cmd = isWindows ? new File("${jsdocDir}/jsdoc.cmd") : new File("${jsdocDir}/jsdoc") 
-		if (cmd.exists()){
-			docs.mkdirs()
-			cmd = "${cmd} --verbose --recurse ${sourceDir} --destination ${destinationDir}"
-			def proc = cmd.execute()
-			proc.waitForProcessOutput(System.out, System.err)
-		}else{
-			println '----------------------------------------------------------------------'
-			println	"	File '${jsdocDir}/jsdoc.js' not found!"
-			println	'	Is JsDoc installed?'
-			println	"	Set 'jsdocDir' property on task '${this.getName()}'"
-			println	"	Skipping task '${this.getName()}'"
-			println '----------------------------------------------------------------------'
-		}
-	}
-}
-
-class MinifyCss extends DefaultTask {
-	def libName = ''
-	def fileNames = []
-	def sourceDir = ''
-	def destinationDir = ''
-	@TaskAction
-	public void minify(){
-		def dir = new File(destinationDir)
-		dir.mkdirs()
-		def cssOut = new File("${destinationDir}/${libName}.css")
-		for (def i = 0; i < fileNames.size(); i++) {
-			def css = new File("${sourceDir}/${fileNames[i]}").getText('UTF-8')
-			css = css.replaceAll(/[\n\r]+\s*/, '')
-			css = css.replaceAll(/\s+/, ' ')
-			css = css.replaceAll(/\s?([:,;{}])\s?/, '$1')
-			css = css.replaceAll(/([\s:]0)(px|pt|%|em)/, '$1')
-			css = css.replaceAll(/\/\*[\d\D]*?\*\//, '')
-			cssOut.append(css)
-			this.copySource(fileNames[i])
-		}		
-	}
-	private void copySource(String file){
-		ant.copy(file: "${sourceDir}/${file}", tofile: "${destinationDir}/../src/css/${file}")
-	}
-}
-
-class MinifyJs extends JavaExec {
-	def isWindows = false
-	def libName = ''
-	def version = ''
-	def fileNames = []
-	def sourceDir = ''
-	def destinationDir = ''
-	def compilationLevel = 'WHITESPACE_ONLY'
-	def warningLevel = 'VERBOSE'
-	def sourceMapLocationMapping = '' 
-	def compilerOptions = []
-	def comment = '' 
-	public MinifyJs() {
-		main 'com.google.javascript.jscomp.CommandLineRunner'
-		classpath project.configurations.closureCompiler
-	}
-	@TaskAction
-	@Override
-	public void exec(){
-		def arguments = []
-		for (def i = 0; i < fileNames.size(); i++) {
-		  	arguments << "${sourceDir}/${fileNames[i]}"
-		  	this.copySource(fileNames[i])
-		}
-		for (def i = 0; i < compilerOptions.size(); i++) {
-		  	arguments << compilerOptions[i]
-		}
-		arguments << '--charset=utf8'
-		arguments << "--warning_level=${warningLevel}"
-		arguments << "--compilation_level=${compilationLevel}"
-		arguments << "--create_source_map=${libName}.sourcemap.json"
-		arguments << "--js_output_file=${libName}.js"
-		arguments << "--source_map_location_mapping=\"${this.getSourceMapLocationMapping()}\""
-		arguments << "--output_wrapper=${this.getOutputWrapper()}"
-		args arguments
-		super.exec();
-		this.move()
-	}
-	private void copySource(String file){
-		ant.copy(file: "${sourceDir}/${file}", tofile: "${destinationDir}/../src/js/${file}")
-	}
-	private String getOutputWrapper(){
-		def output = '%output%'
-		def name = "${libName}-${version}"
-		def block = comment != '' ? "${name}\n\n${comment}" : name
-		return "/*\n\n${block}\n\n*/\n${output}\n//# sourceMappingURL=${libName}.sourcemap.json"
-	}
-	private String getSourceMapLocationMapping(){
-		if (sourceMapLocationMapping != '') return sourceMapLocationMapping;
-		def srcDir = sourceDir.replaceAll('\\\\', '/')
-		return "${srcDir}|../src/js"
-	}
-	private void move(){
-		def dir = new File(destinationDir)
-		dir.mkdirs()
-		ant.move(file: "${libName}.js", todir: destinationDir)
-		ant.move(file: "${libName}.sourcemap.json", todir: destinationDir)	
-	}
 }

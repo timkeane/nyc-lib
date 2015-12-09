@@ -2,3 +2,4 @@
 /.gradle/
 /.DS_Store
 /doc.sh
+/gradle.properties
