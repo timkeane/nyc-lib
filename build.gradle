@@ -1,4 +1,3 @@
-import org.apache.tools.ant.taskdefs.condition.Os
 import gov.nyc.doitt.nyc.gis.gradle.*
 
 plugins {
@@ -10,7 +9,6 @@ plugins {
 
 ext {
 	ver = 'v0.0.3-SNAPSHOT'
-	isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
 	remoteDir = "nyc-lib/${ver}"
 	jsSrcDir = "${projectDir}/src/main/js"
 	cssSrcDir = "${projectDir}/src/main/css"
@@ -114,9 +112,8 @@ ext {
 }
 
 task jsDoc(type: JsDocTask) {
-	sourceDir = "${jsSrcDir}/nyc"
-	destinationDir = "${buildDir}/${ver}/doc"
-	isWindows = project.ext.isWindows
+	sourceDir = "src/main/js/nyc"
+	destinationDir = "build/${ver}/doc"
 }
 
 task minifyJsOl(type: MiniJsTask) {

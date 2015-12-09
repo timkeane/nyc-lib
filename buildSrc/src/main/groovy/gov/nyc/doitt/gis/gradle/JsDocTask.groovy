@@ -2,19 +2,21 @@ package gov.nyc.doitt.nyc.gis.gradle
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
+import org.apache.tools.ant.taskdefs.condition.Os
 
 class JsDocTask extends DefaultTask {
 	def jsdocDir = '../node_modules/.bin'
+	def isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
 	def sourceDir = ''
 	def destinationDir = ''
-	def isWindows = false
 	@TaskAction
 	public void build(){
 		def docs = new File(destinationDir)
-		def cmd = isWindows ? new File("${jsdocDir}/jsdoc.cmd") : new File("${jsdocDir}/jsdoc") 
-		if (cmd.exists()){
+		def exe = isWindows ? new File("${jsdocDir}/jsdoc.cmd") : new File("${jsdocDir}/jsdoc") 
+		if (exe.exists()){
 			docs.mkdirs()
-			cmd = "${cmd} --verbose --recurse ${sourceDir} --destination ${destinationDir}"
+			def cmd = "${exe} ${sourceDir} -d ${destinationDir} -r -c etc/jsdoc/conf.json --verbose"
+			println cmd
 			def proc = cmd.execute()
 			proc.waitForProcessOutput(System.out, System.err)
 		}else{
