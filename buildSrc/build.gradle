@@ -8,15 +8,11 @@ plugins {
 repositories {
 	mavenCentral()
 }
-configurations {
-  closureCompiler
-}
 dependencies {
 	compile gradleApi()
     compile localGroovy()
     compile ('com.google.javascript:closure-compiler:v20150609')
-    runtime ('com.google.javascript:closure-compiler:v20150609')
-    closureCompiler ('com.google.javascript:closure-compiler:v20150609')
+    compile ('ant:ant:1.7.0')
 }
 
 [jettyRun]*.with {

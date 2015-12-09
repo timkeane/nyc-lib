@@ -8,16 +8,6 @@ plugins {
 	id 'com.eriwen.gradle.css' version '1.11.1'
 }
 
-repositories {
-  mavenCentral()
-}
-configurations {
-  closureCompiler
-}
-dependencies {
-  closureCompiler 'com.google.javascript:closure-compiler:v20150609'
-}
-
 ext {
 	ver = 'v0.0.3-SNAPSHOT'
 	isWindows = Os.isFamily(Os.FAMILY_WINDOWS)

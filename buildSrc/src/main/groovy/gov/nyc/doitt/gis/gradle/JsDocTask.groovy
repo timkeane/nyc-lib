@@ -18,12 +18,12 @@ class JsDocTask extends DefaultTask {
 			def proc = cmd.execute()
 			proc.waitForProcessOutput(System.out, System.err)
 		}else{
-			println '----------------------------------------------------------------------'
-			println	"	File '${jsdocDir}/jsdoc.js' not found!"
-			println	'	Is JsDoc installed?'
-			println	"	Set 'jsdocDir' property on task '${this.getName()}'"
-			println	"	Skipping task '${this.getName()}'"
-			println '----------------------------------------------------------------------'
+			println '-------------------------------------------------------------------------'
+			println	"	File '${cmd.getAbsolutePath()}' not found!"
+			println	'	Install JsDoc (https://github.com/jsdoc3/jsdoc) or'
+			println	"	set 'jsdocDir' property on task '${this.getName()}'."
+			println	"	Skipping task '${this.getName()}'!"
+			println '-------------------------------------------------------------------------'
 		}
 	}
 }
