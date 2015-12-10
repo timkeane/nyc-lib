@@ -12,8 +12,8 @@
 	margin: -32px 0 0 -100px;
 	color: #0095dd;
 }
-.nyc-lib-ver {
-	font-size: 50%;
+.nyc-lib-smaller {
+	font-size: 75%;
 }
 section.nyc-lib-desc {
 	min-height: 1050px;
