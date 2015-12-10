@@ -117,9 +117,9 @@ task jsDoc(type: JsDocTask) {
 	conf = 'etc/jsdoc/conf.json'
 	doFirst {
 		file('build/jsdoc').mkdirs()
-		def url = '..'
-		if (project.hasProperty('env') && project.hasProperty("nyclib.host.${env}")){
-			def host = project.ext["nyclib.host.${env}"]
+		def url = 'https://maps.nyc.gov'
+		if (project.hasProperty('env') && project.hasProperty("${env}.nyclib.host")){
+			def host = project.ext["${env}.nyclib.host"]
 			url = "${host}/${ver}"
 		}
 		def tmpl = file('build/jsdoc/layout.tmpl')
