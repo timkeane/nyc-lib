@@ -24,6 +24,8 @@ class JsMinifier {
 		List<String> morerOptions
 	){
         CompilerOptions opts = new CompilerOptions()
+        File dir = new File(destinationDir);
+        dir.mkdirs()
         opts.setSourceMapOutputPath("${destinationDir}/${libName}.sourcemap.json")
 		CompilationLevel.valueOf(compilationLevel).setOptionsForCompilationLevel(opts)
 		WarningLevel.valueOf(warningLevel).setOptionsForWarningLevel(opts)
@@ -48,6 +50,7 @@ class JsMinifier {
     void copyToSrc(File inputFile, String destinationDir, String fileName){
     	String mappedSrc = "${destinationDir}/../src/js/${fileName}"
     	String dir = getDirectoryName(mappedSrc)
+    	println dir
     	new File(dir).mkdirs()
     	new File(mappedSrc) << inputFile.text
     }

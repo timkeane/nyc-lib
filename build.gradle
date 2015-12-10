@@ -114,6 +114,16 @@ ext {
 task jsDoc(type: JsDocTask) {
 	sourceDir = "src/main/js/nyc"
 	destinationDir = "build/${ver}/doc"
+	conf = 'etc/jsdoc/conf.json'
+	template = 'etc/jsdoc/templates/nyc'
+	doFirst {
+		def tmpl = file('etc/jsdoc/templates/nyc/tmpl/layout.tmpl')
+		tmpl.text = tmpl.text.replaceAll('@@NYC-LIB-VER@@', ver) 
+	}
+	doLast {
+		def tmpl = file('etc/jsdoc/templates/nyc/tmpl/layout.tmpl')
+		tmpl.text = tmpl.text.replaceAll(ver, '@@NYC-LIB-VER@@') 
+	}
 }
 
 task minifyJsOl(type: MiniJsTask) {

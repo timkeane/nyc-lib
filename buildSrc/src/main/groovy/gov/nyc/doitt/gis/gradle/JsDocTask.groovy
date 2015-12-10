@@ -9,13 +9,17 @@ class JsDocTask extends DefaultTask {
 	def isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
 	def sourceDir = ''
 	def destinationDir = ''
+	def conf = ''
+	def template = ''
 	@TaskAction
 	public void build(){
 		def docs = new File(destinationDir)
 		def exe = isWindows ? new File("${jsdocDir}/jsdoc.cmd") : new File("${jsdocDir}/jsdoc") 
 		if (exe.exists()){
+			if (conf != '') conf = "-c ${conf}"
+			if (template != '') template = "-t ${template}"
 			docs.mkdirs()
-			def cmd = "${exe} ${sourceDir} -d ${destinationDir} -r -c etc/jsdoc/conf.json --verbose"
+			def cmd = "${exe} ${sourceDir} -d ${destinationDir} -r ${conf} ${template} --verbose"
 			println cmd
 			def proc = cmd.execute()
 			proc.waitForProcessOutput(System.out, System.err)
