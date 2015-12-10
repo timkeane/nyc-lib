@@ -115,14 +115,20 @@ task jsDoc(type: JsDocTask) {
 	sourceDir = "src/main/js/nyc"
 	destinationDir = "build/${ver}/doc"
 	conf = 'etc/jsdoc/conf.json'
-	template = 'etc/jsdoc/templates/nyc'
 	doFirst {
-		def tmpl = file('etc/jsdoc/templates/nyc/tmpl/layout.tmpl')
-		tmpl.text = tmpl.text.replaceAll('@@NYC-LIB-VER@@', ver) 
+		file('build/jsdoc').mkdirs()
+		def url = '..'
+		if (project.hasProperty('env') && project.hasProperty("nyclib.host.${env}")){
+			def host = project.ext["nyclib.host.${env}"]
+			url = "${host}/${ver}"
+		}
+		def tmpl = file('build/jsdoc/layout.tmpl')
+		tmpl << file('etc/jsdoc/layout.tmpl').text
+		tmpl.text = tmpl.text.replaceAll('@@NYC-LIB-VER@@', ver)
+		tmpl.text = tmpl.text.replaceAll('@@NYC-LIB-URL@@', "${url}")
 	}
 	doLast {
-		def tmpl = file('etc/jsdoc/templates/nyc/tmpl/layout.tmpl')
-		tmpl.text = tmpl.text.replaceAll(ver, '@@NYC-LIB-VER@@') 
+		delete 'build/jsdoc'
 	}
 }
 

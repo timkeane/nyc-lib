@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: <?js= title ?></title>
+    <title>nyc-lib: <?js= title ?></title>
 
 	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="scripts/prettify/prettify.js"> </script>
@@ -12,7 +12,7 @@
     <![endif]-->
     <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
     <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
-    <link type="text/css" rel="stylesheet" href="styles/nyc.css">
+    <link type="text/css" rel="stylesheet" href="nyc/css/nyc.css">
 </head>
 
 <body>
@@ -22,9 +22,9 @@
     <h1 class="page-title"><?js= title ?><div id="maps-nyc-gov">maps.nyc.gov</div></h1>
 	<!-- begin content <?js= title ?> -->
 	<?js if (title == 'Home'){ ?>
-		<section class="nyc-lib-desc">
+		<section class="nyc-desc">
 			<header>
-				<h2>nyc-lib <span class="nyc-lib-smaller">(version @@NYC-LIB-VER@@)</span></h2>
+				<h2>nyc-lib <span class="nyc-smaller">(version @@NYC-LIB-VER@@)  <a class="nyc-github" href="https://github.com/timkeane/nyc-lib">Fork me</a></span></h2>
 				<div class="class-description">
 					A collection of javascript libraries used in the development New York City mapping applications.
 				</div>
@@ -45,22 +45,19 @@
 					    <a href="https://cartodb.com/">CartoDB</a> and <a href="http://www.chartjs.org/">ChartJS</a>.
 				    </p>
 				    <p>
-				    	<h4>nyc-ol-lib <span class="nyc-lib-smaller">(OpenLayers)</span></h4>
-				    	<input class="nyc-src-code" data-val='&lt;script src="https://@@HOST@@/@@NYC-LIB-VER@@/js/nyc-ol-lib.js"&gt;&lt;/script&gt;'><br>
-						<input class="nyc-src-code" data-val='&lt;link href="https://@@HOST@@/@@NYC-LIB-VER@@/css/nyc-ol-lib.css" rel="stylesheet"&gt;&lt;/link&gt;'>
-				    	<h4>nyc-ol-redline-lib <span class="nyc-lib-smaller">(OpenLayers)</span></h4>
-				    	<input class="nyc-src-code" data-val='&lt;script src="https://@@HOST@@/@@NYC-LIB-VER@@/js/nyc-ol-redline-lib.js"&gt;&lt;/script&gt;'><br>
-						<input class="nyc-src-code" data-val='&lt;link href="https://@@HOST@@/@@NYC-LIB-VER@@/css/nyc-ol-redline-lib.css" rel="stylesheet"&gt;&lt;/link&gt;'>
-				    	<h4>nyc-carto-lib <span class="nyc-lib-smaller">(CartoDB and ChartJS)</span></h4>
-				    	<input class="nyc-src-code" data-val='&lt;script src="https://@@HOST@@/@@NYC-LIB-VER@@/js/nyc-carto-lib.js"&gt;&lt;/script&gt;'><br>
-						<input class="nyc-src-code" data-val='&lt;link href="https://@@HOST@@/@@NYC-LIB-VER@@/css/nyc-carto-lib.css" rel="stylesheet"&gt;&lt;/link&gt;'>
-				    	<h4>nyc-leaf-lib <span class="nyc-lib-smaller">(Leaflet)</span></h4>
-				    	<input class="nyc-src-code" data-val='&lt;script src="https://@@HOST@@/@@NYC-LIB-VER@@/js/nyc-leaf-lib.js"&gt;&lt;/script&gt;'><br>
-						<input class="nyc-src-code" data-val='&lt;link href="https://@@HOST@@/@@NYC-LIB-VER@@/css/nyc-leaf-lib.css" rel="stylesheet"&gt;&lt;/link&gt;'>
+				    	<h4>nyc-ol-lib <span class="nyc-smaller">(OpenLayers)</span></h4>
+				    	<input class="nyc-src-code" value='&lt;script src="@@NYC-LIB-URL@@/js/nyc-ol-lib.js"&gt;&lt;/script&gt;'><br>
+						<input class="nyc-src-code" value='&lt;link href="@@NYC-LIB-URL@@/css/nyc-ol-lib.css" rel="stylesheet"&gt;&lt;/link&gt;'>
+				    	<h4>nyc-ol-redline-lib <span class="nyc-smaller">(OpenLayers)</span></h4>
+				    	<input class="nyc-src-code" value='&lt;script src="@@NYC-LIB-URL@@/js/nyc-ol-redline-lib.js"&gt;&lt;/script&gt;'><br>
+						<input class="nyc-src-code" value='&lt;link href="@@NYC-LIB-URL@@/css/nyc-ol-redline-lib.css" rel="stylesheet"&gt;&lt;/link&gt;'>
+				    	<h4>nyc-carto-lib <span class="nyc-smaller">(CartoDB and ChartJS)</span></h4>
+				    	<input class="nyc-src-code" value='&lt;script src="@@NYC-LIB-URL@@/js/nyc-carto-lib.js"&gt;&lt;/script&gt;'><br>
+						<input class="nyc-src-code" value='&lt;link href="@@NYC-LIB-URL@@/css/nyc-carto-lib.css" rel="stylesheet"&gt;&lt;/link&gt;'>
+				    	<h4>nyc-leaf-lib <span class="nyc-smaller">(Leaflet)</span></h4>
+				    	<input class="nyc-src-code" value='&lt;script src="@@NYC-LIB-URL@@/js/nyc-leaf-lib.js"&gt;&lt;/script&gt;'><br>
+						<input class="nyc-src-code" value='&lt;link href="@@NYC-LIB-URL@@/css/nyc-leaf-lib.css" rel="stylesheet"&gt;&lt;/link&gt;'>
 				    	<script>
-				    		$('.nyc-src-code').each(function(_, inp){
-				    			$(inp).val($(inp).data('val').replace(/@@HOST@@/, document.location.host));
-				    		});
 				    		$('.nyc-src-code').click(function(){
 				    			$(this).select();
 				    		});

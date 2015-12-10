@@ -1,9 +1,10 @@
 {
 	"templates": {
 		"default": {
+			"layoutFile": "./build/jsdoc/layout.tmpl",
 			"useLongnameInNav": true,
 			"staticFiles": {
-				"includePattern": "static/*", 
+				"includePattern": "nyc/*", 
 				"include": ["./etc/jsdoc"]
 			}
 		}
