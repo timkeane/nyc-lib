@@ -24,7 +24,14 @@ class MiniCssTask extends DefaultTask {
 			this.copySource(fileNames[i])
 		}		
 	}
-	private void copySource(String file){
+	void copySource(String file){
+		def dir = getDirectoryName("${destinationDir}/../src/css/${file}")
+		new File(dir).mkdirs()
 		ant.copy(file: "${sourceDir}/${file}", tofile: "${destinationDir}/../src/css/${file}")
 	}
+	String getDirectoryName(String fullPath){
+		String dir = fullPath.replaceAll('\\\\', '/')
+		int lastSlash = dir.lastIndexOf('/')
+		return dir.substring(0, lastSlash)
+	}	
 }

@@ -4,7 +4,6 @@ plugins {
     id 'base'
     id 'jetty'
     id 'org.hidetake.ssh' version '1.1.2'
-	id 'com.eriwen.gradle.css' version '1.11.1'
 }
 
 ext {
@@ -117,15 +116,14 @@ task jsDoc(type: JsDocTask) {
 	conf = 'etc/jsdoc/conf.json'
 	doFirst {
 		file('build/jsdoc').mkdirs()
-		def url = 'https://maps.nyc.gov'
+		def host = 'https://maps.nyc.gov'
 		if (project.hasProperty('env') && project.hasProperty("${env}.nyclib.host")){
-			def host = project.ext["${env}.nyclib.host"]
-			url = "${host}/${ver}"
+			host = project.ext["${env}.nyclib.host"]
 		}
 		def tmpl = file('build/jsdoc/layout.tmpl')
 		tmpl << file('etc/jsdoc/layout.tmpl').text
 		tmpl.text = tmpl.text.replaceAll('@@NYC-LIB-VER@@', ver)
-		tmpl.text = tmpl.text.replaceAll('@@NYC-LIB-URL@@', "${url}")
+		tmpl.text = tmpl.text.replaceAll('@@NYC-LIB-URL@@', "${host}/${ver}")
 	}
 	doLast {
 		delete 'build/jsdoc'
@@ -225,4 +223,39 @@ task deploy(dependsOn: [archive]) << {
             execute "rm -rf ${deployDir}.bak"
         }
     }
+}
+
+[jettyRun]*.with {
+    webXml = file("etc/jetty/webdefault.xml")
+}
+
+jettyRun {
+	webAppSourceDirectory file('./')
+	contextPath ''
+	httpPort 8088
+	stopPort 8090
+	stopKey 'stopKey'
+	reload 'automatic'
+	scanIntervalSeconds 2
+}
+jettyRun.doFirst { 
+	if (project.hasProperty('git.geoclient.url')){
+	    ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
+		ant.replace(file: 'src/test/js/setup-teardown.js', token: project.ext['git.geoclient.url'], value: project.ext['test.geoclient.url'])
+	}
+}
+
+jettyStop {
+	stopPort 8090
+	stopKey 'stopKey'
+}
+jettyStop.doFirst { 
+	if (project.hasProperty('git.geoclient.url')){
+	    ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
+		ant.replace(file: 'src/test/js/setup-teardown.js', token: project.ext['test.geoclient.url'], value: project.ext['git.geoclient.url'])
+	}
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion '2.9'
 }

@@ -1,8 +1,6 @@
 plugins {
     id 'base'
     id 'groovy'
-    id 'jetty'
-    id 'org.hidetake.ssh' version '1.1.2'
 }
 
 repositories {
@@ -13,35 +11,4 @@ dependencies {
     compile localGroovy()
     compile ('com.google.javascript:closure-compiler:v20150609')
     compile ('ant:ant:1.7.0')
-}
-
-[jettyRun]*.with {
-    webXml = file("etc/jetty/webdefault.xml")
-}
-
-jettyRun {
-	webAppSourceDirectory file('./')
-	contextPath ''
-	httpPort 8088
-	stopPort 8090
-	stopKey 'stopKey'
-	reload 'automatic'
-	scanIntervalSeconds 2
-}
-jettyRun.doFirst { 
-    ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
-	ant.replace(file: 'src/test/js/setup-teardown.js', token: project.ext['git.geoclient.url'], value: project.ext['test.geoclient.url'])
-}
-
-jettyStop {
-	stopPort 8090
-	stopKey 'stopKey'
-}
-jettyStop.doFirst { 
-    ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
-	ant.replace(file: 'src/test/js/setup-teardown.js', token: project.ext['test.geoclient.url'], value: project.ext['git.geoclient.url'])
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion '2.9'
 }

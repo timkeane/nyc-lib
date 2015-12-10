@@ -50,7 +50,6 @@ class JsMinifier {
     void copyToSrc(File inputFile, String destinationDir, String fileName){
     	String mappedSrc = "${destinationDir}/../src/js/${fileName}"
     	String dir = getDirectoryName(mappedSrc)
-    	println dir
     	new File(dir).mkdirs()
     	new File(mappedSrc) << inputFile.text
     }

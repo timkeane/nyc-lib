@@ -20,7 +20,6 @@ class JsDocTask extends DefaultTask {
 			if (template != '') template = "-t ${template}"
 			docs.mkdirs()
 			def cmd = "${exe} ${sourceDir} -d ${destinationDir} -r ${conf} ${template} --verbose"
-			println cmd
 			def proc = cmd.execute()
 			proc.waitForProcessOutput(System.out, System.err)
 		}else{
