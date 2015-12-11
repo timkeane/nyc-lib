@@ -295,7 +295,7 @@ nyc.ZoomSearch.EventType = {
  * @type {string}
  */
 nyc.ZoomSearch.BASIC_HTML = 
-	'<div id="ctl-z-srch">' +
+	'<div id="ctl-z-srch ol-unselectable">' +
 	'<div id="fld-srch-container" class="ctl">' +
 		'<ul id="fld-srch" class="ui-corner-all" data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search for an address..."></ul>' +
 	'</div>' +
@@ -317,7 +317,7 @@ nyc.ZoomSearch.BASIC_HTML =
  * @type {string}
  */
 nyc.ZoomSearch.SEARCH_TYPES_HTML = 
-	'<div id="ctl-z-srch" class="srch-types">' +
+	'<div id="ctl-z-srch" class="srch-types ol-unselectable">' +
 	'<div id="fld-srch-container" class="ctl">' +
 		'<ul id="fld-srch" class="ui-corner-all" data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search for an address..."></ul>' +
 		'<ul id="mnu-srch-typ" class="ctl ui-corner-all" data-role="listview">' + 

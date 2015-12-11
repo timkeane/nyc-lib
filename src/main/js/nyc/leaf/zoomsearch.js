@@ -40,8 +40,8 @@ nyc.leaf.ZoomSearch.prototype = {
 	 * @method
 	 * @param event The DOM event triggered by the zoom buttons
 	 */
-	zoom: function(e){
-		this.map.setZoom(this.map.getZoom() + ($(e.target).data('zoom-incr') * 1));
+	zoom: function(event){
+		this.map.setZoom(this.map.getZoom() + ($(event.target).data('zoom-incr') * 1));
 	}
 };
 
