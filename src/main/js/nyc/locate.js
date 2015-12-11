@@ -80,7 +80,7 @@ nyc.Locate.LocateResultType = {
 };
 
 /**
- * Object type to hold data about a successful result of a geocoder search or device geolocation
+ * @desc Object type to hold data about a successful result of a geocoder search or device geolocation
  * @public
  * @typedef {Object}
  * @property {string} name The formatted name of the geocoded location
@@ -94,7 +94,7 @@ nyc.Locate.LocateResultType = {
 nyc.Locate.LocateResult;
 
 /**
- * Object type to hold data about possible locations resulting from a geocoder search
+ * @desc Object type to hold data about possible locations resulting from a geocoder search
  * @public
  * @typedef {Object}
  * @property {string} input The input string on which the geocoding attempt was made

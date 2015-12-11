@@ -1,42 +1,63 @@
 var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 /** 
- * @export 
+ * @public 
  * @namespace
  */
 nyc.ol.geoserver = nyc.ol.geoserver || {};
 
 /**
- * @export
+ * @desc Buffer units to use when getting a feature at a map click
+ * @public
  * @enum {string}
  */
 nyc.ol.geoserver.BufferUnits = {
+	/** 
+	 * @desc Feet
+	 */
 	FEET: 'feet',
+	/** 
+	 * @desc Meters
+	 */
 	METERS: 'meters',
+	/** 
+	 * @desc Statute miles
+	 */
 	MILES: 'statute miles',
+	/** 
+	 * @desc Nautical miles
+	 */
 	NAUTICAL_MILES: 'nautical miles',
+	/** 
+	 * @desc Kilometers
+	 */
 	KILOMETERS: 'kilometers'
 };
 
 /**
- * @export
+ * @desc Object type to hold constructor options for {@link nyc.ol.geoserver.GetFeature}
+ * @public
  * @typedef {Object}
- * @property {ol.Map} map
- * @property {string} wfsUrl
- * @property {string} namespace
- * @property {string} typeName
- * @property {Array<string>=} propertyNames
- * @property {string} geomColumn
- * @property {number=} buffer
- * @property {nyc.ol.geoserver.BufferUnits=} units
- * @property {ol.style.Style=} style
+ * @property {ol.Map} map The OpenLayers map with which the user will interact
+ * @property {string} wfsUrl A GeoServer WFS URL (i.e. http://localhost/geoserver/wfs) 
+ * @property {string} namespace The namespace of the layer from which to retrieve features
+ * @property {string} typeName The type name of the layer from which to retrieve features
+ * @property {Array<string>=} propertyNames The property names of the layer to retrieve with the features
+ * @property {string} geomColumn The name of the layer's geometry column that will be queried
+ * @property {number=} buffer The buffer radius to use around the map click when querying the layer
+ * @property {nyc.ol.geoserver.BufferUnits=} units The units of the buffer
+ * @property {ol.style.Style=} style The style to use for features added to the map
  */
 nyc.ol.geoserver.GetFeatureOptions;
 
 /**
- * @export
+ * @desc A class to retrieve the feature of the specified layer at a map click and provide a WKT representation of its geometry 
+ * @public
  * @constructor
- * @extends {nyc.ol.GetFeatureOptions}
+ * @param {nyc.ol.geoserver.GetFeatureOptions} options Constructor options
+ * @fires nyc.ol.geoserver.GetFeature#addfeature
+ * @fires nyc.ol.geoserver.GetFeature#removefeature
+ * @see http://www.geoserver.org/
  */
 nyc.ol.geoserver.GetFeature = function(options){
 	this.map = options.map;
@@ -63,16 +84,6 @@ nyc.ol.geoserver.GetFeature = function(options){
 	this.url += '&outputFormat=text/javascript';
 	this.url += ('&format_options=callback:' + this.instance() + '.callback');
 	this.url += '&cql_filter=';
-};
-
-/**
- * @export
- * @enum {string}
- */
-nyc.ol.FeatureEventType = {
-	ADD: 'addfeature',
-	CHANGE: 'changefeature',
-	REMOVE: 'removefeature'
 };
 
 nyc.ol.geoserver.GetFeature.prototype = {
@@ -131,8 +142,11 @@ nyc.ol.geoserver.GetFeature.prototype = {
 			width: 5
 		})
 	}),
-	/** @export 
-	 * @return {Array<Object>}
+	/** 
+	 * @desc Get the features that have been captured
+	 * @public 
+	 * @method
+	 * @return {Array<nyc.ol.Feature>}
 	 */
 	getFeatures: function(){
 		var me = this, features = [];
@@ -141,30 +155,45 @@ nyc.ol.geoserver.GetFeature.prototype = {
 		});
 		return features;
 	},
-	/** @export */
+	/** 
+	 * @desc Remove all captured features
+	 * @public 
+	 * @method
+	 */
 	clear: function(){
 		this.source.clear();
 	},
 	/**
-	 * @export
-	 * @param {nyc.ol.Draw.Type} type
+	 * @desc Return the active state
+	 * @public
+	 * @return {boolean} The active state
 	 */
 	active: function(){
 		this.active;
 	},
-	/** @export */
+	/** 
+	 * @desc Activate to begin capturing map clicks
+	 * @public 
+	 * @method
+	 */
 	activate: function(){
 		this.active = true;
 		this.map.on('click', this.getFeature, this);
 	},
-	/** @export */
+	/** 
+	 * @desc Deactivate to stop capturing map clicks
+	 * @public 
+	 * @method
+	 */
 	deactivate: function(){
 		this.active = false;
 		this.map.un('click', this.getFeature, this);
 	},
 	/**
-	 * @export
-	 * @param {Object} data
+	 * @desc The callback that handles GeoServer WFS GetFeature responses
+	 * @public
+	 * @method
+	 * @param {Object} data The GeoServer WFS GetFeature response
 	 */
 	callback: function(response){
 		var data = {type: nyc.ol.FeatureEventType.ADD};
@@ -177,6 +206,7 @@ nyc.ol.geoserver.GetFeature.prototype = {
 	},
 	/**
 	 * @private
+	 * @method
 	 * @param {ol.MapBrowserEvent} event
 	 */
 	getFeature: function(event){
@@ -197,6 +227,7 @@ nyc.ol.geoserver.GetFeature.prototype = {
 	},
 	/**
 	 * @private
+	 * @method
 	 * @return {string}
 	 */
 	instance: function(){
@@ -209,7 +240,11 @@ nyc.ol.geoserver.GetFeature.prototype = {
 			}
 		}
 	},
-	/** @private */
+	/** 
+	 * @private 
+	 * @method
+	 * @param {ol.MapBrowserEvent} event
+	 */
 	removeFeature: function(event){
 		var me = this, map = me.map,
 			feature = map.forEachFeatureAtPixel(event.pixel, 
@@ -233,3 +268,15 @@ nyc.ol.geoserver.GetFeature.prototype = {
 };
 
 nyc.inherits(nyc.ol.geoserver.GetFeature, nyc.EventHandling);
+
+/**
+ * @desc The added feature
+ * @event nyc.ol.geoserver.GetFeature#addfeature
+ * @type {nyc.ol.FeatureEvent}
+ */
+
+/**
+ * @desc The removed feature
+ * @event nyc.ol.geoserver.GetFeature#removefeature
+ * @type {nyc.ol.FeatureEvent}
+ */

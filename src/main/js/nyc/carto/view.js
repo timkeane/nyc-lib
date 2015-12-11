@@ -59,7 +59,7 @@ nyc.carto.SymbolizerEventType = {
  */
 
 /**
- * @desc Object type to hold constructor options for nyc.carto.HeatSymbolizer
+ * @desc Object type to hold constructor options for {@link nyc.carto.HeatSymbolizer}
  * @public
  * @typedef {Object}
  * @property {L.Map} map The Leaflet map containing the heat map layer
@@ -116,7 +116,7 @@ nyc.inherits(nyc.carto.HeatSymbolizer, nyc.EventHandling);
  */
 
 /**
- * @desc Object type to hold constructor options for nyc.carto.JenksSymbolizer
+ * @desc Object type to hold constructor options for {@link nyc.carto.JenksSymbolizer}
  * @public
  * @typedef {Object}
  * @property {cartodb.SQL} cartoSql The object used to query CartoDB data 
@@ -240,7 +240,7 @@ nyc.carto.ViewEventType = {
  */
 
 /**
- * @desc Object type to hold constructor options for nyc.carto.View
+ * @desc Object type to hold constructor options {@link for nyc.carto.View}
  * @public
  * @typedef {Object}
  * @property {string} name A name for the view

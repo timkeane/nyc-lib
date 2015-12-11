@@ -2,6 +2,35 @@ var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 
 /**
+ * @desc The object returned by events fired by {@link nyc.ol.Draw} and {@link nyc.ol.geoserver.GetFeature}
+ * @public
+ * @typedef {Object}
+ * @property {ol.Feature} feature
+ * @property {string} wkt
+ */
+nyc.ol.Feature;
+
+/**
+ * @public
+ * @enum {string}
+ */
+nyc.ol.FeatureEventType = {
+	ADD: 'addfeature',
+	CHANGE: 'changefeature',
+	REMOVE: 'removefeature'
+};
+
+/**
+ * @desc Event object
+ * @public
+ * @typedef {Object}
+ * @property {nyc.ol.Feature} feature The event data
+ * @property {nyc.ol.FeatureEventType} type The event type
+ */
+nyc.ol.FeatureEvent;
+
+
+/**
  * @export
  * @typedef {Object}
  * @property {ol.Map} map

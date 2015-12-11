@@ -59,6 +59,7 @@ nyc.leaf.Locate.prototype = {
 	/**
 	 * @desc Locate once using device geolocation
 	 * @public
+	 * @override
 	 * @method
 	 */
 	locate: function(){
@@ -75,6 +76,7 @@ nyc.leaf.Locate.prototype = {
 	/**
 	 * @desc Geocode an input string and trigger an event of nyc.Locate.LocateEventType with nyc.Locate.LocateResult or nyc.LocateAmbiguoud data
 	 * @public
+	 * @override
 	 * @method
 	 * @param {string} input An input string describing a location to geocode
 	 */

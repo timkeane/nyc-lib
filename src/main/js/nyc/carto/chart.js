@@ -9,7 +9,7 @@ nyc.carto = nyc.carto || {};
 /** @external cartodb.SQL */
 
 /**
- * @desc Object type to hold constructor options for nyc.carto.Chart
+ * @desc Object type to hold constructor options for {@link nyc.carto.Chart}
  * @public
  * @typedef {Object}
  * @property {JQuery|Element|string} canvas The canvas element for chart rendering

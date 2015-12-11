@@ -38,6 +38,7 @@ nyc.ol.control.ZoomSearch.prototype = {
 	/**
 	 * @desc A method to return the map container  HTML element wrapped in a JQuery
 	 * @public
+	 * @override
 	 * @method
 	 * @return {JQuery} The the map container HTML element wrapped in a JQuery
 	 */
@@ -47,7 +48,7 @@ nyc.ol.control.ZoomSearch.prototype = {
 	/**
 	 * @desc Handle the zoom event triggered by user interaction
 	 * @public
-	 * @abstract
+	 * @override
 	 * @method
 	 * @param event The DOM event triggered by the zoom buttons
 	 */

@@ -1,45 +1,65 @@
 var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 /** 
- * @export 
+ * @public 
  * @namespace
  */
 nyc.ol.source = nyc.ol.source || {};
 
 /**
- * @typedef {olx.source.TileImageOptions}
- * @property {string} imageExtension
- * @property {(string|undefined)} url
- * @property {(Array<string>|undefined)} urls
+ * @desc Object type to hold constructor options for {@link nyc.ol.source.AcrGisCache}
+ * @typedef {Object} 
+ * @property {string} imageExtension The image extension for tiles
+ * @property {(string|undefined)} url The base URL for tiles
+ * @property {(Array<string>|undefined)} urls An array of base URLs for tiles
+ * @see http://www.openlayers.org/
  */
 nyc.ol.source.AcrGisCacheOptions;
 
 /**
- * Class for sources providing tiles from an ArcGIS Server tile cache.
- * @export
+ * @desc Class for source that provides tiles from an ArcGIS Server tile cache
+ * @public
  * @constructor
  * @extends {ol.source.TileImage}
- * @param {nyc.ol.source.AcrGisCacheOptions} options ArcGIS Server tile cache options.
+ * @param {nyc.ol.source.AcrGisCacheOptions} options Constructor options
  */
 nyc.ol.source.AcrGisCache = function(options){
 
 	ol.source.TileImage.call(this, options);
 	
-	/** @private */
+	/** 
+	 * @private 
+	 * @member
+	 * @type {string} 
+	 */
 	this.imageExtension = options.imageExtension;
-	/** @private */
+	/** 
+	 * @private 
+	 * @member
+	 * @type {string} 
+	 */
 	this.url = options.url ? options.url : null;
-	/** @private */
+	/** 
+	 * @private 
+	 * @member
+	 * @type {Array<string>} 
+	 */
 	this.urls = options.urls ? options.urls : [];	
-	/** @private */
+	/** 
+	 * @private 
+	 * @member
+	 * @type {number} 
+	 */
 	this.urlIdx = 0;
 	
 	/**
 	 * @private
+	 * @override
+	 * @method
 	 * @param {ol.Coordinate} tileCoord
 	 * @param {number} pixelRatio
 	 * @param {ol.proj.Projection} projection
-	 * @return {string} url
+	 * @return {string}
 	 */
 	this.defaultTileUrlFunction = function(tileCoord, pixelRatio, projection) {	
 		var z = 'L' + this.pad(tileCoord[0].toString(), 2),
@@ -50,10 +70,11 @@ nyc.ol.source.AcrGisCache = function(options){
 	
 	/**
 	 * @private
+	 * @method
 	 * @param {string} num
 	 * @param {number} len
 	 * @param {number} radix
-	 * @return {string} padded
+	 * @return {string}
 	 */
 	this.pad = function(num, len) {
 		var str = Number(num).toString(16);
@@ -65,7 +86,8 @@ nyc.ol.source.AcrGisCache = function(options){
 	
 	/**
 	 * @private
-	 * @return {string} url
+	 * @method
+	 * @return {string}
 	 */
 	this.nextUrl = function(){
 		if (this.urls.length){

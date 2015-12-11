@@ -2,12 +2,12 @@ var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 
 /**
- * An object to display popups on a map
+ * @desc An object to display popups on a map
  * @export
  * @constructor
  * @param {ol.Map} map
- * @param {olx.OverlayOptions} options Overlay options.
- *
+ * @param {Object} options Overlay options
+ * @see http://www.openlayers.org/
  */
 nyc.ol.Popup = function(map, options){
 	var me = this;
@@ -33,7 +33,7 @@ ol.inherits(nyc.ol.Popup, ol.Overlay);
 /**
  * Show popup
  * @export
- * @param {olx.OverlayOptions} options Overlay options.
+ * @param {Object} options Overlay options
  */
 nyc.ol.Popup.prototype.show = function(options){
 	this.setOptions(options);
@@ -61,7 +61,7 @@ nyc.ol.Popup.prototype.isMobile = function(){
 /**
  * set popup options
  * @export
- * @param {olx.OverlayOptions} options Overlay options.
+ * @param {Oject} options Overlay options
  */
 nyc.ol.Popup.prototype.setOptions = function(options){
 	if (options){

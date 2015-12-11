@@ -15,8 +15,9 @@ nyc.ol.source.Filter;
  * @export
  * @constructor
  * @extends {nyc.ol.source.Decorating}
- * @param {olx.source.GeoJSONOptions} options Options.
+ * @param {Object} options Options.
  * @param {Array<Object>}  decorationMixins An array of objects whose members will be added to all features created by this source
+ * @see http://www.openlayers.org/
  */
 nyc.ol.source.FilteringAndSorting = function(options, decorationMixins){
 	var me = this;
