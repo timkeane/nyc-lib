@@ -8,7 +8,7 @@ var nyc = nyc || {};
 nyc.Geocoder = function(){};
 
 /**
- * Enum for Geoclient accuracy
+ * Enumeration for Geoclient accuracy
  * @export
  * @enum {num}
  */

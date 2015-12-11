@@ -247,7 +247,7 @@ nyc.ZoomSearch.prototype = {
 nyc.inherits(nyc.ZoomSearch, nyc.EventHandling);
 
 /**
- * Enum for control action event type
+ * Enumeration for control action event type
  * @export
  * @enum {string}
  */

@@ -188,7 +188,7 @@ nyc.Directions = (function(){
 nyc.inherits(nyc.Directions, nyc.EventHandling);
 
 /**
- * Enum for directions event type
+ * Enumeration for directions event type
  * @export
  * @enum {string}
  */

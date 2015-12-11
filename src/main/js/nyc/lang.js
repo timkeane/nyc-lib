@@ -203,7 +203,7 @@ nyc.Lang = (function(){
 nyc.inherits(nyc.Lang, nyc.EventHandling);
 
 /**
- * Enum for nyc.Lang event types
+ * Enumeration for nyc.Lang event types
  * @export
  * @enum {string}
  */

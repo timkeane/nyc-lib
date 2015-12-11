@@ -124,7 +124,7 @@ nyc.BinLegend.prototype = {
 nyc.inherits(nyc.BinLegend, nyc.Legend);
 
 /**
- * Enum for legend symbol type
+ * Enumeration for legend symbol type
  * @export
  * @enum {string}
  */
@@ -136,7 +136,7 @@ nyc.BinLegend.SymbolType = {
 };
 
 /**
- * Enum for legend bin type
+ * Enumeration for legend bin type
  * @export
  * @enum {string}
  */

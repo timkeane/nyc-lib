@@ -66,7 +66,7 @@ nyc.ol.source.Decorating.prototype.isXhrFeaturesLoaded = function(){
 };
 
 /**
- * Enum for feature loading event type
+ * Enumeration for feature loading event type
  * @export
  * @enum {string}
  */

@@ -1,54 +1,87 @@
 var nyc = nyc || {};
 
 /**
- * An interface for geocoding and geolocating
+ * @desc An interface for geocoding and geolocating
  * @export
+ * @public
  * @interface
  */
 nyc.Locate = function(){};
 
 nyc.Locate.prototype = {
 	/**
-	 * Locate once using device geolocation
+	 * @desc Locate once using device geolocation
 	 * @export
+	 * @public
+	 * @abstract
 	 * @method
 	 */
-	locate: function(){},
+	locate: function(){
+		throw 'Not implemented';
+	},
 	/**
-	 * Track using device geolocation
+	 * @desc Track using device geolocation
 	 * @export
+	 * @public
+	 * @abstract
 	 * @method
-	 * @param {boolean} track
+	 * @param {boolean} track Track or not
 	 */
-	track: function(track){},
+	track: function(track){
+		throw 'Not implemented';		
+	},
 	/**
-	 * Geocode an input string and trigger an event of nyc.Locate.LocateEventType with nyc.Locate.LocateResult or nyc.LocateAmbiguoud data
+	 * @desc Geocode an input string and trigger an event of nyc.Locate.LocateEventType with nyc.Locate.LocateResult or nyc.LocateAmbiguoud data
 	 * @export
+	 * @public
+	 * @abstract
 	 * @method
-	 * @param {string} input
+	 * @param {string} input An input string describing a location to geocode
 	 */
-	search: function(input){}
+	search: function(input){
+		throw 'Not implemented';		
+	}
 };
 
 /**
- * Enum for locate event type
+ * @desc Enumeration for locate event type
  * @export
+ * @public
  * @enum {string}
  */
 nyc.Locate.LocateEventType = {
+	/**
+	 * @desc The geocode event type
+	 */
 	GEOCODE: 'geocode',
+	/**
+	 * @desc The geolocation event type
+	 */
 	GEOLOCATION: 'geolocation',
+	/**
+	 * @desc The ambiguous event type
+	 */
 	AMBIGUOUS: 'ambiguous',
-	ERROR: 'error'
+	/**
+	 * @desc The ambiguous event type
+	 */
+	ERROR: 'ambiguous'
 };
 
 /**
- * Enum for locate result type
+ * @desc Enumeration for locate result type
  * @export
+ * @public
  * @enum {string}
  */
 nyc.Locate.LocateResultType = {
+	/**
+	 * @desc The geocode result type
+	 */
 	GEOCODE: 'geocode',
+	/**
+	 * @desc The geolocation result type
+	 */
 	GEOLOCATION: 'geolocation'
 };
 
@@ -56,13 +89,13 @@ nyc.Locate.LocateResultType = {
  * Object type to hold data about a successful result of a geocoder search or device geolocation
  * @export
  * @typedef {Object}
- * @property {string} name
- * @property {(Array<number>|undefined)} coordinates
- * @property {(Object|undefined)} geoJsonGeometry
- * @property {number} accuracy
- * @property {nyc.Locate.LocateResultType} type
- * @property {(boolean|undefined)} zip
- * @property {(Object|undefined)} data
+ * @property {string} name The formatted name of the geocoded location
+ * @property {(Array<number>|undefined)} coordinates The geocoded location coordinates
+ * @property {(Object|undefined)} geoJsonGeometry A geoJSON representation of the geocoded location coordinates
+ * @property {number} accuracy The accuracy of the geocoded location in meters of units of a specified projection
+ * @property {nyc.Locate.LocateResultType} type They type of result
+ * @property {(boolean|undefined)} zip Is this the geocoded location a ZIP Code center point
+ * @property {(Object|undefined)} data Additional properties provided by the geocoder
  */
 nyc.Locate.LocateResult;
 
@@ -70,7 +103,31 @@ nyc.Locate.LocateResult;
  * Object type to hold data about possible locations resulting from a geocoder search
  * @export
  * @typedef {Object}
- * @property {string} input
- * @property {Array<nyc.Locate.LocateResult>} possible
+ * @property {string} input The input string on which the geocoding attempt was made
+ * @property {Array<nyc.Locate.LocateResult>} possible An array of possible results to the request
  */
 nyc.Locate.LocateAmbiguous;
+
+/**
+ * @desc The result of a search request
+ * @event nyc.Locate#geocode
+ * @type {nyc.Locate.LocateResultType}
+ */
+
+/**
+ * @desc The result of a locate request
+ * @event nyc.Locate#geolocation
+ * @type {nyc.Locate.LocateResultType}
+ */
+
+/**
+ * @desc The result of an inconclusive search request
+ * @event nyc.Locate#ambiguous
+ * @type {nyc.Locate.LocateAmbiguous}
+ */
+
+/**
+ * @desc The error object from a locate request error
+ * @event nyc.Locate#error
+ * @type {Object}
+ */

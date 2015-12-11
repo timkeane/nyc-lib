@@ -2,15 +2,20 @@ var nyc = nyc || {};
 nyc.leaf = nyc.leaf || {};
 
 /**
- * @export
- * @class
  * @desc Class for providing geocoding and device geolocation functionality
+ * @export
+ * @public
+ * @class
  * @constructor
  * @implements {nyc.Locate}
  * @extends {nyc.EventHandling}
- * @param {L.Map} map
- * @param {nyc.Geocoder} controls
- * @param {L.LatLngBounds} extentLimit
+ * @param {L.Map} map The Leaflet map for use in geolocation 
+ * @param {nyc.Geocoder} geocoder A geocoder implementation
+ * @param {L.LatLngBounds=} extentLimit Geolocation coordinates outside of this bounding box are ignored  
+ * @fires nyc.Locate#geocode
+ * @fires nyc.Locate#ambiguous
+ * @fires nyc.Locate#geolocation
+ * @fires nyc.Locate#error
  */
 nyc.leaf.Locate = function(map, geocoder, extentLimit){	
 	var me = this;	
@@ -53,7 +58,7 @@ nyc.leaf.Locate.prototype = {
 	 */
 	isGeolocateAllowed: true,
 	/**
-	 * Locate once using device geolocation
+	 * @desc Locate once using device geolocation
 	 * @export
 	 * @method
 	 */
