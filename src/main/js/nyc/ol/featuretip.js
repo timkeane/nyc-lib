@@ -1,6 +1,4 @@
-/** @export */
-window.nyc = window.nyc || {};
-/** @export */
+var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 
 /**
@@ -20,7 +18,7 @@ nyc.ol.FeatureLabelFunction;
 /**
  * Object literal with config options for tooltips 
  * @typedef {Object}
- * @property {ol.source.Vector|ol.FeatureOverlay} source
+ * @property {ol.source.Vector} source
  * @property {nyc.ol.FeatureLabelFunction} labelFunction
  */
 nyc.ol.FeatureTipDef;
@@ -30,7 +28,7 @@ nyc.ol.FeatureTipDef;
  * @export
  * @constructor
  * @param {ol.Map} map
- * @param {Array.<nyc.ol.FeatureTipDef>=} tipDefs
+ * @param {Array<nyc.ol.FeatureTipDef>=} tipDefs
  */
 nyc.ol.FeatureTip = function(map, tipDefs){
 	this.map = map;
@@ -97,7 +95,7 @@ nyc.ol.FeatureTip.prototype = {
 /**
  * Adds tip definitions
  * @export
- * @param {Array.<nyc.ol.FeatureTipDef>} tipDefs
+ * @param {Array<nyc.ol.FeatureTipDef>} tipDefs
  */
 nyc.ol.FeatureTip.prototype.addtipDefs = function(tipDefs){
 	$.each(tipDefs, function(_, def){

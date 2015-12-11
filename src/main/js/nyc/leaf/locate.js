@@ -1,12 +1,4 @@
-/** 
- * @export 
- * @namespace
- */
-window.nyc = window.nyc || {};
-/** 
- * @export 
- * @namespace
- */
+var nyc = nyc || {};
 nyc.leaf = nyc.leaf || {};
 
 /**

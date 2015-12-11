@@ -1,8 +1,9 @@
-/** @export */
-window.nyc = window.nyc || {};
-/** @export */
+var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
-/** @export */
+/** 
+ * @export 
+ * @namespace
+ */
 nyc.ol.control = nyc.ol.control || {};
 
 /**
@@ -76,7 +77,7 @@ nyc.ol.control.ZoomSearch.prototype = {
 	/**
 	 * Displays possible address matches 
 	 * @export
-	 * @param {Array.<nyc.Locate.LocateResult>} possibleResults
+	 * @param {Array<nyc.Locate.LocateResult>} possibleResults
 	 */
 	disambiguate: function(possibleResults){
 		var me = this;

@@ -1,6 +1,4 @@
-/** @export */
-window.nyc = window.nyc || {};
-/** @export */
+var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 
 /**
@@ -469,7 +467,7 @@ nyc.ol.Drag.prototype.handleDragEvent = function(evt){
 	var deltaX = evt.coordinate[0] - this.coords[0];
 	var deltaY = evt.coordinate[1] - this.coords[1];
 	
-	var geometry = /** @type {ol.geom.SimpleGeometry} */ (this.feature.getGeometry());
+	var geometry = this.feature.getGeometry();
 	geometry.translate(deltaX, deltaY);
 	
 	this.coords[0] = evt.coordinate[0];

@@ -1,5 +1,4 @@
-/** @export */
-window.nyc = window.nyc || {};
+var nyc = nyc || {};
 
 /** @export */
 nyc.Directions = (function(){

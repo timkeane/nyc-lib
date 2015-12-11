@@ -1,16 +1,33 @@
-/** 
- * @export 
- * @namespace
- */
-window.nyc = window.nyc || {};
+var nyc = nyc || {};
 
 /**
+ * @desc Date range object
+ * @export
+ * @typedef {Object}
+ * @property {Date} start The start of the range
+ * @property {Date} end The end of the range
+ */
+nyc.DateRange;
+
+/**
+ * @desc Constructor options for nyc.MonthRangePicker
+ * @export
+ * @typedef {Object}
+ * @property {number} minMonth The zero-based index of the minimum month
+ * @property {number} minYear The 4 digit minimum year
+ * @property {number} maxMonth The zero-based index of the maximum month
+ * @property {number} maxYear The 4 digit maximum year
+ * @property {String|Element|JQuery} target The DOM target
+ */
+nyc.MonthRangePickerOptions;
+
+/**
+ * @classdesc A UI class to pick a month range
  * @export
  * @class
- * @classdesc A UI class to pick a month range
  * @constructor
  * @extends {nyc.Collapsible}
- * @param {Object} options
+ * @param {nyc.MonthRangePickerOptions} options
  */
 nyc.MonthRangePicker = function(options){
 	var labelMin = $('<label>The beginning of</label>'), 
@@ -51,7 +68,7 @@ nyc.MonthRangePicker = function(options){
 nyc.MonthRangePicker.prototype = {
 	/** 
 	 * @private 
-	 * @member {Object}
+	 * @member {Date}
 	 */
 	value: null,
 	/** 
@@ -62,7 +79,7 @@ nyc.MonthRangePicker.prototype = {
 	/** 
 	 * @private
 	 * @method
-	 * @param {Object} options
+	 * @param {nyc.MonthRangePickerOptions} options
 	 */
 	populate: function(options){
 		for (var year = options.minYear; year <= options.maxYear; year++){
@@ -85,7 +102,7 @@ nyc.MonthRangePicker.prototype = {
 	 * @private
 	 * @method
 	 * @param {JQuery} parent
-	 * @param {Object} date
+	 * @param {Date} date
 	 */
 	appendOpt: function(parent, date){
 		var opt = $('<option></option>');
@@ -98,7 +115,7 @@ nyc.MonthRangePicker.prototype = {
 	 * @method
 	 * @param {number} month
 	 * @param {number} year
-	 * @return {Object}
+	 * @return {Date}
 	 */
 	firstOfMonth: function(month, year){
 		return this.localeDate(year + '-' + this.pad(month + 1) + '-01');		
@@ -108,7 +125,7 @@ nyc.MonthRangePicker.prototype = {
 	 * @method
 	 * @param {number} month
 	 * @param {number} year
-	 * @return {Object}
+	 * @return {Date}
 	 */
 	lastOfMonth: function(month, year){
 		var date = new Date(year, month + 1, 0).getDate();  
@@ -118,7 +135,7 @@ nyc.MonthRangePicker.prototype = {
 	 * @private
 	 * @method
 	 * @param {string} dateString
-	 * @return {Object}
+	 * @return {Date}
 	 */
 	localeDate: function(dateString){
 		var utcDate = dateString ? new Date(dateString) : new Date();
@@ -166,10 +183,10 @@ nyc.MonthRangePicker.prototype = {
 		this.trigger('change', this.value);
 	},
 	/** 
-	 * Returns the date range value
+	 * @desc Returns the date range value
 	 * @export
 	 * @method	
-	 * @return {Object}
+	 * @return {nyc.DateRange}
 	 */
 	val: function(){
 		return this.value;

@@ -1,8 +1,4 @@
-/** 
- * @export 
- * @namespace
- */
-window.nyc = window.nyc || {};
+var nyc = nyc || {};
 
 /**
  * @export

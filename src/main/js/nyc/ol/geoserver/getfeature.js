@@ -1,8 +1,9 @@
-/** @export */
-window.nyc = window.nyc || {};
-/** @export */
+var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
-/** @export */
+/** 
+ * @export 
+ * @namespace
+ */
 nyc.ol.geoserver = nyc.ol.geoserver || {};
 
 /**

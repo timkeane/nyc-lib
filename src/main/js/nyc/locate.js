@@ -1,8 +1,4 @@
-/** 
- * @export 
- * @namespace
- */
-window.nyc = window.nyc || {};
+var nyc = nyc || {};
 
 /**
  * An interface for geocoding and geolocating
@@ -75,6 +71,6 @@ nyc.Locate.LocateResult;
  * @export
  * @typedef {Object}
  * @property {string} input
- * @property {Array.<nyc.Locate.LocateResult>} possible
+ * @property {Array<nyc.Locate.LocateResult>} possible
  */
 nyc.Locate.LocateAmbiguous;

@@ -1,8 +1,5 @@
-/** @export */
-window.nyc = window.nyc || {};
-/** @export */
+var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
-/** @export */
 nyc.ol.source = nyc.ol.source || {};
 
 /**
@@ -11,7 +8,7 @@ nyc.ol.source = nyc.ol.source || {};
  * @constructor
  * @extends {ol.source.Vector}
  * @param {olx.source.VectorOptions=} options Vector source options.
- * @param {Array.<Object>}  decorationMixins An array of objects whose members will be added to all features created by this source
+ * @param {Array<Object>}  decorationMixins An array of objects whose members will be added to all features created by this source
  */
 nyc.ol.source.Decorating = function(options, decorationMixins){
 	options = options || {};

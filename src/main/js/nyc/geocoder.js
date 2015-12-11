@@ -1,8 +1,4 @@
-/** 
- * @export 
- * @namespace
- */
-window.nyc = window.nyc || {};
+var nyc = nyc || {};
 
 /**
  * A geocoder
@@ -85,7 +81,7 @@ nyc.Geoclient.prototype = {
 	},
 	/**
 	 * @private
-	 * @param {Array.<nyc.Locate.LocateAmbiguous>} response
+	 * @param {Array<nyc.Locate.LocateAmbiguous>} response
 	 */
 	possible: function(results){
 		var me = this, possible = [];

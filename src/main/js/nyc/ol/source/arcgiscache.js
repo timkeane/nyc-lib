@@ -1,15 +1,16 @@
-/** @export */
-window.nyc = window.nyc || {};
-/** @export */
+var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
-/** @export */
+/** 
+ * @export 
+ * @namespace
+ */
 nyc.ol.source = nyc.ol.source || {};
 
 /**
  * @typedef {olx.source.TileImageOptions}
  * @property {string} imageExtension
  * @property {(string|undefined)} url
- * @property {(Array.<string>|undefined)} urls
+ * @property {(Array<string>|undefined)} urls
  */
 nyc.ol.source.AcrGisCacheOptions;
 

@@ -1,13 +1,14 @@
-/** 
- * @export 
- * @namespace
- */
-window.nyc = window.nyc || {};
+var nyc = nyc || {};
 /** 
  * @export 
  * @namespace
  */
 nyc.leaf = nyc.leaf || {};
+
+/** @external L.LatLng */
+/** @external L.LatLngBounds */
+/** @external L.Map */
+/** @external L.Layer */
 
 /**
  * @export 

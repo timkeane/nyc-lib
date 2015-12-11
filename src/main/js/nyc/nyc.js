@@ -2,7 +2,12 @@
  * @export 
  * @namespace
  */
-window.nyc = window.nyc || {};
+var nyc = nyc || {};
+
+/** 
+ * @external JQuery 
+ * @see http://api.jquery.com/
+ */
 
 proj4.defs(
 	'EPSG:2263',
@@ -10,20 +15,45 @@ proj4.defs(
 );
 
 /**
- * @class
- * @classdesc Abstract class to provide string replacement functionality
+ * @desc Provide inheritance functionality
  * @export
+ * @public
+ * @static
+ * @function
+ * @param {Function} childCtor The child constructor
+ * @param {Function} parentCtor The parent constructor
+ */
+nyc.inherits = function(childCtor, parentCtor){
+	for (var member in parentCtor.prototype){
+		if (!(member in childCtor.prototype)){
+			childCtor.prototype[member] = parentCtor.prototype[member];
+		}
+	}
+};
+
+/**
+ * @classdesc Class to provide string replacement functionality
+ * @export
+ * @public
+ * @class
  * @constructor
  */
 nyc.ReplaceTokens = function(){};
 
 nyc.ReplaceTokens.prototype = {
 	/**
+	 * @desc Replace tokens in a string with values from a provided object
 	 * @export
+	 * @public
 	 * @method
-	 * @param {string} str
-	 * @param {Object.<string, string>} values
-	 * @return {string}
+	 * @param {string} str String with tokens to be replaced 
+	 * @param {Object.<string, string>} values Values token for replacement
+	 * @return {string} String with replacement value substitution
+	 * 
+	 * @example
+	 * //returns 'The quick brown fox jumped...'
+	 * var repl = new nyc.ReplaceTokens();
+	 * repl.replace('The quick ${color} ${animal} jumps...', {color: 'brown', animal: 'fox'});
 	 */
 	replace: function(str, values){
 		for (var name in values){
@@ -34,52 +64,46 @@ nyc.ReplaceTokens.prototype = {
 };
 
 /**
- * @class
- * @classdesc Abstract class to provide event handling functionality
+ * @classdesc Class to provide event handling functionality
  * @export
+ * @public
+ * @class
  * @constructor
  */
 nyc.EventHandling = function(){};
 
 nyc.EventHandling.prototype = {
 	/**
+	 * @desc Connect a function to an event
 	 * @export
+	 * @public
 	 * @method
-	 * @param {string} eventName
-	 * @param {function(Object)} evtHdlr
-	 * @param {Object=} hdlrScope
+	 * @param {string} eventName The name of the event to which the handler will be connected
+	 * @param {function(Object)} evtHdlr The event handler function
+	 * @param {Object=} hdlrScope The scope in which to invoke the event handler
 	 */
     on: function(eventName, evtHdlr, hdlrScope){
         this.addHdlr(eventName, evtHdlr, hdlrScope);
     },
 	/**
+	 * @desc Connect a function to an event for a single invocation
 	 * @export
+	 * @public
 	 * @method
-	 * @param {string} eventName
-	 * @param {function(Object)} evtHdlr
-	 * @param {Object=} hdlrScope
+	 * @param {string} eventName The name of the event to which the handler will be connected
+	 * @param {function(Object)} evtHdlr The event handler function
+	 * @param {Object=} hdlrScope The scope in which to invoke the event handler
 	 */
     one: function(eventName, evtHdlr, hdlrScope){
         this.addHdlr(eventName, evtHdlr, hdlrScope, true);
     },
 	/**
-	 * @private
-	 * @method
-	 * @param {string} eventName
-	 * @param {function(Object)} evtHdlr
-	 * @param {Object} hdlrScope
-	 * @param {boolean} one
-	 */
-    addHdlr: function(eventName, evtHdlr, hdlrScope, one){
-        this.evtHdlrs = this.evtHdlrs || {};
-        this.evtHdlrs[eventName] = this.evtHdlrs[eventName] || [];
-        this.evtHdlrs[eventName].push({handler: evtHdlr, scope: hdlrScope, remove: one});		    	
-    },
-	/**
+	 * @desc Trigger a named event with event data
 	 * @export
+	 * @public
 	 * @method
-	 * @param {string} eventName
-	 * @param {Object=} data
+	 * @param {string} eventName The name of the event to trigger
+	 * @param {Object=} data The event data
 	 */
     trigger: function(eventName, data){
         this.evtHdlrs = this.evtHdlrs || {};
@@ -101,11 +125,13 @@ nyc.EventHandling.prototype = {
         }
     },
 	/**
+	 * @desc Remove a previously connected event handler
 	 * @export
+	 * @public
 	 * @method
-	 * @param {string} eventName
-	 * @param {function(Object)} evtHdlr
-	 * @param {Object=} hdlrScope
+	 * @param {string} eventName The name of the event to which the handler will be connected
+	 * @param {function(Object)} evtHdlr The event handler function
+	 * @param {Object=} hdlrScope The scope in which to invoke the event handler
 	 */
     off: function(eventName, evtHdlr, hdlrScope){
         this.evtHdlrs = this.evtHdlrs || {};
@@ -116,20 +142,18 @@ nyc.EventHandling.prototype = {
     			return false;
     		}
     	});
+    },
+	/**
+	 * @private
+	 * @method
+	 * @param {string} eventName
+	 * @param {function(Object)} evtHdlr
+	 * @param {Object} hdlrScope
+	 * @param {boolean} one
+	 */
+    addHdlr: function(eventName, evtHdlr, hdlrScope, one){
+        this.evtHdlrs = this.evtHdlrs || {};
+        this.evtHdlrs[eventName] = this.evtHdlrs[eventName] || [];
+        this.evtHdlrs[eventName].push({handler: evtHdlr, scope: hdlrScope, remove: one});		    	
     }
-};
-
-/**
- * @export
- * @static
- * @function
- * @param {Object} childCtor
- * @param {Object} parentCtor
- */
-nyc.inherits = function(childCtor, parentCtor){
-	for (var member in parentCtor.prototype){
-		if (!(member in childCtor.prototype)){
-			childCtor.prototype[member] = parentCtor.prototype[member];
-		}
-	}
 };

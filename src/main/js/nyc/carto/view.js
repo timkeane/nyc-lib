@@ -1,13 +1,8 @@
-/** 
- * @export 
- * @namespace
- */
-window.nyc = window.nyc || {};
-/** 
- * @export 
- * @namespace
- */
+var nyc = nyc || {};
 nyc.carto = nyc.carto || {};
+
+/** @external cartodb.Layer */
+/** @external cartodb.SQL */
 
 /**
  * @export
@@ -50,7 +45,7 @@ nyc.inherits(nyc.carto.SqlTemplate, nyc.ReplaceTokens);
  * @export
  * @typedef {Object}
  * @property {L.Map} map
- * @property {L.Layer} layer
+ * @property {carto.Layer} layer
  * @property {string} css
  */
 nyc.carto.HeatSymbolizer;

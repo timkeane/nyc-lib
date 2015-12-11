@@ -1,7 +1,4 @@
-/* portions of nyc.ol.ol.Popup modified from MIT (c) Matt Walker */
-/** @export */
-window.nyc = window.nyc || {};
-/** @export */
+var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 
 /**

@@ -1,8 +1,9 @@
-/** @export */
-window.nyc = window.nyc || {};
-/** @export */
+var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
-/** @export */
+/** 
+ * @export 
+ * @namespace
+ */
 nyc.ol.layer = nyc.ol.layer || {};
 
 /**
@@ -19,7 +20,7 @@ ol.inherits(nyc.ol.layer.BaseLayer, ol.layer.Tile);
 
 /**
  * @const
- * @type {Array.<number>}
+ * @type {Array<number>}
  */
 nyc.ol.layer.BaseLayer.RESOLUTIONS = [434.027777777778, 303.819444444444, 222.222222222222, 111.111111111111, 55.5555555555556, 27.7777777777778, 13.8888888888889, 6.94444444444444, 3.47222222222222, 1.73611111111111, 0.868055555555556];
 
@@ -45,14 +46,14 @@ nyc.ol.layer.BaseLayer.TILE_SIZE = 512;
 /**
  * @export
  * @const
- * @type {Array.<string>}
+ * @type {Array<string>}
  */
 nyc.ol.layer.BaseLayer.BASIC_URLS = ['//maps.nyc.gov/gis/data/tiles/basic/', '//maps1.nyc.gov/gis/data/tiles/basic/', '//maps2.nyc.gov/gis/data/tiles/basic/', '//maps3.nyc.gov/gis/data/tiles/basic/'];
 
 /**
  * @export
  * @const
- * @type {Array.<string>}
+ * @type {Array<string>}
  */
 nyc.ol.layer.BaseLayer.ORTHO_URLS = ['//maps.nyc.gov/gis/data/tiles/orthosLatest/', '//maps1.nyc.gov/gis/data/tiles/orthosLatest/', '//maps2.nyc.gov/gis/data/tiles/orthosLatest/', '//maps3.nyc.gov/gis/data/tiles/orthosLatest/'];
 

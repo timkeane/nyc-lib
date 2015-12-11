@@ -1,6 +1,4 @@
-/** @export */
-window.nyc = window.nyc || {};
-/** @export */
+var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 
 /**
@@ -9,8 +7,8 @@ nyc.ol = nyc.ol || {};
  * @constructor
  * @implements {nyc.Locate}
  * @param {nyc.Geocoder} geocoder
- * @param {ol.proj.ProjectionLike|ol.proj.Projection=} projection
- * @param {ol.extent=} extentLimit
+ * @param {ol.proj.Projection=} projection
+ * @param {ol.Extent=} extentLimit
  *
  */
 nyc.ol.Locate = function(geocoder, projection, extentLimit){
