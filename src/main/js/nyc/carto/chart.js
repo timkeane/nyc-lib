@@ -8,8 +8,6 @@ nyc.carto = nyc.carto || {};
 /** @external cartodb.Layer */
 /** @external cartodb.SQL */
 
-//TODO create typedef for filers object
-
 /**
  * @desc Object type to hold constructor options for nyc.carto.Chart
  * @export
@@ -35,7 +33,6 @@ nyc.carto.ChartOptions;
  * @class
  * @constructor
  * @extends {nyc.carto.SqlTemplate}
- * @extends {nyc.EventHandling}
  * @param {nyc.carto.ChartOptions} options Constructor options
  * 
  */
@@ -182,7 +179,6 @@ nyc.carto.Chart.prototype = {
 	}
 };
 
-nyc.inherits(nyc.carto.Chart, nyc.EventHandling);
 nyc.inherits(nyc.carto.Chart, nyc.carto.SqlTemplate);
 
 /**

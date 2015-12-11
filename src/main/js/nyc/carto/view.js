@@ -1,8 +1,10 @@
 var nyc = nyc || {};
 nyc.carto = nyc.carto || {};
 
+//TODO create typedef for filers object
+
 /**
- * @desc Class for replacing values in SQL strings
+ * @desc Class for replacing values in SQL strings and appending filters to the WHERE clause
  * @export
  * @public
  * @class
@@ -40,6 +42,23 @@ nyc.carto.SqlTemplate.prototype = {
 
 nyc.inherits(nyc.carto.SqlTemplate, nyc.ReplaceTokens);
 
+/** 
+ * @desc Enumerator for symbolizer event types
+ * @enum {string}
+ */
+nyc.carto.SymbolizerEventType = {
+	/**
+	 * @desc The symbolized event fired after a symbolizer completes its symbolize function
+	 */
+	SYMBOLIZED: 'symbolized' 
+};
+
+/**
+ * @desc The CartoCSS applied to the heat map layer
+ * @event nyc.carto.HeatSymbolizer#symbolized
+ * @type {String}
+ */
+
 /**
  * @desc Object type to hold constructor options for nyc.carto.HeatSymbolizer
  * @export
@@ -50,7 +69,7 @@ nyc.inherits(nyc.carto.SqlTemplate, nyc.ReplaceTokens);
  * @property {string} css CartoCSS with optional replacement tokens for rendering the heat map (valid tokens are ${size}, ${sizePlus2} and ${sizePlus4})
  * @property {Array<Number>=} sizes An array of marker sizes for replacing tokens in the css where the last number in the array is to be used at zoom level 18
  */
-nyc.carto.HeatSymbolizer;
+nyc.carto.HeatSymbolizerOption;
 
 /**
  * @desc Class for managing heat map rendering based on zoom level
@@ -60,7 +79,8 @@ nyc.carto.HeatSymbolizer;
  * @constructor
  * @extends {nyc.ReplaceTokens}
  * @extends {nyc.EventHandling}
- * @param {nyc.carto.HeatSymbolizer} options Constructor options
+ * @param {nyc.carto.HeatSymbolizerOption} options Constructor options
+ * @fires nyc.carto.HeatSymbolizer#symbolized
  */
 nyc.carto.HeatSymbolizer = function(options){
 	this.map = options.map;
@@ -85,12 +105,18 @@ nyc.carto.HeatSymbolizer.prototype = {
 		size = this.sizes[idx] || 1;
 		css = this.replace(css, {size: size, sizePlus2: size + 2, sizePlus4: size + 4});
 		this.layer.setCartoCSS(css);
-		this.trigger('symbolized', css);
+		this.trigger(nyc.carto.SymbolizerEventType.SYMBOLIZED, css);
 	}
 };
 
 nyc.inherits(nyc.carto.HeatSymbolizer, nyc.ReplaceTokens);
 nyc.inherits(nyc.carto.HeatSymbolizer, nyc.EventHandling);
+
+/**
+ * @desc The Jenks breaks applied to the CartoCS of the layer 
+ * @event nyc.carto.JenksSymbolizer#symbolized
+ * @type {Array<number>}
+ */
 
 /**
  * @desc Object type to hold constructor options for nyc.carto.JenksSymbolizer
@@ -114,6 +140,7 @@ nyc.carto.JenksSymbolizerOptions;
  * @extends {nyc.carto.SqlTemplate}
  * @extends {nyc.EventHandling}
  * @param {nyc.carto.JenksSymbolizerOptions} options Constructor options
+ * @fires nyc.carto.JenksSymbolizer#symbolized
  */
 nyc.carto.JenksSymbolizer = function(options){
 	this.cartoSql = options.cartoSql;
@@ -157,7 +184,7 @@ nyc.carto.JenksSymbolizer.prototype = {
 		me.cartoSql.execute(jenksSql).done(function(data){
 			var bins = me.bins(data.rows[0].cdb_jenksbins);
 			me.applyCss(layer, bins);
-			me.trigger('symbolized', bins);
+			me.trigger(nyc.carto.SymbolizerEventType.SYMBOLIZED, bins);
 		});
 	},
 	/**
@@ -201,6 +228,23 @@ nyc.carto.JenksSymbolizer.prototype = {
 nyc.inherits(nyc.carto.JenksSymbolizer, nyc.EventHandling);
 nyc.inherits(nyc.carto.JenksSymbolizer, nyc.carto.SqlTemplate);
 
+/** 
+ * @desc Enumerator for symbolizer event types
+ * @enum {string}
+ */
+nyc.carto.ViewEventType = {
+	/**
+	 * @desc The update event type
+	 */
+	UPDATED: 'updated' 
+};
+
+/**
+ * @desc Legend HTML generated after a view modifies a the data for its layer 
+ * @event nyc.carto.View#updated
+ * @type {string} 
+ */
+
 /**
  * @desc Object type to hold constructor options for nyc.carto.View
  * @export
@@ -224,7 +268,8 @@ nyc.carto.ViewOptions;
  * @constructor
  * @extends {nyc.carto.SqlTemplate}
  * @extends {nyc.EventHandling}
- * @param {nyc.carto.ViewOptions} options
+ * @param {nyc.carto.ViewOptions} options Constructor options
+ * @fires nyc.carto.View#updated
  */
 nyc.carto.View = function(options){
 	var me = this;
@@ -283,13 +328,15 @@ nyc.carto.View.prototype = {
 		me.layer.setSQL(sql);
 		if (me.legend){
 			if (me.symbolizer){
-				me.symbolizer.one('symbolized', function(bins){
-					me.trigger('updated', me.legend.html(desc, bins));
+				me.symbolizer.one(nyc.carto.SymbolizerEventType.SYMBOLIZED, function(bins){
+					me.trigger(nyc.carto.ViewEventType.UPDATED, me.legend.html(desc, bins));
 				});
 				me.symbolizer.symbolize(me.layer);
 			}else{
-				me.trigger('updated', me.legend.html(desc));
+				me.trigger(nyc.carto.ViewEventType.UPDATED, me.legend.html(desc));
 			}
+		}else{
+			me.trigger(nyc.carto.ViewEventType.UPDATED, '');			
 		}
 	},
 	/**
@@ -307,23 +354,23 @@ nyc.carto.View.prototype = {
 nyc.inherits(nyc.carto.View, nyc.EventHandling);
 nyc.inherits(nyc.carto.View, nyc.carto.SqlTemplate);
 
-//TODO continue docs from here
-
 /**
- * @export
- * @class
  * @desc Class for managing named instances of nyc.View 
+ * @export
+ * @public
+ * @class
  * @constructor
  * @extends {nyc.EventHandling}
- * @param {Array<nyc.carto.View>} views
+ * @param {Array<nyc.carto.View>} views An array of views with names unique to this instance
+ * @fires nyc.carto.ViewSwitcher#updated
  */
 nyc.carto.ViewSwitcher = function(views){
 	var me = this;
 	me.views = {}; 
 	$.each(views, function(_, view){
 		me.views[view.name] = view;
-		view.on('updated', function(legendHtml){
-			me.trigger('updated', legendHtml);
+		view.on(nyc.carto.ViewEventType.UPDATED, function(legendHtml){
+			me.trigger(nyc.carto.ViewEventType.UPDATED, legendHtml);
 		});
 	});
 };
@@ -335,11 +382,12 @@ nyc.carto.ViewSwitcher.prototype = {
 	 */
 	views: null,
 	/**
+	 * @desc Switch to and modify a named view
 	 * @export
 	 * @method
-	 * @param {string} viewName
-	 * @param {Object} filterValues
-	 * @param {Object} descriptionValues
+	 * @param {string} viewName The name of the view to switch to
+	 * @param {Object} filterValues The values object used along with the views filters and sqlTemlate to modify the query for this view
+	 * @param {Object} descriptionValues The values objects for replacing tokens in the descriptionTemplate
 	 */
 	switchView: function(viewName, filterValues, descriptionValues){
 		var activeView;
@@ -361,14 +409,15 @@ nyc.carto.ViewSwitcher.prototype = {
 nyc.inherits(nyc.carto.ViewSwitcher, nyc.EventHandling);
 
 /**
- * @export
- * @class
  * @desc CartoDB data access class
+ * @export
+ * @public
+ * @class
  * @constructor
  * @extends {nyc.carto.SqlTemplate}
- * @param {cartodb.SQL} cartoSql
- * @param {string} sqlTemplate
- * @param {Object} filters
+ * @property {cartodb.SQL} cartoSql The object used to query CartoDB data 
+ * @property {string} sqlTemplate The template with optional replacement tokens for generating queries for cartoSql
+ * @property {Object} filters The filters used with the sqlTemplate for generating queries for cartoSql
  */
 nyc.carto.Dao = function(cartoSql, sqlTemplate, filters){
 	this.cartoSql = cartoSql;
@@ -395,8 +444,8 @@ nyc.carto.Dao.prototype = {
 	/**
 	 * @export
 	 * @method
-	 * @param {Object} filterValues
-	 * @param {function(Object)} callback
+	 * @param {Object} filterValues The values object used along with the views filters and sqlTemlate to modify the query for this view
+	 * @param {function(Object)} callback The callback function to receive data from CartoDB
 	 */
 	data: function(filterValues, callback){
 		var sql = this.sql(this.sqlTemplate, filterValues, this.filters);
