@@ -3,7 +3,7 @@ var nyc = nyc || {};
 /**
  * @export
  * @class
- * @classdesc A class to generate legend HTML
+ * @desc A class to generate legend HTML
  * @constructor
  * @extends {nyc.ReplaceTokens}
  * @param {string} legendTemplate
@@ -34,7 +34,7 @@ nyc.inherits(nyc.Legend, nyc.ReplaceTokens);
 /**
  * @export
  * @class
- * @classdesc A class to generate legend HTML for bins or buckets
+ * @desc A class to generate legend HTML for bins or buckets
  * @constructor
  * @extends {nyc.Legend}
  * @param {string} name

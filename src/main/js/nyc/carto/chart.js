@@ -5,31 +5,38 @@ var nyc = nyc || {};
  */
 nyc.carto = nyc.carto || {};
 
+/** @external cartodb.Layer */
+/** @external cartodb.SQL */
+
+//TODO create typedef for filers object
+
 /**
- * Object type to hold constructor options for nyc.carto.Chart
+ * @desc Object type to hold constructor options for nyc.carto.Chart
  * @export
+ * @public
  * @typedef {Object}
- * @property {JQuery|Element|string} canvas
- * @property {cartodb.SQL} cartoSql
- * @property {string} sqlTemplate
- * @property {string} descriptionTemplate
- * @property {string} dataColumn 
- * @property {string} labelColumn 
- * @property {Object} filters 
- * @property {Object=} chartOptions 
- * @property {Array<Object>=} seriesOptions 
- * @property {function(string):string=} labelLookupFunction 
+ * @property {JQuery|Element|string} canvas The canvas element for chart rendering
+ * @property {cartodb.SQL} cartoSql The object used to query CartoDB data 
+ * @property {string} sqlTemplate The template with optional replacement tokens for generating queries for cartoSql
+ * @property {string} descriptionTemplate The template with optional replacement tokens for the chart description
+ * @property {string} dataColumn The data column for the y-axis chart values
+ * @property {string} labelColumn The data column for labeling the x-axis of the chart
+ * @property {Object} filters The filters object used with the sqlTemplate for generating queries for cartoSql
+ * @property {Object=} chartOptions ChartJS options (See: [http://www.chartjs.org/]{@link http://www.chartjs.org/})
+ * @property {Array<Object>=} seriesOptions ChartJS options (See: [http://www.chartjs.org/]{@link http://www.chartjs.org/})
+ * @property {function(string):string=} labelLookupFunction A function to transform labelColumn column values from the data into readable labels 
  */
 nyc.carto.ChartOptions;
 
 /**
+ * @desc A class to render ChartJS charts using CartoDB data
  * @export
+ * @public
  * @class
- * @classdesc Class for charting views on layers 
  * @constructor
  * @extends {nyc.carto.SqlTemplate}
- * @mixes {nyc.EventHandling}
- * @param {nyc.carto.ChartOptions} options
+ * @extends {nyc.EventHandling}
+ * @param {nyc.carto.ChartOptions} options Constructor options
  * 
  */
 nyc.carto.Chart = function(options){
@@ -58,11 +65,11 @@ nyc.carto.Chart.prototype = {
 	canvas: null,
 	/** 
 	 * @export 
+	 * @public
 	 * @method 
-	 * @param {JQuery} canvas
-	 * @param {Array<Object>} filterValuesArray
-	 * @param {JQuery|Element|string} titleNode
-	 * @param {Array<Object>} descriptionValues
+	 * @param {Array<Object>} filterValuesArray The values objects used along with the views filters and sqlTemlate to modify the query for this chart
+	 * @param {JQuery|Element|string} titleNode The HTML element for title text
+	 * @param {Array<Object>} descriptionValues The values objects for replacing tokens in the descriptionTemplate
 	 */ 
 	chart: function(filterValuesArray, titleNode, descriptionValues){
 		var me = this, sqls = [], datasets = [];
@@ -165,7 +172,6 @@ nyc.carto.Chart.prototype = {
 	/**
 	 * @private
 	 * @method 
-	 * @param {JQuery} canvas 
 	 * @param {Array<Object>} datasets 
 	 */
 	render: function(datasets){

@@ -3,7 +3,7 @@ var nyc = nyc || {};
 /**
  * @export
  * @class
- * @classdesc Class for providing a set of buttons for social media sharing.
+ * @desc Class for providing a set of buttons for social media sharing.
  * @constructor
  * @param {string|Element} target
  */

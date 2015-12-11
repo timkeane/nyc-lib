@@ -3,7 +3,7 @@ var nyc = nyc || {};
 /**
  * @export
  * @class
- * @classdesc Collapsible radio buttons
+ * @desc Collapsible radio buttons
  * @constructor
  * @extends {nyc.Collapsible}
  * @param {Object} options

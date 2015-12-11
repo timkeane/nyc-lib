@@ -3,7 +3,7 @@ var nyc = nyc || {};
 /**
  * @export
  * @class
- * @classdesc Abstract collapsible widget
+ * @desc Abstract collapsible widget
  * @constructor
  * @extends {nyc.EventHandling}
  * @param {Object} options

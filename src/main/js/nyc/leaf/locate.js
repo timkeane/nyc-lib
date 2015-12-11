@@ -4,7 +4,7 @@ nyc.leaf = nyc.leaf || {};
 /**
  * @export
  * @class
- * @classdesc Class for providing geocoding and device geolocation functionality
+ * @desc Class for providing geocoding and device geolocation functionality
  * @constructor
  * @implements {nyc.Locate}
  * @extends {nyc.EventHandling}

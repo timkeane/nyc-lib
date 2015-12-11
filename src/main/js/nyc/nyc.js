@@ -32,7 +32,7 @@ nyc.inherits = function(childCtor, parentCtor){
 };
 
 /**
- * @classdesc Class to provide string replacement functionality
+ * @desc Class to provide string replacement functionality
  * @export
  * @public
  * @class
@@ -49,11 +49,6 @@ nyc.ReplaceTokens.prototype = {
 	 * @param {string} str String with tokens to be replaced 
 	 * @param {Object.<string, string>} values Values token for replacement
 	 * @return {string} String with replacement value substitution
-	 * 
-	 * @example
-	 * //returns 'The quick brown fox jumped...'
-	 * var repl = new nyc.ReplaceTokens();
-	 * repl.replace('The quick ${color} ${animal} jumps...', {color: 'brown', animal: 'fox'});
 	 */
 	replace: function(str, values){
 		for (var name in values){
@@ -64,7 +59,7 @@ nyc.ReplaceTokens.prototype = {
 };
 
 /**
- * @classdesc Class to provide event handling functionality
+ * @desc Class to provide event handling functionality
  * @export
  * @public
  * @class

@@ -3,7 +3,7 @@ var nyc = nyc || {};
 /**
  * @export
  * @class
- * @classdesc  Abstract class for zoom and search controls
+ * @desc  Abstract class for zoom and search controls
  * @extends {nyc.EventHandling}
  * @constructor
  * @param {(boolean|undefined)} useSearchTypeMenu

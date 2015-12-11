@@ -4,7 +4,7 @@ nyc.leaf = nyc.leaf || {};
 /**
  * @export
  * @class
- * @classdesc Class for providing a set of buttons to zoom and search.
+ * @desc Class for providing a set of buttons to zoom and search.
  * @constructor
  * @extends {nyc.ZoomSearch}
  * @param {L.Map} map

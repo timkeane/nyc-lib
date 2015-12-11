@@ -22,7 +22,7 @@ nyc.DateRange;
 nyc.MonthRangePickerOptions;
 
 /**
- * @classdesc A UI class to pick a month range
+ * @desc A UI class to pick a month range
  * @export
  * @class
  * @constructor
