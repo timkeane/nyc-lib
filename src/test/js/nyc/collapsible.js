@@ -11,7 +11,7 @@ QUnit.test('constructor', function(assert){
 	var buttonHtml = div.children().first().children().first().html();
 	
 	assert.equal(div.children().get(0).tagName, 'H3');
-	assert.ok(div.children().first().children().first().children().get(0).isSameNode(collapsible.currentVal.get(0)));
+	assert.ok(div.children().first().children().first().children().get(0) === collapsible.currentVal.get(0));
 	assert.equal(buttonHtml.substr(0, buttonHtml.indexOf('<')), options.title);
 
 	div.remove();

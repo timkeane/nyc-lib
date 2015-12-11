@@ -101,7 +101,7 @@ nyc.carto.HeatSymbolizer.prototype = {
 	 * @method
 	 */
 	symbolize: function(){
-		var css = this.css, idx = this.map.getZoom() - (18 - this.sizes.length),
+		var css = this.css, idx = this.map.getZoom() - (19 - this.sizes.length),
 		size = this.sizes[idx] || 1;
 		css = this.replace(css, {size: size, sizePlus2: size + 2, sizePlus4: size + 4});
 		this.layer.setCartoCSS(css);

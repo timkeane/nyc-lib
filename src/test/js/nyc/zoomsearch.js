@@ -319,7 +319,7 @@ QUnit.test('choices (srch-type = addr)', function(assert){
 	
 	assert.notOk(control.isAddrSrch);
 	assert.ok(control.val());
-	assert.notOk(control.input.get(0).isSameNode(document.activeElement));
+	assert.notOk(control.input.get(0) === document.activeElement);
 	assert.notOk($('#fld-srch li.srch-type-addr').length);
 	assert.notOk($('#fld-srch li.srch-type-other').length);
 	
@@ -328,7 +328,7 @@ QUnit.test('choices (srch-type = addr)', function(assert){
 	assert.ok(control.isAddrSrch);
 	assert.notOk(control.val());
 	assert.ok(control.input.get(0) == document.activeElement);
-	assert.ok(control.input.get(0).isSameNode(document.activeElement));
+	assert.ok(control.input.get(0) === document.activeElement);
 	
 	assert.equal(control.input.attr('placeholder'), 'Search for an address...');
 	
@@ -364,7 +364,7 @@ QUnit.test('choices (srch-type = other)', function(assert){
 	
 	assert.notOk(control.isAddrSrch);
 	assert.ok(control.val());
-	assert.notOk(control.input.get(0).isSameNode(document.activeElement));
+	assert.notOk(control.input.get(0) === document.activeElement);
 	assert.notOk($('#fld-srch li.srch-type-addr').length);
 	assert.notOk($('#fld-srch li.srch-type-other').length);
 	
@@ -373,7 +373,7 @@ QUnit.test('choices (srch-type = other)', function(assert){
 	assert.notOk(control.isAddrSrch);
 	assert.notOk(control.val());
 	assert.ok(control.input.get(0) == document.activeElement);
-	assert.ok(control.input.get(0).isSameNode(document.activeElement));
+	assert.ok(control.input.get(0) === document.activeElement);
 	
 	assert.equal(control.input.attr('placeholder'), 'Search Other...');
 	

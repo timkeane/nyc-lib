@@ -19,8 +19,8 @@ QUnit.test('constructor', function(assert){
 	
 	assert.equal(selects.length, 2);
 	
-	assert.ok(selects.get(0).isSameNode(dateRange.min.get(0)));
-	assert.ok(selects.get(1).isSameNode(dateRange.max.get(0)));
+	assert.ok(selects.get(0) === dateRange.min.get(0));
+	assert.ok(selects.get(1) === dateRange.max.get(0));
 	
 	assert.equal(dateRange.min.children().length, 28);
 	assert.equal(dateRange.max.children().length, 28);

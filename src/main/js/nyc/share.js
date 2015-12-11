@@ -18,7 +18,7 @@ nyc.Share = function(target){
 		if ($('#share-btns').css('opacity') == 1){
 			$('#share-btns').fadeOut();
 		}
-		return false;
+		if (e.target !== $('#share-btn').get(0)) return false;
 	});
 	if (this.isIosAppMode()){
 		$('#email-btn').attr('target', '_blank');

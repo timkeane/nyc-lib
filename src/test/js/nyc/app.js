@@ -1348,7 +1348,7 @@ QUnit.test('error', function(assert){
 	setTimeout(function(){
 		assert.equal($('#alert .alert-msg').html(), 'error');
 		assert.equal($('#alert').css('display'), 'block');
-		assert.ok($(':focus').get(0).isSameNode($('#alert button').get(0)));
+		assert.ok($(':focus').get(0) === $('#alert button').get(0));
 		done();
 		alert.remove();
 	}, 1000);
