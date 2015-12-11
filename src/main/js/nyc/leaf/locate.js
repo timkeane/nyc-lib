@@ -3,7 +3,6 @@ nyc.leaf = nyc.leaf || {};
 
 /**
  * @desc Class for providing geocoding and device geolocation functionality
- * @export
  * @public
  * @class
  * @constructor
@@ -59,7 +58,6 @@ nyc.leaf.Locate.prototype = {
 	isGeolocateAllowed: true,
 	/**
 	 * @desc Locate once using device geolocation
-	 * @export
 	 * @public
 	 * @method
 	 */
@@ -76,7 +74,6 @@ nyc.leaf.Locate.prototype = {
 	},
 	/**
 	 * @desc Geocode an input string and trigger an event of nyc.Locate.LocateEventType with nyc.Locate.LocateResult or nyc.LocateAmbiguoud data
-	 * @export
 	 * @public
 	 * @method
 	 * @param {string} input An input string describing a location to geocode
@@ -148,7 +145,6 @@ nyc.inherits(nyc.leaf.Locate, nyc.EventHandling);
 
 /**
  * @desc The recommended zoom level to use when centering a map on a the result of a call to a locate method  
- * @export
  * @public
  * @const
  * @type {number}

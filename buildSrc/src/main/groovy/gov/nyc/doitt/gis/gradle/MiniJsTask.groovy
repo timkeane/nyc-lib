@@ -15,6 +15,7 @@ class MiniJsTask extends DefaultTask {
 	def warningLevel = 'VERBOSE'
 	def sourceMapLocationMapping = '' 
 	def comment = null 
+	def unkownJsDocTags = ['abstract', 'external']
 	def morerOptions = []
 	@TaskAction
 	public void minify(){
@@ -27,6 +28,7 @@ class MiniJsTask extends DefaultTask {
 			compilationLevel,
 			warningLevel,
 			comment,
+			unkownJsDocTags,
 			morerOptions
 		)	
 	}

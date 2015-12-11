@@ -1,6 +1,6 @@
 var nyc = nyc || {};
 /** 
- * @export 
+ * @public 
  * @namespace
  */
 nyc.ol = nyc.ol || {};
@@ -87,7 +87,6 @@ nyc.ol = nyc.ol || {};
  */
 	
 /**
- * @export 
  * @public 
  * @const
  * @type {ol.Extent}
@@ -101,7 +100,7 @@ nyc.ol.EXTENT = [912090, 119053, 1068317, 273931];
 nyc.ol.CENTER = [990203, 196492];
 
 /**
- * @export
+ * @public
  * @typedef {Object}
  * @property {ol.Feature} feature
  * @property {string} wkt
@@ -109,7 +108,7 @@ nyc.ol.CENTER = [990203, 196492];
 nyc.ol.Feature;
 
 /**
- * @export
+ * @public
  * @typedef {Object}
  * @property {nyc.ol.Feature} feature
  * @property {string} type
@@ -117,7 +116,7 @@ nyc.ol.Feature;
 nyc.ol.FeatureEvent;
 
 /**
- * @export
+ * @public
  * @enum {string}
  */
 nyc.ol.FeatureEventType = {

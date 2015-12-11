@@ -14,12 +14,15 @@ nyc.Share = function(target){
 	html = html.replace(/\${description}/g, $('meta[property="og:description"]').attr('content'));
 	$(target).append(html).trigger('create');
 
-	$('*').click(function(e){
-		if ($('#share-btns').css('opacity') == 1){
-			$('#share-btns').fadeOut();
-		}
-		if (e.target !== $('#share-btn').get(0)) return false;
-	});
+	 $('#share-btn').click(function(){
+		 $('#share-btns').fadeToggle(function(){
+			$('*').one('click', function(e){
+				if ($('#share-btns').css('opacity') == 1){
+					$('#share-btns').fadeOut();
+				}
+			});
+		 });
+	 }); 
 	if (this.isIosAppMode()){
 		$('#email-btn').attr('target', '_blank');
 	}
@@ -42,7 +45,7 @@ nyc.Share.prototype = {
  * @type {string}
  */
 nyc.Share.HTML = 
-	'<a id="share-btn" class="ctl ctl-btn" data-role="button" title="Share..." onclick="$(\'#share-btns\').fadeToggle();">' +
+	'<a id="share-btn" class="ctl ctl-btn" data-role="button" title="Share...">' +
 		'<span class="noshow">Share...</span>' +
 	'</a>' +
 	'<div id="share-btns" class="ctl">' +

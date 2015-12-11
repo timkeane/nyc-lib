@@ -1,5 +1,5 @@
 /** 
- * @export 
+ * @public 
  * @namespace
  */
 var nyc = nyc || {};
@@ -16,7 +16,6 @@ proj4.defs(
 
 /**
  * @desc Provide inheritance functionality
- * @export
  * @public
  * @static
  * @function
@@ -33,7 +32,6 @@ nyc.inherits = function(childCtor, parentCtor){
 
 /**
  * @desc Class to provide string replacement functionality
- * @export
  * @public
  * @class
  * @constructor
@@ -43,7 +41,6 @@ nyc.ReplaceTokens = function(){};
 nyc.ReplaceTokens.prototype = {
 	/**
 	 * @desc Replace tokens in a string with values from a provided object
-	 * @export
 	 * @public
 	 * @method
 	 * @param {string} str String with tokens to be replaced 
@@ -60,7 +57,6 @@ nyc.ReplaceTokens.prototype = {
 
 /**
  * @desc Class to provide event handling functionality
- * @export
  * @public
  * @class
  * @constructor
@@ -70,7 +66,6 @@ nyc.EventHandling = function(){};
 nyc.EventHandling.prototype = {
 	/**
 	 * @desc Connect a function to an event
-	 * @export
 	 * @public
 	 * @method
 	 * @param {string} eventName The name of the event to which the handler will be connected
@@ -82,7 +77,6 @@ nyc.EventHandling.prototype = {
     },
 	/**
 	 * @desc Connect a function to an event for a single invocation
-	 * @export
 	 * @public
 	 * @method
 	 * @param {string} eventName The name of the event to which the handler will be connected
@@ -94,7 +88,6 @@ nyc.EventHandling.prototype = {
     },
 	/**
 	 * @desc Trigger a named event with event data
-	 * @export
 	 * @public
 	 * @method
 	 * @param {string} eventName The name of the event to trigger
@@ -121,7 +114,6 @@ nyc.EventHandling.prototype = {
     },
 	/**
 	 * @desc Remove a previously connected event handler
-	 * @export
 	 * @public
 	 * @method
 	 * @param {string} eventName The name of the event to which the handler will be connected

@@ -5,7 +5,6 @@ nyc.carto = nyc.carto || {};
 
 /**
  * @desc Class for replacing values in SQL strings and appending filters to the WHERE clause
- * @export
  * @public
  * @class
  * @constructor
@@ -61,7 +60,6 @@ nyc.carto.SymbolizerEventType = {
 
 /**
  * @desc Object type to hold constructor options for nyc.carto.HeatSymbolizer
- * @export
  * @public
  * @typedef {Object}
  * @property {L.Map} map The Leaflet map containing the heat map layer
@@ -73,7 +71,6 @@ nyc.carto.HeatSymbolizerOption;
 
 /**
  * @desc Class for managing heat map rendering based on zoom level
- * @export
  * @public
  * @class
  * @constructor
@@ -120,7 +117,6 @@ nyc.inherits(nyc.carto.HeatSymbolizer, nyc.EventHandling);
 
 /**
  * @desc Object type to hold constructor options for nyc.carto.JenksSymbolizer
- * @export
  * @public
  * @typedef {Object}
  * @property {cartodb.SQL} cartoSql The object used to query CartoDB data 
@@ -133,7 +129,6 @@ nyc.carto.JenksSymbolizerOptions;
 
 /**
  * @desc Class for managing SQL views on layers 
- * @export
  * @class
  * @public
  * @constructor
@@ -174,7 +169,6 @@ nyc.carto.JenksSymbolizer.prototype = {
 	 */
 	cssRules: null,
 	/** 
-	 * @export 
 	 * @public
 	 * @method 
 	 * @param {cartodb.Layer} layer The layer to symbolize
@@ -247,7 +241,6 @@ nyc.carto.ViewEventType = {
 
 /**
  * @desc Object type to hold constructor options for nyc.carto.View
- * @export
  * @public
  * @typedef {Object}
  * @property {string} name A name for the view
@@ -262,7 +255,6 @@ nyc.carto.ViewOptions;
 
 /**
  * @desc Class for managing SQL views on layers 
- * @export
  * @public
  * @class
  * @constructor
@@ -315,7 +307,6 @@ nyc.carto.View.prototype = {
 	legend: null,
 	/**
 	 * @desc Update the view by modifying the data for the layer
-	 * @export
 	 * @public
 	 * @method
 	 * @param {Object} filterValues The values object used along with the views filters and sqlTemlate to modify the query for this view
@@ -341,7 +332,6 @@ nyc.carto.View.prototype = {
 	},
 	/**
 	 * @desc Change the visibility of the view's layer
-	 * @export
 	 * @public
 	 * @method
 	 * @param {boolean} visible
@@ -356,7 +346,6 @@ nyc.inherits(nyc.carto.View, nyc.carto.SqlTemplate);
 
 /**
  * @desc Class for managing named instances of nyc.View 
- * @export
  * @public
  * @class
  * @constructor
@@ -383,7 +372,6 @@ nyc.carto.ViewSwitcher.prototype = {
 	views: null,
 	/**
 	 * @desc Switch to and modify a named view
-	 * @export
 	 * @method
 	 * @param {string} viewName The name of the view to switch to
 	 * @param {Object} filterValues The values object used along with the views filters and sqlTemlate to modify the query for this view
@@ -410,7 +398,6 @@ nyc.inherits(nyc.carto.ViewSwitcher, nyc.EventHandling);
 
 /**
  * @desc CartoDB data access class
- * @export
  * @public
  * @class
  * @constructor
@@ -442,7 +429,7 @@ nyc.carto.Dao.prototype = {
 	 */
 	sqlTemplate: null, 
 	/**
-	 * @export
+	 * @public
 	 * @method
 	 * @param {Object} filterValues The values object used along with the views filters and sqlTemlate to modify the query for this view
 	 * @param {function(Object)} callback The callback function to receive data from CartoDB

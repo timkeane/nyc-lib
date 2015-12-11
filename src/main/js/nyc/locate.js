@@ -2,7 +2,6 @@ var nyc = nyc || {};
 
 /**
  * @desc An interface for geocoding and geolocating
- * @export
  * @public
  * @interface
  */
@@ -11,7 +10,6 @@ nyc.Locate = function(){};
 nyc.Locate.prototype = {
 	/**
 	 * @desc Locate once using device geolocation
-	 * @export
 	 * @public
 	 * @abstract
 	 * @method
@@ -21,7 +19,6 @@ nyc.Locate.prototype = {
 	},
 	/**
 	 * @desc Track using device geolocation
-	 * @export
 	 * @public
 	 * @abstract
 	 * @method
@@ -32,7 +29,6 @@ nyc.Locate.prototype = {
 	},
 	/**
 	 * @desc Geocode an input string and trigger an event of nyc.Locate.LocateEventType with nyc.Locate.LocateResult or nyc.LocateAmbiguoud data
-	 * @export
 	 * @public
 	 * @abstract
 	 * @method
@@ -45,7 +41,6 @@ nyc.Locate.prototype = {
 
 /**
  * @desc Enumeration for locate event type
- * @export
  * @public
  * @enum {string}
  */
@@ -70,7 +65,6 @@ nyc.Locate.LocateEventType = {
 
 /**
  * @desc Enumeration for locate result type
- * @export
  * @public
  * @enum {string}
  */
@@ -87,7 +81,7 @@ nyc.Locate.LocateResultType = {
 
 /**
  * Object type to hold data about a successful result of a geocoder search or device geolocation
- * @export
+ * @public
  * @typedef {Object}
  * @property {string} name The formatted name of the geocoded location
  * @property {(Array<number>|undefined)} coordinates The geocoded location coordinates
@@ -101,7 +95,7 @@ nyc.Locate.LocateResult;
 
 /**
  * Object type to hold data about possible locations resulting from a geocoder search
- * @export
+ * @public
  * @typedef {Object}
  * @property {string} input The input string on which the geocoding attempt was made
  * @property {Array<nyc.Locate.LocateResult>} possible An array of possible results to the request

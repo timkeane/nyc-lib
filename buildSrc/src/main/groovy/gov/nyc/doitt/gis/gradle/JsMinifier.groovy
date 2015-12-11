@@ -21,11 +21,13 @@ class JsMinifier {
 		String compilationLevel,
 		String warningLevel,
 		String comment,
+		List unkownJsDocTags = [],
 		List<String> morerOptions
 	){
         CompilerOptions opts = new CompilerOptions()
         File dir = new File(destinationDir);
         dir.mkdirs()
+        opts.setExtraAnnotationNames(unkownJsDocTags)
         opts.setSourceMapOutputPath("${destinationDir}/${libName}.sourcemap.json")
 		CompilationLevel.valueOf(compilationLevel).setOptionsForCompilationLevel(opts)
 		WarningLevel.valueOf(warningLevel).setOptionsForWarningLevel(opts)

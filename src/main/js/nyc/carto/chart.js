@@ -1,6 +1,6 @@
 var nyc = nyc || {};
 /** 
- * @export 
+ * @public 
  * @namespace
  */
 nyc.carto = nyc.carto || {};
@@ -10,7 +10,6 @@ nyc.carto = nyc.carto || {};
 
 /**
  * @desc Object type to hold constructor options for nyc.carto.Chart
- * @export
  * @public
  * @typedef {Object}
  * @property {JQuery|Element|string} canvas The canvas element for chart rendering
@@ -28,7 +27,6 @@ nyc.carto.ChartOptions;
 
 /**
  * @desc A class to render ChartJS charts using CartoDB data
- * @export
  * @public
  * @class
  * @constructor
@@ -61,7 +59,6 @@ nyc.carto.Chart.prototype = {
 	 */
 	canvas: null,
 	/** 
-	 * @export 
 	 * @public
 	 * @method 
 	 * @param {Array<Object>} filterValuesArray The values objects used along with the views filters and sqlTemlate to modify the query for this chart
