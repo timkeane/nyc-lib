@@ -1,12 +1,12 @@
 var nyc = nyc || {};
 
 /**
- * @export
- * @class
  * @desc  Abstract class for zoom and search controls
+ * @public
+ * @class
  * @extends {nyc.EventHandling}
  * @constructor
- * @param {(boolean|undefined)} useSearchTypeMenu
+ * @param {(boolean|undefined)} useSearchTypeMenu Use search types menu
  */
 nyc.ZoomSearch = function(useSearchTypeMenu){
 	var me = this;
@@ -35,18 +35,25 @@ nyc.ZoomSearch.prototype = {
 	 */
 	isAddrSrch: true,
 	/**
-	 * @export
-	 * @method
+	 * @desc A method to return the map container  HTML element wrapped in a JQuery
+	 * @public
 	 * @abstract
-	 * @return {JQuery} 
+	 * @method
+	 * @return {JQuery} The the map container HTML element wrapped in a JQuery
 	 */
-	container: function(){},
+	container: function(){
+		throw 'Not implemented';
+	},
 	/**
-	 * @export
-	 * @method
+	 * @desc Handle the zoom event triggered by user interaction
+	 * @public
 	 * @abstract
+	 * @method
+	 * @param event The DOM event triggered by the zoom buttons
 	 */
-	zoom: function(e){},
+	zoom: function(event){
+		throw 'Not implemented';
+	},
 	/**
 	 * @private
 	 * @method
@@ -83,11 +90,11 @@ nyc.ZoomSearch.prototype = {
 		}			
 	},
 	/**
-	 * Set or get the value of the search field 
-	 * @export
+	 * @desc Set or get the value of the search field 
+	 * @public
 	 * @method
-	 * @param {string=} val
-	 * @return {string}
+	 * @param {string=} val The value for the search field
+	 * @return {string} The value of the search field
 	 */
 	val: function(val){
 		if (typeof val == 'string'){
@@ -97,10 +104,10 @@ nyc.ZoomSearch.prototype = {
 		return 	this.input.val();
 	},
 	/**
-	 * Displays possible address matches 
-	 * @export
+	 * @desc Displays possible address matches 
+	 * @public
 	 * @method
-	 * @param {Array<nyc.Locate.LocateResult>} possibleResults
+	 * @param {Array<nyc.Locate.LocateResult>} possibleResults Possible locations resulting from a geocoder search to display to the user
 	 */
 	disambiguate: function(possibleResults){
 		var me = this;
@@ -116,10 +123,54 @@ nyc.ZoomSearch.prototype = {
 		}
 	},
 	/**
+	 * @desc Set searching status to display to the user
+	 * @public
+	 * @method
+	 * @param {boolean} show Show searching status
+	 */
+	searching: function(show){
+		$('#fld-srch-container a.ui-input-clear')[show ? 'addClass' : 'removeClass']('searching');
+	},
+	/**
+	 * @desc Add searchable features
+	 * @public
+	 * @method
+	 * @param {string} featureTypeName The name of the layer or feature type the features are from
+	 * @param {string} featureTypeTitle A title for the search type menu
+	 * @param {string} placeholder A placeholder for the search field
+	 * @param {Array<Object>} features The features that to be searched 
+	 */
+	setFeatures: function(featureTypeName, featureTypeTitle, placeholder, features){
+		var me = this,
+			li = $('<li></li>'), 
+			span = $('<span class="ui-btn-icon-left"></span>');
+		li.addClass('srch-type-feature');
+		li.addClass('srch-type-' + featureTypeName);
+		li.data('srch-type', featureTypeName);
+		li.data('placeholder', placeholder);
+		span.addClass('srch-icon-' + featureTypeName);		
+		li.append(span);
+		li.append(featureTypeTitle);
+		$('#mnu-srch-typ').append(li).listview('refresh');
+		li.click($.proxy(me.choices, me));
+		$.each(features, function(_, f){
+			$('#fld-srch-retention').append(
+				me.listItem(
+					featureTypeName,
+					{
+						name: f.properties.name, 
+						geoJsonGeometry: f.geometry, 
+						data: f.properties,
+						accuracy: nyc.Geocoder.Accuracy.HIGH
+					}
+				)
+			);
+		});
+	},
+	/**
 	 * @private
 	 * @method
 	 * @param {string} typeName
-	 * @param {string} featureName
 	 * @param {nyc.Locate.LocateResult} data
 	 * @return {JQuery}
 	 */
@@ -139,15 +190,6 @@ nyc.ZoomSearch.prototype = {
 		});
 		li.click($.proxy(this.diambiguated, this));
 		return li;
-	},
-	/**
-	 * Set searching status
-	 * @export
-	 * @method
-	 * @param {boolean} show
-	 */
-	searching: function(show){
-		$('#fld-srch-container a.ui-input-clear')[show ? 'addClass' : 'removeClass']('searching');
 	},
 	/**
 	 * @private
@@ -196,42 +238,6 @@ nyc.ZoomSearch.prototype = {
 		this.list.empty();
 	},
 	/**
-	 * Add searchable features
-	 * @export
-	 * @method
-	 * @param {string} featureTypeName
-	 * @param {string} featureTypeTitle
-	 * @param {string} placeholder
-	 * @param {Array<Object>} features
-	 */
-	setFeatures: function(featureTypeName, featureTypeTitle, placeholder, features){
-		var me = this,
-			li = $('<li></li>'), 
-			span = $('<span class="ui-btn-icon-left"></span>');
-		li.addClass('srch-type-feature');
-		li.addClass('srch-type-' + featureTypeName);
-		li.data('srch-type', featureTypeName);
-		li.data('placeholder', placeholder);
-		span.addClass('srch-icon-' + featureTypeName);		
-		li.append(span);
-		li.append(featureTypeTitle);
-		$('#mnu-srch-typ').append(li).listview('refresh');
-		li.click($.proxy(me.choices, me));
-		$.each(features, function(_, f){
-			$('#fld-srch-retention').append(
-				me.listItem(
-					featureTypeName,
-					{
-						name: f.properties.name, 
-						geoJsonGeometry: f.geometry, 
-						data: f.properties,
-						accuracy: nyc.Geocoder.Accuracy.HIGH
-					}
-				)
-			);
-		});
-	},
-	/**
 	 * @private
 	 * @method
 	 * @param {Object} e
@@ -247,18 +253,44 @@ nyc.ZoomSearch.prototype = {
 nyc.inherits(nyc.ZoomSearch, nyc.EventHandling);
 
 /**
- * Enumeration for control action event type
- * @export
+ * @desc Enumeration for control action event type
+ * @public
  * @enum {string}
  */
 nyc.ZoomSearch.EventType = {
+	/**
+	 * The search event type
+	 */
 	SEARCH: 'search',
+	/**
+	 * The geolocate event type
+	 */
 	GEOLOCATE: 'geolocate',
+	/**
+	 * The disambiguated event type
+	 */
 	DISAMBIGUATED: 'disambiguated'
 };
 
 /**
- * @export
+ * @desc The value enterd in the search field
+ * @event nyc.ZoomSearch#search
+ * @type {string}
+ */
+
+/**
+ * @desc A geolcation determination is requested
+ * @event nyc.ZoomSearch#geolocate
+ */
+
+/**
+ * @desc The user has chosen a location from a list of possible locations
+ * @event nyc.ZoomSearch#disambiguated
+ * @type {nyc.Locate.LocateResultType}
+ */
+
+/**
+ * @public
  * @const
  * @type {string}
  */
@@ -280,7 +312,7 @@ nyc.ZoomSearch.BASIC_HTML =
 	'</div>';
 
 /**
- * @export
+ * @public
  * @const
  * @type {string}
  */

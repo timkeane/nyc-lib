@@ -2,13 +2,16 @@ var nyc = nyc || {};
 nyc.leaf = nyc.leaf || {};
 
 /**
- * @export
- * @class
  * @desc Class for providing a set of buttons to zoom and search.
+ * @public
+ * @class
  * @constructor
  * @extends {nyc.ZoomSearch}
- * @param {L.Map} map
- * @param {(boolean|undefined)} useSearchTypeMenu
+ * @param {L.Map} map The Leaflet map that will be controlled 
+ * @param {(boolean|undefined)} useSearchTypeMenu Use search types menu
+ * @fires nyc.ZoomSearch#search
+ * @fires nyc.ZoomSearch#geolocate
+ * @fires nyc.ZoomSearch#disambiguated
  */
 nyc.leaf.ZoomSearch = function(map, useSearchTypeMenu){
 	this.map = map;
@@ -22,17 +25,20 @@ nyc.leaf.ZoomSearch.prototype = {
 	 */
 	map: null,
 	/**
-	 * @private
+	 * @desc A method to return the map container  HTML element wrapped in a JQuery
+	 * @public
 	 * @method
-	 * @return {JQuery}
+	 * @return {JQuery} The the map container HTML element wrapped in a JQuery
 	 */
 	container: function(){
 		return $(this.map.getContainer()).parent();
 	},
 	/**
-	 * @private
+	 * @desc Handle the zoom event triggered by user interaction
+	 * @public
+	 * @abstract
 	 * @method
-	 * @param {Object} e
+	 * @param event The DOM event triggered by the zoom buttons
 	 */
 	zoom: function(e){
 		this.map.setZoom(this.map.getZoom() + ($(e.target).data('zoom-incr') * 1));
