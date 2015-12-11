@@ -60,6 +60,7 @@ nyc.leaf.Locate.prototype = {
 	/**
 	 * @desc Locate once using device geolocation
 	 * @export
+	 * @public
 	 * @method
 	 */
 	locate: function(){
@@ -74,10 +75,11 @@ nyc.leaf.Locate.prototype = {
 		}
 	},
 	/**
-	 * Geocode an input string and trigger an event of nyc.Locate.LocateEventType with nyc.Locate.LocateResult or nyc.LocateAmbiguoud data
+	 * @desc Geocode an input string and trigger an event of nyc.Locate.LocateEventType with nyc.Locate.LocateResult or nyc.LocateAmbiguoud data
 	 * @export
+	 * @public
 	 * @method
-	 * @param {string} input
+	 * @param {string} input An input string describing a location to geocode
 	 */
 	search: function(input){
 		this.geocoder.search(input);
@@ -145,7 +147,9 @@ nyc.leaf.Locate.prototype = {
 nyc.inherits(nyc.leaf.Locate, nyc.EventHandling);
 
 /**
+ * @desc The recommended zoom level to use when centering a map on a the result of a call to a locate method  
  * @export
+ * @public
  * @const
  * @type {number}
  */
