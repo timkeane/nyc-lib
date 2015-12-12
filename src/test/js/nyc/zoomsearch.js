@@ -2,7 +2,7 @@ QUnit.module('nyc.ZoomSearch', {
 	beforeEach: function(assert){
 		setup(assert, this);
 		this.POSSIBLE_LOCATIONS = [{
-			type: nyc.Locate.LocateResultType.GEOCODE,
+			type: nyc.Locate.ResultType.GEOCODE,
 			coordinates: [1, 2],
 			accuracy: nyc.Geocoder.Accuracy.HIGH,
 			name: '2 Broadway, Manhattan, NY 10004',
@@ -10,7 +10,7 @@ QUnit.module('nyc.ZoomSearch', {
 			data: 'data'
 		},
 		{
-			type: nyc.Locate.LocateResultType.GEOCODE,
+			type: nyc.Locate.ResultType.GEOCODE,
 			coordinates: [3, 4],
 			accuracy: nyc.Geocoder.Accuracy.HIGH,
 			name: '2 Broadway, Queens, NY 11414',
@@ -18,7 +18,7 @@ QUnit.module('nyc.ZoomSearch', {
 			data: 'data'			
 		},
 		{
-			type: nyc.Locate.LocateResultType.GEOCODE,
+			type: nyc.Locate.ResultType.GEOCODE,
 			coordinates: [5, 6],
 			accuracy: nyc.Geocoder.Accuracy.MEDIUM,
 			name: '2 Broadway, Staten Is, NY 10310',
@@ -239,7 +239,7 @@ QUnit.test('listItem', function(assert){
 		 coordinates: [1, 2],
 		 geoJsonGeometry: "geoJsonGeometry",
 		 accuracy: nyc.Geocoder.Accuracy.HIGH,
-		 type: nyc.Locate.LocateResultType.GEOCODE,
+		 type: nyc.Locate.ResultType.GEOCODE,
 		 data: "data"
 	};
 	var li = control.listItem('test', location);
@@ -425,7 +425,7 @@ QUnit.test('setFeatures', function(assert){
 			geoJsonGeometry: features[i].geometry, 
 			data: features[i].properties,
 			accuracy: nyc.Geocoder.Accuracy.HIGH,
-			type: nyc.Locate.LocateResultType.GEOCODE
+			type: nyc.Locate.ResultType.GEOCODE
 		});
 	});
 });

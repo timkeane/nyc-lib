@@ -37,13 +37,13 @@ QUnit.test('proxyEvent', function(assert){
 	var geocodeData1 = {
 			coordinates: [1, 2],
 			accuracy: 0, 
-			type: nyc.Locate.LocateResultType.GEOCODE,
+			type: nyc.Locate.ResultType.GEOCODE,
 			name: 'my address1'
 	};
 	var geocodeData2 = {
 			coordinates: [3, 4],
 			accuracy: 0, 
-			type: nyc.Locate.LocateResultType.GEOCODE,
+			type: nyc.Locate.ResultType.GEOCODE,
 			name: 'my address2'
 	};
 	var ambiguousData = {
@@ -78,7 +78,7 @@ QUnit.test('locate', function(assert){
 		assert.deepEqual(data, {
 			coordinates: [nyc.leaf.CENTER.lng, nyc.leaf.CENTER.lat],
 			accuracy: 2000, 
-			type: nyc.Locate.LocateResultType.GEOLOCATION,
+			type: nyc.Locate.ResultType.GEOLOCATION,
 			name: "40° 42' 12\" N 73° 58' 47\" W"
 		});
 		assert.notOk();

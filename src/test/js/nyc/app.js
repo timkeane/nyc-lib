@@ -433,13 +433,13 @@ QUnit.test('ambiguous (possible)', function(assert){
 	var app = this.TEST_APP;	
 
 	var possible = [{
-		type: nyc.Locate.LocateResultType.GEOCODE,
+		type: nyc.Locate.ResultType.GEOCODE,
 		coordinates: [980691, 195953],
 		accuracy: nyc.Geocoder.Accuracy.HIGH,
 		name: '2 Broadway, Manhattan, NY 10004'			
 	},
 	{
-		type: nyc.Locate.LocateResultType.GEOCODE,
+		type: nyc.Locate.ResultType.GEOCODE,
 		coordinates: [1031280, 179178],
 		accuracy: nyc.Geocoder.Accuracy.HIGH,
 		name: '2 Broadway, Queens, NY 11414'			

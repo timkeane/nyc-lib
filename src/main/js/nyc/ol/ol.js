@@ -30,10 +30,6 @@ nyc.ol = nyc.ol || {};
  * @see http://openlayers.org/ 
  */
 /** 
- * @external ol.proj.Projection 
- * @see http://openlayers.org/ 
- */
-/** 
  * @external ol.source.Vector 
  * @see http://openlayers.org/ 
  */

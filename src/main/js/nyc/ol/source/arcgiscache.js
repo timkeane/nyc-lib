@@ -45,7 +45,7 @@ nyc.ol.source.AcrGisCache = function(options){
 	 * @method
 	 * @param {ol.Coordinate} tileCoord
 	 * @param {number} pixelRatio
-	 * @param {ol.proj.Projection} projection
+	 * @param {string} projection
 	 * @return {string}
 	 */
 	this.defaultTileUrlFunction = function(tileCoord, pixelRatio, projection) {	

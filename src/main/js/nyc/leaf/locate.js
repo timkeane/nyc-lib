@@ -74,11 +74,10 @@ nyc.leaf.Locate.prototype = {
 		}
 	},
 	/**
-	 * @desc Geocode an input string and trigger an event of nyc.Locate.LocateEventType with nyc.Locate.LocateResult or nyc.LocateAmbiguoud data
+	 * @desc Geocode an input string representing a location
 	 * @public
-	 * @override
 	 * @method
-	 * @param {string} input An input string describing a location to geocode
+	 * @param {string} input The value to geocode
 	 */
 	search: function(input){
 		this.geocoder.search(input);
@@ -111,7 +110,7 @@ nyc.leaf.Locate.prototype = {
 				 name: this.dmsString(e.latlng),
 				 coordinates: [e.latlng.lng, e.latlng.lat],
 				 accuracy: e.accuracy,
-				 type: nyc.Locate.LocateResultType.GEOLOCATION
+				 type: nyc.Locate.ResultType.GEOLOCATION
 			});
 	    }				
 	},

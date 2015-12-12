@@ -7,9 +7,14 @@ nyc.ol = nyc.ol || {};
  * @class
  * @constructor
  * @implements {nyc.Locate}
+ * @extends {nyc.EventHandling}
  * @param {nyc.Geocoder} geocoder A geocoder implementation
- * @param {ol.proj.Projection=} projection The projection for output geometries
+ * @param {string=} projection The EPSG code of the projection for output geometries (i.e. EPSG:2263)
  * @param {ol.Extent=} extentLimit Geolocation coordinates outside of this bounding box are ignored  
+ * @fires nyc.Locate#geocode
+ * @fires nyc.Locate#ambiguous
+ * @fires nyc.Locate#geolocation
+ * @fires nyc.Locate#error
  *
  */
 nyc.ol.Locate = function(geocoder, projection, extentLimit){
@@ -46,7 +51,7 @@ nyc.ol.Locate = function(geocoder, projection, extentLimit){
 				coordinates: p,
 				heading: me.geolocation.getHeading(),
 				accuracy: me.geolocation.getAccuracy() / me.metersPerUnit(), 
-				type: nyc.Locate.LocateResultType.GEOLOCATION,
+				type: nyc.Locate.ResultType.GEOLOCATION,
 				name: name
 			});
 		}
@@ -64,7 +69,7 @@ nyc.ol.Locate.prototype = {
 	locating: false,
 	/** 
 	 * @private 
-	 * @member {ol.proj.Projection}
+	 * @member {string}
 	 */
 	projection: null,
 	/** 
@@ -91,7 +96,7 @@ nyc.ol.Locate.prototype = {
 		this.geolocation.setTracking(track);
 	},
 	/**
-	 * @desc Geocode an input string and trigger an event of nyc.Locate.LocateEventType with nyc.Locate.LocateResult or nyc.LocateAmbiguoud data
+	 * @desc Geocode an input string representing a location
 	 * @public
 	 * @method
 	 * @param {string} input The value to geocode
@@ -103,7 +108,7 @@ nyc.ol.Locate.prototype = {
 	 * @private 
 	 * @method
 	 * @param {string} evt
-	 * @param {(nyc.Locate.LocateResult|nyc.Locate.LocateAmbiguous)} data
+	 * @param {(nyc.Locate.Result|nyc.Locate.Ambiguous)} data
 	 */
 	proxyEvent: function(evt, data){
 		this.trigger(evt, data);

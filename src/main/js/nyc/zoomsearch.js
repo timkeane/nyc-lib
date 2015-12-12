@@ -107,7 +107,7 @@ nyc.ZoomSearch.prototype = {
 	 * @desc Displays possible address matches 
 	 * @public
 	 * @method
-	 * @param {Array<nyc.Locate.LocateResult>} possibleResults Possible locations resulting from a geocoder search to display to the user
+	 * @param {Array<nyc.Locate.Result>} possibleResults Possible locations resulting from a geocoder search to display to the user
 	 */
 	disambiguate: function(possibleResults){
 		var me = this;
@@ -171,7 +171,7 @@ nyc.ZoomSearch.prototype = {
 	 * @private
 	 * @method
 	 * @param {string} typeName
-	 * @param {nyc.Locate.LocateResult} data
+	 * @param {nyc.Locate.Result} data
 	 * @return {JQuery}
 	 */
 	listItem: function(typeName, data){
@@ -185,7 +185,7 @@ nyc.ZoomSearch.prototype = {
 			 coordinates: data.coordinates,
 			 geoJsonGeometry: data.geoJsonGeometry,
 			 accuracy: data.accuracy,
-			 type: nyc.Locate.LocateResultType.GEOCODE,
+			 type: nyc.Locate.ResultType.GEOCODE,
 			 data: data.data
 		});
 		li.click($.proxy(this.diambiguated, this));
@@ -286,7 +286,7 @@ nyc.ZoomSearch.EventType = {
 /**
  * @desc The user has chosen a location from a list of possible locations
  * @event nyc.ZoomSearch#disambiguated
- * @type {nyc.Locate.LocateResultType}
+ * @type {nyc.Locate.ResultType}
  */
 
 /**

@@ -105,13 +105,13 @@ QUnit.test('proxyEvent', function(assert){
 	var geocodeData1 = {
 			coordinates: [1, 2],
 			accuracy: 0, 
-			type: nyc.Locate.LocateResultType.GEOCODE,
+			type: nyc.Locate.ResultType.GEOCODE,
 			name: 'my address1'
 	};
 	var geocodeData2 = {
 			coordinates: [3, 4],
 			accuracy: 0, 
-			type: nyc.Locate.LocateResultType.GEOCODE,
+			type: nyc.Locate.ResultType.GEOCODE,
 			name: 'my address2'
 	};
 	var ambiguousData = {
@@ -153,7 +153,7 @@ QUnit.test('locate', function(assert){
 			coordinates: coordinates,
 			heading: geo.getHeading(),
 			accuracy: geo.getAccuracy() / locate.metersPerUnit(), 
-			type: nyc.Locate.LocateResultType.GEOLOCATION,
+			type: nyc.Locate.ResultType.GEOLOCATION,
 			name: ol.coordinate.toStringHDMS(geo.getPosition())
 		});
 		if (secondPass) done();

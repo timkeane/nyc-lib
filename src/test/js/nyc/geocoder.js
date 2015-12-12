@@ -34,7 +34,7 @@ QUnit.test('parse (address)', function(assert){
 	assert.deepEqual(
 		geocoder.parse(this.GEOCLIENT_OK_ADDRESS_RESPONSE.results[0]),
 		{
-			type: nyc.Locate.LocateResultType.GEOCODE,
+			type: nyc.Locate.ResultType.GEOCODE,
 			coordinates: [982037, 197460],
 			accuracy: nyc.Geocoder.Accuracy.HIGH,
 			name: '59 Maiden Lane, Manhattan, NY 10038'			
@@ -49,7 +49,7 @@ QUnit.test('parse (intersection)', function(assert){
 	assert.deepEqual(
 		geocoder.parse(this.GEOCLIENT_OK_INTERSECTION_RESPONSE.results[0]),
 		{
-			type: nyc.Locate.LocateResultType.GEOCODE,
+			type: nyc.Locate.ResultType.GEOCODE,
 			coordinates: [0986427, 215839],
 			accuracy: nyc.Geocoder.Accuracy.MEDIUM,
 			name: '9 Avenue And West 43 Street, Manhattan, NY 10036'			
@@ -64,7 +64,7 @@ QUnit.test('parse (blockface)', function(assert){
 	assert.deepEqual(
 		geocoder.parse(this.GEOCLIENT_OK_BLOCKFACE_RESPONSE.results[0]),
 		{
-			type: nyc.Locate.LocateResultType.GEOCODE,
+			type: nyc.Locate.ResultType.GEOCODE,
 			coordinates: [986033.5, 216057],
 			accuracy: nyc.Geocoder.Accuracy.LOW,
 			name: 'West 43 Street Btwn 9 Avenue & 10 Avenue, Manhattan, NY 10036'			
@@ -107,7 +107,7 @@ QUnit.test('geoclient (geocoded)', function(assert){
 		assert.deepEqual(
 			data,
 			{
-				type: nyc.Locate.LocateResultType.GEOCODE,
+				type: nyc.Locate.ResultType.GEOCODE,
 				coordinates: [982037, 197460],
 				accuracy: nyc.Geocoder.Accuracy.HIGH,
 				name: '59 Maiden Lane, Manhattan, NY 10038'			
@@ -168,7 +168,7 @@ QUnit.test('search (zip code)', function(assert){
 		assert.deepEqual(
 			data,
 			{
-				type: nyc.Locate.LocateResultType.GEOCODE,
+				type: nyc.Locate.ResultType.GEOCODE,
 				coordinates: nyc.Geoclient.ZIP_CODE_POINTS['10038'],
 				accuracy: nyc.Geocoder.Accuracy.ZIP_CODE,
 				name: '10038',
@@ -189,7 +189,7 @@ QUnit.test('search (address)', function(assert){
 			assert.deepEqual(
 				data,
 				{
-					type: nyc.Locate.LocateResultType.GEOCODE,
+					type: nyc.Locate.ResultType.GEOCODE,
 					coordinates: [982037, 197460],
 					accuracy: nyc.Geocoder.Accuracy.HIGH,
 					name: '59 Maiden Lane, Manhattan, NY 10038'			

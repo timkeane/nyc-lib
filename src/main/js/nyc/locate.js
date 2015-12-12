@@ -28,11 +28,11 @@ nyc.Locate.prototype = {
 		throw 'Not implemented';		
 	},
 	/**
-	 * @desc Geocode an input string and trigger an event of nyc.Locate.LocateEventType with nyc.Locate.LocateResult or nyc.LocateAmbiguoud data
+	 * @desc Geocode an input string representing a location
 	 * @public
 	 * @abstract
 	 * @method
-	 * @param {string} input An input string describing a location to geocode
+	 * @param {string} input The value to geocode
 	 */
 	search: function(input){
 		throw 'Not implemented';		
@@ -68,7 +68,7 @@ nyc.Locate.LocateEventType = {
  * @public
  * @enum {string}
  */
-nyc.Locate.LocateResultType = {
+nyc.Locate.ResultType = {
 	/**
 	 * @desc The geocode result type
 	 */
@@ -85,39 +85,39 @@ nyc.Locate.LocateResultType = {
  * @typedef {Object}
  * @property {string} name The formatted name of the geocoded location
  * @property {(Array<number>|undefined)} coordinates The geocoded location coordinates
- * @property {number} accuracy The accuracy of the geocoded location in meters of units of a specified projection
- * @property {nyc.Locate.LocateResultType} type They type of result
+ * @property {number} accuracy The accuracy of the geocoded location in meters or units of a specified projection
+ * @property {nyc.Locate.ResultType} type They type of result
  * @property {boolean=} zip Is this the geocoded location a ZIP Code center point
  * @property {Object=} geoJsonGeometry A geoJSON representation of the geocoded location coordinates
  * @property {Object=} data Additional properties provided by the geocoder
  */
-nyc.Locate.LocateResult;
+nyc.Locate.Result;
 
 /**
  * @desc Object type to hold data about possible locations resulting from a geocoder search
  * @public
  * @typedef {Object}
  * @property {string} input The input string on which the geocoding attempt was made
- * @property {Array<nyc.Locate.LocateResult>} possible An array of possible results to the request
+ * @property {Array<nyc.Locate.Result>} possible An array of possible results to the request
  */
-nyc.Locate.LocateAmbiguous;
+nyc.Locate.Ambiguous;
 
 /**
  * @desc The result of a search request
  * @event nyc.Locate#geocode
- * @type {nyc.Locate.LocateResultType}
+ * @type {nyc.Locate.ResultType}
  */
 
 /**
  * @desc The result of a locate request
  * @event nyc.Locate#geolocation
- * @type {nyc.Locate.LocateResultType}
+ * @type {nyc.Locate.ResultType}
  */
 
 /**
  * @desc The result of an inconclusive search request
  * @event nyc.Locate#ambiguous
- * @type {nyc.Locate.LocateAmbiguous}
+ * @type {nyc.Locate.Ambiguous}
  */
 
 /**

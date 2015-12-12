@@ -59,7 +59,7 @@ ol.inherits(nyc.ol.source.Decorating, ol.source.Vector);
  * @private
  * @param {ol.Extent} extent
  * @param {number} resolution
- * @param {ol.proj.Projection} projection
+ * @param {string} projection
  */
 nyc.ol.source.Decorating.xhrLoader = function(extent, resolution, projection){
 	var me = this;
