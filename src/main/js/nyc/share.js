@@ -1,11 +1,11 @@
 var nyc = nyc || {};
 
 /**
- * @export
+ * @desc Class for providing a set of buttons for social media sharing
+ * @public
  * @class
- * @desc Class for providing a set of buttons for social media sharing.
  * @constructor
- * @param {string|Element} target
+ * @property {String|Element|JQuery} target The HTML DOM element that will provide share buttons
  */
 nyc.Share = function(target){
 	var me = this, html = nyc.Share.HTML, title = $('meta[property="og:title"]').attr('content');
@@ -40,7 +40,7 @@ nyc.Share.prototype = {
 };
 
 /**
- * @export
+ * @private
  * @const
  * @type {string}
  */

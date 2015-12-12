@@ -2,14 +2,14 @@ var nyc = nyc || {};
 
 /**
  * A geocoder
- * @export
+ * @public
  * @interface
  */
 nyc.Geocoder = function(){};
 
 /**
  * Enumeration for Geoclient accuracy
- * @export
+ * @public
  * @enum {num}
  */
 nyc.Geocoder.Accuracy = {
@@ -21,14 +21,15 @@ nyc.Geocoder.Accuracy = {
 
 /**
  * Geocode an input string
- * @export
+ * @public
  * @param {string} input
  */
 nyc.Geocoder.prototype.search = function(input){};
 
 /**
  * A class for geocoding that triggers 'geocode' and 'ambiguous' events
- * @export
+ * @public
+ * @class
  * @constructor
  * @implements {nyc.Geocoder}
  * @param {string} url
@@ -142,7 +143,7 @@ nyc.Geoclient.prototype = {
 
 /**
  * Geocode an input string and trigger an event of nyc.Locate.LocateEventType with nyc.Locate.LocateResult or nyc.LocateAmbiguoud data
- * @export
+ * @public
  * @param {string} input
  */
 nyc.Geoclient.prototype.search = function(input){

@@ -1,9 +1,9 @@
 var nyc = nyc || {};
 
 /**
- * @export
- * @class
  * @desc Abstract collapsible widget
+ * @public
+ * @class
  * @constructor
  * @extends {nyc.EventHandling}
  * @param {Object} options
@@ -23,7 +23,7 @@ nyc.Collapsible = function(options){
 
 nyc.Collapsible.prototype = {
 	/**
-	 * @export
+	 * @public
 	 * @member {string}
 	 */
 	currentVal: null

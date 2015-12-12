@@ -131,6 +131,7 @@ nyc.carto.JenksSymbolizerOptions;
  * @desc Class for managing SQL views on layers 
  * @class
  * @public
+ * @class
  * @constructor
  * @extends {nyc.carto.SqlTemplate}
  * @extends {nyc.EventHandling}

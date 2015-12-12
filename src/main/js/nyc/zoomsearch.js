@@ -290,7 +290,7 @@ nyc.ZoomSearch.EventType = {
  */
 
 /**
- * @public
+ * @private
  * @const
  * @type {string}
  */
@@ -312,7 +312,7 @@ nyc.ZoomSearch.BASIC_HTML =
 	'</div>';
 
 /**
- * @public
+ * @private
  * @const
  * @type {string}
  */

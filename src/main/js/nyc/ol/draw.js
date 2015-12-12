@@ -31,7 +31,7 @@ nyc.ol.FeatureEvent;
 
 
 /**
- * @export
+ * @public
  * @typedef {Object}
  * @property {ol.Map} map
  * @property {ol.style.Style=} style
@@ -39,7 +39,8 @@ nyc.ol.FeatureEvent;
 nyc.ol.DrawOptions;
 
 /**
- * @export
+ * @public
+ * @class
  * @constructor
  * @param {nyc.ol.DrawOptions} options
  */
@@ -73,7 +74,7 @@ nyc.ol.Draw = function(options){
 };
 
 /**
- * @export
+ * @public
  * @enum {string}
  */
 nyc.ol.Draw.Type  = {
@@ -162,7 +163,7 @@ nyc.ol.Draw.prototype = {
 		})
 	}),	
 	/**
-	 * @export
+	 * @public
 	 * @param {nyc.ol.Draw.Type} type
 	 */
 	active: function(){
@@ -170,7 +171,7 @@ nyc.ol.Draw.prototype = {
 		return false;
 	},
 	/**
-	 * @export
+	 * @public
 	 * @param {nyc.ol.Draw.Type} type
 	 */
 	activate: function(type){
@@ -220,7 +221,7 @@ nyc.ol.Draw.prototype = {
 			});
 		}
 	},
-	/** @export 
+	/** @public 
 	 * @return {Array<Object>}
 	 */
 	getFeatures: function(){
@@ -332,11 +333,11 @@ nyc.ol.Draw.prototype = {
 			}
 		});		
 	},
-	/** @export */
+	/** @public */
 	clear: function(){
 		this.source.clear();
 	},
-	/** @export */
+	/** @public */
 	deactivate: function(){
 		this.type = null;
 		if (this.drawer){
@@ -426,10 +427,11 @@ nyc.ol.Draw.BUTTON_MENU_HTML = '<div class="ol-unselectable ol-control draw-btn"
 	'</div>';
 
 /**
-* @constructor
-* @extends {ol.interaction.Pointer}
-* @param {ol.layer.Vector} layer
-*/
+ * @class
+ * @constructor
+ * @extends {ol.interaction.Pointer}
+ * @param {ol.layer.Vector} layer
+ */
 nyc.ol.Drag = function(layer){
 	/**
 	 * @private

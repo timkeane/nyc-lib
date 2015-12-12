@@ -1,6 +1,9 @@
 var nyc = nyc || {};
 
-/** @export */
+/** 
+ * @public 
+ * @class
+ */
 nyc.Content = (function(){	
 	/**
 	 * nyc.Content - a class to manage content messages
@@ -19,7 +22,7 @@ nyc.Content = (function(){
 		/**
 		 * Returns a content message with substituted valeus
 		 * 
-		 * @export
+		 * @public
 		 * @param {string} msgId
 		 * @param {Object} values
 		 * @return {string}

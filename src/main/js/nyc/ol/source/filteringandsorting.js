@@ -1,29 +1,39 @@
-//TODO pick up here with documentation
-
 var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 nyc.ol.source = nyc.ol.source || {};
 
 /**
- * Object to use for filtering the features of an instance of nyc.ol.source.FilteringAndSorting
+ * @desc Object to use for filtering the features of an instance of nyc.ol.source.FilteringAndSorting
+ * @public
  * @typedef {Object}
- * @property {string} property
- * @property {Array<string>} values
+ * @property {string} property The property name on which to filter features
+ * @property {Array<string>} values The valid values for the property
  */
 nyc.ol.source.Filter;
 
 /**
- * Class that extends nyc.ol.source.Decorating for providing functionality to sort by distance and filter by property 
- * @export
+ * @desc Class that extends nyc.ol.source.Decorating for providing functionality to sort by distance and filter by property 
+ * @public
+ * @class
  * @constructor
  * @extends {nyc.ol.source.Decorating}
- * @param {Object} options Options.
+ * @param {Object} options Constructor options
  * @param {Array<Object>}  decorationMixins An array of objects whose members will be added to all features created by this source
  * @see http://www.openlayers.org/
  */
 nyc.ol.source.FilteringAndSorting = function(options, decorationMixins){
 	var me = this;
+	/**
+	 * @private
+	 * @member
+	 * @type {Array<ol.Feature>}
+	 */
 	me.allFeatures = [];
+	/**
+	 * @private
+	 * @member
+	 * @type {boolean}
+	 */
 	me.filtering = false;
 	decorationMixins = decorationMixins || [];
 	decorationMixins.push({
@@ -48,9 +58,11 @@ nyc.ol.source.FilteringAndSorting = function(options, decorationMixins){
 ol.inherits(nyc.ol.source.FilteringAndSorting, nyc.ol.source.Decorating);
 
 /**
- * @export
+ * @desc Filters the features of this source
+ * @public
+ * @method
  * @param {Array<nyc.ol.source.Filter>} filters Used to filter features by attributes
- * @return {Array<ol.Feature>} An array of features contained in this source that are the result is the intersection of the applied filters.
+ * @return {Array<ol.Feature>} An array of features contained in this source that are the result is the intersection of the applied filters
  */
 nyc.ol.source.FilteringAndSorting.prototype.filter = function(filters){
 	var me = this, filteredFeatures = [], filteredFeaturesMap = {};	
@@ -74,10 +86,11 @@ nyc.ol.source.FilteringAndSorting.prototype.filter = function(filters){
 };
 
 /**
- * Sorts features by distance from coordinate
- * @export
- * @param {ol.Coordinate} coordinate Sort features by distance to this location.
- * @return {Array<ol.Feature>} An array of the features contained in this source that are the result is the intersection of the currently applied filters sorted by their distance to the coordinate provided.
+ * @desc Sorts features by distance from coordinate
+ * @public
+ * @method
+ * @param {ol.Coordinate} coordinate Sort features by distance to this location
+ * @return {Array<ol.Feature>} An array of the features contained in this source that are the result is the intersection of the currently applied filters sorted by their distance to the coordinate provided
  */
 nyc.ol.source.FilteringAndSorting.prototype.sort = function(coordinate){
 	var result = this.getFeatures();

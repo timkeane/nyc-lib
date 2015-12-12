@@ -1,9 +1,9 @@
 var nyc = nyc || {};
 
 /**
- * @export
- * @class
  * @desc Collapsible radio buttons
+ * @public
+ * @class
  * @constructor
  * @extends {nyc.Collapsible}
  * @param {Object} options
@@ -59,7 +59,7 @@ nyc.Radio.prototype = {
 	},
 	/** 
 	 * Returns the date range value
-	 * @export
+	 * @public
 	 * @method
 	 * @return {string}
 	 */
@@ -68,7 +68,7 @@ nyc.Radio.prototype = {
 	},
 	/** 
 	 * Enable/disable a radio button
-	 * @export
+	 * @public
 	 * @method
 	 * @param {string} choiceValue
 	 * @param {boolean} enabled
@@ -88,7 +88,7 @@ nyc.Radio.prototype = {
 nyc.inherits(nyc.Radio, nyc.Collapsible);
 
 /** 
- * @export
+ * @public
  * @static {number}
  */
 nyc.Radio.uniqueId = 0;

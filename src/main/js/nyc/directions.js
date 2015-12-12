@@ -1,6 +1,9 @@
 var nyc = nyc || {};
 
-/** @export */
+/** 
+ * @public
+ * @class
+ */
 nyc.Directions = (function(){
 	/**
 	 * nyc.Directions
@@ -42,7 +45,7 @@ nyc.Directions = (function(){
 		/** @private */
 		modeBtn: '#mode-transit',
 		/**
-		 * @export
+		 * @public
 		 * @param {nyc.Directions.Args} args
 		 */
 		directions: function(args) {
@@ -87,7 +90,7 @@ nyc.Directions = (function(){
 				);
 			}
 		},
-		/** @export */
+		/** @public */
 		setup: function(){
 			this.map = new google.maps.Map($(this.mapTarget).get(0), {
 				mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -189,7 +192,7 @@ nyc.inherits(nyc.Directions, nyc.EventHandling);
 
 /**
  * Enumeration for directions event type
- * @export
+ * @public
  * @enum {string}
  */
 nyc.Directions.EventType = {CHANGED: 'changed'};

@@ -2,7 +2,7 @@ var nyc = nyc || {};
 
 /**
  * @desc Date range object
- * @export
+ * @public
  * @typedef {Object}
  * @property {Date} start The start of the range
  * @property {Date} end The end of the range
@@ -11,7 +11,7 @@ nyc.DateRange;
 
 /**
  * @desc Constructor options for nyc.MonthRangePicker
- * @export
+ * @public
  * @typedef {Object}
  * @property {number} minMonth The zero-based index of the minimum month
  * @property {number} minYear The 4 digit minimum year
@@ -23,7 +23,7 @@ nyc.MonthRangePickerOptions;
 
 /**
  * @desc A UI class to pick a month range
- * @export
+ * @public
  * @class
  * @constructor
  * @extends {nyc.Collapsible}
@@ -184,7 +184,7 @@ nyc.MonthRangePicker.prototype = {
 	},
 	/** 
 	 * @desc Returns the date range value
-	 * @export
+	 * @public
 	 * @method	
 	 * @return {nyc.DateRange}
 	 */

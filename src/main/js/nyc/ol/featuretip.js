@@ -25,7 +25,8 @@ nyc.ol.FeatureTipDef;
 
 /**
  * Class for providing tool tips on mouseover for vector features.
- * @export
+ * @public
+ * @class
  * @constructor
  * @param {ol.Map} map
  * @param {Array<nyc.ol.FeatureTipDef>=} tipDefs
@@ -50,7 +51,7 @@ nyc.ol.FeatureTip.prototype = {
 	tip: null,
 	/** @private */
 	helper: null,
-	/** @export */
+	/** @public */
 	hide: function(){
 		this.tip.fadeOut();
 	},
@@ -94,7 +95,7 @@ nyc.ol.FeatureTip.prototype = {
 
 /**
  * Adds tip definitions
- * @export
+ * @public
  * @param {Array<nyc.ol.FeatureTipDef>} tipDefs
  */
 nyc.ol.FeatureTip.prototype.addtipDefs = function(tipDefs){

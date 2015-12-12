@@ -1,12 +1,12 @@
 var nyc = nyc || {};
 
 /**
- * @export
- * @class
  * @desc A class to generate legend HTML
+ * @public
+ * @class
  * @constructor
  * @extends {nyc.ReplaceTokens}
- * @param {string} legendTemplate
+ * @param {string} legendTemplate The template with an optional replacement token for the caption (${caption})
  */
 nyc.Legend = function(legendTemplate){
 	this.legendTemplate = legendTemplate;
@@ -19,9 +19,10 @@ nyc.Legend.prototype = {
 	 */
 	legendTemplate: null,
 	/**
-	 * @export
+	 * @desc Returns the legend HTML as a JQuery object
+	 * @public
 	 * @method
-	 * @param {string} caption
+	 * @param {string} caption A legend caption
 	 * @return {JQuery}
 	 */
 	html: function(caption){
@@ -32,14 +33,14 @@ nyc.Legend.prototype = {
 nyc.inherits(nyc.Legend, nyc.ReplaceTokens);
 
 /**
- * @export
+ * @desc A class to generate legend HTML with classifications for bins or buckets
+ * @public
  * @class
- * @desc A class to generate legend HTML for bins or buckets
  * @constructor
  * @extends {nyc.Legend}
- * @param {string} name
- * @param {nyc.BinLegend.SymbolType} symbolType
- * @param {nyc.BinLegend.BinType} binType
+ * @param {string} name The name of the legend
+ * @param {nyc.BinLegend.SymbolType} symbolType The symbol type for the legend
+ * @param {nyc.BinLegend.BinType} binType The bin type for the legend
  * 
  */
 nyc.BinLegend = function(name, symbolType, binType){
@@ -70,10 +71,12 @@ nyc.BinLegend.prototype = {
 	 */
 	valueTemplate: '<tr><td class="leg-bin leg-bin-${index}"><img alt="${value}" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">${value}</td></tr>',
 	/**
-	 * @export
+	 * @desc Returns the legend HTML as a JQuery object
+	 * @public
+	 * @override
 	 * @method
-	 * @param {string} caption
-	 * @param {Array<string|number>} bins
+	 * @param {string} caption A legend caption
+	 * @param {Array<string|number>} bins The legend classifications
 	 * @return {JQuery}
 	 */
 	html: function(caption, bins){
@@ -124,24 +127,45 @@ nyc.BinLegend.prototype = {
 nyc.inherits(nyc.BinLegend, nyc.Legend);
 
 /**
- * Enumeration for legend symbol type
- * @export
+ * @desc Enumeration for legend symbol type
+ * @public
  * @enum {string}
  */
 nyc.BinLegend.SymbolType = {
+	/**
+	 * @desc Polygon symbol
+	 */
 	POLYGON: 'leg-polygon',
+	/**
+	 * @desc Line symbol
+	 */
 	LINE: 'leg-line',
+	/**
+	 * @desc Point symbol
+	 */
 	POINT: 'leg-point',
+	/**
+	 * @desc Graduated point symbol
+	 */
 	GRADUATED_POINT: 'leg-grad-point'
 };
 
 /**
  * Enumeration for legend bin type
- * @export
+ * @public
  * @enum {string}
  */
 nyc.BinLegend.BinType = {
+	/**
+	 * @desc Range of numbers
+	 */
 	RANGE_FLOAT: 'leg-range-float',
+	/**
+	 * @desc Range of integers
+	 */
 	RANGE_INT: 'leg-range-int',
+	/**
+	 * @desc Range of values
+	 */
 	VALUE: 'leg-value'
 };

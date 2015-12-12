@@ -19,6 +19,7 @@ nyc.ol.source.AcrGisCacheOptions;
 /**
  * @desc Class for source that provides tiles from an ArcGIS Server tile cache
  * @public
+ * @class
  * @constructor
  * @extends {ol.source.TileImage}
  * @param {nyc.ol.source.AcrGisCacheOptions} options Constructor options

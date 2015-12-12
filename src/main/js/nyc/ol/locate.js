@@ -3,7 +3,8 @@ nyc.ol = nyc.ol || {};
 
 /**
  * nyc.ol.Locate an object for geocoding and geolocating
- * @export
+ * @public
+ * @class
  * @constructor
  * @implements {nyc.Locate}
  * @param {nyc.Geocoder} geocoder
@@ -101,7 +102,7 @@ nyc.ol.Locate.prototype = {
 
 /**
  * Locate once using device geolocation
- * @export
+ * @public
  */
 nyc.ol.Locate.prototype.locate = function(){
 	this.locating = true;
@@ -110,7 +111,7 @@ nyc.ol.Locate.prototype.locate = function(){
 
 /**
  * Track using device geolocation
- * @export
+ * @public
  * @param {boolean} track
  */
 nyc.ol.Locate.prototype.track = function(track){
@@ -119,7 +120,7 @@ nyc.ol.Locate.prototype.track = function(track){
 
 /**
  * Geocode an input string and trigger an event of nyc.Locate.LocateEventType with nyc.Locate.LocateResult or nyc.LocateAmbiguoud data
- * @export
+ * @public
  * @param {string} input
  */
 nyc.ol.Locate.prototype.search = function(input){
