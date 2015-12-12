@@ -1,3 +1,5 @@
+//TODO pick up here with documentation
+
 var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 nyc.ol.source = nyc.ol.source || {};
