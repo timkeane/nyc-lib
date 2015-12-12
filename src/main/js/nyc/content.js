@@ -1,42 +1,33 @@
 var nyc = nyc || {};
 
 /** 
+ * @desc A class to provide messages with substitution values
  * @public 
  * @class
+ * @constructor
+ * @param {Object<string,string>} messages The messages with optional tokens mapped by message id
  */
-nyc.Content = (function(){	
-	/**
-	 * nyc.Content - a class to manage content messages
-	 * 
-	 * @constructor
-	 * @param {Object} messages
-	 * 
-	 */
-	var contentClass = function(messages){
-		this.messages = messages;
-	};
-	
-	contentClass.prototype = {
-		/** @private */
-		messages: null,
-		/**
-		 * Returns a content message with substituted valeus
-		 * 
-		 * @public
-		 * @param {string} msgId
-		 * @param {Object} values
-		 * @return {string}
-		 */
-		message: function(msgId, values){
-			var result = this.messages[msgId];
-			for (var val in values){
-				result = result.replace(new RegExp('\\$\\{' + val + '\\}', 'g'), values[val]);
-			}
-			return result;			
-		}
-	};
-	
-	return contentClass;
-	
-}());
+nyc.Content = function(messages){
+	this.messages = messages;
+};
 
+nyc.Content.prototype = {
+	/** 
+	 * @private
+	 * @member {Object<string,string>}
+	 */
+	messages: null,
+	/**
+	 * @desc Returns a content message with substituted valeus
+	 * @public
+	 * @method
+	 * @param {string} msgId The id for the message
+	 * @param {Object<string, string>=} values The substitution values
+	 * @return {string} The message with substituted values if provided
+	 */
+	message: function(msgId, values){
+		return this.replace(this.messages[msgId], values || {});			
+	}
+};
+
+nyc.inherits(nyc.Content, nyc.ReplaceTokens);
