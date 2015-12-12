@@ -41,11 +41,22 @@ nyc.carto.SqlTemplate.prototype = {
 
 nyc.inherits(nyc.carto.SqlTemplate, nyc.ReplaceTokens);
 
+/**
+ * @desc An interface for symbolizing CartoDB layers
+ * @public
+ * @class
+ * @constructor
+ */
+nyc.carto.Symbolizer = function(){};
+
+nyc.inherits(nyc.carto.Symbolizer, nyc.ReplaceTokens);
+nyc.inherits(nyc.carto.Symbolizer, nyc.EventHandling);
+
 /** 
  * @desc Enumerator for symbolizer event types
  * @enum {string}
  */
-nyc.carto.SymbolizerEventType = {
+nyc.carto.Symbolizer.EventType = {
 	/**
 	 * @desc The symbolized event fired after a symbolizer completes its symbolize function
 	 */
@@ -53,30 +64,20 @@ nyc.carto.SymbolizerEventType = {
 };
 
 /**
- * @desc The CartoCSS applied to the heat map layer
- * @event nyc.carto.HeatSymbolizer#symbolized
- * @type {String}
+ * @desc The result of symbolization 
+ * @event nyc.carto.Symbolizer#symbolized
+ * @type {Object}
  */
-
-/**
- * @desc Object type to hold constructor options for {@link nyc.carto.HeatSymbolizer}
- * @public
- * @typedef {Object}
- * @property {L.Map} map The Leaflet map containing the heat map layer
- * @property {carto.Layer} layer The CartoDB heat map layer
- * @property {string} css CartoCSS with optional replacement tokens for rendering the heat map (valid tokens are ${size}, ${sizePlus2} and ${sizePlus4})
- * @property {Array<Number>=} sizes An array of marker sizes for replacing tokens in the css where the last number in the array is to be used at zoom level 18
- */
-nyc.carto.HeatSymbolizerOption;
 
 /**
  * @desc Class for managing heat map rendering based on zoom level
  * @public
  * @class
  * @constructor
+ * @implements {nyc.carto.Symbolizer}
  * @extends {nyc.ReplaceTokens}
  * @extends {nyc.EventHandling}
- * @param {nyc.carto.HeatSymbolizerOption} options Constructor options
+ * @param {nyc.carto.HeatSymbolizer.Options} options Constructor options
  * @fires nyc.carto.HeatSymbolizer#symbolized
  */
 nyc.carto.HeatSymbolizer = function(options){
@@ -102,30 +103,28 @@ nyc.carto.HeatSymbolizer.prototype = {
 		size = this.sizes[idx] || 1;
 		css = this.replace(css, {size: size, sizePlus2: size + 2, sizePlus4: size + 4});
 		this.layer.setCartoCSS(css);
-		this.trigger(nyc.carto.SymbolizerEventType.SYMBOLIZED, css);
+		this.trigger(nyc.carto.Symbolizer.EventType.SYMBOLIZED, css);
 	}
 };
 
-nyc.inherits(nyc.carto.HeatSymbolizer, nyc.ReplaceTokens);
-nyc.inherits(nyc.carto.HeatSymbolizer, nyc.EventHandling);
+nyc.inherits(nyc.carto.HeatSymbolizer, nyc.carto.Symbolizer);
 
 /**
- * @desc The Jenks breaks applied to the CartoCS of the layer 
- * @event nyc.carto.JenksSymbolizer#symbolized
- * @type {Array<number>}
- */
-
-/**
- * @desc Object type to hold constructor options for {@link nyc.carto.JenksSymbolizer}
+ * @desc Object type to hold constructor options for {@link nyc.carto.HeatSymbolizer}
  * @public
  * @typedef {Object}
- * @property {cartodb.SQL} cartoSql The object used to query CartoDB data 
- * @property {string} jenksColumn The data column for calculating Jenks natural breaks in the data
- * @property {string=} baseCss CartoCSS that remains unchanged regardless of changing data
- * @property {Array<string>} cssRules An array of CartoCSS with the token ${value} to be replaced by the Jenks calculated values
- * @property {string=} outlierFilter An SQL condition used to restrict the data used in the Jenks calculation
+ * @property {L.Map} map The Leaflet map containing the heat map layer
+ * @property {carto.Layer} layer The CartoDB heat map layer
+ * @property {string} css CartoCSS with optional replacement tokens for rendering the heat map (valid tokens are ${size}, ${sizePlus2} and ${sizePlus4})
+ * @property {Array<Number>=} sizes An array of marker sizes for replacing tokens in the css where the last number in the array is to be used at zoom level 18
  */
-nyc.carto.JenksSymbolizerOptions;
+nyc.carto.HeatSymbolizer.Options;
+
+/**
+ * @desc The CartoCSS applied to the heat map layer
+ * @event nyc.carto.HeatSymbolizer#symbolized
+ * @type {String}
+ */
 
 /**
  * @desc Class for managing SQL views on layers 
@@ -133,9 +132,10 @@ nyc.carto.JenksSymbolizerOptions;
  * @public
  * @class
  * @constructor
+ * @implements {nyc.carto.Symbolizer}
  * @extends {nyc.carto.SqlTemplate}
  * @extends {nyc.EventHandling}
- * @param {nyc.carto.JenksSymbolizerOptions} options Constructor options
+ * @param {nyc.carto.JenksSymbolizer.Options} options Constructor options
  * @fires nyc.carto.JenksSymbolizer#symbolized
  */
 nyc.carto.JenksSymbolizer = function(options){
@@ -179,7 +179,7 @@ nyc.carto.JenksSymbolizer.prototype = {
 		me.cartoSql.execute(jenksSql).done(function(data){
 			var bins = me.bins(data.rows[0].cdb_jenksbins);
 			me.applyCss(layer, bins);
-			me.trigger(nyc.carto.SymbolizerEventType.SYMBOLIZED, bins);
+			me.trigger(nyc.carto.Symbolizer.EventType.SYMBOLIZED, bins);
 		});
 	},
 	/**
@@ -220,8 +220,31 @@ nyc.carto.JenksSymbolizer.prototype = {
 	}
 };
 
-nyc.inherits(nyc.carto.JenksSymbolizer, nyc.EventHandling);
 nyc.inherits(nyc.carto.JenksSymbolizer, nyc.carto.SqlTemplate);
+nyc.inherits(nyc.carto.JenksSymbolizer, nyc.carto.Symbolizer);
+
+/**
+ * @desc Object type to hold constructor options for {@link nyc.carto.JenksSymbolizer}
+ * @public
+ * @typedef {Object}
+ * @property {cartodb.SQL} cartoSql The object used to query CartoDB data 
+ * @property {string} jenksColumn The data column for calculating Jenks natural breaks in the data
+ * @property {Array<string>} cssRules An array of CartoCSS with the token ${value} to be replaced by the Jenks calculated values
+ * @property {string=} baseCss CartoCSS that remains unchanged regardless of changing data
+ * @property {string=} outlierFilter An SQL condition used to restrict the data used in the Jenks calculation
+ */
+nyc.carto.JenksSymbolizer.Options;
+
+/** 
+ * @desc Enumerator for symbolizer event types
+ * @enum {string}
+ */
+
+/**
+ * @desc The Jenks breaks applied to the CartoCS of the layer 
+ * @event nyc.carto.JenksSymbolizer#symbolized
+ * @type {Array<number>}
+ */
 
 /** 
  * @desc Enumerator for symbolizer event types
@@ -235,33 +258,13 @@ nyc.carto.ViewEventType = {
 };
 
 /**
- * @desc Legend HTML generated after a view modifies a the data for its layer 
- * @event nyc.carto.View#updated
- * @type {string} 
- */
-
-/**
- * @desc Object type to hold constructor options {@link for nyc.carto.View}
- * @public
- * @typedef {Object}
- * @property {string} name A name for the view
- * @property {cartodb.Layer} layer The layer managed by the view
- * @property {string} sqlTemplate The template with optional replacement tokens for generating queries for cartoSql
- * @property {string=} descriptionTemplate The template with optional replacement tokens for the chart description
- * @property {Object} filters The filters used with the sqlTemplate for generating queries for cartoSql
- * @property {nyc.carto.JenksSymbolizer=} symbolizer The symbolized used to change the layer its underlying data changes
- * @property {nyc.Legend=} legend The legend for this view
- */
-nyc.carto.ViewOptions;
-
-/**
  * @desc Class for managing SQL views on layers 
  * @public
  * @class
  * @constructor
  * @extends {nyc.carto.SqlTemplate}
  * @extends {nyc.EventHandling}
- * @param {nyc.carto.ViewOptions} options Constructor options
+ * @param {nyc.carto.View.Options} options Constructor options
  * @fires nyc.carto.View#updated
  */
 nyc.carto.View = function(options){
@@ -320,7 +323,7 @@ nyc.carto.View.prototype = {
 		me.layer.setSQL(sql);
 		if (me.legend){
 			if (me.symbolizer){
-				me.symbolizer.one(nyc.carto.SymbolizerEventType.SYMBOLIZED, function(bins){
+				me.symbolizer.one(nyc.carto.Symbolizer.EventType.SYMBOLIZED, function(bins){
 					me.trigger(nyc.carto.ViewEventType.UPDATED, me.legend.html(desc, bins));
 				});
 				me.symbolizer.symbolize(me.layer);
@@ -344,6 +347,26 @@ nyc.carto.View.prototype = {
 
 nyc.inherits(nyc.carto.View, nyc.EventHandling);
 nyc.inherits(nyc.carto.View, nyc.carto.SqlTemplate);
+
+/**
+ * @desc Object type to hold constructor options {@link for nyc.carto.View}
+ * @public
+ * @typedef {Object}
+ * @property {string} name A name for the view
+ * @property {cartodb.Layer} layer The layer managed by the view
+ * @property {string} sqlTemplate The template with optional replacement tokens for generating queries on the layer
+ * @property {Object} filters The filters used with the sqlTemplate for generating queries on the layer
+ * @property {string=} descriptionTemplate The template with optional replacement tokens for the chart description
+ * @property {nyc.carto.JenksSymbolizer=} symbolizer The symbolized used to change the layer its underlying data changes
+ * @property {nyc.Legend=} legend The legend for this view
+ */
+nyc.carto.View.Options;
+
+/**
+ * @desc Legend HTML generated after a view modifies a the data for its layer 
+ * @event nyc.carto.View#updated
+ * @type {string} 
+ */
 
 /**
  * @desc Class for managing named instances of nyc.View 

@@ -46,7 +46,9 @@ QUnit.test('symbolize', function(assert){
 	var options = {
 		map: map,
 		layer: layer,
-		css: '#carto_css{marker-width:${size};}'
+		css: '#carto_css{marker-width:${size};}' +
+			'#carto_css_2{marker-width:${sizePlus2};}' +
+			'#carto_css_4{marker-width:${sizePlus4};}'
 	};
 	var symbolizer = new nyc.carto.HeatSymbolizer(options);
 
@@ -54,13 +56,14 @@ QUnit.test('symbolize', function(assert){
 		var idx = zoom - 10;
 		var size = symbolizer.sizes[idx] || 1;
 		map.zoom = zoom;
-		symbolizer.one('symbolized', function(){
-			assert.ok(true);
+		symbolizer.one(nyc.carto.Symbolizer.EventType.SYMBOLIZED, function(css){
+			assert.equal(css, '#carto_css{marker-width:' + size + ';}' +
+					'#carto_css_2{marker-width:' + (size + 2) + ';}' +
+					'#carto_css_4{marker-width:' + (size + 4) + ';}')
+			assert.equal(layer.css, css);
 		});
 		map.trigger('zoomend');
-		assert.equal(layer.css, '#carto_css{marker-width:' + size + ';}');
 	}
-
 
 });
 
@@ -86,7 +89,7 @@ QUnit.test('symbolize (has outlierFilter, 5 bins returned)', function(assert){
 	this.MOCK_CARTO_SQL.returnDatas = [{rows: [{cdb_jenksbins: [1, 2, 3, 4, 5]}]}]; 
 	
 	var symbolizer = new nyc.carto.JenksSymbolizer(options);
-	symbolizer.on('symbolized', function(bins){
+	symbolizer.on(nyc.carto.Symbolizer.EventType.SYMBOLIZED, function(bins){
 		assert.deepEqual(bins, [1, 2, 3, 4, 5]);
 	});
 	
@@ -108,7 +111,7 @@ QUnit.test('symbolize (no outlierFilter, 4 bins returned)', function(assert){
 	this.MOCK_CARTO_SQL.returnDatas = [{rows: [{cdb_jenksbins: [1, 2, 3, 4]}]}]; 
 	
 	var symbolizer = new nyc.carto.JenksSymbolizer(options);
-	symbolizer.on('symbolized', function(bins){
+	symbolizer.on(nyc.carto.Symbolizer.EventType.SYMBOLIZED, function(bins){
 		assert.deepEqual(bins, [1, 2, 3, 4]);
 	});
 	
@@ -126,7 +129,7 @@ QUnit.module('nyc.carto.View', {
 			layer: null,
 			symbolize: function(layer){
 				this.layer = layer;
-				this.trigger('symbolized', 'bins');
+				this.trigger(nyc.carto.Symbolizer.EventType.SYMBOLIZED, 'bins');
 			}
 		};
 		nyc.inherits(MockSymbolizer, nyc.EventHandling);

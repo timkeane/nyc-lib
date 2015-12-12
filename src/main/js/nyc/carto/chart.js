@@ -9,29 +9,12 @@ nyc.carto = nyc.carto || {};
 /** @external cartodb.SQL */
 
 /**
- * @desc Object type to hold constructor options for {@link nyc.carto.Chart}
- * @public
- * @typedef {Object}
- * @property {JQuery|Element|string} canvas The canvas element for chart rendering
- * @property {cartodb.SQL} cartoSql The object used to query CartoDB data 
- * @property {string} sqlTemplate The template with optional replacement tokens for generating queries for cartoSql
- * @property {string} descriptionTemplate The template with optional replacement tokens for the chart description
- * @property {string} dataColumn The data column for the y-axis chart values
- * @property {string} labelColumn The data column for labeling the x-axis of the chart
- * @property {Object} filters The filters object used with the sqlTemplate for generating queries for cartoSql
- * @property {Object=} chartOptions ChartJS options (See: [http://www.chartjs.org/]{@link http://www.chartjs.org/})
- * @property {Array<Object>=} seriesOptions ChartJS options (See: [http://www.chartjs.org/]{@link http://www.chartjs.org/})
- * @property {function(string):string=} labelLookupFunction A function to transform labelColumn column values from the data into readable labels 
- */
-nyc.carto.ChartOptions;
-
-/**
  * @desc A class to render ChartJS charts using CartoDB data
  * @public
  * @class
  * @constructor
  * @extends {nyc.carto.SqlTemplate}
- * @param {nyc.carto.ChartOptions} options Constructor options
+ * @param {nyc.carto.Chart.Options} options Constructor options
  * 
  */
 nyc.carto.Chart = function(options){
@@ -177,6 +160,24 @@ nyc.carto.Chart.prototype = {
 };
 
 nyc.inherits(nyc.carto.Chart, nyc.carto.SqlTemplate);
+
+/**
+ * @desc Object type to hold constructor options for {@link nyc.carto.Chart}
+ * @public
+ * @typedef {Object}
+ * @property {JQuery|Element|string} canvas The canvas element for chart rendering
+ * @property {cartodb.SQL} cartoSql The object used to query CartoDB data 
+ * @property {string} sqlTemplate The template with optional replacement tokens for generating queries for cartoSql
+ * @property {string} descriptionTemplate The template with optional replacement tokens for the chart description
+ * @property {string} dataColumn The data column for the y-axis chart values
+ * @property {string} labelColumn The data column for labeling the x-axis of the chart
+ * @property {Object} filters The filters object used with the sqlTemplate for generating queries for cartoSql
+ * @property {Object=} chartOptions ChartJS options (See: [http://www.chartjs.org/]{@link http://www.chartjs.org/})
+ * @property {Array<Object>=} seriesOptions ChartJS options (See: [http://www.chartjs.org/]{@link http://www.chartjs.org/})
+ * @property {function(string):string=} labelLookupFunction A function to transform labelColumn column values from the data into readable labels 
+ */
+nyc.carto.Chart.Options;
+
 
 /**
  * @private
