@@ -35,7 +35,7 @@ nyc.LangChoices;
  * @public 
  * @class
  * @constructor
- * @property {String|Element|JQuery} target The HTML DOM element that will provide language choices
+ * @property {(String|Element|JQuery)} target The HTML DOM element that will provide language choices
  * @param {nyc.LangChoices} languages The languages to provide
  */
 nyc.Lang = function(target, languages){

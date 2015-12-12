@@ -12,7 +12,7 @@ nyc.ol.layer = nyc.ol.layer || {};
  * @class
  * @constructor
  * @extends {ol.layer.Tile}
- * @param {Object=} options Constructor options
+ * @param {Object} [options={@link nyc.ol.layer.BaseLayer.DEFAULT_OPTIONS}] Constructor options
  * @see http://www.openlayers.org/
  */
 nyc.ol.layer.BaseLayer = function(options){

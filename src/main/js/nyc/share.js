@@ -5,7 +5,7 @@ var nyc = nyc || {};
  * @public
  * @class
  * @constructor
- * @property {String|Element|JQuery} target The HTML DOM element that will provide share buttons
+ * @property {(String|Element|JQuery)} target The HTML DOM element that will provide share buttons
  */
 nyc.Share = function(target){
 	var me = this, html = nyc.Share.HTML, title = $('meta[property="og:title"]').attr('content');

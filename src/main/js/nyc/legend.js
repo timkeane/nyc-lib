@@ -116,7 +116,7 @@ nyc.BinLegend.prototype = {
 	 * @private
 	 * @method
 	 * @param {number} index
-	 * @param {string|number} value
+	 * @param {(string|number)} value
 	 * @return {Object}
 	 */
 	valueBin: function(index, value){

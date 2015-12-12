@@ -85,11 +85,11 @@ nyc.Locate.LocateResultType = {
  * @typedef {Object}
  * @property {string} name The formatted name of the geocoded location
  * @property {(Array<number>|undefined)} coordinates The geocoded location coordinates
- * @property {(Object|undefined)} geoJsonGeometry A geoJSON representation of the geocoded location coordinates
  * @property {number} accuracy The accuracy of the geocoded location in meters of units of a specified projection
  * @property {nyc.Locate.LocateResultType} type They type of result
- * @property {(boolean|undefined)} zip Is this the geocoded location a ZIP Code center point
- * @property {(Object|undefined)} data Additional properties provided by the geocoder
+ * @property {boolean=} zip Is this the geocoded location a ZIP Code center point
+ * @property {Object=} geoJsonGeometry A geoJSON representation of the geocoded location coordinates
+ * @property {Object=} data Additional properties provided by the geocoder
  */
 nyc.Locate.LocateResult;
 

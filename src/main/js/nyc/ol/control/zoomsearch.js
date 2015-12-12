@@ -13,7 +13,7 @@ nyc.ol.control = nyc.ol.control || {};
  * @constructor
  * @extends {nyc.ZoomSearch}
  * @param {ol.Map} map The OpenLayers map that will be controlled 
- * @param {(boolean|undefined)} useSearchTypeMenu Use search types menu
+ * @param {boolean} [useSearchTypeMenu=false] Use search types menu
  * @fires nyc.ZoomSearch#search
  * @fires nyc.ZoomSearch#geolocate
  * @fires nyc.ZoomSearch#disambiguated

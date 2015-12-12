@@ -2,34 +2,12 @@ var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 
 /**
- * Object type to return from a feature's label function
- * @typedef {Object}
- * @property {(string|undefined)} cssClass
- * @property {string} text
- */
-nyc.ol.FeatureLabel;
-
-/**
- * Label function to include in a tipDef
- * @typedef {function():nyc.ol.FeatureLabel}
- */
-nyc.ol.FeatureLabelFunction;
-
-/**
- * Object literal with config options for tooltips 
- * @typedef {Object}
- * @property {ol.source.Vector} source
- * @property {nyc.ol.FeatureLabelFunction} labelFunction
- */
-nyc.ol.FeatureTipDef;
-
-/**
- * Class for providing tool tips on mouseover for vector features.
+ * Class for providing tool tips on mouseover for vector features
  * @public
  * @class
  * @constructor
- * @param {ol.Map} map
- * @param {Array<nyc.ol.FeatureTipDef>=} tipDefs
+ * @param {ol.Map} map The OpenLayers map with which the user will interact
+ * @param {Array<nyc.ol.FeatureTip.TipDef>=} tipDefs The tip definitions
  */
 nyc.ol.FeatureTip = function(map, tipDefs){
 	this.map = map;
@@ -43,25 +21,59 @@ nyc.ol.FeatureTip = function(map, tipDefs){
 };
 
 nyc.ol.FeatureTip.prototype = {
-	/** @private */
+	/** 
+	 * @private
+	 * @member {ol.Map}
+	 */
 	map: null,
-	/** @private */
+	/** 
+	 * @private
+	 * @member {Element}
+	 */
 	mapDiv: null,
-	/** @private */
+	/** 
+	 * @private
+	 * @member {JQuery}
+	 */
 	tip: null,
-	/** @private */
+	/** 
+	 * @private
+	 * @member {JQuery}
+	 */
 	helper: null,
-	/** @public */
+	/**
+	 * @desc Hide the feature tip
+	 * @public
+	 * @method
+	 */
 	hide: function(){
 		this.tip.fadeOut();
 	},
 	/**
-	 * Handler of addfeature event
-	 * @private
-	 * @param {ol.source.VectorEvent} the event object delivered by addfeature event
+	 * @desc Adds tip definitions
+	 * @public
+	 * @method
+	 * @param {Array<nyc.ol.FeatureTip.TipDef>} tipDefs The tip definitions to add
 	 */
-	label: function(e){
-			var px = this.map.getEventPixel(e.originalEvent),
+	addtipDefs: function(tipDefs){
+		$.each(tipDefs, function(_, def){
+			var src = def.source, func = def.labelFunction, features = src.getFeatures();
+			if (features.getArray) features = features.getArray();
+			$.each(features, function(_, f){
+				f.getLabel = func;
+			});
+			src.on('addfeature', function(e){
+				e.feature.getLabel = func;
+			});
+		});		
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {ol.source.VectorEvent} event
+	 */
+	label: function(event){
+			var px = this.map.getEventPixel(event.originalEvent),
 				lbl = this.map.forEachFeatureAtPixel(px, function(f, _){
 					return f && f.getLabel ? f.getLabel() : null;
 				});
@@ -76,7 +88,6 @@ nyc.ol.FeatureTip.prototype = {
 		}
 	},
 	/**
-	 * Flips the tip if it is at the edge of the map
 	 * @private
 	 * @param {nyc.ol.FeatureLabel} lbl
 	 * @param {ol.Pixel} px 
@@ -90,23 +101,32 @@ nyc.ol.FeatureTip.prototype = {
 		if ((this.tip.position().top + height) > $(this.mapDiv).height()){
 			this.tip.css('top', px[1] - height - 10 + 'px');
 		}		
-	}
+	}	
 };
 
 /**
- * Adds tip definitions
+ * @desc Object with configuration options for feature tips 
  * @public
- * @param {Array<nyc.ol.FeatureTipDef>} tipDefs
+ * @typedef {Object}
+ * @property {ol.source.Vector} source The source of the features
+ * @property {nyc.ol.FeatureTip.LabelFunction} labelFunction A function to generate tips
  */
-nyc.ol.FeatureTip.prototype.addtipDefs = function(tipDefs){
-	$.each(tipDefs, function(_, def){
-		var src = def.source, func = def.labelFunction, features = src.getFeatures();
-		if (features.getArray) features = features.getArray();
-		$.each(features, function(_, f){
-			f.getLabel = func;
-		});
-		src.on('addfeature', function(e){
-			e.feature.getLabel = func;
-		});
-	});		
-};
+nyc.ol.FeatureTip.TipDef;
+
+/**
+ * @desc Label function that runs in the scope of the feature and returns a {@link nyc.ol.FeatureTip.TipDef}
+ * @public
+ * @typedef {function():nyc.ol.FeatureTip.Label}
+ */
+nyc.ol.FeatureTip.LabelFunction;
+
+/**
+ * @desc Object type to return from a feature's label function
+ * @public
+ * @typedef {Object}
+ * @property {string} text The tip text
+ * @property {string=} cssClass A CSS class to apply to the tip 
+ */
+nyc.ol.FeatureTip.Label;
+
+

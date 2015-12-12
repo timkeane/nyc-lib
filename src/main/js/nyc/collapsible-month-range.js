@@ -17,7 +17,7 @@ nyc.DateRange;
  * @property {number} minYear The 4 digit minimum year
  * @property {number} maxMonth The zero-based index of the maximum month
  * @property {number} maxYear The 4 digit maximum year
- * @property {String|Element|JQuery} target The DOM target
+ * @property {(String|Element|JQuery)} target The DOM target
  */
 nyc.MonthRangePickerOptions;
 

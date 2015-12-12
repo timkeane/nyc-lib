@@ -7,55 +7,11 @@ nyc.ol = nyc.ol || {};
 nyc.ol.geoserver = nyc.ol.geoserver || {};
 
 /**
- * @desc Buffer units to use when getting a feature at a map click
- * @public
- * @enum {string}
- */
-nyc.ol.geoserver.BufferUnits = {
-	/** 
-	 * @desc Feet
-	 */
-	FEET: 'feet',
-	/** 
-	 * @desc Meters
-	 */
-	METERS: 'meters',
-	/** 
-	 * @desc Statute miles
-	 */
-	MILES: 'statute miles',
-	/** 
-	 * @desc Nautical miles
-	 */
-	NAUTICAL_MILES: 'nautical miles',
-	/** 
-	 * @desc Kilometers
-	 */
-	KILOMETERS: 'kilometers'
-};
-
-/**
- * @desc Object type to hold constructor options for {@link nyc.ol.geoserver.GetFeature}
- * @public
- * @typedef {Object}
- * @property {ol.Map} map The OpenLayers map with which the user will interact
- * @property {string} wfsUrl A GeoServer WFS URL (i.e. http://localhost/geoserver/wfs) 
- * @property {string} namespace The namespace of the layer from which to retrieve features
- * @property {string} typeName The type name of the layer from which to retrieve features
- * @property {Array<string>=} propertyNames The property names of the layer to retrieve with the features
- * @property {string} geomColumn The name of the layer's geometry column that will be queried
- * @property {number=} buffer The buffer radius to use around the map click when querying the layer
- * @property {nyc.ol.geoserver.BufferUnits=} units The units of the buffer
- * @property {ol.style.Style=} style The style to use for features added to the map
- */
-nyc.ol.geoserver.GetFeatureOptions;
-
-/**
  * @desc A class to retrieve the feature of the specified layer at a map click and provide a WKT representation of its geometry 
  * @public
  * @class
  * @constructor
- * @param {nyc.ol.geoserver.GetFeatureOptions} options Constructor options
+ * @param {nyc.ol.geoserver.GetFeature.Options} options Constructor options
  * @fires nyc.ol.geoserver.GetFeature#addfeature
  * @fires nyc.ol.geoserver.GetFeature#removefeature
  * @see http://www.geoserver.org/
@@ -65,7 +21,7 @@ nyc.ol.geoserver.GetFeature = function(options){
 	this.wkt = new ol.format.WKT({});
 	this.geoJson = new ol.format.GeoJSON({});
 	this.buffer = options.buffer || 25;
-	this.units = options.units || nyc.ol.geoserver.BufferUnits.FEET;
+	this.units = options.units || nyc.ol.geoserver.GetFeature.BufferUnits.FEET;
 	this.geomColumn = options.geomColumn || 'SHAPE';
 	this.source = new ol.source.Vector({});
 	this.layer = new ol.layer.Vector({
@@ -167,6 +123,7 @@ nyc.ol.geoserver.GetFeature.prototype = {
 	/**
 	 * @desc Return the active state
 	 * @public
+	 * @method
 	 * @return {boolean} The active state
 	 */
 	active: function(){
@@ -269,6 +226,50 @@ nyc.ol.geoserver.GetFeature.prototype = {
 };
 
 nyc.inherits(nyc.ol.geoserver.GetFeature, nyc.EventHandling);
+
+/**
+ * @desc Object type to hold constructor options for {@link nyc.ol.geoserver.GetFeature}
+ * @public
+ * @typedef {Object}
+ * @property {ol.Map} map The OpenLayers map with which the user will interact
+ * @property {string} wfsUrl A GeoServer WFS URL (i.e. http://localhost/geoserver/wfs) 
+ * @property {string} namespace The namespace of the layer from which to retrieve features
+ * @property {string} typeName The type name of the layer from which to retrieve features
+ * @property {string} geomColumn The name of the layer's geometry column that will be queried
+ * @property {Array<string>=} propertyNames The property names of the layer to retrieve with the features
+ * @property {number} [buffer=25] The buffer radius to use around the map click when querying the layer
+ * @property {nyc.ol.geoserver.GetFeature.BufferUnits} [units=nyc.ol.geoserver.GetFeature.BufferUnits.FEET] The units of the buffer
+ * @property {ol.style.Style=} style The style to use for features added to the map
+ */
+nyc.ol.geoserver.GetFeature.Options;
+
+/**
+ * @desc Buffer units to use when getting a feature at a map click
+ * @public
+ * @enum {string}
+ */
+nyc.ol.geoserver.GetFeature.BufferUnits = {
+	/** 
+	 * @desc Feet
+	 */
+	FEET: 'feet',
+	/** 
+	 * @desc Meters
+	 */
+	METERS: 'meters',
+	/** 
+	 * @desc Statute miles
+	 */
+	MILES: 'statute miles',
+	/** 
+	 * @desc Nautical miles
+	 */
+	NAUTICAL_MILES: 'nautical miles',
+	/** 
+	 * @desc Kilometers
+	 */
+	KILOMETERS: 'kilometers'
+};
 
 /**
  * @desc The added feature

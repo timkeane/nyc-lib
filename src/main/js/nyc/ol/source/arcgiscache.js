@@ -7,22 +7,12 @@ nyc.ol = nyc.ol || {};
 nyc.ol.source = nyc.ol.source || {};
 
 /**
- * @desc Object type to hold constructor options for {@link nyc.ol.source.AcrGisCache}
- * @typedef {Object} 
- * @property {string} imageExtension The image extension for tiles
- * @property {(string|undefined)} url The base URL for tiles
- * @property {(Array<string>|undefined)} urls An array of base URLs for tiles
- * @see http://www.openlayers.org/
- */
-nyc.ol.source.AcrGisCacheOptions;
-
-/**
  * @desc Class for source that provides tiles from an ArcGIS Server tile cache
  * @public
  * @class
  * @constructor
  * @extends {ol.source.TileImage}
- * @param {nyc.ol.source.AcrGisCacheOptions} options Constructor options
+ * @param {nyc.ol.source.AcrGisCache.Options} options Constructor options
  */
 nyc.ol.source.AcrGisCache = function(options){
 
@@ -104,3 +94,12 @@ nyc.ol.source.AcrGisCache = function(options){
 
 ol.inherits(nyc.ol.source.AcrGisCache, ol.source.TileImage);
 
+/**
+ * @desc Object type to hold constructor options for {@link nyc.ol.source.AcrGisCache}
+ * @typedef {Object} 
+ * @property {string} imageExtension The image extension for tiles
+ * @property {string=} url The base URL for tiles
+ * @property {Array<string>=} urls An array of base URLs for tiles
+ * @see http://www.openlayers.org/
+ */
+nyc.ol.source.AcrGisCache.Options;

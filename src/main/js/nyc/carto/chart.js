@@ -84,7 +84,7 @@ nyc.carto.Chart.prototype = {
 	/**
 	 * @private
 	 * @method 
-	 * @param {JQuery|Element|string} titleNode 
+	 * @param {(JQuery|Element|string)} titleNode 
 	 * @param {Object} descriptionValues 
 	 */
 	title: function(titleNode, descriptionValues){
@@ -165,7 +165,7 @@ nyc.inherits(nyc.carto.Chart, nyc.carto.SqlTemplate);
  * @desc Object type to hold constructor options for {@link nyc.carto.Chart}
  * @public
  * @typedef {Object}
- * @property {JQuery|Element|string} canvas The canvas element for chart rendering
+ * @property {(JQuery|Element|string)} canvas The canvas element for chart rendering
  * @property {cartodb.SQL} cartoSql The object used to query CartoDB data 
  * @property {string} sqlTemplate The template with optional replacement tokens for generating queries for cartoSql
  * @property {string} descriptionTemplate The template with optional replacement tokens for the chart description

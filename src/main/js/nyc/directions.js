@@ -8,8 +8,8 @@ nyc.Directions = (function(){
 	/**
 	 * nyc.Directions
 	 * @constructor
-	 * @param {string|Element|JQuery} mapTarget
-	 * @param {string|Element|JQuery} routeTarget
+	 * @param {(string|Element|JQuery)} mapTarget
+	 * @param {(string|Element|JQuery)} routeTarget
 	 * @param {string=} url
 	 */
 	var dirClass = function(mapTarget, routeTarget, url){ 

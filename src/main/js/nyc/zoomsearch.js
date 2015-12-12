@@ -6,7 +6,7 @@ var nyc = nyc || {};
  * @class
  * @extends {nyc.EventHandling}
  * @constructor
- * @param {(boolean|undefined)} useSearchTypeMenu Use search types menu
+ * @param {boolean} [useSearchTypeMenu=false] Use search types menu
  */
 nyc.ZoomSearch = function(useSearchTypeMenu){
 	var me = this;

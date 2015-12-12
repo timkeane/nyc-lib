@@ -11,12 +11,22 @@ nyc.ol = nyc.ol || {};
 nyc.ol.Feature;
 
 /**
+ * @desc Enumeration for feature event types
  * @public
  * @enum {string}
  */
 nyc.ol.FeatureEventType = {
+	/**
+	 * @desc The addfeature event type
+	 */
 	ADD: 'addfeature',
+	/**
+	 * @desc The changefeature event type
+	 */
 	CHANGE: 'changefeature',
+	/**
+	 * @desc The removefeature event type
+	 */
 	REMOVE: 'removefeature'
 };
 
@@ -31,18 +41,11 @@ nyc.ol.FeatureEvent;
 
 
 /**
- * @public
- * @typedef {Object}
- * @property {ol.Map} map
- * @property {ol.style.Style=} style
- */
-nyc.ol.DrawOptions;
-
-/**
+ * @desc A class to provide the user with drawing tools
  * @public
  * @class
  * @constructor
- * @param {nyc.ol.DrawOptions} options
+ * @param {nyc.ol.Draw.Options} options Constructor options
  */
 nyc.ol.Draw = function(options){
 	var me = this, features = new ol.Collection();
@@ -73,79 +76,65 @@ nyc.ol.Draw = function(options){
 	me.viewport.on('contextmenu', $.proxy(me.contextMenu, me));
 };
 
-/**
- * @public
- * @enum {string}
- */
-nyc.ol.Draw.Type  = {
-	POINT: 'Point',
-	LINE: 'LineString',
-	POLYGON: 'Polygon',
-	CIRCLE: 'Circle',
-	SQUARE: 'Square',
-	BOX: 'Box',
-	NONE: 'None'
-};
-
 nyc.ol.Draw.prototype = {
 	/**
 	 * @private
-	 * @member {ol.interaction.Interaction} interaction
+	 * @member {ol.interaction.Interaction}
 	 */ 
 	drawer: null,
 	/**
 	 * @private
-	 * @member {nyc.ol.Drag} mover
+	 * @member {nyc.ol.Drag}
 	 */
 	mover: null,
 	/**
 	 * @private
-	 * @member {ol.Map} map
+	 * @member {ol.Map}
 	 */ 
 	map: null,
 	/**
 	 * @private
-	 * @member {ol.format.WKT} wkt
+	 * @member {ol.format.WKT}
 	 */ 
 	wkt: null,
 	/**
 	 * @private
-	 * @member {nyc.ol.Draw.Type} type
+	 * @member {nyc.ol.Draw.Type}
 	 */ 
 	type: null,
 	/**
 	 * @private
-	 * @member {ol.source.Vector} layer
+	 * @member {ol.source.Vector}
 	 */ 
 	layer: null,
 	/**
 	 * @private
-	 * @member {ol.layer.Vector} source
+	 * @member {ol.layer.Vector}
 	 */ 
 	source: null,
 	/**
 	 * @private
-	 * @member {JQuery} viewport
+	 * @member {JQuery}
 	 */ 
 	viewport: null,
 	/**
 	 * @private
-	 * @member {JQuery} mnuBtn
+	 * @member {JQuery}
 	 */ 
 	mnuBtn: null,
 	/**
 	 * @private
-	 * @member {JQuery} btnMnu
+	 * @member {JQuery}
 	 */ 
 	btnMnu: null,
 	/**
 	 * @private
-	 * @member {JQuery} ctxMnu
+	 * @member {JQuery}
 	 */ 
 	ctxMnu: null,
 	/**
 	 * @private
-	 * @member {ol.style.Style} defaultStyle
+	 * @member {ol.style.Style}
 	 */ 
 	defaultStyle: new ol.style.Style({
 		fill: new ol.style.Fill({
@@ -163,16 +152,20 @@ nyc.ol.Draw.prototype = {
 		})
 	}),	
 	/**
+	 * @desc Return the active state
 	 * @public
-	 * @param {nyc.ol.Draw.Type} type
+	 * @method
+	 * @return {boolean} The active state
 	 */
 	active: function(){
 		if (this.drawer) return this.drawer.getActive();
 		return false;
 	},
 	/**
+	 * @desc Activate to begin adding drawings of the specified type
 	 * @public
-	 * @param {nyc.ol.Draw.Type} type
+	 * @method
+	 * @param {nyc.ol.Draw.Type} type The drawing type to activate
 	 */
 	activate: function(type){
 		var me = this;
@@ -221,8 +214,11 @@ nyc.ol.Draw.prototype = {
 			});
 		}
 	},
-	/** @public 
-	 * @return {Array<Object>}
+	/** 
+	 * @desc Get the features that have been drawn
+	 * @public 
+	 * @method
+	 * @return {Array<nyc.ol.Feature>}
 	 */
 	getFeatures: function(){
 		var me = this, features = [];
@@ -231,7 +227,10 @@ nyc.ol.Draw.prototype = {
 		});
 		return features;
 	},
-	/** @private */ 
+	/** 
+	 * @private 
+	 * @method
+	 */ 
 	escape: function(){
 		var drawer = this.drawer;
 		if (drawer && drawer.getActive()){
@@ -239,13 +238,19 @@ nyc.ol.Draw.prototype = {
 			drawer.setActive(true);
 		}
 	},
-	/** @private */ 
+	/** 
+	 * @private 
+	 * @method
+	 */ 
 	closeMenus: function(){
 		$('.draw-ctx-mnu, .draw-btn-mnu').slideUp(function(){
 			$('.draw-ctx-mnu').remove();
 		});
 	},
-	/** @private */ 
+	/** 
+	 * @private 
+	 * @method
+	 */ 
 	buttonMenu: function(){
 		var me = this, viewport = me.viewport;
 		viewport.find('.ol-overlaycontainer-stopevent').append(nyc.ol.Draw.BUTTON_MENU_HTML);
@@ -260,10 +265,11 @@ nyc.ol.Draw.prototype = {
 	},
 	/** 
 	 * @private 
-	 * @param {Object} evt
+	 * @method
+	 * @param {Object} event
 	 */ 
-	choose: function(evt){
-		var me = this, btn = evt.target;
+	choose: function(event){
+		var me = this, btn = event.target;
 		if (btn.tagName.toLowerCase() == 'button'){
 			btn = $(btn).parent().get(0);
 		}
@@ -280,6 +286,7 @@ nyc.ol.Draw.prototype = {
 	},
 	/** 
 	 * @private 
+	 * @method
 	 * @param {Object} event
 	 */ 
 	contextMenu: function(event){
@@ -299,6 +306,7 @@ nyc.ol.Draw.prototype = {
 	},
 	/**
 	 * @private
+	 * @method
 	 * @param {ol.Feature} feature
 	 */
 	showContextMenu: function(feature){
@@ -321,6 +329,7 @@ nyc.ol.Draw.prototype = {
     },
 	/**
 	 * @private
+	 * @method
 	 * @param {ol.Feature} feature
 	 */
 	removeFeature: function(feature){
@@ -333,11 +342,19 @@ nyc.ol.Draw.prototype = {
 			}
 		});		
 	},
-	/** @public */
+	/** 
+	 * @desc Remove all drawn features
+	 * @public 
+	 * @method
+	 */
 	clear: function(){
 		this.source.clear();
 	},
-	/** @public */
+	/** 
+	 * @desc Deactivate to stop drawing
+	 * @public 
+	 * @method
+	 */
 	deactivate: function(){
 		this.type = null;
 		if (this.drawer){
@@ -352,6 +369,7 @@ nyc.ol.Draw.prototype = {
 	},
 	/**
 	 * @private
+	 * @method
 	 * @param {ol.source.VectorEvent} event
 	 */ 
 	triggerFeatureEvent: function(event){
@@ -367,6 +385,7 @@ nyc.ol.Draw.prototype = {
 	},
 	/**
 	 * @private
+	 * @method
 	 * @param {ol.Feature} feature
 	 * @return {ol.Feature}
 	 */ 
@@ -380,6 +399,7 @@ nyc.ol.Draw.prototype = {
 	},
 	/**
 	 * @private
+	 * @method
 	 * @param {nyc.ol.Draw.Type} drawType
 	 * @return {boolean}
 	 */ 
@@ -409,11 +429,67 @@ nyc.ol.Draw.prototype = {
 
 nyc.inherits(nyc.ol.Draw, nyc.EventHandling);
 
+/**
+ * @desc Constructor options for {@link nyc.ol.Draw}
+ * @public
+ * @typedef {Object}
+ * @property {ol.Map} map The OpenLayers map with which the user will interact
+ * @property {ol.style.Style=} style The style to use for features added to the map
+ */
+nyc.ol.Draw.Options;
+
+
+/**
+ * @desc Enumeration for feature event types
+ * @public
+ * @enum {string}
+ */
+nyc.ol.Draw.Type  = {
+	/**
+	 * @desc The point drawing type
+	 */
+	POINT: 'Point',
+	/**
+	 * @desc The line drawing type
+	 */
+	LINE: 'LineString',
+	/**
+	 * @desc The polugon drawing type
+	 */
+	POLYGON: 'Polygon',
+	/**
+	 * @desc The circle drawing type
+	 */
+	CIRCLE: 'Circle',
+	/**
+	 * @desc The square drawing type
+	 */
+	SQUARE: 'Square',
+	/**
+	 * @desc The box drawing type
+	 */
+	BOX: 'Box',
+	/**
+	 * @desc No drawing type
+	 */
+	NONE: 'None'
+};
+
+/**
+ * @private
+ * @const
+ * @type {string}
+ */
 nyc.ol.Draw.CONTEXT_MENU_HTML = '<div class="ol-unselectable ol-control draw-ctx-mnu">' +
 		'<div class="draw-mnu-btn delete"><button>Delete feature</button></div>' +
 		'<div class="draw-mnu-btn move"><button>Move feature</button></div>' +
 	'</div>';
 
+/**
+ * @private
+ * @const
+ * @type {string}
+ */
 nyc.ol.Draw.BUTTON_MENU_HTML = '<div class="ol-unselectable ol-control draw-btn"><button><span>Draw</span></button></div>' +
 	'<div class="ol-unselectable ol-control draw-btn-mnu">' +
 		'<div class="draw-mnu-btn point" data-draw-type="Point"><button>Point</button></div>' +
@@ -427,15 +503,17 @@ nyc.ol.Draw.BUTTON_MENU_HTML = '<div class="ol-unselectable ol-control draw-btn"
 	'</div>';
 
 /**
+ * @desc A class to move features
  * @class
  * @constructor
  * @extends {ol.interaction.Pointer}
- * @param {ol.layer.Vector} layer
+ * @param {ol.layer.Vector} layer The layer whose features can be moved
+ * @see http://www.openlayers.org/
  */
 nyc.ol.Drag = function(layer){
 	/**
 	 * @private
-	 * @member {ol.layer.Vector} layer
+	 * @member {ol.layer.Vector}
 	 */
 	this.layer = layer;
 	ol.interaction.Pointer.call(this, {
@@ -446,17 +524,17 @@ nyc.ol.Drag = function(layer){
 	});
 	/**
 	 * @private
-	 * @member {ol.Pixel} coords
+	 * @member {ol.Pixel}
 	 */
 	this.coords = null;
 	/**
 	 * @private
-	 * @member {ol.Feature} feature
+	 * @member {ol.Feature}
 	 */
 	this.feature = null;
 	/**
 	 * @private
-	 * @member {string} prevCursor
+	 * @member {string}
 	 */
 	this.prevCursor = null;
 };
@@ -465,18 +543,19 @@ ol.inherits(nyc.ol.Drag, ol.interaction.Pointer);
 
 /**
  * @private
- * @param {ol.MapBrowserEvent} evt Map browser event.
- * @return {boolean} `true` to start the drag sequence.
+ * @method
+ * @param {ol.MapBrowserEvent} event 
+ * @return {boolean} 
  */
-nyc.ol.Drag.prototype.handleDownEvent = function(evt){
-	var me = this, map = evt.map;
-	var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature, layer){
+nyc.ol.Drag.prototype.handleDownEvent = function(event){
+	var me = this, map = event.map;
+	var feature = map.forEachFeatureAtPixel(event.pixel, function(feature, layer){
 		if (layer == me.layer){
 			return feature;
 		}
 	});
 	if (feature) {
-		this.coords = evt.coordinate;
+		this.coords = event.coordinate;
 		this.feature = feature;
 	}
 	return !!feature;
@@ -484,34 +563,36 @@ nyc.ol.Drag.prototype.handleDownEvent = function(evt){
 
 /**
  * @private
- * @param {ol.MapBrowserEvent} evt Map browser event.
+ * @method
+ * @param {ol.MapBrowserEvent} event
  */
-nyc.ol.Drag.prototype.handleDragEvent = function(evt){
-	var me = this, map = evt.map;
+nyc.ol.Drag.prototype.handleDragEvent = function(event){
+	var me = this, map = event.map;
 	
-	var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature, layer){
+	var feature = map.forEachFeatureAtPixel(event.pixel, function(feature, layer){
 		if (layer == me.layer){
 			return feature;
 		}
 	});
 	
-	var deltaX = evt.coordinate[0] - this.coords[0];
-	var deltaY = evt.coordinate[1] - this.coords[1];
+	var deltaX = event.coordinate[0] - this.coords[0];
+	var deltaY = event.coordinate[1] - this.coords[1];
 	
 	var geometry = this.feature.getGeometry();
 	geometry.translate(deltaX, deltaY);
 	
-	this.coords[0] = evt.coordinate[0];
-	this.coords[1] = evt.coordinate[1];
+	this.coords[0] = event.coordinate[0];
+	this.coords[1] = event.coordinate[1];
 };
 
 /**
  * @private
- * @param {ol.MapBrowserEvent} evt Event.
+ * @method
+ * @param {ol.MapBrowserEvent} event 
  */
-nyc.ol.Drag.prototype.handleMoveEvent = function(evt){
-	var me = this, map = evt.map;
-	var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature, layer){
+nyc.ol.Drag.prototype.handleMoveEvent = function(event){
+	var me = this, map = event.map;
+	var feature = map.forEachFeatureAtPixel(event.pixel, function(feature, layer){
 		if (layer == me.layer){
 			return feature;
 		}
@@ -523,13 +604,14 @@ nyc.ol.Drag.prototype.handleMoveEvent = function(evt){
 
 /**
  * @private
- * @param {ol.MapBrowserEvent} evt Map browser event.
- * @return {boolean} `false` to stop the drag sequence.
+ * @method
+ * @param {ol.MapBrowserEvent} event 
+ * @return {boolean} 
  */
-nyc.ol.Drag.prototype.handleUpEvent = function(evt) {
+nyc.ol.Drag.prototype.handleUpEvent = function(event) {
 	this.coords = null;
 	this.feature = null;
-	$(evt.map.getViewport()).css('cursor', 'inherit');
+	$(event.map.getViewport()).css('cursor', 'inherit');
 	this.setActive(false);
 	return false;
 };
