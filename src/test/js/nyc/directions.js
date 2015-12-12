@@ -42,7 +42,7 @@ QUnit.module('nyc.Directions', {
 	}
 });
 
-QUnit.test('setup', function(assert){
+QUnit.test('init', function(assert){
 	assert.expect(4);
 	
 	var done = assert.async();
@@ -70,7 +70,7 @@ QUnit.test('direction (google not loaded)', function(assert){
 	
 	var getScript = $.getScript;
 	$.getScript = function(url){
-		assert.equal(url, googUrl + '&callback=nyc.directions.setup');
+		assert.equal(url, googUrl + '&callback=nyc.directions.init');
 		$.getScript = getScript;
 		done();
 	};
