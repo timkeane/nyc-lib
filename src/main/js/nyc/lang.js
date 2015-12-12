@@ -1,34 +1,8 @@
 var nyc = nyc || {};
 
-LANGUAGES = {
-	    en: {val: 'English', desc: 'English', hint: 'Translate'},
-	    ar: {val: 'Arabic', desc: '&#x627;&#x644;&#x639;&#x631;&#x628;&#x64A;&#x629;' /* العربية */, hint: '&#x62A;&#x631;&#x62C;&#x645;' /* ترجم */},
-}
 /** 
  * @external google.translate.TranslateElement 
  */
-
-/**
- * @desc A language choice for nyc.LangChoices
- * @public
- * @typedef {Object}
- * @property {string} val The language value used by Google
- * @property {string} desc The display value for the language
- * @property {string=} hint The translation of the word 'Translate' in the language
- */
-nyc.LangChoice;
-
-/**
- * @desc A mapping of {@link nyc.LangChoice} objects to language codes  
- * @public
- * @typedef {Object<string, nyc.LangChoice>}
- * @example 
-{
-	en: {val: 'English', desc: 'English', hint: 'Translate'},
-	es: {val: 'Spanish', desc: 'Espa&#241;ol', hint: 'Traducir'}
-}
- */
-nyc.LangChoices;
 
 /** 
  * @desc Class for language translation using the Google Translate Gadget
@@ -36,7 +10,7 @@ nyc.LangChoices;
  * @class
  * @constructor
  * @property {(String|Element|JQuery)} target The HTML DOM element that will provide language choices
- * @param {nyc.LangChoices} languages The languages to provide
+ * @param {nyc.Lang.Choices} languages The languages to provide
  */
 nyc.Lang = function(target, languages){
 	var codes = [], div = $(nyc.Lang.HTML);
@@ -61,38 +35,32 @@ nyc.Lang = function(target, languages){
 nyc.Lang.prototype = {
 	/** 
 	 * @private 
-	 * @member
-	 * @type {Array<string>}
+	 * @member {Array<string>}
 	 */
 	namedCodes: null,
 	/** 
 	 * @private 
-	 * @member
-	 * @type {string}
+	 * @member {string}
 	 */
 	code: '',
 	/** 
 	 * @private 
-	 * @member
-	 * @type {string}
+	 * @member {string}
 	 */
 	codes: '',
 	/** 
 	 * @private 
-	 * @member
-	 * @type {google.translate.TranslateElement}
+	 * @member {google.translate.TranslateElement}
 	 */
 	translate: null,
 	/** 
 	 * @private 
-	 * @member
-	 * @type {Array<string>}
+	 * @member {Array<string>}
 	 */
 	hints: null,
 	/** 
 	 * @private 
-	 * @member
-	 * @type {Array<string>}
+	 * @member {Array<string>}
 	 */
 	languages: null,
 	/** 
@@ -297,6 +265,28 @@ nyc.Lang.EventType = {
 	 */
 	CHANGE: 'change'
 };
+
+/**
+ * @desc A language choice for {@link nyc.Lang.Choices}
+ * @public
+ * @typedef {Object}
+ * @property {string} val The language value used by Google
+ * @property {string} desc The display value for the language
+ * @property {string=} hint The translation of the word 'Translate' in the language
+ */
+nyc.Lang.Choice;
+
+/**
+ * @desc A mapping of {@link nyc.Lang.Choice} objects to language codes  
+ * @public
+ * @typedef {Object<string, nyc.Lang.Choice>}
+ * @example 
+{
+	en: {val: 'English', desc: 'English', hint: 'Translate'},
+	es: {val: 'Spanish', desc: 'Espa&#241;ol', hint: 'Traducir'}
+}
+ */
+nyc.Lang.Choices;
 
 /**
  * @desc The class has completed initialization

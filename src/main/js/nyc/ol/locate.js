@@ -7,9 +7,9 @@ nyc.ol = nyc.ol || {};
  * @class
  * @constructor
  * @implements {nyc.Locate}
- * @param {nyc.Geocoder} geocoder
- * @param {ol.proj.Projection=} projection
- * @param {ol.Extent=} extentLimit
+ * @param {nyc.Geocoder} geocoder A geocoder implementation
+ * @param {ol.proj.Projection=} projection The projection for output geometries
+ * @param {ol.Extent=} extentLimit Geolocation coordinates outside of this bounding box are ignored  
  *
  */
 nyc.ol.Locate = function(geocoder, projection, extentLimit){
@@ -57,19 +57,61 @@ nyc.ol.Locate = function(geocoder, projection, extentLimit){
 };
 
 nyc.ol.Locate.prototype = {
-	/** @private */
+	/** 
+	 * @private 
+	 * @member {boolean}
+	 */
 	locating: false,
-	/** @private */
+	/** 
+	 * @private 
+	 * @member {ol.proj.Projection}
+	 */
 	projection: null,
-	/** @private */
+	/** 
+	 * @private 
+	 * @member {ol.Extent}
+	 */
 	extentLimit: null,
-	/** @private */
+	/**
+	 * @desc Locate once using device geolocation
+	 * @public
+	 * @method
+	 */
+	locate: function(){
+		this.locating = true;
+		this.geolocation.setTracking(true);
+	},
+	/**
+	 * @desc Track using device geolocation
+	 * @public
+	 * @method
+	 * @param {boolean} track Track or not
+	 */
+	track: function(track){
+		this.geolocation.setTracking(track);
+	},
+	/**
+	 * @desc Geocode an input string and trigger an event of nyc.Locate.LocateEventType with nyc.Locate.LocateResult or nyc.LocateAmbiguoud data
+	 * @public
+	 * @method
+	 * @param {string} input The value to geocode
+	 */
+	search: function(input){
+		this.geocoder.search(input);
+	},
+	/** 
+	 * @private 
+	 * @method
+	 * @param {string} evt
+	 * @param {(nyc.Locate.LocateResult|nyc.Locate.LocateAmbiguous)} data
+	 */
 	proxyEvent: function(evt, data){
 		this.trigger(evt, data);
 	},
 	/**
 	 * @private
-	 * @return {number} number of meters per unit of projection
+	 * @method
+	 * @return {number}
 	 */
 	metersPerUnit: function(){
 		if (this.projection){
@@ -78,10 +120,10 @@ nyc.ol.Locate.prototype = {
 		return 1;
 	},
 	/**
-	 * Project coordinates
 	 * @private
+	 * @method
 	 * @param {ol.Coordinate} coordinates 
-	 * @return {ol.Coordinate} projected coordinates
+	 * @return {ol.Coordinate}
 	 */
 	project: function(coordinates){
 		if (this.projection){
@@ -90,41 +132,14 @@ nyc.ol.Locate.prototype = {
 		return coordinates;
 	},
 	/**
-	 * Check that location is within extentLimit
 	 * @private
+	 * @method
 	 * @param {ol.Coordinate} coordinates 
-	 * @return {boolean} True if the location is within extentLimit
+	 * @return {boolean} 
 	 */
 	withinLimit: function(coordinates){
 		return this.extentLimit ? ol.extent.containsCoordinate(this.extentLimit, coordinates) : true;
 	}
-};
-
-/**
- * Locate once using device geolocation
- * @public
- */
-nyc.ol.Locate.prototype.locate = function(){
-	this.locating = true;
-	this.geolocation.setTracking(true);
-};
-
-/**
- * Track using device geolocation
- * @public
- * @param {boolean} track
- */
-nyc.ol.Locate.prototype.track = function(track){
-	this.geolocation.setTracking(track);
-};
-
-/**
- * Geocode an input string and trigger an event of nyc.Locate.LocateEventType with nyc.Locate.LocateResult or nyc.LocateAmbiguoud data
- * @public
- * @param {string} input
- */
-nyc.ol.Locate.prototype.search = function(input){
-	this.geocoder.search(input);
 };
 
 nyc.inherits(nyc.ol.Locate, nyc.EventHandling);

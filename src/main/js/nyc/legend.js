@@ -23,7 +23,7 @@ nyc.Legend.prototype = {
 	 * @public
 	 * @method
 	 * @param {string} caption A legend caption
-	 * @return {JQuery}
+	 * @return {JQuery} The HTML element for the legend wrapped in a JQuery object
 	 */
 	html: function(caption){
 		return $(this.replace(this.legendTemplate, {caption: caption}));
@@ -77,7 +77,7 @@ nyc.BinLegend.prototype = {
 	 * @method
 	 * @param {string} caption A legend caption
 	 * @param {Array<string|number>} bins The legend classifications
-	 * @return {JQuery}
+	 * @return {JQuery} The HTML element for the legend wrapped in a JQuery object
 	 */
 	html: function(caption, bins){
 		var me = this, table = $('<table class="legend"></table>'), tbody = $('<tbody></tbody');

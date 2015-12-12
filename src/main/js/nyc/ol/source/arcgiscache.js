@@ -20,26 +20,22 @@ nyc.ol.source.AcrGisCache = function(options){
 	
 	/** 
 	 * @private 
-	 * @member
-	 * @type {string} 
+	 * @member {string} 
 	 */
 	this.imageExtension = options.imageExtension;
 	/** 
 	 * @private 
-	 * @member
-	 * @type {string} 
+	 * @member {string} 
 	 */
 	this.url = options.url ? options.url : null;
 	/** 
 	 * @private 
-	 * @member
-	 * @type {Array<string>} 
+	 * @member {Array<string>} 
 	 */
 	this.urls = options.urls ? options.urls : [];	
 	/** 
 	 * @private 
-	 * @member
-	 * @type {number} 
+	 * @member {number} 
 	 */
 	this.urlIdx = 0;
 	

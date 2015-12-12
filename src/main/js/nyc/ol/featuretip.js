@@ -114,7 +114,7 @@ nyc.ol.FeatureTip.prototype = {
 nyc.ol.FeatureTip.TipDef;
 
 /**
- * @desc Label function that runs in the scope of the feature and returns a {@link nyc.ol.FeatureTip.TipDef}
+ * @desc Label function that runs in the scope of the feature and returns a {@link nyc.ol.FeatureTip.Label}
  * @public
  * @typedef {function():nyc.ol.FeatureTip.Label}
  */

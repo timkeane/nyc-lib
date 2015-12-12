@@ -6,7 +6,7 @@ var nyc = nyc || {};
  * @class
  * @constructor
  * @extends {nyc.Collapsible}
- * @param {Object} options
+ * @param {nyc.Collapsible.Options} options Constructor options
  */
 nyc.Radio = function(options){
 	var me = this, fieldset = $('<fieldset data-role="controlgroup"></fieldset>'), radio0;
@@ -49,29 +49,29 @@ nyc.Radio.prototype = {
 	/** 
 	 * @private
 	 * @method
-	 * @param {Object} e
+	 * @param {Object} event
 	 */
-	changed: function(e){
-		var choice = this.choices[e.target.value * 1];
+	changed: function(event){
+		var choice = this.choices[event.target.value * 1];
 		this.value = choice.value;
 		this.currentVal.html(choice.label);
 		this.trigger('change', choice);
 	},
 	/** 
-	 * Returns the date range value
+	 * @desc Returns the value of the radio button collection
 	 * @public
 	 * @method
-	 * @return {string}
+	 * @return {string} The value of the radio button collection
 	 */
 	val: function(){
 		return this.value;
 	},
 	/** 
-	 * Enable/disable a radio button
+	 * @desc Enable/disable a radio button
 	 * @public
 	 * @method
-	 * @param {string} choiceValue
-	 * @param {boolean} enabled
+	 * @param {string} choiceValue The value of the radio button to disable/enable
+	 * @param {boolean} enabled The value of enabled
 	 */
 	disabled: function(choiceValue, disabled){
 		var choiceIndex;
@@ -88,6 +88,7 @@ nyc.Radio.prototype = {
 nyc.inherits(nyc.Radio, nyc.Collapsible);
 
 /** 
+ * @desc Used to generate DOM ids
  * @public
  * @static {number}
  */

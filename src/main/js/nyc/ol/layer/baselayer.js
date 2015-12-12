@@ -77,7 +77,7 @@ nyc.ol.layer.BaseLayer.ORTHO_URLS = ['//maps.nyc.gov/gis/data/tiles/orthosLatest
 nyc.ol.layer.BaseLayer.IMAGE_EXTENSION = 'jpg';
 
 /**
- * @desc The tile options used to crate the New York City base map tile layer
+ * @desc The tile options used to create the New York City base map tile layer
  * @public
  * @const
  * @type {Object}
@@ -97,7 +97,7 @@ nyc.ol.layer.BaseLayer.BASIC_OPTIONS = {
 };
 
 /**
- * @desc The default tile options used to crate the New York City base map tile layer
+ * @desc The default tile options used to create the New York City base map tile layer
  * @public
  * @const
  * @type {Object}
@@ -106,7 +106,7 @@ nyc.ol.layer.BaseLayer.BASIC_OPTIONS = {
 nyc.ol.layer.BaseLayer.DEFAULT_OPTIONS = nyc.ol.layer.BaseLayer.BASIC_OPTIONS;
 
 /**
- * @desc The tile options used to crate the New York City ortho image tile layer
+ * @desc The tile options used to create the New York City ortho image tile layer
  * @public
 * @const
 * @type {Object}

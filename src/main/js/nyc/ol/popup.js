@@ -6,7 +6,7 @@ nyc.ol = nyc.ol || {};
  * @public
  * @class
  * @constructor
- * @param {ol.Map} map
+ * @param {ol.Map} map The OpenLayers map on which to display the popup
  * @param {Object} options Overlay options
  * @see http://www.openlayers.org/
  */
@@ -32,8 +32,9 @@ nyc.ol.Popup = function(map, options){
 ol.inherits(nyc.ol.Popup, ol.Overlay);
 
 /**
- * Show popup
+ * @desc Show the popup
  * @public
+ * @method
  * @param {Object} options Overlay options
  */
 nyc.ol.Popup.prototype.show = function(options){
@@ -45,6 +46,7 @@ nyc.ol.Popup.prototype.show = function(options){
 
 /**
  * @private
+ * @method
  * @return {boolean} visibility
  */
 nyc.ol.Popup.prototype.visible = function(){
@@ -53,6 +55,7 @@ nyc.ol.Popup.prototype.visible = function(){
 
 /**
  * @private
+ * @method
  * @return {boolean}
  */
 nyc.ol.Popup.prototype.isMobile = function(){
@@ -60,8 +63,9 @@ nyc.ol.Popup.prototype.isMobile = function(){
 }
 
 /**
- * set popup options
+ * @desc Set popup options
  * @public
+ * @method
  * @param {Oject} options Overlay options
  */
 nyc.ol.Popup.prototype.setOptions = function(options){
@@ -86,7 +90,8 @@ nyc.ol.Popup.prototype.setOptions = function(options){
 };
 
 /**
- * hide the popup 
+ * @desc Hide the popup 
+ * @method
  * @public
  */
 nyc.ol.Popup.prototype.hide = function() {
@@ -95,6 +100,7 @@ nyc.ol.Popup.prototype.hide = function() {
 
 /**
  * @private
+ * @method
  * @param {ol.Coordinate} coord
  */
 nyc.ol.Popup.prototype.pan = function(coord){

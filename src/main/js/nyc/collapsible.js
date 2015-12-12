@@ -6,7 +6,7 @@ var nyc = nyc || {};
  * @class
  * @constructor
  * @extends {nyc.EventHandling}
- * @param {Object} options
+ * @param {nyc.Collapsible.Options} options Constructor options
  */
 nyc.Collapsible = function(options){
 	var heading = $('<h3></h3>');
@@ -30,3 +30,12 @@ nyc.Collapsible.prototype = {
 };
 
 nyc.inherits(nyc.Collapsible, nyc.EventHandling);
+
+/**
+ * @desc Constructor options for {@link nyc.Collapsible}
+ * @public
+ * @typedef
+ * @property {string} value The value attribute for the HTML DOM node that will be created
+ * @property {string} label The label for the HTML DOM node that will be created
+ */
+nyc.Collapsible.Options;

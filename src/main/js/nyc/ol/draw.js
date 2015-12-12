@@ -218,7 +218,7 @@ nyc.ol.Draw.prototype = {
 	 * @desc Get the features that have been drawn
 	 * @public 
 	 * @method
-	 * @return {Array<nyc.ol.Feature>}
+	 * @return {Array<nyc.ol.Feature>} The features
 	 */
 	getFeatures: function(){
 		var me = this, features = [];

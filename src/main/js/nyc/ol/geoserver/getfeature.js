@@ -103,7 +103,7 @@ nyc.ol.geoserver.GetFeature.prototype = {
 	 * @desc Get the features that have been captured
 	 * @public 
 	 * @method
-	 * @return {Array<nyc.ol.Feature>}
+	 * @return {Array<nyc.ol.Feature>} The features
 	 */
 	getFeatures: function(){
 		var me = this, features = [];
@@ -238,7 +238,7 @@ nyc.inherits(nyc.ol.geoserver.GetFeature, nyc.EventHandling);
  * @property {string} geomColumn The name of the layer's geometry column that will be queried
  * @property {Array<string>=} propertyNames The property names of the layer to retrieve with the features
  * @property {number} [buffer=25] The buffer radius to use around the map click when querying the layer
- * @property {nyc.ol.geoserver.GetFeature.BufferUnits} [units=nyc.ol.geoserver.GetFeature.BufferUnits.FEET] The units of the buffer
+ * @property {nyc.ol.geoserver.GetFeature.BufferUnits} [units=feet] The units of the buffer
  * @property {ol.style.Style=} style The style to use for features added to the map
  */
 nyc.ol.geoserver.GetFeature.Options;

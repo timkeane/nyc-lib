@@ -14,12 +14,12 @@ nyc.carto.SqlTemplate = function(){};
 
 nyc.carto.SqlTemplate.prototype = {
 	/**
-	 * @private
+	 * @public
 	 * @method 
-	 * @param {string} template
-	 * @param {Object} values
-	 * @param {Object=} filters
-	 * @return {string}
+	 * @param {string} template The SQL template with optional replacement tokens
+	 * @param {Object<string,string>} values The replacement values 
+	 * @param {Object=} filters The filters to append to the WHERE clause
+	 * @return {string} The SQL statement
 	 */
 	sql: function(template, values, filters){
 		var result = new String(template), where = '';
@@ -349,7 +349,7 @@ nyc.inherits(nyc.carto.View, nyc.EventHandling);
 nyc.inherits(nyc.carto.View, nyc.carto.SqlTemplate);
 
 /**
- * @desc Object type to hold constructor options {@link for nyc.carto.View}
+ * @desc Object type to hold constructor options for {@link nyc.carto.View}
  * @public
  * @typedef {Object}
  * @property {string} name A name for the view

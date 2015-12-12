@@ -8,7 +8,7 @@ nyc.ol.source = nyc.ol.source || {};
  * @class
  * @constructor
  * @extends {nyc.ol.source.Decorating}
- * @param {Object} options Constructor options
+ * @param {Object} options Vector source options
  * @param {Array<Object>}  decorationMixins An array of objects whose members will be added to all features created by this source
  * @see http://www.openlayers.org/
  */
@@ -16,14 +16,12 @@ nyc.ol.source.FilteringAndSorting = function(options, decorationMixins){
 	var me = this;
 	/**
 	 * @private
-	 * @member
-	 * @type {Array<ol.Feature>}
+	 * @member {Array<ol.Feature>}
 	 */
 	me.allFeatures = [];
 	/**
 	 * @private
-	 * @member
-	 * @type {boolean}
+	 * @member {boolean}
 	 */
 	me.filtering = false;
 	decorationMixins = decorationMixins || [];

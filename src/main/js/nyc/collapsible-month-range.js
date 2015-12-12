@@ -1,33 +1,12 @@
 var nyc = nyc || {};
 
 /**
- * @desc Date range object
- * @public
- * @typedef {Object}
- * @property {Date} start The start of the range
- * @property {Date} end The end of the range
- */
-nyc.DateRange;
-
-/**
- * @desc Constructor options for nyc.MonthRangePicker
- * @public
- * @typedef {Object}
- * @property {number} minMonth The zero-based index of the minimum month
- * @property {number} minYear The 4 digit minimum year
- * @property {number} maxMonth The zero-based index of the maximum month
- * @property {number} maxYear The 4 digit maximum year
- * @property {(String|Element|JQuery)} target The DOM target
- */
-nyc.MonthRangePickerOptions;
-
-/**
  * @desc A UI class to pick a month range
  * @public
  * @class
  * @constructor
  * @extends {nyc.Collapsible}
- * @param {nyc.MonthRangePickerOptions} options
+ * @param {nyc.MonthRangePicker.Options} options Constructor options
  */
 nyc.MonthRangePicker = function(options){
 	var labelMin = $('<label>The beginning of</label>'), 
@@ -79,7 +58,7 @@ nyc.MonthRangePicker.prototype = {
 	/** 
 	 * @private
 	 * @method
-	 * @param {nyc.MonthRangePickerOptions} options
+	 * @param {nyc.MonthRangePicker.Options} options
 	 */
 	populate: function(options){
 		for (var year = options.minYear; year <= options.maxYear; year++){
@@ -186,7 +165,7 @@ nyc.MonthRangePicker.prototype = {
 	 * @desc Returns the date range value
 	 * @public
 	 * @method	
-	 * @return {nyc.DateRange}
+	 * @return {nyc.MonthRangePicker.DateRange} The date range
 	 */
 	val: function(){
 		return this.value;
@@ -194,3 +173,24 @@ nyc.MonthRangePicker.prototype = {
 };
 
 nyc.inherits(nyc.MonthRangePicker, nyc.Collapsible);
+
+/**
+ * @desc Date range object
+ * @public
+ * @typedef {Object}
+ * @property {Date} start The start of the range
+ * @property {Date} end The end of the range
+ */
+nyc.MonthRangePicker.DateRange;
+
+/**
+ * @desc Constructor options for {@link nyc.MonthRangePicker}
+ * @public
+ * @typedef {Object}
+ * @property {number} minMonth The zero-based index of the minimum month
+ * @property {number} minYear The 4 digit minimum year
+ * @property {number} maxMonth The zero-based index of the maximum month
+ * @property {number} maxYear The 4 digit maximum year
+ * @property {(String|Element|JQuery)} target The DOM target
+ */
+nyc.MonthRangePicker.Options;

@@ -19,32 +19,27 @@ nyc.ol.source.Decorating = function(options, decorationMixins){
 	options.loader = options.loader || nyc.ol.source.Decorating.xhrLoader;
 	/**
 	 * @private
-	 * @member
-	 * @type {boolean}
+	 * @member {boolean}
 	 */
 	this.featuresloaded = false;
 	/**
 	 * @private
-	 * @member
-	 * @type {boolean}
+	 * @member {boolean}
 	 */
 	this.featureloaderror = false;
 	/**
 	 * @private
-	 * @member
-	 * @type {string}
+	 * @member {string}
 	 */
 	this._url = options.url;
 	/**
 	 * @private
-	 * @member
-	 * @type {ol.format.Feature}
+	 * @member {ol.format.Feature}
 	 */
 	this._format = options.format;
 	/**
 	 * @private
-	 * @member
-	 * @type {boolean}
+	 * @member {boolean}
 	 */
 	this._xhrFeaturesLoaded = false;
 	ol.source.Vector.call(this, options);
@@ -88,7 +83,7 @@ nyc.ol.source.Decorating.xhrLoader = function(extent, resolution, projection){
  * @desc Has the request for geoJSON data completed successfully
  * @public
  * @method
- * @return {boolean}
+ * @return {boolean} The value indicating if the XHR request has successfully loaded the geoJSON data
  */
 nyc.ol.source.Decorating.prototype.isXhrFeaturesLoaded = function(){
     return this._xhrFeaturesLoaded;    
