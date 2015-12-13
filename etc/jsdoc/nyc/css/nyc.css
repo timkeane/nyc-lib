@@ -10,6 +10,7 @@ html, body, header, section, nav, div.description {
 }
 nav {
 	width: 25%;
+	overflow-x: auto;
 }
 section.nyc-desc {
 	min-height: 984px;
