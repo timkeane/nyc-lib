@@ -309,14 +309,20 @@ nyc.ol.Draw.prototype = {
 	 * @method
 	 * @param {ol.Feature} feature
 	 */
-	showContextMenu: function(feature){
-		var me = this, ctxMnu = $(nyc.ol.Draw.CONTEXT_MENU_HTML);
+	showContextMenu: function(event, feature){
+		var me = this, left = event.offsetX, ctxMnu = $('.draw-ctx-mnu');
+		if (!ctxMnu.length){
+			ctxMnu = $(nyc.ol.Draw.CONTEXT_MENU_HTML);
+		}
 		me.viewport.one('click', function(e){
     		me.escape();
 	    	me.closeMenus();
 		});
 		me.viewport.find('.ol-overlaycontainer-stopevent').append(ctxMnu);
-    	ctxMnu.css({left: event.offsetX + 'px', top: event.offsetY + 'px'});
+		if (left + 125 > me.viewport.width()) {
+			left = left - 125;
+		}
+		ctxMnu.css({left: left + 'px', top: event.offsetY + 'px'});
     	ctxMnu.slideDown();
     	ctxMnu.find('.delete').one('click', function(){
     		me.removeFeature(feature);

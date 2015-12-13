@@ -1,7 +1,9 @@
 var nyc = nyc || {};
 nyc.carto = nyc.carto || {};
 
-//TODO create typedef for filers object
+/**
+ * @todo Create typedef for filers object
+ */
 
 /**
  * @desc Class for replacing values in SQL strings and appending filters to the WHERE clause
