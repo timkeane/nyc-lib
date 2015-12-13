@@ -5,7 +5,7 @@ var nyc = nyc || {};
  * @public 
  * @class
  * @constructor
- * @param {Object<string,string>} messages The messages with optional tokens mapped by message id
+ * @param {Object<string, string>} messages The messages with optional tokens mapped by message id
  */
 nyc.Content = function(messages){
 	this.messages = messages;
@@ -14,7 +14,7 @@ nyc.Content = function(messages){
 nyc.Content.prototype = {
 	/** 
 	 * @private
-	 * @member {Object<string,string>}
+	 * @member {Object<string, string>}
 	 */
 	messages: null,
 	/**
