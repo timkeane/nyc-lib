@@ -11,16 +11,16 @@ QUnit.test('html', function(assert){
 
 QUnit.module('nyc.BinLegend', {});
 
-QUnit.test('html (nyc.BinLegend.SymbolType.POLYGON, nyc.BinLegend.BinType.RANGE_FLOAT)', function(assert){
+QUnit.test('html (nyc.BinLegend.SymbolType.POLYGON, nyc.BinLegend.BinType.RANGE_NUMBER)', function(assert){
 	assert.expect(1);
 	
-	var legend = new nyc.BinLegend('my legend', nyc.BinLegend.SymbolType.POLYGON, nyc.BinLegend.BinType.RANGE_FLOAT);	
+	var legend = new nyc.BinLegend('my legend', nyc.BinLegend.SymbolType.POLYGON, nyc.BinLegend.BinType.RANGE_NUMBER);	
 	var div = $('<div></div>');
 	div.append(legend.html('"My Caption"', [0.1, 1.5, 2.7, 5.0, 10.1]));
 	
 	assert.equal(
 		div.html(), 
-		'<table class="legend leg-polygon leg-range-float my-legend"><caption>"My Caption"</caption><tbody><tr><td class="leg-bin leg-bin-0"><img alt="   <= 0.1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">   &lt;= 0.1</td></tr><tr><td class="leg-bin leg-bin-1"><img alt="> 0.1 and <= 1.5" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 0.1 and &lt;= 1.5</td></tr><tr><td class="leg-bin leg-bin-2"><img alt="> 1.5 and <= 2.7" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 1.5 and &lt;= 2.7</td></tr><tr><td class="leg-bin leg-bin-3"><img alt="> 2.7 and <= 5" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 2.7 and &lt;= 5</td></tr><tr><td class="leg-bin leg-bin-4"><img alt="> 5 and <= 10.1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 5 and &lt;= 10.1</td></tr></tbody></table>'
+		'<table class="legend leg-polygon leg-range-num my-legend"><caption>"My Caption"</caption><tbody><tr><td class="leg-bin leg-bin-0"><img alt="   <= 0.1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">   &lt;= 0.1</td></tr><tr><td class="leg-bin leg-bin-1"><img alt="> 0.1 and <= 1.5" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 0.1 and &lt;= 1.5</td></tr><tr><td class="leg-bin leg-bin-2"><img alt="> 1.5 and <= 2.7" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 1.5 and &lt;= 2.7</td></tr><tr><td class="leg-bin leg-bin-3"><img alt="> 2.7 and <= 5" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 2.7 and &lt;= 5</td></tr><tr><td class="leg-bin leg-bin-4"><img alt="> 5 and <= 10.1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 5 and &lt;= 10.1</td></tr></tbody></table>'
 	);
 });
 
@@ -50,16 +50,16 @@ QUnit.test('html (nyc.BinLegend.SymbolType.POLYGON, nyc.BinLegend.BinType.RANGE_
 	);
 });
 
-QUnit.test('html (nyc.BinLegend.SymbolType.LINE, nyc.BinLegend.BinType.RANGE_FLOAT)', function(assert){
+QUnit.test('html (nyc.BinLegend.SymbolType.LINE, nyc.BinLegend.BinType.RANGE_NUMBER)', function(assert){
 	assert.expect(1);
 	
-	var legend = new nyc.BinLegend('my legend', nyc.BinLegend.SymbolType.LINE, nyc.BinLegend.BinType.RANGE_FLOAT);	
+	var legend = new nyc.BinLegend('my legend', nyc.BinLegend.SymbolType.LINE, nyc.BinLegend.BinType.RANGE_NUMBER);	
 	var div = $('<div></div>');
 	div.append(legend.html('"My Caption"', [0.1, 1.5, 2.7, 5.0, 10.1]));
 	
 	assert.equal(
 		div.html(), 
-		'<table class="legend leg-line leg-range-float my-legend"><caption>"My Caption"</caption><tbody><tr><td class="leg-bin leg-bin-0"><img alt="   <= 0.1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">   &lt;= 0.1</td></tr><tr><td class="leg-bin leg-bin-1"><img alt="> 0.1 and <= 1.5" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 0.1 and &lt;= 1.5</td></tr><tr><td class="leg-bin leg-bin-2"><img alt="> 1.5 and <= 2.7" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 1.5 and &lt;= 2.7</td></tr><tr><td class="leg-bin leg-bin-3"><img alt="> 2.7 and <= 5" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 2.7 and &lt;= 5</td></tr><tr><td class="leg-bin leg-bin-4"><img alt="> 5 and <= 10.1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 5 and &lt;= 10.1</td></tr></tbody></table>'
+		'<table class="legend leg-line leg-range-num my-legend"><caption>"My Caption"</caption><tbody><tr><td class="leg-bin leg-bin-0"><img alt="   <= 0.1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">   &lt;= 0.1</td></tr><tr><td class="leg-bin leg-bin-1"><img alt="> 0.1 and <= 1.5" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 0.1 and &lt;= 1.5</td></tr><tr><td class="leg-bin leg-bin-2"><img alt="> 1.5 and <= 2.7" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 1.5 and &lt;= 2.7</td></tr><tr><td class="leg-bin leg-bin-3"><img alt="> 2.7 and <= 5" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 2.7 and &lt;= 5</td></tr><tr><td class="leg-bin leg-bin-4"><img alt="> 5 and <= 10.1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 5 and &lt;= 10.1</td></tr></tbody></table>'
 	);
 });
 
@@ -89,16 +89,16 @@ QUnit.test('html (nyc.BinLegend.SymbolType.LINE, nyc.BinLegend.BinType.RANGE_VAL
 	);
 });
 
-QUnit.test('html (nyc.BinLegend.SymbolType.POINT, nyc.BinLegend.BinType.RANGE_FLOAT)', function(assert){
+QUnit.test('html (nyc.BinLegend.SymbolType.POINT, nyc.BinLegend.BinType.RANGE_NUMBER)', function(assert){
 	assert.expect(1);
 	
-	var legend = new nyc.BinLegend('my legend', nyc.BinLegend.SymbolType.POINT, nyc.BinLegend.BinType.RANGE_FLOAT);	
+	var legend = new nyc.BinLegend('my legend', nyc.BinLegend.SymbolType.POINT, nyc.BinLegend.BinType.RANGE_NUMBER);	
 	var div = $('<div></div>');
 	div.append(legend.html('"My Caption"', [0.1, 1.5, 2.7, 5.0, 10.1]));
 	
 	assert.equal(
 		div.html(), 
-		'<table class="legend leg-point leg-range-float my-legend"><caption>"My Caption"</caption><tbody><tr><td class="leg-bin leg-bin-0"><img alt="   <= 0.1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">   &lt;= 0.1</td></tr><tr><td class="leg-bin leg-bin-1"><img alt="> 0.1 and <= 1.5" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 0.1 and &lt;= 1.5</td></tr><tr><td class="leg-bin leg-bin-2"><img alt="> 1.5 and <= 2.7" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 1.5 and &lt;= 2.7</td></tr><tr><td class="leg-bin leg-bin-3"><img alt="> 2.7 and <= 5" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 2.7 and &lt;= 5</td></tr><tr><td class="leg-bin leg-bin-4"><img alt="> 5 and <= 10.1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 5 and &lt;= 10.1</td></tr></tbody></table>'
+		'<table class="legend leg-point leg-range-num my-legend"><caption>"My Caption"</caption><tbody><tr><td class="leg-bin leg-bin-0"><img alt="   <= 0.1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">   &lt;= 0.1</td></tr><tr><td class="leg-bin leg-bin-1"><img alt="> 0.1 and <= 1.5" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 0.1 and &lt;= 1.5</td></tr><tr><td class="leg-bin leg-bin-2"><img alt="> 1.5 and <= 2.7" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 1.5 and &lt;= 2.7</td></tr><tr><td class="leg-bin leg-bin-3"><img alt="> 2.7 and <= 5" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 2.7 and &lt;= 5</td></tr><tr><td class="leg-bin leg-bin-4"><img alt="> 5 and <= 10.1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 5 and &lt;= 10.1</td></tr></tbody></table>'
 	);
 });
 
@@ -128,16 +128,16 @@ QUnit.test('html (nyc.BinLegend.SymbolType.POINT, nyc.BinLegend.BinType.RANGE_VA
 	);
 });
 
-QUnit.test('html (nyc.BinLegend.SymbolType.GRADUATED_POINT, nyc.BinLegend.BinType.RANGE_FLOAT)', function(assert){
+QUnit.test('html (nyc.BinLegend.SymbolType.GRADUATED_POINT, nyc.BinLegend.BinType.RANGE_NUMBER)', function(assert){
 	assert.expect(1);
 	
-	var legend = new nyc.BinLegend('my legend', nyc.BinLegend.SymbolType.GRADUATED_POINT, nyc.BinLegend.BinType.RANGE_FLOAT);	
+	var legend = new nyc.BinLegend('my legend', nyc.BinLegend.SymbolType.GRADUATED_POINT, nyc.BinLegend.BinType.RANGE_NUMBER);	
 	var div = $('<div></div>');
 	div.append(legend.html('"My Caption"', [0.1, 1.5, 2.7, 5.0, 10.1]));
 	
 	assert.equal(
 		div.html(), 
-		'<table class="legend leg-grad-point leg-range-float my-legend"><caption>"My Caption"</caption><tbody><tr><td class="leg-bin leg-bin-0"><img alt="   <= 0.1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">   &lt;= 0.1</td></tr><tr><td class="leg-bin leg-bin-1"><img alt="> 0.1 and <= 1.5" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 0.1 and &lt;= 1.5</td></tr><tr><td class="leg-bin leg-bin-2"><img alt="> 1.5 and <= 2.7" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 1.5 and &lt;= 2.7</td></tr><tr><td class="leg-bin leg-bin-3"><img alt="> 2.7 and <= 5" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 2.7 and &lt;= 5</td></tr><tr><td class="leg-bin leg-bin-4"><img alt="> 5 and <= 10.1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 5 and &lt;= 10.1</td></tr></tbody></table>'
+		'<table class="legend leg-grad-point leg-range-num my-legend"><caption>"My Caption"</caption><tbody><tr><td class="leg-bin leg-bin-0"><img alt="   <= 0.1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">   &lt;= 0.1</td></tr><tr><td class="leg-bin leg-bin-1"><img alt="> 0.1 and <= 1.5" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 0.1 and &lt;= 1.5</td></tr><tr><td class="leg-bin leg-bin-2"><img alt="> 1.5 and <= 2.7" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 1.5 and &lt;= 2.7</td></tr><tr><td class="leg-bin leg-bin-3"><img alt="> 2.7 and <= 5" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 2.7 and &lt;= 5</td></tr><tr><td class="leg-bin leg-bin-4"><img alt="> 5 and <= 10.1" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">&gt; 5 and &lt;= 10.1</td></tr></tbody></table>'
 	);
 });
 

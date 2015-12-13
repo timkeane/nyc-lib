@@ -159,7 +159,7 @@ nyc.BinLegend.BinType = {
 	/**
 	 * @desc Range of numbers
 	 */
-	RANGE_FLOAT: 'leg-range-float',
+	RANGE_NUMBER: 'leg-range-num',
 	/**
 	 * @desc Range of integers
 	 */
