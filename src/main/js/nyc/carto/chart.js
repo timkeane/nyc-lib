@@ -44,10 +44,10 @@ nyc.carto.Chart.prototype = {
 	/** 
 	 * @public
 	 * @method 
-	 * @param {Array<Object>} filterValuesArray The values objects used along with the views filters and sqlTemlate to modify the query for this chart
+	 * @param {Array<Object<string, Object<string, string>>>} filterValuesArray The values objects used along with the views filters and sqlTemlate to modify the queries for the chart series
 	 * @param {JQuery|Element|string} titleNode The HTML element for title text
-	 * @param {Array<Object>} descriptionValues The values objects for replacing tokens in the descriptionTemplate
-	 */ 
+	 * @param {Array<Object<string, string>>} descriptionValues The values objects for replacing tokens in the descriptionTemplate
+	 */ 	
 	chart: function(filterValuesArray, titleNode, descriptionValues){
 		var me = this, sqls = [], datasets = [];
 		$.each(filterValuesArray, function(_, filterValues){
@@ -171,13 +171,12 @@ nyc.inherits(nyc.carto.Chart, nyc.carto.SqlTemplate);
  * @property {string} descriptionTemplate The template with optional replacement tokens for the chart description
  * @property {string} dataColumn The data column for the y-axis chart values
  * @property {string} labelColumn The data column for labeling the x-axis of the chart
- * @property {Object} filters The filters object used with the sqlTemplate for generating queries for cartoSql
+ * @property {Object<string, Object<string, string>>} filters The filters object used with the sqlTemplate for generating queries for cartoSql
  * @property {Object=} chartOptions ChartJS options (See: [http://www.chartjs.org/]{@link http://www.chartjs.org/})
  * @property {Array<Object>=} seriesOptions ChartJS options (See: [http://www.chartjs.org/]{@link http://www.chartjs.org/})
  * @property {function(string):string=} labelLookupFunction A function to transform labelColumn column values from the data into readable labels 
  */
 nyc.carto.Chart.Options;
-
 
 /**
  * @private

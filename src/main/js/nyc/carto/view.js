@@ -2,10 +2,6 @@ var nyc = nyc || {};
 nyc.carto = nyc.carto || {};
 
 /**
- * @todo Create typedef for filers object
- */
-
-/**
  * @desc Class for replacing values in SQL strings and appending filters to the WHERE clause
  * @public
  * @class
@@ -19,9 +15,22 @@ nyc.carto.SqlTemplate.prototype = {
 	 * @public
 	 * @method 
 	 * @param {string} template The SQL template with optional replacement tokens
-	 * @param {Object<string,string>} values The replacement values 
-	 * @param {Object=} filters The filters to append to the WHERE clause
+	 * @param {Object<string, Object<string, string>>} values The replacement values
+	 * @param {Object<string, string>=} filters The filters to append to the WHERE clause (i.e. )
 	 * @return {string} The SQL statement
+	 * @example 
+	 * var template = "SELECT * FROM bike WHERE ${where}";
+	 * var values =  {
+	 *   color: {value: "red"},
+	 *   gear: {low: 10, high: 18}
+	 * };
+	 * var filters = {
+	 *   color: "color = '${value}'",
+	 *   gear: "gear BETWEEN ${low} AND ${high}"
+	 * };
+	 * var sqlTmpl = nyc.carto.SqlTemplate();
+	 * sqlTmpl.sql(template, values, filters);
+	 * //Returns "SELECT * FROM bike WHERE color = 'red' AND gear BETWEEN 10 AND 18"
 	 */
 	sql: function(template, values, filters){
 		var result = new String(template), where = '';
@@ -315,8 +324,8 @@ nyc.carto.View.prototype = {
 	 * @desc Update the view by modifying the data for the layer
 	 * @public
 	 * @method
-	 * @param {Object} filterValues The values object used along with the views filters and sqlTemlate to modify the query for this view
-	 * @param {Object} descriptionValues The values objects for replacing tokens in the descriptionTemplate
+	 * @param {Object<string, Object<string, string>>} filterValues The values object used along with the views filters and sqlTemlate to modify the query for this view
+	 * @param {Object<string, string>} descriptionValues The values objects for replacing tokens in the descriptionTemplate
 	 */
 	update: function(filterValues, descriptionValues){
 		var me = this,
@@ -357,7 +366,7 @@ nyc.inherits(nyc.carto.View, nyc.carto.SqlTemplate);
  * @property {string} name A name for the view
  * @property {cartodb.Layer} layer The layer managed by the view
  * @property {string} sqlTemplate The template with optional replacement tokens for generating queries on the layer
- * @property {Object} filters The filters used with the sqlTemplate for generating queries on the layer
+ * @property {Object<string, string>}  filters The filters used with the sqlTemplate for generating queries on the layer
  * @property {string=} descriptionTemplate The template with optional replacement tokens for the chart description
  * @property {nyc.carto.JenksSymbolizer=} symbolizer The symbolized used to change the layer its underlying data changes
  * @property {nyc.Legend=} legend The legend for this view
@@ -400,8 +409,8 @@ nyc.carto.ViewSwitcher.prototype = {
 	 * @desc Switch to and modify a named view
 	 * @method
 	 * @param {string} viewName The name of the view to switch to
-	 * @param {Object} filterValues The values object used along with the views filters and sqlTemlate to modify the query for this view
-	 * @param {Object} descriptionValues The values objects for replacing tokens in the descriptionTemplate
+	 * @param {Object<string, Object<string, string>>} filterValues The values object used along with the views filters and sqlTemlate to modify the query for this view
+	 * @param {Object<string, string>} descriptionValues The values objects for replacing tokens in the descriptionTemplate
 	 */
 	switchView: function(viewName, filterValues, descriptionValues){
 		var activeView;
@@ -430,7 +439,7 @@ nyc.inherits(nyc.carto.ViewSwitcher, nyc.EventHandling);
  * @extends {nyc.carto.SqlTemplate}
  * @property {cartodb.SQL} cartoSql The object used to query CartoDB data 
  * @property {string} sqlTemplate The template with optional replacement tokens for generating queries for cartoSql
- * @property {Object} filters The filters used with the sqlTemplate for generating queries for cartoSql
+ * @property {Object<string, string>} filters The filters used with the sqlTemplate for generating queries for cartoSql
  */
 nyc.carto.Dao = function(cartoSql, sqlTemplate, filters){
 	this.cartoSql = cartoSql;
@@ -457,7 +466,7 @@ nyc.carto.Dao.prototype = {
 	/**
 	 * @public
 	 * @method
-	 * @param {Object} filterValues The values object used along with the views filters and sqlTemlate to modify the query for this view
+	 * @param {Object<string, Object<string, string>>} filterValues The values object used along with the views filters and sqlTemlate to modify the query for this view
 	 * @param {function(Object)} callback The callback function to receive data from CartoDB
 	 */
 	data: function(filterValues, callback){
