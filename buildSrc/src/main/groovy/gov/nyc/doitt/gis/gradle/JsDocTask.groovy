@@ -11,6 +11,7 @@ class JsDocTask extends DefaultTask {
 	def destinationDir = ''
 	def conf = ''
 	def template = ''
+	def packageFile = ''
 	@TaskAction
 	public void build(){
 		def docs = new File(destinationDir)
@@ -18,8 +19,9 @@ class JsDocTask extends DefaultTask {
 		if (exe.exists()){
 			if (conf != '') conf = "-c ${conf}"
 			if (template != '') template = "-t ${template}"
+			if (packageFile != '') packageFile = "-P ${packageFile}"
 			docs.mkdirs()
-			def cmd = "${exe} ${sourceDir} -d ${destinationDir} -r ${conf} ${template} --verbose"
+			def cmd = "${exe} ${sourceDir} -d ${destinationDir} -r ${conf} ${template} ${packageFile} --verbose"
 			println cmd
 			def proc = cmd.execute()
 			proc.waitForProcessOutput(System.out, System.err)

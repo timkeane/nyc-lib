@@ -2,6 +2,7 @@ package gov.nyc.doitt.nyc.gis.gradle
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
+import gov.nyc.doitt.nyc.gis.gradle.util.Util
 
 class MiniCssTask extends DefaultTask {
 	def libName = ''
@@ -25,13 +26,8 @@ class MiniCssTask extends DefaultTask {
 		}		
 	}
 	void copySource(String file){
-		def dir = getDirectoryName("${destinationDir}/../src/css/${file}")
+		def dir = Util.getDirectoryName("${destinationDir}/../src/css/${file}")
 		new File(dir).mkdirs()
 		ant.copy(file: "${sourceDir}/${file}", tofile: "${destinationDir}/../src/css/${file}")
 	}
-	String getDirectoryName(String fullPath){
-		String dir = fullPath.replaceAll('\\\\', '/')
-		int lastSlash = dir.lastIndexOf('/')
-		return dir.substring(0, lastSlash)
-	}	
 }

@@ -11,4 +11,5 @@ dependencies {
     compile localGroovy()
     compile ('com.google.javascript:closure-compiler:v20150609')
     compile ('ant:ant:1.7.0')
+    compile ('org.codehaus.groovy:groovy-json:2.3.8')
 }

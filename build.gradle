@@ -110,6 +110,24 @@ ext {
 	]
 }
 
+task npmPackage(type: NpmPackageTask) {
+	packageFile = "${buildDir}/${ver}/package.json"
+	libName = 'nyc-lib'
+	version = ver
+	desc = 'A collection of javascript libraries used in the development New York City mapping applications'
+	author = 'Tim Keane'
+	contributors = []
+	gitHubUrl = 'https://github.com/timkeane/nyc-lib/'
+	keywords = ['ol3', 'CartoDB', 'LeafletJS', 'ChartJS']
+	dependencies = [
+		ol3: '> 3.11.0', 
+		CartoDB: '> 3.14', 
+		ChartJS: '> 1.0.1',
+		proj4js: '> 2.3.10', 
+		JQuery: '> 1.11.0'
+	]
+}
+
 task jsDoc(type: JsDocTask) {
 	sourceDir = "src/main/js/nyc"
 	destinationDir = "build/${ver}/doc"
@@ -194,7 +212,7 @@ task allJs(dependsOn: [minifyJsOl, minifyJsOlRedLine, minifyJsLeaf, minifyJsCart
 task allCss(dependsOn: [minifyCssOl, minifyCssOlRedLine, minifyCssLeaf, minifyCssCarto]) << {}
 task buildLibs(dependsOn: [allJs, allCss]) << {}
 
-task archive(type: Zip, dependsOn: [buildLibs, jsDoc]) {
+task archive(type: Zip, dependsOn: [buildLibs, jsDoc, npmPackage]) {
 	archiveName = "nyc-lib-${ver}.zip"
 	from {"${buildDir}/${ver}"}
 }

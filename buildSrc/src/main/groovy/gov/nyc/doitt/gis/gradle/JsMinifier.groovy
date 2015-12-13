@@ -10,6 +10,7 @@ import com.google.javascript.jscomp.SourceFile
 import com.google.javascript.jscomp.Result
 import com.google.javascript.jscomp.SourceMap
 import org.gradle.api.GradleException
+import gov.nyc.doitt.nyc.gis.gradle.util.Util
 
 class JsMinifier {
 	public void minify(
@@ -51,7 +52,7 @@ class JsMinifier {
     }
     void copyToSrc(File inputFile, String destinationDir, String fileName){
     	String mappedSrc = "${destinationDir}/../src/js/${fileName}"
-    	String dir = getDirectoryName(mappedSrc)
+    	String dir = Util.getDirectoryName(mappedSrc)
     	new File(dir).mkdirs()
     	new File(mappedSrc) << inputFile.text
     }
@@ -78,13 +79,8 @@ class JsMinifier {
 		String suffix = "\n//# sourceMappingURL=${libName}.sourcemap.json"
 		return [prefix, suffix]
 	}
-	String getDirectoryName(String fullPath){
-		String dir = fullPath.replaceAll('\\\\', '/')
-		int lastSlash = dir.lastIndexOf('/')
-		return dir.substring(0, lastSlash)
-	}
 	void setLocationMapping(SourceMap sourceMap, String sourceDir){
-		String prefix = getDirectoryName(sourceDir)
+		String prefix = Util.getDirectoryName(sourceDir)
 		sourceMap.setPrefixMappings([new SourceMap.LocationMapping(prefix, '../src')])
 	}
 	void writeOutput(Compiler compiler, String sourceDir, Result result, File outputFile, File sourceMapFile, List<String> wrapper){

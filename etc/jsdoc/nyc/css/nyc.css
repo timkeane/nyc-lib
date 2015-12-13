@@ -53,6 +53,7 @@ h1.page-title {
 	color: #fff;
 	border: none;
 	width: calc(100% - 20px);
+	height: 110px;
 	font-size: 14px;
 	padding: 10px;
 }
