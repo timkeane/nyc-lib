@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>nyc.Dialog Example</title>
+
+	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+	<link rel="stylesheet" href="../src/main/css/dialog.css"> 
+
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script src="../src/main/js/nyc/nyc.js"></script>
+	<script src="../src/main/js/nyc/nyc.js"></script>
+	<script src="../src/main/js/nyc/dialog.js"></script>
+	
+	<style>
+		 button.open-dia.ui-btn {
+		 	width: 200px;
+		 	margin: 10px calc(50% - 100px);
+		 }
+	</style>
+</head>
+<body>
+	<button class="open-dia" onclick="showOk();">Show OK dialog</button>
+	<button class="open-dia" onclick="showYesNo();">Show Yes/No dialog</button>
+	<button class="open-dia" onclick="showInput();">Show Input dialog</button>
+<script>
+	var dia;
+	
+	function showOk(){
+		dia.show(nyc.Dialog.Type.OK, 'Hi there!');
+	};
+	
+	function showYesNo(){
+		dia.show(nyc.Dialog.Type.YES_NO, 'Are you there?');
+	};
+	
+	function showInput(){
+		dia.show(nyc.Dialog.Type.INPUT, 'Where are you?');
+	};
+	
+	$(document).ready(function(){
+		dia = new nyc.Dialog();
+		dia.on(nyc.Dialog.EventType.OK, function(result){
+			console.info('nyc.Dialog.EventType.OK', result);
+		});
+		dia.on(nyc.Dialog.EventType.YES_NO, function(result){
+			console.info('nyc.Dialog.EventType.YES_NO', result);
+		});
+		dia.on(nyc.Dialog.EventType.INPUT, function(result){
+			console.info('nyc.Dialog.EventType.INPUT', result);
+		});
+	});
+</script>
+</body>
+</html>
