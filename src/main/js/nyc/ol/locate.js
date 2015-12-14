@@ -21,14 +21,14 @@ nyc.ol.Locate = function(geocoder, projection, extentLimit){
 	var me = this;
 	me.projection = projection;
 	me.extentLimit = extentLimit;
-	geocoder.on(nyc.Locate.LocateEventType.GEOCODE, function(data){
-		me.proxyEvent(nyc.Locate.LocateEventType.GEOCODE, data);
+	geocoder.on(nyc.Locate.EventType.GEOCODE, function(data){
+		me.proxyEvent(nyc.Locate.EventType.GEOCODE, data);
 	});
-	geocoder.on(nyc.Locate.LocateEventType.AMBIGUOUS, function(data){
-		me.proxyEvent(nyc.Locate.LocateEventType.AMBIGUOUS, data);
+	geocoder.on(nyc.Locate.EventType.AMBIGUOUS, function(data){
+		me.proxyEvent(nyc.Locate.EventType.AMBIGUOUS, data);
 	});
-	geocoder.on(nyc.Locate.LocateEventType.ERROR, function(data){
-		me.proxyEvent(nyc.Locate.LocateEventType.ERROR, data);
+	geocoder.on(nyc.Locate.EventType.ERROR, function(data){
+		me.proxyEvent(nyc.Locate.EventType.ERROR, data);
 	});
 	me.geocoder = geocoder;
 	me.geolocation = new ol.Geolocation({
@@ -47,7 +47,7 @@ nyc.ol.Locate = function(geocoder, projection, extentLimit){
 			me.locating = false;
 		}
 		if (me.withinLimit(p)){ 
-			me.trigger(nyc.Locate.LocateEventType.GEOLOCATION, {
+			me.trigger(nyc.Locate.EventType.GEOLOCATION, {
 				coordinates: p,
 				heading: me.geolocation.getHeading(),
 				accuracy: me.geolocation.getAccuracy() / me.metersPerUnit(), 

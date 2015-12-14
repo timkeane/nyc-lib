@@ -85,7 +85,7 @@ nyc.Geoclient.prototype = {
 		if (input.length == 5 && !isNaN(input)){
 			var p = me.project(nyc.Geoclient.ZIP_CODE_POINTS[input]);
 			me.trigger(
-				p ? nyc.Locate.LocateEventType.GEOCODE : nyc.Locate.LocateEventType.AMBIGUOUS,
+				p ? nyc.Locate.EventType.GEOCODE : nyc.Locate.EventType.AMBIGUOUS,
 				p ? {coordinates: p, accuracy: nyc.Geocoder.Accuracy.ZIP_CODE, type: nyc.Locate.ResultType.GEOCODE, zip: true, name: input} : {input: input, possible: []}
 			);
 		}else if (input.length){
@@ -98,7 +98,7 @@ nyc.Geoclient.prototype = {
 				},
 				error: function(xhr, status, error){
 					console.error('Geoclient error', [xhr, status, error]);
-					me.trigger(nyc.Locate.LocateEventType.ERROR, [xhr, status, error]);
+					me.trigger(nyc.Locate.EventType.ERROR, [xhr, status, error]);
 				}
 			});
 		}
@@ -128,16 +128,16 @@ nyc.Geoclient.prototype = {
 				if (result.status == "EXACT_MATCH" || result.status == "POSSIBLE_MATCH"){
 					var location = me.parse(result);
 					if (location.coordinates[0]){
-						me.trigger(nyc.Locate.LocateEventType.GEOCODE, location);
+						me.trigger(nyc.Locate.EventType.GEOCODE, location);
 					}else{
-						me.trigger(nyc.Locate.LocateEventType.AMBIGUOUS, {input: response.input, possible: []});
+						me.trigger(nyc.Locate.EventType.AMBIGUOUS, {input: response.input, possible: []});
 					}
 				}
 			}else{
-				me.trigger(nyc.Locate.LocateEventType.AMBIGUOUS, {input: response.input, possible: me.possible(results)});
+				me.trigger(nyc.Locate.EventType.AMBIGUOUS, {input: response.input, possible: me.possible(results)});
 			}
 		}else{
-			me.trigger(nyc.Locate.LocateEventType.AMBIGUOUS, {input: response.input, possible: []});
+			me.trigger(nyc.Locate.EventType.AMBIGUOUS, {input: response.input, possible: []});
 		}
 	},
 	/**

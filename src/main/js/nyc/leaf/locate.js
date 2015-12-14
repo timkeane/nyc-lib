@@ -21,14 +21,14 @@ nyc.leaf.Locate = function(map, geocoder, extentLimit){
 	me.map = map;
 	me.geocoder = geocoder;
 	me.extentLimit = extentLimit;
-	geocoder.on(nyc.Locate.LocateEventType.GEOCODE, function(data){
-		me.proxyEvent(nyc.Locate.LocateEventType.GEOCODE, data);
+	geocoder.on(nyc.Locate.EventType.GEOCODE, function(data){
+		me.proxyEvent(nyc.Locate.EventType.GEOCODE, data);
 	});
-	geocoder.on(nyc.Locate.LocateEventType.AMBIGUOUS, function(data){
-		me.proxyEvent(nyc.Locate.LocateEventType.AMBIGUOUS, data);
+	geocoder.on(nyc.Locate.EventType.AMBIGUOUS, function(data){
+		me.proxyEvent(nyc.Locate.EventType.AMBIGUOUS, data);
 	});
-	geocoder.on(nyc.Locate.LocateEventType.ERROR, function(data){
-		me.proxyEvent(nyc.Locate.LocateEventType.ERROR, data);
+	geocoder.on(nyc.Locate.EventType.ERROR, function(data){
+		me.proxyEvent(nyc.Locate.EventType.ERROR, data);
 	});
 	me.geocoder = geocoder;
 	map.on('locationfound', $.proxy(me.geolocated, me));
@@ -70,7 +70,7 @@ nyc.leaf.Locate.prototype = {
 				maxZoom: nyc.leaf.Locate.ZOOM_LEVEL
 			});
 		}else{
-			this.trigger(nyc.Locate.LocateEventType.ERROR, 'You have disabled location services for this page. To use this feature you must enable location services.');
+			this.trigger(nyc.Locate.EventType.ERROR, 'You have disabled location services for this page. To use this feature you must enable location services.');
 		}
 	},
 	/**
@@ -106,7 +106,7 @@ nyc.leaf.Locate.prototype = {
 	 */
 	geolocated: function(e) {
 	    if (this.extentLimit.contains(e.latlng)){
-			this.trigger(nyc.Locate.LocateEventType.GEOLOCATION, {
+			this.trigger(nyc.Locate.EventType.GEOLOCATION, {
 				 name: this.dmsString(e.latlng),
 				 coordinates: [e.latlng.lng, e.latlng.lat],
 				 accuracy: e.accuracy,

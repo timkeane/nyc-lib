@@ -103,7 +103,7 @@ QUnit.test('geoclient (geocoded)', function(assert){
 	assert.expect(1);
 
 	var geocoder = new nyc.Geoclient();
-	geocoder.on(nyc.Locate.LocateEventType.GEOCODE, function(data){
+	geocoder.on(nyc.Locate.EventType.GEOCODE, function(data){
 		assert.deepEqual(
 			data,
 			{
@@ -121,7 +121,7 @@ QUnit.test('geoclient (non addressable)', function(assert){
 	assert.expect(1);
 
 	var geocoder = new nyc.Geoclient();
-	geocoder.one(nyc.Locate.LocateEventType.AMBIGUOUS, function(data){
+	geocoder.one(nyc.Locate.EventType.AMBIGUOUS, function(data){
 		assert.deepEqual(data, {input: 'Metro North 125 Street, Manhattan', possible: []});
 
 	});
@@ -132,7 +132,7 @@ QUnit.test('geoclient (ambiguous)', function(assert){
 	assert.expect(1);
 
 	var geocoder = new nyc.Geoclient();
-	geocoder.on(nyc.Locate.LocateEventType.AMBIGUOUS, function(data){
+	geocoder.on(nyc.Locate.EventType.AMBIGUOUS, function(data){
 		assert.deepEqual(data, {
 			input: '2 metrotech, ny',
 			possible: [
@@ -164,7 +164,7 @@ QUnit.test('search (zip code)', function(assert){
 	assert.expect(1);
 
 	var geocoder = new nyc.Geoclient();
-	geocoder.one(nyc.Locate.LocateEventType.GEOCODE, function(data){
+	geocoder.one(nyc.Locate.EventType.GEOCODE, function(data){
 		assert.deepEqual(
 			data,
 			{
@@ -199,7 +199,7 @@ QUnit.test('search (address)', function(assert){
 		};
 
 		var geocoder = new nyc.Geoclient(this.GEOCLIENT_URL);
-		geocoder.one(nyc.Locate.LocateEventType.GEOCODE, test);
+		geocoder.one(nyc.Locate.EventType.GEOCODE, test);
 		geocoder.search('59 maiden mn');
 		
 	}else{
@@ -217,6 +217,6 @@ QUnit.test('search (error)', function(assert){
 	};
 
 	var geocoder = new nyc.Geoclient('');
-	geocoder.one(nyc.Locate.LocateEventType.ERROR, test);
+	geocoder.one(nyc.Locate.EventType.ERROR, test);
 	geocoder.search('59 maiden mn');
 });

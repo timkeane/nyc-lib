@@ -44,7 +44,7 @@ nyc.Locate.prototype = {
  * @public
  * @enum {string}
  */
-nyc.Locate.LocateEventType = {
+nyc.Locate.EventType = {
 	/**
 	 * @desc The geocode event type
 	 */
@@ -60,7 +60,7 @@ nyc.Locate.LocateEventType = {
 	/**
 	 * @desc The ambiguous event type
 	 */
-	ERROR: 'ambiguous'
+	ERROR: 'error'
 };
 
 /**

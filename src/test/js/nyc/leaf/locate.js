@@ -50,24 +50,24 @@ QUnit.test('proxyEvent', function(assert){
 			input: 'my address',
 			possible: [geocodeData1, geocodeData2]
 	};
-	locate.one(nyc.Locate.LocateEventType.GEOCODE, function(data){
+	locate.one(nyc.Locate.EventType.GEOCODE, function(data){
 		assert.deepEqual(data, geocodeData1);
 	});
 	this.MOCK_GEOCODER.trigger(
-		nyc.Locate.LocateEventType.GEOCODE,
+		nyc.Locate.EventType.GEOCODE,
 		geocodeData1
 	);
-	locate.one(nyc.Locate.LocateEventType.AMBIGUOUS, function(data){
+	locate.one(nyc.Locate.EventType.AMBIGUOUS, function(data){
 		assert.deepEqual(data, ambiguousData);
 	});
 	this.MOCK_GEOCODER.trigger(
-		nyc.Locate.LocateEventType.AMBIGUOUS,
+		nyc.Locate.EventType.AMBIGUOUS,
 		ambiguousData
 	);
-	locate.one(nyc.Locate.LocateEventType.ERROR, function(data){
+	locate.one(nyc.Locate.EventType.ERROR, function(data){
 		assert.ok(true);
 	});
-	this.MOCK_GEOCODER.trigger(nyc.Locate.LocateEventType.ERROR);
+	this.MOCK_GEOCODER.trigger(nyc.Locate.EventType.ERROR);
 });
 
 QUnit.test('locate', function(assert){
@@ -85,7 +85,7 @@ QUnit.test('locate', function(assert){
 	};
 
 	var locate = new nyc.leaf.Locate(this.MOCK_MAP, this.MOCK_GEOCODER, nyc.leaf.EXTENT);
-	locate.one(nyc.Locate.LocateEventType.GEOLOCATION, test);
+	locate.one(nyc.Locate.EventType.GEOLOCATION, test);
 	this.MOCK_MAP.trigger('locationfound', {latlng: nyc.leaf.CENTER, accuracy: 2000});
 
 	locate = new nyc.leaf.Locate(this.MOCK_MAP, this.MOCK_GEOCODER, nyc.leaf.EXTENT);
