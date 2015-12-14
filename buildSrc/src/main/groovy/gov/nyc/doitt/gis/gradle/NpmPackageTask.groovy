@@ -10,6 +10,7 @@ class NpmPackageTask extends DefaultTask {
 	def packageFile = ''
 	def libName = ''
 	def version = ''
+	def license = ''
 	def desc = ''
 	def author = ''
 	def contributors = []
@@ -18,12 +19,12 @@ class NpmPackageTask extends DefaultTask {
 	def dependencies = []
 	@TaskAction
 	public void run(){
-		
 		def pkg = new HashMap<String, Object>()
 		def builder = new JsonBuilder(pkg)
 		new File(Util.getDirectoryName(packageFile)).mkdirs()
 		pkg.put('name', libName)
 		pkg.put('version', version)
+		pkg.put('license', license)
 		pkg.put('description', desc)
 		pkg.put('author', author)
 		pkg.put('contributors', contributors)

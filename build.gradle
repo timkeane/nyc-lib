@@ -7,8 +7,10 @@ plugins {
 }
 
 ext {
+	appName = 'nyc-lib'
 	ver = 'v0.0.3-SNAPSHOT'
-	remoteDir = "nyc-lib/${ver}"
+	pkgDir = "${buildDir}/${appName}/${ver}"
+	remoteDir = "${appName}/${ver}"
 	jsSrcDir = "${projectDir}/src/main/js"
 	cssSrcDir = "${projectDir}/src/main/css"
 	olJsFiles = [
@@ -111,9 +113,10 @@ ext {
 }
 
 task npmPackage(type: NpmPackageTask) {
-	packageFile = "${buildDir}/${ver}/package.json"
-	libName = 'nyc-lib'
+	packageFile = "${pkgDir}/package.json"
+	libName = appName
 	version = ver
+	license = 'Apache-2.0'
 	desc = 'A collection of javascript libraries used in the development New York City mapping applications'
 	author = 'Tim Keane'
 	contributors = []
@@ -128,9 +131,10 @@ task npmPackage(type: NpmPackageTask) {
 	]
 }
 
-task jsDoc(type: JsDocTask) {
+task jsDoc(type: JsDocTask, dependsOn: [npmPackage]) {
 	sourceDir = "src/main/js/nyc"
-	destinationDir = "build/${ver}/doc"
+	packageFile = "${pkgDir}/package.json"
+	destinationDir = "build/jsdoc"
 	conf = 'etc/jsdoc/conf.json'
 	doFirst {
 		file('build/jsdoc').mkdirs()
@@ -144,6 +148,11 @@ task jsDoc(type: JsDocTask) {
 		tmpl.text = tmpl.text.replaceAll('@@NYC-LIB-URL@@', "${host}/${ver}")
 	}
 	doLast {
+		copy {
+			from "${buildDir}/jsdoc/${appName}/${ver}"
+			include '**'
+			into "${pkgDir}/doc"
+		}
 		delete 'build/jsdoc'
 	}
 }
@@ -153,7 +162,7 @@ task minifyJsOl(type: MiniJsTask) {
 	libName = 'nyc-ol-lib'
 	fileNames = olJsFiles
 	sourceDir = jsSrcDir
-	destinationDir = "${buildDir}/${ver}/js"
+	destinationDir = "${pkgDir}/js"
 }
 
 task minifyJsOlRedLine(type: MiniJsTask) {
@@ -161,7 +170,7 @@ task minifyJsOlRedLine(type: MiniJsTask) {
 	libName = 'nyc-ol-redline-lib'
 	fileNames = olRedLineJsFiles
 	sourceDir = jsSrcDir
-	destinationDir = "${buildDir}/${ver}/js"
+	destinationDir = "${pkgDir}/js"
 }
 
 task minifyJsLeaf(type: MiniJsTask) {
@@ -169,7 +178,7 @@ task minifyJsLeaf(type: MiniJsTask) {
 	libName = 'nyc-leaf-lib'
 	fileNames = leafJsFiles
 	sourceDir = jsSrcDir
-	destinationDir = "${buildDir}/${ver}/js"
+	destinationDir = "${pkgDir}/js"
 }
 
 task minifyJsCarto(type: MiniJsTask) {
@@ -177,44 +186,44 @@ task minifyJsCarto(type: MiniJsTask) {
 	libName = 'nyc-carto-lib'
 	fileNames = cartoJsFiles
 	sourceDir = jsSrcDir
-	destinationDir = "${buildDir}/${ver}/js"
+	destinationDir = "${pkgDir}/js"
 }
 
 task minifyCssOl(type: MiniCssTask) {
 	libName = 'nyc-ol-lib'
 	fileNames = olCssFiles
 	sourceDir = cssSrcDir
-	destinationDir = "${buildDir}/${ver}/css"
+	destinationDir = "${pkgDir}/css"
 }
 
 task minifyCssOlRedLine(type: MiniCssTask) {
 	libName = 'nyc-ol-redline-lib'
 	fileNames = olRedLineCssFiles
 	sourceDir = cssSrcDir
-	destinationDir = "${buildDir}/${ver}/css"
+	destinationDir = "${pkgDir}/css"
 }
 
 task minifyCssLeaf(type: MiniCssTask) {
 	libName = 'nyc-leaf-lib'
 	fileNames = leafCssFiles
 	sourceDir = cssSrcDir
-	destinationDir = "${buildDir}/${ver}/css"
+	destinationDir = "${pkgDir}/css"
 }
 
 task minifyCssCarto(type: MiniCssTask) {
 	libName = 'nyc-carto-lib'
 	fileNames = cartoCssFiles
 	sourceDir = cssSrcDir
-	destinationDir = "${buildDir}/${ver}/css"
+	destinationDir = "${pkgDir}/css"
 }
 
 task allJs(dependsOn: [minifyJsOl, minifyJsOlRedLine, minifyJsLeaf, minifyJsCarto]) << {}
 task allCss(dependsOn: [minifyCssOl, minifyCssOlRedLine, minifyCssLeaf, minifyCssCarto]) << {}
 task buildLibs(dependsOn: [allJs, allCss]) << {}
 
-task archive(type: Zip, dependsOn: [buildLibs, jsDoc, npmPackage]) {
+task archive(type: Zip, dependsOn: [buildLibs, jsDoc]) {
 	archiveName = "nyc-lib-${ver}.zip"
-	from {"${buildDir}/${ver}"}
+	from {pkgDir}
 }
 
 remotes {
