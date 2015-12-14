@@ -21,24 +21,11 @@
 	</style>
 </head>
 <body>
-	<button class="open-dia" onclick="showOk();">Show OK dialog</button>
-	<button class="open-dia" onclick="showYesNo();">Show Yes/No dialog</button>
-	<button class="open-dia" onclick="showInput();">Show Input dialog</button>
+	<button class="open-dia" onclick="dia.ok('Hi there!');">Show OK dialog</button>
+	<button class="open-dia" onclick="dia.yesNo('Are you there?');">Show Yes/No dialog</button>
+	<button class="open-dia" onclick="dia.input('Where are you?', 'Tell me...');">Show Input dialog</button>
 <script>
 	var dia;
-	
-	function showOk(){
-		dia.show(nyc.Dialog.Type.OK, 'Hi there!');
-	};
-	
-	function showYesNo(){
-		dia.show(nyc.Dialog.Type.YES_NO, 'Are you there?');
-	};
-	
-	function showInput(){
-		dia.show(nyc.Dialog.Type.INPUT, 'Where are you?');
-	};
-	
 	$(document).ready(function(){
 		dia = new nyc.Dialog();
 		dia.on(nyc.Dialog.EventType.OK, function(result){

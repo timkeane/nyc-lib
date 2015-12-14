@@ -14,10 +14,10 @@ nyc.Dialog = function(){
 	this.yesNoElems = this.container.find('.btn-yes, .btn-no');
 	this.inputElems = this.container.find('input').parent();
 	this.inputElems = this.inputElems.add(this.container.find('.btn-submit, .btn-cancel'));
-	this.msg = this.container.find('.dia-msg');
-	this.okElems.click($.proxy(this.ok, this));	
-	this.yesNoElems.click($.proxy(this.yesNo, this));
-	this.inputElems.click($.proxy(this.input, this));
+	this.msgElem = this.container.find('.dia-msg');
+	this.okElems.click($.proxy(this.hndlOk, this));	
+	this.yesNoElems.click($.proxy(this.hndlYesNo, this));
+	this.inputElems.click($.proxy(this.hndlInput, this));
 };
 
 nyc.Dialog.prototype = {
@@ -45,7 +45,39 @@ nyc.Dialog.prototype = {
 	 * @private
 	 * @member {JQuery}
 	 */
-	msg: null,
+	msgElem: null,
+	/**
+	 * @desc Show the ok dialog
+	 * @public
+	 * @method
+	 * @param {string} msg The message to display
+	 */
+	ok: function(msg){
+		this.show(nyc.Dialog.Type.OK, msg);
+		this.container.find('.btn-ok').focus();
+	},
+	/**
+	 * @desc Show the input dialog
+	 * @public
+	 * @method
+	 * @param {string} msg The message to display
+	 * @param {string=} placeholder The placeholder for the input field
+	 */
+	input: function(msg, placeholder){
+		this.container.find('input').attr('placeholder', placeholder || '');
+		this.show(nyc.Dialog.Type.INPUT, msg);
+		this.container.find('input').focus();
+	},
+	/**
+	 * @desc Show the yes-no dialog
+	 * @public
+	 * @method
+	 * @param {string} msg The message to display
+	 */
+	yesNo: function(msg){
+		this.show(nyc.Dialog.Type.YES_NO, msg);
+		this.container.find('.btn-yes').focus();
+	},
 	/**
 	 * @desc Show the dialog
 	 * @public
@@ -57,7 +89,7 @@ nyc.Dialog.prototype = {
 		this.inputElems.css('display', type == nyc.Dialog.Type.INPUT ? 'inline-block' : 'none');
 		this.okElems.css('display', type == nyc.Dialog.Type.OK ? 'inline-block' : 'none');
 		this.yesNoElems.css('display', type == nyc.Dialog.Type.YES_NO ? 'inline-block' : 'none');
-		this.msg.html(msg);
+		this.msgElem.html(msg);
 		this.container.fadeIn();
 	},
 	/**
@@ -67,7 +99,7 @@ nyc.Dialog.prototype = {
 	hide: function(){
 		this.container.fadeOut();
 	},
-	ok: function(event){
+	hndlOk: function(event){
 		this.trigger(nyc.Dialog.EventType.OK, true);
 		this.hide();
 	},
@@ -76,7 +108,7 @@ nyc.Dialog.prototype = {
 	 * @method
 	 * @param {Object} event
 	 */
-	yesNo: function(event){
+	hndlYesNo: function(event){
 		this.trigger(nyc.Dialog.EventType.YES_NO, $(event.target).hasClass('btn-yes'));
 		this.hide();
 	},
@@ -85,7 +117,7 @@ nyc.Dialog.prototype = {
 	 * @method
 	 * @param {Object} event
 	 */
-	input: function(event){
+	hndlInput: function(event){
 		var target = event.target, result = false;
 		if (target.tagName != 'INPUT'){
 			if ($(target).hasClass('btn-submit')){
@@ -146,7 +178,7 @@ nyc.Dialog.EventType = {
  * @const
  * @type {string}
  */
-nyc.Dialog.HTML = '<div class="dia-container">' +
+nyc.Dialog.HTML = '<div class="ui-page-theme-a dia-container">' +
 	'<div class="dia">' +
 	'<div class="dia-msg"></div>' +
 	'<input>' +

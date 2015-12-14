@@ -1,4 +1,4 @@
-.dia-container {
+div.dia-container {
 	display: none;
 	position: fixed;
 	left: 0;
@@ -6,6 +6,7 @@
 	width: 100%;
 	height: 100%;
 	z-index: 5000;
+	background-color: transparent;
 }
 .dia-container * {
 	font-size: 14px;
@@ -23,16 +24,9 @@
 	padding: 10px;
 	box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
 }
-.dia, .dia-btns button, .dia .ui-input-text {
-	border: 1px solid rgba(0,0,0,0.5);
-}
 .dia-btns button {
 	width: 80px;
 	margin: 5px 2px 2px 2px;
-}
-.dia-btns button:hover {
-	color: #fff;
-	background-color: #000;
 }
 .dia-btns, .dia-msg {
 	text-align: center;
