@@ -1,7 +1,7 @@
 var nyc = nyc || {};
 
 /** 
- * @desc Class for alert and yes/no dialogs
+ * @desc Class for alert, yes/no and input dialogs
  * @public 
  * @class
  * @constructor
@@ -14,6 +14,7 @@ nyc.Dialog = function(){
 	this.yesNoElems = this.container.find('.btn-yes, .btn-no');
 	this.inputElems = this.container.find('input').parent();
 	this.inputElems = this.inputElems.add(this.container.find('.btn-submit, .btn-cancel'));
+	this.inputElem = this.container.find('input');
 	this.msgElem = this.container.find('.dia-msg');
 	this.okElems.click($.proxy(this.hndlOk, this));	
 	this.yesNoElems.click($.proxy(this.hndlYesNo, this));
@@ -45,16 +46,28 @@ nyc.Dialog.prototype = {
 	 * @private
 	 * @member {JQuery}
 	 */
+	inputElem: null,
+	/**
+	 * @private
+	 * @member {JQuery}
+	 */
 	msgElem: null,
+	/**
+	 * @private
+	 * @member {function(Object)}
+	 */
+	callback: null,
 	/**
 	 * @desc Show the ok dialog
 	 * @public
 	 * @method
 	 * @param {string} msg The message to display
+	 * @param {function(boolean)=} callback Callback function
 	 */
-	ok: function(msg){
+	ok: function(msg, callback){
 		this.show(nyc.Dialog.Type.OK, msg);
 		this.container.find('.btn-ok').focus();
+		this.callback = callback;
 	},
 	/**
 	 * @desc Show the input dialog
@@ -62,21 +75,29 @@ nyc.Dialog.prototype = {
 	 * @method
 	 * @param {string} msg The message to display
 	 * @param {string=} placeholder The placeholder for the input field
+	 * @param {function(string)=} callback Callback function
 	 */
-	input: function(msg, placeholder){
-		this.container.find('input').attr('placeholder', placeholder || '');
+	input: function(msg, placeholder, callback){
+		if (typeof placeholder == 'function') {
+			callback = placeholder;
+			placeholder = '';
+		}
+		this.inputElem.attr('placeholder', placeholder || '');
 		this.show(nyc.Dialog.Type.INPUT, msg);
-		this.container.find('input').focus();
+		this.inputElem.focus();
+		this.callback = callback;
 	},
 	/**
 	 * @desc Show the yes-no dialog
 	 * @public
 	 * @method
 	 * @param {string} msg The message to display
+	 * @param {function(boolean)=} callback Callback function
 	 */
-	yesNo: function(msg){
+	yesNo: function(msg, callback){
 		this.show(nyc.Dialog.Type.YES_NO, msg);
 		this.container.find('.btn-yes').focus();
+		this.callback = callback;
 	},
 	/**
 	 * @desc Show the dialog
@@ -93,15 +114,32 @@ nyc.Dialog.prototype = {
 		this.container.fadeIn();
 	},
 	/**
-	 * @private
+	 * @desc Hide the dialog
+	 * @public
 	 * @method
 	 */
 	hide: function(){
-		this.container.fadeOut();
+		var input = this.inputElem;
+		this.container.fadeOut(function(){
+			input.val('');
+		});
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {nyc.Dialog.EventType} type 
+	 * @param {(boolean|string)} result 
+	 */
+	hndlAny: function(type, result){
+		if (this.callback){
+			this.callback(result);
+			this.callback = null;
+		}
+		this.trigger(type, result);
+		this.hide();
 	},
 	hndlOk: function(event){
-		this.trigger(nyc.Dialog.EventType.OK, true);
-		this.hide();
+		this.hndlAny(nyc.Dialog.EventType.OK, true);
 	},
 	/**
 	 * @private
@@ -109,8 +147,7 @@ nyc.Dialog.prototype = {
 	 * @param {Object} event
 	 */
 	hndlYesNo: function(event){
-		this.trigger(nyc.Dialog.EventType.YES_NO, $(event.target).hasClass('btn-yes'));
-		this.hide();
+		this.hndlAny(nyc.Dialog.EventType.YES_NO, $(event.target).hasClass('btn-yes'));
 	},
 	/**
 	 * @private
@@ -121,10 +158,9 @@ nyc.Dialog.prototype = {
 		var target = event.target, result = false;
 		if (target.tagName != 'INPUT'){
 			if ($(target).hasClass('btn-submit')){
-				result = this.container.find('input').val();
+				result = this.inputElem.val();
 			}
-			this.trigger(nyc.Dialog.EventType.INPUT, result);
-			this.hide();
+			this.hndlAny(nyc.Dialog.EventType.INPUT, result);
 		}
 	}
 };

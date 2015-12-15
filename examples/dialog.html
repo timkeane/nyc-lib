@@ -21,23 +21,26 @@
 	</style>
 </head>
 <body>
-	<button class="open-dia" onclick="dia.ok('Hi there!');">Show OK dialog</button>
-	<button class="open-dia" onclick="dia.yesNo('Are you there?');">Show Yes/No dialog</button>
-	<button class="open-dia" onclick="dia.input('Where are you?', 'Tell me...');">Show Input dialog</button>
-<script>
-	var dia;
-	$(document).ready(function(){
-		dia = new nyc.Dialog();
-		dia.on(nyc.Dialog.EventType.OK, function(result){
-			console.info('nyc.Dialog.EventType.OK', result);
+	<button class="open-dia" onclick="dia.ok('Hi there!', dialogCallback);">Show OK dialog</button>
+	<button class="open-dia" onclick="dia.yesNo('Are you there?', dialogCallback);">Show Yes/No dialog</button>
+	<button class="open-dia" onclick="dia.input('Where are you?', 'Tell me...', dialogCallback);">Show Input dialog</button>
+	<script>
+		var dia;
+		function dialogCallback(result){
+			console.info('dialogCallback', result);
+		};
+		$(document).ready(function(){
+			dia = new nyc.Dialog();
+			dia.on(nyc.Dialog.EventType.OK, function(result){
+				console.info('nyc.Dialog.EventType.OK', result);
+			});
+			dia.on(nyc.Dialog.EventType.YES_NO, function(result){
+				console.info('nyc.Dialog.EventType.YES_NO', result);
+			});
+			dia.on(nyc.Dialog.EventType.INPUT, function(result){
+				console.info('nyc.Dialog.EventType.INPUT', result);
+			});
 		});
-		dia.on(nyc.Dialog.EventType.YES_NO, function(result){
-			console.info('nyc.Dialog.EventType.YES_NO', result);
-		});
-		dia.on(nyc.Dialog.EventType.INPUT, function(result){
-			console.info('nyc.Dialog.EventType.INPUT', result);
-		});
-	});
-</script>
+	</script>
 </body>
 </html>
