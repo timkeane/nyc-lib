@@ -1,3 +1,10 @@
+#ctl-z-srch {
+	position: absolute;
+	left: 0;
+	top: 0;	
+	right: 0;
+	max-width: 450px;
+}
 #btn-z-in {
 	left: 3px;
 	top: 0;
@@ -24,7 +31,6 @@
     background-position: center;
 }
 #fld-srch-container {
-	position: absolute;
 	top: 0;
 	left: 40px;
 	right: 3px;

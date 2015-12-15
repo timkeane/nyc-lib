@@ -295,7 +295,7 @@ nyc.ZoomSearch.EventType = {
  * @type {string}
  */
 nyc.ZoomSearch.BASIC_HTML = 
-	'<div id="ctl-z-srch ol-unselectable">' +
+	'<div id="ctl-z-srch" class="ol-unselectable">' +
 	'<div id="fld-srch-container" class="ctl">' +
 		'<ul id="fld-srch" class="ui-corner-all" data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search for an address..."></ul>' +
 	'</div>' +
