@@ -1,31 +1,35 @@
 QUnit.module('nyc.ZoomSearch', {
 	beforeEach: function(assert){
 		setup(assert, this);
-		this.POSSIBLE_LOCATIONS = [{
-			type: nyc.Locate.ResultType.GEOCODE,
-			coordinates: [1, 2],
-			accuracy: nyc.Geocoder.Accuracy.HIGH,
-			name: '2 Broadway, Manhattan, NY 10004',
-			geoJsonGeometry: null,
-			data: 'data'
-		},
-		{
-			type: nyc.Locate.ResultType.GEOCODE,
-			coordinates: [3, 4],
-			accuracy: nyc.Geocoder.Accuracy.HIGH,
-			name: '2 Broadway, Queens, NY 11414',
-			geoJsonGeometry: null,
-			data: 'data'			
-		},
-		{
-			type: nyc.Locate.ResultType.GEOCODE,
-			coordinates: [5, 6],
-			accuracy: nyc.Geocoder.Accuracy.MEDIUM,
-			name: '2 Broadway, Staten Is, NY 10310',
-			geoJsonGeometry: null,
-			data: 'data'			
-		}];
-
+		
+		this.AMBIGUOUS = {
+			input: '2 broadway',
+			possible: [{
+				type: nyc.Locate.ResultType.GEOCODE,
+				coordinates: [1, 2],
+				accuracy: nyc.Geocoder.Accuracy.HIGH,
+				name: '2 Broadway, Manhattan, NY 10004',
+				geoJsonGeometry: null,
+				data: 'data'
+			},
+			{
+				type: nyc.Locate.ResultType.GEOCODE,
+				coordinates: [3, 4],
+				accuracy: nyc.Geocoder.Accuracy.HIGH,
+				name: '2 Broadway, Queens, NY 11414',
+				geoJsonGeometry: null,
+				data: 'data'			
+			},
+			{
+				type: nyc.Locate.ResultType.GEOCODE,
+				coordinates: [5, 6],
+				accuracy: nyc.Geocoder.Accuracy.MEDIUM,
+				name: '2 Broadway, Staten Is, NY 10310',
+				geoJsonGeometry: null,
+				data: 'data'			
+			}]
+		};
+		
 		$('body').append($('<div id="test-container"></div>'));
 		this.TEST_CONTROL = function(useSearchTypeMenu){
 			nyc.ZoomSearch.apply(this, [useSearchTypeMenu]);
@@ -37,7 +41,7 @@ QUnit.module('nyc.ZoomSearch', {
 	},
 	afterEach: function(assert){
 		teardown(assert, this);
-		delete this.POSSIBLE_LOCATIONS;
+		delete this.AMBIGUOUS;
 		$('#test-container').remove();
 		delete this.TEST_CONTROL;
 	}
@@ -182,7 +186,7 @@ QUnit.test('disambiguate', function(assert){
 	var names = ['2 Broadway, Manhattan, NY 10004', '2 Broadway, Queens, NY 11414', '2 Broadway, Staten Is, NY 10310'];
 	var control = new this.TEST_CONTROL();
 	assert.equal(control.list.height(), 0);
-	control.disambiguate(this.POSSIBLE_LOCATIONS);
+	control.disambiguate(this.AMBIGUOUS);
 	assert.ok(control.list.height() > 0);
 	assert.equal(control.list.children().length, 3);
 	control.list.children().each(function(i, li){
@@ -193,26 +197,26 @@ QUnit.test('disambiguate', function(assert){
 
 QUnit.test('disambiguated', function(assert){
 	assert.expect(6);
-	var possible = this.POSSIBLE_LOCATIONS;
+	var ambiguous = this.AMBIGUOUS;
 	
 	var control = new this.TEST_CONTROL();
 	assert.equal(control.list.height(), 0);
-	control.disambiguate(possible);
+	control.disambiguate(ambiguous);
 	assert.ok(control.list.height() > 0);
 	assert.equal(control.list.children().length, 3);
 
 	control.one(nyc.ZoomSearch.EventType.DISAMBIGUATED, function(data){
-		assert.deepEqual(data, possible[0]);
+		assert.deepEqual(data, ambiguous.possible[0]);
 	}); 
 	$(control.list.children()[0]).trigger('click');
 	
 	control.one(nyc.ZoomSearch.EventType.DISAMBIGUATED, function(data){
-		assert.deepEqual(data, possible[1]);
+		assert.deepEqual(data, ambiguous.possible[1]);
 	}); 
 	$(control.list.children()[1]).trigger('click');
 	
 	control.one(nyc.ZoomSearch.EventType.DISAMBIGUATED, function(data){
-		assert.deepEqual(data, possible[2]);
+		assert.deepEqual(data, ambiguous.possible[2]);
 	}); 
 	$(control.list.children()[2]).trigger('click');
 });
