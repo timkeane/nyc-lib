@@ -1,10 +1,10 @@
 #btn-z-in {
 	left: 3px;
-	top: 43px;
+	top: 0;
 }
 #btn-z-out {
 	left: 3px;
-	top: 85px;
+	top: 42px;
 }
 #btn-z-in:after {
 	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20width%3D%2214px%22%20height%3D%2214px%22%3E%3Cpolygon%20fill%3D%22%23FFF%22%20points%3D%2214%2C5%209%2C5%209%2C0%205%2C0%205%2C5%200%2C5%200%2C9%205%2C9%205%2C14%209%2C14%209%2C9%2014%2C9%22%2F%3E%3C%2Fsvg%3E");
@@ -14,7 +14,7 @@
 }
 #btn-geo {
     left: 3px;
-    top: 127px;
+    top: 84px;
     background-size: 24px;
 }
 #btn-geo, #srch-type-geo span:after {
@@ -25,7 +25,7 @@
 }
 #fld-srch-container {
 	position: absolute;
-	top: -3px;
+	top: 0;
 	left: 40px;
 	right: 3px;
 	max-width: 400px;

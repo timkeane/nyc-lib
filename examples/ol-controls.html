@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>OpenLayers Example</title>
+
+	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.11.2/ol.css" rel="stylesheet">
+	<!-- nyc css -->
+	<link rel="stylesheet" href="../src/main/css/control-common.css"> 
+	<link rel="stylesheet" href="../src/main/css/dialog.css"> 
+	<link rel="stylesheet" href="../src/main/css/zoomsearch.css"> 
+	<!-- nyc css -->
+
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.12/proj4.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.11.2/ol.js"></script>
+	<!-- nyc js -->
+	<script src="../src/main/js/nyc/nyc.js"></script>
+	<script src="../src/main/js/nyc/dialog.js"></script>
+	<script src="../src/main/js/nyc/locate.js"></script>
+	<script src="../src/main/js/nyc/geocoder.js"></script>
+	<script src="../src/main/js/nyc/zoomsearch.js"></script>
+	<script src="../src/main/js/nyc/ol/ol.js"></script>
+	<script src="../src/main/js/nyc/ol/source/arcgiscache.js"></script>
+	<script src="../src/main/js/nyc/ol/layer/baselayer.js"></script>
+	<script src="../src/main/js/nyc/ol/locate.js"></script>
+	<script src="../src/main/js/nyc/ol/control/zoomsearch.js"></script>
+	<!-- nyc js -->
+	
+	<style>
+		 #map {
+		 	position: fixed;
+		 	top: 0;
+		 	left: 0;
+		 	bottom: 0;
+		 	right: 0;
+		 }
+		 .leaflet-control-zoom {
+		 	display: none;
+		 }
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+	<script>
+		$(document).ready(function(){
+			
+			var map = new ol.Map({
+				target: $('#map').get(0),
+				layers: [new nyc.ol.layer.BaseLayer()],
+				view: new ol.View({
+					projection: 'EPSG:2263',
+					resolutions: nyc.ol.layer.BaseLayer.RESOLUTIONS
+				})
+			});
+			map.getView().fit(nyc.ol.EXTENT, map.getSize());
+
+			var locationSrc = new ol.source.Vector();
+			map.addLayer(new ol.layer.Vector({source: locationSrc}));
+			
+			/* See README.md for getting you GeoClient App Id and App Key */
+			var geocoder = new nyc.Geoclient(
+				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=YOUR_APP_KEY&app_id=YOUR_APP_ID',
+				'EPSG:2263'
+			);
+			
+			var locate = new nyc.ol.Locate(geocoder, 'EPSG:2263');
+			var controls = new nyc.ol.control.ZoomSearch(map);
+			
+			function goToLocation(data){
+				var coords = data.coordinates;
+				var feature = new ol.Feature(new ol.geom.Point(coords))
+				controls.searching(false);
+				locationSrc.clear(feature);
+				locationSrc.addFeature(feature);
+				map.getView().setZoom(8);
+				map.getView().setCenter(coords);
+			};
+			
+			var dialog;
+			function ambiguous(ambiguous){
+				controls.searching(false);
+				if (!ambiguous.possible.length){
+					dialog = dialog || new nyc.Dialog();
+					dialog.ok('Could not find ' + ambiguous.input);
+				}else{
+					controls.disambiguate(ambiguous);
+				}
+			};
+
+			controls.on(nyc.ZoomSearch.EventType.GEOLOCATE, locate.locate, locate);
+			controls.on(nyc.ZoomSearch.EventType.SEARCH, locate.search, locate);
+			controls.on(nyc.ZoomSearch.EventType.DISAMBIGUATED, goToLocation);
+						
+			locate.on(nyc.Locate.EventType.GEOLOCATION, goToLocation);
+			locate.on(nyc.Locate.EventType.GEOCODE, goToLocation);
+			locate.on(nyc.Locate.EventType.AMBIGUOUS, ambiguous);
+			
+		});
+	</script>
+</body>
+</html>

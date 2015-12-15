@@ -107,14 +107,14 @@ nyc.ZoomSearch.prototype = {
 	 * @desc Displays possible address matches 
 	 * @public
 	 * @method
-	 * @param {Array<nyc.Locate.Result>} possibleResults Possible locations resulting from a geocoder search to display to the user
+	 * @param {nyc.Locate.Ambiguous} ambiguous Possible locations resulting from a geocoder search to display to the user
 	 */
-	disambiguate: function(possibleResults){
-		var me = this;
+	disambiguate: function(ambiguous){
+		var me = this, possible = ambiguous.possible;
 		me.searching(false);
-		if (possibleResults.length){
+		if (possible.length){
 			me.emptyList();
-			$.each(possibleResults, function(i, locateResult){
+			$.each(possible, function(i, locateResult){
 				me.list.append(me.listItem('addr', locateResult));
 			});
 			me.list.children().first().addClass('ui-first-child');

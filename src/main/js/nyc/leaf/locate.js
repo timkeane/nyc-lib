@@ -105,7 +105,7 @@ nyc.leaf.Locate.prototype = {
 	 * @param {Object} e
 	 */
 	geolocated: function(e) {
-	    if (this.extentLimit.contains(e.latlng)){
+	    if (!this.extentLimit || this.extentLimit.contains(e.latlng)){
 			this.trigger(nyc.Locate.EventType.GEOLOCATION, {
 				 name: this.dmsString(e.latlng),
 				 coordinates: [e.latlng.lng, e.latlng.lat],
