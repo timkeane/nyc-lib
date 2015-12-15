@@ -4,8 +4,8 @@ var nyc = nyc || {};
  * @desc Collapsible radio buttons
  * @public
  * @class
- * @constructor
  * @extends {nyc.Collapsible}
+ * @constructor
  * @param {nyc.Collapsible.Options} options Constructor options
  */
 nyc.Radio = function(options){

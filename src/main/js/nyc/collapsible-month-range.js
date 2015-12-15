@@ -4,8 +4,8 @@ var nyc = nyc || {};
  * @desc A UI class to pick a month range
  * @public
  * @class
- * @constructor
  * @extends {nyc.Collapsible}
+ * @constructor
  * @param {nyc.MonthRangePicker.Options} options Constructor options
  */
 nyc.MonthRangePicker = function(options){

@@ -12,10 +12,9 @@ nyc.carto = nyc.carto || {};
  * @desc A class to render ChartJS charts using CartoDB data
  * @public
  * @class
- * @constructor
  * @extends {nyc.carto.SqlTemplate}
+ * @constructor
  * @param {nyc.carto.Chart.Options} options Constructor options
- * 
  */
 nyc.carto.Chart = function(options){
 	this.cartoSql = options.cartoSql;

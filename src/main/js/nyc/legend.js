@@ -4,8 +4,8 @@ var nyc = nyc || {};
  * @desc A class to generate legend HTML
  * @public
  * @class
- * @constructor
  * @extends {nyc.ReplaceTokens}
+ * @constructor
  * @param {string} legendTemplate The template with an optional replacement token for the caption (${caption})
  */
 nyc.Legend = function(legendTemplate){
@@ -36,8 +36,8 @@ nyc.inherits(nyc.Legend, nyc.ReplaceTokens);
  * @desc A class to generate legend HTML with classifications for bins or buckets
  * @public
  * @class
- * @constructor
  * @extends {nyc.Legend}
+ * @constructor
  * @param {string} name The name of the legend
  * @param {nyc.BinLegend.SymbolType} symbolType The symbol type for the legend
  * @param {nyc.BinLegend.BinType} binType The bin type for the legend

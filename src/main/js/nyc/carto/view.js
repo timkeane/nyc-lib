@@ -5,8 +5,8 @@ nyc.carto = nyc.carto || {};
  * @desc Class for replacing values in SQL strings and appending filters to the WHERE clause
  * @public
  * @class
- * @constructor
  * @extends {nyc.ReplaceTokens}
+ * @constructor
  */
 nyc.carto.SqlTemplate = function(){};
 
@@ -84,10 +84,10 @@ nyc.carto.Symbolizer.EventType = {
  * @desc Class for managing heat map rendering based on zoom level
  * @public
  * @class
- * @constructor
  * @implements {nyc.carto.Symbolizer}
  * @extends {nyc.ReplaceTokens}
  * @extends {nyc.EventHandling}
+ * @constructor
  * @param {nyc.carto.HeatSymbolizer.Options} options Constructor options
  * @fires nyc.carto.HeatSymbolizer#symbolized
  */
@@ -142,10 +142,10 @@ nyc.carto.HeatSymbolizer.Options;
  * @class
  * @public
  * @class
- * @constructor
  * @implements {nyc.carto.Symbolizer}
  * @extends {nyc.carto.SqlTemplate}
  * @extends {nyc.EventHandling}
+ * @constructor
  * @param {nyc.carto.JenksSymbolizer.Options} options Constructor options
  * @fires nyc.carto.JenksSymbolizer#symbolized
  */
@@ -272,9 +272,9 @@ nyc.carto.ViewEventType = {
  * @desc Class for managing SQL views on layers 
  * @public
  * @class
- * @constructor
  * @extends {nyc.carto.SqlTemplate}
  * @extends {nyc.EventHandling}
+ * @constructor
  * @param {nyc.carto.View.Options} options Constructor options
  * @fires nyc.carto.View#updated
  */
@@ -383,8 +383,8 @@ nyc.carto.View.Options;
  * @desc Class for managing named instances of nyc.View 
  * @public
  * @class
- * @constructor
  * @extends {nyc.EventHandling}
+ * @constructor
  * @param {Array<nyc.carto.View>} views An array of views with names unique to this instance
  * @fires nyc.carto.ViewSwitcher#updated
  */
@@ -435,11 +435,11 @@ nyc.inherits(nyc.carto.ViewSwitcher, nyc.EventHandling);
  * @desc CartoDB data access class
  * @public
  * @class
- * @constructor
  * @extends {nyc.carto.SqlTemplate}
- * @property {cartodb.SQL} cartoSql The object used to query CartoDB data 
- * @property {string} sqlTemplate The template with optional replacement tokens for generating queries for cartoSql
- * @property {Object<string, string>} filters The filters used with the sqlTemplate for generating queries for cartoSql
+ * @constructor
+ * @param {cartodb.SQL} cartoSql The object used to query CartoDB data 
+ * @param {string} sqlTemplate The template with optional replacement tokens for generating queries for cartoSql
+ * @param {Object<string, string>} filters The filters used with the sqlTemplate for generating queries for cartoSql
  */
 nyc.carto.Dao = function(cartoSql, sqlTemplate, filters){
 	this.cartoSql = cartoSql;

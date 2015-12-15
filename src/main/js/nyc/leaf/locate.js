@@ -5,9 +5,9 @@ nyc.leaf = nyc.leaf || {};
  * @desc Class for providing geocoding and device geolocation functionality
  * @public
  * @class
- * @constructor
  * @implements {nyc.Locate}
  * @extends {nyc.EventHandling}
+ * @constructor
  * @param {L.Map} map The Leaflet map for use in geolocation 
  * @param {nyc.Geocoder} geocoder A geocoder implementation
  * @param {L.LatLngBounds=} extentLimit Geolocation coordinates outside of this bounding box are ignored  

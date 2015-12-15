@@ -11,8 +11,9 @@ ext {
 	ver = 'v0.0.3-SNAPSHOT'
 	pkgDir = "${buildDir}/${appName}/${ver}"
 	remoteDir = "${appName}/${ver}"
-	jsSrcDir = "${projectDir}/src/main/js"
-	cssSrcDir = "${projectDir}/src/main/css"
+	srcDir = "${projectDir}/src/main"
+	jsSrcDir = "${srcDir}/js"
+	cssSrcDir = "${srcDir}/css"
 	olJsFiles = [
 		'nyc/nyc.js', 
 		'nyc/collapsible.js', 
@@ -225,6 +226,18 @@ task minifyCssCarto(type: MiniCssTask) {
 
 task allJs(dependsOn: [minifyJsOl, minifyJsOlRedLine, minifyJsLeaf, minifyJsCarto]) << {}
 task allCss(dependsOn: [minifyCssOl, minifyCssOlRedLine, minifyCssLeaf, minifyCssCarto]) << {}
+allCss.doLast {
+	copy {
+		from srcDir
+		include 'img/**'
+		into pkgDir
+	}
+	copy {
+		from srcDir
+		include 'img/**'
+		into "${pkgDir}/src"
+	}
+}
 task buildLibs(dependsOn: [allJs, allCss]) << {}
 
 task archive(type: Zip, dependsOn: [buildLibs, jsDoc]) {

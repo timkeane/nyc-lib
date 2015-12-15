@@ -6,8 +6,8 @@ nyc.ol.source = nyc.ol.source || {};
  * @desc Class that extends nyc.ol.source.Decorating for providing functionality to sort by distance and filter by property 
  * @public
  * @class
- * @constructor
  * @extends {nyc.ol.source.Decorating}
+ * @constructor
  * @param {Object} options Vector source options
  * @param {Array<Object>}  decorationMixins An array of objects whose members will be added to all features created by this source
  * @see http://www.openlayers.org/

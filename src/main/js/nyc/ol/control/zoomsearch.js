@@ -10,8 +10,8 @@ nyc.ol.control = nyc.ol.control || {};
  * @desc Class for providing a set of buttons to zoom and search.
  * @public
  * @class
- * @constructor
  * @extends {nyc.ZoomSearch}
+ * @constructor
  * @param {ol.Map} map The OpenLayers map that will be controlled 
  * @param {boolean} [useSearchTypeMenu=false] Use search types menu
  * @fires nyc.ZoomSearch#search

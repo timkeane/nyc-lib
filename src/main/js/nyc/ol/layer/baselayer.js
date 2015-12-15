@@ -10,8 +10,8 @@ nyc.ol.layer = nyc.ol.layer || {};
  * @desc Class that extends ol.layer.Tile to create the NYC base map layer
  * @public
  * @class
- * @constructor
  * @extends {ol.layer.Tile}
+ * @constructor
  * @param {Object} [options={@link nyc.ol.layer.BaseLayer.DEFAULT_OPTIONS}] Constructor options
  * @see http://www.openlayers.org/
  */

@@ -10,8 +10,8 @@ nyc.ol.source = nyc.ol.source || {};
  * @desc Class for source that provides tiles from an ArcGIS Server tile cache
  * @public
  * @class
- * @constructor
  * @extends {ol.source.TileImage}
+ * @constructor
  * @param {nyc.ol.source.AcrGisCache.Options} options Constructor options
  */
 nyc.ol.source.AcrGisCache = function(options){

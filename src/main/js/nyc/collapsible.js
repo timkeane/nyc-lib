@@ -4,8 +4,8 @@ var nyc = nyc || {};
  * @desc Abstract collapsible widget
  * @public
  * @class
- * @constructor
  * @extends {nyc.EventHandling}
+ * @constructor
  * @param {nyc.Collapsible.Options} options Constructor options
  */
 nyc.Collapsible = function(options){

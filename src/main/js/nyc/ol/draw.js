@@ -511,8 +511,8 @@ nyc.ol.Draw.BUTTON_MENU_HTML = '<div class="ol-unselectable ol-control draw-btn"
 /**
  * @desc A class to move features
  * @class
- * @constructor
  * @extends {ol.interaction.Pointer}
+ * @constructor
  * @param {ol.layer.Vector} layer The layer whose features can be moved
  * @see http://www.openlayers.org/
  */

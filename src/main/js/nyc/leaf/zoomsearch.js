@@ -5,8 +5,8 @@ nyc.leaf = nyc.leaf || {};
  * @desc Class for providing a set of buttons to zoom and search.
  * @public
  * @class
- * @constructor
  * @extends {nyc.ZoomSearch}
+ * @constructor
  * @param {L.Map} map The Leaflet map that will be controlled 
  * @param {boolean} [useSearchTypeMenu=false] Use search types menu
  * @fires nyc.ZoomSearch#search

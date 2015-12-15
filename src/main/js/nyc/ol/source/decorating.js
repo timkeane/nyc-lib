@@ -6,8 +6,8 @@ nyc.ol.source = nyc.ol.source || {};
  * @desc Class that extends ol.source.GeoJSON for providing features decorated by an array of mixin objects
  * @public
  * @class
- * @constructor
  * @extends {ol.source.Vector}
+ * @constructor
  * @param {Object=} options Vector source options
  * @param {Array<Object>}  decorationMixins An array of objects whose members will be added to all features created by this source
  * @fires nyc.ol.source.Decorating#change:featuresloaded

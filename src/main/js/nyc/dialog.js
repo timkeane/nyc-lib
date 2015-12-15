@@ -4,6 +4,7 @@ var nyc = nyc || {};
  * @desc Class for alert, yes/no and input dialogs
  * @public 
  * @class
+ * @extends {nyc.EventHandling}
  * @constructor
  */
 nyc.Dialog = function(){
@@ -100,11 +101,10 @@ nyc.Dialog.prototype = {
 		this.callback = callback;
 	},
 	/**
-	 * @desc Show the dialog
-	 * @public
+	 * @private
 	 * @method
-	 * @param {nyc.Dialog.Type} type The type of dialog
-	 * @param {string} msg The message to display
+	 * @param {nyc.Dialog.Type} type
+	 * @param {string} msg
 	 */
 	show: function(type, msg){
 		this.inputElems.css('display', type == nyc.Dialog.Type.INPUT ? 'inline-block' : 'none');
@@ -114,8 +114,7 @@ nyc.Dialog.prototype = {
 		this.container.fadeIn();
 	},
 	/**
-	 * @desc Hide the dialog
-	 * @public
+	 * @private
 	 * @method
 	 */
 	hide: function(){

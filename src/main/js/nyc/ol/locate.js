@@ -5,9 +5,9 @@ nyc.ol = nyc.ol || {};
  * nyc.ol.Locate an object for geocoding and geolocating
  * @public
  * @class
- * @constructor
  * @implements {nyc.Locate}
  * @extends {nyc.EventHandling}
+ * @constructor
  * @param {nyc.Geocoder} geocoder A geocoder implementation
  * @param {string=} projection The EPSG code of the projection for output geometries (i.e. EPSG:2263)
  * @param {ol.Extent=} extentLimit Geolocation coordinates outside of this bounding box are ignored  
