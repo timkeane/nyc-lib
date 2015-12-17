@@ -169,8 +169,7 @@ nyc.inherits(nyc.Dialog, nyc.EventHandling);
 /**
  * @desc Dialog type
  * @public
- * @enum
- * @type {string}
+ * @enum {string}
  */
 nyc.Dialog.Type = {
 	/**
@@ -190,8 +189,7 @@ nyc.Dialog.Type = {
 /**
  * @desc Dialog event type
  * @public
- * @enum
- * @type {string}
+ * @enum {string}
  */
 nyc.Dialog.EventType = {
 	/**

@@ -52,7 +52,7 @@ QUnit.test('symbolize (no outlierFilter, 4 bins returned)', function(assert){
 	assert.equal(this.MOCK_CARTODB_LAYER.css, '#carto_css{}#rule4[4]{}#rule3[3]{}#rule2[2]{}#rule1[1]{}'); 
 });
 
-QUnit.module('nyc.carto.NamedMapJenksSymbolizer', {
+QUnit.module('nyc.carto.ParamsJenksSymbolizer', {
 	beforeEach: function(assert){
 		setup(assert, this);
 	},
@@ -69,7 +69,7 @@ QUnit.test('symbolize (maxBins bins returned)', function(assert){
 	var sql = this.MOCK_NYC_CARTO_SQL;
 	sql.returnData = {rows: [{cdb_jenksbins: [1, 2, 3, 4, 6]}]}; 
 
-	var symbolizer = new nyc.carto.NamedMapJenksSymbolizer(this.MOCK_NYC_CARTO_SQL, 5);
+	var symbolizer = new nyc.carto.ParamsJenksSymbolizer(this.MOCK_NYC_CARTO_SQL, 5);
 	symbolizer.on(nyc.carto.Symbolizer.EventType.SYMBOLIZED, function(bins){
 		assert.equal(sql.filterValues, 'MOCK_FILTER_VALUES');
 		assert.deepEqual(bins, [1, 2, 3, 4, 6]);
@@ -87,7 +87,7 @@ QUnit.test('symbolize (less than maxBins bins returned)', function(assert){
 	var sql = this.MOCK_NYC_CARTO_SQL;
 	sql.returnData = {rows: [{cdb_jenksbins: [1, 2, 3, 4]}]}; 
 
-	var symbolizer = new nyc.carto.NamedMapJenksSymbolizer(this.MOCK_NYC_CARTO_SQL, 5);
+	var symbolizer = new nyc.carto.ParamsJenksSymbolizer(this.MOCK_NYC_CARTO_SQL, 5);
 	symbolizer.on(nyc.carto.Symbolizer.EventType.SYMBOLIZED, function(bins){
 		assert.equal(sql.filterValues, 'MOCK_FILTER_VALUES');
 		assert.deepEqual(bins, [1, 2, 3, 4]);

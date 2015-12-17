@@ -77,7 +77,13 @@ ext {
 		'nyc/leaf/leaf.js', 
 		'nyc/leaf/locate.js', 
 		'nyc/leaf/zoomsearch.js',
+		'nyc/carto/carto.js',
 		'nyc/carto/view.js',
+		'nyc/carto/sqlview.js',
+		'nyc/carto/paramsview.js',
+		'nyc/carto/symbolizer.js',
+		'nyc/carto/heatsymbolizer.js',
+		'nyc/carto/jenkssymbolizer.js',
 		'nyc/carto/chart.js'
 	]
 	olCssFiles = [

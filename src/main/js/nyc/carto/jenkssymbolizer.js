@@ -139,20 +139,18 @@ nyc.carto.SqlJenksSymbolizer.Options;
  * @class
  * @public
  * @class
- * @implements {nyc.carto.Symbolizer}
- * @extends {nyc.carto.SqlTemplate}
- * @extends {nyc.EventHandling}
+ * @extends {nyc.carto.JenksSymbolizer}
  * @constructor
  * @param {nyc.carto.Sql} cartoSql The object used to query CartoDB data 
  * @param {number} maxBins The maximum number of symbolization bins 
  * @fires nyc.carto.JenksSymbolizer#symbolized
  */
-nyc.carto.NamedMapJenksSymbolizer = function(cartoSql, maxBins){
+nyc.carto.ParamsJenksSymbolizer = function(cartoSql, maxBins){
 	this.cartoSql = cartoSql;
 	this.maxBins = maxBins;
 };
 
-nyc.carto.NamedMapJenksSymbolizer.prototype = {
+nyc.carto.ParamsJenksSymbolizer.prototype = {
 	/**
 	 * @private
 	 * @member {number}
@@ -167,7 +165,7 @@ nyc.carto.NamedMapJenksSymbolizer.prototype = {
 	 * @public
 	 * @method 
 	 * @param {cartodb.Layer} layer The layer to symbolize
-	 * @param {Object<string, Object<string, string>>} filterValues 
+	 * @param {Object<string, Object<string, string>>} filterValues The values object used to determine Jenks breaks for the layer
 	 */
 	symbolize: function(layer, filterValues){
 		var me = this, params = {};
@@ -185,4 +183,4 @@ nyc.carto.NamedMapJenksSymbolizer.prototype = {
 	}
 };
 
-nyc.inherits(nyc.carto.NamedMapJenksSymbolizer, nyc.carto.JenksSymbolizer);
+nyc.inherits(nyc.carto.ParamsJenksSymbolizer, nyc.carto.JenksSymbolizer);

@@ -70,7 +70,7 @@ QUnit.test('update (has symbolizer)', function(assert){
 		assert.equal(html, 'legendHtml');
 	});
 	
-	view.update({mo: {start: '0', end: '1'}, displayType:{displayType: 'type'}, type: {type: 'type'}}, {displayType: 'type', displayDates: 'dates'});
+	view.update({mo: {start: '0', end: '1'}, displayType:{displayType: 'displayType'}, type: {type: 'type'}}, {displayType: 'displayType', displayDates: 'dates'});
 	
 	assert.equal(
 		this.MOCK_CARTODB_LAYER.sql, 		
@@ -78,7 +78,7 @@ QUnit.test('update (has symbolizer)', function(assert){
 		"  ROW_NUMBER() OVER() AS cartodb_id,\n" +
 		"  a.the_geom_webmercator,\n" +
 		"  a.entity_count,\n" +
-		" 'type' AS type,\n" +
+		" 'displayType' AS type,\n" +
 		"  ST_X(a.the_geom_webmercator) AS x,\n" +
 		"  ST_Y(a.the_geom_webmercator) AS y\n" +
 		"FROM\n" +
@@ -92,7 +92,7 @@ QUnit.test('update (has symbolizer)', function(assert){
 		"  ) a"
 	);
 	assert.deepEqual(this.MOCK_SYMBOLIZER.layer, this.MOCK_CARTODB_LAYER);
-	assert.equal(this.MOCK_LEGEND.desc, '<b>type per 1000 Residents by Location<br>dates</b>');
+	assert.equal(this.MOCK_LEGEND.desc, '<b>displayType per 1000 Residents by Location<br>dates</b>');
 	assert.equal(this.MOCK_LEGEND.bins, 'bins');
 });
 
@@ -134,7 +134,7 @@ QUnit.test('update (no symbolizer)', function(assert){
 		assert.equal(html, 'legendHtml');
 	});
 	
-	view.update({mo: {start: '0', end: '1'}, displayType:{displayType: 'type'}, type: {type: 'type'}}, {displayType: 'type', displayDates: 'dates'});
+	view.update({mo: {start: '0', end: '1'}, displayType:{displayType: 'displayType'}, type: {type: 'type'}}, {displayType: 'displayType', displayDates: 'dates'});
 	
 	assert.equal(
 		this.MOCK_CARTODB_LAYER.sql, 		
@@ -142,7 +142,7 @@ QUnit.test('update (no symbolizer)', function(assert){
 		"  ROW_NUMBER() OVER() AS cartodb_id,\n" +
 		"  a.the_geom_webmercator,\n" +
 		"  a.entity_count,\n" +
-		" 'type' AS type,\n" +
+		" 'displayType' AS type,\n" +
 		"  ST_X(a.the_geom_webmercator) AS x,\n" +
 		"  ST_Y(a.the_geom_webmercator) AS y\n" +
 		"FROM\n" +
@@ -155,7 +155,7 @@ QUnit.test('update (no symbolizer)', function(assert){
 		"    GROUP BY the_geom_webmercator\n" +
 		"  ) a"
 	);
-	assert.equal(this.MOCK_LEGEND.desc, '<b>type per 1000 Residents by Location<br>dates</b>');
+	assert.equal(this.MOCK_LEGEND.desc, '<b>displayType per 1000 Residents by Location<br>dates</b>');
 	assert.notOk(this.MOCK_LEGEND.bins);
 });
 
@@ -198,7 +198,7 @@ QUnit.test('data', function(assert){
 	var dao = new nyc.carto.Dao(cartoSql, locationSql, filters);
 	this.MOCK_CARTO_SQL.returnDatas = ['returnData'];
 	
-	dao.data({mo: {start: '0', end: '1'}, displayType:{displayType: 'type'}, type: {type: 'type'}}, function(data){
+	dao.data({mo: {start: '0', end: '1'}, displayType:{displayType: 'displayType'}, type: {type: 'type'}}, function(data){
 		assert.equal(data, 'returnData');
 		assert.equal(
 			cartoSql.sqls[0], 		
@@ -206,7 +206,7 @@ QUnit.test('data', function(assert){
 			"  ROW_NUMBER() OVER() AS cartodb_id,\n" +
 			"  a.the_geom_webmercator,\n" +
 			"  a.entity_count,\n" +
-			" 'type' AS type,\n" +
+			" 'displayType' AS type,\n" +
 			"  ST_X(a.the_geom_webmercator) AS x,\n" +
 			"  ST_Y(a.the_geom_webmercator) AS y\n" +
 			"FROM\n" +

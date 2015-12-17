@@ -34,7 +34,7 @@ nyc.inherits(nyc.Collapsible, nyc.EventHandling);
 /**
  * @desc Constructor options for {@link nyc.Collapsible}
  * @public
- * @typedef
+ * @typedef {Object}
  * @property {string} value The value attribute for the HTML DOM node that will be created
  * @property {string} label The label for the HTML DOM node that will be created
  */
