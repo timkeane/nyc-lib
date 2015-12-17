@@ -1,12 +1,5 @@
 var nyc = nyc || {};
-/** 
- * @public 
- * @namespace
- */
 nyc.carto = nyc.carto || {};
-
-/** @external cartodb.Layer */
-/** @external cartodb.SQL */
 
 /**
  * @desc A class to render ChartJS charts using CartoDB data

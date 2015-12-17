@@ -15,7 +15,7 @@ nyc.Locate.prototype = {
 	 * @method
 	 */
 	locate: function(){
-		throw 'Not implemented';
+		throw 'Must be implemented';
 	},
 	/**
 	 * @desc Track using device geolocation
@@ -25,7 +25,7 @@ nyc.Locate.prototype = {
 	 * @param {boolean} track Track or not
 	 */
 	track: function(track){
-		throw 'Not implemented';		
+		throw 'Must be implemented';		
 	},
 	/**
 	 * @desc Geocode an input string representing a location
@@ -35,7 +35,7 @@ nyc.Locate.prototype = {
 	 * @param {string} input The value to geocode
 	 */
 	search: function(input){
-		throw 'Not implemented';		
+		throw 'Must be implemented';		
 	}
 };
 

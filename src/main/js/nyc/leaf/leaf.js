@@ -5,10 +5,22 @@ var nyc = nyc || {};
  */
 nyc.leaf = nyc.leaf || {};
 
-/** @external L.LatLng */
-/** @external L.LatLngBounds */
-/** @external L.Map */
-/** @external L.Layer */
+/** 
+ * @external L.LatLng 
+ * @see http://leafletjs.com/reference.html
+ */
+/** 
+ * @external L.LatLngBounds 
+ * @see http://leafletjs.com/reference.html
+ */
+/** 
+ * @external L.Map 
+ * @see http://leafletjs.com/reference.html
+ */
+/** 
+ * @external L.Layer 
+ * @see http://leafletjs.com/reference.html
+ */
 
 /**
  * @desc The approximate bounding box of New York City

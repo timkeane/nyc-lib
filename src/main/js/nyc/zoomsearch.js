@@ -42,7 +42,7 @@ nyc.ZoomSearch.prototype = {
 	 * @return {JQuery} The the map container HTML element wrapped in a JQuery
 	 */
 	container: function(){
-		throw 'Not implemented';
+		throw 'Must be implemented';
 	},
 	/**
 	 * @desc Handle the zoom event triggered by user interaction
@@ -52,7 +52,7 @@ nyc.ZoomSearch.prototype = {
 	 * @param event The DOM event triggered by the zoom buttons
 	 */
 	zoom: function(event){
-		throw 'Not implemented';
+		throw 'Must be implemented';
 	},
 	/**
 	 * @private
