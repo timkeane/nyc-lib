@@ -40,7 +40,7 @@ nyc.carto.SqlView.prototype = {
 	filters: null,
 	/**
 	 * @private
-	 * @member {nyc.carto.JenksSymbolizer}
+	 * @member {nyc.carto.Symbolizer}
 	 */
 	symbolizer: null,
 	/**
@@ -87,7 +87,7 @@ nyc.inherits(nyc.carto.SqlView, nyc.carto.SqlTemplate);
  * @property {string} sqlTemplate The template with optional replacement tokens for generating queries on the layer
  * @property {Object<string, string>}  filters The filters used with the sqlTemplate for generating queries on the layer
  * @property {string=} descriptionTemplate The template with optional replacement tokens for the chart description
- * @property {nyc.carto.JenksSymbolizer=} symbolizer The symbolized used to change the layer its underlying data changes
+ * @property {nyc.carto.Symbolizer=} symbolizer The symbolizer used to change the layer's CartoCSS as its underlying data changes
  * @property {nyc.Legend=} legend The legend for this view
  */
 nyc.carto.SqlView.Options;

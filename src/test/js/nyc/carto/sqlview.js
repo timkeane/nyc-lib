@@ -37,15 +37,15 @@ QUnit.test('update (has symbolizer)', function(assert){
 		"SELECT\n" +
 		"  ROW_NUMBER() OVER() AS cartodb_id,\n" +
 		"  a.the_geom_webmercator,\n" +
-		"  a.crime_count,\n" +
+		"  a.entity_count,\n" +
 		" '${displayType}' AS type,\n" +
 		"  ST_X(a.the_geom_webmercator) AS x,\n" +
 		"  ST_Y(a.the_geom_webmercator) AS y\n" +
 		"FROM\n" +
 		"  (\n" +
 		"    SELECT\n" +
-		"    COUNT(*) AS crime_count, the_geom_webmercator\n" +
-		"    FROM stg_crime_location\n" +
+		"    COUNT(*) AS entity_count, the_geom_webmercator\n" +
+		"    FROM entity_table\n" +
 		"    WHERE ${where}\n" +
 		"    	AND ST_CONTAINS(ST_MAKEENVELOPE(-74.257, 40.496, -73.699, 40.916, 4326), the_geom)\n" +
 		"    GROUP BY the_geom_webmercator\n" +
@@ -77,15 +77,15 @@ QUnit.test('update (has symbolizer)', function(assert){
 		"SELECT\n" +
 		"  ROW_NUMBER() OVER() AS cartodb_id,\n" +
 		"  a.the_geom_webmercator,\n" +
-		"  a.crime_count,\n" +
+		"  a.entity_count,\n" +
 		" 'type' AS type,\n" +
 		"  ST_X(a.the_geom_webmercator) AS x,\n" +
 		"  ST_Y(a.the_geom_webmercator) AS y\n" +
 		"FROM\n" +
 		"  (\n" +
 		"    SELECT\n" +
-		"    COUNT(*) AS crime_count, the_geom_webmercator\n" +
-		"    FROM stg_crime_location\n" +
+		"    COUNT(*) AS entity_count, the_geom_webmercator\n" +
+		"    FROM entity_table\n" +
 		"    WHERE mo BETWEEN 0 AND 1 AND type = 'type'\n" +
 		"    	AND ST_CONTAINS(ST_MAKEENVELOPE(-74.257, 40.496, -73.699, 40.916, 4326), the_geom)\n" +
 		"    GROUP BY the_geom_webmercator\n" +
@@ -103,15 +103,15 @@ QUnit.test('update (no symbolizer)', function(assert){
 		"SELECT\n" +
 		"  ROW_NUMBER() OVER() AS cartodb_id,\n" +
 		"  a.the_geom_webmercator,\n" +
-		"  a.crime_count,\n" +
+		"  a.entity_count,\n" +
 		" '${displayType}' AS type,\n" +
 		"  ST_X(a.the_geom_webmercator) AS x,\n" +
 		"  ST_Y(a.the_geom_webmercator) AS y\n" +
 		"FROM\n" +
 		"  (\n" +
 		"    SELECT\n" +
-		"    COUNT(*) AS crime_count, the_geom_webmercator\n" +
-		"    FROM stg_crime_location\n" +
+		"    COUNT(*) AS entity_count, the_geom_webmercator\n" +
+		"    FROM entity_table\n" +
 		"    WHERE ${where}\n" +
 		"    	AND ST_CONTAINS(ST_MAKEENVELOPE(-74.257, 40.496, -73.699, 40.916, 4326), the_geom)\n" +
 		"    GROUP BY the_geom_webmercator\n" +
@@ -141,15 +141,15 @@ QUnit.test('update (no symbolizer)', function(assert){
 		"SELECT\n" +
 		"  ROW_NUMBER() OVER() AS cartodb_id,\n" +
 		"  a.the_geom_webmercator,\n" +
-		"  a.crime_count,\n" +
+		"  a.entity_count,\n" +
 		" 'type' AS type,\n" +
 		"  ST_X(a.the_geom_webmercator) AS x,\n" +
 		"  ST_Y(a.the_geom_webmercator) AS y\n" +
 		"FROM\n" +
 		"  (\n" +
 		"    SELECT\n" +
-		"    COUNT(*) AS crime_count, the_geom_webmercator\n" +
-		"    FROM stg_crime_location\n" +
+		"    COUNT(*) AS entity_count, the_geom_webmercator\n" +
+		"    FROM entity_table\n" +
 		"    WHERE mo BETWEEN 0 AND 1 AND type = 'type'\n" +
 		"    	AND ST_CONTAINS(ST_MAKEENVELOPE(-74.257, 40.496, -73.699, 40.916, 4326), the_geom)\n" +
 		"    GROUP BY the_geom_webmercator\n" +
@@ -177,15 +177,15 @@ QUnit.test('data', function(assert){
 		"SELECT\n" +
 		"  ROW_NUMBER() OVER() AS cartodb_id,\n" +
 		"  a.the_geom_webmercator,\n" +
-		"  a.crime_count,\n" +
+		"  a.entity_count,\n" +
 		" '${displayType}' AS type,\n" +
 		"  ST_X(a.the_geom_webmercator) AS x,\n" +
 		"  ST_Y(a.the_geom_webmercator) AS y\n" +
 		"FROM\n" +
 		"  (\n" +
 		"    SELECT\n" +
-		"    COUNT(*) AS crime_count, the_geom_webmercator\n" +
-		"    FROM stg_crime_location\n" +
+		"    COUNT(*) AS entity_count, the_geom_webmercator\n" +
+		"    FROM entity_table\n" +
 		"    WHERE ${where}\n" +
 		"    	AND ST_CONTAINS(ST_MAKEENVELOPE(-74.257, 40.496, -73.699, 40.916, 4326), the_geom)\n" +
 		"    GROUP BY the_geom_webmercator\n" +
@@ -205,15 +205,15 @@ QUnit.test('data', function(assert){
 			"SELECT\n" +
 			"  ROW_NUMBER() OVER() AS cartodb_id,\n" +
 			"  a.the_geom_webmercator,\n" +
-			"  a.crime_count,\n" +
+			"  a.entity_count,\n" +
 			" 'type' AS type,\n" +
 			"  ST_X(a.the_geom_webmercator) AS x,\n" +
 			"  ST_Y(a.the_geom_webmercator) AS y\n" +
 			"FROM\n" +
 			"  (\n" +
 			"    SELECT\n" +
-			"    COUNT(*) AS crime_count, the_geom_webmercator\n" +
-			"    FROM stg_crime_location\n" +
+			"    COUNT(*) AS entity_count, the_geom_webmercator\n" +
+			"    FROM entity_table\n" +
 			"    WHERE mo BETWEEN 0 AND 1 AND type = 'type'\n" +
 			"    	AND ST_CONTAINS(ST_MAKEENVELOPE(-74.257, 40.496, -73.699, 40.916, 4326), the_geom)\n" +
 			"    GROUP BY the_geom_webmercator\n" +

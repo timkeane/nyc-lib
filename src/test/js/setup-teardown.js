@@ -8,12 +8,14 @@ function setup(assert, hooks){
 		css: null,
 		sql: null,
 		showHide: null,
+		params: null,
 		getSQL: function(){
 			return 'LAYER_SQL';
 		},
 		setSQL: function(sql){
 			this.sql = sql;
 		},
+		getCartoCSS: function(){},
 		setCartoCSS: function(css){
 			this.css = css;
 		},
@@ -28,6 +30,9 @@ function setup(assert, hooks){
 			set: function(args){
 				this.setArgs.push(args);
 			}
+		},
+		setParams: function(params){
+			this.params = params;
 		}
 	};
 	
@@ -44,8 +49,19 @@ function setup(assert, hooks){
 			callback.apply(this, [this.returnDatas[this.callNum]]);
 			this.callNum++;
 		}		
-	}
+	};
 	hooks.MOCK_CARTO_SQL = new MockCartoSql();
+	
+	var MockNycCartoSql = function(){};
+	MockNycCartoSql.prototype = {
+		filterValues: null,
+		returnData: null,
+		execute: function(filterValues, callback){
+			this.filterValues = filterValues;
+			callback(this.returnData);
+		}		
+	};
+	hooks.MOCK_NYC_CARTO_SQL = new MockNycCartoSql();
 	
 	/* ol */
 	

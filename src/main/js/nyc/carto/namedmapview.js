@@ -27,11 +27,6 @@ nyc.carto.NamedMapView.prototype = {
 	 * @private
 	 * @member {string}
 	 */
-	sqlTemplate: null,
-	/**
-	 * @private
-	 * @member {string}
-	 */
 	descriptionTemplate: null,
 	/**
 	 * @private
@@ -40,7 +35,7 @@ nyc.carto.NamedMapView.prototype = {
 	filters: null,
 	/**
 	 * @private
-	 * @member {nyc.carto.JenksSymbolizer}
+	 * @member {nyc.carto.Symbolizer}
 	 */
 	symbolizer: null,
 	/**
@@ -56,10 +51,8 @@ nyc.carto.NamedMapView.prototype = {
 	 * @param {Object<string, string>} descriptionValues The values objects for replacing tokens in the descriptionTemplate
 	 */
 	update: function(filterValues, descriptionValues){
-		var me = this,
-			sql = me.sql(me.sqlTemplate, filterValues, me.filters),
-			desc = me.replace(me.descriptionTemplate, descriptionValues);
-		me.layer.setParams(sql);
+		var me = this, desc = me.replace(me.descriptionTemplate, descriptionValues);
+		me.layer.setParams(this.params(filterValues));
 		if (me.legend){
 			if (me.symbolizer){
 				me.symbolizer.one(nyc.carto.Symbolizer.EventType.SYMBOLIZED, function(bins){
@@ -72,8 +65,35 @@ nyc.carto.NamedMapView.prototype = {
 		}else{
 			me.trigger(nyc.carto.ViewEventType.UPDATED, '');			
 		}
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {Object<string, Object<string, string>>} filterValues
+	 * @return {Object<string, Object>}
+	 */
+	pramas: function(filterValues){
+		var params = {};
+		for (var filter in filterValues){
+			for (var value in filter){
+				params[value] = filter[value];
+			}
+		}
+		return params;
 	}
 };
 
-nyc.inherits(nyc.carto.SqlView, nyc.carto.View);
-nyc.inherits(nyc.carto.SqlView, nyc.carto.SqlTemplate);
+nyc.inherits(nyc.carto.NamedMapView, nyc.carto.View);
+
+/**
+ * @desc Object type to hold constructor options for {@link nyc.carto.View}
+ * @public
+ * @typedef {Object}
+ * @property {string} name A name for the view
+ * @property {cartodb.Layer} layer The layer managed by the view
+ * @property {Object<string, string>}  filters The filters used for generating queries on the layer
+ * @property {string=} descriptionTemplate The template with optional replacement tokens for the chart description
+ * @property {nyc.carto.Symbolizer=} symbolizer The symbolizer used to change the layer's CartoCSS as its underlying data changes
+ * @property {nyc.Legend=} legend The legend for this view
+ */
+nyc.carto.SqlView.Options;

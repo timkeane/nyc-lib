@@ -1,3 +1,45 @@
+QUnit.module('nyc.carto.Sql', {});
+
+QUnit.test('constructor', function(assert){
+	assert.expect(4);
+
+	var sql = new nyc.carto.Sql('my.named.query');
+	assert.equal(sql.url, nyc.carto.Sql.DEFAULT_URL);
+	assert.equal(sql.namedQuery, 'my.named.query');
+
+	sql = new nyc.carto.Sql('my.other.query', '/my/other/url');
+	assert.equal(sql.url, '/my/other/url');
+	assert.equal(sql.namedQuery, 'my.other.query');
+});
+
+QUnit.test('execute', function(assert){
+	assert.expect(4);
+
+	var sql = new nyc.carto.Sql('my.named.query');
+
+	var filterValues = {
+		filter1: {param1: 'param1', param2: 'param2'}, 
+		filter2: {arg1: 'arg1', arg2: 'arg2'}
+	};
+	
+	var ajaxResponse = 'ajax-response';
+	var callback = function(data){
+		assert.equal(data, ajaxResponse);
+	};
+	
+	var ajax = $.ajax;
+	$.ajax = function(args){
+		assert.equal(args.url, sql.url);
+		assert.equal(args.data.namedQuery, 'my.named.query');
+		assert.deepEqual(args.data.filterValues, filterValues);
+		args.success(ajaxResponse);
+	};
+	
+	sql.execute(filterValues, callback);
+	
+	$.ajax = ajax;
+});
+
 QUnit.module('nyc.carto.SqlTemplate', {});
 
 QUnit.test('sql', function(assert){

@@ -49,3 +49,14 @@ nyc.inherits(nyc.carto.View, nyc.EventHandling);
  * @event nyc.carto.View#updated
  * @type {string} 
  */
+
+/** 
+ * @desc Enumerator for view event types
+ * @enum {string}
+ */
+nyc.carto.ViewEventType = {
+	/**
+	 * @desc The update event type
+	 */
+	UPDATED: 'updated' 
+};

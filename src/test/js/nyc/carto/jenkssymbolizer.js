@@ -1,50 +1,4 @@
-QUnit.module('nyc.carto.HeatSymbolizer', {
-	beforeEach: function(assert){
-		setup(assert, this);
-	},
-	afterEach: function(assert){
-		teardown(assert, this);
-	}
-});
-
-QUnit.test('symbolize', function(assert){
-	assert.expect(38);
-	
-	var MockMap = function(){
-		this.zoom = -1;
-		this.getZoom = function(){
-			return this.zoom;
-		}
-	};
-	nyc.inherits(MockMap, nyc.EventHandling);
-	var map = new MockMap();
-	var layer = this.MOCK_CARTODB_LAYER;
-	
-	var options = {
-		map: map,
-		layer: layer,
-		css: '#carto_css{marker-width:${size};}' +
-			'#carto_css_2{marker-width:${sizePlus2};}' +
-			'#carto_css_4{marker-width:${sizePlus4};}'
-	};
-	var symbolizer = new nyc.carto.HeatSymbolizer(options);
-
-	for (var zoom = 0; zoom < 19; zoom++){
-		var idx = zoom - 10;
-		var size = symbolizer.sizes[idx] || 1;
-		map.zoom = zoom;
-		symbolizer.one(nyc.carto.Symbolizer.EventType.SYMBOLIZED, function(css){
-			assert.equal(css, '#carto_css{marker-width:' + size + ';}' +
-					'#carto_css_2{marker-width:' + (size + 2) + ';}' +
-					'#carto_css_4{marker-width:' + (size + 4) + ';}')
-			assert.equal(layer.css, css);
-		});
-		map.trigger('zoomend');
-	}
-
-});
-
-QUnit.module('nyc.carto.JenksSymbolizer', {
+QUnit.module('nyc.carto.SqlJenksSymbolizer', {
 	beforeEach: function(assert){
 		setup(assert, this);
 	},
@@ -65,7 +19,7 @@ QUnit.test('symbolize (has outlierFilter, 5 bins returned)', function(assert){
 	};
 	this.MOCK_CARTO_SQL.returnDatas = [{rows: [{cdb_jenksbins: [1, 2, 3, 4, 5]}]}]; 
 	
-	var symbolizer = new nyc.carto.JenksSymbolizer(options);
+	var symbolizer = new nyc.carto.SqlJenksSymbolizer(options);
 	symbolizer.on(nyc.carto.Symbolizer.EventType.SYMBOLIZED, function(bins){
 		assert.deepEqual(bins, [1, 2, 3, 4, 5]);
 	});
@@ -87,7 +41,7 @@ QUnit.test('symbolize (no outlierFilter, 4 bins returned)', function(assert){
 	};
 	this.MOCK_CARTO_SQL.returnDatas = [{rows: [{cdb_jenksbins: [1, 2, 3, 4]}]}]; 
 	
-	var symbolizer = new nyc.carto.JenksSymbolizer(options);
+	var symbolizer = new nyc.carto.SqlJenksSymbolizer(options);
 	symbolizer.on(nyc.carto.Symbolizer.EventType.SYMBOLIZED, function(bins){
 		assert.deepEqual(bins, [1, 2, 3, 4]);
 	});
@@ -96,4 +50,49 @@ QUnit.test('symbolize (no outlierFilter, 4 bins returned)', function(assert){
 	
 	assert.equal(this.MOCK_CARTO_SQL.sqls[0], 'SELECT CDB_JENKSBINS(ARRAY_AGG(a.jenks_col::numeric), 5) FROM (LAYER_SQL) a WHERE a.jenks_col IS NOT NULL');
 	assert.equal(this.MOCK_CARTODB_LAYER.css, '#carto_css{}#rule4[4]{}#rule3[3]{}#rule2[2]{}#rule1[1]{}'); 
+});
+
+QUnit.module('nyc.carto.NamedMapJenksSymbolizer', {
+	beforeEach: function(assert){
+		setup(assert, this);
+	},
+	afterEach: function(assert){
+		teardown(assert, this);
+	}
+});
+
+QUnit.test('symbolize (maxBins bins returned)', function(assert){
+	assert.expect(3);
+
+	var layer = this.MOCK_CARTODB_LAYER;
+	
+	var sql = this.MOCK_NYC_CARTO_SQL;
+	sql.returnData = {rows: [{cdb_jenksbins: [1, 2, 3, 4, 6]}]}; 
+
+	var symbolizer = new nyc.carto.NamedMapJenksSymbolizer(this.MOCK_NYC_CARTO_SQL, 5);
+	symbolizer.on(nyc.carto.Symbolizer.EventType.SYMBOLIZED, function(bins){
+		assert.equal(sql.filterValues, 'MOCK_FILTER_VALUES');
+		assert.deepEqual(bins, [1, 2, 3, 4, 6]);
+		assert.deepEqual(layer.params, {bin0: 1, bin1: 2, bin2: 3, bin3: 4, bin4: 6});
+	});
+	
+	symbolizer.symbolize(layer, 'MOCK_FILTER_VALUES');
+});
+
+QUnit.test('symbolize (less than maxBins bins returned)', function(assert){
+	assert.expect(3);
+
+	var layer = this.MOCK_CARTODB_LAYER;
+	
+	var sql = this.MOCK_NYC_CARTO_SQL;
+	sql.returnData = {rows: [{cdb_jenksbins: [1, 2, 3, 4]}]}; 
+
+	var symbolizer = new nyc.carto.NamedMapJenksSymbolizer(this.MOCK_NYC_CARTO_SQL, 5);
+	symbolizer.on(nyc.carto.Symbolizer.EventType.SYMBOLIZED, function(bins){
+		assert.equal(sql.filterValues, 'MOCK_FILTER_VALUES');
+		assert.deepEqual(bins, [1, 2, 3, 4]);
+		assert.deepEqual(layer.params, {bin0: 1, bin1: 2, bin2: 3, bin3: 4, bin4: null});
+	});
+	
+	symbolizer.symbolize(layer, 'MOCK_FILTER_VALUES');
 });

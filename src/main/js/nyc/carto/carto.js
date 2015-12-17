@@ -14,6 +14,55 @@ nyc.carto = nyc.carto || {};
  * @see http://cartodb.com/
  */
 
+/**
+ * @desc Class for retrieving data from CartoDB
+ * @public
+ * @class
+ * @constructor
+ * @param {string} namedQuery A named query available on the server
+ * @param {string=} url The server URL
+ */
+nyc.carto.Sql = function(namedQuery, url){
+	this.namedQuery = namedQuery; 
+	this.url = url || nyc.carto.Sql.DEFAULT_URL; 
+};
+
+nyc.carto.Sql.prototype = {
+	/**
+	 * @private
+	 * @member {string}
+	 */
+	namedQuery: null,
+	/**
+	 * @private
+	 * @member {string}
+	 */
+	url: null,
+	/**
+	 * @desc Execute the named query
+	 * @public
+	 * @method 
+	 */
+	execute: function(filterValues, callback){
+		$.ajax({
+			url: this.url,
+			data: {
+				namedQuery: this.namedQuery,
+				filterValues: filterValues
+			},
+			success: callback
+		});
+	}
+};
+
+/**
+ * @desc The default URL for {@link nyc.carto.Sql}
+ * @public 
+ * @const
+ * @type {string}
+ */
+nyc.carto.Sql.DEFAULT_URL = '/carto/named-query';
+
 
 /**
  * @desc Class for replacing values in SQL strings and appending filters to the WHERE clause
