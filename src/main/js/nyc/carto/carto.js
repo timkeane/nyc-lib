@@ -63,7 +63,6 @@ nyc.carto.Sql.prototype = {
  */
 nyc.carto.Sql.DEFAULT_URL = '/carto/named-query';
 
-
 /**
  * @desc Class for replacing values in SQL strings and appending filters to the WHERE clause
  * @public
