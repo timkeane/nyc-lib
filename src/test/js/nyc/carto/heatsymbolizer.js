@@ -7,7 +7,7 @@ QUnit.module('nyc.carto.HeatSymbolizer', {
 	}
 });
 
-QUnit.test('symbolize (public layer)', function(assert){
+QUnit.test('symbolize', function(assert){
 	assert.expect(38);
 	
 	var MockMap = function(){
@@ -44,40 +44,3 @@ QUnit.test('symbolize (public layer)', function(assert){
 
 });
 
-QUnit.test('symbolize (named map layer)', function(assert){
-	assert.expect(38);
-	
-	var MockMap = function(){
-		this.zoom = -1;
-		this.getZoom = function(){
-			return this.zoom;
-		}
-	};
-	nyc.inherits(MockMap, nyc.EventHandling);
-	var map = new MockMap();
-	
-	var layer = this.MOCK_CARTODB_LAYER;
-	layer.getCartoCSS = function(){
-		throw 'Can\'t access CartoCSS on named map layer';
-	};
-	
-	var options = {map: map, layer: layer};
-	
-	var symbolizer = new nyc.carto.HeatSymbolizer(options);
-
-	for (var zoom = 0; zoom < 19; zoom++){
-		var idx = zoom - 10;
-		var size = symbolizer.sizes[idx] || 1;
-		map.zoom = zoom;
-		symbolizer.one(nyc.carto.Symbolizer.EventType.SYMBOLIZED, function(css){
-			assert.equal(css, '');
-			assert.deepEqual(layer.params, {
-				size: size,
-				sizePlus2: size + 2,
-				sizePlus4: size + 4
-			});
-		});
-		map.trigger('zoomend');
-	}
-
-});

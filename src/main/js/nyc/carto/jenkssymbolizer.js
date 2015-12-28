@@ -5,60 +5,14 @@ nyc.carto = nyc.carto || {};
  * @desc Class for managing SQL views on layers 
  * @class
  * @public
- * @abstract
- * @class
- * @implements {nyc.carto.Symbolizer}
- * @extends {nyc.EventHandling}
- * @constructor
- * @fires nyc.carto.JenksSymbolizer#symbolized
- */
-nyc.carto.JenksSymbolizer = function(){};
-
-nyc.carto.JenksSymbolizer.prototype = {
-	/**
-	 * @private 
-	 * @method 
-	 * @param {Object} data
-	 * @return {Array<number>}
-	 */
-	bins: function(data){
-		var bins = [], jenksbins = data.rows[0].cdb_jenksbins;
-		if (jenksbins){
-			bins.push(jenksbins[0]);
-			for (var bin in jenksbins){
-				if ($.inArray(jenksbins[bin], bins) == -1){
-					bins.push(jenksbins[bin]);
-				}
-			}
-			while (bins[0] == null){
-				bins.shift();
-			}
-		}
-		return bins;
-	}
-};
-
-nyc.inherits(nyc.carto.JenksSymbolizer, nyc.EventHandling);
-nyc.inherits(nyc.carto.JenksSymbolizer, nyc.carto.Symbolizer);
-
-/**
- * @desc The Jenks breaks applied to the CartoCS of the layer 
- * @event nyc.carto.JenksSymbolizer#symbolized
- * @type {Array<number>}
- */
-
-/**
- * @desc Class for managing SQL views on layers 
- * @class
- * @public
  * @class
  * @extends {nyc.carto.JenksSymbolizer}
  * @extends {nyc.carto.SqlTemplate}
  * @constructor
- * @param {nyc.carto.SqlJenksSymbolizer.Options} options Constructor options
+ * @param {nyc.carto.JenksSymbolizer.Options} options Constructor options
  * @fires nyc.carto.JenksSymbolizer#symbolized
  */
-nyc.carto.SqlJenksSymbolizer = function(options){
+nyc.carto.JenksSymbolizer = function(options){
 	this.cartoSql = options.cartoSql;
 	this.baseCss = options.baseCss || '';
 	this.cssRules = options.cssRules;
@@ -68,7 +22,7 @@ nyc.carto.SqlJenksSymbolizer = function(options){
 	}
 };
 
-nyc.carto.SqlJenksSymbolizer.prototype = {
+nyc.carto.JenksSymbolizer.prototype = {
 	/**
 	 * @private
 	 * @member {string}
@@ -116,11 +70,38 @@ nyc.carto.SqlJenksSymbolizer.prototype = {
 			};
 		}
 		layer.setCartoCSS(css);
+	},
+	/**
+	 * @private 
+	 * @method 
+	 * @param {Object} data
+	 * @return {Array<number>}
+	 */
+	bins: function(data){
+		var bins = [], jenksbins = data.rows[0].cdb_jenksbins;
+		if (jenksbins){
+			bins.push(jenksbins[0]);
+			for (var bin in jenksbins){
+				if ($.inArray(jenksbins[bin], bins) == -1){
+					bins.push(jenksbins[bin]);
+				}
+			}
+			while (bins[0] == null){
+				bins.shift();
+			}
+		}
+		return bins;
 	}
 };
 
-nyc.inherits(nyc.carto.SqlJenksSymbolizer, nyc.carto.SqlTemplate);
-nyc.inherits(nyc.carto.SqlJenksSymbolizer, nyc.carto.JenksSymbolizer);
+nyc.inherits(nyc.carto.JenksSymbolizer, nyc.EventHandling);
+nyc.inherits(nyc.carto.JenksSymbolizer, nyc.carto.Symbolizer);
+
+/**
+ * @desc The Jenks breaks applied to the CartoCS of the layer 
+ * @event nyc.carto.JenksSymbolizer#symbolized
+ * @type {Array<number>}
+ */
 
 /**
  * @desc Object type to hold constructor options for {@link nyc.carto.SqlJenksSymbolizer}
@@ -132,55 +113,5 @@ nyc.inherits(nyc.carto.SqlJenksSymbolizer, nyc.carto.JenksSymbolizer);
  * @property {string=} baseCss CartoCSS that remains unchanged regardless of changing data
  * @property {string=} outlierFilter An SQL condition used to restrict the data used in the Jenks calculation
  */
-nyc.carto.SqlJenksSymbolizer.Options;
+nyc.carto.JenksSymbolizer.Options;
 
-/**
- * @desc Class for managing SQL views on layers 
- * @class
- * @public
- * @class
- * @extends {nyc.carto.JenksSymbolizer}
- * @constructor
- * @param {nyc.carto.Sql} cartoSql The object used to query CartoDB data 
- * @param {number} maxBins The maximum number of symbolization bins 
- * @fires nyc.carto.JenksSymbolizer#symbolized
- */
-nyc.carto.ParamsJenksSymbolizer = function(cartoSql, maxBins){
-	this.cartoSql = cartoSql;
-	this.maxBins = maxBins;
-};
-
-nyc.carto.ParamsJenksSymbolizer.prototype = {
-	/**
-	 * @private
-	 * @member {number}
-	 */
-	maxBins: 0,
-	/**
-	 * @private
-	 * @member {nyc.carto.Sql}
-	 */
-	cartoSql: null,
-	/** 
-	 * @public
-	 * @method 
-	 * @param {cartodb.Layer} layer The layer to symbolize
-	 * @param {Object<string, Object<string, string>>} filterValues The values object used to determine Jenks breaks for the layer
-	 */
-	symbolize: function(layer, filterValues){
-		var me = this, params = {};
-		this.cartoSql.execute(filterValues, function(data){
-			var bins = me.bins(data);
-			$.each(bins, function(i, bin){
-				params['bin' + i] = bin;
-			});
-			for (var i = bins.length; i < me.maxBins; i++){
-				params['bin' + i] = null;
-			}
-			layer.setParams(params);
-			me.trigger(nyc.carto.Symbolizer.EventType.SYMBOLIZED, bins);			
-		});
-	}
-};
-
-nyc.inherits(nyc.carto.ParamsJenksSymbolizer, nyc.carto.JenksSymbolizer);

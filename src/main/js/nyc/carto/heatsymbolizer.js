@@ -31,13 +31,7 @@ nyc.carto.HeatSymbolizer.prototype = {
 	 * @method
 	 */
 	symbolize: function(){
-		var css = '';
-		if (this.canSetCss()){
-			css = this.setCss();
-		}else{
-			this.setParams();
-		}
-		this.trigger(nyc.carto.Symbolizer.EventType.SYMBOLIZED, css);
+		this.trigger(nyc.carto.Symbolizer.EventType.SYMBOLIZED, this.setCss());
 	},
 	/**
 	 * @private
@@ -57,27 +51,6 @@ nyc.carto.HeatSymbolizer.prototype = {
 		css = this.replace(css, {size: size, sizePlus2: size + 2, sizePlus4: size + 4});
 		this.layer.setCartoCSS(css);
 		return css;
-	},
-	/**
-	 * @private
-	 * @method
-	 */
-	setParams: function(){
-		var size = this.getSize();
-		this.layer.setParams({size: size, sizePlus2: size + 2, sizePlus4: size + 4});
-	},
-	/**
-	 * @private
-	 * @method
-	 * @return {boolean}
-	 */
-	canSetCss: function(){
-		try {
-			this.layer.getCartoCSS();
-		}catch(ex){
-			return false;
-		}
-		return true;
 	}
 };
 
@@ -89,8 +62,8 @@ nyc.inherits(nyc.carto.HeatSymbolizer, nyc.carto.Symbolizer);
  * @typedef {Object}
  * @property {L.Map} map The Leaflet map containing the heat map layer
  * @property {carto.Layer} layer The CartoDB heat map layer
+ * @property {string} css CartoCSS with optional replacement tokens for rendering the heat map (valid tokens are ${size}, ${sizePlus2} and ${sizePlus4})
  * @property {Array<Number>} [sizes=[2, 4, 8, 16, 32, 64, 128, 256, 512]] An array of marker sizes for replacing tokens in the css where the last number in the array is to be used at zoom level 18
- * @property {string=} css CartoCSS with optional replacement tokens for rendering the heat map (valid tokens are ${size}, ${sizePlus2} and ${sizePlus4})
  */
 nyc.carto.HeatSymbolizer.Options;
 

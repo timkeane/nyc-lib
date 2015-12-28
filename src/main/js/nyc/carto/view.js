@@ -8,7 +8,7 @@ nyc.carto.View = function(){};
  * @public
  * @class
  * @constructor
- * @param {cartodb.Layer} layer The layer that will be managed by this view
+ * @param {cartodb.Layer}
  */
 nyc.carto.View = function(layer){
 	this.layer = layer;
