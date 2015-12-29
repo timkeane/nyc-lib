@@ -146,3 +146,29 @@ nyc.EventHandling.prototype = {
         this.evtHdlrs[eventName].push({handler: evtHdlr, scope: hdlrScope, remove: one});		    	
     }
 };
+
+/**
+ * @desc Format numeric HTML content to locale specific number format
+ * @public 
+ * @function
+ * @param {Jquery} jq The elements to format
+ * @param {Object=} options {@see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString}
+ */
+nyc.formatNumberHtml = function(jq, options){
+	if ('toLocaleString' in Number){
+		jq.each(function(_, n){
+			var num = $(n).html();
+			if (num.trim()){
+				var opts = options || {};
+				if (!options && num.indexOf('.') > -1){
+					opts = {style:"decimal", minimumFractionDigits: 4}
+				}
+				if (!isNaN(num)){
+					num = new Number(num).toLocaleString(navigator.language, opts);
+					$(n).html(num);
+				}
+			}
+			$(n).removeClass('fmt-num');
+		});					
+	}		
+};
