@@ -64,7 +64,7 @@ nyc.BinLegend.prototype = {
 	 * @private
 	 * @member {string}
 	 */
-	rangeTemplate: '<tr><td class="leg-bin leg-bin-${index}"><img alt="${op0} ${from} ${and} ${op1} ${to}" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">${op0} ${from} ${and} ${op1} ${to}</td></tr>',
+	rangeTemplate: '<tr><td class="leg-bin leg-bin-${index}"><img alt="${op0} ${from} ${and} ${op1} ${to}" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></td><td class="leg-bin-desc">${op0} <span class="fmt-num">${from}</span> ${and} ${op1} <span class="fmt-num">${to}</span></td></tr>',
 	/**
 	 * @private
 	 * @member {string}
