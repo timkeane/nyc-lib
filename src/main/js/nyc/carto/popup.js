@@ -94,7 +94,7 @@ nyc.carto.Popup.prototype = {
 	 * @method
 	 */
 	tip: function(map, layer, tmpl){
-		var tipTmpl = $(tmpl).find('.cartodb-popup-tip-container').html(),
+		var tipTmpl = $(tmpl).find('.tip-tmpl').html(),
 			tooltip = map.viz.addOverlay({
 				type: 'tooltip',
 				layer: layer,
@@ -154,8 +154,8 @@ nyc.carto.Popup.EventType = {
  * @property {L.Map} map The Leaflet map on which the popup will be displayed 
  * @property {cartodb.Layer} layer The layer whose feature info will be displayed in the popup
  * @property {Array<string>} interactivity The data fields required by the template 
- * @property {string} template Template with replacement tokens for popup content
- * @property {function(nyc.carto.Popup)} onShow A function to handle the show event 
- * @property {function(nyc.carto.Popup)} onHide A function to handle the hide event 
+ * @property {string} template Template with replacement tokens for popup content (may optionally include an element of class 'tip-tmpl' for rendering tooltips)
+ * @property {function(nyc.carto.Popup)=} onShow A function to handle the show event 
+ * @property {function(nyc.carto.Popup)=} onHide A function to handle the hide event 
  */
 nyc.carto.Popup.Options;

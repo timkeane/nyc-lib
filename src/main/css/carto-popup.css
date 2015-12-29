@@ -1,4 +1,4 @@
-.info-tmpl {
+.info-tmpl, .tip-tmpl {
 	display: none;
 }
 div.cartodb-tooltip {
