@@ -95,7 +95,7 @@ ext {
 		'featuretip.css', 
 		'lang.css', 
 		'legend.css', 
-		'popup.css', 
+		'ol-popup.css', 
 		'share.css', 
 		'zoomsearch.css'
 	]
@@ -121,6 +121,7 @@ ext {
 		'lang.css', 
 		'legend.css', 
 		'share.css', 
+		'carto-popup.css', 
 		'zoomsearch.css'
 	]
 }

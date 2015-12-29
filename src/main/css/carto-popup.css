@@ -1,0 +1,47 @@
+.info-tmpl {
+	display: none;
+}
+div.cartodb-tooltip {
+	background-color: rgba(255,255,255,0.9);
+	padding: 2px;
+	min-width: 1px;
+	max-width: none;
+	width: auto;
+	border-radius: 4px;
+	box-shadow: 5px 10px 20px 5px rgba(0,0,0,0.5);
+	height: auto;
+	margin: 10px;
+	line-height: 16px;
+}
+div.cartodb-popup {
+	width: 300px !important;		
+}
+div.cartodb-popup div.cartodb-popup-content {
+	max-height: 400px !important;
+}
+div.cartodb-tooltip-content div {
+	line-height: 16px;
+}
+a.cartodb-popup-close-button:before {
+	display: none;
+}
+div.cartodb-popup.v2 a.cartodb-popup-close-button, 
+div.cartodb-popup.v2 a.cartodb-popup-close-button:hover,
+div.cartodb-popup.v2 a.cartodb-popup-close-button:after {
+	width: 25px;
+	height: 25px;
+	border-radius: 20px;
+	box-shadow: none;
+	cursor: pointer;
+}
+div.cartodb-popup.v2 a.cartodb-popup-close-button:after {
+	transform: none;
+	margin: -9px 0 0 -6px;
+	background-color: rgba(0,0,0,0.3);
+	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3Asvg%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214px%22%20height%3D%2214px%22%3E%3Cpolygon%20fill%3D%22%23FFF%22%20points%3D%2214%2C3%2011%2C0%207%2C4%203%2C0%200%2C3%204%2C7%200%2C11%203%2C14%207%2C10%2011%2C14%2014%2C11%2010%2C7%20%22%2F%3E%3C%2Fsvg%3E");
+	background-position: center;
+	background-repeat: no-repeat;
+}
+div.cartodb-popup.v2 a.cartodb-popup-close-button:hover:after {
+	background-color: rgba(0,0,0,0.5);
+}

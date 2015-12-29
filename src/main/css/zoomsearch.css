@@ -125,6 +125,9 @@ span.srch-upk-icon:after {
 .srch-types .ui-input-clear {
 	display: none;
 }
+.leaflet-control {
+	display: none;
+}
 @media only screen and (max-width : 405px) {
 	#fld-srch-container {
 		width: auto;
