@@ -73,7 +73,11 @@ nyc.ol = nyc.ol || {};
  * @external ol.interaction.Pointer 
  * @see http://openlayers.org/ 
  */
-	
+/** 
+ * @external ol.render.Event 
+ * @see http://openlayers.org/ 
+ */
+
 /**
  * @public 
  * @const

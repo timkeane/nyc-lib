@@ -36,7 +36,8 @@ ext {
 		'nyc/ol/source/arcgiscache.js', 
 		'nyc/ol/source/decorating.js', 
 		'nyc/ol/source/filteringandsorting.js',
-		'nyc/ol/layer/baselayer.js'
+		'nyc/ol/layer/baselayer.js',
+		'nyc/ol/layer/grayscale.js'
 	]
 	olRedLineJsFiles = [
 		'nyc/ol/draw.js', 
