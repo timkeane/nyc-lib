@@ -12,15 +12,15 @@ nyc.carto = nyc.carto || {};
  * @fires nyc.carto.Popup#hide
  */
 nyc.carto.Popup = function(options){
-	var layer = options.layer;
+	var map = options.map, 
+		layer = options.layer, 
+		interactivity = options.interactivity, 
+		tmpl = options.template;
 	layer.setInteraction(true);
+	layer.setInteractivity(interactivity);
+	this.tip(map, layer, tmpl);
 	layer.on('featureClick', $.proxy(this.captureClick, this)),
-	this.infowin = cdb.vis.Vis.addInfowindow(
-		options.map, 
-		layer, 
-		options.interactivity, 
-		{infowindowTemplate: options.template}
-	);
+	this.infowin = cdb.vis.Vis.addInfowindow(map, layer, interactivity, {infowindowTemplate: tmpl});
 	this.infowin.model.set('sanitizeTemplate', false);
 	this.display = 'none';
 	this.onShow = options.onShow || this.onShow; 
@@ -88,6 +88,21 @@ nyc.carto.Popup.prototype = {
 			this.trigger('hide', this);
 			this.onHide(this);
 		}
+	},
+	/**
+	 * @private
+	 * @method
+	 */
+	tip: function(map, layer, tmpl){
+		var tipTmpl = $(tmpl).find('.cartodb-popup-tip-container').html(),
+			tooltip = map.viz.addOverlay({
+				type: 'tooltip',
+				layer: layer,
+				template: tipTmpl, 
+				position: 'bottom|right',
+				fields: [{}]
+	        });
+        $(map.getContainer()).append(tooltip.render().el);
 	},
 	/**
 	 * @private
