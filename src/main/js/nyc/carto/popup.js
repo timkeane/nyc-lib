@@ -24,7 +24,7 @@ nyc.carto.Popup = function(options){
 	this.infowin = cdb.vis.Vis.addInfowindow(map, layer, interactivity, {infowindowTemplate: tmpl});
 	this.infowin.model.set('sanitizeTemplate', false);
 	this.popupDisplay = 'none';
-	this.tipDisplay = 'none';
+	this.tipDisplay = '';
 	this.onShowPopup = options.onShowPopup || this.onShowPopup; 
 	this.onHidePopup = options.onHidePopup || this.onHidePopup; 
 	this.onTipChange = options.onTipChange || this.onTipChange; 
@@ -106,7 +106,8 @@ nyc.carto.Popup.prototype = {
 			var display;
 			$.each(mutations, function(_, mutation) {
 				if (mutation.attributeName == 'style'){
-					display = mutation.target.style.top;
+					var stype = mutation.target.style;
+					display = style.top + style.left;
 					return false;
 				}
 			});
