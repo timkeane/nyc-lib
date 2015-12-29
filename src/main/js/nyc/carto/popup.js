@@ -25,6 +25,7 @@ nyc.carto.Popup = function(options){
 	this.display = 'none';
 	this.onShow = options.onShow || this.onShow; 
 	this.onHide = options.onHide || this.onHide; 
+	$(this.infowin.el).css('z-index', 100);
 	this.observe();
 };
 

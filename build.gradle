@@ -83,7 +83,8 @@ ext {
 		'nyc/carto/jenkssymbolizer.js',
 		'nyc/carto/chart.js',
 		'nyc/carto/view.js',
-		'nyc/carto/sqlview.js'
+		'nyc/carto/sqlview.js',
+		'nyc/carto/popup.js'
 	]
 	olCssFiles = [
 		'control-common.css', 

@@ -32,7 +32,7 @@ nyc.leaf.ZoomSearch.prototype = {
 	 * @return {JQuery} The the map container HTML element wrapped in a JQuery
 	 */
 	container: function(){
-		return $(this.map.getContainer()).parent();
+		return $(this.map.getContainer());
 	},
 	/**
 	 * @desc Handle the zoom event triggered by user interaction
