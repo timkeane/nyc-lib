@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Carto Example</title>
+
+	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+	<link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css">
+	<!-- nyc css -->
+	<link rel="stylesheet" href="../src/main/css/control-common.css"> 
+	<link rel="stylesheet" href="../src/main/css/dialog.css"> 
+	<link rel="stylesheet" href="../src/main/css/zoomsearch.css"> 
+	<!-- nyc css -->
+
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.12/proj4.js"></script>
+	<script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
+	<!-- nyc js -->
+	<script src="../src/main/js/nyc/nyc.js"></script>
+	<script src="../src/main/js/nyc/leaf/leaf.js"></script>
+	<script src="../src/main/js/nyc/carto/carto.js"></script>
+	<script src="../src/main/js/nyc/carto/popup.js"></script>
+	<!-- nyc js -->
+	
+	<style>
+		 #map {
+		 	position: fixed;
+		 	top: 0;
+		 	left: 0;
+		 	bottom: 0;
+		 	right: 0;
+		 }
+		 #info-pct {
+		 	display: none;
+		 }
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+	<div id="info-pct">
+		<div class="cartodb-popup v2 precinct">
+			<a href="#close" class="cartodb-popup-close-button close">x</a>
+			<div class="cartodb-popup-content-wrapper">
+				<div class="cartodb-popup-content">
+					<div><b>{{name}}</b></div>
+					<div class="crime-count" data-type="{{type}}">
+						<div><span class="fmt-num">{{crime_count}}</span> {{type}}</div>
+					</div>
+					<div class="crime-detail"></div>
+					<div>
+						<span class="fmt-num">{{per1000}}</span>
+						{{type}} per <span class="fmt-num">1000</span> residents
+					</div>
+					<div>Population <span class="fmt-num">{{pop}}</span></div>
+				</div>
+			</div>
+			<div class="cartodb-popup-tip-container"></div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function(){
+			
+			var map = L.map('map');
+			map.addLayer(
+				new L.TileLayer(
+					'http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png',
+					{attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'}
+				)
+			);
+			map.setView(nyc.leaf.CENTER, 11);
+			
+			cartodb.createLayer(map, {
+				user_name: 'nycmap',
+				type: 'cartodb',
+				sublayers: [{
+					sql: 'SELECT * FROM stg_crime_precinct(201403, 201404)',
+					cartocss: '#stg_crime_precinct{polygon-fill:rgba(255,0,0,0.5);}'
+				}]
+			}).addTo(map).done(function(layers){
+				var layer = layers.getSubLayer(0);
+				new nyc.carto.Popup({
+					map: map, 
+					layer: layer,
+	 				interactivity: ['cartodb_id', 'pop', 'name', 'pct', 'type', 'crime_count', 'per1000'],
+					template: $('#info-pct').html(),
+					onShow: function(popup){
+						console.info('Popup opened!', popup.eventData);
+						if ('toLocaleString' in Number){
+							$('.cartodb-popup .fmt-num').each(function(_, n){
+								var num = $(n).html(), options = {};
+								if (num.indexOf('.') > -1){
+									options = {style:"decimal", minimumFractionDigits: 4}
+								}
+								if (!isNaN(num)){
+									num = new Number(num).toLocaleString(navigator.language, options);
+									$(n).html(num);
+								}
+								$(n).removeClass('fmt-num');
+							});					
+						}
+					},
+					onHide: function(popup){
+						console.info('Popup closed!');
+					}
+				});
+			});
+
+			
+						
+		});
+	</script>
+</body>
+</html>
