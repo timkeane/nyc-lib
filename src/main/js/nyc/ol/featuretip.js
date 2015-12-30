@@ -2,7 +2,7 @@ var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 
 /**
- * Class for providing tool tips on mouseover for vector features
+ * @desc A class for providing tool tips on mouseover for vector features
  * @public
  * @class
  * @constructor

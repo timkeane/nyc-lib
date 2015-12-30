@@ -2,7 +2,7 @@ var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 
 /**
- * nyc.ol.Locate an object for geocoding and geolocating
+ * @desc A class for geocoding and geolocating
  * @public
  * @class
  * @implements {nyc.Locate}
@@ -149,3 +149,10 @@ nyc.ol.Locate.prototype = {
 
 nyc.inherits(nyc.ol.Locate, nyc.EventHandling);
 
+/**
+ * @desc The recommended zoom level to use when centering a map on a the result of a call to a locate method  
+ * @public
+ * @const
+ * @type {number}
+ */
+nyc.ol.Locate.ZOOM_LEVEL = 7;

@@ -2,7 +2,7 @@ var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 
 /**
- * @desc An object to display popups on a map
+ * @desc A class to display popups on a map
  * @public
  * @class
  * @constructor
