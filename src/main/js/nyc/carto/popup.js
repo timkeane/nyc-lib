@@ -192,15 +192,15 @@ nyc.inherits(nyc.carto.Popup, nyc.EventHandling);
  */
 nyc.carto.Popup.EventType = {
 	/**
-	 * @desc The popup show event type
+	 * @desc The popup showpopup event type
 	 */
 	SHOW_POPUP: 'showpopup',
 	/**
-	 * @desc The popup hide event type
+	 * @desc The popup hidepopup event type
 	 */
 	HIDE_POPUP: 'hidepopup', 
 	/**
-	 * @desc The tooltip change event type
+	 * @desc The tooltip tipchange event type
 	 */
 	TIP_CHANGE: 'tipchange'
 };
