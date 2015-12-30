@@ -62,7 +62,7 @@ nyc.LocationMgr.prototype = {
 	 * @method
 	 * @param {nyc.Locate.Result} data 
 	 */
-	located: function(data, zoom){
+	located: function(data){
 		this.controls.val(data.type == nyc.Locate.EventType.GEOLOCATION ? '' : data.name);
 		this.locator.zoomLocation(data);
 		this.trigger(data.type, data);
