@@ -2,7 +2,7 @@ var nyc = nyc || {};
 nyc.carto = nyc.carto || {};
 
 /**
- * @desc Convenience function to create CartoDB infowindows 
+ * @desc A class to create and manage CartoDB infowindows and tooltips
  * @public
  * @class
  * @extends {nyc.EventHandling}
