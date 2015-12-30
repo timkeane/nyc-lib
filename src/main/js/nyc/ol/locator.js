@@ -84,6 +84,6 @@ nyc.ol.Locator.prototype = {
  * @typedef {Object}
  * @property {ol.Map} map The map on which location will be managed
  * @property {ol.layer.Vector} layer The layer on which user-specified locations will be displayed
- * @property {number} [zoom={@link nyc.ol.Locate.ZOOM_LEVEL}]  zoom The zoom level used when locating coordinates
+ * @property {number} [zoom={@link nyc.ol.Locate.ZOOM_LEVEL}] The zoom level used when locating coordinates
  */
 nyc.ol.Locator.Options;
