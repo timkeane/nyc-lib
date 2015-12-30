@@ -19,7 +19,6 @@ nyc.carto.Popup = function(options){
 		tmpl = options.template;
 	layer.setInteraction(true);
 	layer.setInteractivity(interactivity);
-	this.tip(map, layer, tmpl);
 	layer.on('featureClick', $.proxy(this.captureClick, this)),
 	layer.on('featureOver', $.proxy(this.captureHover, this)),
 	this.infowin = cdb.vis.Vis.addInfowindow(map, layer, interactivity, {infowindowTemplate: tmpl});
@@ -29,6 +28,7 @@ nyc.carto.Popup = function(options){
 	this.onShowPopup = options.onShowPopup || this.onShowPopup; 
 	this.onHidePopup = options.onHidePopup || this.onHidePopup; 
 	this.onTipChange = options.onTipChange || this.onTipChange; 
+	this.tip(map, layer, tmpl);
 	$(this.infowin.el).css('z-index', 100);
 	this.observePopup(this);
 };
