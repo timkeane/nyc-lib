@@ -2,7 +2,7 @@ var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 
 /**
- * @desc An class for managing map location
+ * @desc A class for managing map location
  * @public
  * @class
  * @implements {nyc.Locator}
