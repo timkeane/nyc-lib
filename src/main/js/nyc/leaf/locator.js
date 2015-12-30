@@ -79,7 +79,7 @@ nyc.leaf.Locator.prototype = {
  * @public
  * @typedef {Object}
  * @property {L.Map} map The map on which location will be managed
- * @property {L.Icon} icon The icon with which coordinates will be marked
+ * @property {L.Icon=} icon The icon with which coordinates will be marked
  * @property {(function(L.GeoJson):Object)=} style The style function for geoJSON geometries that will be displayed
  * @property {number} [zoom={@link nyc.leaf.Locate.ZOOM_LEVEL}]  zoom The zoom level used when locating coordinates
  */
