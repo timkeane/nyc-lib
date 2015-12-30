@@ -38,6 +38,10 @@ nyc.ol = nyc.ol || {};
  * @see http://openlayers.org/ 
  */
 /** 
+ * @external ol.layer.Layer 
+ * @see http://openlayers.org/ 
+ */
+/** 
  * @external ol.layer.Tile 
  * @see http://openlayers.org/ 
  */
