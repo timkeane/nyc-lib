@@ -1,7 +1,7 @@
 var nyc = nyc || {};
 
 /**
- * @desc A class for managing user user-specified location information
+ * @desc A class for managing user-specified location information
  * @public
  * @class
  * @extends {nyc.EventHandling}
