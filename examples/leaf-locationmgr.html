@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Leaflet Example</title>
+
+	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" rel="stylesheet">
+	<!-- nyc css -->
+	<link rel="stylesheet" href="../src/main/css/control-common.css"> 
+	<link rel="stylesheet" href="../src/main/css/dialog.css"> 
+	<link rel="stylesheet" href="../src/main/css/zoomsearch.css"> 
+	<!-- nyc css -->
+
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.12/proj4.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+	<!-- nyc js -->
+	<script src="../src/main/js/nyc/nyc.js"></script>
+	<script src="../src/main/js/nyc/dialog.js"></script>
+	<script src="../src/main/js/nyc/locate.js"></script>
+	<script src="../src/main/js/nyc/locationmgr.js"></script>
+	<script src="../src/main/js/nyc/geocoder.js"></script>
+	<script src="../src/main/js/nyc/zoomsearch.js"></script>
+	<script src="../src/main/js/nyc/leaf/leaf.js"></script>
+	<script src="../src/main/js/nyc/leaf/locate.js"></script>
+	<script src="../src/main/js/nyc/leaf/locator.js"></script>
+	<script src="../src/main/js/nyc/leaf/zoomsearch.js"></script>
+	<!-- nyc js -->
+	
+	<style>
+		 #map {
+		 	position: fixed;
+		 	top: 0;
+		 	left: 0;
+		 	bottom: 0;
+		 	right: 0;
+		 }
+		 .leaflet-control-zoom {
+		 	display: none;
+		 }
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+	<script>
+		$(document).ready(function(){
+			
+			var map = L.map('map');
+			map.addLayer(
+				new L.TileLayer(
+					'http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png',
+					{attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'}
+				)
+			);
+			map.setView(nyc.leaf.CENTER, 11);
+						
+			/* See README.md for getting you GeoClient App Id and App Key */
+			var geocoder = new nyc.Geoclient(
+				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=A159073974562987C&app_id=hurricane-evac',
+				'EPSG:4326'
+			);
+			
+			new nyc.LocationMgr({
+				controls: new nyc.leaf.ZoomSearch(map),
+				locate: new nyc.leaf.Locate(map, geocoder),
+				locator: new nyc.leaf.Locator(map)
+			});
+
+			
+		});
+	</script>
+</body>
+</html>

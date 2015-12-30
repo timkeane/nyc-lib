@@ -21,6 +21,10 @@ nyc.leaf = nyc.leaf || {};
  * @external L.Layer 
  * @see http://leafletjs.com/reference.html
  */
+/** 
+ * @external L.GeoJson 
+ * @see http://leafletjs.com/reference.html
+ */
 
 /**
  * @desc The approximate bounding box of New York City

@@ -9,8 +9,7 @@ nyc.ol = nyc.ol || {};
  * @constructor
  * @property {ol.Map} map The map on which location will be managed
  * @property {ol.layer.Vector} layer The layer on which user-specified locations will be displayed
- * @property {number=[{@link nyc.ol.Locate.ZOOM_LEVEL}]} zoom The layer on which user-specified locations will be displayed
- *
+ *@property {number} [zoom={@link nyc.ol.Locate.ZOOM_LEVEL}]  zoom The zoom level used when locating cooordinates
  */
 nyc.ol.Locator = function(map, layer, zoom){
 	this.map = map;
@@ -51,13 +50,12 @@ nyc.ol.Locator.prototype = {
 	geoJsonFormat: null,
 	/**
 	 * @public
-	 * @overrides
+	 * @override
 	 * @method
-	 * @param {nyc.Locate.Result} data
+	 * @param {nyc.Locate.Result} data The location to which the map will be oriented
 	 */
 	zoomLocation: function(data){
 		var feature = this.feature(data), geom = feature.getGeometry();
-		this.controls.val(data.type == nyc.Locate.EventType.GEOLOCATION ? '' : data.name);
 		this.layerSource.clear();
 		this.layerSource.addFeature(feature);
 		this.map.beforeRender(
@@ -78,7 +76,7 @@ nyc.ol.Locator.prototype = {
 	 * @return {ol.Feature}
 	 */
 	 feature: function(data){		 
-		 var geoJson = data.geoJsonGeometry(), geom;
+		 var geoJson = data.geoJsonGeometry, geom;
 		 if (geoJson && geoJson.type != "Point"){
 			 geom = this.geoJsonFormat.readGeometry(data.geoJsonGeometry);
 		 }else{

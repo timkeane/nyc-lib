@@ -35,6 +35,11 @@ nyc.ZoomSearch.prototype = {
 	 */
 	isAddrSrch: true,
 	/**
+	 * @private
+	 * @member {JQuery}
+	 */
+	input: true,
+	/**
 	 * @desc A method to return the map container  HTML element wrapped in a JQuery
 	 * @public
 	 * @abstract

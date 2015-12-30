@@ -48,7 +48,7 @@ nyc.LocationMgr.prototype = {
 	 */
 	ambiguous: function(data){
 		if (data.possible.length){
-			this.controls.disambiguate(data.possible);
+			this.controls.disambiguate(data);
 		}else{
 			this.controls.searching(false);
 			this.dialog.ok('The location you entered was not understood');
@@ -59,7 +59,7 @@ nyc.LocationMgr.prototype = {
 	 * @method
 	 * @param {nyc.Locate.Result} data 
 	 */
-	function: located(data, zoom){
+	located: function(data, zoom){
 		this.controls.val(data.type == nyc.Locate.EventType.GEOLOCATION ? '' : data.name);
 		this.locator.zoomLocation(data);
 	}	

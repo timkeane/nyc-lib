@@ -12,7 +12,7 @@ nyc.Locator.prototype = {
 	 * @public
 	 * @abstract
 	 * @method
-	 * @param {nyc.Locate.Result} data
+	 * @param {nyc.Locate.Result} data The location to which the map will be oriented
 	 */
 	zoomLocation: function(){
 		throw 'Must be implemented';
