@@ -3,10 +3,10 @@ nyc.ol = nyc.ol || {};
 nyc.ol.layer = nyc.ol.layer || {};
 
 /**
- * @desc An event handler for ol.Layer#postcompose to re-render the layer in grayscale
+ * @desc An event handler for ol.layer.Layer#postcompose to re-render the layer in grayscale
  * @public
  * @function
- * @param {ol.render.Event} event The event fired by ol.Layer#postcompose
+ * @param {ol.render.Event} event The event fired by ol.layer.Layer#postcompose
  */
 nyc.ol.layer.grayscale = function(event) {
 	var context = event.context;
