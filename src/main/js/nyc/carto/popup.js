@@ -106,7 +106,7 @@ nyc.carto.Popup.prototype = {
 			var display;
 			$.each(mutations, function(_, mutation) {
 				if (mutation.attributeName == 'style'){
-					var stype = mutation.target.style;
+					var style = mutation.target.style;
 					display = style.top + style.left;
 					return false;
 				}

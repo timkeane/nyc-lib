@@ -82,11 +82,11 @@ nyc.leaf.Locate.prototype = {
 	search: function(input){
 		this.geocoder.search(input);
 	},
-	/**
-	 * @private
+	/** 
+	 * @private 
 	 * @method
-	 * @param {Object} evt
-	 * @param {Object} data
+	 * @param {string} evt
+	 * @param {(nyc.Locate.Result|nyc.Locate.Ambiguous)} data
 	 */
 	proxyEvent: function(evt, data){
 		this.trigger(evt, data);

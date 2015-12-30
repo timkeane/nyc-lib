@@ -7,16 +7,13 @@ nyc.ol = nyc.ol || {};
  * @class
  * @implements {nyc.Locator}
  * @constructor
- * @property {ol.Map} map The map on which location will be managed
- * @property {ol.layer.Vector} layer The layer on which user-specified locations will be displayed
- *@property {number} [zoom={@link nyc.ol.Locate.ZOOM_LEVEL}]  zoom The zoom level used when locating cooordinates
+ * @param {nyc.leaf.Locator.Options} options Constructor options
  */
-nyc.ol.Locator = function(map, layer, zoom){
-	this.map = map;
-	this.view = map.getView();
-	this.layer = layer;
-	this.layerSource = layer.getSource();
-	this.zoom = zoom !== undefined ? zoom : nyc.ol.Locate.ZOOM_LEVEL;
+nyc.ol.Locator = function(options){
+	this.map = options.map;
+	this.view = this.map.getView();
+	this.layerSource = options.layer.getSource();
+	this.zoom = options.zoom !== undefined ? options.zoom : nyc.ol.Locate.ZOOM_LEVEL;
 	this.geoJsonFormat = new ol.format.GeoJSON({
 		projection: this.view.getProjection()
 	});
@@ -33,11 +30,6 @@ nyc.ol.Locator.prototype = {
 	 * @member {ol.View}
 	 */
 	view: null,
-	/**
-	 * @private
-	 * @member {ol.layer.Vector}
-	 */
-	layer: null,
 	/**
 	 * @private
 	 * @member {ol.source.Vector}
@@ -85,3 +77,13 @@ nyc.ol.Locator.prototype = {
 		 return new ol.Feature({geometry: geom, name: data.name});
 	 }
 };
+
+/**
+ * @desc Object type to hold constructor options for {@link nyc.leaf.Locator}
+ * @public
+ * @typedef {Object}
+ * @property {ol.Map} map The map on which location will be managed
+ * @property {ol.layer.Vector} layer The layer on which user-specified locations will be displayed
+ * @property {number} [zoom={@link nyc.ol.Locate.ZOOM_LEVEL}]  zoom The zoom level used when locating coordinates
+ */
+nyc.ol.Locator.Options;

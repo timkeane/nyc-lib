@@ -7,14 +7,13 @@ nyc.leaf = nyc.leaf || {};
  * @class
  * @implements {nyc.Locator}
  * @constructor
- * @property {L.Map} map The map on which location will be managed
- * @property {(function(L.GeoJson):Object)=} style The style function for the user-specified locations that will be displayed
- *@property {number} [zoom={@link nyc.leaf.Locate.ZOOM_LEVEL}]  zoom The zoom level used when locating cooordinates
+ * @param {nyc.leaf.Locator.Options} options Constructor options
  */
-nyc.leaf.Locator = function(map, style, zoom){
-	this.map = map;
-	this.style = style || this.style;
-	this.zoom = zoom !== undefined ? zoom : nyc.leaf.Locate.ZOOM_LEVEL;
+nyc.leaf.Locator = function(options){
+	this.map = options.map;
+	this.icon = options.icon;
+	this.style = options.style;
+	this.zoom = options.zoom !== undefined ? options.zoom : nyc.leaf.Locate.ZOOM_LEVEL;
 };
 
 nyc.leaf.Locator.prototype = {
@@ -25,7 +24,7 @@ nyc.leaf.Locator.prototype = {
 	map: null,
 	/**
 	 * @private
-	 * @member {L.Marker|L.GeoJson}
+	 * @member {L.GeoJson|L.Marker}
 	 */
 	layer: null,
 	/**
@@ -70,7 +69,18 @@ nyc.leaf.Locator.prototype = {
 	locatedCoords: function(data){
 		var coords = data.coordinates;
 		coords = [coords[1], coords[0]];
-		this.layer = L.marker(coords, {style: this.style}).addTo(this.map);
+		this.layer = L.marker(coords, {icon: this.icon, title: data.name}).addTo(this.map);
 		this.map.setView(coords, nyc.leaf.Locate.ZOOM_LEVEL, {pan: {animate: true}, zoom: {animate: true}});
 	}
 };
+
+/**
+ * @desc Object type to hold constructor options for {@link nyc.leaf.Locator}
+ * @public
+ * @typedef {Object}
+ * @property {L.Map} map The map on which location will be managed
+ * @property {L.Icon} icon The icon with which coordinates will be marked
+ * @property {(function(L.GeoJson):Object)=} style The style function for geoJSON geometries that will be displayed
+ * @property {number} [zoom={@link nyc.leaf.Locate.ZOOM_LEVEL}]  zoom The zoom level used when locating coordinates
+ */
+nyc.leaf.Locator.Options;

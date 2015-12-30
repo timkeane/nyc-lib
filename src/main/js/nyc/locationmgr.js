@@ -4,8 +4,11 @@ var nyc = nyc || {};
  * @desc An class for managing user user-specified location information
  * @public
  * @class
+ * @extends {nyc.EventHandling}
  * @constructor
  * @param {nyc.LocationMgr.Options} options Constructor options
+ * @fires nyc.Locate#geocode
+ * @fires nyc.Locate#geolocation
  */
 nyc.LocationMgr = function(options){
 	this.controls = options.controls;
@@ -62,8 +65,11 @@ nyc.LocationMgr.prototype = {
 	located: function(data, zoom){
 		this.controls.val(data.type == nyc.Locate.EventType.GEOLOCATION ? '' : data.name);
 		this.locator.zoomLocation(data);
+		this.trigger(data.type, data);
 	}	
 };
+
+nyc.inherits(nyc.LocationMgr, nyc.EventHandling);
 
 /**
  * @desc Object type to hold constructor options for {@link nyc.LocationMgr}

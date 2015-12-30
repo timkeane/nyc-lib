@@ -65,7 +65,7 @@
 			new nyc.LocationMgr({
 				controls: new nyc.leaf.ZoomSearch(map),
 				locate: new nyc.leaf.Locate(map, geocoder),
-				locator: new nyc.leaf.Locator(map)
+				locator: new nyc.leaf.Locator({map: map})
 			});
 
 			
