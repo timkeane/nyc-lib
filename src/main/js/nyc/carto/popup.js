@@ -8,8 +8,9 @@ nyc.carto = nyc.carto || {};
  * @extends {nyc.EventHandling}
  * @constructor
  * @param {nyc.carto.Popup.Options} options Constructor options
- * @fires nyc.carto.Popup#show
- * @fires nyc.carto.Popup#hide
+ * @fires nyc.carto.Popup#showpopup
+ * @fires nyc.carto.Popup#hidepopup
+ * @fires nyc.carto.Popup#tipchange
  */
 nyc.carto.Popup = function(options){
 	var map = options.map, 
@@ -87,15 +88,17 @@ nyc.carto.Popup.prototype = {
 	 */
 	tip: function(map, layer, tmpl){
 		var tipTmpl = $(tmpl).find('.tip-tmpl').html();
-		this.tip = map.viz.addOverlay({
-			type: 'tooltip',
-			layer: layer,
-			template: tipTmpl, 
-			position: 'bottom|right',
-			fields: [{}]
-        });
-        $(map.getContainer()).append(this.tip.render().el);
-        this.observeTip(this);
+		if (tipTmpl){
+			this.tip = map.viz.addOverlay({
+				type: 'tooltip',
+				layer: layer,
+				template: tipTmpl, 
+				position: 'bottom|right',
+				fields: [{}]
+	        });
+	        $(map.getContainer()).append(this.tip.render().el);
+	        this.observeTip(this);
+		}
 	},
 	/**
 	 * @private
@@ -203,14 +206,20 @@ nyc.carto.Popup.EventType = {
 };
 
 /**
- * @desc The result of a popup or tooltip show event 
- * @event nyc.carto.Popup#show
+ * @desc The result of a popup showpopup event 
+ * @event nyc.carto.Popup#showpopup
  * @type {nyc.carto.Popup}
  */
 
 /**
- * @desc The result of a popup or tooltip hide event 
- * @event nyc.carto.Popup#hide
+ * @desc The result of a popup hidepopup event 
+ * @event nyc.carto.Popup#hidepopup
+ * @type {nyc.carto.Popup}
+ */
+
+/**
+ * @desc The result of a popup tipchange event 
+ * @event nyc.carto.Popup#tipchange
  * @type {nyc.carto.Popup}
  */
 
