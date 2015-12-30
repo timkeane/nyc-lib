@@ -163,7 +163,7 @@ nyc.formatNumberHtml = function(jq, options){
 				if (!options && num.indexOf('.') > -1){
 					opts = {style:"decimal", minimumFractionDigits: 4}
 				}
-				if (!isNaN(num)){
+				if (!isNaN(num) && navigator.language){
 					num = new Number(num).toLocaleString(navigator.language, opts);
 					$(n).html(num);
 				}
