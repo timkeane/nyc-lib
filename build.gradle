@@ -185,6 +185,22 @@ task minifyJsOl(type: MiniJsTask) {
 	sourceDir = jsSrcDir
 	destinationDir = "${pkgDir}/js"
 }
+minifyJsOl.doLast {
+	if (project.hasProperty('env')){
+		if (env == 'stg'){
+			/* change URLs for basemap tiles */
+		    ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
+			ant.replace(file: "${pkgDir}/js/nyc-ol-lib.js", token: '//maps.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
+			ant.replace(file: "${pkgDir}/js/nyc-ol-lib.js", token: '//maps1.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
+			ant.replace(file: "${pkgDir}/js/nyc-ol-lib.js", token: '//maps2.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
+			ant.replace(file: "${pkgDir}/js/nyc-ol-lib.js", token: '//maps3.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
+			ant.replace(file: "${pkgDir}/src/js/nyc/ol/layer/baselayer.js", token: '//maps.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
+			ant.replace(file: "${pkgDir}/src/js/nyc/ol/layer/baselayer.js", token: '//maps1.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
+			ant.replace(file: "${pkgDir}/src/js/nyc/ol/layer/baselayer.js", token: '//maps2.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
+			ant.replace(file: "${pkgDir}/src/js/nyc/ol/layer/baselayer.js", token: '//maps3.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
+		}
+	}
+}
 
 task minifyJsOlRedLine(type: MiniJsTask) {
 	version = ver
