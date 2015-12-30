@@ -7,7 +7,7 @@ nyc.ol = nyc.ol || {};
  * @class
  * @implements {nyc.Locator}
  * @constructor
- * @param {nyc.leaf.Locator.Options} options Constructor options
+ * @param {nyc.ol.Locator.Options} options Constructor options
  */
 nyc.ol.Locator = function(options){
 	this.map = options.map;
