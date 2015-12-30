@@ -83,7 +83,7 @@ nyc.inherits(nyc.carto.SqlView, nyc.carto.SqlTemplate);
  * @public
  * @typedef {Object}
  * @property {string} name A name for the view
- * @property {cartodb.Layer} layer The layer managed by the view
+ * @property {cartodb.CartoDBLayer.SubLayer} layer The layer managed by the view
  * @property {string} sqlTemplate The template with optional replacement tokens for generating queries on the layer
  * @property {Object<string, string>}  filters The filters used with the sqlTemplate for generating queries on the layer
  * @property {string=} descriptionTemplate The template with optional replacement tokens for the chart description

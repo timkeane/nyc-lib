@@ -228,7 +228,7 @@ nyc.carto.Popup.EventType = {
  * @public
  * @typedef {Object}
  * @property {L.Map} map The Leaflet map on which the popup will be displayed 
- * @property {cartodb.Layer} layer The layer whose feature info will be displayed in the popup
+ * @property {cartodb.CartoDBLayer.SubLayer} layer The layer whose feature info will be displayed in the popup
  * @property {Array<string>} interactivity The data fields required by the template 
  * @property {string} template Template with replacement tokens for popup content (may optionally include an element of class 'tip-tmpl' for rendering tooltips)
  * @property {function(nyc.carto.Popup)=} onShowPopup A function to handle the popup show event 

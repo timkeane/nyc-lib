@@ -46,7 +46,7 @@ nyc.carto.JenksSymbolizer.prototype = {
 	/** 
 	 * @public
 	 * @method 
-	 * @param {cartodb.Layer} layer The layer to symbolize
+	 * @param {cartodb.CartoDBLayer.SubLayer} layer The layer to symbolize
 	 */
 	symbolize: function(layer){
 		var me = this, jenksSql = me.replace(me.jenksSql, {sql: layer.getSQL()});
@@ -59,7 +59,7 @@ nyc.carto.JenksSymbolizer.prototype = {
 	/**
 	 * @private 
 	 * @method 
-	 * @param {cartodb.Layer} layer
+	 * @param {cartodb.CartoDBLayer.SubLayer} layer
 	 * @param {Array<number>} bins
 	 */
 	applyCss: function(layer, bins){

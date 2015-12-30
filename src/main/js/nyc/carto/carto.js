@@ -6,7 +6,7 @@ var nyc = nyc || {};
 nyc.carto = nyc.carto || {};
 
 /** 
- * @external cartodb.Layer 
+ * @external cartodb.CartoDBLayer.SubLayer 
  * @see http://cartodb.com/
  */
 /** 

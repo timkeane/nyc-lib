@@ -8,7 +8,7 @@ nyc.carto.View = function(){};
  * @public
  * @class
  * @constructor
- * @param {cartodb.Layer} layer The layer whose view will be managed
+ * @param {cartodb.CartoDBLayer.SubLayer} layer The layer whose view will be managed
  */
 nyc.carto.View = function(layer){
 	this.layer = layer;
@@ -17,7 +17,7 @@ nyc.carto.View = function(layer){
 nyc.carto.View.prototype = {
 	/**
 	 * @private
-	 * @member {cartodb.Layer}
+	 * @member {cartodb.CartoDBLayer.SubLayer}
 	 */
 	layer: null,
 	/**
