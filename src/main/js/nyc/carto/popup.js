@@ -31,6 +31,7 @@ nyc.carto.Popup = function(options){
 	this.tip(map, layer, tmpl);
 	$(this.infowin.el).css('z-index', 100);
 	this.observePopup(this);
+	$('*').mousemove($.proxy(this.hideTip, this));
 };
 
 nyc.carto.Popup.prototype = {
@@ -162,6 +163,17 @@ nyc.carto.Popup.prototype = {
 		}else{
 			this.onHidePopup(this);
 			this.trigger('hidepopup', this);
+		}
+	},
+	/**
+	 * @private 
+	 * @method
+	 * @param {Object} event
+	 */
+	hideTip: function(event){
+		var map = this.map.getContainer(), pop = this.infowin.el,
+		if ((map && !$.contains(map, event.target)) || (pop && $.contains(pop, event.target))){
+			$('.cartodb-tooltip').hide();
 		}
 	},
 	/**
