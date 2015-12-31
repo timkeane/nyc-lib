@@ -67,9 +67,10 @@ nyc.leaf.Locator.prototype = {
 	 * @param {nyc.Locate.Result} data
 	 */
 	locatedCoords: function(data){
-		var coords = data.coordinates;
+		var coords = data.coordinates, options = {title: data.name};
 		coords = [coords[1], coords[0]];
-		this.layer = L.marker(coords, {icon: this.icon, title: data.name}).addTo(this.map);
+		if (this.icon) options.icon = this.icon; 
+		this.layer = L.marker(coords, options).addTo(this.map);
 		this.map.setView(coords, nyc.leaf.Locate.ZOOM_LEVEL, {pan: {animate: true}, zoom: {animate: true}});
 	}
 };

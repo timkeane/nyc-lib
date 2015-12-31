@@ -2,14 +2,12 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Carto Example</title>
+	<title>CartoDB Example</title>
 
 	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
 	<link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css">
 	<!-- nyc css -->
-	<link rel="stylesheet" href="../src/main/css/control-common.css"> 
-	<link rel="stylesheet" href="../src/main/css/dialog.css"> 
-	<link rel="stylesheet" href="../src/main/css/zoomsearch.css"> 
+	<link rel="stylesheet" href="../src/main/css/carto-popup.css"> 
 	<!-- nyc css -->
 
 	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -55,6 +53,11 @@
 					<div>Population <span class="fmt-num">{{pop}}</span></div>
 				</div>
 			</div>
+			<div class="tip-tmpl">
+				<div class="tip-pct">
+					<div><b>{{name}}</b></div>
+				</div>
+			</div>
 			<div class="cartodb-popup-tip-container"></div>
 		</div>
 	</div>
@@ -75,7 +78,7 @@
 				type: 'cartodb',
 				sublayers: [{
 					sql: 'SELECT * FROM stg_crime_precinct(201403, 201404)',
-					cartocss: '#stg_crime_precinct{polygon-fill:rgba(255,0,0,0.5);}'
+					cartocss: '#stg_crime_precinct{line-color:rgba(255,255,255,0.5);line-width:2;polygon-fill:rgba(0,0,255,0.5);}'
 				}]
 			}).addTo(map).done(function(layers){
 				var layer = layers.getSubLayer(0);
