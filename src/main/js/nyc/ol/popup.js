@@ -27,6 +27,10 @@ nyc.ol.Popup = function(map, options){
 	options.stopEvent = true;
 	ol.Overlay.call(this, options);
 	map.addOverlay(me);
+	me.container.on('mouseover mousemove', function(event){
+		event.stopPropagation();
+		$('.feature-tip').hide();
+	});
 	if (me.options.coordinates) me.show(me.options);
 };
 ol.inherits(nyc.ol.Popup, ol.Overlay);
@@ -41,6 +45,7 @@ nyc.ol.Popup.prototype.show = function(options){
 	this.setOptions(options);
 	this.setPosition(this.coordinates);
 	if (!this.visible()) this.container.fadeIn();
+	$('.feature-tip').hide();
 	this.pan();
 };
 
