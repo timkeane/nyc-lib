@@ -80,8 +80,8 @@
 	background-color: #000;
 }
 #fld-srch-container ul {
-	right: 3px;
-	left: 45px;
+	right: 5px;
+	left: 5px;
 	max-width: 400px;
 	max-height: 400px;
 	box-shadow: 0 1px 3px rgba(0,0,0,0.5);

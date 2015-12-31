@@ -16,7 +16,7 @@ nyc.leaf = nyc.leaf || {};
 nyc.leaf.ZoomSearch = function(map, useSearchTypeMenu){
 	this.map = map;
 	nyc.ZoomSearch.apply(this, [useSearchTypeMenu]);
-	this.input.dblclick(function(){return false;});
+	$('#fld-srch-container, #btn-srch-typ, #mnu-srch-typ').on('click dblclick mouseover', this.stopEvent);
 };
 
 nyc.leaf.ZoomSearch.prototype = {
@@ -44,6 +44,14 @@ nyc.leaf.ZoomSearch.prototype = {
 	 */
 	zoom: function(event){
 		this.map.setZoom(this.map.getZoom() + ($(event.target).data('zoom-incr') * 1));
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {Object} event
+	 */
+	stopEvent: function(event){
+		 L.DomEvent.disableClickPropagation(event.target);
 	}
 };
 
