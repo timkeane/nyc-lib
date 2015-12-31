@@ -16,7 +16,7 @@ nyc.leaf = nyc.leaf || {};
 nyc.leaf.ZoomSearch = function(map, useSearchTypeMenu){
 	this.map = map;
 	nyc.ZoomSearch.apply(this, [useSearchTypeMenu]);
-	$('#fld-srch-container, #btn-srch-typ, #mnu-srch-typ').on('click dblclick mouseover', this.stopEvent);
+	$('#ctl-z-srch').on('click dblclick mouseover mousemove', this.stopEvent);
 };
 
 nyc.leaf.ZoomSearch.prototype = {
@@ -51,7 +51,8 @@ nyc.leaf.ZoomSearch.prototype = {
 	 * @param {Object} event
 	 */
 	stopEvent: function(event){
-		 L.DomEvent.disableClickPropagation(event.target);
+		L.DomEvent.disableClickPropagation(event.target);
+		$('.cartodb-tooltip').hide();
 	}
 };
 
