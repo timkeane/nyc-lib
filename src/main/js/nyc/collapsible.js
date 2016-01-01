@@ -23,8 +23,9 @@ nyc.Collapsible = function(options){
 
 nyc.Collapsible.prototype = {
 	/**
+	 * @desc A JQuery element used to display a readable representation of the current value
 	 * @public
-	 * @member {string}
+	 * @member {JQuery}
 	 */
 	currentVal: null
 };

@@ -46,6 +46,40 @@ nyc.MonthRangePicker = function(options){
 
 nyc.MonthRangePicker.prototype = {
 	/** 
+	 * @desc The minimum zero-indexed month
+	 * @public 
+	 * @member {number}
+	 */
+	minMonth: null,
+	/** 
+	 * @desc The minimum year
+	 * @public 
+	 * @member {number}
+	 */
+	minYear: null,
+	/** 
+	 * @desc The maximum zero-indexed month
+	 * @public 
+	 * @member {number}
+	 */
+	maxMonth: null,
+	/** 
+	 * @desc The maximum year
+	 * @public 
+	 * @member {number}
+	 */
+	maxYear: null,
+	/** 
+	 * @private 
+	 * @member {JQuery}
+	 */
+	min: null,
+	/** 
+	 * @private 
+	 * @member {JQuery}
+	 */
+	max: null,
+	/** 
 	 * @private 
 	 * @member {Date}
 	 */
