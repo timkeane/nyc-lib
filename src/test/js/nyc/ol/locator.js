@@ -8,5 +8,32 @@ QUnit.module('nyc.ol.Locator', {
 });
 
 QUnit.test('zoomLocation', function(assert){
-	assert.expect(0);
+	assert.expect(9);
+	
+	var source = new ol.source.Vector();
+	var layer = new ol.layer.Vector({source: source});
+	this.TEST_OL_MAP.addLayer(layer);
+	
+	var locator = new nyc.ol.Locator({map: this.TEST_OL_MAP, layer: layer});
+	
+	locator.zoomLocation({coordinates: [1, 2]});
+
+	assert.equal(locator.layerSource.getFeatures().length, 1);
+	assert.deepEqual(locator.layerSource.getFeatures()[0].getGeometry().getCoordinates(), [1, 2]);
+	assert.deepEqual(locator.view.getCenter(), [1, 2]);
+	assert.equal(locator.view.getZoom(), locator.zoom);
+	assert.equal(locator.view.getZoom(), nyc.ol.Locate.ZOOM_LEVEL);
+
+	locator.view.fit = function(extent, size){
+		assert.deepEqual(locator.layerSource.getFeatures()[0].getGeometry().getExtent(), [0, 0, 1, 1]);	
+		assert.deepEqual(extent, [0, 0, 1, 1]);	
+		assert.deepEqual(size, locator.map.getSize());	
+	};
+	locator.zoomLocation({
+		geoJsonGeometry: {
+			type: 'Polygon', coordinates: [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]]	
+		}
+	});
+
+	assert.equal(locator.layerSource.getFeatures().length, 1);	
 });

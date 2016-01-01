@@ -230,4 +230,5 @@ function teardown(assert, hooks){
 	delete hooks.GOOGLE_URL;
 	delete hooks.GEOCLIENT_URL;
 	
+	$('.dia').remove();
 };

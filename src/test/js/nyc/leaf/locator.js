@@ -35,8 +35,8 @@ QUnit.test('zoomLocation', function(assert){
 	assert.equal(locator.map.getZoom(), nyc.leaf.Locate.ZOOM_LEVEL);
 	
 	locator.map.fitBounds = function(bounds){
-		assert.deepEqual(locator.layer.getBounds(), L.latLngBounds(L.latLng(0, 0), L.latLng(1,1)));	
-		assert.deepEqual(bounds, L.latLngBounds(L.latLng(0, 0), L.latLng(1,1)));	
+		assert.deepEqual(locator.layer.getBounds(), L.latLngBounds(L.latLng(0, 0), L.latLng(1, 1)));	
+		assert.deepEqual(bounds, L.latLngBounds(L.latLng(0, 0), L.latLng(1, 1)));	
 	};
 	locator.zoomLocation({
 		geoJsonGeometry: {
