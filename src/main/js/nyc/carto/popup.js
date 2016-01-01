@@ -13,22 +13,22 @@ nyc.carto = nyc.carto || {};
  * @fires nyc.carto.Popup#tipchange
  */
 nyc.carto.Popup = function(options){
-	var map = options.map, 
-		layer = options.layer, 
+	var layer = options.layer, 
 		interactivity = options.interactivity, 
 		tmpl = options.template;
+	this.map = options.map;
 	layer.setInteraction(true);
 	layer.setInteractivity(interactivity);
 	layer.on('featureClick', $.proxy(this.captureClick, this)),
 	layer.on('featureOver', $.proxy(this.captureHover, this)),
-	this.infowin = cdb.vis.Vis.addInfowindow(map, layer, interactivity, {infowindowTemplate: tmpl});
+	this.infowin = cdb.vis.Vis.addInfowindow(this.map, layer, interactivity, {infowindowTemplate: tmpl});
 	this.infowin.model.set('sanitizeTemplate', false);
 	this.popupDisplay = 'none';
 	this.tipDisplay = '';
 	this.onShowPopup = options.onShowPopup || this.onShowPopup; 
 	this.onHidePopup = options.onHidePopup || this.onHidePopup; 
 	this.onTipChange = options.onTipChange || this.onTipChange; 
-	this.tip(map, layer, tmpl);
+	this.tip(this.map, layer, tmpl);
 	$(this.infowin.el).css('z-index', 100);
 	this.observePopup(this);
 	$('*').mousemove($.proxy(this.hideTip, this));
@@ -59,6 +59,11 @@ nyc.carto.Popup.prototype = {
 	 * @member {Array<Object>} 
 	 */
 	tipEventData: null,
+	/**
+	 * @private
+	 * @member {L.Map} 
+	 */
+	map: null,
 	/**
 	 * @private
 	 * @member {string}
@@ -171,7 +176,7 @@ nyc.carto.Popup.prototype = {
 	 * @param {Object} event
 	 */
 	hideTip: function(event){
-		var map = this.map.getContainer(), pop = this.infowin.el,
+		var map = this.map.getContainer(), pop = this.infowin.el;
 		if ((map && !$.contains(map, event.target)) || (pop && $.contains(pop, event.target))){
 			$('.cartodb-tooltip').hide();
 		}
