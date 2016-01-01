@@ -1,8 +1,17 @@
 QUnit.config.requireExpects = true;
 
 function setup(assert, hooks){
-	
+		
 	/* cartodb/leaflet */
+	
+	hooks.TEST_LEAF_MAP = (function(){
+		var div = $('<div id="leaf-map"></div>');
+		$('body').append(div);
+		return L.map('leaf-map', {
+			center: [40.7033127, -73.979681],
+			zoom: 10
+		});
+	}());
 	
 	hooks.MOCK_CARTODB_LAYER = {
 		css: null,
@@ -66,7 +75,7 @@ function setup(assert, hooks){
 	/* ol */
 	
 	hooks.TEST_OL_MAP = (function(){
-		var div = $('<div class="test-map"></div>')[0];
+		var div = $('<div class="ol-map"></div>')[0];
 		$('body').append(div);
 		var map = new ol.Map({
 			target: div,
@@ -200,6 +209,9 @@ function teardown(assert, hooks){
 
 	/* cartodb/leaflet */
 	
+	var leafDiv = hooks.TEST_LEAF_MAP.getContainer();
+	delete hooks.TEST_LEAF_MAP;
+	$(leafDiv).remove();
 	delete hooks.GEOCLIENT_URL;
 	delete hooks.MOCK_CARTODB_LAYER;	
 	delete hooks.MOCK_CARTO_SQL;	
@@ -207,9 +219,9 @@ function teardown(assert, hooks){
 	/* ol */
 	
 	delete hooks.FEATURE_DECORATIONS
-	var div = hooks.TEST_OL_MAP.getTarget();
+	var olDiv = hooks.TEST_OL_MAP.getTarget();
 	delete hooks.TEST_OL_MAP;
-	$(div).remove();
+	$(olDiv).remove();
 	
 	/* other */
 	
