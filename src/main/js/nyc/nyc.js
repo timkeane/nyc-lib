@@ -151,20 +151,20 @@ nyc.EventHandling.prototype = {
  * @desc Format numeric HTML content to locale specific number format
  * @public 
  * @function
- * @param {Jquery} jq The elements to format
- * @param {Object=} options {@see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString}
+ * @param {nyc.formatNumberHtml.Options} options The options for formatting numbers
  */
-nyc.formatNumberHtml = function(jq, options){
+nyc.formatNumberHtml = function(options){
 	if ('toLocaleString' in Number){
-		jq.each(function(_, n){
+		$(options.elements).each(function(_, n){
 			var num = $(n).html();
 			if (num.trim()){
-				var opts = options || {};
-				if (!options && num.indexOf('.') > -1){
+				var opts = options.options || {};
+				if (!options.options && num.indexOf('.') > -1){
 					opts = {style:"decimal", minimumFractionDigits: 4}
 				}
 				if (!isNaN(num) && navigator.language){
-					num = new Number(num).toLocaleString(navigator.language, opts);
+					var lang = options.lang || navigator.language;
+					num = new Number(num).toLocaleString(lang, opts);
 					$(n).html(num);
 				}
 			}
@@ -172,3 +172,13 @@ nyc.formatNumberHtml = function(jq, options){
 		});					
 	}		
 };
+
+/**
+ * @desc Object type to hold options argument for {@linknyc.formatNumberHtml}
+ * @public
+ * @typedef {Object}
+ * @property {JQuery|string} elements The HTML elements to format
+ * @property {string=} lang The language code for formatting
+ * @property {Object=} The options for Number#toLocaleString {@see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString}
+ */
+nyc.formatNumberHtml.Options;
