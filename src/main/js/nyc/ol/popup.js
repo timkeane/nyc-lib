@@ -106,28 +106,28 @@ nyc.ol.Popup.prototype.hide = function() {
 /**
  * @private
  * @method
- * @param {ol.Coordinate} coord
  */
-nyc.ol.Popup.prototype.pan = function(coord){
-	var n = this.getElement(),
-		map = this.getMap(),
-		view = map.getView(),
-		tailHeight = parseInt($(n).css('bottom')),
-		tailOffsetLeft = -parseInt($(n).css('left')),
-		popOffset = this.getOffset(),
-		popPx = map.getPixelFromCoordinate(this.options.coordinates),
-		mapSize = map.getSize(),
-		popSize = {
-			width: $(n).width(),
-			height: $(n).height() + tailHeight
-		},
-		tailOffsetRight = popSize.width - tailOffsetLeft,
-		fromLeft = (popPx[0] - tailOffsetLeft) - this.margin[3],
-		fromRight = mapSize[0] - (popPx[0] + tailOffsetRight) - this.margin[1],
-		fromTop = popPx[1] - popSize.height + popOffset[1] - this.margin[0],
-		fromBottom = mapSize[1] - (popPx[1] + tailHeight) - popOffset[1] - this.margin[2],
-		center = view.getCenter(),
-		px = map.getPixelFromCoordinate(center);
+nyc.ol.Popup.prototype.pan = function(){
+	var n = this.getElement();
+	var map = this.getMap();
+	var view = map.getView();
+	var tailHeight = parseInt($(n).css('bottom'));
+	var tailOffsetLeft = -parseInt($(n).css('left'));
+	var popOffset = this.getOffset();
+	var popPx = map.getPixelFromCoordinate(this.options.coordinates);
+	var mapSize = map.getSize();
+	var popSize = {
+		width: $(n).width(),
+		height: $(n).height() + tailHeight
+	};
+	var tailOffsetRight = popSize.width - tailOffsetLeft;
+	var fromLeft = (popPx[0] - tailOffsetLeft) - this.margin[3];
+	var fromRight = mapSize[0] - (popPx[0] + tailOffsetRight) - this.margin[1];
+	var fromTop = popPx[1] - popSize.height + popOffset[1] - this.margin[0];
+	var fromBottom = mapSize[1] - (popPx[1] + tailHeight) - popOffset[1] - this.margin[2];
+	var center = view.getCenter();
+	var px = map.getPixelFromCoordinate(center);
+	
 	if (fromRight < 0) {
 		px[0] -= fromRight;
 	} else if (fromLeft < 0) {

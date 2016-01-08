@@ -26,42 +26,50 @@ QUnit.module('nyc.LocationMgr', {
 QUnit.test('located (nyc.Locate.EventType.GEOLOCATION)', function(assert){
 	assert.expect(3);
 	
+	
+	var locationMgr = this.TEST_LOCATION_MGR;
+	
 	var data = {
 		type: nyc.Locate.EventType.GEOLOCATION
 	};
 	
-	this.TEST_LOCATION_MGR.locator.zoomLocation = function(d){
+	locationMgr.locator.zoomLocation = function(d, cb){
 		assert.deepEqual(d, data);
+		cb();
 	};
 	
-	this.TEST_LOCATION_MGR.on(nyc.Locate.EventType.GEOLOCATION, function(d){
+	locationMgr.on(nyc.Locate.EventType.GEOLOCATION, function(d){
 		assert.deepEqual(d, data);
+		assert.equal(locationMgr.controls.val(), '');
 	});
 	
-	this.TEST_LOCATION_MGR.locate.trigger(nyc.Locate.EventType.GEOLOCATION, data);
-	assert.equal(this.TEST_LOCATION_MGR.controls.val(), '');
+	locationMgr.locate.trigger(nyc.Locate.EventType.GEOLOCATION, data);
+	
 });
 
 QUnit.test('located (nyc.Locate.EventType.GEOCODE)', function(assert){
-	assert.expect(5);
+	assert.expect(6);
 	
+	var locationMgr = this.TEST_LOCATION_MGR;
+
 	var data = {
 		name: '102-25 67 Drive, Queens, NY 11375',
 		type: nyc.Locate.EventType.GEOCODE
 	};
 	
-	this.TEST_LOCATION_MGR.locator.zoomLocation = function(d){
+	locationMgr.locator.zoomLocation = function(d, cb){
 		assert.deepEqual(d, data);
+		cb();
 	};
 	
-	this.TEST_LOCATION_MGR.on(nyc.Locate.EventType.GEOCODE, function(d){
+	locationMgr.on(nyc.Locate.EventType.GEOCODE, function(d){
 		assert.deepEqual(d, data);
+		assert.equal(locationMgr.controls.val(), '102-25 67 Drive, Queens, NY 11375');
 	});
 	
-	this.TEST_LOCATION_MGR.locate.trigger(nyc.Locate.EventType.GEOCODE, data);
-	assert.equal(this.TEST_LOCATION_MGR.controls.val(), data.name);
+	locationMgr.locate.trigger(nyc.Locate.EventType.GEOCODE, data);
 
-	this.TEST_LOCATION_MGR.controls.trigger(nyc.ZoomSearch.EventType.DISAMBIGUATED, data);
+	locationMgr.controls.trigger(nyc.ZoomSearch.EventType.DISAMBIGUATED, data);
 });
 
 QUnit.test('ambiguous (no possible matches)', function(assert){

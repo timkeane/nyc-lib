@@ -13,8 +13,9 @@ nyc.Locator.prototype = {
 	 * @abstract
 	 * @method
 	 * @param {nyc.Locate.Result} data The location to which the map will be oriented
+	 * @param {function()} callback The function to call after the locator has zoomed to the location
 	 */
-	zoomLocation: function(){
+	zoomLocation: function(data, callback){
 		throw 'Must be implemented';
 	}
 };

@@ -45,11 +45,13 @@ nyc.ol.Locator.prototype = {
 	 * @override
 	 * @method
 	 * @param {nyc.Locate.Result} data The location to which the map will be oriented
+	 * @param {function()} callback The function to call after the locator has zoomed to the location
 	 */
-	zoomLocation: function(data){
+	zoomLocation: function(data, callback){
 		var feature = this.feature(data), geom = feature.getGeometry();
 		this.layerSource.clear();
 		this.layerSource.addFeature(feature);
+		this.map.once('moveend', callback);
 		this.map.beforeRender(
 			ol.animation.zoom({resolution: this.view.getResolution()}), 
 			ol.animation.pan({source: this.view.getCenter()})

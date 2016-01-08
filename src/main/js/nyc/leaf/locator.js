@@ -37,8 +37,9 @@ nyc.leaf.Locator.prototype = {
 	 * @override
 	 * @method
 	 * @param {nyc.Locate.Result} data The location to which the map will be oriented
+	 * @param {function()} callback The function to call after the locator has zoomed to the location
 	 */
-	zoomLocation: function(data){
+	zoomLocation: function(data, callback){
 		var geoJson = data.geoJsonGeometry;
 		if (this.layer){
 			this.map.removeLayer(this.layer);			
@@ -48,6 +49,7 @@ nyc.leaf.Locator.prototype = {
 		}else{
 			this.locatedCoords(data);
 		}
+		callback();
 	},
 	/** 
 	 * @private 
