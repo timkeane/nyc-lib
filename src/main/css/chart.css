@@ -31,8 +31,9 @@ div.chart-tip-title {
 }
 div.chart-tip-0:before, div.chart-tip-1:before {
 	content: 'xx';
-	color: transparent;
 	margin-right: 3px;
+	text-shadow: none;
+	color: rgba(0,0,0,0);
 }
 div.chart-tip-0:before {
 	background-color: #000;
@@ -40,4 +41,3 @@ div.chart-tip-0:before {
 div.chart-tip-1:before {
 	background-color: rgba(0,0,0,0.3);
 }
-
