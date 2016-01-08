@@ -323,3 +323,7 @@ QUnit.test('formatNumberHtml (currency - fr)', function(assert){
 	million.remove();
 	decimal.remove();
 });
+
+QUnit.test('preventDblEventHandler', function(assert){
+	assert.expect(0);
+});

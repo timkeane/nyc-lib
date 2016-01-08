@@ -182,3 +182,23 @@ nyc.formatNumberHtml = function(options){
  * @property {Object=} The options for Number#toLocaleString {@see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString}
  */
 nyc.formatNumberHtml.Options;
+
+/**
+ * @desc A click event handler for HTML elements that will not fire twice on certain mobile devices
+ * @public
+ * @function
+ * @param {function(Object)} handler The event handler function 
+ * @param {Object=} scope The scope in which to invoke the event handler
+ */
+nyc.preventDblEventHandler = function(handler, scope){
+	var target = $(event.target), last = target.data('last-click'), now = new Date().getTime();
+	if ((last * 1) + 600 < now || !last){
+		if (scope){
+			handler.apply(scope, [event]);
+		}else{
+			handler(event);
+		}
+	}
+	target.data('last-click', now);		
+};
+
