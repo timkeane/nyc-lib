@@ -179,7 +179,7 @@ nyc.formatNumberHtml = function(options){
  * @typedef {Object}
  * @property {JQuery|string} elements The HTML elements to format
  * @property {string=} lang The language code for formatting
- * @property {Object=} The options for Number#toLocaleString {@see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString}
+ * @property {Object=} options The options for Number#toLocaleString {@see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString}
  */
 nyc.formatNumberHtml.Options;
 
@@ -187,10 +187,11 @@ nyc.formatNumberHtml.Options;
  * @desc A click event handler for HTML elements that will not fire twice on certain mobile devices
  * @public
  * @function
+ * @param {Object} event The event object
  * @param {function(Object)} handler The event handler function 
  * @param {Object=} scope The scope in which to invoke the event handler
  */
-nyc.preventDblEventHandler = function(handler, scope){
+nyc.preventDblEventHandler = function(event, handler, scope){
 	var target = $(event.target), last = target.data('last-click'), now = new Date().getTime();
 	if ((last * 1) + 600 < now || !last){
 		if (scope){
