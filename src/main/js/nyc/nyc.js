@@ -152,10 +152,12 @@ nyc.EventHandling.prototype = {
  * @public 
  * @function
  * @param {nyc.formatNumberHtml.Options} options The options for formatting numbers
+ * @returns {JQuery} The elements that have been formatted
  */
 nyc.formatNumberHtml = function(options){
+	var elems = $(options.elements);
 	if ('toLocaleString' in Number){
-		$(options.elements).each(function(_, n){
+		elems.each(function(_, n){
 			var num = $(n).html();
 			if (num.trim()){
 				var opts = options.options || {};
@@ -168,9 +170,9 @@ nyc.formatNumberHtml = function(options){
 					$(n).html(num);
 				}
 			}
-			$(n).removeClass('fmt-num');
 		});					
-	}		
+	}
+	return elems;
 };
 
 /**
