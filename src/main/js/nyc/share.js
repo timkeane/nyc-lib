@@ -35,7 +35,7 @@ nyc.Share.prototype = {
 	 * @return {boolean}
 	 */
 	isIosAppMode: function(){
-		return navigator.standalone && navigator.userAgent.match(/(iPad|iPhone|iPod|iOS)/g);
+		return navigator.standalone && nyc.util.isIos();
 	}
 };
 
