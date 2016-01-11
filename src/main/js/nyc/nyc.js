@@ -46,7 +46,7 @@ nyc.ReplaceTokens.prototype = {
 	 * @public
 	 * @method
 	 * @param {string} str String with tokens to be replaced 
-	 * @param {Object.<string, string>} values Values token for replacement
+	 * @param {Object<string, string>} values Values token for replacement
 	 * @return {string} String with replacement value substitution
 	 */
 	replace: function(str, values){
@@ -176,7 +176,7 @@ nyc.formatNumberHtml = function(options){
 };
 
 /**
- * @desc Object type to hold options argument for {@linknyc.formatNumberHtml}
+ * @desc Object type to hold arguments for {@link nyc.formatNumberHtml}
  * @public
  * @typedef {Object}
  * @property {JQuery|string} elements The HTML elements to format
