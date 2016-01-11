@@ -8,7 +8,7 @@ plugins {
 
 ext {
 	appName = 'nyc-lib'
-	ver = 'v0.0.5-SNAPSHOT'
+	ver = 'v0.0.6-SNAPSHOT'
 	pkgDir = "${buildDir}/${appName}/${ver}"
 	remoteDir = "${appName}/${ver}"
 	srcDir = "${projectDir}/src/main"
@@ -16,6 +16,7 @@ ext {
 	cssSrcDir = "${srcDir}/css"
 	olJsFiles = [
 		'nyc/nyc.js', 
+		'nyc/util.js', 
 		'nyc/collapsible.js', 
 		'nyc/collapsible-radio.js', 
 		'nyc/collapsible-month-range.js', 
@@ -47,6 +48,7 @@ ext {
 	]
 	leafJsFiles = [
 		'nyc/nyc.js', 
+		'nyc/util.js', 
 		'nyc/collapsible.js', 
 		'nyc/collapsible-radio.js', 
 		'nyc/collapsible-month-range.js', 
@@ -67,6 +69,7 @@ ext {
 	]
 	cartoJsFiles = [
 		'nyc/nyc.js', 
+		'nyc/util.js', 
 		'nyc/collapsible.js', 
 		'nyc/collapsible-radio.js', 
 		'nyc/collapsible-month-range.js', 
