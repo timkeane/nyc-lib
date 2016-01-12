@@ -23,7 +23,7 @@ nyc.util = {
 	 * @returns {boolean}
 	 */
 	isIos: function(){
-		return navigator.userAgent.match(/(iPad|iPhone|iPod|iOS)/g);
+		return navigator.userAgent.match(/(iPad|iPhone|iPod|iOS)/g) != null;
 	},
 	/**
 	 * @desc Format numeric HTML content to locale specific number format
