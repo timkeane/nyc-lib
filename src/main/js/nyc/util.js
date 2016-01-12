@@ -41,7 +41,7 @@ nyc.util = {
 				if (num.trim()){
 					var opts = options.options || {};
 					if (!options.options && num.indexOf('.') > -1){
-						opts = {style:"decimal", minimumFractionDigits: 4}
+						opts = {style:"decimal", minimumFractionDigits: 4};
 					}
 					if (!isNaN(num) && navigator.language){
 						var lang = options.lang || navigator.language;
