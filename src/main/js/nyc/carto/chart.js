@@ -25,6 +25,11 @@ nyc.carto.Chart = function(options){
 nyc.carto.Chart.prototype = {
 	/**
 	 * @private
+	 * @member {Object}
+	 */
+	currentData: null,
+	/**
+	 * @private
 	 * @member {Array<string>}
 	 */
 	prevSqls: null,
@@ -53,7 +58,7 @@ nyc.carto.Chart.prototype = {
 						datasets.push(data.rows);
 						if (datasets.length == filterValuesArray.length){
 							me.title(titleNode, descriptionValues);
-							me.render(datasets);
+							me.updateData(datasets);
 						}
 					}
 				);
@@ -92,9 +97,8 @@ nyc.carto.Chart.prototype = {
 	 * @private
 	 * @method 
 	 * @param {Array<Object>} datasets
-	 * @return {Object}
 	 */
-	data: function(datasets){
+	updateData: function(datasets){
 		var dataCol = this.dataColumn,
 			labelCol = this.labelColumn,
 			labelLookupFunction = this.labelLookupFunction,
@@ -111,7 +115,8 @@ nyc.carto.Chart.prototype = {
 			});
 			data.datasets.push(dataset);
 		});
-		return data;
+		this.currentData = data;
+		this.render();
 	},
 	/**
 	 * @private
@@ -139,16 +144,18 @@ nyc.carto.Chart.prototype = {
 		}
     },
 	/**
-	 * @private
+	 * @desc Renders the chart or forces a rerendering of the chart
+	 * @public
 	 * @method 
-	 * @param {Array<Object>} datasets 
 	 */
-	render: function(datasets){
-		var chart = this.canvas.data('chart'), ctx = this.canvas.get(0).getContext('2d'), data = this.data(datasets);
-		if (chart) chart.destroy();
-		chart = new Chart(ctx).Bar(data, this.chartOptions);
-		this.canvas.data('chart', chart);
-	}
+	render: function(){
+		if (this.currentData){
+			var chart = this.canvas.data('chart'), ctx = this.canvas.get(0).getContext('2d');
+			if (chart) chart.destroy();
+			chart = new Chart(ctx).Bar(this.currentData, this.chartOptions);
+			this.canvas.data('chart', chart);
+		}
+	}	
 };
 
 nyc.inherits(nyc.carto.Chart, nyc.carto.SqlTemplate);

@@ -97,7 +97,7 @@ QUnit.test('chart (isSame = false)', function(assert){
 		labelLookupFunction: function(lbl){return lbl + ' (label)';}
 	});
 	
-	chart.render = function(datasets){
+	chart.updateData = function(datasets){
 		assert.equal(datasets.length, 2);
 		assert.equal(datasets[0], 'dataset0');
 		assert.equal(datasets[1], 'dataset1');
@@ -188,7 +188,7 @@ QUnit.test('chart (only one series)', function(assert){
 		labelLookupFunction: function(lbl){return lbl + ' (label)';}
 	});
 	
-	chart.render = function(datasets){
+	chart.updateData = function(datasets){
 		assert.equal(datasets.length, 1);
 		assert.equal(datasets[0], 'dataset0');
 	};
@@ -257,8 +257,8 @@ QUnit.test('title', function(assert){
 	div.remove();
 });
 
-QUnit.test('data', function(assert){
-	assert.expect(1);
+QUnit.test('updateData', function(assert){
+	assert.expect(2);
 	
 	var chart = new nyc.carto.Chart({
 		cartoSql: this.MOCK_CARTO_SQL,
@@ -270,14 +270,17 @@ QUnit.test('data', function(assert){
 		filters: this.FILTERS,
 		labelLookupFunction: function(lbl){return lbl + ' (label)';}
 	});
+	chart.render = function(){
+		assert.ok(true);
+	};
 	
 	var dataset0 = [{pct: 1, per1000: 2}, {pct: 2, per1000: 3}, {pct: 3, per1000: 4}];
 	var dataset1 = [{pct: 1, per1000: 3}, {pct: 2, per1000: 2}, {pct: 3, per1000: 1}];
 	
-	var result = chart.data([dataset0, dataset1]);
+	chart.updateData([dataset0, dataset1]);
 	
 	assert.deepEqual(
-		result, 
+			chart.currentData, 
 		{
 			datasets: [
 	            {
@@ -336,7 +339,7 @@ QUnit.test('tip', function(assert){
 });
 
 QUnit.test('render', function(assert){
-	assert.expect(9);
+	assert.expect(7);
 	
 	var canvas = $('<canvas></canvas>');
 
@@ -368,16 +371,12 @@ QUnit.test('render', function(assert){
 		filters: this.FILTERS,
 		labelLookupFunction: function(lbl){return lbl + ' (label)';}
 	});
-
-	chart.data = function(datasets){
-		assert.equal(datasets, 'mockDatasets');
-		return 'mockData';
-	};
+	chart.currentData = 'mockData';
 	
-	chart.render('mockDatasets');
+	chart.render();
 	assert.deepEqual(canvas.data('chart'), mockBarChart);
 	//do it again to test that the last chart created is destroyed
-	chart.render('mockDatasets');	
+	chart.render();	
 	assert.deepEqual(canvas.data('chart'), mockBarChart);
 
 	Chart = ActualChart;
