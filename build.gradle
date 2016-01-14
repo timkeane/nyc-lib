@@ -287,6 +287,14 @@ task minifyCssCarto(type: MiniCssTask) {
 }
 
 task allJs(dependsOn: [minifyJsOl, minifyJsOlRedLine, minifyJsLeaf, minifyJsCarto]) << {}
+allJs.doLast {
+	copy {
+		from srcDir
+		include 'js/nyc/ie/legacy/mutationobserver.js'
+		into "${pkgDir}/src"
+	}
+}
+
 task allCss(dependsOn: [minifyCssOl, minifyCssOlRedLine, minifyCssLeaf, minifyCssCarto]) << {}
 allCss.doLast {
 	copy {
