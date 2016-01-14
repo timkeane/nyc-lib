@@ -70,9 +70,11 @@ nyc.ol.source.Decorating.xhrLoader = function(extent, resolution, projection){
 			success: function(data){
 				me.addFeatures(me._format.readFeatures(data, {featureProjection: projection}));
 				me._xhrFeaturesLoaded = true;
+			    me.featuresloaded = true;  
 			    me.set('featuresloaded', true);  
 			},
 			error: function(){
+			    me.featureloaderror = true;  
 			    me.set('featureloaderror', true);  
 			}
 		});		

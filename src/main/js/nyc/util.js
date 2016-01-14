@@ -26,6 +26,16 @@ nyc.util = {
 		return navigator.userAgent.match(/(iPad|iPhone|iPod|iOS)/g) != null;
 	},
 	/**
+	 * @desc Check if browser is Safari
+	 * @public
+	 * @static
+	 * @function
+	 * @returns {boolean}
+	 */
+	isSafari: function(){
+		return navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1;
+	},
+	/**
 	 * @desc Format numeric HTML content to locale specific number format
 	 * @public
 	 * @static

@@ -158,3 +158,20 @@ QUnit.test('zone.json htmlRenderer', function(assert){
 	source.on(nyc.ol.source.Decorating.LoaderEventType.FEATURESLOADED, test);
 	new ol.layer.Vector({source: source, map: this.TEST_OL_MAP});
 });		
+
+QUnit.test('featuresloaded', function(assert){
+	assert.expect(2);
+	var source = this.TEST_ZONE_SOURCE;
+	var content = this.TEST_CONTENT;
+	var done = assert.async();
+
+	var test = function(){
+		assert.equal(source.getFeatures().length, 7);
+		assert.ok(source.featuresloaded);
+		done();
+	};
+	
+	source.on(nyc.ol.source.Decorating.LoaderEventType.FEATURESLOADED, test);
+	new ol.layer.Vector({source: source, map: this.TEST_OL_MAP});
+
+});
