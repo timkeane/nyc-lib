@@ -27,7 +27,7 @@ MutationObserver.prototype = {
 	observe: function(element, observations){
 		for (var observation in observations){
 			if (observation != 'attributes'){
-				console.warn('Unsupported observation - only style attribute changes can be observed');
+				throw('Unsupported observation - only style attribute changes can be observed');
 			}
 		}
 		if (observations.attributes){
