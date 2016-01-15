@@ -12,6 +12,9 @@ QUnit.module('nyc.leaf.ZoomSearch', {
 			},
 			getContainer: function(){
 				return $('#test-map');
+			},
+			getMaxZoom: function(){
+				return nyc.leaf.ZoomSearch.MAX_ZOOM;
 			}
 		};
 	},
@@ -22,14 +25,25 @@ QUnit.module('nyc.leaf.ZoomSearch', {
 });
 
 QUnit.test('zoom', function(assert){
-	assert.expect(2);
+	assert.expect(4);
 
 	var control = new nyc.leaf.ZoomSearch(this.MOCK_MAP);
+	
 	var zoom = this.MOCK_MAP.getZoom();
 	$('#btn-z-in').trigger('click');
 	assert.equal(this.MOCK_MAP.getZoom(), zoom + 1);
+	
 	$('#btn-z-out').trigger('click');
 	assert.equal(this.MOCK_MAP.getZoom(), zoom);
+	
+	this.MOCK_MAP.zoom = 0;
+	$('#btn-z-out').trigger('click');
+	assert.equal(this.MOCK_MAP.getZoom(), 0);
+	
+	this.MOCK_MAP.zoom = nyc.leaf.ZoomSearch.MAX_ZOOM;
+	$('#btn-z-in').trigger('click');
+	assert.equal(this.MOCK_MAP.getZoom(), nyc.leaf.ZoomSearch.MAX_ZOOM);
+	
 });
 
 QUnit.test('container', function(assert){

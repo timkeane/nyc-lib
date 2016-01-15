@@ -43,7 +43,10 @@ nyc.leaf.ZoomSearch.prototype = {
 	 * @param event The DOM event triggered by the zoom buttons
 	 */
 	zoom: function(event){
-		this.map.setZoom(this.map.getZoom() + ($(event.target).data('zoom-incr') * 1));
+		var z = this.map.getZoom() + ($(event.target).data('zoom-incr') * 1);
+		if (z >= 0 && z <= this.map.getMaxZoom()){
+			this.map.setZoom(z);			
+		}
 	},
 	/**
 	 * @private
@@ -57,3 +60,11 @@ nyc.leaf.ZoomSearch.prototype = {
 };
 
 nyc.inherits(nyc.leaf.ZoomSearch, nyc.ZoomSearch);
+
+/**
+ * @desc The expected maximum available zoom level
+ * @public
+ * @const
+ * @type {number}
+ */
+nyc.leaf.ZoomSearch.MAX_ZOOM = 18;
