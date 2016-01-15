@@ -1,5 +1,3 @@
-var nyc = nyc || {};
-
 /**
  * @desc A class to handle DOM style attribute mutations in IE browsers before version 11
  * @public
