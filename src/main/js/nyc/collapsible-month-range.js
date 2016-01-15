@@ -103,10 +103,17 @@ nyc.MonthRangePicker.prototype = {
 						(year > options.minYear && year < options.maxYear)
 				){				
 					var min = this.firstOfMonth(month, year), max = this.lastOfMonth(month, year);
-					this.minDates.push(min);
-					this.appendOpt(this.min, min);
-					this.maxDates.push(max);
-					this.appendOpt(this.max, max);
+					if (
+						(year >- options.minYear && month >= options.minMonth) &&
+						(year <= options.maxYear && month <= options.maxMonth)
+					){
+						this.minDates.push(min);
+						this.appendOpt(this.min, min);						
+					}
+					if ((year == options.maxYear && month <= options.maxMonth) || year < options.maxYear){
+						this.maxDates.push(max);
+						this.appendOpt(this.max, max);
+					}
 				}
 			}
 		}

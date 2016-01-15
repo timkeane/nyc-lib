@@ -38,6 +38,52 @@ QUnit.test('constructor', function(assert){
 	div.remove();
 });
 
+QUnit.test('constructor 2', function(assert){
+	assert.expect(4);
+		
+	var div = $('<div id="test-div"><div>stuff</div></div>');
+	$('body').append(div);
+
+	var dateRange = new nyc.MonthRangePicker({
+		target: div,
+		title: 'Date Range',
+		minMonth: 0,
+		minYear: 2015,
+		maxMonth: 10,
+		maxYear: 2015
+	});
+	
+	var selects = $('#test-div select');
+	
+	assert.equal(selects.length, 2);
+	
+	assert.ok(selects.get(0) === dateRange.min.get(0));
+	assert.ok(selects.get(1) === dateRange.max.get(0));
+	
+//	assert.equal(dateRange.min.children().length, 28);
+//	assert.equal(dateRange.max.children().length, 28);
+//	
+	console.warn(dateRange.min.children().first().get(0));
+	console.warn(dateRange.max.children().last().get(0));
+
+	console.log(dateRange.minDates);
+	console.log(dateRange.maxDates);
+	
+	console.info(dateRange.val());
+	
+	assert.deepEqual(dateRange.val(), {
+		start: dateRange.localeDate('2015-11-01'),
+		end: dateRange.localeDate('2015-11-30')
+	});
+
+//	assert.equal(
+//		dateRange.localeDate('2013-06-01').toLocaleDateString() + ' - ' + 
+//		dateRange.localeDate('2013-06-30').toLocaleDateString(),
+//		dateRange.currentVal.html()
+//	);
+	div.remove();
+});
+
 QUnit.test('firstOfMonth', function(assert){
 	assert.expect(12);
 	
