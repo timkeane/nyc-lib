@@ -12,10 +12,8 @@ nyc.MonthRangePicker = function(options){
 	var labelMin = $('<label>The beginning of</label>'), 
 		labelMax = $('<label>through the end of</label>');
 	
-	this.minYear = options.minYear;
-	this.minMonth = options.minMonth;
-	this.maxYear = options.maxYear;
-	this.maxMonth = options.maxMonth;
+	this.minDate = this.firstOfMonth(options.minMonth, options.minYear);
+	this.maxDate = this.lastOfMonth(options.maxMonth, options.maxYear);
 
 	this.minDates = [];
 	this.maxDates = [];
@@ -34,8 +32,8 @@ nyc.MonthRangePicker = function(options){
 	
 	this.populate(options);
 	
-	this.min[0].selectedIndex = this.minDates.length - 1;
-	this.max[0].selectedIndex = this.maxDates.length - 1;
+	this.min.get(0).selectedIndex = this.min.children().length - 1;
+	this.max.get(0).selectedIndex = this.max.children().length - 1;
 	this.min.selectmenu().selectmenu('refresh', true);
 	this.max.selectmenu().selectmenu('refresh', true);
 
@@ -46,29 +44,27 @@ nyc.MonthRangePicker = function(options){
 
 nyc.MonthRangePicker.prototype = {
 	/** 
-	 * @desc The minimum zero-indexed month
+	 * @desc The minimum date
 	 * @public 
-	 * @member {number}
+	 * @member {Date}
 	 */
-	minMonth: null,
+	minDate: null,
 	/** 
-	 * @desc The minimum year
+	 * @desc The maximum date
 	 * @public 
-	 * @member {number}
+	 * @member {Date}
 	 */
-	minYear: null,
+	maxDate: null,
 	/** 
-	 * @desc The maximum zero-indexed month
-	 * @public 
-	 * @member {number}
+	 * @private 
+	 * @member {Array<Date>}
 	 */
-	maxMonth: null,
+	minDates: null,
 	/** 
-	 * @desc The maximum year
-	 * @public 
-	 * @member {number}
+	 * @private 
+	 * @member {Array<Date>}
 	 */
-	maxYear: null,
+	maxDates: null,
 	/** 
 	 * @private 
 	 * @member {JQuery}
@@ -96,24 +92,15 @@ nyc.MonthRangePicker.prototype = {
 	 */
 	populate: function(options){
 		for (var year = options.minYear; year <= options.maxYear; year++){
-			for (var month = 0; month < 12; month++){
-				if (
-						(year == options.minYear && month >= options.minMonth) ||
-						(year == options.maxYear && month <= options.maxMonth) ||
-						(year > options.minYear && year < options.maxYear)
-				){				
-					var min = this.firstOfMonth(month, year), max = this.lastOfMonth(month, year);
-					if (
-						(year >- options.minYear && month >= options.minMonth) &&
-						(year <= options.maxYear && month <= options.maxMonth)
-					){
-						this.minDates.push(min);
-						this.appendOpt(this.min, min);						
-					}
-					if ((year == options.maxYear && month <= options.maxMonth) || year < options.maxYear){
-						this.maxDates.push(max);
-						this.appendOpt(this.max, max);
-					}
+			for (var month = 0; month < 12; month++){		
+				var min = this.firstOfMonth(month, year), max = this.lastOfMonth(month, year);
+				if (min >= this.minDate && min <= this.maxDate){
+					this.minDates.push(min);
+					this.appendOpt(this.min, min);						
+				}
+				if (max >= this.minDate && max <= this.maxDate){
+					this.maxDates.push(max);
+					this.appendOpt(this.max, max);
 				}
 			}
 		}

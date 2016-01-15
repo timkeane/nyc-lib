@@ -1,13 +1,18 @@
-QUnit.module('nyc.MonthRangePicker', {});
+QUnit.module('nyc.MonthRangePicker', {
+	beforeEach: function(assert){
+		this.TARGET_DIV = $('<div id="test-div"><div>stuff</div></div>');
+		$('body').append(this.TARGET_DIV);
+	},
+	afterEach(assert){
+		this.TARGET_DIV.remove();
+	}
+});
 
-QUnit.test('constructor', function(assert){
+QUnit.test('constructor (multi year)', function(assert){
 	assert.expect(7);
 		
-	var div = $('<div id="test-div"><div>stuff</div></div>');
-	$('body').append(div);
-
 	var dateRange = new nyc.MonthRangePicker({
-		target: div,
+		target: '#test-div',
 		title: 'Date Range',
 		minMonth: 2,
 		minYear: 2011,
@@ -35,17 +40,13 @@ QUnit.test('constructor', function(assert){
 		dateRange.localeDate('2013-06-30').toLocaleDateString(),
 		dateRange.currentVal.html()
 	);
-	div.remove();
 });
 
-QUnit.test('constructor 2', function(assert){
-	assert.expect(4);
+QUnit.test('constructor (patial year Jan - Nov)', function(assert){
+	assert.expect(7);
 		
-	var div = $('<div id="test-div"><div>stuff</div></div>');
-	$('body').append(div);
-
 	var dateRange = new nyc.MonthRangePicker({
-		target: div,
+		target: '#test-div',
 		title: 'Date Range',
 		minMonth: 0,
 		minYear: 2015,
@@ -60,35 +61,91 @@ QUnit.test('constructor 2', function(assert){
 	assert.ok(selects.get(0) === dateRange.min.get(0));
 	assert.ok(selects.get(1) === dateRange.max.get(0));
 	
-//	assert.equal(dateRange.min.children().length, 28);
-//	assert.equal(dateRange.max.children().length, 28);
-//	
-	console.warn(dateRange.min.children().first().get(0));
-	console.warn(dateRange.max.children().last().get(0));
-
-	console.log(dateRange.minDates);
-	console.log(dateRange.maxDates);
-	
-	console.info(dateRange.val());
+	assert.equal(dateRange.min.children().length, 11);
+	assert.equal(dateRange.max.children().length, 11);
 	
 	assert.deepEqual(dateRange.val(), {
 		start: dateRange.localeDate('2015-11-01'),
 		end: dateRange.localeDate('2015-11-30')
 	});
 
-//	assert.equal(
-//		dateRange.localeDate('2013-06-01').toLocaleDateString() + ' - ' + 
-//		dateRange.localeDate('2013-06-30').toLocaleDateString(),
-//		dateRange.currentVal.html()
-//	);
-	div.remove();
+	assert.equal(dateRange.currentVal.html(),
+		dateRange.localeDate('2015-11-01').toLocaleDateString() + ' - ' + 
+		dateRange.localeDate('2015-11-30').toLocaleDateString()
+	);
+});
+
+QUnit.test('constructor (patial year Mar - Nov)', function(assert){
+	assert.expect(7);
+		
+	var dateRange = new nyc.MonthRangePicker({
+		target: '#test-div',
+		title: 'Date Range',
+		minMonth: 2,
+		minYear: 2015,
+		maxMonth: 10,
+		maxYear: 2015
+	});
+	
+	var selects = $('#test-div select');
+	
+	assert.equal(selects.length, 2);
+	
+	assert.ok(selects.get(0) === dateRange.min.get(0));
+	assert.ok(selects.get(1) === dateRange.max.get(0));
+	
+	assert.equal(dateRange.min.children().length, 9);
+	assert.equal(dateRange.max.children().length, 9);
+	
+	assert.deepEqual(dateRange.val(), {
+		start: dateRange.localeDate('2015-11-01'),
+		end: dateRange.localeDate('2015-11-30')
+	});
+
+	assert.equal(dateRange.currentVal.html(),
+		dateRange.localeDate('2015-11-01').toLocaleDateString() + ' - ' + 
+		dateRange.localeDate('2015-11-30').toLocaleDateString()
+	);
+});
+
+QUnit.test('constructor (patial year Mar - Dec)', function(assert){
+	assert.expect(7);
+		
+	var dateRange = new nyc.MonthRangePicker({
+		target: '#test-div',
+		title: 'Date Range',
+		minMonth: 2,
+		minYear: 2015,
+		maxMonth: 11,
+		maxYear: 2015
+	});
+	
+	var selects = $('#test-div select');
+	
+	assert.equal(selects.length, 2);
+	
+	assert.ok(selects.get(0) === dateRange.min.get(0));
+	assert.ok(selects.get(1) === dateRange.max.get(0));
+	
+	assert.equal(dateRange.min.children().length, 10);
+	assert.equal(dateRange.max.children().length, 10);
+	
+	assert.deepEqual(dateRange.val(), {
+		start: dateRange.localeDate('2015-12-01'),
+		end: dateRange.localeDate('2015-12-31')
+	});
+
+	assert.equal(dateRange.currentVal.html(),
+		dateRange.localeDate('2015-12-01').toLocaleDateString() + ' - ' + 
+		dateRange.localeDate('2015-12-31').toLocaleDateString()
+	);
 });
 
 QUnit.test('firstOfMonth', function(assert){
 	assert.expect(12);
 	
 	var dateRange = new nyc.MonthRangePicker({
-		target: '',
+		target: '#test-div',
 		title: 'Date Range',
 		minMonth: 2,
 		minYear: 2011,
@@ -105,7 +162,7 @@ QUnit.test('lastOfMonth (not leap year)', function(assert){
 	assert.expect(12);
 	
 	var dateRange = new nyc.MonthRangePicker({
-		target: '',
+		target: '#test-div',
 		title: 'Date Range',
 		minMonth: 2,
 		minYear: 2011,
@@ -125,7 +182,7 @@ QUnit.test('lastOfMonth (leap year)', function(assert){
 	assert.expect(12);
 	
 	var dateRange = new nyc.MonthRangePicker({
-		target: '',
+		target: '#test-div',
 		title: 'Date Range',
 		minMonth: 2,
 		minYear: 2011,
@@ -145,7 +202,7 @@ QUnit.test('localeDate', function(assert){
 	assert.expect(2);
 
 	var dateRange = new nyc.MonthRangePicker({
-		target: '',
+		target: '#test-div',
 		title: 'Date Range',
 		minMonth: 2,
 		minYear: 2011,
@@ -163,11 +220,8 @@ QUnit.test('localeDate', function(assert){
 QUnit.test('disable options out of range', function(assert){
 	assert.expect(28 * 28 * 2);
 		
-	var div = $('<div id="test-div"><div>stuff</div></div>');
-	$('body').append(div);
-
 	var dateRange = new nyc.MonthRangePicker({
-		target: div,
+		target: '#test-div',
 		title: 'Date Range',
 		minMonth: 2,
 		minYear: 2011,
@@ -191,18 +245,13 @@ QUnit.test('disable options out of range', function(assert){
 			assert[i >= j ? 'equal' : 'notEqual']($(min).css('display'), 'block');
 		});
 	});
-
-	div.remove();
 });
 
 QUnit.test('changed', function(assert){
 	assert.expect(2);
 	
-	var div = $('<div id="test-div"><div>stuff</div></div>');
-	$('body').append(div);
-
 	var dateRange = new nyc.MonthRangePicker({
-		target: div,
+		target: '#test-div',
 		title: 'Date Range',
 		minMonth: 2,
 		minYear: 2011,
@@ -225,6 +274,4 @@ QUnit.test('changed', function(assert){
 		}, dateRange.val());
 	});
 	dateRange.max.val(dateRange.max.children().get(4).value).trigger('change');
-
-	div.remove();
 });
