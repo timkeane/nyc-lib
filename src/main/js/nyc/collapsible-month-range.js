@@ -40,6 +40,7 @@ nyc.MonthRangePicker = function(options){
 	$(this.min).change($.proxy(this.disableMax, this));
 	$(this.max).change($.proxy(this.disableMin, this));
 	this.changed();
+	this.disableMax();
 };
 
 nyc.MonthRangePicker.prototype = {
