@@ -1,0 +1,2598 @@
+{
+    "type": "FeatureCollection",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "EPSG:2263"
+        }
+    },    
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1013423,
+                    253713
+                ]
+            },
+            "properties": {
+                "zip": "10458",
+                "hours": "Mon, Tue, Wed, Thu, Fri, Sat: 9:00am - 9:00pm<br>Sun: 12:00pm - 6:00pm",
+                "address2": "(at Kingsbridge and Briggs)",
+                "city": "Bronx",
+                "address1": "310 East Kingsbridge Road",
+                "name": "Bronx - Bronx Library Center",
+                "type": "permanent"
+            },
+            "id": "1"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1008325,
+                    237810
+                ]
+            },
+            "properties": {
+                "zip": "10455",
+                "hours": "Mon, Tue, Wed, Thu, Fri: 8:30am - 4:30pm",
+                "address2": "(at E156th St and Third Ave)",
+                "city": "Bronx",
+                "address1": "3030 Third Avenue, 2nd Floor",
+                "name": "Bronx - Department of Finance",
+                "type": "permanent"
+            },
+            "id": "2"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1005154,
+                    236853
+                ]
+            },
+            "properties": {
+                "zip": "10451",
+                "hours": "Mon, Tue, Wed, Thu, Fri: 9:00am - 7:00pm<br>Sat, Sun: 10:00am - 5:00pm",
+                "address2": "(entrance on Morris Avenue)",
+                "city": "Bronx",
+                "address1": "234 East 149th Street, 2nd Floor",
+                "name": "Bronx - Lincoln Hospital",
+                "type": "permanent"
+            },
+            "id": "3"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    993107,
+                    184168
+                ]
+            },
+            "properties": {
+                "zip": "11238",
+                "hours": "Mon, Tue, Wed, Thu: 9:00am - 9:00pm<br>Fri, Sat: 9:00am - 6:00pm<br>Sun: 1:00pm - 5:00pm",
+                "address2": "(at Eastern Parkway and Flatbush Ave)",
+                "city": "Brooklyn",
+                "address1": "10 Grand Army Plaza",
+                "name": "Brooklyn - Central Library at Grand Army Plaza",
+                "type": "permanent"
+            },
+            "id": "4"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    990969,
+                    149998
+                ]
+            },
+            "properties": {
+                "zip": "11224",
+                "hours": "Mon, Tue, Wed, Thu, Fri: 8:30am - 5:00pm",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "2865 West 8th Street, 1st Floor",
+                "name": "Brooklyn - Coney Island IDNYC Center",
+                "type": "permanent"
+            },
+            "id": "5"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    986876,
+                    191440
+                ]
+            },
+            "properties": {
+                "zip": "11201",
+                "hours": "Mon, Tue, Wed, Thu, Fri: 8:30am - 4:30pm",
+                "address2": "(at Joralemon St and Court St)",
+                "city": "Brooklyn",
+                "address1": "210 Joralemon Street, 1st Floor",
+                "name": "Brooklyn - Department of Finance",
+                "type": "permanent"
+            },
+            "id": "6"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    981897,
+                    176427
+                ]
+            },
+            "properties": {
+                "zip": "11232",
+                "hours": "Mon-Sat: 9:00am - 6:00pm",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "345 43rd Street",
+                "name": "Brooklyn - St. Michael's Church",
+                "type": "permanent"
+            },
+            "id": "7"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    983647,
+                    173246
+                ]
+            },
+            "properties": {
+                "zip": "11220",
+                "hours": "Tue-Sat: 9:00am - 5:00pm",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "807 48th Street, 2nd Floor",
+                "name": "Brooklyn - Asian Americans for Equality",
+                "type": "permanent"
+            },
+            "id": "8"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1007562,
+                    193766
+                ]
+            },
+            "properties": {
+                "zip": "11237",
+                "hours": "Mon, Tue, Wed, Thu: 9:30am - 7:00pm<br>Fri: 11:00am - 7:00pm",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "301 Grove Street",
+                "name": "Brooklyn - Make the Road New York ",
+                "type": "permanent"
+            },
+            "id": "9"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    982037,
+                    197460
+                ]
+            },
+            "properties": {
+                "zip": "10038",
+                "hours": "Mon, Tue, Wed, Thu, Fri: 8:30am - 4:30pm",
+                "address2": "(at John St and William St)",
+                "city": "New York",
+                "address1": "66 John St, 2nd Floor",
+                "name": "Manhattan - Department of Finance",
+                "type": "permanent"
+            },
+            "id": "10"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    996873,
+                    237848
+                ]
+            },
+            "properties": {
+                "zip": "10031",
+                "hours": "Mon, Tue, Wed, Thu, Fri: 8:30am - 5:00pm",
+                "address2": "(at W 135th St and Broadway)",
+                "city": "New York",
+                "address1": "530 West 135th Street",
+                "name": "Manhattan - IDNYC Northern Manhattan Center",
+                "type": "permanent"
+            },
+            "id": "11"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    989365,
+                    213172
+                ]
+            },
+            "properties": {
+                "zip": "10016",
+                "hours": "Mon, Tue, Wed, Thu, Fri: 8:00am - 8:00pm<br>Sat, Sun: 10:00am - 6:00pm",
+                "address2": "(at E 40th St and 5th Ave)",
+                "city": "New York",
+                "address1": "455 5th Ave",
+                "name": "Manhattan - Mid-Manhattan Library",
+                "type": "permanent"
+            },
+            "id": "12"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1000959,
+                    245020
+                ]
+            },
+            "properties": {
+                "zip": "10032",
+                "hours": "Mon, Tue, Fri: 9:00am - 4:00pm<br>Wed: 9:00am - 1:00pm<br>Thu: 9:00am - 6:00pm<br>Sat: 10:00am - 2:00pm",
+                "address2": "(at W 166th St and St. Nicholas Ave)",
+                "city": "New York",
+                "address1": "1112 St. Nicholas Ave",
+                "name": "Manhattan - Neighborhood Trust Federal Credit Union",
+                "type": "permanent"
+            },
+            "id": "13"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1000336,
+                    229871
+                ]
+            },
+            "properties": {
+                "zip": "10029",
+                "hours": "Mon - Fri: 9:00am - 5:00pm",
+                "address2": "",
+                "city": "New York",
+                "address1": "158 East 115th Street, Room 220",
+                "name": "Manhattan - East Harlem Health Center",
+                "type": "permanent"
+            },
+            "id": "14"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    984033,
+                    200169
+                ]
+            },
+            "properties": {
+                "zip": "10013",
+                "hours": "Mon, Wed, Thu, Fri: 9:00am - 5:00pm<br>Tue: 10:00am - 6:00pm",
+                "address2": "",
+                "city": "New York",
+                "address1": "100 Centre Street, 14th Floor",
+                "name": "Manhattan - IDNYC Centre Street Office",
+                "type": "permanent"
+            },
+            "id": "15"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1041197,
+                    197213
+                ]
+            },
+            "properties": {
+                "zip": "11432",
+                "hours": "Mon, Wed, Thu: 9:00am - 9:00pm<br>Tue: 1:00pm - 9:00pm<br>Fri, Sat: 9:00am - 7:00pm<br>Sun: 12:00pm - 5:00pm",
+                "address2": "(at 89th Ave and Merrick Blvd)",
+                "city": "Jamaica",
+                "address1": "89-11 Merrick Blvd",
+                "name": "Queens - Central Library in Jamaica",
+                "type": "permanent"
+            },
+            "id": "16"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1019722,
+                    214082
+                ]
+            },
+            "properties": {
+                "zip": "11372",
+                "hours": "Mon, Tue, Wed, Thu: 8:30am - 7:00pm<br>Fri: 8:30am - 5:00pm <br>Sat: 8:30am - 4:30pm",
+                "address2": "(at 34th Road and Junction Blvd)",
+                "city": "Jackson Heights",
+                "address1": "34-33 Junction Blvd., Lower Level",
+                "name": "Queens - DOHMH Corona IDNYC Center",
+                "type": "permanent"
+            },
+            "id": "17"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1031648,
+                    215418
+                ]
+            },
+            "properties": {
+                "zip": "11355",
+                "hours": "Mon, Wed, Thu: 9:00am - 9:00pm<br>Tue: 1:00pm - 9:00pm<br>Fri, Sat: 9:00am - 7:00pm<br>Sun: 12:00pm - 5:00pm",
+                "address2": "(at 41st Rd and Main St)",
+                "city": "Flushing",
+                "address1": "41-17 Main St",
+                "name": "Queens - Flushing Library",
+                "type": "permanent"
+            },
+            "id": "18"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1002221,
+                    210327
+                ]
+            },
+            "properties": {
+                "zip": "11101",
+                "hours": "Mon, Tue, Wed, Thu, Fri, Sat: 9:00am - 7:00pm",
+                "address2": "(at 31st Street and Thomson Ave)",
+                "city": "Long Island City",
+                "address1": "31-10 Thomson Avenue, Building E - Room E116",
+                "name": "Queens - LaGuardia Community College",
+                "type": "permanent"
+            },
+            "id": "19"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1019164,
+                    211973
+                ]
+            },
+            "properties": {
+                "zip": "11372",
+                "hours": "Mon, Tue, Wed, Thu, Fri: 10:00am - 8:00pm<br>Sat: 9:30am - 2:30pm",
+                "address2": "(at 92nd St and Elmhurst Ave)",
+                "city": "Jackson Heights",
+                "address1": "92-10 Roosevelt Ave",
+                "name": "Queens - Make the Road New York",
+                "type": "permanent"
+            },
+            "id": "20"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    962534,
+                    172920
+                ]
+            },
+            "properties": {
+                "zip": "10301",
+                "hours": "Mon, Tue, Wed, Thu, Fri: 8:30am - 4:30pm",
+                "address2": "(at St Marks Pl and Hyatt St)",
+                "city": "Staten Island",
+                "address1": "350 St. Marks Place, 1st Floor",
+                "name": "Staten Island - Department of Finance",
+                "type": "permanent"
+            },
+            "id": "21"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1017498,
+                    259265
+                ]
+            },
+            "properties": {
+                "zip": "10467",
+                "address2": "",
+                "city": "Bronx",
+                "address1": "3309 Bainbridge Ave",
+                "name": "Bronx County Historical Society",
+                "type": "cultural"
+            },
+            "id": "21"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1006456,
+                    242048
+                ]
+            },
+            "properties": {
+                "zip": "10456",
+                "address2": "",
+                "city": "Bronx",
+                "address1": "1040 Grand Concourse",
+                "name": "Bronx Museum of the Arts",
+                "type": "cultural"
+            },
+            "id": "22"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1018075,
+                    254201
+                ]
+            },
+            "properties": {
+                "zip": "10458",
+                "address2": "",
+                "city": "Bronx",
+                "address1": "2900 Southern Blvd",
+                "name": "New York Botanical Garden",
+                "type": "cultural"
+            },
+            "id": "23"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1008457,
+                    266778
+                ]
+            },
+            "properties": {
+                "zip": "10471",
+                "address2": "",
+                "city": "Bronx",
+                "address1": "W 249th St",
+                "name": "Wave Hill",
+                "type": "cultural"
+            },
+            "id": "24"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1017919,
+                    248977
+                ]
+            },
+            "properties": {
+                "zip": "10460",
+                "address2": "",
+                "city": "Bronx",
+                "address1": "2300 Southern Blvd",
+                "name": "Wildlife Conservation Society / Bronx Zoo",
+                "type": "cultural"
+            },
+            "id": "25"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    990435,
+                    189374
+                ]
+            },
+            "properties": {
+                "zip": "11217",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "30 Lafayette Ave",
+                "name": "Brooklyn Academy of Music",
+                "type": "cultural"
+            },
+            "id": "26"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    994304,
+                    183579
+                ]
+            },
+            "properties": {
+                "zip": "11225",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "990 Washington Ave",
+                "name": "Brooklyn Botanic Garden",
+                "type": "cultural"
+            },
+            "id": "27"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    999805,
+                    184993
+                ]
+            },
+            "properties": {
+                "zip": "11213",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "145 Brooklyn Ave",
+                "name": "Brooklyn Children's Museum",
+                "type": "cultural"
+            },
+            "id": "28"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    994304,
+                    183579
+                ]
+            },
+            "properties": {
+                "zip": "11238",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "200 Eastern Pkwy",
+                "name": "Brooklyn Museum",
+                "type": "cultural"
+            },
+            "id": "29"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    991434,
+                    223946
+                ]
+            },
+            "properties": {
+                "zip": "10024",
+                "address2": "",
+                "city": "New York",
+                "address1": "Central Park W & 79th St",
+                "name": "American Museum of Natural History",
+                "type": "cultural"
+            },
+            "id": "30"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    989780,
+                    218177
+                ]
+            },
+            "properties": {
+                "zip": "10019",
+                "address2": "",
+                "city": "New York",
+                "address1": "57th Street and Seventh Avenue",
+                "name": "Carnegie Hall",
+                "type": "cultural"
+            },
+            "id": "31"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    997715,
+                    228228
+                ]
+            },
+            "properties": {
+                "zip": "10029",
+                "address2": "",
+                "city": "New York",
+                "address1": "1230 5th Ave",
+                "name": "El Museo del Barrio",
+                "type": "cultural"
+            },
+            "id": "32"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    988721,
+                    220799
+                ]
+            },
+            "properties": {
+                "zip": "10023",
+                "address2": "",
+                "city": "New York",
+                "address1": "10 Lincoln Center Plaza",
+                "name": "Lincoln Center for the Performing Arts, Inc.",
+                "type": "cultural"
+            },
+            "id": "33"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    993791,
+                    224362
+                ]
+            },
+            "properties": {
+                "zip": "10028",
+                "address2": "",
+                "city": "New York",
+                "address1": "1000 5th Ave",
+                "name": "Metropolitan Museum of Art",
+                "type": "cultural"
+            },
+            "id": "34"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    979093,
+                    196488
+                ]
+            },
+            "properties": {
+                "zip": "10280",
+                "address2": "",
+                "city": "New York",
+                "address1": "36 Battery Pl",
+                "name": "Museum of Jewish Heritage",
+                "type": "cultural"
+            },
+            "id": "35"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    997564,
+                    228012
+                ]
+            },
+            "properties": {
+                "zip": "10029",
+                "address2": "",
+                "city": "New York",
+                "address1": "1220 5th Ave",
+                "name": "Museum of the City of New York",
+                "type": "cultural"
+            },
+            "id": "36"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    988749,
+                    220460
+                ]
+            },
+            "properties": {
+                "zip": "10023",
+                "address2": "",
+                "city": "New York",
+                "address1": "20 Lincoln Center Plaza",
+                "name": "New York City Ballet",
+                "type": "cultural"
+            },
+            "id": "37"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    989952,
+                    217580
+                ]
+            },
+            "properties": {
+                "zip": "10019",
+                "address2": "",
+                "city": "New York",
+                "address1": "130 W 56th St",
+                "name": "New York City Center",
+                "type": "cultural"
+            },
+            "id": "38"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    998721,
+                    233747
+                ]
+            },
+            "properties": {
+                "zip": "10027",
+                "address2": "",
+                "city": "New York",
+                "address1": "144 W 125th St",
+                "name": "The Studio Museum in Harlem",
+                "type": "cultural"
+            },
+            "id": "39"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    986535,
+                    204857
+                ]
+            },
+            "properties": {
+                "zip": "10003",
+                "address2": "",
+                "city": "New York",
+                "address1": "425 Lafayette St",
+                "name": "The Public Theater",
+                "type": "cultural"
+            },
+            "id": "40"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1031339,
+                    217631
+                ]
+            },
+            "properties": {
+                "zip": "11354",
+                "address2": "",
+                "city": "Flushing",
+                "address1": "137-35 Northern Blvd",
+                "name": "Flushing Town Hall",
+                "type": "cultural"
+            },
+            "id": "41"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1040227,
+                    195705
+                ]
+            },
+            "properties": {
+                "zip": "11432",
+                "address2": "",
+                "city": "Jamaica",
+                "address1": "161-04 Jamaica Ave",
+                "name": "Jamaica Center for Arts & Learning",
+                "type": "cultural"
+            },
+            "id": "42"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    999149,
+                    211031
+                ]
+            },
+            "properties": {
+                "zip": "11101",
+                "address2": "",
+                "city": "Long Island City",
+                "address1": "22-25 Jackson Ave",
+                "name": "MoMA PS1",
+                "type": "cultural"
+            },
+            "id": "43"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1005345,
+                    214854
+                ]
+            },
+            "properties": {
+                "zip": "11106",
+                "address2": "",
+                "city": "Queens",
+                "address1": "36-01 35th Ave",
+                "name": "Museum of the Moving Image",
+                "type": "cultural"
+            },
+            "id": "44"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1027660,
+                    211563
+                ]
+            },
+            "properties": {
+                "zip": "11368",
+                "address2": "",
+                "city": "Corona",
+                "address1": "47-01 111th St",
+                "name": "New York Hall of Science",
+                "type": "cultural"
+            },
+            "id": "45"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1031426,
+                    212658
+                ]
+            },
+            "properties": {
+                "zip": "11355",
+                "address2": "",
+                "city": "Flushing",
+                "address1": "43-50 Main St",
+                "name": "Queens Botanical Garden",
+                "type": "cultural"
+            },
+            "id": "46"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1027989,
+                    209784
+                ]
+            },
+            "properties": {
+                "zip": "11368",
+                "address2": "",
+                "city": "Queens",
+                "address1": "Flushing Meadows Corona Park",
+                "name": "Queens Museum",
+                "type": "cultural"
+            },
+            "id": "47"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1027660,
+                    211563
+                ]
+            },
+            "properties": {
+                "zip": "11368",
+                "address2": "",
+                "city": "Queens",
+                "address1": "14 United Nations Ave S",
+                "name": "Queens Theatre in the Park",
+                "type": "cultural"
+            },
+            "id": "48"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    956011,
+                    173938
+                ]
+            },
+            "properties": {
+                "zip": "10301",
+                "address2": "",
+                "city": "Staten Island",
+                "address1": "1000 Richmond Terrace",
+                "name": "Snug Harbor Cultural Center & Botanical Garden",
+                "type": "cultural"
+            },
+            "id": "49"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    956011,
+                    173938
+                ]
+            },
+            "properties": {
+                "zip": "10301",
+                "address2": "",
+                "city": "Staten Island",
+                "address1": "1000 Richmond Terrace",
+                "name": "Staten Island Children's Museum",
+                "type": "cultural"
+            },
+            "id": "50"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    943731,
+                    147363
+                ]
+            },
+            "properties": {
+                "zip": "10306",
+                "address2": "",
+                "city": "Staten Island",
+                "address1": "441 Clarke Ave",
+                "name": "Staten Island Historical Society and Historic Richmond Town",
+                "type": "cultural"
+            },
+            "id": "51"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    962697,
+                    174047
+                ]
+            },
+            "properties": {
+                "zip": "10301",
+                "address2": "",
+                "city": "Staten Island",
+                "address1": "75 Stuyvesant Pl",
+                "name": "Staten Island Museum",
+                "type": "cultural"
+            },
+            "id": "52"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    952168,
+                    167050
+                ]
+            },
+            "properties": {
+                "zip": "10310",
+                "address2": "",
+                "city": "Staten Island",
+                "address1": "614 Broadway",
+                "name": "Staten Island Zoo",
+                "type": "cultural"
+            },
+            "id": "53"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1010191,
+                    250088
+                ]
+            },
+            "properties": {
+                "zip": "10453",
+                "hours": "",
+                "address2": "",
+                "city": "Bronx",
+                "address1": "94 East Burnside Avenue",
+                "name": "Amalgamated Bank",
+                "type": "financial"
+            },
+            "id": "54"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1031602,
+                    256389
+                ]
+            },
+            "properties": {
+                "zip": "10475",
+                "hours": "",
+                "address2": "",
+                "city": "Bronx",
+                "address1": "2067 Bartow Avenue",
+                "name": "Amalgamated Bank",
+                "type": "financial"
+            },
+            "id": "55"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1033652,
+                    240135
+                ]
+            },
+            "properties": {
+                "zip": "10465",
+                "hours": "",
+                "address2": "",
+                "city": "Bronx",
+                "address1": "3770 East Tremont Avenue",
+                "name": "Amalgamated Bank",
+                "type": "financial"
+            },
+            "id": "56"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    997546,
+                    187126
+                ]
+            },
+            "properties": {
+                "zip": "11216",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "1212 Fulton Street",
+                "name": "Amalgamated Bank",
+                "type": "financial"
+            },
+            "id": "57"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    982100,
+                    175347
+                ]
+            },
+            "properties": {
+                "zip": "11220",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "4502 5th Avenue",
+                "name": "Amalgamated Bank",
+                "type": "financial"
+            },
+            "id": "58"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    989101,
+                    218077
+                ]
+            },
+            "properties": {
+                "zip": "10019",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "1745 Broadway",
+                "name": "Amalgamated Bank",
+                "type": "financial"
+            },
+            "id": "59"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    986131,
+                    207197
+                ]
+            },
+            "properties": {
+                "zip": "10003",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "10 East 14th Street",
+                "name": "Amalgamated Bank",
+                "type": "financial"
+            },
+            "id": "60"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    995872,
+                    236160
+                ]
+            },
+            "properties": {
+                "zip": "10027",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "564 West 125th Street",
+                "name": "Amalgamated Bank",
+                "type": "financial"
+            },
+            "id": "61"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    997381,
+                    215297
+                ]
+            },
+            "properties": {
+                "zip": "10044",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "619 Main Street",
+                "name": "Amalgamated Bank",
+                "type": "financial"
+            },
+            "id": "62"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    985868,
+                    210899
+                ]
+            },
+            "properties": {
+                "zip": "10001",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "275 7th Avenue",
+                "name": "Amalgamated Bank",
+                "type": "financial"
+            },
+            "id": "63"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    989047,
+                    208481
+                ]
+            },
+            "properties": {
+                "zip": "10010",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "301 3rd Avenue",
+                "name": "Amalgamated Bank",
+                "type": "financial"
+            },
+            "id": "64"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    980847,
+                    196668
+                ]
+            },
+            "properties": {
+                "zip": "10004",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "52 Broadway",
+                "name": "Amalgamated Bank",
+                "type": "financial"
+            },
+            "id": "65"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1036881,
+                    206358
+                ]
+            },
+            "properties": {
+                "zip": "11365",
+                "hours": "",
+                "address2": "",
+                "city": "Flushing",
+                "address1": "158-11 Harry Van Arsdale Jr. Avenue",
+                "name": "Amalgamated Bank",
+                "type": "financial"
+            },
+            "id": "66"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1001562,
+                    216024
+                ]
+            },
+            "properties": {
+                "zip": "11106",
+                "hours": "",
+                "address2": "",
+                "city": "Long Island City ",
+                "address1": "36-16 21st Street",
+                "name": "Amalgamated Bank",
+                "type": "financial"
+            },
+            "id": "67"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1009711,
+                    249764
+                ]
+            },
+            "properties": {
+                "zip": "10453",
+                "hours": "",
+                "address2": "",
+                "city": "Bronx",
+                "address1": "20 East 179th Street, LL",
+                "name": "Bethex Federal Credit Union",
+                "type": "financial"
+            },
+            "id": "68"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1007673,
+                    193886
+                ]
+            },
+            "properties": {
+                "zip": "11237",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn ",
+                "address1": "1474 Myrtle Avenue",
+                "name": "Brooklyn Cooperative Federal Credit Union",
+                "type": "financial"
+            },
+            "id": "69"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1000051,
+                    191386
+                ]
+            },
+            "properties": {
+                "zip": "11221",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn ",
+                "address1": "834 Dekalb Avenue",
+                "name": "Brooklyn Cooperative Federal Credit Union",
+                "type": "financial"
+            },
+            "id": "70"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    990682,
+                    188664
+                ]
+            },
+            "properties": {
+                "zip": "11217",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn ",
+                "address1": "4 Hanson Place",
+                "name": "Carver Federal Savings Bank",
+                "type": "financial"
+            },
+            "id": "71"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    999565,
+                    186941
+                ]
+            },
+            "properties": {
+                "zip": "11216",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn ",
+                "address1": "1392 Fulton Street",
+                "name": "Carver Federal Savings Bank",
+                "type": "financial"
+            },
+            "id": "72"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    997927,
+                    181086
+                ]
+            },
+            "properties": {
+                "zip": "11225",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn ",
+                "address1": "1009 Nostrand Avenue",
+                "name": "Carver Federal Savings Bank",
+                "type": "financial"
+            },
+            "id": "73"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    995699,
+                    176772
+                ]
+            },
+            "properties": {
+                "zip": "11226",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn ",
+                "address1": "833 Flatbush Avenue",
+                "name": "Carver Federal Savings Bank",
+                "type": "financial"
+            },
+            "id": "74"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1000099,
+                    239017
+                ]
+            },
+            "properties": {
+                "zip": "10039",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "300 West 145th Street",
+                "name": "Carver Federal Savings Bank",
+                "type": "financial"
+            },
+            "id": "75"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    998505,
+                    231482
+                ]
+            },
+            "properties": {
+                "zip": "10026",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "142 Malcolm X Boulevard",
+                "name": "Carver Federal Savings Bank",
+                "type": "financial"
+            },
+            "id": "76"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    999554,
+                    233568
+                ]
+            },
+            "properties": {
+                "zip": "10027",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "75 West 125th Street",
+                "name": "Carver Federal Savings Bank",
+                "type": "financial"
+            },
+            "id": "77"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1001600,
+                    232153
+                ]
+            },
+            "properties": {
+                "zip": "10035",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "160 East 125th Street",
+                "name": "Carver Federal Savings Bank",
+                "type": "financial"
+            },
+            "id": "78"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1039879,
+                    195489
+                ]
+            },
+            "properties": {
+                "zip": "11433",
+                "hours": "",
+                "address2": "",
+                "city": "Jamaica",
+                "address1": "158-45 Archer Avenue",
+                "name": "Carver Federal Savings Bank",
+                "type": "financial"
+            },
+            "id": "79"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1045854,
+                    190468
+                ]
+            },
+            "properties": {
+                "zip": "11434",
+                "hours": "",
+                "address2": "",
+                "city": "Jamaica",
+                "address1": "115-02 Merrick Boulevard",
+                "name": "Carver Federal Savings Bank",
+                "type": "financial"
+            },
+            "id": "80"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    989065,
+                    202573
+                ]
+            },
+            "properties": {
+                "zip": "10009",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "37 Avenue B",
+                "name": "Lower East Side People's Federal Credit Union",
+                "type": "financial"
+            },
+            "id": "81"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    998135,
+                    233485
+                ]
+            },
+            "properties": {
+                "zip": "10027",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "2052 Adam Clayton Powell Jr. Boulevard",
+                "name": "Lower East Side People's Federal Credit Union",
+                "type": "financial"
+            },
+            "id": "82"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    999770,
+                    227031
+                ]
+            },
+            "properties": {
+                "zip": "10029",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "237 East 104th Street",
+                "name": "Lower East Side People's Federal Credit Union",
+                "type": "financial"
+            },
+            "id": "83"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1035051,
+                    196336
+                ]
+            },
+            "properties": {
+                "zip": "11435",
+                "hours": "",
+                "address2": "",
+                "city": "Briarwood",
+                "address1": "139-30 Queens Boulevard",
+                "name": "Melrose Credit Union",
+                "type": "financial"
+            },
+            "id": "84"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    988492,
+                    148371
+                ]
+            },
+            "properties": {
+                "zip": "11224",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "1904 Surf Avenue",
+                "name": "Municipal Credit Union",
+                "type": "financial"
+            },
+            "id": "85"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1006949,
+                    167089
+                ]
+            },
+            "properties": {
+                "zip": "11234",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "2142 Ralph Avenue",
+                "name": "Municipal Credit Union",
+                "type": "financial"
+            },
+            "id": "86"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    998676,
+                    169820
+                ]
+            },
+            "properties": {
+                "zip": "11210",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "1560 Flatbush Avenue",
+                "name": "Municipal Credit Union",
+                "type": "financial"
+            },
+            "id": "87"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    987580,
+                    192051
+                ]
+            },
+            "properties": {
+                "zip": "11201",
+                "hours": "",
+                "address2": "(Mezzanine Level)",
+                "city": "Brooklyn",
+                "address1": "350 Jay Street",
+                "name": "Municipal Credit Union",
+                "type": "financial"
+            },
+            "id": "88"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1006640,
+                    236889
+                ]
+            },
+            "properties": {
+                "zip": "10451",
+                "hours": "",
+                "address2": "",
+                "city": "Bronx",
+                "address1": "560 Courtlandt Avenue",
+                "name": "Municipal Credit Union",
+                "type": "financial"
+            },
+            "id": "89"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1032148,
+                    259879
+                ]
+            },
+            "properties": {
+                "zip": "10475",
+                "hours": "",
+                "address2": "",
+                "city": "Bronx",
+                "address1": "755 Co-op City Boulevard",
+                "name": "Municipal Credit Union",
+                "type": "financial"
+            },
+            "id": "90"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    997513,
+                    234407
+                ]
+            },
+            "properties": {
+                "zip": "10027",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "280 St. Nicholas Avenue",
+                "name": "Municipal Credit Union",
+                "type": "financial"
+            },
+            "id": "91"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    983206,
+                    199415
+                ]
+            },
+            "properties": {
+                "zip": "10007",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "2 Lafayette Street",
+                "name": "Municipal Credit Union",
+                "type": "financial"
+            },
+            "id": "92"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1020097,
+                    206925
+                ]
+            },
+            "properties": {
+                "zip": "11373",
+                "hours": "",
+                "address2": "",
+                "city": "Elmhurst",
+                "address1": "90-15 Queens Boulevard",
+                "name": "Municipal Credit Union",
+                "type": "financial"
+            },
+            "id": "93"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    953552,
+                    146670
+                ]
+            },
+            "properties": {
+                "zip": "10306",
+                "hours": "",
+                "address2": "",
+                "city": "Staten Island",
+                "address1": "2546 Hylan Boulevard",
+                "name": "Municipal Credit Union",
+                "type": "financial"
+            },
+            "id": "94"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1052174,
+                    186908
+                ]
+            },
+            "properties": {
+                "zip": "11413",
+                "hours": "",
+                "address2": "",
+                "city": "Springfield Gardens",
+                "address1": "134-66 Springfield Boulevard ",
+                "name": "Municipal Credit Union",
+                "type": "financial"
+            },
+            "id": "95"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1000959,
+                    245020
+                ]
+            },
+            "properties": {
+                "zip": "10032",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "1112 St. Nicholas Avenue",
+                "name": "Neighborhood Trust Federal Credit Union",
+                "type": "financial"
+            },
+            "id": "96"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1007484,
+                    237144
+                ]
+            },
+            "properties": {
+                "zip": "10455",
+                "hours": "",
+                "address2": "",
+                "city": "Bronx",
+                "address1": "2923 3rd Avenue",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "97"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1025590,
+                    242303
+                ]
+            },
+            "properties": {
+                "zip": "10462",
+                "hours": "",
+                "address2": "",
+                "city": "Bronx",
+                "address1": "1170 Castle Hill Avenue",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "98"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1014852,
+                    246889
+                ]
+            },
+            "properties": {
+                "zip": "10457",
+                "hours": "",
+                "address2": "",
+                "city": "Bronx",
+                "address1": "752 East Tremont Avenue ",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "99"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1013347,
+                    253512
+                ]
+            },
+            "properties": {
+                "zip": "10458",
+                "hours": "",
+                "address2": "",
+                "city": "Bronx",
+                "address1": "301 East Fordham Road",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "100"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1014327,
+                    239575
+                ]
+            },
+            "properties": {
+                "zip": "10459",
+                "hours": "",
+                "address2": "",
+                "city": "Bronx",
+                "address1": "1046 Southern Boulevard",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "101"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    980881,
+                    173811
+                ]
+            },
+            "properties": {
+                "zip": "11220",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "5216 5th Avenue",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "102"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1008556,
+                    170898
+                ]
+            },
+            "properties": {
+                "zip": "11236",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "8020 Flatlands Ave",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "103"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    986568,
+                    191346
+                ]
+            },
+            "properties": {
+                "zip": "11201",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "66 Court Street",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "104"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    998076,
+                    183467
+                ]
+            },
+            "properties": {
+                "zip": "11216",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "539 Eastern Parkway",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "105"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1003305,
+                    183124
+                ]
+            },
+            "properties": {
+                "zip": "11213",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "1117 Eastern Parkway",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "106"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1000158,
+                    195000
+                ]
+            },
+            "properties": {
+                "zip": "11206",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "15-25A Graham Avenue",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "107"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1008188,
+                    182906
+                ]
+            },
+            "properties": {
+                "zip": "11212",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "1620 Pitkin Avenue",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "108"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1007415,
+                    167263
+                ]
+            },
+            "properties": {
+                "zip": "11234",
+                "hours": "",
+                "address2": "",
+                "city": "Brooklyn",
+                "address1": "2095 Ralph Avenue",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "109"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    993301,
+                    227978
+                ]
+            },
+            "properties": {
+                "zip": "10025",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "90 West 96th Street ",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "110"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    987832,
+                    201044
+                ]
+            },
+            "properties": {
+                "zip": "10002",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "134 Delancey Street",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "111"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1004717,
+                    254131
+                ]
+            },
+            "properties": {
+                "zip": "10040",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "175 Dyckman Street",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "112"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    988888,
+                    202152
+                ]
+            },
+            "properties": {
+                "zip": "10002",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "310 East Houston Street",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "113"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    998128,
+                    240391
+                ]
+            },
+            "properties": {
+                "zip": "10031",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "3540 Broadway",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "114"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    993672,
+                    232396
+                ]
+            },
+            "properties": {
+                "zip": "10025",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "2852 Broadway",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "115"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1000533,
+                    230063
+                ]
+            },
+            "properties": {
+                "zip": "10029",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "164 East 116th Street ",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "116"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    998274,
+                    234278
+                ]
+            },
+            "properties": {
+                "zip": "10027",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "231 West 125th Street",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "117"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    990445,
+                    216087
+                ]
+            },
+            "properties": {
+                "zip": "10019",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "11 West 51st Street",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "118"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1001299,
+                    246167
+                ]
+            },
+            "properties": {
+                "zip": "10032",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "1200 St. Nicholas Avenue",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "119"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    989725,
+                    208705
+                ]
+            },
+            "properties": {
+                "zip": "10010",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "441 2nd Avenue",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "120"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1002451,
+                    248889
+                ]
+            },
+            "properties": {
+                "zip": "10033",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "615 West 181st Street ",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "121"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1016848,
+                    211608
+                ]
+            },
+            "properties": {
+                "zip": "11373",
+                "hours": "",
+                "address2": "",
+                "city": "Elmhurst ",
+                "address1": "83-22 Baxter Avenue",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "122"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1019805,
+                    213403
+                ]
+            },
+            "properties": {
+                "zip": "11368",
+                "hours": "",
+                "address2": "",
+                "city": "Corona ",
+                "address1": "35-30 Junction Boulevard",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "123"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1010944,
+                    194387
+                ]
+            },
+            "properties": {
+                "zip": "11385",
+                "hours": "",
+                "address2": "",
+                "city": "Ridgewood",
+                "address1": "918 Seneca Avenue",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "124"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1007871,
+                    217873
+                ]
+            },
+            "properties": {
+                "zip": "11103",
+                "hours": "",
+                "address2": "",
+                "city": "Astoria ",
+                "address1": "28-36 Steinway Street",
+                "name": "Popular Community Bank",
+                "type": "financial"
+            },
+            "id": "125"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1006255,
+                    243763
+                ]
+            },
+            "properties": {
+                "zip": "10452",
+                "hours": "",
+                "address2": "",
+                "city": "Bronx",
+                "address1": "69 East 167th Street",
+                "name": "Spring Bank",
+                "type": "financial"
+            },
+            "id": "126"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    995896,
+                    231273
+                ]
+            },
+            "properties": {
+                "zip": "10026",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "2049 8th Avenue",
+                "name": "Spring Bank",
+                "type": "financial"
+            },
+            "id": "127"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    986878,
+                    201789
+                ]
+            },
+            "properties": {
+                "zip": "10002",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "184 Eldridge Street",
+                "name": "University Settlement Federal Credit Union",
+                "type": "financial"
+            },
+            "id": "128"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    982793,
+                    203098
+                ]
+            },
+            "properties": {
+                "zip": "10013",
+                "hours": "",
+                "address2": "",
+                "city": "New York",
+                "address1": "121 6th Avenue",
+                "name": "University Settlement Federal Credit Union",
+                "type": "financial"
+            },
+            "id": "129"
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    1000340,
+                    214565
+                ]
+            },
+            "properties": {
+                "zip": "11101",
+                "hours": "",
+                "address2": "",
+                "city": "Long Island City ",
+                "address1": "13-03B 40th Avenue",
+                "name": "Urban Upbound Federal Credit Union",
+                "type": "financial"
+            },
+            "id": "130"
+        }
+    ]
+}

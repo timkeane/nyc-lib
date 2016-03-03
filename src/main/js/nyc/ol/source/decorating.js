@@ -42,6 +42,7 @@ nyc.ol.source.Decorating = function(options, decorationMixins){
 	 * @member {boolean}
 	 */
 	this._xhrFeaturesLoaded = false;
+		
 	ol.source.Vector.call(this, options);
 	this.on('addfeature', function(e){
 	  var feature = e.feature;
