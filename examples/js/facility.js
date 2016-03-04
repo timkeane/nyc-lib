@@ -1,7 +1,7 @@
 var config = window.parent.MAP_CONFIG, 
 	pinStyle = new ol.style.Style({
 		image: new ol.style.Icon({
-			scale: 16 / 64,
+			scale: 32 / 64,
 			src: 'img/pin.svg'
 		})
 	}),
@@ -15,7 +15,7 @@ var config = window.parent.MAP_CONFIG,
 	}),
 	locationStyle = new ol.style.Style({
 		image: new ol.style.Icon({
-			scale: 32 / 512,
+			scale: 48 / 512,
 			src: 'img/me.svg'
 		})
 	}),
@@ -128,7 +128,7 @@ function featureStyle(feature, resolution){
 		var icon = types[type].icon;
 		styleCache[resolution][type] = [new ol.style.Style({
 			image: new ol.style.Icon({
-				scale: 16 / (icon.size || 64),
+				scale: 32 / (icon.size || 64),
 				src: icon.url
 			})
 		})];
