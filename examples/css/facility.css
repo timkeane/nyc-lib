@@ -1,0 +1,91 @@
+html, body {
+	padding: 0;
+	margin: 0;
+}
+ body.ui-overlay-a, div.ui-page-active {
+	background-color: rgba(0,0,0,0);
+}
+#first-load {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #E8E8E8;
+	z-index: 1000000;
+}
+#first-load td {
+	text-align: center;
+}
+#first-load img {
+	width: 220px;
+	height: 75px;
+}
+#first-load p {
+	font-size: 34px;
+	font-weight: bold;
+	color: black;
+	text-align: center;
+	margin-top: -14px;
+}
+#map, #facility, #filter {
+	position: fixed;
+}
+#map, #facility {
+	left: 0;
+	right: 0;
+	margin: 5px;
+	border-radius: 0.6em;
+	border: 1px solid rgba(0,0,0,0.3);
+}
+#map {
+	top: 0;
+	height: 400px;
+	overflow: hidden;
+}
+#facility {
+	top: 465px;
+	bottom: 0;
+	overflow: auto;
+}
+#facility table {
+	width: 100%;
+}
+#filter {
+	width: 100%;
+	top: 415px;
+	display: none;
+}
+label[for="filter-choices"], #filter div.ui-select {
+	display: table-cell;
+	padding-right: 5px;
+}
+label[for="filter-choices"] {
+	font-weight: bold;
+}
+#filter-choices-button {
+	border-radius: 0.6em;
+	min-width: 200px;
+}
+#facility table {
+	border-collapse: collapse;
+}
+tr.facility-info {
+	padding: 3px 0;
+}
+tr.even-row {
+	background-color: rgba(0,0,0,0.1);
+}
+tr.facility-info td {
+	display: table-cell;
+	padding: 0 3px;
+}
+td.facility-icon img {
+	width: 22px;
+	height: 22px;
+}
+td.facility-distance {
+	font-size: 67%;
+	width: 40px;
+	text-align: center;
+}

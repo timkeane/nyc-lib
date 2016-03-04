@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>OpenLayers Example</title>
+	<style>
+		html, body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+		}
+		iframe {
+			position: fixed;
+			left: 20px;
+			top: 20px;
+			width: calc(100% - 40px);
+			height: calc(100% - 40px);
+			border: none;
+			overflow: hidden;
+		}
+	</style>
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script>
+		var MAP_CONFIG = {
+			url: 'data/upk.csv',
+			geoclientAppId: '',
+			geoclientAppKey: '',
+			css: 'css/custom.css',
+			selectionColor: 'rgba(255,255,0,0.5)',
+			facilityTypes: {
+				column: 'type',
+				types: {
+					DOE: {
+						name: 'District School',
+						icon: {url: 'img/DOE.png', size: 64}
+					},
+					NYCEEC: {
+						name: 'Early Ed Center',
+						icon: {url: 'img/NYCEEC.png', size: 64}
+					},
+					CHARTER: {
+						name: 'Charter School',
+						icon: {url: 'img/CHARTER.png', size: 64}
+					}
+				}
+			},
+			htmlRow: function(){
+				var borough = {
+					X: 'Bronx',
+					K: 'Brooklyn',
+					M: 'Manhattan',
+					Q: 'Queens',
+					R: 'Staten Island'
+				};
+				var row = $('<tr class="custom-row"></tr>'), name = this.get('name');
+				row.append(
+					'<td class="custom-name" title="' + 
+					name + '">' + name + '</td>'
+				);
+				row.append(
+					'<td class="custom-address">' + 
+					this.get('address') + ', ' + 
+					borough[this.get('borough')] + 
+					', NY ' + this.get('zip') +
+					'</td>'
+				);
+				return row;
+			}
+		};
+	</script>
+</head>
+<body>
+	<iframe src="ol-facility-csv-iframe.html"></iframe>
+</body>
+</html>

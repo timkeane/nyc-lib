@@ -12,6 +12,8 @@
 	<link rel="stylesheet" href="../src/main/css/zoomsearch.css"> 
 	<!-- nyc css -->
 
+	<link rel="stylesheet" href="css/facility.css"> 
+
 	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.12/proj4.js"></script>
@@ -35,62 +37,22 @@
 	<script src="../src/main/js/nyc/ol/source/csv.js"></script>
 	<script src="../src/main/js/nyc/ol/control/zoomsearch.js"></script>
 	<!-- nyc js -->
-	
-	<style>
-		#map, label[for="choices"], #choices-button, #sorted {
-			position: fixed;
-		}
-		#map {
-			top: 0;
-			left: 0;
-			bottom: 0;
-			right: 0;
-		}
-	</style>
+
+	<script src="js/facility.js"></script>	
 </head>
 <body>
 	<div id="map"></div>
-	<script>
-		var map, csvSrc, csvLyr;
-
-		$(document).ready(function(){
-			
-			map = new ol.Map({
-				target: $('#map').get(0),
-				layers: [new nyc.ol.layer.BaseLayer()],
-				view: new ol.View({
-					projection: 'EPSG:2263',
-					resolutions: nyc.ol.layer.BaseLayer.RESOLUTIONS
-				})
-			});
-			
-			csvSrc = new nyc.ol.source.FilteringAndSorting({
-				loader: new nyc.ol.source.CsvPointFeatureLoader({url: 'upk.csv'})
-			}, []);
-
-			csvLyr = new ol.layer.Vector({source: csvSrc});
-			
-			map.addLayer(csvLyr);
-			
-			map.getView().fit(nyc.ol.EXTENT, map.getSize());
-
-			var source = new ol.source.Vector();
-			var layer = new ol.layer.Vector({source: source});
-			map.addLayer(layer);
-			
-			/* See README.md for getting you GeoClient App Id and App Key */
-			var geocoder = new nyc.Geoclient(
-				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=YOUR_APP_KEY&app_id=YOUR_APP_ID',
-				'EPSG:2263'
-			);
-
-			var locMgr = new nyc.LocationMgr({
-				controls: new nyc.ol.control.ZoomSearch(map),
-				locate: new nyc.ol.Locate(geocoder, 'EPSG:2263'),
-				locator: new nyc.ol.Locator({map: map, layer: layer})
-			});
-
-		});
-	</script>
+	<div id="filter">
+		<label for="filter-choices">Choose facility type:</label>
+		<select id="filter-choices">
+			<option value="all">Show All</option>
+		</select>
+	</div>
+	<div id="facility"><table><tbody></tbody></table></div>
+	<table id="first-load">
+		<tbody><tr><td>
+			<img src="img/first-load.gif" alt="maps.nyc.gov"><p>maps.nyc.gov</p>
+		</td></tr></tbody>
+	</table>	
 </body>
 </html>
