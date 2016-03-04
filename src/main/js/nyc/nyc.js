@@ -146,3 +146,67 @@ nyc.EventHandling.prototype = {
         this.evtHdlrs[eventName].push({handler: evtHdlr, scope: hdlrScope, remove: one});		    	
     }
 };
+
+/**
+ * @desc Facility type configuration for {@link nyc.MapConfig}
+ * @public
+ * @typedef {Object}
+ * @property {string} name The alias for the coded values in the CSV type column
+ * @property {string} column CSV column name for the type code
+ */
+nyc.FacilityType;
+
+/**
+ * @desc Facility type configuration for {@link nyc.MapConfig}
+ * @public
+ * @typedef {Object}
+ * @property {string} column CSV column name for the type code
+ * @property {string} column CSV column name for the type code
+ */
+nyc.FacilityTypes;
+
+/**
+ * @desc Map configuration for templated facility map
+ * @public
+ * @typedef {Object}
+ * @property {string} url URL to a facilitys CSV file
+ * @property {string} geoclientAppId a geoclient application id
+ * @property {string=} css URL to custom CSS
+ * @property {string=} selectionColor Color for highlighting selected facilities
+ * @property {string} facilityTypes a geoclient API key
+ * @property {string} geoclientAppKey a geoclient API key
+ * @property {string} geoclientAppKey a geoclient API key
+ * @property {string} geoclientAppKey a geoclient API key
+ */
+nyc.FacilityMapConfig;
+
+/*
+
+url: 'data/upk.csv',
+geoclientAppId: '',
+geoclientAppKey: '',
+css: 'css/custom.css',
+selectionColor: 'rgba(255,255,0,0.5)',
+facilityTypes: {
+	column: 'type',
+	types: {
+		DOE: {
+			name: 'District School',
+			icon: {url: 'img/DOE.png', size: 64}
+		},
+		NYCEEC: {
+			name: 'Early Ed Center',
+			icon: {url: 'img/NYCEEC.png', size: 64}
+		},
+		CHARTER: {
+			name: 'Charter School',
+			icon: {url: 'img/CHARTER.png', size: 64}
+		}
+	}
+},
+htmlRow: function(){
+
+
+
+*/
+
