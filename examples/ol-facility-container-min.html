@@ -20,11 +20,17 @@
 			border: none;
 			overflow: hidden;
 		}
+		div {
+			position: fixed;
+			bottom: 3px;
+			left: 20px;
+			font-size: 10px;
+			font-family: Arial;
+		}
 	</style>
 	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script>
-		/** @see http://maps.nyc.gov/ */
-		var MAP_CONFIG = {
+		var MAP_CONFIG = /** @type {nyc.template.facility.MapConfig} */ {
 			url: 'data/upk.csv',
 			geoclientAppId: '',
 			geoclientAppKey: '',
@@ -36,5 +42,6 @@
 </head>
 <body>
 	<iframe src="ol-facility-iframe.html"></iframe>
+	<div>See <a href="../doc/nyc.template.facility.html#.MapConfig">nyc.template.facility.MapConfig</a> for configuration details</div>
 </body>
 </html>
