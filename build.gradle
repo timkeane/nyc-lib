@@ -19,6 +19,7 @@ ext {
 		'nyc/util.js', 
 		'nyc/template.js', 
 		'nyc/collapsible.js', 
+		'nyc/collapsible-choice.js',
 		'nyc/collapsible-radio.js', 
 		'nyc/collapsible-month-range.js', 
 		'nyc/content.js', 
@@ -38,6 +39,7 @@ ext {
 		'nyc/ol/popup.js', 
 		'nyc/ol/control/zoomsearch.js',
 		'nyc/ol/source/arcgiscache.js', 
+		'nyc/ol/source/csv.js', 
 		'nyc/ol/source/decorating.js', 
 		'nyc/ol/source/filteringandsorting.js',
 		'nyc/ol/layer/baselayer.js',
@@ -51,6 +53,7 @@ ext {
 		'nyc/nyc.js', 
 		'nyc/util.js', 
 		'nyc/collapsible.js', 
+		'nyc/collapsible-choice.js',
 		'nyc/collapsible-radio.js', 
 		'nyc/collapsible-month-range.js', 
 		'nyc/content.js', 
@@ -72,6 +75,7 @@ ext {
 		'nyc/nyc.js', 
 		'nyc/util.js', 
 		'nyc/collapsible.js', 
+		'nyc/collapsible-choice.js',
 		'nyc/collapsible-radio.js', 
 		'nyc/collapsible-month-range.js', 
 		'nyc/content.js', 
@@ -159,29 +163,31 @@ task npmPackage(type: NpmPackageTask) {
 task examples() << {
 	copy {
 		from 'examples'
-		include '*.html'
+		include '**'
 		into "${pkgDir}/examples"
 	}
 	def examples = fileTree("${pkgDir}/examples")
 	def jsexp = /<!-- nyc js -->([\s\S]*?)<!-- nyc js -->/
 	def cssexp = /<!-- nyc css -->([\s\S]*?)<!-- nyc css -->/
 	examples.each{File file ->
-		def origHtml = file.text
-		def newHtml = origHtml
-		if (file.name.indexOf('ol-redline-') == 0){
-			newHtml = (origHtml =~ jsexp).replaceFirst('<script src="../js/nyc-ol-redline-lib.js"></script>')
-			newHtml = (newHtml =~ cssexp).replaceFirst('<link rel="stylesheet" href="../css/nyc-ol-redline-lib.css">')
-		}else if (file.name.indexOf('ol-') == 0){
-			newHtml = (origHtml =~ jsexp).replaceAll('<script src="../js/nyc-ol-lib.js"></script>')
-			newHtml = (newHtml =~ cssexp).replaceAll('<link rel="stylesheet" href="../css/nyc-ol-lib.css">')
-		}else if (file.name.indexOf('carto-') == 0){
-			newHtml = (origHtml =~ jsexp).replaceFirst('<script src="../js/nyc-carto-lib.js"></script>')
-			newHtml = (newHtml =~ cssexp).replaceFirst('<link rel="stylesheet" href="../css/nyc-carto-lib.css">')
-		}else{
-			newHtml = (origHtml =~ jsexp).replaceFirst('<script src="../js/nyc-leaf-lib.js"></script>')
-			newHtml = (newHtml =~ cssexp).replaceFirst('<link rel="stylesheet" href="../css/nyc-leaf-lib.css">')
+		if (file.name.indexOf('.html') > -1) {
+			def origHtml = file.text
+			def newHtml = origHtml
+			if (file.name.indexOf('ol-redline-') == 0){
+				newHtml = (origHtml =~ jsexp).replaceFirst('<script src="../js/nyc-ol-redline-lib.js"></script>')
+				newHtml = (newHtml =~ cssexp).replaceFirst('<link rel="stylesheet" href="../css/nyc-ol-redline-lib.css">')
+			}else if (file.name.indexOf('ol-') == 0){
+				newHtml = (origHtml =~ jsexp).replaceAll('<script src="../js/nyc-ol-lib.js"></script>')
+				newHtml = (newHtml =~ cssexp).replaceAll('<link rel="stylesheet" href="../css/nyc-ol-lib.css">')
+			}else if (file.name.indexOf('carto-') == 0){
+				newHtml = (origHtml =~ jsexp).replaceFirst('<script src="../js/nyc-carto-lib.js"></script>')
+				newHtml = (newHtml =~ cssexp).replaceFirst('<link rel="stylesheet" href="../css/nyc-carto-lib.css">')
+			}else{
+				newHtml = (origHtml =~ jsexp).replaceFirst('<script src="../js/nyc-leaf-lib.js"></script>')
+				newHtml = (newHtml =~ cssexp).replaceFirst('<link rel="stylesheet" href="../css/nyc-leaf-lib.css">')
+			}
+			file.write(newHtml)
 		}
-		file.write(newHtml)
 	}
 }
 
