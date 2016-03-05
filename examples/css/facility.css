@@ -1,9 +1,9 @@
-html, body {
+html, body.ui-overlay-a, div.ui-page-active {
 	padding: 0;
 	margin: 0;
-}
- body.ui-overlay-a, div.ui-page-active {
+ 	height: 100%;
 	background-color: rgba(0,0,0,0);
+	overflow: hidden !important;
 }
 #first-load {
 	position: fixed;
@@ -28,32 +28,28 @@ html, body {
 	text-align: center;
 	margin-top: -14px;
 }
-#map, #facility, #filter {
-	position: fixed;
-}
-#map, #facility {
-	left: 0;
-	right: 0;
-	margin: 5px;
-	border-radius: 0.6em;
-	border: 1px solid rgba(0,0,0,0.3);
-}
 #map {
-	top: 0;
-	height: 400px;
-	overflow: hidden;
+	height: 50%;
 }
 #facility {
-	top: 465px;
-	bottom: 0;
+	height: calc(50% - 60px);
 	overflow: auto;
+}
+#map, #facility, #filter {
+	left: 0;
+	right: 0;
+	margin: 0 0 5px 0;
+}
+#map, #facility {
+	border: 1px solid rgba(0,0,0,0.3);
+}
+#map, #facility, div.ol-viewport {
+	border-radius: 0.6em;
 }
 #facility table {
 	width: 100%;
 }
 #filter {
-	width: 100%;
-	top: 415px;
 	display: none;
 }
 label[for="filter-choices"], #filter div.ui-select {
@@ -72,6 +68,7 @@ label[for="filter-choices"] {
 }
 tr.facility-info {
 	padding: 3px 0;
+	cursor: pointer;
 }
 tr.even-row {
 	background-color: rgba(0,0,0,0.1);

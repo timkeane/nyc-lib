@@ -17,6 +17,7 @@ ext {
 	olJsFiles = [
 		'nyc/nyc.js', 
 		'nyc/util.js', 
+		'nyc/template.js', 
 		'nyc/collapsible.js', 
 		'nyc/collapsible-radio.js', 
 		'nyc/collapsible-month-range.js', 

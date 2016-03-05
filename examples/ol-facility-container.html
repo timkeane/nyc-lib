@@ -26,27 +26,13 @@
 		/** @see http://maps.nyc.gov/ */
 		var MAP_CONFIG = {
 			url: 'data/upk.csv',
+			xCol: 'x',
+			yCol: 'y',
 			geoclientAppId: '',
 			geoclientAppKey: '',
+			autoLocate: false,
 			css: 'css/custom.css',
 			selectionColor: 'rgba(255,255,0,0.5)',
-			facilityTypes: {
-				column: 'type',
-				types: {
-					DOE: {
-						name: 'District School',
-						icon: {url: 'img/DOE.png', size: 64}
-					},
-					NYCEEC: {
-						name: 'Early Ed Center',
-						icon: {url: 'img/NYCEEC.png', size: 64}
-					},
-					CHARTER: {
-						name: 'Charter School',
-						icon: {url: 'img/CHARTER.png', size: 64}
-					}
-				}
-			},
 			htmlRow: function(){
 				var borough = {
 					X: 'Bronx',
@@ -68,11 +54,32 @@
 					'</td>'
 				);
 				return row;
+			},
+			facilityTypes: {
+				column: 'type',
+				types: {
+					DOE: {
+						name: 'District School',
+						icon: {url: 'img/DOE.png', size: 64}
+					},
+					NYCEEC: {
+						name: 'Early Ed Center',
+						icon: {url: 'img/NYCEEC.png', size: 64}
+					},
+					CHARTER: {
+						name: 'Charter School',
+						icon: {url: 'img/CHARTER.png', size: 64}
+					}
+				}
+			},
+			click: function(faciltity){
+				console.info(faciltity);
+				return true;
 			}
 		};
 	</script>
 </head>
 <body>
-	<iframe src="ol-facility-csv-iframe.html"></iframe>
+	<iframe src="ol-facility-iframe.html"></iframe>
 </body>
 </html>

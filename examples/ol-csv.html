@@ -65,7 +65,7 @@
 			});
 			
 			csvSrc = new nyc.ol.source.FilteringAndSorting({
-				loader: new nyc.ol.source.CsvPointFeatureLoader({url: 'upk.csv'})
+				loader: new nyc.ol.source.CsvPointFeatureLoader({url: 'data/upk.csv'})
 			}, []);
 
 			csvLyr = new ol.layer.Vector({source: csvSrc});

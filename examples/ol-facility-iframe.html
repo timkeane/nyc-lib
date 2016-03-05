@@ -44,8 +44,8 @@
 	<div id="map"></div>
 	<div id="filter">
 		<label for="filter-choices">Choose facility type:</label>
-		<select id="filter-choices">
-			<option value="all">Show All</option>
+		<select id="filter-choices" onchange="filterFacilities(this);">
+			<option>Show All</option>
 		</select>
 	</div>
 	<div id="facility"><table><tbody></tbody></table></div>

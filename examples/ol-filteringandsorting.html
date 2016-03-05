@@ -47,18 +47,18 @@
 			right: 5px;
 		}
 		label[for="choices"] {
-			top: 5px;
+			bottom: 45px;
 			font-weight: bold;
 			text-align: left;
 			width: 200px;
 		}
 		#choices-button {
-			top: 25px;
+			bottom: 5px;
 			width: 144px;
 			border-radius: 0.6em;
 		}
 		#sorted {
-			top: 75px;
+			bottom: 75px;
 			width: 200px;
 			height: 300px;
 			overflow: auto;
@@ -112,7 +112,7 @@
 			});
 			
 			jsonSrc = new nyc.ol.source.FilteringAndSorting(
-				{url: 'idnyc.json', format: new ol.format.GeoJSON()},
+				{url: 'data/idnyc.json', format: new ol.format.GeoJSON()},
 				[{
 					html: function(){
 						var html = $('<div class="info"></div>');

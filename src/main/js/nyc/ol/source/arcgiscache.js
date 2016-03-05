@@ -1,9 +1,5 @@
 var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
-/** 
- * @public 
- * @namespace
- */
 nyc.ol.source = nyc.ol.source || {};
 
 /**
