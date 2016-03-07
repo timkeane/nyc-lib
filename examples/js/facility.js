@@ -1,15 +1,31 @@
-var config = window.parent.MAP_CONFIG, 
+function pinIconUrl(config){
+	var pinIcon = 'data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3Asvg%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%3E%3Cg%20transform%3D%22matrix(0.19946351%2C0%2C0%2C0.19323129%2C-15.871243%2C-14.375413)%22%20stroke-width%3D%2210%22%20stroke%3D%22STROKECOLOR%22%20fill%3D%22FILLCOLOR%22%3E%3Cpath%20d%3D%22m%20240%2C79.57%20c%20-59.094%2C0%20-106.992%2C47.898%20-106.992%2C106.992%200%2C25.367%208.836%2C48.68%2023.594%2C67.016%2017.914%2C22.273%2056.461%2C42.32%2064.117%2C130.734%200%2C5.188%203.219%2C16.117%2019.281%2C16.117%2016.055%2C0%2019.57%2C-10.938%2019.57%2C-16.117%207.656%2C-88.414%2045.914%2C-108.469%2063.828%2C-130.734%2014.766%2C-18.328%2023.594%2C-41.647%2023.594%2C-67.016%20C%20346.992%2C127.469%20299.078%2C79.57%20240%2C79.57%20z%20m%20-1.672%2C141.742%20c%20-19.109%2C0%20-34.594%2C-15.492%20-34.594%2C-34.602%200%2C-19.102%2015.484%2C-34.594%2034.594%2C-34.594%2019.109%2C0%2034.602%2C15.493%2034.602%2C34.595%200%2C19.118%20-15.492%2C34.601%20-34.602%2C34.601%20z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E',
+		configIcon = config.icon || {};
+	if (configIcon.url){
+		return configIcon.url;
+	}else{
+		pinIcon = pinIcon.replace(/STROKECOLOR/, configIcon.stroke || 'rgba(0,0,0,1)');
+		return pinIcon.replace(/FILLCOLOR/, configIcon.fill || 'rgba(0,0,0,0.5)');
+	}
+};
+
+function pinIconSize(config){
+	var configIcon = config.icon || {};
+	return configIcon.size || 64;
+};
+
+var config = window.parent.MAP_CONFIG,
 	pinStyle = {
 		big: new ol.style.Style({
 			image: new ol.style.Icon({
-				scale: 32 / 64,
-				src: 'img/pin.svg'
+				scale: 32 / pinIconSize(config),
+				src: pinIconUrl(config)
 			})
 		}),
 		small: new ol.style.Style({
 			image: new ol.style.Icon({
-				scale: 16 / 64,
-				src: 'img/pin.svg'
+				scale: 16 / pinIconSize(config),
+				src: pinIconUrl(config)
 			})
 		})
 	},
@@ -74,13 +90,15 @@ function facilityDistance(feature, row){
 
 function facilityIcon(feature, row){
 	var td = $('<td class="facility-icon"></td>'),
-		img = $('<img src="img/pin.svg" alt="Map" title="Map">');
+		img = $('<img alt="Map" title="Map">');
 		types = facilityTypes.types;
 	if (types){
 		var type = types[feature.get(facilityTypes.column)];
 		if (type && type.icon){
 			img.attr('src', type.icon.url);
 		}			
+	}else{
+		img.attr('src', pinIconUrl(config));
 	}
 	td.append(img);
 	row.prepend(td);			

@@ -192,16 +192,16 @@ task examples() << {
 }
 
 task jsDoc(type: JsDocTask, dependsOn: [npmPackage, examples]) {
+	def host = 'https://maps.nyc.gov'
+	if (project.hasProperty('env') && project.hasProperty("${env}.nyclib.host")){
+		host = project.ext["${env}.nyclib.host"]
+	}
 	sourceDir = "src/main/js/nyc"
 	packageFile = "${pkgDir}/package.json"
 	destinationDir = "build/jsdoc"
 	conf = 'etc/jsdoc/conf.json'
 	doFirst {
 		file('build/jsdoc').mkdirs()
-		def host = 'https://maps.nyc.gov'
-		if (project.hasProperty('env') && project.hasProperty("${env}.nyclib.host")){
-			host = project.ext["${env}.nyclib.host"]
-		}
 		def tmpl = file('build/jsdoc/layout.tmpl')
 		tmpl << file('etc/jsdoc/layout.tmpl').text
 		tmpl.text = tmpl.text.replaceAll('@@NYC-LIB-VER@@', ver)
@@ -214,6 +214,9 @@ task jsDoc(type: JsDocTask, dependsOn: [npmPackage, examples]) {
 			into "${pkgDir}/doc"
 		}
 		delete 'build/jsdoc'
+		ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
+		ant.replace(file: "${pkgDir}/examples/ol-facility-container-min.html", token: '../doc/', value: "${host}/nyc-lib/${ver}/doc/")
+		ant.replace(file: "${pkgDir}/examples/ol-facility-container.html", token: '../doc/', value: "${host}/nyc-lib/${ver}/doc/")
 	}
 }
 
@@ -317,7 +320,17 @@ allCss.doLast {
 }
 task buildLibs(dependsOn: [allJs, allCss]) << {}
 
-task archive(type: Zip, dependsOn: [buildLibs, jsDoc]) {
+task archiveIframeExample(type: Zip, dependsOn: [buildLibs, jsDoc]) {
+	archiveName = "nyc-lib-iframe-example-${ver}.zip"
+	from ("${pkgDir}/examples")
+	include 'ol-facility-*'
+	include 'data/upk.csv'
+	include 'js/*'
+	include 'css/*'
+	include 'img/*'
+}
+
+task archive(type: Zip, dependsOn: [archiveIframeExample]) {
 	archiveName = "nyc-lib-${ver}.zip"
 	from {pkgDir}
 }
@@ -327,8 +340,8 @@ remotes {
 }
 
 task deploy(dependsOn: [archive]) << {
-	def archiveDir = project.ext['archive.dir']
 	def mobileDir = project.ext['mobile.dir']
+	def archiveDir = "${mobileDir}/${appName}/archive"
 	def deployDir = "${mobileDir}/${remoteDir}"
 	
 	remotes.deployTarget.host = project.ext["${env}.host"]
@@ -344,8 +357,42 @@ task deploy(dependsOn: [archive]) << {
             execute "rm -rf ${deployDir}"
             execute "unzip ${archiveDir}/${archive.archiveName} -d ${deployDir}"
             execute "rm -rf ${deployDir}.bak"
+            execute "ls -I *.html -I archive ${mobileDir}/${appName} > ${mobileDir}/${appName}/index.html"
+            get "${mobileDir}/${appName}/index.html", 'index.list'
+		}
+	}
+	
+	def index = file('index.html')
+	index.append '<!DOCTYPE html><html><head><title>nyc-lib</title><style>body{font-family:arial;}</style></head><body><h1>nyc-lib</h1>'
+	def list = file('index.list')
+	def versions = []
+	def line
+	list.withReader { reader ->
+		while ((line = reader.readLine()) != null) {
+			versions.add(line)
+		}
+	}
+	Collections.sort(versions, Collections.reverseOrder())
+	versions.forEach { aVer ->
+		index.append "<h3>${aVer}</h3>"
+		index.append '<ul>'
+		index.append "<li><a href=\"${aVer}/doc/index.html\">Documentation</a></li>"
+		index.append "<li><a href=\"${aVer}/examples/index.html\">Examples</a></li>"
+		index.append "<li><a href=\"archive/nyc-lib-${aVer}.zip\">nyc-lib-${aVer}.zip</a></li>"
+		if (aVer.split('-')[0].substring(1).replace(/./, '').toInteger() >= 11){
+			index.append "<li><a href=\"archive/nyc-lib-iframe-example-${aVer}.zip\">nyc-lib-frame-example-${aVer}.zip</a></li>"
+		}
+		index.append '</ul>'
+	}
+	index.append '</body></html>'
+
+	ssh.run {
+        session(remotes.deployTarget) {
+            put 'index.html', "${mobileDir}/${appName}"
         }
     }
+    delete 'index.html'
+    delete 'index.list'
 }
 
 [jettyRun]*.with {

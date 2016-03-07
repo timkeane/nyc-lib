@@ -13,14 +13,15 @@ nyc.template = nyc.template || {};
 nyc.template.facility = nyc.template.facility || {};
 
 /**
- * @desc Facility type configuration for {@link nyc.template.facility.Type}
+ * @desc Facility icon configuration for {@link nyc.template.facility.Type} or {@link nyc.template.facility.MapConfig}
  * @public
  * @typedef {Object}
- * @property {string} url URL to a square icon image
- * @property {number} [size=64] The width of the icon image
+ * @property {string=} url URL to a square icon image
+ * @property {string} [stroke=rgba(0,0,0,1)] A stroke color for the pin icon if no URL is specified
+ * @property {string=} [fill=rgba(0,0,0,0.5)] A fill color for the pin icon if no URL is specified
+ * @property {number} [size=64] The width of the icon image if a URL is specified
  */
 nyc.template.facility.Icon;
-
 
 /**
  * @desc Facility type configuration for {@link nyc.template.facility.Types}
@@ -49,6 +50,7 @@ nyc.template.facility.Types;
  * @property {string} [yCol=y|Y|y_coord|Y_COORD] Name of the CSV column containing Y coordinate of facility location
  * @property {string} geoclientAppId A Geoclient application id
  * @property {string} geoclientAppKey A Geoclient API key
+ * @property {nyc.template.facility.Icon=} icon An icon to apply to all facility features if icons are not specified for facility types
  * @property {boolean} [autoLocate=false] Automatically locate using device geolocation
  * @property {string} [selectionColor=rgba(255,255,0,0.5)] Color for highlighting selected facilities
  * @property {function():(string|Element|JQuery)} htmlRow A function where 'this' is an instance of ol.Feature, and returns an HTML table row

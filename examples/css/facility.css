@@ -31,6 +31,9 @@ html, body.ui-overlay-a, div.ui-page-active {
 #map {
 	height: 50%;
 }
+#ctl-z-srch {
+	top: -5px;
+}
 #facility {
 	height: calc(50% - 60px);
 	overflow: auto;
