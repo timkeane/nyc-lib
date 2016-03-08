@@ -11,7 +11,7 @@ nyc.ol.layer = nyc.ol.layer || {};
 nyc.ol.layer.grayscale = function(event) {
 	var context = event.context;
 	if (context){
-		//try{
+		try{
 			var canvas = context.canvas;
 			var width = canvas.width;
 			var height = canvas.height;
@@ -30,8 +30,8 @@ nyc.ol.layer.grayscale = function(event) {
 				d[i + 3] = 255;	// Alpha
 			}
 			context.putImageData(outputData, 0, 0);
-		//}catch (ignore){
+		}catch (ignore){
 			/* don't break if canvas has cross-origin data */
-		//} 
+		} 
 	}
 };
