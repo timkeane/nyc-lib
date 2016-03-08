@@ -5,6 +5,10 @@ html, body.ui-overlay-a, div.ui-page-active {
 	background-color: rgba(0,0,0,0);
 	overflow: hidden !important;
 }
+* {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	text-shadow: none !important;
+}
 #first-load {
 	position: fixed;
 	top: 0;
@@ -70,7 +74,6 @@ label[for="filter-choices"] {
 	border-collapse: collapse;
 }
 tr.facility-info {
-	padding: 3px 0;
 	cursor: pointer;
 }
 tr.even-row {
@@ -78,7 +81,7 @@ tr.even-row {
 }
 tr.facility-info td {
 	display: table-cell;
-	padding: 0 3px;
+	padding: 3px 3px;
 }
 td.facility-icon img {
 	width: 22px;

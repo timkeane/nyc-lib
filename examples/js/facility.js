@@ -50,7 +50,7 @@ var config = window.parent.MAP_CONFIG,
 
 function selectFacility(feature, row){
 	tbody.find('tr').css('background-color', '').removeClass('selected');
-	row.css('background-color', config.selectColor || 'rgba(255,255,0,0.5)').addClass('selected');
+	row.css('background-color', config.selectionColor || 'rgba(255,255,0,0.5)').addClass('selected');
 	selectionSource.clear();
 	selectionSource.addFeature(feature);
 };
@@ -125,7 +125,7 @@ function fiterValueAlias(value){
 };
 
 function filterValue(feature){
-	if (facilityTypes.types){
+	if (facilityTypes.column){
 		var value = feature.get(facilityTypes.column);
 		if ($('#filter-choices option[value="' + value + '"]').length == 0){
 			var opt = $('#filter-choices option').first(), all = opt.attr('value');
@@ -152,7 +152,7 @@ function listFacilities(features){
 
 function facilitiesLoaded(){
 	listFacilities(source.getFeatures());
-	if (facilityTypes.types){
+	if (facilityTypes.column){
 		$('#filter-choices').selectmenu('refresh');
 		$('#filter').show();
 	}else{
@@ -232,9 +232,12 @@ $(document).ready(function(){
 	
 	tbody = $('#facility tbody');
 	
+	var base = new nyc.ol.layer.BaseLayer();
+	base.on('postcompose', nyc.ol.layer.grayscale);
+
 	map = new ol.Map({
 		target: $('#map').get(0),
-		layers: [new nyc.ol.layer.BaseLayer()],
+		layers: [base],
 		view: new ol.View({
 			projection: 'EPSG:2263',
 			resolutions: nyc.ol.layer.BaseLayer.RESOLUTIONS

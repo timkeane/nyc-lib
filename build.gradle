@@ -353,6 +353,7 @@ task deploy(dependsOn: [archive]) << {
         	execute "mkdir -p ${archiveDir}"
         	execute "mkdir -p ${deployDir}"
             put "build/distributions/${archive.archiveName}", archiveDir
+            put "build/distributions/${archiveIframeExample.archiveName}", archiveDir
             execute "cp -R ${deployDir} ${deployDir}.bak"
             execute "rm -rf ${deployDir}"
             execute "unzip ${archiveDir}/${archive.archiveName} -d ${deployDir}"
