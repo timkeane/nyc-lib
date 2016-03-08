@@ -46,7 +46,7 @@ var config = window.parent.MAP_CONFIG,
 	facilityTypes = config.facilityTypes || {},  
 	styleCache = {}, 
 	iconCache = {}, 
-	tbody, map, selectionSource, source;
+	tbody, map, selectionSource, source, currentLocation;
 
 function selectFacility(feature, row){
 	tbody.find('tr').css('background-color', '').removeClass('selected');
@@ -162,7 +162,12 @@ function facilitiesLoaded(){
 };
 
 function sortFacilities(location){
-	listFacilities(source.sort(location.coordinates));
+	currentLocation = location || currentLocation;
+	if (currentLocation){
+		listFacilities(source.sort(currentLocation.coordinates));
+	}else{
+		listFacilities(source.getFeatures());
+	}
 };
 
 function featureStyle(feature, resolution){
@@ -204,7 +209,7 @@ function filterFacilities(select){
 		property: facilityTypes.column, 
 		values: select.value.split(',')
 	}]);
-	listFacilities(source.getFeatures());
+	sortFacilities();
 };
 
 function mapClick(event){
