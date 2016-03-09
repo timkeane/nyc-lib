@@ -182,6 +182,7 @@ nyc.Geoclient.prototype = {
 		return {
 			type: nyc.Locate.ResultType.GEOCODE,
 			coordinates: this.project(p),
+			data: r,
 			accuracy: a, /* approximation */
 			name: this.capitalize(ln1.replace(/  /, ' ').replace(/  /, ' ') + ', ' + r.firstBoroughName) + ', NY ' + (r.zipCode || r.leftSegmentZipCode || '')
 		};
