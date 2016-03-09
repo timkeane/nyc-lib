@@ -69,10 +69,14 @@
 				'EPSG:2263'
 			);
 
-			new nyc.LocationMgr({
+			var mgr = new nyc.LocationMgr({
 				controls: new nyc.ol.control.ZoomSearch(map),
 				locate: new nyc.ol.Locate(geocoder, 'EPSG:2263'),
 				locator: new nyc.ol.Locator({map: map, layer: layer})
+			});
+			
+			mgr.on(nyc.Locate.EventType.GEOCODE, function(result){
+				console.info(result);
 			});
 
 		});

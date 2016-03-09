@@ -62,12 +62,15 @@
 				'EPSG:4326'
 			);
 			
-			new nyc.LocationMgr({
+			var mgr = new nyc.LocationMgr({
 				controls: new nyc.leaf.ZoomSearch(map),
 				locate: new nyc.leaf.Locate(map, geocoder),
 				locator: new nyc.leaf.Locator({map: map})
 			});
 
+			mgr.on(nyc.Locate.EventType.GEOCODE, function(result){
+				console.info(result);
+			});
 			
 		});
 	</script>
