@@ -32,9 +32,11 @@
 	<script>
 		var MAP_CONFIG = /** @type {nyc.template.facility.MapConfig} */ {
 			url: 'data/upk.csv',
+			xCol: 'x',
+			yCol: 'y',
 			icon: {stroke: 'blue', fill: 'rgba(0,0,255,0.5)'},
-			geoclientAppId: '',
-			geoclientAppKey: '',
+			geoclientAppId: 'YOUR_APP_ID',
+			geoclientAppKey: 'YOUR_APP_KEY',
 			htmlRow: function(){
 				return '<tr><td>' + this.get('name') + '</td></tr>';
 			}

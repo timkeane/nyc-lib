@@ -169,6 +169,12 @@ task examples() << {
 	def examples = fileTree("${pkgDir}/examples")
 	def jsexp = /<!-- nyc js -->([\s\S]*?)<!-- nyc js -->/
 	def cssexp = /<!-- nyc css -->([\s\S]*?)<!-- nyc css -->/
+	def geoid = ''
+	def geokey = ''
+	if (project.hasProperty('nyc-lib.example.geoclient.app.id')){
+		geoid = project.ext['nyc-lib.example.geoclient.app.id']
+		geokey = project.ext['nyc-lib.example.geoclient.app.key']
+	}
 	examples.each{File file ->
 		if (file.name.indexOf('.html') > -1) {
 			def origHtml = file.text
@@ -184,8 +190,9 @@ task examples() << {
 				newHtml = (newHtml =~ cssexp).replaceFirst('<link rel="stylesheet" href="../css/nyc-carto-lib.css">')
 			}else{
 				newHtml = (origHtml =~ jsexp).replaceFirst('<script src="../js/nyc-leaf-lib.js"></script>')
-				newHtml = (newHtml =~ cssexp).replaceFirst('<link rel="stylesheet" href="../css/nyc-leaf-lib.css">')
 			}
+			newHtml = (newHtml =~ /YOUR_APP_ID/).replaceFirst(geoid)
+			newHtml = (newHtml =~ /YOUR_APP_KEY/).replaceFirst(geokey)
 			file.write(newHtml)
 		}
 	}

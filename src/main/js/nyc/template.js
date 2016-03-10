@@ -46,8 +46,9 @@ nyc.template.facility.Types;
  * @public
  * @typedef {Object}
  * @property {string} url URL to a facility CSV file
- * @property {string} [xCol=x|X|x_coord|X_COORD] Name of the CSV column containing X coordinate of facility location
- * @property {string} [yCol=y|Y|y_coord|Y_COORD] Name of the CSV column containing Y coordinate of facility location
+ * @property {string} xCol Name of the CSV column containing X coordinate or longitude of facility location
+ * @property {string} yCol Name of the CSV column containing Y coordinate or latitude of facility location
+ * @property {string=} projection The EPSG code for the coordinate data (if not provided EPSG:4326 will be assumed for longitude and latitude coordinates, otherwise EPSG:2263 will be assumed)
  * @property {string} geoclientAppId A Geoclient application id
  * @property {string} geoclientAppKey A Geoclient API key
  * @property {nyc.template.facility.Icon=} icon An icon to apply to all facility features if icons are not specified for facility types

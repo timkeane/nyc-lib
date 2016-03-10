@@ -228,6 +228,14 @@ function mapClick(event){
 
 $(document).ready(function(){
 
+	if (!config.projection){ 
+		if (['longitude', 'long', 'lng', 'lon'].indexOf(config.xCol) > -1){
+			config.projection = 'EPSG:4326';
+		}else{
+			config.projection = 'EPSG:2263';
+		}
+	}
+	
 	if (config.css){
 		var link = $('<link>');
 		link.attr('rel', 'stylesheet');
@@ -257,11 +265,11 @@ $(document).ready(function(){
 	map.on('click', mapClick);
 
 	source = new nyc.ol.source.FilteringAndSorting({
-		loader: new nyc.ol.source.CsvPointFeatureLoader({url: config.url})
+		loader: new nyc.ol.source.CsvPointFeatureLoader(config)
 	}, [config]);
 	source.once('change:featuresloaded', facilitiesLoaded);
 	
-	map.addLayer(new ol.layer.Vector({source: source, style: featureStyle}));
+	map.addLayer(new ol.layer.Vector({source: source, style: featureStyle, projection: config.projection}));
 	map.getView().fit(nyc.ol.EXTENT, map.getSize());
 	
 	var geocoder = new nyc.Geoclient(

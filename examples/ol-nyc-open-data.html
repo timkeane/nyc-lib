@@ -50,7 +50,8 @@
 <body>
 	<div id="map"></div>
 	<script>
-		var map, csvSrc, csvLyr;
+		var openDataUrl = 'https://data.cityofnewyork.us/api/views/8nqg-ia7v/rows.csv?accessType=DOWNLOAD',
+			map, csvSrc, csvLyr;
 
 		$(document).ready(function(){
 			
@@ -65,10 +66,10 @@
 			
 			csvSrc = new nyc.ol.source.FilteringAndSorting({
 				loader: new nyc.ol.source.CsvPointFeatureLoader({
-					url: 'data/upk.csv',
-					projection: 'EPSG:2263',
-					xCol: 'x',
-					yCol: 'y'
+					url: openDataUrl,
+					xCol: 'longitude',
+					yCol: 'latitude',
+					projection: 'EPSG:4326'
 				})
 			}, []);
 
