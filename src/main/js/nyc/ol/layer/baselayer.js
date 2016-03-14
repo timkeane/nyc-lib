@@ -84,6 +84,7 @@ nyc.ol.layer.BaseLayer.IMAGE_EXTENSION = 'jpg';
  */
 nyc.ol.layer.BaseLayer.BASIC_OPTIONS = {
 	source: new nyc.ol.source.AcrGisCache({
+		crossOrigin: 'Anonymous',
 		urls: nyc.ol.layer.BaseLayer.BASIC_URLS,
 		imageExtension : nyc.ol.layer.BaseLayer.IMAGE_EXTENSION,
 		projection: 'EPSG:2263',
@@ -114,6 +115,7 @@ nyc.ol.layer.BaseLayer.DEFAULT_OPTIONS = nyc.ol.layer.BaseLayer.BASIC_OPTIONS;
 */
 nyc.ol.layer.BaseLayer.ORTHO_OPTIONS = {
 	source: new nyc.ol.source.AcrGisCache({
+		crossOrigin: 'Anonymous',
 		urls: nyc.ol.layer.BaseLayer.ORTHO_URLS,
 		imageExtension : nyc.ol.layer.BaseLayer.IMAGE_EXTENSION,
 		projection: 'EPSG:2263',
