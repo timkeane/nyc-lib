@@ -8,7 +8,7 @@ plugins {
 
 ext {
 	appName = 'nyc-lib'
-	ver = 'v0.1.2-SNAPSHOT'
+	ver = 'v0.1.2'
 	pkgDir = "${buildDir}/${appName}/${ver}"
 	remoteDir = "${appName}/${ver}"
 	srcDir = "${projectDir}/src/main"
@@ -190,6 +190,7 @@ task examples() << {
 				newHtml = (newHtml =~ cssexp).replaceFirst('<link rel="stylesheet" href="../css/nyc-carto-lib.css">')
 			}else{
 				newHtml = (origHtml =~ jsexp).replaceFirst('<script src="../js/nyc-leaf-lib.js"></script>')
+				newHtml = (newHtml =~ cssexp).replaceFirst('<link rel="stylesheet" href="../css/nyc-leaf-lib.css">')
 			}
 			newHtml = (newHtml =~ /YOUR_APP_ID/).replaceFirst(geoid)
 			newHtml = (newHtml =~ /YOUR_APP_KEY/).replaceFirst(geokey)
