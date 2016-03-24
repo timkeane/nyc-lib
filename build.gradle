@@ -8,7 +8,7 @@ plugins {
 
 ext {
 	appName = 'nyc-lib'
-	ver = 'v0.1.4-SNAPSHOT'
+	ver = 'v0.1.4'
 	pkgDir = "${buildDir}/${appName}/${ver}"
 	remoteDir = "${appName}/${ver}"
 	srcDir = "${projectDir}/src/main"
@@ -175,22 +175,26 @@ task examples() << {
 		geoid = project.ext['nyc-lib.example.geoclient.app.id']
 		geokey = project.ext['nyc-lib.example.geoclient.app.key']
 	}
+	def host = 'https://maps.nyc.gov'
+	if (project.hasProperty('env') && project.hasProperty("${env}.nyc-lib.host")){
+		host = project.ext["${env}.nyc-lib.host"]
+	}
 	examples.each{File file ->
 		if (file.name.indexOf('.html') > -1) {
 			def origHtml = file.text
 			def newHtml = origHtml
 			if (file.name.indexOf('ol-redline-') == 0){
-				newHtml = (origHtml =~ jsexp).replaceFirst('<script src="../js/nyc-ol-redline-lib.js"></script>')
-				newHtml = (newHtml =~ cssexp).replaceFirst('<link rel="stylesheet" href="../css/nyc-ol-redline-lib.css">')
+				newHtml = (origHtml =~ jsexp).replaceFirst("<script src=\"${host}/nyc-lib/${ver}/js/nyc-ol-redline-lib.js\"></script>")
+				newHtml = (newHtml =~ cssexp).replaceFirst("<link rel=\"stylesheet\" href=\"${host}/nyc-lib/${ver}/css/nyc-ol-redline-lib.css\">")
 			}else if (file.name.indexOf('ol-') == 0){
-				newHtml = (origHtml =~ jsexp).replaceAll('<script src="../js/nyc-ol-lib.js"></script>')
-				newHtml = (newHtml =~ cssexp).replaceAll('<link rel="stylesheet" href="../css/nyc-ol-lib.css">')
+				newHtml = (origHtml =~ jsexp).replaceAll("<script src=\"${host}/nyc-lib/${ver}/js/nyc-ol-lib.js\"></script>")
+				newHtml = (newHtml =~ cssexp).replaceAll("<link rel=\"stylesheet\" href=\"${host}/nyc-lib/${ver}/css/nyc-ol-lib.css\">")
 			}else if (file.name.indexOf('carto-') == 0){
-				newHtml = (origHtml =~ jsexp).replaceFirst('<script src="../js/nyc-carto-lib.js"></script>')
-				newHtml = (newHtml =~ cssexp).replaceFirst('<link rel="stylesheet" href="../css/nyc-carto-lib.css">')
+				newHtml = (origHtml =~ jsexp).replaceFirst("<script src=\"${host}/nyc-lib/${ver}/js/nyc-carto-lib.js\"></script>")
+				newHtml = (newHtml =~ cssexp).replaceFirst("<link rel=\"stylesheet\" href=\"${host}/nyc-lib/${ver}/css/nyc-carto-lib.css\">")
 			}else{
-				newHtml = (origHtml =~ jsexp).replaceFirst('<script src="../js/nyc-leaf-lib.js"></script>')
-				newHtml = (newHtml =~ cssexp).replaceFirst('<link rel="stylesheet" href="../css/nyc-leaf-lib.css">')
+				newHtml = (origHtml =~ jsexp).replaceFirst("<script src=\"${host}/nyc-lib/${ver}/js/nyc-leaf-lib.js\"></script>")
+				newHtml = (newHtml =~ cssexp).replaceFirst("<link rel=\"stylesheet\" href=\"${host}/nyc-lib/${ver}/css/nyc-leaf-lib.css\">")
 			}
 			newHtml = (newHtml =~ /YOUR_APP_ID/).replaceFirst(geoid)
 			newHtml = (newHtml =~ /YOUR_APP_KEY/).replaceFirst(geokey)
@@ -201,8 +205,8 @@ task examples() << {
 
 task jsDoc(type: JsDocTask, dependsOn: [npmPackage, examples]) {
 	def host = 'https://maps.nyc.gov'
-	if (project.hasProperty('env') && project.hasProperty("${env}.nyclib.host")){
-		host = project.ext["${env}.nyclib.host"]
+	if (project.hasProperty('env') && project.hasProperty("${env}.nyc-lib.host")){
+		host = project.ext["${env}.nyc-lib.host"]
 	}
 	sourceDir = "src/main/js/nyc"
 	packageFile = "${pkgDir}/package.json"

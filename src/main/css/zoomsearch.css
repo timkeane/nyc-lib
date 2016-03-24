@@ -5,6 +5,9 @@
 	right: 0;
 	max-width: 450px;
 }
+.ui-input-search .ui-shadow-inset .ui-input-has-clear .ui-body-inherit .ui-corner-all {
+	background-color: yellow;
+}
 #btn-z-in {
 	left: 3px;
 	top: 0;

@@ -54,8 +54,8 @@ nyc.template.facility.Types;
  * @property {nyc.template.facility.Icon=} icon An icon to apply to all facility features if icons are not specified for facility types
  * @property {boolean} [autoLocate=false] Automatically locate using device geolocation
  * @property {string} [selectionColor=rgba(255,255,0,0.5)] Color for highlighting selected facilities
- * @property {function():(string|Element|JQuery)} htmlRow A function where 'this' is an instance of ol.Feature, and returns an HTML table row
- * @property {function(Object<string, Object>):boolean=} click A function to call when a facility is clicked on the map or in the table
+ * @property {function():(string|Element|JQuery)} [htmlRow] A function where 'this' is an instance of ol.Feature, and returns an HTML table row - exclude to eliminate tabular display of facilities
+ * @property {function(Object<string, Object>):boolean} [click] A function that takes an {(Object<string, Object>} argument to call when a facility is clicked on the map or in the table
  * @property {string=} css URL to custom CSS
  * @property {nyc.template.facility.Types=} facilityTypes Facility types mapped by the type value from the facility CSV
  */
