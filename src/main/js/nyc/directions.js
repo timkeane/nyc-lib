@@ -111,6 +111,9 @@ nyc.Directions.prototype = {
 						});
 						$('#fld-from input').val(addrA);
 						$('#fld-to').html(addrB);
+					}else{
+						$(me.routeTarget).empty();
+						me.trigger(nyc.Directions.EventType.NO_DIRECTIONS, {response: response, status: status});
 					}
 					$('.dir-mode-btn').removeClass('active-mode');
 					$(me.modeBtn).addClass('active-mode');
@@ -238,7 +241,8 @@ nyc.Directions.EventType = {
 	/**
 	 * @desc The change event type
 	 */
-	CHANGED: 'changed'
+		CHANGED: 'changed',
+		NO_DIRECTIONS: 'no-directions'
 };
 
 /** 
