@@ -117,8 +117,8 @@ nyc.Directions.prototype = {
 					}
 					$('.dir-mode-btn').removeClass('active-mode');
 					$(me.modeBtn).addClass('active-mode');
-					me.height();
 					setTimeout(function(){
+						me.height();
 						me.trigger(nyc.Directions.EventType.CHANGED, {response: response, status: status});
 					}, 200);
 				}
@@ -223,10 +223,12 @@ nyc.Directions.prototype = {
 	 * @method
 	 */
 	height: function(){
-		var h =  $('#dir-toggle').css('display') == 'block' ? $('#dir-toggle').height() : 0;
-		$('#directions').height(
-			$('#dir-panel').height() - h - $('.banner').height() - $('#dir-content').height() - $('#copyright').height() - 10
-		);
+		var toggle =  $('#dir-toggle').css('display') == 'block' ? $('#dir-toggle').height() : 0,
+			panel = $('#dir-panel').height() || 0,
+			banner = $('.banner').height() || 0,
+			content = $('#dir-content').height() || 0,
+			copy = $('#copyright').height() || 0;
+		$('#directions').height(panel - toggle - banner - content - copy - 10);
 	}
 };
 
