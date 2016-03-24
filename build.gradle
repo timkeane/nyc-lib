@@ -156,7 +156,8 @@ task npmPackage(type: NpmPackageTask) {
 		CartoDB: '> 3.14', 
 		ChartJS: '> 1.0.1',
 		proj4js: '> 2.3.10', 
-		JQuery: '> 1.11.0'
+		JQuery: '> 1.11.0', 
+		JQueryMobile: '> 1.4.5'
 	]
 }
 
