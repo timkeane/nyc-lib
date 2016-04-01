@@ -5,10 +5,17 @@ var nyc = nyc || {};
  * @public 
  * @class
  * @constructor
- * @param {Object<string, string>} messages The messages with optional tokens mapped by message id
+ * @param {Object<string, string>|Array<Object<string, string>>} messages The messages with optional tokens mapped by message id
  */
 nyc.Content = function(messages){
-	this.messages = messages;
+	var messageMap = [];
+	messages = $.isArray(messages) ? messages : [messages];
+	$.each(messages, function(_, map){
+		for (msg in map){
+			messageMap[msg] = map[msg];
+		}
+	});
+	this.messages = messageMap;
 };
 
 nyc.Content.prototype = {
