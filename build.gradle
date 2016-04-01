@@ -4,6 +4,25 @@ plugins {
     id 'base'
     id 'jetty'
     id 'org.hidetake.ssh' version '1.1.2'
+    id 'groovy'
+}
+
+sourceSets{
+	test {
+		groovy {
+			srcDirs = ['src/test/groovy']
+		}
+	}
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+    testCompile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.1.5'
+    testCompile group: 'com.googlecode.ez-vcard', name: 'ez-vcard', version: '0.9.8'
 }
 
 ext {
@@ -20,7 +39,8 @@ ext {
 		'nyc/template.js', 
 		'nyc/collapsible.js', 
 		'nyc/collapsible-choice.js',
-		'nyc/collapsible-radio.js', 
+		'nyc/collapsible-radio.js',
+		'nyc/collapsible-check.js', 
 		'nyc/collapsible-month-range.js', 
 		'nyc/content.js', 
 		'nyc/dialog.js', 
@@ -31,6 +51,7 @@ ext {
 		'nyc/locate.js', 
 		'nyc/locationmgr.js', 
 		'nyc/share.js',
+		'nyc/listpager.js',
 		'nyc/zoomsearch.js',
 		'nyc/ol/ol.js', 
 		'nyc/ol/featuretip.js', 
@@ -43,7 +64,8 @@ ext {
 		'nyc/ol/source/decorating.js', 
 		'nyc/ol/source/filteringandsorting.js',
 		'nyc/ol/layer/baselayer.js',
-		'nyc/ol/layer/grayscale.js'
+		'nyc/ol/layer/grayscale.js',
+		'nyc/jcard/jcard.js'
 	]
 	olRedLineJsFiles = [
 		'nyc/ol/draw.js', 
@@ -55,6 +77,7 @@ ext {
 		'nyc/collapsible.js', 
 		'nyc/collapsible-choice.js',
 		'nyc/collapsible-radio.js', 
+		'nyc/collapsible-check.js', 
 		'nyc/collapsible-month-range.js', 
 		'nyc/content.js', 
 		'nyc/dialog.js', 
@@ -65,11 +88,13 @@ ext {
 		'nyc/locate.js', 
 		'nyc/locationmgr.js', 
 		'nyc/share.js',
+		'nyc/listpager.js',
 		'nyc/zoomsearch.js',
 		'nyc/leaf/leaf.js', 
 		'nyc/leaf/locate.js', 
 		'nyc/leaf/locator.js', 
-		'nyc/leaf/zoomsearch.js'
+		'nyc/leaf/zoomsearch.js',
+		'nyc/jcard/jcard.js'
 	]
 	cartoJsFiles = [
 		'nyc/nyc.js', 
@@ -77,6 +102,7 @@ ext {
 		'nyc/collapsible.js', 
 		'nyc/collapsible-choice.js',
 		'nyc/collapsible-radio.js', 
+		'nyc/collapsible-check.js', 
 		'nyc/collapsible-month-range.js', 
 		'nyc/content.js', 
 		'nyc/dialog.js', 
@@ -87,6 +113,7 @@ ext {
 		'nyc/locate.js', 
 		'nyc/locationmgr.js', 
 		'nyc/share.js',
+		'nyc/listpager.js',
 		'nyc/zoomsearch.js',
 		'nyc/leaf/leaf.js', 
 		'nyc/leaf/locate.js', 
@@ -99,7 +126,8 @@ ext {
 		'nyc/carto/chart.js',
 		'nyc/carto/view.js',
 		'nyc/carto/sqlview.js',
-		'nyc/carto/popup.js'
+		'nyc/carto/popup.js',
+		'nyc/jcard/jcard.js'
 	]
 	olCssFiles = [
 		'control-common.css', 
