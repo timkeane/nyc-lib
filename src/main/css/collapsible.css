@@ -9,6 +9,6 @@ span.current-value {
 a.ui-collapsible-heading-toggle {
     white-space: normal;
 }
-.ui-collapsible-themed-content>.ui-collapsible-heading {
+.ui-collapsible {
 	border-radius: 0.6em;
 }

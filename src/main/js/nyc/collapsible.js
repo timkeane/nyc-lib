@@ -18,7 +18,12 @@ nyc.Collapsible = function(options){
 	
 	$(options.target).prepend(heading)
 		.collapsible()
-		.collapsible('option', {collapsedIcon: 'carat-d', expandedIcon: 'carat-u'});
+		.collapsible('option', {
+			collapsed: !options.expanded, 
+			collapsedIcon: 'carat-d', 
+			expandedIcon: 'carat-u'
+		});
+	
 };
 
 nyc.Collapsible.prototype = {
@@ -38,5 +43,6 @@ nyc.inherits(nyc.Collapsible, nyc.EventHandling);
  * @typedef {Object}
  * @property {Element|JQuery|string} target The target DOM node for creating the collapsible control
  * @property {string} title The title to display
+ * @property {boolean} [expanded=false] The intial state of the collapsible control
  */
 nyc.Collapsible.Options;
