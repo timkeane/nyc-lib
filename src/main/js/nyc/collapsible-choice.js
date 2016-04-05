@@ -10,7 +10,7 @@ var nyc = nyc || {};
  * @param {nyc.Choice.Options} options Constructor options
  */
 nyc.Choice = function(options){
-	var me = this, fieldset = $('<fieldset data-role="controlgroup"></fieldset>'), radio0;
+	var me = this, fieldset = $('<fieldset data-role="controlgroup"></fieldset>');
 	
 	me.choices = options.choices;
 
@@ -22,9 +22,6 @@ nyc.Choice = function(options){
 			label = $('<label></label>');
 		input.attr('name', 'nyc-radio-name' + '-' + nyc.Choice.uniqueId)
 			.attr('value', i);
-		if (i == 0){
-			radio0 = input;
-		}
 		input.click($.proxy(me.changed, me));
 		label.attr('for', input.attr('id')).html(choice.label);
 		fieldset.append(input).append(label);
@@ -32,6 +29,10 @@ nyc.Choice = function(options){
 	});
 		
 	$(options.target).append(fieldset).trigger('create');
+
+	$.each(me.inputs, function(i, input){
+		input.prop('checked', me.choices[i].checked || false).checkboxradio("refresh");
+	});	
 
 	nyc.Collapsible.apply(this, [options]);
 };
@@ -99,6 +100,7 @@ nyc.Choice.uniqueId = 0;
  * @typedef {Object}
  * @property {string} label The label for the choice
  * @property {string} value The value of the choice
+ * @property {boolean} [checked=false] The value of the checked state of the choice
  */
 nyc.Choice.Choice;
 

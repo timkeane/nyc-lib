@@ -17,6 +17,7 @@
 	<script src="../src/main/js/nyc/collapsible.js"></script>
 	<script src="../src/main/js/nyc/collapsible-choice.js"></script>
 	<script src="../src/main/js/nyc/collapsible-check.js"></script>
+	<script src="../src/main/js/nyc/collapsible-radio.js"></script>
 	<!-- nyc js -->
 	
 	<style>
@@ -28,18 +29,37 @@
 </head>
 <body>
 	<div id="check"></div>
+	<div id="radio"></div>
 	<script>
-		var control;
+		var check, radio;
 		$(document).ready(function(){
-			control = new nyc.Check({
+			check = new nyc.Check({
 				target: '#check',
-				title: 'My Choices',
+				title: 'My Good Choices',
 				choices: [
 					{value: 'choice1', label: 'First Choice'},
-					{value: 'choice2', label: 'Second Choice'},
+					{value: 'choice2', label: 'Second Choice', checked: true},
 					{value: 'choice3', label: 'Third Choice'}
 				]
 			});
+			radio = new nyc.Radio({
+				target: '#radio',
+				title: 'My Bad Choices',
+				choices: [
+					{value: 'choice1', label: 'First Choice'},
+					{value: 'choice2', label: 'Second Choice'},
+					{value: 'choice3', label: 'Third Choice', checked: true}
+				]
+			});
+			
+			check.on('change', function(event){
+				console.info(check, event);
+			});
+			
+			radio.on('change', function(event){
+				console.info(radio, event);
+			});
+			
 		});
 	</script>
 </body>

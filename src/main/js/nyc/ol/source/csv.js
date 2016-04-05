@@ -49,7 +49,7 @@ nyc.ol.source.CsvPointFeatureLoader = function(options) {
 				}
 			});
 		}
-	}
+	};
 };
 
 nyc.ol.source.CsvPointFeatureLoader.prototype = {};

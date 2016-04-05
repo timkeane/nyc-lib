@@ -45,13 +45,13 @@ nyc.ol.source.Decorating = function(options, decorationMixins){
 		
 	ol.source.Vector.call(this, options);
 	this.on('addfeature', function(e){
-	  var feature = e.feature;
-	  $.each(decorationMixins, function(_, mixin){
-		  for (var memb in mixin){
-			  feature[memb] = mixin[memb];
-		  }
-	  });
-  });
+		var feature = e.feature;
+		$.each(decorationMixins, function(_, mixin){
+			for (var memb in mixin){
+				feature[memb] = mixin[memb];
+			}
+		});
+	});
 };
 
 ol.inherits(nyc.ol.source.Decorating, ol.source.Vector);

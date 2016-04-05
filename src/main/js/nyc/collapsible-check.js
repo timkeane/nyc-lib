@@ -10,9 +10,6 @@ var nyc = nyc || {};
  */
 nyc.Check = function(options){
 	nyc.Choice.apply(this, [options]);
-	$.each(this.inputs, function(_, input){
-		$(input).prop('checked', true).checkboxradio('refresh');
-	});
 	this.changed();
 };
 

@@ -8,7 +8,7 @@ nyc.ol.source = nyc.ol.source || {};
  * @class
  * @extends {nyc.ol.source.Decorating}
  * @constructor
- * @param {Object} options Vector source options
+ * @param {Object=} options Vector source options
  * @param {Array<Object>}  decorationMixins An array of objects whose members will be added to all features created by this source
  * @see http://www.openlayers.org/
  */

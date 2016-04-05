@@ -9,8 +9,8 @@ var nyc = nyc || {};
  * @param {nyc.Choice.Options} options Constructor options
  */
 nyc.Radio = function(options){
-	nyc.Choice.apply(this, [options]);	
-	$(this.inputs[0]).attr('checked', true).trigger('changed');
+	nyc.Choice.apply(this, [options]);
+	this.changed();
 };
 
 nyc.Radio.prototype = {
@@ -25,10 +25,15 @@ nyc.Radio.prototype = {
 	 * @param {Object} event The change event object 
 	 */
 	changed: function(event){
-		var choice = this.choices[event.target.value * 1];
-		this.value = choice.value;
-		this.currentVal.html(choice.label);
-		this.trigger('change', choice);
+		var me = this;
+		$.each(me.inputs, function(i, input){
+			if (input.prop('checked')){
+				var choice = me.choices[i];
+				me.value = choice.value;
+				me.currentVal.html(choice.label);
+				me.trigger('change', choice);
+			}
+		});
 	}		
 };
 
