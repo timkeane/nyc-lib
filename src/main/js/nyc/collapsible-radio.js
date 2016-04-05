@@ -29,9 +29,9 @@ nyc.Radio.prototype = {
 		$.each(me.inputs, function(i, input){
 			if (input.prop('checked')){
 				var choice = me.choices[i];
-				me.value = choice.value;
+				me.value = [choice];
 				me.currentVal.html(choice.label);
-				me.trigger('change', choice);
+				me.trigger('change', [choice]);
 			}
 		});
 	}		

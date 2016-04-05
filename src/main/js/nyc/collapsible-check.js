@@ -25,17 +25,18 @@ nyc.Check.prototype = {
 	 * @param {Object} event The change event object 
 	 */
 	changed: function(event){
-		var me = this, labels = [], values = [];
+		var me = this, display = me.currentVal; chosen = [], comma = '';
+		display.empty();
 		$.each(me.inputs, function(_, input){
 			if (input.prop('checked')){
 				var choice = me.choices[input.val() * 1];
-				labels.push(choice.label);
-				values.push(choice.value);
+				chosen.push(choice);
+				display.append(comma + choice.label);
+				comma = ', ';
 			}
 		});
-		this.value = values;
-		this.currentVal.html(labels.toString().replace(/,/, ', '));
-		this.trigger('change', values);
+		this.value = chosen;
+		this.trigger('change', chosen);
 	}		
 };
 

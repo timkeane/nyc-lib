@@ -8,6 +8,7 @@ var nyc = nyc || {};
  * @extends {nyc.Collapsible}
  * @constructor
  * @param {nyc.Choice.Options} options Constructor options
+ * @fires nyc.Choice#change
  */
 nyc.Choice = function(options){
 	var me = this, fieldset = $('<fieldset data-role="controlgroup"></fieldset>');
@@ -35,6 +36,7 @@ nyc.Choice = function(options){
 			input.prop('checked', true).checkboxradio("refresh");
 			return me.type == 'checkbox';
 		}
+		delete me.choices[i].checked;
 	});	
 
 	nyc.Collapsible.apply(this, [options]);
@@ -48,6 +50,11 @@ nyc.Choice.prototype = {
 	type: null,
 	/**
 	 * @private
+	 * @member {Array<nyc.Choice.Choice>}
+	 */
+	value: null,
+	/**
+	 * @private
 	 * @member {Array<Element>}
 	 */
 	inputs: null,
@@ -55,7 +62,7 @@ nyc.Choice.prototype = {
 	 * @public
 	 * @abstract
 	 * @method
-	 * @param {Object} event The change event object 
+	 * @param {Object} event The change event object from an input element
 	 */
 	changed: function(event){
 		throw 'Must be implemented';
@@ -64,7 +71,7 @@ nyc.Choice.prototype = {
 	 * @desc Returns the value of the radio button collection
 	 * @public
 	 * @method
-	 * @return {string|Array<string>} The value of the radio button collection
+	 * @return {Array<nyc.Choice.Choice>} The value of the choice control
 	 */
 	val: function(){
 		return this.value;
@@ -101,6 +108,7 @@ nyc.Choice.uniqueId = 0;
  * @desc A choice for {@link nyc.Choice.Options}
  * @public
  * @typedef {Object}
+ * @property {string} name The name for the choice
  * @property {string} label The label for the choice
  * @property {string} value The value of the choice
  * @property {boolean} [checked=false] The value of the checked state of the choice
@@ -116,3 +124,9 @@ nyc.Choice.Choice;
  * @property {Array<nyc.Choice.Choice>} choices The choices for the user
  */
 nyc.Choice.Options;
+
+/**
+ * @desc The change event
+ * @event nyc.Choice#change
+ * @type {Array<nyc.Choice.Choice>}
+ */
