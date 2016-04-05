@@ -98,7 +98,7 @@ nyc.Choice.prototype = {
 nyc.inherits(nyc.Choice, nyc.Collapsible);
 
 /** 
- * @desc Used to generate DOM ids
+ * @desc Used to generate unique DOM name attributes
  * @public
  * @static {number}
  */
