@@ -59,7 +59,6 @@ nyc.jcard.Property = {
 };
 
 /**
- * @public
  * @desc Supported JCard types
  * @public
  * @enum {string}
@@ -249,9 +248,9 @@ nyc.jcard.Builder.prototype = {
 		values.push(state);
 		values.push(zip);
 		values.push(country);
-		if (line2) label += ('\\n' + line2);
-		label += ('\\n' + city + '\\, ' + state + ' ' + zip);
-		if (country) label += ('\\n' + country);
+		if (line2) label += ('\n' + line2);
+		label += ('\n' + city + '\, ' + state + ' ' + zip);
+		if (country) label += ('\n' + country);
 		params.label = label;
 		return this.prop(nyc.jcard.Property.ADDRESS, params, nyc.jcard.Data.TEXT, [values]);
 	},
@@ -276,6 +275,28 @@ nyc.jcard.Builder.prototype = {
 		var number = '+1-' + phone.area + '-' + phone.number;
 		number += phone.extension ? (',' + phone.extension) : '';
 		return this.prop(nyc.jcard.Property.PHONE, this.params(phone.type), nyc.jcard.Data.URI, [number]);
+	},
+	/** 
+	 * @desc Create a JCard phone property from a U.S.A phone number string
+	 * @public
+	 * @method
+	 * @param {string} phone The phone to create
+	 * @return {Array} The JCard phone property
+	 */ 
+	parsePhone: function(phone){
+		var number = phone, area = '', extension = '';
+		phone = phone.replace(/[^\w]/g, '');
+		if (phone.substr(0, 1) == '1') {
+			phone = phone.substr(1);
+		}
+		if (phone.length >= 10) {
+			area = phone.substr(0, 3);
+			number = phone.substr(3, 3) + '-' + phone.substr(6, 4);
+			if (phone.length > 10) {
+				extension = phone.substr(10);
+			}
+		}
+		return this.phone({area: area, phone: number, extension: extension});
 	},
 	/** 
 	 * @desc Create a JCard URL property
@@ -424,7 +445,7 @@ nyc.jcard.Builder.prototype = {
 	 * @private
 	 * @method
 	 * @param {stringArray<string>} prop
-	 * @return {Object<string, string>|Object<string, Array<string>}
+	 * @return {Object<string, string>|Object<string, Array<string>>}
 	 */
 	params: function(type){
 		if (type){
@@ -436,7 +457,7 @@ nyc.jcard.Builder.prototype = {
 	 * @private
 	 * @method
 	 * @param {string} prop
-	 * @param {Object<string, string>|Object<string, Array<string>} params
+	 * @param {Object<string, string>|Object<string, Array<string>>} params
 	 * @param {string} dataType
 	 * @param {Array<string>} values
 	 * @return {Array}

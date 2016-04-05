@@ -51,7 +51,7 @@ QUnit.test('metersPerUnit', function(assert){
 	var locate = new nyc.ol.Locate(this.MOCK_GEOCODER);
 	assert.equal(locate.metersPerUnit(), 1);
 	locate = new nyc.ol.Locate(this.MOCK_GEOCODER, 'EPSG:2263');
-	assert.equal(locate.metersPerUnit(), 0.3048);
+	assert.equal(locate.metersPerUnit().toFixed(4), 0.3048);
 });
 
 QUnit.test('project', function(assert){

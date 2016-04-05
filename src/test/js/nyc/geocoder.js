@@ -37,7 +37,8 @@ QUnit.test('parse (address)', function(assert){
 			type: nyc.Locate.ResultType.GEOCODE,
 			coordinates: [982037, 197460],
 			accuracy: nyc.Geocoder.Accuracy.HIGH,
-			name: '59 Maiden Lane, Manhattan, NY 10038'			
+			name: '59 Maiden Lane, Manhattan, NY 10038',
+			data: this.GEOCLIENT_OK_ADDRESS_RESPONSE.results[0].response
 		}
 	);
 });
@@ -52,7 +53,8 @@ QUnit.test('parse (intersection)', function(assert){
 			type: nyc.Locate.ResultType.GEOCODE,
 			coordinates: [0986427, 215839],
 			accuracy: nyc.Geocoder.Accuracy.MEDIUM,
-			name: '9 Avenue And West 43 Street, Manhattan, NY 10036'			
+			name: '9 Avenue And West 43 Street, Manhattan, NY 10036',
+			data: this.GEOCLIENT_OK_INTERSECTION_RESPONSE.results[0].response	
 		}
 	);
 });
@@ -67,7 +69,8 @@ QUnit.test('parse (blockface)', function(assert){
 			type: nyc.Locate.ResultType.GEOCODE,
 			coordinates: [986033.5, 216057],
 			accuracy: nyc.Geocoder.Accuracy.LOW,
-			name: 'West 43 Street Btwn 9 Avenue & 10 Avenue, Manhattan, NY 10036'			
+			name: 'West 43 Street Btwn 9 Avenue & 10 Avenue, Manhattan, NY 10036',
+			data: this.GEOCLIENT_OK_BLOCKFACE_RESPONSE.results[0].response				
 		}
 	);
 });
@@ -82,26 +85,31 @@ QUnit.test('possible', function(assert){
 			accuracy: 100,
 			coordinates: [1002457, 234792],
 			name: 'Metro North Bridge, Manhattan, NY ',
-			type: 'geocode'
+			type: 'geocode',
+			data: this.GEOCLIENT_NOT_OK_RESPONSE.results[1].response
 		},
 		{
 			accuracy: 0,
 			coordinates: [999682, 226174],
 			name: 'Metro North Complex, Manhattan, NY 10029',
-			type: 'geocode'
+			type: 'geocode',
+			data: this.GEOCLIENT_NOT_OK_RESPONSE.results[2].response
 		},
 		{
 			accuracy: 100,
 			coordinates: [999790, 225881],
 			name: 'Metro North Park, Manhattan, NY 10029',
-			type: 'geocode'
+			type: 'geocode',
+			data: this.GEOCLIENT_NOT_OK_RESPONSE.results[3].response
 		}]
 	);
 });
 
 QUnit.test('geoclient (geocoded)', function(assert){
 	assert.expect(1);
-
+	
+	var response = this.GEOCLIENT_OK_ADDRESS_RESPONSE;
+	
 	var geocoder = new nyc.Geoclient();
 	geocoder.on(nyc.Locate.EventType.GEOCODE, function(data){
 		assert.deepEqual(
@@ -110,11 +118,12 @@ QUnit.test('geoclient (geocoded)', function(assert){
 				type: nyc.Locate.ResultType.GEOCODE,
 				coordinates: [982037, 197460],
 				accuracy: nyc.Geocoder.Accuracy.HIGH,
-				name: '59 Maiden Lane, Manhattan, NY 10038'			
+				name: '59 Maiden Lane, Manhattan, NY 10038',
+				data: response.results[0].response			
 			}
 		);
 	});
-	geocoder.geoclient(this.GEOCLIENT_OK_ADDRESS_RESPONSE)
+	geocoder.geoclient(response);
 });
 
 QUnit.test('geoclient (non addressable)', function(assert){
@@ -131,6 +140,7 @@ QUnit.test('geoclient (non addressable)', function(assert){
 QUnit.test('geoclient (ambiguous)', function(assert){
 	assert.expect(1);
 
+	var response = this.GEOCLIENT_NOT_OK_RESPONSE;
 	var geocoder = new nyc.Geoclient();
 	geocoder.on(nyc.Locate.EventType.AMBIGUOUS, function(data){
 		assert.deepEqual(data, {
@@ -140,24 +150,27 @@ QUnit.test('geoclient (ambiguous)', function(assert){
 	        	   accuracy: 100,
 	        	   coordinates: [1002457, 234792],
 	        	   name: 'Metro North Bridge, Manhattan, NY ',
-	        	   type: 'geocode'
+	        	   type: 'geocode',
+					data: response.results[1].response
 	           },
 	           {
 	        	   accuracy: 0,
 	        	   coordinates: [999682, 226174],
 	        	   name: 'Metro North Complex, Manhattan, NY 10029',
-	        	   type: 'geocode'
+	        	   type: 'geocode',
+					data: response.results[2].response
 	           },
 	           {
 	        	   accuracy: 100,
 	        	   coordinates: [999790, 225881],
 	        	   name: 'Metro North Park, Manhattan, NY 10029',
-	        	   type: 'geocode'
+	        	   type: 'geocode',
+					data: response.results[3].response
 	           }
            ]
 		});
 	});
-	geocoder.geoclient(this.GEOCLIENT_NOT_OK_RESPONSE)
+	geocoder.geoclient(response);
 });
 
 QUnit.test('search (zip code)', function(assert){

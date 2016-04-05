@@ -1,5 +1,3 @@
-QUnit.config.requireExpects = true;
-
 QUnit.module('nyc.jcard.Builder', {
 	beforeEach: function(assert){
 		this.BUILDER = new nyc.jcard.Builder();
@@ -54,7 +52,7 @@ QUnit.test('address', function(assert){
 	
 	var prop = this.BUILDER.address(address);
 	
-	assert.deepEqual(prop, [nyc.jcard.Property.ADDRESS, {type: nyc.jcard.Type.WORK, label: '2 Metrotect Ctr.\\n4th floor\\nBrooklyn\\, NY 11201\\nU.S.A.'}, nyc.jcard.Data.TEXT, ['2 Metrotect Ctr.', 'Brooklyn', '4th floor', 'NY', '11201', 'U.S.A.']]);
+	assert.deepEqual(prop, [nyc.jcard.Property.ADDRESS, {type: nyc.jcard.Type.WORK, label: '2 Metrotect Ctr.\n4th floor\nBrooklyn\, NY 11201\nU.S.A.'}, nyc.jcard.Data.TEXT, ['2 Metrotect Ctr.', 'Brooklyn', '4th floor', 'NY', '11201', 'U.S.A.']]);
 
 	address = {
 		line1: '2 Metrotect Ctr.',
@@ -66,7 +64,7 @@ QUnit.test('address', function(assert){
 	
 	prop = this.BUILDER.address(address);
 	
-	assert.deepEqual(prop, [nyc.jcard.Property.ADDRESS, {type: nyc.jcard.Type.HOME, label: '2 Metrotect Ctr.\\nBrooklyn\\, NY 11201'}, nyc.jcard.Data.TEXT, ['2 Metrotect Ctr.', 'Brooklyn', '', 'NY', '11201', '']]);
+	assert.deepEqual(prop, [nyc.jcard.Property.ADDRESS, {type: nyc.jcard.Type.HOME, label: '2 Metrotect Ctr.\nBrooklyn\, NY 11201'}, nyc.jcard.Data.TEXT, ['2 Metrotect Ctr.', 'Brooklyn', '', 'NY', '11201', '']]);
 
 	address = {
 		line1: '2 Metrotect Ctr.',
@@ -77,7 +75,7 @@ QUnit.test('address', function(assert){
 	
 	prop = this.BUILDER.address(address);
 	
-	assert.deepEqual(prop, [nyc.jcard.Property.ADDRESS, { label: '2 Metrotect Ctr.\\nBrooklyn\\, NY 11201'}, nyc.jcard.Data.TEXT, ['2 Metrotect Ctr.', 'Brooklyn', '', 'NY', '11201', '']]);
+	assert.deepEqual(prop, [nyc.jcard.Property.ADDRESS, { label: '2 Metrotect Ctr.\nBrooklyn\, NY 11201'}, nyc.jcard.Data.TEXT, ['2 Metrotect Ctr.', 'Brooklyn', '', 'NY', '11201', '']]);
 });
 
 QUnit.test('email', function(assert){
@@ -401,7 +399,7 @@ QUnit.test('jcard', function(assert){
 	var expected = ['vcard', [
 			['version', {}, 'text', '4.0'],
 			['n', {}, 'text', ['House', 'Gregory', 'A.', 'Dr.', 'MD']],			
-			['adr', {type: 'work', label: '2 Metrotect Ctr.\\n4th floor\\nBrooklyn\\, NY 11201\\nU.S.A.'}, 'text', ['2 Metrotect Ctr.', 'Brooklyn', '4th floor', 'NY', '11201', 'U.S.A.']],
+			['adr', {type: 'work', label: '2 Metrotect Ctr.\n4th floor\nBrooklyn\, NY 11201\nU.S.A.'}, 'text', ['2 Metrotect Ctr.', 'Brooklyn', '4th floor', 'NY', '11201', 'U.S.A.']],
 			['email', {type: 'work'}, 'text', 'me@work.com'],
 			['email', {type: 'home'}, 'text', 'me@home.com'],
 			['tel', {type: ['work', 'cell']}, 'uri', '+1-212-555-1212,234'],
@@ -492,7 +490,7 @@ QUnit.test('json', function(assert){
 	var expected = ['vcard', [
 			['version', {}, 'text', '4.0'],
 			['n', {}, 'text', ['House', 'Gregory', 'A.', 'Dr.', 'MD']],			
-			['adr', {type: 'work', label: '2 Metrotect Ctr.\\n4th floor\\nBrooklyn\\, NY 11201\\nU.S.A.'}, 'text', ['2 Metrotect Ctr.', 'Brooklyn', '4th floor', 'NY', '11201', 'U.S.A.']],
+			['adr', {type: 'work', label: '2 Metrotect Ctr.\n4th floor\nBrooklyn\, NY 11201\nU.S.A.'}, 'text', ['2 Metrotect Ctr.', 'Brooklyn', '4th floor', 'NY', '11201', 'U.S.A.']],
 			['email', {type: 'work'}, 'text', 'me@work.com'],
 			['tel', {type: ['work', 'cell']}, 'uri', '+1-212-555-1212,234'],
 			['url', {type: 'work'}, 'uri', 'http://maps.nyc.gov/'],
