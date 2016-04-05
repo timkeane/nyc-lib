@@ -31,7 +31,10 @@ nyc.Choice = function(options){
 	$(options.target).append(fieldset).trigger('create');
 
 	$.each(me.inputs, function(i, input){
-		input.prop('checked', me.choices[i].checked || false).checkboxradio("refresh");
+		if (me.choices[i].checked){
+			input.prop('checked', true).checkboxradio("refresh");
+			return me.type == 'checkbox';
+		}
 	});	
 
 	nyc.Collapsible.apply(this, [options]);
