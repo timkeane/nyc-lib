@@ -28,8 +28,10 @@ nyc.Check.prototype = {
 		var me = this, display = me.currentVal; chosen = [], comma = '';
 		display.empty();
 		$.each(me.inputs, function(_, input){
+			var choice = me.choices[input.val() * 1];
+			choice.checked = false;
 			if (input.prop('checked')){
-				var choice = me.choices[input.val() * 1];
+				choice.checked = true;
 				chosen.push(choice);
 				display.append(comma + choice.label);
 				comma = ', ';

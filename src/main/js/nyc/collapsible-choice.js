@@ -36,7 +36,6 @@ nyc.Choice = function(options){
 			input.prop('checked', true).checkboxradio("refresh");
 			return me.type == 'checkbox';
 		}
-		delete me.choices[i].checked;
 	});	
 
 	nyc.Collapsible.apply(this, [options]);

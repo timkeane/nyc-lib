@@ -27,8 +27,10 @@ nyc.Radio.prototype = {
 	changed: function(event){
 		var me = this;
 		$.each(me.inputs, function(i, input){
+			var choice = me.choices[i];
+			choice.checked = false;
 			if (input.prop('checked')){
-				var choice = me.choices[i];
+				choice.checked = true;
 				me.value = [choice];
 				me.currentVal.html(choice.label);
 				me.trigger('change', [choice]);
