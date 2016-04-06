@@ -52,6 +52,9 @@ nyc.ol.source.Decorating = function(options, decorationMixins, autoLoad){
 				feature[memb] = mixin[memb];
 			}
 		});
+		if (feature[nyc.ol.source.Decorating.AUTO_EXEC]){
+			feature[nyc.ol.source.Decorating.AUTO_EXEC]();
+		}
 	});
 	
 	var proj = autoLoad ? autoLoad.projection : '';
@@ -96,6 +99,13 @@ nyc.ol.source.Decorating.xhrLoader = function(extent, resolution, projection){
  * @property {ol.proj.ProjectionLike} projection The projection of the map view in which the features of this source will be rendered
  */
 nyc.ol.source.Decorating.AutoLoad;
+
+/**
+ * @desc Mixin function name to execute immediately after decorating the feature  
+ * @constant
+ * @type {string}
+ */
+nyc.ol.source.Decorating.AUTO_EXEC = 'extend';
 
 /**
  * @desc Has the request for geoJSON data completed successfully
