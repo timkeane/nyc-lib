@@ -10,9 +10,10 @@ nyc.ol.source = nyc.ol.source || {};
  * @constructor
  * @param {Object=} options Vector source options
  * @param {Array<Object>}  decorationMixins An array of objects whose members will be added to all features created by this source
+ * @param {nyc.ol.source.Decorating.AutoLoad=} autoLoad Object including auto loading properties 
  * @see http://www.openlayers.org/
  */
-nyc.ol.source.FilteringAndSorting = function(options, decorationMixins){
+nyc.ol.source.FilteringAndSorting = function(options, decorationMixins, autoLoad){
 	var me = this;
 	/**
 	 * @private
@@ -33,7 +34,7 @@ nyc.ol.source.FilteringAndSorting = function(options, decorationMixins){
 			return this.set('distance', distance);
 		}
 	});
-	nyc.ol.source.Decorating.call(this, options, decorationMixins);
+	nyc.ol.source.Decorating.call(this, options, decorationMixins, autoLoad);
 	me.on('addfeature', function(e){
 		if (!me.filtering)
 			me.allFeatures.push(e.feature);

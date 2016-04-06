@@ -8,13 +8,14 @@ nyc.ol.source = nyc.ol.source || {};
  * @class
  * @extends {ol.source.Vector}
  * @constructor
- * @param {Object=} options Vector source options
+ * @param {Object} options Vector source options
  * @param {Array<Object>}  decorationMixins An array of objects whose members will be added to all features created by this source
+ * @param {nyc.ol.source.Decorating.AutoLoad=} autoLoad Object including auto loading properties 
  * @fires nyc.ol.source.Decorating#change:featuresloaded
  * @fires nyc.ol.source.Decorating#change:featureloaderror
  * @see http://www.openlayers.org/
  */
-nyc.ol.source.Decorating = function(options, decorationMixins){
+nyc.ol.source.Decorating = function(options, decorationMixins, autoLoad){
 	options = options || {};
 	options.loader = options.loader || nyc.ol.source.Decorating.xhrLoader;
 	/**
@@ -52,6 +53,12 @@ nyc.ol.source.Decorating = function(options, decorationMixins){
 			}
 		});
 	});
+	
+	var proj = autoLoad ? autoLoad.projection : '';
+	if (proj){
+		proj = proj.getCode ? proj : new ol.proj.Projection({code: proj}); 
+		options.loader.call(this, null, null, proj);
+	}
 };
 
 ol.inherits(nyc.ol.source.Decorating, ol.source.Vector);
@@ -81,6 +88,14 @@ nyc.ol.source.Decorating.xhrLoader = function(extent, resolution, projection){
 		});		
 	}
 };
+
+/**
+ * @desc Object type to hold the projection for auto loading of features
+ * @public
+ * @typedef {Object}
+ * @property {ol.proj.ProjectionLike} projection The projection of the map view in which the features of this source will be rendered
+ */
+nyc.ol.source.Decorating.AutoLoad;
 
 /**
  * @desc Has the request for geoJSON data completed successfully
