@@ -105,7 +105,7 @@ nyc.ol.source.Decorating.AutoLoad;
  * @constant
  * @type {string}
  */
-nyc.ol.source.Decorating.AUTO_EXEC = 'extend';
+nyc.ol.source.Decorating.AUTO_EXEC = 'extendFeature';
 
 /**
  * @desc Has the request for geoJSON data completed successfully
