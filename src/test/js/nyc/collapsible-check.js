@@ -56,13 +56,13 @@ QUnit.test('changed', function(assert){
 	});
 	var check = this.TEST_CHECK;	
 	
-	assert.deepEqual(choices, check.val());
+	assert.deepEqual(check.val(), choices);
 	
 	setTimeout(function(){
 		for (var i = 0; i < me.CHOICES.length; i++){
 			var input = $('#test-div input[value="' + i + '"]');
 			check.one('change', function(){
-				assert.deepEqual(choices, check.val());
+				assert.deepEqual(check.val(), choices);
 			});
 			choices.shift();
 			$(input).trigger('click');

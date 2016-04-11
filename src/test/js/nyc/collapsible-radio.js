@@ -33,7 +33,7 @@ QUnit.test('constructor/disabled', function(assert){
 	var choices = this.CHOICES;	
 	var radio = this.TEST_RADIO;	
 
-	assert.deepEqual([choices[0]], radio.val());
+	assert.deepEqual(radio.val(), [choices[0]]);
 
 	$.each(radio.inputs, function(i, input){
 		assert.equal(input.val(), i);
@@ -54,14 +54,14 @@ QUnit.test('changed', function(assert){
 	var choices = this.CHOICES;	
 	var radio = this.TEST_RADIO;	
 	
-	assert.deepEqual([choices[0]], radio.val());
+	assert.deepEqual(radio.val(), [choices[0]]);
 
 	setTimeout(function(){
 		for (var i = 0; i < choices.length; i++){
 			var choice = choices[i];
 			var input = $('#test-div input[value="' + i + '"]');
 			radio.one('change', function(){
-				assert.deepEqual([choice], radio.val());
+				assert.deepEqual(radio.val(), [choice]);
 			});
 			$(input).trigger('click');
 		}
