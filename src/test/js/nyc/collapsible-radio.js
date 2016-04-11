@@ -49,23 +49,26 @@ QUnit.test('constructor/disabled', function(assert){
 QUnit.test('changed', function(assert){
 	assert.expect(9);
 	
+	var done = assert.async();
+	
 	var choices = this.CHOICES;	
 	var radio = this.TEST_RADIO;	
 	
-	radio.one('change', function(){
-		assert.deepEqual[(choices[0]], radio.val());
-	});
+	assert.deepEqual([choices[0]], radio.val());
 
-	for (var i = 1; i < choices.length; i++){
-		var choice = choices[i];
-		var input = $('#test-div input[value="' + i + '"]')
-		radio.one('change', function(){
-			assert.deepEqual([choice], radio.val());
-		});
-		$(input).trigger('click');
-	}
-	
+	setTimeout(function(){
+		for (var i = 0; i < choices.length; i++){
+			var choice = choices[i];
+			var input = $('#test-div input[value="' + i + '"]');
+			radio.one('change', function(){
+				assert.deepEqual([choice], radio.val());
+			});
+			$(input).trigger('click');
+		}
+		done();
+	}, 500);
 });
+
 
 
 

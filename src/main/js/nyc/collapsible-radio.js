@@ -34,6 +34,7 @@ nyc.Radio.prototype = {
 				me.value = [choice];
 				me.currentVal.html(choice.label);
 				me.trigger('change', [choice]);
+				return false;
 			}
 		});
 	}		

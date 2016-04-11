@@ -23,7 +23,7 @@ nyc.Choice = function(options){
 			label = $('<label></label>');
 		input.attr('name', 'nyc-radio-name' + '-' + nyc.Choice.uniqueId)
 			.attr('value', i);
-		input.click($.proxy(me.changed, me));
+		input.change($.proxy(me.changed, me));
 		label.attr('for', input.attr('id')).html(choice.label);
 		fieldset.append(input).append(label);
 		me.inputs.push(input);

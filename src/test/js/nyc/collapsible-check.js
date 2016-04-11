@@ -4,13 +4,13 @@ QUnit.module('nyc.Check', {
 		$('body').append(this.CONTAINER);
 		
 		this.CHOICES = [
-			{value: 'BURGLARY', label: 'Burglary'},
-			{value: 'FELONY ASSAULT', label: 'Felony Assault'},
-			{value: 'GRAND LARCENY', label: 'Grand Larceny'},
-			{value: 'GRAND LARCENY OF MOTOR VEHICLE', label: 'Grand Larceny of Motor Vehicle'},
-			{value: 'MURDER', label: 'Murder'},
-			{value: 'RAPE', label: 'Rape'},		
-			{value: 'ROBBERY', label: 'Robbery'}		
+			{value: 'BURGLARY', label: 'Burglary', checked: true},
+			{value: 'FELONY ASSAULT', label: 'Felony Assault', checked: true},
+			{value: 'GRAND LARCENY', label: 'Grand Larceny', checked: true},
+			{value: 'GRAND LARCENY OF MOTOR VEHICLE', label: 'Grand Larceny of Motor Vehicle', checked: true},
+			{value: 'MURDER', label: 'Murder', checked: true},
+			{value: 'RAPE', label: 'Rape', checked: true},		
+			{value: 'ROBBERY', label: 'Robbery', checked: true}		
 		];
 		
 		this.TEST_CHECK = new nyc.Check({
@@ -46,28 +46,30 @@ QUnit.test('constructor/disabled', function(assert){
 QUnit.test('changed', function(assert){
 	assert.expect(8);
 	
+	var me = this;
+	
 	var done = assert.async();
 	
 	var choices = [];
 	$.each(this.CHOICES, function(_, choice){
-		choices.push(choice.value);
+		choices.push(choice);
 	});
 	var check = this.TEST_CHECK;	
 	
-	check.one('change', function(){
-		assert.deepEqual(choices, check.val());
-	});
-
+	assert.deepEqual(choices, check.val());
+	
 	setTimeout(function(){
-		$('#test-div input').each(function(i, input){
+		for (var i = 0; i < me.CHOICES.length; i++){
+			var input = $('#test-div input[value="' + i + '"]');
 			check.one('change', function(){
 				assert.deepEqual(choices, check.val());
 			});
 			choices.shift();
 			$(input).trigger('click');
-		});
+		}
 		done();
 	}, 500);
+
 });
 
 
