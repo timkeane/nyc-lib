@@ -4,7 +4,7 @@ QUnit.module('nyc.Radio', {
 		$('body').append(this.CONTAINER);
 		
 		this.CHOICES = [
-			{value: '*', label: 'All'},
+			{value: '*', label: 'All', checked: true},
 			{value: 'BURGLARY', label: 'Burglary'},
 			{value: 'FELONY ASSAULT', label: 'Felony Assault'},
 			{value: 'GRAND LARCENY', label: 'Grand Larceny'},
@@ -28,10 +28,12 @@ QUnit.module('nyc.Radio', {
 });
 
 QUnit.test('constructor/disabled', function(assert){
-	assert.expect(40);
+	assert.expect(41);
 	
 	var choices = this.CHOICES;	
 	var radio = this.TEST_RADIO;	
+
+	assert.deepEqual([choices[0]], radio.val());
 
 	$.each(radio.inputs, function(i, input){
 		assert.equal(input.val(), i);
@@ -47,24 +49,22 @@ QUnit.test('constructor/disabled', function(assert){
 QUnit.test('changed', function(assert){
 	assert.expect(9);
 	
-	var done = assert.async();
-	
 	var choices = this.CHOICES;	
 	var radio = this.TEST_RADIO;	
 	
 	radio.one('change', function(){
-		assert.equal('*', radio.val());
+		assert.deepEqual[(choices[0]], radio.val());
 	});
 
-	setTimeout(function(){
-		$('#test-div input').each(function(i, input){
-			radio.one('change', function(){
-				assert.equal(choices[i].value, radio.val());
-			});
-			$(input).trigger('click');
+	for (var i = 1; i < choices.length; i++){
+		var choice = choices[i];
+		var input = $('#test-div input[value="' + i + '"]')
+		radio.one('change', function(){
+			assert.deepEqual([choice], radio.val());
 		});
-		done();
-	}, 500);
+		$(input).trigger('click');
+	}
+	
 });
 
 
