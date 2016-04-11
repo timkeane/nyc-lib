@@ -23,8 +23,8 @@ nyc.carto.Popup = function(options){
 	layer.on('featureOver', $.proxy(this.captureHover, this)),
 	this.infowin = cdb.vis.Vis.addInfowindow(this.map, layer, interactivity, {infowindowTemplate: tmpl});
 	this.infowin.model.set('sanitizeTemplate', false);
-	this.popupDisplay = 'none';
-	this.tipDisplay = '';
+	this.popupVisiblity = 'hidden';
+	this.tipPosition = '';
 	this.onShowPopup = options.onShowPopup || this.onShowPopup; 
 	this.onHidePopup = options.onHidePopup || this.onHidePopup; 
 	this.onTipChange = options.onTipChange || this.onTipChange; 
@@ -68,12 +68,12 @@ nyc.carto.Popup.prototype = {
 	 * @private
 	 * @member {string}
 	 */
-	popupDisplay: null,
+	popupVisiblity: null,
 	/**
 	 * @private
 	 * @member {string}
 	 */
-	tipDisplay: null,
+	tipPosition: null,
 	/**
 	 * @private
 	 * @method
@@ -112,16 +112,16 @@ nyc.carto.Popup.prototype = {
 	 */
 	observeTip: function(me){
 		var observer = new MutationObserver(function(mutations) {
-			var display;
+			var position;
 			$.each(mutations, function(_, mutation) {
 				if (mutation.attributeName == 'style'){
 					var style = mutation.target.style;
-					display = style.top + style.left;
+					position = style.top + style.left;
 					return false;
 				}
 			});
-			if (display && display != me.tipDisplay){
-				me.tipDisplayChanged(display);
+			if (position && position != me.tipPosition){
+				me.tipDisplayChanged(position);
 			}
 		});
 		observer.observe(me.tip.render().el, {attributes: true});	
@@ -129,10 +129,10 @@ nyc.carto.Popup.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {string} display
+	 * @param {string} position
 	 */
-	tipDisplayChanged: function(display){
-		this.tipDisplay = display;
+	tipDisplayChanged: function(position){
+		this.tipPosition = position;
 		this.onTipChange(this);
 		this.trigger('tipchange', this);
 	},
@@ -142,15 +142,15 @@ nyc.carto.Popup.prototype = {
 	 */
 	observePopup: function(me){
 		var observer = new MutationObserver(function(mutations) {
-			var display;
+			var visiblity;
 			$.each(mutations, function(_, mutation) {
 				if (mutation.attributeName == 'style'){
-					display = mutation.target.style.display;
+					visiblity = mutation.target.style.visibility;
 					return false;
 				}
 			});
-			if (display && display != me.popupDisplay){
-				me.popupDisplayChanged(display);
+			if (visiblity && visiblity != me.popupVisiblity){
+				me.popupDisplayChanged(visiblity);
 			}
 		});
 		observer.observe(me.infowin.el, {attributes: true});	
@@ -158,11 +158,11 @@ nyc.carto.Popup.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {string} display
+	 * @param {string} visiblity
 	 */
-	popupDisplayChanged: function(display){
-		this.popupDisplay = display;
-		if (display == 'block'){
+	popupDisplayChanged: function(visiblity){
+		this.popupVisiblity = visiblity;
+		if (visiblity == 'visible'){
 			this.onShowPopup(this);
 			this.trigger('showpopup', this);
 		}else{
