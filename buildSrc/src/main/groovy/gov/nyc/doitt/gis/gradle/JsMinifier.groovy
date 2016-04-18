@@ -54,7 +54,7 @@ class JsMinifier {
     	String mappedSrc = "${destinationDir}/../src/js/${fileName}"
     	String dir = Util.getDirectoryName(mappedSrc)
     	new File(dir).mkdirs()
-    	new File(mappedSrc) << inputFile.text
+    	new File(mappedSrc).text = inputFile.text
     }
 	File getOutputFile(String libName, String version, String destinationDir){
 		String destination = destinationDir.replaceAll('\\\\', '/')

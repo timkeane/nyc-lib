@@ -35,6 +35,7 @@ ext {
 	cssSrcDir = "${srcDir}/css"
 	olJsFiles = [
 		'nyc/nyc.js', 
+		'nyc/date.js', 
 		'nyc/util.js', 
 		'nyc/template.js', 
 		'nyc/collapsible.js', 
@@ -73,6 +74,7 @@ ext {
 	]
 	leafJsFiles = [
 		'nyc/nyc.js', 
+		'nyc/date.js', 
 		'nyc/util.js', 
 		'nyc/collapsible.js', 
 		'nyc/collapsible-choice.js',
@@ -98,6 +100,7 @@ ext {
 	]
 	cartoJsFiles = [
 		'nyc/nyc.js', 
+		'nyc/date.js', 
 		'nyc/util.js', 
 		'nyc/collapsible.js', 
 		'nyc/collapsible-choice.js',
