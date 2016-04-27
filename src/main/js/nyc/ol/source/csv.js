@@ -19,7 +19,12 @@ nyc.ol.source = nyc.ol.source || {};
  */
 nyc.ol.source.CsvPointFeatureLoader = function(options) {
 	var point = function(csvRow, srcProj, viewProj){
-		var coordinates = [csvRow[options.xCol] * 1, csvRow[options.yCol] * 1];
+		var coordinates;
+		if (options.geomParser){
+			coordinates = options.geomParser(csvRow);
+		}else{
+			coordinates = [csvRow[options.xCol] * 1, csvRow[options.yCol] * 1];
+		}
 		return new ol.geom.Point(proj4(srcProj || 'EPSG:4326', viewProj.getCode(), coordinates));
 	};
 	return function(extent, resolution, projection){
@@ -55,12 +60,35 @@ nyc.ol.source.CsvPointFeatureLoader = function(options) {
 nyc.ol.source.CsvPointFeatureLoader.prototype = {};
 
 /**
- * @desc Options for {nyc.ol.source.CsvPointFeatureLoader}
+ * @desc Constructor options for {nyc.ol.source.CsvPointFeatureLoader}. Either xCol and yCol or a geomParser are required.
  * @public
  * @typedef {Object}
  * @property {string} url URL to a CSV file
- * @property {string} xCol Name of the CSV column containing X coordinate of feature location
- * @property {string} yCol Name of the CSV column containing Y coordinate of feature location
+ * @property {string=} xCol Name of the CSV column containing X coordinate of feature location. Either xCol and yCol or a geomParser are required.
+ * @property {string=} yCol Name of the CSV column containing Y coordinate of feature location. Either xCol and yCol or a geomParser are required.
+ * @property {Function(Array<Object>)=} geomParser A function to parse a point from a CSV row
  * @property {string} projection Source data projection
  */
 nyc.ol.source.CsvPointFeatureLoader.Options;
+
+/** 
+ * @public 
+ * @namespace
+ */
+nyc.ol.source.socrata = nyc.ol.source.socrata || {};
+
+/**
+ * @desc Creates a function for parsing coordinate data from a Socrata CSV data source
+ * @public
+ * @class
+ * @constructor
+ * @param {string} geomCol The name of the CSV column containing the coordinates "(lat, lng)"
+ * @returns {function(Array<Object>)}
+ */
+nyc.ol.source.socrata.PointParser = function(geomCol){
+	return function(csvRow){
+		var geom = csvRow[geomCol].replace(/\(/, '').replace(/\)/, ''),
+			coords = geom.split('\n')[1].split(',');
+		return [coords[1] * 1, coords[0] * 1];
+	};
+};

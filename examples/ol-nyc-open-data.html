@@ -32,6 +32,7 @@
 	<script src="../src/main/js/nyc/ol/source/decorating.js"></script>
 	<script src="../src/main/js/nyc/ol/source/filteringandsorting.js"></script>
 	<script src="../src/main/js/nyc/ol/source/csv.js"></script>
+	<script src="../src/main/js/nyc/ol/source/socrata.js"></script>
 	<script src="../src/main/js/nyc/ol/control/zoomsearch.js"></script>
 	<!-- nyc js -->
 	
@@ -50,7 +51,7 @@
 <body>
 	<div id="map"></div>
 	<script>
-		var openDataUrl = 'https://data.cityofnewyork.us/api/views/8nqg-ia7v/rows.csv?accessType=DOWNLOAD',
+		var openDataUrl = 'https://data.cityofnewyork.us/api/views/5pbr-mxtd/rows.csv?accessType=DOWNLOAD',
 			map, csvSrc, csvLyr;
 
 		$(document).ready(function(){
@@ -67,8 +68,7 @@
 			csvSrc = new nyc.ol.source.FilteringAndSorting({
 				loader: new nyc.ol.source.CsvPointFeatureLoader({
 					url: openDataUrl,
-					xCol: 'longitude',
-					yCol: 'latitude',
+					geomParser: new nyc.ol.source.socrata.PointParser('Location 1'),
 					projection: 'EPSG:4326'
 				})
 			}, []);

@@ -42,12 +42,13 @@ nyc.template.facility.Type;
 nyc.template.facility.Types;
 
 /**
- * @desc Map configuration for templated facility map
+ * @desc Map configuration for templated facility map. Either xCol and yCol or a geomParser are required.
  * @public
  * @typedef {Object}
  * @property {string} url URL to a facility CSV file
- * @property {string} xCol Name of the CSV column containing X coordinate or longitude of facility location
- * @property {string} yCol Name of the CSV column containing Y coordinate or latitude of facility location
+ * @property {string=} xCol Name of the CSV column containing X coordinate or longitude of facility location. Either xCol and yCol or a geomParser are required.
+ * @property {string=} yCol Name of the CSV column containing Y coordinate or latitude of facility location. Either xCol and yCol or a geomParser are required.
+ * @property {Function(Array<Object>)=} geomParser A function to parse a point from a CSV row. Either xCol and yCol or a geomParser are required.
  * @property {string=} projection The EPSG code for the coordinate data (if not provided EPSG:4326 will be assumed for longitude and latitude coordinates, otherwise EPSG:2263 will be assumed)
  * @property {string} geoclientAppId A Geoclient application id
  * @property {string} geoclientAppKey A Geoclient API key

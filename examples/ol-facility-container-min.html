@@ -29,11 +29,15 @@
 		}
 	</style>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.14.2/ol.js"></script>
+	<!-- nyc js -->
+	<script src="../src/main/js/nyc/ol/source/csv.js"></script>
+	<!-- nyc js -->
 	<script>
 		var MAP_CONFIG = /** @type {nyc.template.facility.MapConfig} */ {
-			url: 'data/upk.csv',
-			xCol: 'x',
-			yCol: 'y',
+			url: 'https://data.cityofnewyork.us/api/views/5pbr-mxtd/rows.csv?accessType=DOWNLOAD',
+			geomParser: new nyc.ol.source.socrata.PointParser('Location 1'),
+			projection: 'EPSG:4326',
 			icon: {stroke: 'blue', fill: 'rgba(0,0,255,0.5)'},
 			geoclientAppId: 'YOUR_APP_ID',
 			geoclientAppKey: 'YOUR_APP_KEY',

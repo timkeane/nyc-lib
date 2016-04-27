@@ -66,6 +66,7 @@ ext {
 		'nyc/ol/source/filteringandsorting.js',
 		'nyc/ol/layer/baselayer.js',
 		'nyc/ol/layer/grayscale.js',
+		'nyc/ol/layer/colorswap.js',
 		'nyc/jcard/jcard.js'
 	]
 	olRedLineJsFiles = [
