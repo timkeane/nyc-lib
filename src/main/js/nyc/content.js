@@ -38,3 +38,24 @@ nyc.Content.prototype = {
 };
 
 nyc.inherits(nyc.Content, nyc.ReplaceTokens);
+
+/** 
+ * @desc A class to load csv data into a hash
+ * @public 
+ * @class
+ * @constructor
+ * @param {string} url The CSV data with a key column and a value column
+ * @param {function(Object<string, string>)} callback A callback function to receive the data
+ */
+nyc.CsvContent = function(url, callback){
+	$.ajax({
+		url: url,
+		success: function(csvData){
+			var csvRows = $.csv.toObjects(csvData), result = {};
+			$.each(csvRows, function(_, row){
+				result[row.key] = row.value;
+			});
+			callback(result);
+		}
+	});
+};

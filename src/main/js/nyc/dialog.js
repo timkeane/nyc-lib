@@ -24,7 +24,8 @@ nyc.Dialog = function(){
 
 nyc.Dialog.prototype = {
 	/**
-	 * @private
+	 * @desc The dialog container
+	 * @public
 	 * @member {JQuery}
 	 */
 	container: null,
@@ -107,6 +108,7 @@ nyc.Dialog.prototype = {
 	 * @param {string} msg
 	 */
 	show: function(type, msg){
+		this.container.find('ui-link').removeClass('ui-link');
 		this.inputElems.css('display', type == nyc.Dialog.Type.INPUT ? 'inline-block' : 'none');
 		this.okElems.css('display', type == nyc.Dialog.Type.OK ? 'inline-block' : 'none');
 		this.yesNoElems.css('display', type == nyc.Dialog.Type.YES_NO ? 'inline-block' : 'none');
@@ -216,11 +218,11 @@ nyc.Dialog.HTML = '<div class="ui-page-theme-a dia-container">' +
 	'<div class="dia-msg"></div>' +
 	'<input>' +
 	'<div class="dia-btns">' +
-		'<button class="btn-ok">OK</button>' +
-		'<button class="btn-yes">Yes</button>' +
-		'<button class="btn-no">No</button>' +
-		'<button class="btn-submit">OK</button>' +		
-		'<button class="btn-cancel">Cancel</button>' +
+		'<a class="btn-ok" data-role="button">OK</a>' +
+		'<a class="btn-yes" data-role="button">Yes</a>' +
+		'<a class="btn-no" data-role="button">No</a>' +
+		'<a class="btn-submit" data-role="button">OK</a>' +		
+		'<a class="btn-cancel" data-role="button">Cancel</a>' +
 		'</div>' +
 	'</div>' +
 '</div>'
