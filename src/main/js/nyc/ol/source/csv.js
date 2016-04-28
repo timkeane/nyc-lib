@@ -86,9 +86,10 @@ nyc.ol.source.socrata = nyc.ol.source.socrata || {};
  * @returns {function(Array<Object>)}
  */
 nyc.ol.source.socrata.PointParser = function(geomCol){
+	var regExp = /\(([^)]+)\)/;
 	return function(csvRow){
-		var geom = csvRow[geomCol].replace(/\(/, '').replace(/\)/, ''),
-			coords = geom.split('\n')[1].split(',');
+		var matches = regExp.exec(csvRow[geomCol]), coords = matches[matches.length  -1];
+		coords = coords.split(',');
 		return [coords[1] * 1, coords[0] * 1];
 	};
 };
