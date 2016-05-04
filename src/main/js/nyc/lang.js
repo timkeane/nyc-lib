@@ -11,10 +11,12 @@ var nyc = nyc || {};
  * @constructor
  * @property {(String|Element|JQuery)} target The HTML DOM element that will provide language choices
  * @param {nyc.Lang.Choices} languages The languages to provide
+ * @param {boolean} [isButton=false] Show as a button
  */
-nyc.Lang = function(target, languages){
+nyc.Lang = function(target, languages, isButton){
 	var codes = [], div = $(nyc.Lang.HTML);
 	nyc.lang = this;
+	this.isButton = isButton;
 	this.hints = [];
 	this.namedCodes = {};
 	$(target).append(div);
@@ -29,10 +31,19 @@ nyc.Lang = function(target, languages){
 	this.codes = codes.toString();
 	this.languages = languages;
 	div.trigger('create');
+	if (isButton){
+		$('#lang-choice-button').addClass('ctl ctl-btn');
+		$('#lang-choice-button span').remove();
+	}
 	$.getScript('//translate.google.com/translate_a/element.js?cb=nyc.lang.init');
 };
 
 nyc.Lang.prototype = {
+	/** 
+	 * @private 
+	 * @member {boolean}
+	 */
+	isButton: false,
 	/** 
 	 * @private 
 	 * @member {Array<string>}
@@ -78,7 +89,11 @@ nyc.Lang.prototype = {
 		$('#lang-choice').show();
 		nyc.lang.initDropdown();
 		nyc.lang.setLangDropdown();
-		$('#lang-choice-button span').html('Translate').show();			
+		if (nyc.lang.isButton){
+			$('#lang-choice-button span').hide();
+		}else{
+			$('#lang-choice-button span').html('Translate').show();			
+		}
 		nyc.lang.hack();
 		nyc.lang.trigger(nyc.Lang.EventType.READY, true);
 	},
@@ -87,12 +102,15 @@ nyc.Lang.prototype = {
 	 * @method 
 	 */
 	showHint: function(){
-		var hints = this.hints, h = 0;
-		setInterval(function(){
-			$('#lang-choice-button span').html(hints[h] || 'Translate');
-			h++;
-			if (h == hints.length) h = 0;
-		}, 1000);
+		var hints = this.hints;
+		if (!this.isButton){
+			var h = 0;
+			setInterval(function(){
+				$('#lang-choice-button span').html(hints[h] || 'Translate');
+				h++;
+				if (h == hints.length) h = 0;
+			}, 1000);
+		}
     },
 	/** 
 	 * @private
@@ -111,7 +129,9 @@ nyc.Lang.prototype = {
 					}
 				});					
 			}
-			$('#lang-choice-button span').show();
+			if (!this.isButton){
+				$('#lang-choice-button span').show();
+			}
 			this.code = nyc.lang.namedCodes[lang] || 'en';
 			this.trigger(nyc.Lang.EventType.CHANGE, this.code);
 		}else{
