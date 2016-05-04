@@ -61,6 +61,17 @@ nyc.ZoomSearch.prototype = {
 		throw 'Must be implemented';
 	},
 	/**
+	 * @public
+	 * @abstract
+	 * @method
+	 * @param {Object} feature The feature object
+	 * @param {string} labelField The attribute field to use as the label value for the generated list item
+	 * @return {nyc.Locate.Result}
+	 */
+	featureAsLocation: function(feature, labelField){
+		throw 'Must be implemented';
+	},
+	/**
 	 * @private
 	 * @method
 	 * @param {boolean} useSearchTypeMenu
@@ -141,37 +152,26 @@ nyc.ZoomSearch.prototype = {
 	 * @desc Add searchable features
 	 * @public
 	 * @method
-	 * @param {string} featureTypeName The name of the layer or feature type the features are from
-	 * @param {string} featureTypeTitle A title for the search type menu
-	 * @param {string} placeholder A placeholder for the search field
-	 * @param {Array<Object>} features The features that to be searched 
+	 * @param {nyc.ZoomSearch.FeatureSearchOptions} options The options for creating a feature search
 	 */
-	setFeatures: function(featureTypeName, featureTypeTitle, placeholder, features){
+	setFeatures: function(options){
 		var me = this,
 			li = $('<li></li>'), 
 			span = $('<span class="ui-btn-icon-left"></span>');
 		li.addClass('srch-type-feature');
-		li.addClass('srch-type-' + featureTypeName);
-		li.data('srch-type', featureTypeName);
-		li.data('placeholder', placeholder);
-		span.addClass('srch-icon-' + featureTypeName);		
+		li.addClass('srch-type-' + options.featureTypeName);
+		li.data('srch-type', options.featureTypeName);
+		li.data('placeholder', options.placeholder);
+		span.addClass('srch-icon-' + options.featureTypeName);		
 		li.append(span);
-		li.append(featureTypeTitle);
+		li.append(options.featureTypeTitle);
 		$('#mnu-srch-typ').append(li).listview('refresh');
 		li.click($.proxy(me.choices, me));
-		$.each(features, function(_, f){
-			$('#fld-srch-retention').append(
-				me.listItem(
-					featureTypeName,
-					{
-						name: f.properties.name, 
-						geoJsonGeometry: f.geometry, 
-						data: f.properties,
-						accuracy: nyc.Geocoder.Accuracy.HIGH
-					}
-				)
-			);
+		$.each(options.features, function(_, feature){
+			var location = me.featureAsLocation(feature, options.labelField);
+			$('#fld-srch-retention').append(me.listItem(options.featureTypeName, location));
 		});
+		me.emptyList();
 	},
 	/**
 	 * @private
@@ -246,7 +246,7 @@ nyc.ZoomSearch.prototype = {
 	emptyList: function(disambiguating){
 		$('#fld-srch-retention').append($('#fld-srch li'));
 		this.list.empty();
-		if (!this.me.useSearchTypeMenu && !disambiguating){
+		if (!this.useSearchTypeMenu && !disambiguating){
 			this.list.append($('#fld-srch-retention li.srch-type-feature'))
 				.listview('refresh');
 		}
@@ -266,6 +266,18 @@ nyc.ZoomSearch.prototype = {
 };
 
 nyc.inherits(nyc.ZoomSearch, nyc.EventHandling);
+
+/**
+ * @desc Object type to hold data about possible locations resulting from a geocoder search
+ * @public
+ * @typedef {Object}
+ * @property {Array<Object|ol.Feature>} features The features to be searched 
+ * @property {string} featureTypeName The name of the layer or feature type the features are from
+ * @property {string} [labelField="name"] The attribute field to use as the label value for the generated list item
+ * @property {string=} featureTypeTitle A title for the search type menu
+ * @property {string=} placeholder A placeholder for the search field
+ */
+nyc.ZoomSearch.FeatureSearchOptions;
 
 /**
  * @desc Enumeration for control action event type

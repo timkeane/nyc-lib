@@ -36,6 +36,24 @@ nyc.leaf.ZoomSearch.prototype = {
 		return $(this.map.getContainer());
 	},
 	/**
+	 * @public
+	 * @override
+	 * @method
+	 * @param {Object} feature
+	 * @param {string} labelField
+	 * @return {nyc.Locate.Result}
+	 */
+	featureAsLocation: function(feature, labelField){
+		var geom = feature.geometry;
+		return {
+			name: feature.properties[labelField],
+			coordinates: geom.type == "Point" ? geom.coordinates : null,
+			geoJsonGeometry: geom, 
+			data: feature.properties,
+			accuracy: nyc.Geocoder.Accuracy.HIGH
+		}
+	},
+	/**
 	 * @desc Handle the zoom event triggered by user interaction
 	 * @public
 	 * @override

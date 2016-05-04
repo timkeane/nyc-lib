@@ -47,6 +47,24 @@ nyc.ol.control.ZoomSearch.prototype = {
 		return $(this.map.getViewport()).find('.ol-overlaycontainer-stopevent');
 	},
 	/**
+	 * @public
+	 * @override
+	 * @method
+	 * @param {Object} feature
+	 * @param {string} labelField
+	 * @return {nyc.Locate.Result}
+	 */
+	featureAsLocation: function(feature, labelField){
+		var geom = feature.getGeometry();
+		return {
+			name: feature.get(labelField), 
+			coordinates: geom.getType() == 'Point' ? geom.getCoordinates() : null,
+			geoJsonGeometry: {coordinates: geom.getCoordinates()}, 
+			data: feature.getProperties(),
+			accuracy: nyc.Geocoder.Accuracy.HIGH
+		}
+	},
+	/**
 	 * @desc Handle the zoom event triggered by user interaction
 	 * @public
 	 * @override
