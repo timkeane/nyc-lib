@@ -35,6 +35,7 @@ nyc.Lang = function(target, languages, isButton){
 		$('#lang-choice-button').addClass('ctl ctl-btn');
 		$('#lang-choice-button span').remove();
 	}
+	$('body').addClass('lang-en');		
 	$.getScript('//translate.google.com/translate_a/element.js?cb=nyc.lang.init');
 };
 
@@ -132,12 +133,20 @@ nyc.Lang.prototype = {
 			if (!this.isButton){
 				$('#lang-choice-button span').show();
 			}
-			this.code = nyc.lang.namedCodes[lang] || 'en';
+			this.code = this.namedCodes[lang] || 'en';
+			this.css();
 			this.trigger(nyc.Lang.EventType.CHANGE, this.code);
 		}else{
 			var me = this;
 			setTimeout(function(){me.chooseLang(lang);}, 100);
 		}
+	},
+	css: function(){
+		$.each(this.codes.split(','), function(_, code){
+			$('body').removeClass('lang-' + code);
+		});
+		$('body')[this.code == 'en' ? 'removeClass' : 'addClass']('translated');
+		$('body').addClass('lang-' + this.code);		
 	},
 	/** 
 	 * @private
