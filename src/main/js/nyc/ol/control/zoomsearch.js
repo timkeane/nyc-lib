@@ -55,11 +55,11 @@ nyc.ol.control.ZoomSearch.prototype = {
 	 * @return {nyc.Locate.Result}
 	 */
 	featureAsLocation: function(feature, labelField){
-		var geom = feature.getGeometry();
+		var geom = feature.getGeometry(), type;
 		return {
 			name: feature.get(labelField), 
-			coordinates: geom.getType() == 'Point' ? geom.getCoordinates() : null,
-			geoJsonGeometry: {coordinates: geom.getCoordinates()}, 
+			coordinates: type == 'Point' ? geom.getCoordinates() : null,
+			geoJsonGeometry: {type: type, coordinates: geom.getCoordinates()}, 
 			data: feature.getProperties(),
 			accuracy: nyc.Geocoder.Accuracy.HIGH
 		}
