@@ -50,17 +50,19 @@ nyc.ol.control.ZoomSearch.prototype = {
 	 * @public
 	 * @override
 	 * @method
-	 * @param {Object} feature
-	 * @param {string} labelField
+	 * @param {Object} feature The feature object
+	 * @param {nyc.ZoomSearch.FeatureSearchOptions} options The options passed to setFeature
 	 * @return {nyc.Locate.Result}
 	 */
-	featureAsLocation: function(feature, labelField){
-		var geom = feature.getGeometry(), type;
+	featureAsLocation: function(feature, options){
+		var geom = feature.getGeometry(), type = geom.getType(), data = feature.getProperties();
+		data.label = feature.get(options.labelField || options.nameField);
 		return {
-			name: feature.get(labelField), 
+			name: feature.get(options.nameField), 
 			coordinates: type == 'Point' ? geom.getCoordinates() : null,
 			geoJsonGeometry: {type: type, coordinates: geom.getCoordinates()}, 
-			data: feature.getProperties(),
+			data: data,
+			type: nyc.Locate.ResultType.GEOCODE,
 			accuracy: nyc.Geocoder.Accuracy.HIGH
 		}
 	},

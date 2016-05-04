@@ -27,7 +27,8 @@ nyc.LocationMgr = function(options){
 
 nyc.LocationMgr.prototype = {
 	/**
-	 * @private
+	 * @desc The search controls
+	 * @public
 	 * @member {nyc.ZoomSearch}
 	 */
 	controls: null,

@@ -39,17 +39,19 @@ nyc.leaf.ZoomSearch.prototype = {
 	 * @public
 	 * @override
 	 * @method
-	 * @param {Object} feature
-	 * @param {string} labelField
+	 * @param {Object} feature The feature object
+	 * @param {nyc.ZoomSearch.FeatureSearchOptions} options The options passed to setFeature
 	 * @return {nyc.Locate.Result}
 	 */
-	featureAsLocation: function(feature, labelField){
-		var geom = feature.geometry;
+	featureAsLocation: function(feature, options){
+		var geom = feature.geometry, data = feature.properties;
+		data.label = data[labelField || nameField];
 		return {
-			name: feature.properties[labelField],
+			name: data[nameField],
 			coordinates: geom.type == "Point" ? geom.coordinates : null,
 			geoJsonGeometry: geom, 
-			data: feature.properties,
+			data: data,
+			type: nyc.Locate.ResultType.GEOCODE,
 			accuracy: nyc.Geocoder.Accuracy.HIGH
 		}
 	},

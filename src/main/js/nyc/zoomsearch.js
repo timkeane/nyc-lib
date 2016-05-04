@@ -65,10 +65,10 @@ nyc.ZoomSearch.prototype = {
 	 * @abstract
 	 * @method
 	 * @param {Object} feature The feature object
-	 * @param {string} labelField The attribute field to use as the label value for the generated list item
+	 * @param {nyc.ZoomSearch.FeatureSearchOptions} options The options passed to setFeature
 	 * @return {nyc.Locate.Result}
 	 */
-	featureAsLocation: function(feature, labelField){
+	featureAsLocation: function(feature, options){
 		throw 'Must be implemented';
 	},
 	/**
@@ -168,10 +168,21 @@ nyc.ZoomSearch.prototype = {
 		$('#mnu-srch-typ').append(li).listview('refresh');
 		li.click($.proxy(me.choices, me));
 		$.each(options.features, function(_, feature){
-			var location = me.featureAsLocation(feature, options.labelField);
+			var location = me.featureAsLocation(feature, options);
 			$('#fld-srch-retention').append(me.listItem(options.featureTypeName, location));
 		});
 		me.emptyList();
+	},
+	/**
+	 * @desc Remove searchable features
+	 * @public
+	 * @method
+	 * @param {string} featureTypeName The featureTypeName used when the features were set
+	 */
+	removeFeatures: function(featureTypeName){
+		$('li.srch-type-' + featureTypeName).remove();
+		$('#mnu-srch-typ').listview('refresh');
+		this.emptyList();
 	},
 	/**
 	 * @private
@@ -188,15 +199,8 @@ nyc.ZoomSearch.prototype = {
 		}
 		li.addClass('notranslate');
 		li.attr('translate', 'no');
-		li.html(data.name);
-		li.data('location', {
-			 name: data.name,
-			 coordinates: data.coordinates,
-			 geoJsonGeometry: data.geoJsonGeometry,
-			 accuracy: data.accuracy,
-			 type: nyc.Locate.ResultType.GEOCODE,
-			 data: data.data
-		});
+		li.html(data.data.label);
+		li.data('location', data);
 		li.click($.proxy(this.diambiguated, this));
 		return li;
 	},
@@ -273,7 +277,8 @@ nyc.inherits(nyc.ZoomSearch, nyc.EventHandling);
  * @typedef {Object}
  * @property {Array<Object|ol.Feature>} features The features to be searched 
  * @property {string} featureTypeName The name of the layer or feature type the features are from
- * @property {string} [labelField="name"] The attribute field to use as the label value for the generated list item
+ * @property {string} [nameField="name"] The name attribute field of the feature
+ * @property {string=} labelField The attribute field to use as the label value for the generated list item
  * @property {string=} featureTypeTitle A title for the search type menu
  * @property {string=} placeholder A placeholder for the search field
  */

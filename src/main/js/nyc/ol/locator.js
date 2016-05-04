@@ -71,12 +71,12 @@ nyc.ol.Locator.prototype = {
 	 */
 	 feature: function(data){		 
 		 var geoJson = data.geoJsonGeometry, geom;
-		 if (geoJson && geoJson.type != "Point"){
+		 if (geoJson){
 			 geom = this.geoJsonFormat.readGeometry(data.geoJsonGeometry);
 		 }else{
 			 geom = new ol.geom.Point(data.coordinates);
 		 }
-		 return new ol.Feature({geometry: geom, name: data.name});
+		 return new ol.Feature({geometry: geom, name: data.name, isFeature: geoJson !== undefined});
 	 }
 };
 
