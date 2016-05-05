@@ -32,6 +32,10 @@ nyc.ol.layer.grayscale = function(event) {
 			context.putImageData(outputData, 0, 0);
 		}catch (ignore){
 			/* don't break if canvas has cross-origin data */
+			if (!nyc.ol.layer.grayscale.errorLogged){
+				console.warn(ignore);
+				nyc.ol.layer.grayscale.errorLogged = true;
+			}
 		} 
 	}
 };
