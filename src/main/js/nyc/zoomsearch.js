@@ -199,7 +199,7 @@ nyc.ZoomSearch.prototype = {
 		}
 		li.addClass('notranslate');
 		li.attr('translate', 'no');
-		li.html(data.data.label);
+		li.html(data.data.label || data.name);
 		li.data('location', data);
 		li.click($.proxy(this.diambiguated, this));
 		return li;
