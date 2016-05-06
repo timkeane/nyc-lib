@@ -102,16 +102,34 @@ nyc.Dialog.prototype = {
 		this.callback = callback;
 	},
 	/**
+	 * @desc Show the yes-no dialog
+	 * @public
+	 * @method
+	 * @param {string} msg The message to display
+	 * @param {function(boolean)=} callback Callback function
+	 */
+	yesNoCancel: function(msg, callback){
+		this.show(nyc.Dialog.Type.YES_NO_CANCEL, msg);
+		this.container.find('.btn-yes').focus();
+		this.callback = callback;
+	},
+	/**
 	 * @private
 	 * @method
 	 * @param {nyc.Dialog.Type} type
 	 * @param {string} msg
 	 */
 	show: function(type, msg){
-		this.container.find('ui-link').removeClass('ui-link');
+		this.container.removeClass('dia-3-btns');	
+		this.container.find('.ui-link').removeClass('ui-link');
 		this.inputElems.css('display', type == nyc.Dialog.Type.INPUT ? 'inline-block' : 'none');
 		this.okElems.css('display', type == nyc.Dialog.Type.OK ? 'inline-block' : 'none');
 		this.yesNoElems.css('display', type == nyc.Dialog.Type.YES_NO ? 'inline-block' : 'none');
+		if (type == nyc.Dialog.Type.YES_NO_CANCEL){
+			this.yesNoElems.css('display', 'inline-block');
+			this.container.find('.btn-cancel').css('display', 'inline-block');	
+			this.container.addClass('dia-3-btns');	
+		}
 		this.msgElem.html(msg);
 		this.container.fadeIn();
 	},
@@ -139,6 +157,17 @@ nyc.Dialog.prototype = {
 		this.trigger(type, result);
 		this.hide();
 	},
+	/**
+	 * @private
+	 * @method
+	 * @param {Object} event
+	 * @return {boolean}
+	 */
+	cancel: function(event){
+		var cancel = $(event.target).hasClass('btn-cancel');
+		if (cancel) this.hide();
+		return cancel;
+	},
 	hndlOk: function(event){
 		this.hndlAny(nyc.Dialog.EventType.OK, true);
 	},
@@ -148,7 +177,9 @@ nyc.Dialog.prototype = {
 	 * @param {Object} event
 	 */
 	hndlYesNo: function(event){
-		this.hndlAny(nyc.Dialog.EventType.YES_NO, $(event.target).hasClass('btn-yes'));
+		if (!this.cancel(event)){
+			this.hndlAny(nyc.Dialog.EventType.YES_NO, $(event.target).hasClass('btn-yes'));
+		}
 	},
 	/**
 	 * @private
@@ -156,12 +187,14 @@ nyc.Dialog.prototype = {
 	 * @param {Object} event
 	 */
 	hndlInput: function(event){
-		var target = event.target, result = false;
-		if (target.tagName != 'INPUT'){
-			if ($(target).hasClass('btn-submit')){
-				result = this.inputElem.val();
+		if (!this.cancel(event)){
+			var target = event.target, result = false;
+			if (target.tagName != 'INPUT'){
+				if ($(target).hasClass('btn-submit')){
+					result = this.inputElem.val();
+				}
+				this.hndlAny(nyc.Dialog.EventType.INPUT, result);
 			}
-			this.hndlAny(nyc.Dialog.EventType.INPUT, result);
 		}
 	}
 };
@@ -182,6 +215,10 @@ nyc.Dialog.Type = {
 	 * @desc Dialog with Yes and No buttons
 	 */
 	YES_NO: 'yes-no',
+	/**
+	 * @desc Dialog with Yes, No and Cancel buttons
+	 */
+	YES_NO_CANCEL: 'yes-no-cancel',
 	/**
 	 * @desc Dialog to accept user input
 	 */

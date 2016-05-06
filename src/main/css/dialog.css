@@ -35,3 +35,13 @@ div.dia-container {
 .dia .ui-input-text {
 	width: 100%;
 }
+@media only screen and (min-width : 500px) {
+	.dia-3-btns .dia {
+		width: 350px;
+	}
+}
+@media only screen and (max-width : 499px) {
+	.dia-3-btns .dia-btns a {
+		width: 55px;
+	}
+}

@@ -19,14 +19,15 @@
 	
 	<style>
 		 button.open-dia.ui-btn {
-		 	width: 200px;
-		 	margin: 10px calc(50% - 100px);
+		 	width: 250px;
+		 	margin: 10px calc(50% - 125px);
 		 }
 	</style>
 </head>
 <body>
 	<button class="open-dia" onclick="dia.ok('Hi there!', dialogCallback);">Show OK dialog</button>
 	<button class="open-dia" onclick="dia.yesNo('Are you there?', dialogCallback);">Show Yes/No dialog</button>
+	<button class="open-dia" onclick="dia.yesNoCancel('Are you there?', dialogCallback);">Show Yes/No/Cancel dialog</button>
 	<button class="open-dia" onclick="dia.input('Where are you?', 'Tell me...', dialogCallback);">Show Input dialog</button>
 	<script>
 		var dia;
