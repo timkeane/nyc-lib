@@ -21,6 +21,7 @@ nyc.ol.control = nyc.ol.control || {};
 nyc.ol.control.ZoomSearch = function(map, useSearchTypeMenu){
 	this.map = map;
 	this.view = map.getView();
+	this.geoJson = new ol.format.GeoJSON();
 	nyc.ZoomSearch.apply(this, [useSearchTypeMenu]);
 	$('#ctl-z-srch').on('click dblclick mouseover mousemove', function(){$('.feature-tip').hide();});
 };
@@ -36,6 +37,11 @@ nyc.ol.control.ZoomSearch.prototype = {
 	 * @member {ol.View}
 	 */
 	view: null,
+	/**
+	 * @private
+	 * @member {ol.format.GeoJSON}
+	 */
+	geoJson: null,
 	/**
 	 * @desc A method to return the map container  HTML element wrapped in a JQuery
 	 * @public
@@ -56,11 +62,11 @@ nyc.ol.control.ZoomSearch.prototype = {
 	 */
 	featureAsLocation: function(feature, options){
 		var geom = feature.getGeometry(), type = geom.getType(), data = feature.getProperties();
-		data.label = feature.get(options.labelField || options.nameField);
+		data.__feature_label = feature.get(options.labelField || options.nameField);
 		return {
 			name: feature.get(options.nameField), 
-			coordinates: type == 'Point' ? geom.getCoordinates() : null,
-			geoJsonGeometry: {type: type, coordinates: geom.getCoordinates()}, 
+			coordinates: type == 'Point' ? geom.getCoordinates() : undefined,
+			geoJsonGeometry: JSON.parse(this.geoJson.writeGeometry(geom)), 
 			data: data,
 			type: nyc.Locate.ResultType.GEOCODE,
 			accuracy: nyc.Geocoder.Accuracy.HIGH

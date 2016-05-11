@@ -6,6 +6,9 @@ var nyc = nyc || {};
  * @class
  * @extends {nyc.EventHandling}
  * @constructor
+ * @fires nyc.Dialog#ok
+ * @fires nyc.Dialog#yesno
+ * @fires nyc.Dialog#input
  */
 nyc.Dialog = function(){
 	this.container = $(nyc.Dialog.HTML);
@@ -265,12 +268,30 @@ nyc.Dialog.EventType = {
 	/**
 	 * @desc Dialog yes-no event type
 	 */
-	YES_NO: 'yes-no',
+	YES_NO: 'yesno',
 	/**
 	 * @desc Dialog input event type
 	 */
 	INPUT: 'input'
 };
+
+/**
+ * @desc The result of a dialog event
+ * @event nyc.Dialog#ok
+ * @type {boolean}
+ */
+
+/**
+ * @desc The result of a dialog event
+ * @event nyc.Dialog#yesno
+ * @type {boolean}
+ */
+
+/**
+ * @desc The result of a dialog event
+ * @event nyc.Dialog#input
+ * @type {string}
+ */
 
 /**
  * @desc Dialog options.
@@ -280,7 +301,7 @@ nyc.Dialog.EventType = {
  * @property {Array<string>=} buttonText Button text list
  * @property {Array<string>=} buttonHref Button href list
  * @property {string=} placeholder Placeholder text for input dialog
- * @property {function(boolean|string)=} callback Callback function
+ * @property {function(Object)=} callback Callback function
  */
 nyc.Dialog.Options;
 

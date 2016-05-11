@@ -45,10 +45,10 @@ nyc.leaf.ZoomSearch.prototype = {
 	 */
 	featureAsLocation: function(feature, options){
 		var geom = feature.geometry, data = feature.properties;
-		data.label = data[labelField || nameField];
+		data.__feature_label = data[options.labelField || options.nameField];
 		return {
-			name: data[nameField],
-			coordinates: geom.type == "Point" ? geom.coordinates : null,
+			name: data[options.nameField],
+			coordinates: geom.type == "Point" ? geom.coordinates : undefined,
 			geoJsonGeometry: geom, 
 			data: data,
 			type: nyc.Locate.ResultType.GEOCODE,

@@ -196,25 +196,29 @@ QUnit.test('disambiguate', function(assert){
 });
 
 QUnit.test('disambiguated', function(assert){
-	assert.expect(6);
+	assert.expect(8);
 	var ambiguous = this.AMBIGUOUS;
 	
 	var control = new this.TEST_CONTROL();
+
 	assert.equal(control.list.height(), 0);
 	control.disambiguate(ambiguous);
 	assert.ok(control.list.height() > 0);
 	assert.equal(control.list.children().length, 3);
-
 	control.one(nyc.ZoomSearch.EventType.DISAMBIGUATED, function(data){
 		assert.deepEqual(data, ambiguous.possible[0]);
 	}); 
 	$(control.list.children()[0]).trigger('click');
 	
+	control.disambiguate(ambiguous);
+	assert.equal(control.list.children().length, 3);
 	control.one(nyc.ZoomSearch.EventType.DISAMBIGUATED, function(data){
 		assert.deepEqual(data, ambiguous.possible[1]);
 	}); 
 	$(control.list.children()[1]).trigger('click');
 	
+	control.disambiguate(ambiguous);
+	assert.equal(control.list.children().length, 3);
 	control.one(nyc.ZoomSearch.EventType.DISAMBIGUATED, function(data){
 		assert.deepEqual(data, ambiguous.possible[2]);
 	}); 
@@ -405,31 +409,3 @@ QUnit.test('emptyList', function(assert){
 	assert.equal($('#fld-srch-retention li.srch-type-addr').length, 3);
 });
 
-QUnit.test('setFeatures', function(assert){
-	assert.expect(6);
-
-	var control = new this.TEST_CONTROL(true);
-	var features = [
-	 	{geometry:"geom0", properties: {name: "feature0"}},
-	 	{geometry:"geom0", properties: {name: "feature1"}},
-	 	{geometry:"geom0", properties: {name: "feature2"}}
-	];
-	
-	control.setFeatures(
-		'test',
-		'Test Feature Type',
-		'Search by Test Feature Type...',
-		features
-	);
-	$.each($('#fld-srch-retention li.srch-type-test'), function(i, li){
-		assert.equal($(li).html(), 'feature' + i);
-		assert.deepEqual($(li).data('location'), {
-			name: features[i].properties.name,
-			coordinates: undefined,
-			geoJsonGeometry: features[i].geometry, 
-			data: features[i].properties,
-			accuracy: nyc.Geocoder.Accuracy.HIGH,
-			type: nyc.Locate.ResultType.GEOCODE
-		});
-	});
-});

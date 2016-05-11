@@ -158,6 +158,7 @@ nyc.ZoomSearch.prototype = {
 		var me = this,
 			li = $('<li></li>'), 
 			span = $('<span class="ui-btn-icon-left"></span>');
+		options.nameField = options.nameField || 'name';
 		li.addClass('srch-type-feature');
 		li.addClass('srch-type-' + options.featureTypeName);
 		li.data('srch-type', options.featureTypeName);
@@ -199,9 +200,9 @@ nyc.ZoomSearch.prototype = {
 		}
 		li.addClass('notranslate');
 		li.attr('translate', 'no');
-		li.html(data.data.label || data.name);
+		li.html(data.data.__feature_label || data.name);
 		li.data('location', data);
-		li.click($.proxy(this.diambiguated, this));
+		li.click($.proxy(this.disambiguated, this));
 		return li;
 	},
 	/**
@@ -260,7 +261,7 @@ nyc.ZoomSearch.prototype = {
 	 * @method
 	 * @param {Object} e
 	 */
-	diambiguated: function(e){
+	disambiguated: function(e){
 		var li = $(e.target);
 		this.val(li.html());
 		this.trigger(nyc.ZoomSearch.EventType.DISAMBIGUATED, li.data('location'));
