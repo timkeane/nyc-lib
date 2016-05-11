@@ -25,10 +25,10 @@
 	</style>
 </head>
 <body>
-	<button class="open-dia" onclick="dia.ok('Hi there!', dialogCallback);">Show OK dialog</button>
-	<button class="open-dia" onclick="dia.yesNo('Are you there?', dialogCallback);">Show Yes/No dialog</button>
-	<button class="open-dia" onclick="dia.yesNoCancel('Are you there?', dialogCallback);">Show Yes/No/Cancel dialog</button>
-	<button class="open-dia" onclick="dia.input('Where are you?', 'Tell me...', dialogCallback);">Show Input dialog</button>
+	<button class="open-dia" onclick="dia.ok({message: 'Hi there!', callback: dialogCallback});">Show OK dialog</button>
+	<button class="open-dia" onclick="dia.yesNo({message: 'Are you there?', callback: dialogCallback});">Show Yes/No dialog</button>
+	<button class="open-dia" onclick="dia.yesNoCancel({message: 'Are you there?', callback: dialogCallback});">Show Yes/No/Cancel dialog</button>
+	<button class="open-dia" onclick="dia.input({message: 'Where are you?', placeholder: 'Tell me...', callback: dialogCallback});">Show Input dialog</button>
 	<script>
 		var dia;
 		function dialogCallback(result){

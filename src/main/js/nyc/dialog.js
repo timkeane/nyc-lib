@@ -20,6 +20,7 @@ nyc.Dialog = function(){
 	this.okElems.click($.proxy(this.hndlOk, this));	
 	this.yesNoElems.click($.proxy(this.hndlYesNo, this));
 	this.inputElems.click($.proxy(this.hndlInput, this));
+	this.inputElem.keyup($.proxy(this.hndlInput, this));
 };
 
 nyc.Dialog.prototype = {
@@ -63,63 +64,92 @@ nyc.Dialog.prototype = {
 	 * @desc Show the ok dialog
 	 * @public
 	 * @method
-	 * @param {string} msg The message to display
-	 * @param {function(boolean)=} callback Callback function
+	 * @param {nyc.Dialog.Options} options Dialog options
 	 */
-	ok: function(msg, callback){
-		this.show(nyc.Dialog.Type.OK, msg);
+	ok: function(options){
+		this.buttons(nyc.Dialog.Type.OK, options.buttonText, options.buttonHref);
+		this.show(nyc.Dialog.Type.OK, options);
 		this.container.find('.btn-ok').focus();
-		this.callback = callback;
+		this.callback = options.callback;
 	},
 	/**
 	 * @desc Show the input dialog
 	 * @public
 	 * @method
-	 * @param {string} msg The message to display
-	 * @param {string=} placeholder The placeholder for the input field
-	 * @param {function(string)=} callback Callback function
+	 * @param {nyc.Dialog.Options} options Dialog options
 	 */
-	input: function(msg, placeholder, callback){
-		if (typeof placeholder == 'function') {
-			callback = placeholder;
-			placeholder = '';
-		}
-		this.inputElem.attr('placeholder', placeholder || '');
-		this.show(nyc.Dialog.Type.INPUT, msg);
+	input: function(options){
+		this.buttons(nyc.Dialog.Type.INPUT, options.buttonText, options.buttonHref);
+		this.inputElem.attr('placeholder', options.placeholder || '');
+		this.show(nyc.Dialog.Type.INPUT, options);
 		this.inputElem.focus();
-		this.callback = callback;
 	},
 	/**
 	 * @desc Show the yes-no dialog
 	 * @public
 	 * @method
-	 * @param {string} msg The message to display
-	 * @param {function(boolean)=} callback Callback function
+	 * @param {nyc.Dialog.Options} options Dialog options
 	 */
-	yesNo: function(msg, callback){
-		this.show(nyc.Dialog.Type.YES_NO, msg);
+	yesNo: function(options){
+		this.buttons(nyc.Dialog.Type.YES_NO, options.buttonText, options.buttonHref);
+		this.show(nyc.Dialog.Type.YES_NO, options);
 		this.container.find('.btn-yes').focus();
-		this.callback = callback;
 	},
 	/**
 	 * @desc Show the yes-no dialog
 	 * @public
 	 * @method
-	 * @param {string} msg The message to display
-	 * @param {function(boolean)=} callback Callback function
+	 * @param {nyc.Dialog.Options} options Dialog options
 	 */
-	yesNoCancel: function(msg, callback){
-		this.show(nyc.Dialog.Type.YES_NO_CANCEL, msg);
+	yesNoCancel: function(options){
+		this.buttons(nyc.Dialog.Type.YES_NO_CANCEL, options.buttonText, options.buttonHref);
+		this.show(nyc.Dialog.Type.YES_NO_CANCEL, options);
 		this.container.find('.btn-yes').focus();
-		this.callback = callback;
 	},
 	/**
 	 * @private
 	 * @method
 	 * @param {nyc.Dialog.Type} type
-	 * @param {string} msg
+	 * @param {Array<string>=} buttonText
+	 * @param {Array<string>=} buttonHref
 	 */
-	show: function(type, msg){
+	buttons: function(type, buttonText, buttonHref){
+		var container = this.container;
+		buttonText = buttonText || [];
+		buttonHref = buttonHref || [];
+		switch(type) {
+			case nyc.Dialog.Type.OK:
+				container.find('.btn-ok').html(buttonText[0] || 'OK')
+					.attr('href', buttonHref[0] || '#');
+				break;
+			case nyc.Dialog.Type.INPUT:
+				container.find('.btn-submit').html(buttonText[0] || 'Submit')
+					.attr('href', buttonHref[0] || '#');
+				container.find('.btn-cancel').html(buttonText[1] || 'Cancel')
+					.attr('href', buttonHref[1] || '#');
+				break;
+			case nyc.Dialog.Type.YES_NO:
+				container.find('.btn-yes').html(buttonText[0] || 'Yes')
+					.attr('href', buttonHref[0] || '#');
+				container.find('.btn-no').html(buttonText[1] || 'No')
+					.attr('href', buttonHref[1] || '#');
+				break;
+			case nyc.Dialog.Type.YES_NO_CANCEL:
+				container.find('.btn-yes').html(buttonText[0] || 'Yes')
+					.attr('href', buttonHref[0] || '#');
+				container.find('.btn-no').html(buttonText[1] || 'No')
+					.attr('href', buttonHref[1] || '#');
+				container.find('.btn-cancel').html(buttonText[2] || 'Cancel')
+					.attr('href', buttonHref[2] || '#');
+		}
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {nyc.Dialog.Type} type
+	 * @param {nyc.Dialog.Options} options
+	 */
+	show: function(type, options){
 		this.container.removeClass('dia-3-btns');	
 		this.container.find('.ui-link').removeClass('ui-link');
 		this.inputElems.css('display', type == nyc.Dialog.Type.INPUT ? 'inline-block' : 'none');
@@ -130,8 +160,9 @@ nyc.Dialog.prototype = {
 			this.container.find('.btn-cancel').css('display', 'inline-block');	
 			this.container.addClass('dia-3-btns');	
 		}
-		this.msgElem.html(msg);
+		this.msgElem.html(options.message);
 		this.container.fadeIn();
+		this.callback = options.callback;
 	},
 	/**
 	 * @private
@@ -188,12 +219,8 @@ nyc.Dialog.prototype = {
 	 */
 	hndlInput: function(event){
 		if (!this.cancel(event)){
-			var target = event.target, result = false;
-			if (target.tagName != 'INPUT'){
-				if ($(target).hasClass('btn-submit')){
-					result = this.inputElem.val();
-				}
-				this.hndlAny(nyc.Dialog.EventType.INPUT, result);
+			if (event.keyCode == 13 || $(event.target).hasClass('btn-submit')){
+				this.hndlAny(nyc.Dialog.EventType.INPUT, this.inputElem.val());
 			}
 		}
 	}
@@ -244,6 +271,18 @@ nyc.Dialog.EventType = {
 	 */
 	INPUT: 'input'
 };
+
+/**
+ * @desc Dialog options.
+ * @public
+ * @typedef {Object}
+ * @property {string} message Message text
+ * @property {Array<string>=} buttonText Button text list
+ * @property {Array<string>=} buttonHref Button href list
+ * @property {string=} placeholder Placeholder text for input dialog
+ * @property {function(boolean|string)=} callback Callback function
+ */
+nyc.Dialog.Options;
 
 /**
  * @private
