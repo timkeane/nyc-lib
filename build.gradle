@@ -27,7 +27,7 @@ dependencies {
 
 ext {
 	appName = 'nyc-lib'
-	ver = 'v0.1.8'
+	ver = 'v0.1.9-SNAPSHOT'
 	pkgDir = "${buildDir}/${appName}/${ver}"
 	remoteDir = "${appName}/${ver}"
 	srcDir = "${projectDir}/src/main"
