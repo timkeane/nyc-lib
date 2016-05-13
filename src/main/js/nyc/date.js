@@ -24,14 +24,13 @@ nyc.DateField = function(target, name, minYear, maxYear){
 		me.hidden.attr('name', name);
 		$(target).append(me.hidden);
 		
-		
 		$.each(me.months, function(i, month){
 			var option = $('<option></option>');
 			option.attr('value', me.pad(i + 1)).html(month.name);
 			me.selectMonth.append(option);
 		});
 
-		for (i = me.minYear; i <= me.maxYear; i++){
+		for (var i = me.minYear; i <= me.maxYear; i++){
 			var option = $('<option></option>');
 			option.attr('value', i).html(i);
 			me.selectYear.append(option);
