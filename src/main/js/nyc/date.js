@@ -1,16 +1,14 @@
 var nyc = nyc || {};
 
 /**
- * @export
- * 
- * Class for date input 
+ * @desc Class for date input
+ * @public
+ * @class 
  * @constructor
- * 
- * @param {string"Element"JQuery} target
+ * @param {string|Element|JQuery} target
  * @param {string} name
  * @param {number} minYear
  * @param {number} maxYear
- * 
  */
 nyc.DateField = function(target, name, minYear, maxYear){
 		var me = this;
