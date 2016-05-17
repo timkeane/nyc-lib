@@ -33,7 +33,12 @@ nyc.Content.prototype = {
 	 * @return {string} The message with substituted values if provided
 	 */
 	message: function(msgId, values){
-		return this.replace(this.messages[msgId], values || {});			
+		try{
+			return this.replace(this.messages[msgId], values || {});						
+		}catch(e){
+			console.error('Message "' + msgId + '" not found', this. e);
+			return '';
+		}
 	}
 };
 
@@ -51,11 +56,15 @@ nyc.CsvContent = function(url, callback){
 	$.ajax({
 		url: url,
 		success: function(csvData){
-			var csvRows = $.csv.toObjects(csvData), result = {};
-			$.each(csvRows, function(_, row){
-				result[row.key] = row.value;
-			});
-			callback(result);
+			try{
+				var csvRows = $.csv.toObjects(csvData), result = {};
+				$.each(csvRows, function(_, row){
+					result[row.key] = row.value;
+				});
+				callback(result);
+			}catch(e){
+				console.error('Failed to load data', url, this, e);
+			}
 		}
 	});
 };

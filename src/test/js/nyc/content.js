@@ -1,7 +1,7 @@
 QUnit.module('nyc.Content');
 
 QUnit.test('message', function(assert){
-	assert.expect(6);
+	assert.expect(7);
 
 	var content = new nyc.Content({
 		message1: 'This message is from ${from} to ${to}',
@@ -14,4 +14,5 @@ QUnit.test('message', function(assert){
 	assert.equal(content.message('message2', {color: 'red', animal: 'cow'}), 'The quick red fox jumps over the lazy cow');
 	assert.equal(content.message('message3', {color: 'red', animal: 'cow'}), 'Hi there!');
 	assert.equal(content.message('message3'), 'Hi there!');
+	assert.equal(content.message('message4'), '');
 });
