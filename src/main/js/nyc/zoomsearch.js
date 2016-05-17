@@ -158,6 +158,9 @@ nyc.ZoomSearch.prototype = {
 		var me = this,
 			li = $('<li></li>'), 
 			span = $('<span class="ui-btn-icon-left"></span>');
+		if (!me.useSearchTypeMenu){
+			me.input.attr('placeholder', 'Search...');
+		}
 		options.nameField = options.nameField || 'name';
 		li.addClass('srch-type-feature');
 		li.addClass('srch-type-' + options.featureTypeName);
