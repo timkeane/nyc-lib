@@ -64,6 +64,7 @@ nyc.CsvContent = function(url, callback){
 				callback(result);
 			}catch(e){
 				console.error('Failed to load data', url, this, e);
+				callback({});
 			}
 		}
 	});
