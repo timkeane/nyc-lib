@@ -62,7 +62,7 @@ nyc.LocationMgr.prototype = {
 			this.controls.disambiguate(data);
 		}else{
 			this.controls.searching(false);
-			this.dialog.ok('The location you entered was not understood');
+			this.dialog.ok({message: 'The location you entered was not understood'});
 		}
 	},
 	/**
