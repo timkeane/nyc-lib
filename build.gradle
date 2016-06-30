@@ -409,28 +409,47 @@ task deploy(dependsOn: [archive]) << {
 	}
 	
 	def index = file('index.html')
-	index.append '<!DOCTYPE html><html><head><title>nyc-lib</title><style>body{font-family:arial;}</style></head><body><h1>nyc-lib</h1>'
+	index.append '<!DOCTYPE html><html><head><title>nyc-lib</title><style>body{font-family:arial}#older{display:none}.latest-stable{color:limegreen}</style><script src="https://code.jquery.com/jquery-1.11.3.min.js"></script><script>function toggle(a){$("#older").slideToggle(function(){$(a).html($("#older").css("display") == "block" ? "Hide older versions..." : "Show older versions...");});}</script></head><body><h1>nyc-lib</h1>'
 	def list = file('index.list')
 	def versions = []
 	def line
 	list.withReader { reader ->
 		while ((line = reader.readLine()) != null) {
+			if (line.indexOf('-') == -1){
+				line = line + '-X'
+			}
 			versions.add(line)
 		}
 	}
+	
+	def i = 0
+	def latetestStable = false
 	Collections.sort(versions, Collections.reverseOrder())
 	versions.forEach { aVer ->
-		index.append "<h3>${aVer}</h3>"
+		def name = aVer
+		if (i == 3){
+			index.append '<a href="#" onclick="toggle(this);">Show older versions...</a><div id="older">'		
+		}
+		i++
+		if (aVer.indexOf('-X') > -1){
+			aVer = aVer.replace('-X', '')
+			name = name.replace('-X', '')
+			if (!latetestStable){
+				name = "${name} <span class='latest-stable'>(latest stable)</span>"
+				latetestStable = true
+			}
+		}
+		index.append "<h3>${name}</h3>"
 		index.append '<ul>'
 		index.append "<li><a href=\"${aVer}/doc/index.html\">Documentation</a></li>"
 		index.append "<li><a href=\"${aVer}/examples/index.html\">Examples</a></li>"
 		index.append "<li><a href=\"archive/nyc-lib-${aVer}.zip\">nyc-lib-${aVer}.zip</a></li>"
-		if (aVer.split('-')[0].substring(1).replace(/./, '').toInteger() >= 11){
+		if (aVer.split('-')[0].split(' ')[0].substring(1).replace(/./, '').toInteger() >= 11){
 			index.append "<li><a href=\"archive/nyc-lib-iframe-example-${aVer}.zip\">nyc-lib-frame-example-${aVer}.zip</a></li>"
 		}
 		index.append '</ul>'
 	}
-	index.append '</body></html>'
+	index.append '</div></body></html>'
 
 	ssh.run {
         session(remotes.deployTarget) {
