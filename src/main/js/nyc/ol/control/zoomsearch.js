@@ -50,7 +50,7 @@ nyc.ol.control.ZoomSearch.prototype = {
 	 * @return {JQuery} The the map container HTML element wrapped in a JQuery
 	 */
 	container: function(){
-		return $(this.map.getViewport()).find('.ol-overlaycontainer-stopevent');
+		return $(this.map.getTarget());
 	},
 	/**
 	 * @public
