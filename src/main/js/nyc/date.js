@@ -166,7 +166,6 @@ nyc.DateField.prototype = {
 	 * @method
 	 */
 	update: function(){
-		console.info(this.val());
 		this.hidden.val(this.val());
 	}
 };
