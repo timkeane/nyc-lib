@@ -33,6 +33,10 @@ nyc.Content.prototype = {
 	 * @return {string} The message with substituted values if provided
 	 */
 	message: function(msgId, values){
+		if (!this.messages[msgId]){
+			console.error('Message "' + msgId + '" not found', this. e);
+			return '';
+		}
 		try{
 			return this.replace(this.messages[msgId], values || {});						
 		}catch(e){

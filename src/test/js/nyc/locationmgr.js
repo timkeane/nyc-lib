@@ -82,7 +82,7 @@ QUnit.test('ambiguous (no possible matches)', function(assert){
 		
 	this.TEST_LOCATION_MGR.dialog = {
 		ok: function(msg){
-			assert.equal(msg, 'The location you entered was not understood');
+			assert.deepEqual(msg, {message:'The location you entered was not understood'});
 		}
 	};
 	
