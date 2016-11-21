@@ -80,7 +80,7 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @member {ol.interaction.Interaction}
-	 */ 
+	 */
 	drawer: null,
 	/**
 	 * @private
@@ -90,52 +90,52 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @member {ol.Map}
-	 */ 
+	 */
 	map: null,
 	/**
 	 * @private
 	 * @member {ol.format.WKT}
-	 */ 
+	 */
 	wkt: null,
 	/**
 	 * @private
 	 * @member {nyc.ol.Draw.Type}
-	 */ 
+	 */
 	type: null,
 	/**
 	 * @private
 	 * @member {ol.source.Vector}
-	 */ 
+	 */
 	layer: null,
 	/**
 	 * @private
 	 * @member {ol.layer.Vector}
-	 */ 
+	 */
 	source: null,
 	/**
 	 * @private
 	 * @member {JQuery}
-	 */ 
+	 */
 	viewport: null,
 	/**
 	 * @private
 	 * @member {JQuery}
-	 */ 
+	 */
 	mnuBtn: null,
 	/**
 	 * @private
 	 * @member {JQuery}
-	 */ 
+	 */
 	btnMnu: null,
 	/**
 	 * @private
 	 * @member {JQuery}
-	 */ 
+	 */
 	ctxMnu: null,
 	/**
 	 * @private
 	 * @member {ol.style.Style}
-	 */ 
+	 */
 	defaultStyle: new ol.style.Style({
 		fill: new ol.style.Fill({
 			color: 'rgba(255,255,255,0.2)'
@@ -150,7 +150,7 @@ nyc.ol.Draw.prototype = {
 				color: 'red'
 			})
 		})
-	}),	
+	}),
 	/**
 	 * @desc Return the active state
 	 * @public
@@ -200,13 +200,13 @@ nyc.ol.Draw.prototype = {
 				maxPoints: maxPoints,
 				condition: function(mapEvt){
 				    var evt = mapEvt.originalEvent;
-					return evt.button != 2 && 
+					return evt.button != 2 &&
 						!evt.shiftKey &&
-						!$(evt.target).hasClass('draw-mnu-btn') && 
+						!$(evt.target).hasClass('draw-mnu-btn') &&
 						!me.mover.getActive();
 				}
 			});
-			map.addInteraction(me.drawer);
+			me.map.addInteraction(me.drawer);
 			$(document).keyup(function(evt){
 				if (evt.keyCode == 27){
 					me.escape();
@@ -214,9 +214,9 @@ nyc.ol.Draw.prototype = {
 			});
 		}
 	},
-	/** 
+	/**
 	 * @desc Get the features that have been drawn
-	 * @public 
+	 * @public
 	 * @method
 	 * @return {Array<nyc.ol.Feature>} The features
 	 */
@@ -227,10 +227,10 @@ nyc.ol.Draw.prototype = {
 		});
 		return features;
 	},
-	/** 
-	 * @private 
+	/**
+	 * @private
 	 * @method
-	 */ 
+	 */
 	escape: function(){
 		var drawer = this.drawer;
 		if (drawer && drawer.getActive()){
@@ -238,19 +238,19 @@ nyc.ol.Draw.prototype = {
 			drawer.setActive(true);
 		}
 	},
-	/** 
-	 * @private 
+	/**
+	 * @private
 	 * @method
-	 */ 
+	 */
 	closeMenus: function(){
 		$('.draw-ctx-mnu, .draw-btn-mnu').slideUp(function(){
 			$('.draw-ctx-mnu').remove();
 		});
 	},
-	/** 
-	 * @private 
+	/**
+	 * @private
 	 * @method
-	 */ 
+	 */
 	buttonMenu: function(){
 		var me = this, viewport = me.viewport;
 		viewport.find('.ol-overlaycontainer-stopevent').append(nyc.ol.Draw.BUTTON_MENU_HTML);
@@ -263,11 +263,11 @@ nyc.ol.Draw.prototype = {
 			$(btn).click($.proxy(me.choose, me));
 		});
 	},
-	/** 
-	 * @private 
+	/**
+	 * @private
 	 * @method
 	 * @param {Object} event
-	 */ 
+	 */
 	choose: function(event){
 		var me = this, btn = event.target;
 		if (btn.tagName.toLowerCase() == 'button'){
@@ -282,13 +282,13 @@ nyc.ol.Draw.prototype = {
 			me.mnuBtn.get(0).className = 'ol-unselectable ol-control draw-btn ' + css;
 			me.activate(type);
 		}
-		me.closeMenus();			
+		me.closeMenus();
 	},
-	/** 
-	 * @private 
+	/**
+	 * @private
 	 * @method
 	 * @param {Object} event
-	 */ 
+	 */
 	contextMenu: function(event){
 		var me = this, map = me.map;
 		if (me.active()){
@@ -296,12 +296,12 @@ nyc.ol.Draw.prototype = {
 				map.getEventPixel(event), function(feature, layer){
 		    		if (layer == me.layer){
 		    			return feature;
-		    		}		    		
+		    		}
 		        });
 		    if (feature){
 				me.showContextMenu(feature);
 		    }
-		}			
+		}
 	    return false;
 	},
 	/**
@@ -343,22 +343,22 @@ nyc.ol.Draw.prototype = {
 		this.trigger(nyc.ol.FeatureEventType.REMOVE, {
 			type: nyc.ol.FeatureEventType.REMOVE,
 			feature: {
-				feature: feature, 
+				feature: feature,
 				wkt: this.wkt.writeFeature(this.serializable(feature))
 			}
-		});		
+		});
 	},
-	/** 
+	/**
 	 * @desc Remove all drawn features
-	 * @public 
+	 * @public
 	 * @method
 	 */
 	clear: function(){
 		this.source.clear();
 	},
-	/** 
+	/**
 	 * @desc Deactivate to stop drawing
-	 * @public 
+	 * @public
 	 * @method
 	 */
 	deactivate: function(){
@@ -377,13 +377,13 @@ nyc.ol.Draw.prototype = {
 	 * @private
 	 * @method
 	 * @param {ol.source.VectorEvent} event
-	 */ 
+	 */
 	triggerFeatureEvent: function(event){
 		var feature = event.feature;
 		if (this.triggerEvent(feature.getGeometry().getType())){
 			this.trigger(event.type, {
 				feature: {
-					feature: feature, 
+					feature: feature,
 					wkt: this.wkt.writeFeature(this.serializable(feature))
 				}
 			});
@@ -394,7 +394,7 @@ nyc.ol.Draw.prototype = {
 	 * @method
 	 * @param {ol.Feature} feature
 	 * @return {ol.Feature}
-	 */ 
+	 */
 	serializable: function(feature){
 		var geom = feature.getGeometry();
 		if (geom.getType() == nyc.ol.Draw.Type.CIRCLE){
@@ -408,7 +408,7 @@ nyc.ol.Draw.prototype = {
 	 * @method
 	 * @param {nyc.ol.Draw.Type} drawType
 	 * @return {boolean}
-	 */ 
+	 */
 	triggerEvent: function(drawType){
 		var types = nyc.ol.Draw.Type;
 		if (drawType == types.POINT && this.type == types.POINT){
@@ -550,8 +550,8 @@ ol.inherits(nyc.ol.Drag, ol.interaction.Pointer);
 /**
  * @private
  * @method
- * @param {ol.MapBrowserEvent} event 
- * @return {boolean} 
+ * @param {ol.MapBrowserEvent} event
+ * @return {boolean}
  */
 nyc.ol.Drag.prototype.handleDownEvent = function(event){
 	var me = this, map = event.map;
@@ -574,19 +574,19 @@ nyc.ol.Drag.prototype.handleDownEvent = function(event){
  */
 nyc.ol.Drag.prototype.handleDragEvent = function(event){
 	var me = this, map = event.map;
-	
+
 	var feature = map.forEachFeatureAtPixel(event.pixel, function(feature, layer){
 		if (layer == me.layer){
 			return feature;
 		}
 	});
-	
+
 	var deltaX = event.coordinate[0] - this.coords[0];
 	var deltaY = event.coordinate[1] - this.coords[1];
-	
+
 	var geometry = this.feature.getGeometry();
 	geometry.translate(deltaX, deltaY);
-	
+
 	this.coords[0] = event.coordinate[0];
 	this.coords[1] = event.coordinate[1];
 };
@@ -594,7 +594,7 @@ nyc.ol.Drag.prototype.handleDragEvent = function(event){
 /**
  * @private
  * @method
- * @param {ol.MapBrowserEvent} event 
+ * @param {ol.MapBrowserEvent} event
  */
 nyc.ol.Drag.prototype.handleMoveEvent = function(event){
 	var me = this, map = event.map;
@@ -611,8 +611,8 @@ nyc.ol.Drag.prototype.handleMoveEvent = function(event){
 /**
  * @private
  * @method
- * @param {ol.MapBrowserEvent} event 
- * @return {boolean} 
+ * @param {ol.MapBrowserEvent} event
+ * @return {boolean}
  */
 nyc.ol.Drag.prototype.handleUpEvent = function(event) {
 	this.coords = null;
