@@ -274,12 +274,12 @@ nyc.ol.Draw.prototype = {
 			btn = $(btn).parent().get(0);
 		}
 		var type = $(btn).data('draw-type'), css = btn.className.split(' ')[1] || '';
-		if (css == 'clear'){
+		if (css == 'delete'){
 			this.clear();
 		}else if(css == 'cancel'){
 			me.deactivate();
 		}else{
-			me.mnuBtn.get(0).className = 'ol-unselectable ol-control draw-btn ' + css;
+			me.mnuBtn.get(0).className = 'ol-unselectable draw-btn ' + css;
 			me.activate(type);
 		}
 		me.closeMenus();
@@ -299,7 +299,7 @@ nyc.ol.Draw.prototype = {
 		    		}
 		        });
 		    if (feature){
-				me.showContextMenu(feature);
+				me.showContextMenu(event, feature);
 		    }
 		}
 	    return false;
@@ -486,9 +486,9 @@ nyc.ol.Draw.Type  = {
  * @const
  * @type {string}
  */
-nyc.ol.Draw.CONTEXT_MENU_HTML = '<div class="ol-unselectable ol-control draw-ctx-mnu">' +
-		'<div class="draw-mnu-btn delete"><button>Delete feature</button></div>' +
-		'<div class="draw-mnu-btn move"><button>Move feature</button></div>' +
+nyc.ol.Draw.CONTEXT_MENU_HTML = '<div class="ctl ol-unselectable draw-ctx-mnu">' +
+		'<div class="draw-mnu-btn delete"><button class="ctl-btn ui-btn ui-corner-top">Delete feature</button></div>' +
+		'<div class="draw-mnu-btn move"><button class="ctl-btn ui-btn ui-corner-bottom">Move feature</button></div>' +
 	'</div>';
 
 /**
@@ -496,16 +496,16 @@ nyc.ol.Draw.CONTEXT_MENU_HTML = '<div class="ol-unselectable ol-control draw-ctx
  * @const
  * @type {string}
  */
-nyc.ol.Draw.BUTTON_MENU_HTML = '<div class="ol-unselectable ol-control draw-btn"><button><span>Draw</span></button></div>' +
-	'<div class="ol-unselectable ol-control draw-btn-mnu">' +
-		'<div class="draw-mnu-btn point" data-draw-type="Point"><button>Point</button></div>' +
-		'<div class="draw-mnu-btn line" data-draw-type="LineString"><button>Line</button></div>' +
-		'<div class="draw-mnu-btn polygon" data-draw-type="Polygon"><button>Polygon</button></div>' +
-		'<div class="draw-mnu-btn circle" data-draw-type="Circle"><button>Circle</button></div>' +
-		'<div class="draw-mnu-btn square" data-draw-type="Square"><button>Square</button></div>' +
-		'<div class="draw-mnu-btn box" data-draw-type="Box"><button>Box</button></div>' +
-		'<div class="draw-mnu-btn delete" data-draw-type="None"><button>Clear All</button></div>' +
-		'<div class="draw-mnu-btn cancel" data-draw-type="None"><button>Deactivate</button></div>' +
+nyc.ol.Draw.BUTTON_MENU_HTML = '<div class="ol-unselectable draw-btn"><button class="ctl ctl-btn ui-btn ui-corner-all"><span>Draw</span></button></div>' +
+	'<div class="ol-unselectable ctl draw-btn-mnu">' +
+		'<div class="draw-mnu-btn point" data-draw-type="Point"><button class="ctl-btn ui-btn ui-corner-top" title="Click to draw a point">Point</button></div>' +
+		'<div class="draw-mnu-btn line" data-draw-type="LineString"><button class="ctl-btn ui-btn" title="Click to draw each point of a line">Line</button></div>' +
+		'<div class="draw-mnu-btn polygon" data-draw-type="Polygon"><button class="ctl-btn ui-btn" title="Click to draw each point of a polygon">Polygon</button></div>' +
+		'<div class="draw-mnu-btn circle" data-draw-type="Circle"><button class="ctl-btn ui-btn" title="Hold shift-key, click and drag to draw a circle">Circle</button></div>' +
+		'<div class="draw-mnu-btn square" data-draw-type="Square"><button class="ctl-btn ui-btn" title="Hold shift-key, click and drag to draw a square">Square</button></div>' +
+		'<div class="draw-mnu-btn box" data-draw-type="Box"><button class="ctl-btn ui-btn"title=" Hold shift-key, click and drag to draw a box">Box</button></div>' +
+		'<div class="draw-mnu-btn delete" data-draw-type="None"><button class="ctl-btn ui-btn" title="Delete all drawn features">Clear All</button></div>' +
+		'<div class="draw-mnu-btn cancel" data-draw-type="None"><button class="ctl-btn ui-btn ui-corner-bottom" title="Deactivate drawing">Deactivate</button></div>' +
 	'</div>';
 
 /**

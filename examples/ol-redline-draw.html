@@ -5,7 +5,7 @@
 	<title>OpenLayers Example</title>
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.css">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.14.2/ol.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.19.1/ol.css" rel="stylesheet">
 	<!-- nyc css -->
 	<link rel="stylesheet" href="../src/main/css/control-common.css">
 	<link rel="stylesheet" href="../src/main/css/dialog.css">
@@ -16,7 +16,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.14/proj4.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.14.2/ol.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.19.1/ol.js"></script>
 	<!-- nyc js -->
 	<script src="../src/main/js/nyc/nyc.js"></script>
 	<script src="../src/main/js/nyc/dialog.js"></script>
@@ -71,17 +71,25 @@
 				'EPSG:2263'
 			);
 
-			var mgr = new nyc.LocationMgr({
+			new nyc.LocationMgr({
 				controls: new nyc.ol.control.ZoomSearch(map),
 				locate: new nyc.ol.Locate(geocoder, 'EPSG:2263'),
 				locator: new nyc.ol.Locator({map: map, layer: layer})
 			});
 
-			mgr.on(nyc.Locate.EventType.GEOCODE, function(result){
-				console.info(result);
+			var draw = new nyc.ol.Draw({map: map});
+			
+			draw.on(nyc.ol.FeatureEventType.ADD, function(event){
+				console.info("Feature added:", event);
 			});
 
-			new nyc.ol.Draw({map: map});
+			draw.on(nyc.ol.FeatureEventType.CHANGE, function(event){
+				console.info("Feature changed:", event);
+			});
+
+			draw.on(nyc.ol.FeatureEventType.REMOVE, function(event){
+				console.info("Feature removed:", event);
+			});
 
 		});
 	</script>

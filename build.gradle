@@ -27,7 +27,7 @@ dependencies {
 
 ext {
 	appName = 'nyc-lib'
-	ver = 'v0.2.1'
+	ver = 'v0.2.2-SNAPSHOT'
 	pkgDir = "${buildDir}/${appName}/${ver}"
 	remoteDir = "${appName}/${ver}"
 	srcDir = "${projectDir}/src/main"
@@ -217,8 +217,8 @@ task examples() << {
 			def origHtml = file.text
 			def newHtml = origHtml
 			if (file.name.indexOf('ol-redline-') == 0){
-				newHtml = (origHtml =~ jsexp).replaceFirst("<script src=\"${host}/nyc-lib/${ver}/js/nyc-ol-redline-lib.js\"></script>")
-				newHtml = (newHtml =~ cssexp).replaceFirst("<link rel=\"stylesheet\" href=\"${host}/nyc-lib/${ver}/css/nyc-ol-redline-lib.css\">")
+				newHtml = (origHtml =~ jsexp).replaceFirst("<script src=\"${host}/nyc-lib/${ver}/js/nyc-ol-lib.js\"></script>\\n<script src=\"${host}/nyc-lib/${ver}/js/nyc-ol-redline-lib.js\"></script>")
+				newHtml = (newHtml =~ cssexp).replaceFirst("<link rel=\"stylesheet\" href=\"${host}/nyc-lib/${ver}/css/nyc-ol-lib.css\">\\n<link rel=\"stylesheet\" href=\"${host}/nyc-lib/${ver}/css/nyc-ol-redline-lib.css\">")
 			}else if (file.name.indexOf('ol-') == 0){
 				newHtml = (origHtml =~ jsexp).replaceAll("<script src=\"${host}/nyc-lib/${ver}/js/nyc-ol-lib.js\"></script>")
 				newHtml = (newHtml =~ cssexp).replaceAll("<link rel=\"stylesheet\" href=\"${host}/nyc-lib/${ver}/css/nyc-ol-lib.css\">")
@@ -492,5 +492,5 @@ jettyStop.doFirst {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion '2.9'
+    gradleVersion '3.2'
 }
