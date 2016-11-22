@@ -147,7 +147,8 @@ ext {
 		'zoomsearch.css'
 	]
 	olRedLineCssFiles = [
-		'draw.css'
+		'draw.css',
+		'getfeature.css'
 	]
 	leafCssFiles = [
 		'control-common.css', 

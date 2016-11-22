@@ -18,11 +18,15 @@ nyc.ol.geoserver = nyc.ol.geoserver || {};
  */
 nyc.ol.geoserver.GetFeature = function(options){
 	this.map = options.map;
+	$(this.map.getViewport()).append(nyc.ol.geoserver.GetFeature.HTML).trigger('create');
+	$('#btn-get-feat').click($.proxy(this.toggleActive, this));
 	this.wkt = new ol.format.WKT({});
 	this.geoJson = new ol.format.GeoJSON({});
 	this.buffer = options.buffer || 25;
 	this.units = options.units || nyc.ol.geoserver.GetFeature.BufferUnits.FEET;
 	this.geomColumn = options.geomColumn || 'SHAPE';
+	options.propertyNames = options.propertyNames || [];
+	options.propertyNames.push(this.geomColumn);
 	this.source = new ol.source.Vector({});
 	this.layer = new ol.layer.Vector({
 		source: this.source,
@@ -34,9 +38,7 @@ nyc.ol.geoserver.GetFeature = function(options){
 	this.url += '&version=2.0.0';
 	this.url += '&request=GetFeature';
 	this.url += ('&typeNames=' + options.namespace + ':' + options.typeName);
-	if (options.propertyNames){
-		this.url += ('&propertyName=' + options.propertyNames.toString());
-	}
+	this.url += ('&propertyName=' + options.propertyNames.toString());
 	this.url += '&count=1';
 	this.url += '&outputFormat=text/javascript';
 	this.url += ('&format_options=callback:' + this.instance() + '.callback');
@@ -44,6 +46,11 @@ nyc.ol.geoserver.GetFeature = function(options){
 };
 
 nyc.ol.geoserver.GetFeature.prototype = {
+	/**
+	 * @private
+	 * @member {JQuery} btn
+	 */ 
+	btn: null,
 	/**
 	 * @private
 	 * @member {string} url
@@ -120,14 +127,13 @@ nyc.ol.geoserver.GetFeature.prototype = {
 	clear: function(){
 		this.source.clear();
 	},
-	/**
-	 * @desc Return the active state
-	 * @public
+	/** 
+	 * @desc Toggle active state
+	 * @public 
 	 * @method
-	 * @return {boolean} The active state
 	 */
-	active: function(){
-		this.active;
+	toggleActive: function(){
+		this[this.active ? 'deactivate' : 'activate']();
 	},
 	/** 
 	 * @desc Activate to begin capturing map clicks
@@ -136,6 +142,7 @@ nyc.ol.geoserver.GetFeature.prototype = {
 	 */
 	activate: function(){
 		this.active = true;
+		$('#btn-get-feat').addClass('active');
 		this.map.on('click', this.getFeature, this);
 	},
 	/** 
@@ -145,6 +152,7 @@ nyc.ol.geoserver.GetFeature.prototype = {
 	 */
 	deactivate: function(){
 		this.active = false;
+		$('#btn-get-feat').removeClass('active');
 		this.map.un('click', this.getFeature, this);
 	},
 	/**
@@ -168,7 +176,9 @@ nyc.ol.geoserver.GetFeature.prototype = {
 	 * @param {ol.MapBrowserEvent} event
 	 */
 	getFeature: function(event){
-		if (event.originalEvent.shiftKey){
+	if (event.originalEvent.target === $('#btn-get-feat').get(0)){
+		return;
+	}else if (event.originalEvent.shiftKey){
 			this.removeFeature(event);
 		}else{
 			var filter = this.filter, xy = event.coordinate;
@@ -226,6 +236,15 @@ nyc.ol.geoserver.GetFeature.prototype = {
 };
 
 nyc.inherits(nyc.ol.geoserver.GetFeature, nyc.EventHandling);
+
+/**
+ * @private
+ * @const
+ * @type {string}
+ */
+nyc.ol.geoserver.GetFeature.HTML = 	'<a id="btn-get-feat" class="ctl ctl-btn" data-role="button" data-icon="arrow-d" data-iconpos="notext" data-zoom-incr="1" title="Get feature (Click the map to retrieve a feature. Hold the shift-key and click a feature to remove.)">' +
+		'<span class="noshow">Get feature</span>' +
+	'</a>';
 
 /**
  * @desc Object type to hold constructor options for {@link nyc.ol.geoserver.GetFeature}
