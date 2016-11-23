@@ -27,7 +27,7 @@ dependencies {
 
 ext {
 	appName = 'nyc-lib'
-	ver = 'v0.2.3-SNAPSHOT'
+	ver = 'v0.2.3'
 	pkgDir = "${buildDir}/${appName}/${ver}"
 	remoteDir = "${appName}/${ver}"
 	srcDir = "${projectDir}/src/main"
@@ -493,5 +493,5 @@ jettyStop.doFirst {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion '3.2'
+    gradleVersion '3.1'
 }
