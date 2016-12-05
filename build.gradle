@@ -27,7 +27,7 @@ dependencies {
 
 ext {
 	appName = 'nyc-lib'
-	ver = 'v0.2.3'
+	ver = 'v0.2.4-SNAPSHOT'
 	pkgDir = "${buildDir}/${appName}/${ver}"
 	remoteDir = "${appName}/${ver}"
 	srcDir = "${projectDir}/src/main"
@@ -55,6 +55,7 @@ ext {
 		'nyc/listpager.js',
 		'nyc/zoomsearch.js',
 		'nyc/ol/ol.js', 
+		'nyc/ol/basemap.js', 
 		'nyc/ol/featuretip.js', 
 		'nyc/ol/locate.js', 
 		'nyc/ol/locator.js', 

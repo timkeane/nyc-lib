@@ -83,7 +83,8 @@ nyc.ol = nyc.ol || {};
  */
 
 /**
- * @public 
+ * @public
+ * @deprecated
  * @const
  * @type {ol.Extent}
  */
@@ -91,6 +92,7 @@ nyc.ol.EXTENT = [912090, 119053, 1068317, 273931];
 
 /**
  * @const
+ * @deprecated
  * @type {ol.Coordinate}
  */
 nyc.ol.CENTER = [990203, 196492];

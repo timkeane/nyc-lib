@@ -37,9 +37,6 @@
 		 	bottom: 0;
 		 	right: 0;
 		 }
-		 .leaflet-control-zoom {
-		 	display: none;
-		 }
 	</style>
 </head>
 <body>
@@ -60,7 +57,7 @@
 			var locationSrc = new ol.source.Vector();
 			map.addLayer(new ol.layer.Vector({source: locationSrc}));
 			
-			/* See README.md for getting you GeoClient App Id and App Key */
+			/* See README.md for getting your GeoClient App Id and App Key */
 			var geocoder = new nyc.Geoclient(
 				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=YOUR_APP_KEY&app_id=YOUR_APP_ID',
 				'EPSG:2263'
