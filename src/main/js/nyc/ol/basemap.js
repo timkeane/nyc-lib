@@ -8,9 +8,10 @@ nyc.ol = nyc.ol || {};
  * @extends {ol.Map}
  * @constructor
  * @param {Object} option Constructor options 
+ * @param {number} [preload=0] Preload option for base layer 
  * @see http://openlayers.org/en/latest/apidoc/ol.Map.html
  */
-nyc.ol.Basemap = function(options){
+nyc.ol.Basemap = function(options, preload){
 	var layers = [], viewProvided = options.view;
 	
 	/**
@@ -25,7 +26,8 @@ nyc.ol.Basemap = function(options){
 	 */
 	this.base = new ol.layer.Tile({
 		extent: nyc.ol.Basemap.UNIVERSE_EXTENT,
-		source: new ol.source.XYZ({url: nyc.ol.Basemap.BASE_URL})
+		source: new ol.source.XYZ({url: nyc.ol.Basemap.BASE_URL}),
+		preload: preload || 0
 	});
 	layers.push(this.base);
 
