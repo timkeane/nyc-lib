@@ -116,6 +116,20 @@ nyc.ol.Basemap.prototype.hidePhoto = function(){
 	}
 };
 
+/** 
+ * @desc Returns the base layers
+ * @public
+ * @method
+ * @return {nyc.ol.Basemap.BaseLayers}
+ */
+nyc.ol.Basemap.prototype.getBaseLayers = function(){
+	return {
+		base: this.base,
+		labels: this.labels,
+		photos: this.photos
+	};
+};
+
 /**
  * @desc The URL of the New York City base map tiles 
  * @private
@@ -196,7 +210,12 @@ nyc.ol.Basemap.LabelType = {
 	PHOTO: 'photo'
 };
 
-
-
-
-
+/**
+ * @desc Object type to hold base layers
+ * @public
+ * @typedef {Object}
+ * @property {ol.layer.Tile} base The base layer
+ * @property {<string, ol.layer.Tile>} labels The label layers 
+ * @property {<number, ol.layer.Tile>} photos The photo layers 
+ */
+nyc.ol.Basemap.BaseLayers;
