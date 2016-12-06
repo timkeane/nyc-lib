@@ -58,7 +58,7 @@ QUnit.test('project', function(assert){
 	assert.expect(3);
 	
 	var locate = new nyc.ol.Locate(this.MOCK_GEOCODER);
-	assert.deepEqual(locate.project([-74.0094471, 40.721786099999996]), [-74.0094471, 40.721786099999996]);
+	assert.deepEqual(locate.project([-74.0094471, 40.721786099999996]), proj4('EPSG:4326', 'EPSG:900913', [-74.0094471, 40.721786099999996]));
 	locate = new nyc.ol.Locate(this.MOCK_GEOCODER, 'EPSG:2263');
 	var projected = locate.project([-74.0094471, 40.721786099999996]);
 	assert.equal(projected[0].toFixed(4), 981631.3563);

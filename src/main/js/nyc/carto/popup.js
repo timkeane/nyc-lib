@@ -205,6 +205,7 @@ nyc.inherits(nyc.carto.Popup, nyc.EventHandling);
 
 /** 
  * @desc Enumerator for popup event types
+ * @public
  * @enum {string}
  */
 nyc.carto.Popup.EventType = {

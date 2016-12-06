@@ -9,17 +9,16 @@ nyc.ol = nyc.ol || {};
  * @extends {nyc.EventHandling}
  * @constructor
  * @param {nyc.Geocoder} geocoder A geocoder implementation
- * @param {string=} projection The EPSG code of the projection for output geometries (i.e. EPSG:2263)
+ * @param {string} [projection='EPSG:900913'] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
  * @param {ol.Extent=} extentLimit Geolocation coordinates outside of this bounding box are ignored  
  * @fires nyc.Locate#geocode
  * @fires nyc.Locate#ambiguous
  * @fires nyc.Locate#geolocation
  * @fires nyc.Locate#error
- *
  */
 nyc.ol.Locate = function(geocoder, projection, extentLimit){
 	var me = this;
-	me.projection = projection;
+	me.projection = projection || 'EPSG:900913';
 	me.extentLimit = extentLimit;
 	geocoder.on(nyc.Locate.EventType.GEOCODE, function(data){
 		me.proxyEvent(nyc.Locate.EventType.GEOCODE, data);
@@ -119,10 +118,7 @@ nyc.ol.Locate.prototype = {
 	 * @return {number}
 	 */
 	metersPerUnit: function(){
-		if (this.projection){
-			return ol.proj.get(this.projection).getMetersPerUnit() || 1;
-		}
-		return 1;
+		return ol.proj.get(this.projection).getMetersPerUnit() || 1;
 	},
 	/**
 	 * @private
@@ -131,10 +127,7 @@ nyc.ol.Locate.prototype = {
 	 * @return {ol.Coordinate}
 	 */
 	project: function(coordinates){
-		if (this.projection){
-			return proj4('EPSG:4326', ol.proj.get(this.projection).getCode(), coordinates);
-		}
-		return coordinates;
+		return proj4('EPSG:4326', ol.proj.get(this.projection).getCode(), coordinates);
 	},
 	/**
 	 * @private
@@ -155,4 +148,4 @@ nyc.inherits(nyc.ol.Locate, nyc.EventHandling);
  * @const
  * @type {number}
  */
-nyc.ol.Locate.ZOOM_LEVEL = 7;
+nyc.ol.Locate.ZOOM_LEVEL = 17;

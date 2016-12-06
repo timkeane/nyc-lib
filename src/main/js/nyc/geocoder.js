@@ -51,7 +51,7 @@ nyc.Geocoder.prototype = {
  * @constructor
  * @implements {nyc.Geocoder}
  * @param {string} url The URL for accessing the Geoclient API
- * @param {string=} projection The EPSG code of the projection for output geometries (i.e. EPSG:2263)
+ * @param {string} [projection='EPSG:900913'] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
  * @fires nyc.Locate#geocode
  * @fires nyc.Locate#ambiguous
  * @fires nyc.Locate#error
@@ -59,7 +59,7 @@ nyc.Geocoder.prototype = {
  */
 nyc.Geoclient = function(url, projection){
 	this.url = url + '&input=';
-	this.projection = projection;
+	this.projection = projection || 'EPSG:900913';
 };
 
 nyc.Geoclient.prototype = {
@@ -110,7 +110,7 @@ nyc.Geoclient.prototype = {
 	 * return {ol.Coordinate}
 	 */
 	project: function(coordinates){
-		if (coordinates && this.projection){
+		if (coordinates && this.projection != 'EPSG:2263'){
 			return proj4('EPSG:2263', this.projection, coordinates);
 		}
 		return coordinates;

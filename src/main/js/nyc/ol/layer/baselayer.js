@@ -1,14 +1,11 @@
 var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
-/** 
- * @public 
- * @namespace
- */
 nyc.ol.layer = nyc.ol.layer || {};
 
 /**
  * @desc Class that extends ol.layer.Tile to create the NYC base map layer
  * @public
+ * @deprecated
  * @class
  * @extends {ol.layer.Tile}
  * @constructor

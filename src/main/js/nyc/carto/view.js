@@ -52,6 +52,7 @@ nyc.inherits(nyc.carto.View, nyc.EventHandling);
 
 /** 
  * @desc Enumerator for view event types
+ * @public
  * @enum {string}
  */
 nyc.carto.ViewEventType = {

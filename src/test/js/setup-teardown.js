@@ -77,14 +77,9 @@ function setup(assert, hooks){
 	hooks.TEST_OL_MAP = (function(){
 		var div = $('<div class="ol-map"></div>')[0];
 		$('body').append(div);
-		var map = new ol.Map({
-			target: div,
-			view: new ol.View({
-				projection: 'EPSG:2263',
-				resolutions: nyc.ol.layer.BaseLayer.RESOLUTIONS
-			})
+		var map = new nyc.ol.Basemap({
+			target: div
 		});
-		map.getView().fit(nyc.ol.EXTENT, map.getSize());
 		return map;
 	}());
 	

@@ -5,16 +5,34 @@ nyc.ol = nyc.ol || {};
  * @desc Class that provides an ol.Map with base layers and labels
  * @public
  * @class
+ * @extends {ol.Map}
  * @constructor
- * @param {nyc.ol.layer.BaseLayer.Options} option Constructor options
+ * @param {Object} option Constructor options 
+ * @see http://openlayers.org/en/latest/apidoc/ol.Map.html
  */
 nyc.ol.Basemap = function(options){
-	var latestPhotoYr = 0, layers = [];
+	var layers = [], viewProvided = options.view;
+	
+	/**
+	 * @private
+	 * @member {number}
+	 */
+	this.latestPhoto = 0;
+
+	/**
+	 * @private
+	 * @member {ol.layer.Tile}
+	 */
 	this.base = new ol.layer.Tile({
 		extent: nyc.ol.Basemap.UNIVERSE_EXTENT,
 		source: new ol.source.XYZ({url: nyc.ol.Basemap.BASE_URL})
 	});
 	layers.push(this.base);
+
+	/**
+	 * @private
+	 * @member {Object<string, ol.layer.Tile>}
+	 */
 	this.labels = {};
 	for (var labelType in nyc.ol.Basemap.LABEL_URLS) {
 		this.labels[labelType] = new ol.layer.Tile({
@@ -25,6 +43,11 @@ nyc.ol.Basemap = function(options){
 		});		
 		layers.push(this.labels[labelType]);
 	}
+	
+	/**
+	 * @private
+	 * @member {Object<string, ol.layer.Tile>}
+	 */
 	this.photos = {};
 	for (var year in nyc.ol.Basemap.PHOTO_URLS) {
 		this.photos[year] = new ol.layer.Tile({
@@ -32,133 +55,62 @@ nyc.ol.Basemap = function(options){
 			source: new ol.source.XYZ({url: nyc.ol.Basemap.PHOTO_URLS[year]}),
 			visible: false
 		});		
-		if ((year * 1) > latestPhotoYr){
+		if ((year * 1) > this.latestPhoto){
 			this.latestPhoto = year;
 		}
 		layers.push(this.photos[year]);
 	}
-	this.view = options.view || new ol.View({
+	
+	options.view = options.view || new ol.View({
 		center: nyc.ol.Basemap.CENTER,
 		minZoom: 8,
 		zoom: 8
 	});
-	this.map = new ol.Map({
-		target: options.target,
-		layers: layers,
-		view: this.view
-	});
-	this.view.fit(nyc.ol.Basemap.EXTENT, this.map.getSize());
+	options.layers = layers.concat(options.layers || []);
+	
+	ol.Map.call(this, options);
+	
+	if (!viewProvided){
+		this.getView().fit(nyc.ol.Basemap.EXTENT, this.getSize());		
+	}
 };
 
-nyc.ol.Basemap.prototype = {
-	/**
-	 * @private
-	 * @member {ol.Map}
-	 */
-	map: null,
-	/**
-	 * @private
-	 * @member {ol.View}
-	 */
-	view: null,
-	/**
-	 * @private
-	 * @member {ol.layer.Tile}
-	 */
-	base: null,
-	/**
-	 * @private
-	 * @member {Object<string, ol.layer.Tile>}
-	 */
-	labels: null,
-	/**
-	 * @private
-	 * @member {Object<string, ol.layer.Tile>}
-	 */
-	photos: null,
-	/**
-	 * @private
-	 * @member {number}
-	 */
-	latestPhoto: null,
-	/** 
-	 * @desc Add a layer to the map
-	 * @public
-	 * @method	
-	 * @param layer {ol.layer.Base} The layer to add to the map
-	 */
-	addLayer: function(layer){
-		this.map.addLayer(layer);
-	},	
-	/** 
-	 * @desc Remove a layer to the map
-	 * @public
-	 * @method	
-	 * @param layer {ol.layer.Base} The layer to remove from the map
-	 */
-	removeLayer: function(layer){
-		this.map.removeLayer(layer);
-	},	
-	/** 
-	 * @desc Returns the map view
-	 * @public
-	 * @method	
-	 * @return {ol.Map}
-	 */
-	getOlMap: function(){
-		return this.map;
-	},
-	/** 
-	 * @desc Returns the map view
-	 * @public
-	 * @method	
-	 * @return {ol.View}
-	 */
-	getView: function(){
-		return this.view;
-	},
-	/** 
-	 * @desc Returns the HTML element containing the map
-	 * @public
-	 * @method	
-	 * @return {Element}
-	 */
-	getTarget: function(){
-		return this.map.getTarget();
-	},
-	/** 
-	 * @desc Show photo layer
-	 * @public
-	 * @method	
-	 * @param layer {number} The photo year to show
-	 */
-	showPhoto: function(year){
-		year = year || this.latestPhoto;
-		this.hidePhoto();
-		this.photos[year + ''].setVisible(true);
-		this.showLabels('photo');
-	},
-	/** 
-	 * @desc Show photo layer
-	 * @public
-	 * @method	
-	 * @param labelType {string} The lable type to shoe
-	 */
-	showLabels: function(labelType){
-		this.labels.base.setVisible(labelType == 'base');
-		this.labels.photo.setVisible(labelType == 'photo');
-	},
-	/** 
-	 * @desc Hide photo layer
-	 * @public
-	 * @method	
-	 */
-	hidePhoto: function(){
-		this.base.setVisible(true)
-		this.showLabels('base');
-		for (var year in this.photos){
-			this.photos[year].setVisible(false);
-		}
+ol.inherits(nyc.ol.Basemap, ol.Map);
+
+/** 
+ * @desc Show photo layer
+ * @public
+ * @method	
+ * @param layer {number} The photo year to show
+ */
+nyc.ol.Basemap.prototype.showPhoto = function(year){
+	year = year || this.latestPhoto;
+	this.hidePhoto();
+	this.photos[year + ''].setVisible(true);
+	this.showLabels('photo');
+};
+
+/** 
+ * @desc Show photo layer
+ * @public
+ * @method	
+ * @param labelType {nyc.ol.Basemap.LabelType} The label type to show
+ */
+nyc.ol.Basemap.prototype.showLabels = function(labelType){
+	this.labels.base.setVisible(labelType == nyc.ol.Basemap.LabelType.BASE);
+	this.labels.photo.setVisible(labelType == nyc.ol.Basemap.LabelType.PHOTO);
+};
+
+/** 
+ * @desc Hide photo layer
+ * @public
+ * @method	
+ */
+nyc.ol.Basemap.prototype.hidePhoto = function(){
+	this.base.setVisible(true)
+	this.showLabels(nyc.ol.Basemap.LabelType.BASE);
+	for (var year in this.photos){
+		this.photos[year].setVisible(false);
 	}
 };
 
@@ -226,12 +178,23 @@ nyc.ol.Basemap.LABEL_EXTENT = [-8268000, 4870900, -8005000, 5055500];
  */
 nyc.ol.Basemap.PHOTO_EXTENT = [-8268357, 4937238, -8203099, 5001716];
 
-/**
- * @desc The URLs of the New York City base map label tiles 
+/** 
+ * @desc Enumerator for label types
  * @public
- * @typedef {Object}
- * @property {Element} target The target HTML element for creation of the map
- * @property {nyc.ol.View} =view The view for the map 
+ * @enum {string}
  */
-nyc.ol.Basemap.Options;
+nyc.ol.Basemap.LabelType = {
+	/**
+	 * @desc Label type for base layer
+	 */
+	BASE: 'base',
+	/**
+	 * @desc Label type for photo layer
+	 */
+	PHOTO: 'photo'
+};
+
+
+
+
 

@@ -53,14 +53,13 @@
 			
 			/* See README.md for getting your GeoClient App Id and App Key */
 			var geocoder = new nyc.Geoclient(
-				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=YOUR_APP_KEY&app_id=YOUR_APP_ID',
-				'EPSG:900913'
+				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=YOUR_APP_KEY&app_id=YOUR_APP_ID'
 			);
 
 			var mgr = new nyc.LocationMgr({
-				controls: new nyc.ol.control.ZoomSearch(map.getOlMap()),
-				locate: new nyc.ol.Locate(geocoder, 'EPSG:900913'),
-				locator: new nyc.ol.Locator({map: map.getOlMap(), layer: layer, zoom: 18})
+				controls: new nyc.ol.control.ZoomSearch(map),
+				locate: new nyc.ol.Locate(geocoder),
+				locator: new nyc.ol.Locator({map: map, layer: layer})
 			});
 
 		});

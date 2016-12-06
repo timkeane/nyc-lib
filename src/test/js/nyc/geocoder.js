@@ -22,9 +22,9 @@ QUnit.test('project', function(assert){
 
 	var geocoder = new nyc.Geoclient();
 	var coordinates = [981631, 202242];
-	assert.deepEqual(geocoder.project(coordinates), coordinates);
+	assert.deepEqual(geocoder.project(coordinates), proj4('EPSG:2263','EPSG:900913', coordinates));
 	geocoder = new nyc.Geoclient(null, 'EPSG:4326');
-	assert.deepEqual(geocoder.project(coordinates), [-74.00944838513226, 40.72178386137363]);
+	assert.deepEqual(geocoder.project(coordinates), proj4('EPSG:2263','EPSG:4326', coordinates));
 });
 
 QUnit.test('parse (address)', function(assert){
@@ -35,7 +35,7 @@ QUnit.test('parse (address)', function(assert){
 		geocoder.parse(this.GEOCLIENT_OK_ADDRESS_RESPONSE.results[0]),
 		{
 			type: nyc.Locate.ResultType.GEOCODE,
-			coordinates: [982037, 197460],
+			coordinates: proj4('EPSG:2263','EPSG:900913', [982037, 197460]),
 			accuracy: nyc.Geocoder.Accuracy.HIGH,
 			name: '59 Maiden Lane, Manhattan, NY 10038',
 			data: this.GEOCLIENT_OK_ADDRESS_RESPONSE.results[0].response
@@ -51,7 +51,7 @@ QUnit.test('parse (intersection)', function(assert){
 		geocoder.parse(this.GEOCLIENT_OK_INTERSECTION_RESPONSE.results[0]),
 		{
 			type: nyc.Locate.ResultType.GEOCODE,
-			coordinates: [0986427, 215839],
+			coordinates:  proj4('EPSG:2263','EPSG:900913', [0986427, 215839]),
 			accuracy: nyc.Geocoder.Accuracy.MEDIUM,
 			name: '9 Avenue And West 43 Street, Manhattan, NY 10036',
 			data: this.GEOCLIENT_OK_INTERSECTION_RESPONSE.results[0].response	
@@ -67,7 +67,7 @@ QUnit.test('parse (blockface)', function(assert){
 		geocoder.parse(this.GEOCLIENT_OK_BLOCKFACE_RESPONSE.results[0]),
 		{
 			type: nyc.Locate.ResultType.GEOCODE,
-			coordinates: [986033.5, 216057],
+			coordinates:  proj4('EPSG:2263','EPSG:900913', [986033.5, 216057]),
 			accuracy: nyc.Geocoder.Accuracy.LOW,
 			name: 'West 43 Street Btwn 9 Avenue & 10 Avenue, Manhattan, NY 10036',
 			data: this.GEOCLIENT_OK_BLOCKFACE_RESPONSE.results[0].response				
@@ -83,21 +83,21 @@ QUnit.test('possible', function(assert){
 		geocoder.possible(this.GEOCLIENT_NOT_OK_RESPONSE.results),
 		[{
 			accuracy: 100,
-			coordinates: [1002457, 234792],
+			coordinates:  proj4('EPSG:2263','EPSG:900913', [1002457, 234792]),
 			name: 'Metro North Bridge, Manhattan, NY ',
 			type: 'geocode',
 			data: this.GEOCLIENT_NOT_OK_RESPONSE.results[1].response
 		},
 		{
 			accuracy: 0,
-			coordinates: [999682, 226174],
+			coordinates:  proj4('EPSG:2263','EPSG:900913', [999682, 226174]),
 			name: 'Metro North Complex, Manhattan, NY 10029',
 			type: 'geocode',
 			data: this.GEOCLIENT_NOT_OK_RESPONSE.results[2].response
 		},
 		{
 			accuracy: 100,
-			coordinates: [999790, 225881],
+			coordinates:  proj4('EPSG:2263','EPSG:900913', [999790, 225881]),
 			name: 'Metro North Park, Manhattan, NY 10029',
 			type: 'geocode',
 			data: this.GEOCLIENT_NOT_OK_RESPONSE.results[3].response
@@ -116,7 +116,7 @@ QUnit.test('geoclient (geocoded)', function(assert){
 			data,
 			{
 				type: nyc.Locate.ResultType.GEOCODE,
-				coordinates: [982037, 197460],
+				coordinates:  proj4('EPSG:2263','EPSG:900913', [982037, 197460]),
 				accuracy: nyc.Geocoder.Accuracy.HIGH,
 				name: '59 Maiden Lane, Manhattan, NY 10038',
 				data: response.results[0].response			
@@ -148,21 +148,21 @@ QUnit.test('geoclient (ambiguous)', function(assert){
 			possible: [
 	           {
 	        	   accuracy: 100,
-	        	   coordinates: [1002457, 234792],
+	        	   coordinates:  proj4('EPSG:2263','EPSG:900913', [1002457, 234792]),
 	        	   name: 'Metro North Bridge, Manhattan, NY ',
 	        	   type: 'geocode',
 					data: response.results[1].response
 	           },
 	           {
 	        	   accuracy: 0,
-	        	   coordinates: [999682, 226174],
+	        	   coordinates:  proj4('EPSG:2263','EPSG:900913', [999682, 226174]),
 	        	   name: 'Metro North Complex, Manhattan, NY 10029',
 	        	   type: 'geocode',
 					data: response.results[2].response
 	           },
 	           {
 	        	   accuracy: 100,
-	        	   coordinates: [999790, 225881],
+	        	   coordinates:  proj4('EPSG:2263','EPSG:900913', [999790, 225881]),
 	        	   name: 'Metro North Park, Manhattan, NY 10029',
 	        	   type: 'geocode',
 					data: response.results[3].response
@@ -182,7 +182,7 @@ QUnit.test('search (zip code)', function(assert){
 			data,
 			{
 				type: nyc.Locate.ResultType.GEOCODE,
-				coordinates: nyc.Geoclient.ZIP_CODE_POINTS['10038'],
+				coordinates:  proj4('EPSG:2263','EPSG:900913', nyc.Geoclient.ZIP_CODE_POINTS['10038']),
 				accuracy: nyc.Geocoder.Accuracy.ZIP_CODE,
 				name: '10038',
 				zip: true
@@ -203,7 +203,7 @@ QUnit.test('search (address)', function(assert){
 				data,
 				{
 					type: nyc.Locate.ResultType.GEOCODE,
-					coordinates: [982037, 197460],
+					coordinates:  proj4('EPSG:2263','EPSG:900913', [982037, 197460]),
 					accuracy: nyc.Geocoder.Accuracy.HIGH,
 					name: '59 Maiden Lane, Manhattan, NY 10038'			
 				}

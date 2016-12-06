@@ -1,5 +1,9 @@
 var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
+/** 
+ * @public 
+ * @namespace
+ */
 nyc.ol.layer = nyc.ol.layer || {};
 
 /**

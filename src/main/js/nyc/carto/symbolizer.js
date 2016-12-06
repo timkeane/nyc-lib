@@ -13,6 +13,7 @@ nyc.inherits(nyc.carto.Symbolizer, nyc.EventHandling);
 
 /** 
  * @desc Enumerator for symbolizer event types
+ * @public
  * @enum {string}
  */
 nyc.carto.Symbolizer.EventType = {
