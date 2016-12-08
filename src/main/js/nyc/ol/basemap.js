@@ -29,6 +29,7 @@ nyc.ol.Basemap = function(options, preload){
 		source: new ol.source.XYZ({url: nyc.ol.Basemap.BASE_URL}),
 		preload: preload || 0
 	});
+	this.base.set('name', 'basemap'); 
 	layers.push(this.base);
 
 	/**
@@ -60,6 +61,7 @@ nyc.ol.Basemap = function(options, preload){
 		if ((year * 1) > this.latestPhoto){
 			this.latestPhoto = year;
 		}
+		this.photos[year].set('name', year);
 		layers.push(this.photos[year]);
 	}
 	
@@ -145,6 +147,7 @@ nyc.ol.Basemap.BASE_URL = '/geoserver/gwc/service/tms/1.0.0/basemap@EPSG%3A90091
  * @type {Object<string, string>}
  */
 nyc.ol.Basemap.PHOTO_URLS = {
+	'2010': '/geoserver/gwc/service/tms/1.0.0/2010@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
 	'2012': '/geoserver/gwc/service/tms/1.0.0/2012@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
 	'2014': '/geoserver/gwc/service/tms/1.0.0/2014@EPSG%3A900913@png8/{z}/{x}/{-y}.png8'
 };

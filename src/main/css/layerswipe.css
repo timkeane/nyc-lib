@@ -1,0 +1,61 @@
+#btn-swipe {
+    top: 0;
+    right: 3px;
+	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3Asvg%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%22256%22%20width%3D%22256%22%3E%3Ccircle%20style%3D%22fill%3A%23fff%22%20cx%3D%22128%22%20cy%3D%22128%22%20r%3D%2240%22%2F%3E%3Crect%20style%3D%22fill%3A%23fff%22%20width%3D%2230%22%20height%3D%22216%22%20x%3D%22113%22%20y%3D%2220%22%2F%3E%3Cpolygon%20fill%3D%22none%22%20style%3D%22fill%3A%23fff%22%20points%3D%2220%2C128%2080%2C88%2080%2C168%22%2F%3E%3Cpolygon%20fill%3D%22none%22%20style%3D%22fill%3A%23fff%22%20points%3D%22236%2C128%20176%2C88%20176%2C168%22%2F%3E%3C%2Fsvg%3E");    
+	background-size: 28px 28px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+#swipe-choices, #swipe-choices label {
+    color: #fff;
+    text-shadow: none;
+    font-weight: bold;
+}
+#swipe-choices {
+	position: fixed;
+    top: 48px;
+    right: 3px;
+    width: 150px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: .6em;
+    padding: 5px;
+    display: none;
+}
+#swipe-choices input {
+	visibility: hidden;
+}
+#swipe-choices label {
+	border: none;
+	background-color: transparent;
+	padding: 1px 1px 1px 30px;
+}
+#swipe-choices input {
+}
+#swipe-choices label:after {
+	margin-left: -5px;
+	margin-top: -11px;
+	background-color: #fff;
+	border: 1px solid #fff;
+}
+#swipe-choices label.ui-checkbox-on:after {
+	background-color: #000;
+}
+div.swipe-label {
+	position: fixed;
+	background-color: rgba(255,255,255,0.5);
+	border-radius: 3px;
+}
+div.swipe-label div {
+	display: inline-block;
+	text-align: center;
+	text-shadow: none;
+	font-size: 10px;
+	font-weight: bold;
+	padding: 2px;
+	width: 80px;
+	height:10px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
