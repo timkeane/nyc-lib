@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="../src/main/css/control-common.css"> 
 	<link rel="stylesheet" href="../src/main/css/dialog.css"> 
 	<link rel="stylesheet" href="../src/main/css/zoomsearch.css"> 
-	<link rel="stylesheet" href="../src/main/css/layerswipe.css"> 
+	<link rel="stylesheet" href="../src/main/css/layerfade.css"> 
 	<!-- nyc css -->
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
@@ -29,7 +29,7 @@
 	<script src="../src/main/js/nyc/ol/locate.js"></script>
 	<script src="../src/main/js/nyc/ol/locator.js"></script>
 	<script src="../src/main/js/nyc/ol/control/zoomsearch.js"></script>
-	<script src="../src/main/js/nyc/ol/control/layerswipe.js"></script>
+	<script src="../src/main/js/nyc/ol/control/layerfade.js"></script>
 	<!-- nyc js -->
 	
 	<style>
@@ -45,7 +45,7 @@
 <body>
 	<div id="map"></div>
 	<script>
-		var map, swipe;
+		var map, fade;
 		
 		$(document).ready(function(){			
 			map = new nyc.ol.Basemap({target: $('#map').get(0)});
@@ -66,7 +66,7 @@
 				locator: new nyc.ol.Locator({map: map, layer: layer})
 			});
 
-			swipe = new nyc.ol.control.LayerSwipe(map);
+			fade = new nyc.ol.control.LayerFade(map);
 		});
 	</script>
 </body>

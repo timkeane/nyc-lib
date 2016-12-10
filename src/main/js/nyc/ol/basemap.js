@@ -29,7 +29,6 @@ nyc.ol.Basemap = function(options, preload){
 		source: new ol.source.XYZ({url: nyc.ol.Basemap.BASE_URL}),
 		preload: preload || 0
 	});
-	this.base.set('name', 'basemap'); 
 	layers.push(this.base);
 
 	/**
@@ -53,7 +52,7 @@ nyc.ol.Basemap = function(options, preload){
 	 */
 	this.photos = {};
 	for (var year in nyc.ol.Basemap.PHOTO_URLS) {
-		this.photos[year] = new ol.layer.Tile({
+		var photo = new ol.layer.Tile({
 			extent: nyc.ol.Basemap.PHOTO_EXTENT,
 			source: new ol.source.XYZ({url: nyc.ol.Basemap.PHOTO_URLS[year]}),
 			visible: false
@@ -61,8 +60,10 @@ nyc.ol.Basemap = function(options, preload){
 		if ((year * 1) > this.latestPhoto){
 			this.latestPhoto = year;
 		}
-		this.photos[year].set('name', year);
-		layers.push(this.photos[year]);
+		photo.set('name', year);
+		layers.push(photo);
+		photo.on('change:visible', $.proxy(this.photoChange, this));
+		this.photos[year] = photo;
 	}
 	
 	options.view = options.view || new ol.View({
@@ -130,6 +131,20 @@ nyc.ol.Basemap.prototype.getBaseLayers = function(){
 		labels: this.labels,
 		photos: this.photos
 	};
+};
+
+/** 
+ * @private
+ * @method
+ */
+nyc.ol.Basemap.prototype.photoChange = function(){
+	for (var photo in this.photos){
+		if (this.photos[photo].getVisible()){
+			this.showLabels(nyc.ol.Basemap.LabelType.PHOTO);
+			return;
+		}
+	}
+	this.showLabels(nyc.ol.Basemap.LabelType.BASE);
 };
 
 /**

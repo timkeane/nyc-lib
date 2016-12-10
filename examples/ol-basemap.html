@@ -43,9 +43,11 @@
 <body>
 	<div id="map"></div>
 	<script>
+		var map;
+
 		$(document).ready(function(){
-			
-			var map = new nyc.ol.Basemap({target: $('#map').get(0)});
+
+			map = new nyc.ol.Basemap({target: $('#map').get(0)});
 			
 			var source = new ol.source.Vector();
 			var layer = new ol.layer.Vector({source: source});

@@ -15,8 +15,8 @@ nyc.ol.control.LayerSwipe = function(map, layers){
 	this.layers = layers || this.setLayersFromMap(map);
 	map.on('pointermove', $.proxy(this.swipe, this));
 	$(map.getTarget()).append(nyc.ol.control.LayerSwipe.HTML).trigger('create');
-	$('#btn-swipe').click($.proxy(this.choose, this));
-	$('#swipe-choices').mouseleave($.proxy(this.setChoices, this));
+	$('#btn-swipe').click($.proxy(this.showChoices, this));
+	$('#swipe-choices').mouseleave($.proxy(this.makeChoices, this));
 };
 
 nyc.ol.control.LayerSwipe.prototype = {
@@ -63,6 +63,7 @@ nyc.ol.control.LayerSwipe.prototype = {
 	 */
 	setLeft: function(layer){
 		this.setOriginalExtent(layer);
+		this.setVisible(layer);
 		this.leftLayer = layer;
 	},
 	/**
@@ -73,6 +74,7 @@ nyc.ol.control.LayerSwipe.prototype = {
 	 */
 	setRight: function(layer){
 		this.setOriginalExtent(layer);
+		this.setVisible(layer);
 		this.rightLayer = layer;
 	},
 	/**
@@ -90,6 +92,16 @@ nyc.ol.control.LayerSwipe.prototype = {
 		});
 		if (!active){
 			this.reset();
+		}
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {ol.layer.Base} layer
+	 */
+	setVisible: function(layer){
+		if (layer){
+			layer.setVisible(true);
 		}
 	},
 	/**
@@ -162,9 +174,9 @@ nyc.ol.control.LayerSwipe.prototype = {
 	 */
 	swipeLeft: function(x){
 		if (this.leftLayer){
-			var ext = this.leftLayer.getExtent();
-			ext[2] = x;
-			this.leftLayer.setExtent(ext);
+			var leftExtent = ol.geom.Polygon.fromExtent(this.leftLayer.getExtent()).getExtent();
+			leftExtent[2] = x;
+			this.leftLayer.setExtent(leftExtent);
 		}
 	},
 	/**
@@ -174,16 +186,16 @@ nyc.ol.control.LayerSwipe.prototype = {
 	 */
 	swipeRight: function(x){
 		if (this.rightLayer){
-			var ext = this.rightLayer.getExtent();
-			ext[0] = x;
-			this.rightLayer.setExtent(ext);
+			var rightExt = ol.geom.Polygon.fromExtent(this.rightLayer.getExtent()).getExtent();
+			rightExt[0] = x;
+			this.rightLayer.setExtent(rightExt);
 		}
 	},
 	/**
 	 * @private
 	 * @method
 	 */
-	choose: function(){
+	showChoices: function(){
 		var choices = $('#swipe-choices div.ui-controlgroup-controls');
 		this.setActive(false);
 		if (!choices.html()){
@@ -193,16 +205,6 @@ nyc.ol.control.LayerSwipe.prototype = {
 				choices.append(label).trigger('create');
 				check.click($.proxy(this.validate, this));
 			}
-		}
-		for (var name in this.layers){
-			var check = $('#swipe-choices input[name="' + name + '"]');
-			if (this.layers[name].getVisible()){
-				check.parent().show();
-			}else{
-				check.checked = false;
-				check.parent().hide();
-			}
-			check.checkboxradio('refresh');
 		}
 		$('#swipe-choices').slideDown();
 	},
@@ -218,17 +220,36 @@ nyc.ol.control.LayerSwipe.prototype = {
 			$(check).checkboxradio('refresh');
 		}
 	},
+	
 	/**
 	 * @private
 	 * @method
-	 * @param {JQuery.Event} event
+	 * @param {Array<Element>} choices
 	 */
-	setChoices: function(event){
+	resetBasemap: function(choices){
+		if (this.map.getBaseLayers){
+			var photos = this.map.getBaseLayers().photos;
+			for (var photo in photos){
+				for (var i = 0; i < choices.length; i++){
+					if (this.layers[choices[i]] === photos[photo]){
+						this.map.hidePhoto();
+						return;
+					}
+				}
+			}
+		}
+	},
+	/**
+	 * @private
+	 * @method
+	 */
+	makeChoices: function(){
 		$('#swipe-choices').slideUp();
 		var choices = $('#swipe-choices input:checked');
 		this.setLeft();
 		this.setRight();
 		if (choices.length){
+			this.resetBasemap(choices);
 			this.setLeft(this.layers[choices[0].name]);
 			if (choices[1]) this.setRight(this.layers[choices[1].name]);
 			this.setActive(true);
@@ -237,7 +258,7 @@ nyc.ol.control.LayerSwipe.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {Array<number>} pixel
+	 * @param {ol.Coordinate} pixel
 	 */
 	label: function(pixel){
 		if (this.rightLayer){
