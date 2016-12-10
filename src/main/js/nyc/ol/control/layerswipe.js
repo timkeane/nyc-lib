@@ -12,7 +12,7 @@ nyc.ol.control = nyc.ol.control || {};
  */
 nyc.ol.control.LayerSwipe = function(map, layers){
 	this.map = map;
-	this.layers = layers || this.setLayersFromMap(map);
+	this.layers = layers || this.getLayersFromMap(map);
 	map.on('pointermove', $.proxy(this.swipe, this));
 	$(map.getTarget()).append(nyc.ol.control.LayerSwipe.HTML).trigger('create');
 	$('#btn-swipe').click($.proxy(this.showChoices, this));
@@ -281,7 +281,7 @@ nyc.ol.control.LayerSwipe.prototype = {
 	 * @method
 	 * @param {ol.Map} map
 	 */
-	setLayersFromMap: function(map){
+	getLayersFromMap: function(map){
 		var layers = {};
 		map.getLayers().forEach(function(layer){
 			var name = layer.get('name');

@@ -12,16 +12,11 @@ nyc.ol.control = nyc.ol.control || {};
  */
 nyc.ol.control.LayerFade = function(map, layers){
 	this.map = map;
-	this.layers = layers || this.setLayersFromMap(map);
+	this.layers = layers || this.getLayersFromMap(map);
 	$(map.getTarget()).append(nyc.ol.control.LayerFade.HTML).trigger('create');
 	$('#btn-fade').click($.proxy(this.showChoices, this));
 	$('div.fade-btns a').click($.proxy(this.buttonClick, this));
-	$.getScript(nyc.ol.control.LayerFade.JQUERY_UI.js);
-	if (document.createStyleSheet){
-        document.createStyleSheet(nyc.ol.control.LayerFade.JQUERY_UI.css);
-    }else{
-        $('head').append($('<link rel="stylesheet" href="' + nyc.ol.control.LayerFade.JQUERY_UI.css + '" type="text/css">'));
-    }
+	nyc.ol.control.ui.load();
 };
 
 nyc.ol.control.LayerFade.prototype = {
@@ -204,7 +199,7 @@ nyc.ol.control.LayerFade.prototype = {
 	 * @method
 	 * @param {ol.Map} map
 	 */
-	setLayersFromMap: function(map){
+	getLayersFromMap: function(map){
 		var layers = {};
 		map.getLayers().forEach(function(layer){
 			var name = layer.get('name');
@@ -247,16 +242,6 @@ nyc.ol.control.LayerFade.fadeOut = function(){
 	if (step > 0){
 		setTimeout($.proxy(this.fadeOut, this), this.get('fadeStepTimeout'));
 	}
-};
-
-/**
- * @private
- * @const
- * @type {Object<string, string>}
- */
-nyc.ol.control.LayerFade.JQUERY_UI = {
-	js: 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js',
-	css: 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css'
 };
 
 /**
