@@ -16,7 +16,12 @@ nyc.ol.control.LayerFade = function(map, layers){
 	$(map.getTarget()).append(nyc.ol.control.LayerFade.HTML).trigger('create');
 	$('#btn-fade').click($.proxy(this.showChoices, this));
 	$('div.fade-btns a').click($.proxy(this.buttonClick, this));
-	$.getScript(nyc.ol.control.LayerFade.JQUERY_UI);
+	$.getScript(nyc.ol.control.LayerFade.JQUERY_UI.js);
+	if (document.createStyleSheet){
+        document.createStyleSheet(nyc.ol.control.LayerFade.JQUERY_UI.css);
+    }else{
+        $('head').append($('<link rel="stylesheet" href="' + nyc.ol.control.LayerFade.JQUERY_UI.css + '" type="text/css">'));
+    }
 };
 
 nyc.ol.control.LayerFade.prototype = {
@@ -71,6 +76,7 @@ nyc.ol.control.LayerFade.prototype = {
 	 */
 	showChoices: function(){
 		var items = $('#fade-menu li');
+		$('#fade-status, #fade-progress, #fade-slider').fadeOut();
 		if (!items.length){
 			var choices = $('#fade-menu ul');
 			for (var name in this.layers){
@@ -78,13 +84,7 @@ nyc.ol.control.LayerFade.prototype = {
 				choices.append(li);
 			}
 		}
-        $('.fade-choices').sortable({
-        	connectWith: '#fade-menu ul, #fade-menu ol',
-        	stop: function(event, ui) {
-
-        	}
-
-        }).disableSelection();
+        $('.fade-choices').sortable({connectWith: '#fade-menu ul, #fade-menu ol'}).disableSelection();
 		$('#fade-menu').slideDown();
 	},
 	/**
@@ -104,7 +104,7 @@ nyc.ol.control.LayerFade.prototype = {
 				layers[0].fadeOut();
 				this.progress(layers);
 			}else{
-				this.slider();
+				this.slider(layers);
 			}
 		}
 	},
@@ -138,9 +138,52 @@ nyc.ol.control.LayerFade.prototype = {
 	/**
 	 * @private
 	 * @method
+	 * @param {Array<ol.layer.Base>} layers
+	 * @param {number} interval
+	 * @param {number} value
 	 */
-	slider: function(){
-
+	manualFade: function(layers, interval, value){
+		var layerIdx;
+		$('#fade-progress').width(value);
+		for (var i = 0; i < layers.length; i++){
+			var end = (i + 1) * interval, start = end - interval;
+			if (value >= start && value < end){
+				layerIdx = i;
+				break;
+			}
+		}
+		for (var i = 0; i < layers.length; i++){
+			var layer = layers[i];
+			if (i < layerIdx || i > layerIdx + 1){
+				layer.setOpacity(0);
+			}else if (i == layerIdx && !layer.get('lastFadeLayer')){
+				if (layer.get('lastFadeLayer')){
+					layer.setOpacity(1);
+				}else{
+					var end = (i + 1) * interval, start = end - interval;
+					layer.setOpacity(1 - (value - start)/interval);
+					if (layer.get('nextFadeLayer')){
+						layer.get('nextFadeLayer').setOpacity((value - start)/interval);
+					}								
+				}
+			}
+		}		
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {Array<ol.layer.Base>} layers
+	 */
+	slider: function(layers){
+		var me = this, max = $(this.map.getTarget()).width(), interval = max/layers.length;
+		$('#fade-slider').show().slider({
+			min: 0,
+			max: max,
+			value: 0,
+			slide: function(event, ui){
+				me.manualFade(layers, interval, ui.value);
+			}
+		});
 	},
 	/**
 	 * @private
@@ -149,6 +192,7 @@ nyc.ol.control.LayerFade.prototype = {
 	 */
 	buttonClick: function(event){
 		var btn = $(event.currentTarget);
+		$('#fade-progress').width(0);
 		$('#fade-menu').slideUp();
 		if (btn.hasClass('btn-cancel')){
 			return;
@@ -208,9 +252,12 @@ nyc.ol.control.LayerFade.fadeOut = function(){
 /**
  * @private
  * @const
- * @type {string}
+ * @type {Object<string, string>}
  */
-nyc.ol.control.LayerFade.JQUERY_UI = 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js';
+nyc.ol.control.LayerFade.JQUERY_UI = {
+	js: 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js',
+	css: 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css'
+};
 
 /**
  * @private
@@ -233,7 +280,7 @@ nyc.ol.control.LayerFade.HTML = '<a id="btn-fade" class="ctl ctl-btn" data-role=
 			'<a class="btn-manual" data-role="button">Manual</a>' +
 		'</div>' +
     '</div>' +
-	'<div id="fade-slider"></div>' +
 	'<div id="fade-progress"></div>' +
-	'<div id="fade-status"></div>';
+	'<div id="fade-status"></div>' +
+	'<div id="fade-slider"></div>';
 

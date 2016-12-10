@@ -56,19 +56,34 @@ div.fade-btns a {
 	width: 82px;
 	padding: 8px;
 }
-div#fade-status, div#fade-progress {
+div#fade-status, div#fade-progress, div#fade-slider {
 	display: none;
 	position: fixed;
-	bottom: 0;
 	left: 0;
+}
+div#fade-status, div#fade-progress, div#fade-slider {
+	bottom: 0;
     background-color: rgba(0,0,0,0.3);
+}
+div#fade-status, div#fade-slider {
+	right: 0;
+}
+div#fade-slider {
+	margin: 0 12px;
+	height: 18px;
+	background-color: transparent;
+	border: none;
+}
+div#fade-slider.ui-widget-content span.ui-state-default:hover, 
+div#fade-slider.ui-widget-content span.ui-state-active {
+	background-color: #000;
+	border: 1px solid #c5c5c5;
 }
 div#fade-progress {
 	height: 24px;
 	width: 1px;
 }
 div#fade-status {
-	right: 0;
 	height: 25px;
 	border-top: 1px solid rgb(221, 221, 221);
 }
