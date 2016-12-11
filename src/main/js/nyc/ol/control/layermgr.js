@@ -7,7 +7,7 @@ nyc.ol.control = nyc.ol.control || {};
  * @public
  * @class
  * @constructor
- * @param {nyc.ol.control.LayerMgr} options Constructor options
+ * @param {nyc.ol.control.LayerMgr.Options} options Constructor options
  */
 nyc.ol.control.LayerMgr = function(options){
 	var layerGroups = options.layerGroups || this.getLayersFromMap(map);
@@ -109,7 +109,7 @@ nyc.ol.control.LayerMgr.prototype = {
 nyc.ol.control.LayerMgr.LayerGroup;
 
 /**
- * @desc Constructor options for {@link nyc.Choice}
+ * @desc Constructor options for {@link nyc.ol.control.LayerMgr}
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The map containing layers to manage
@@ -117,7 +117,6 @@ nyc.ol.control.LayerMgr.LayerGroup;
  * @property {Array<nyc.ol.control.LayerMgr.LayerGroup>} =layerGroups Grouped layers to manage (default is all map layers with a name property)
  */
 nyc.ol.control.LayerMgr.Options;
-
 
 /**
  * @private

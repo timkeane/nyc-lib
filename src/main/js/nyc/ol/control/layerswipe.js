@@ -7,12 +7,11 @@ nyc.ol.control = nyc.ol.control || {};
  * @public
  * @class
  * @constructor
- * @param {ol.Map} map The map on which to perform layer swipes
- * @param {Object<string, ol.layer.Base>} =layers Layers to choose from (default is all layers with a name property)
+ * @param {nyc.ol.control.LayerSwipe.Options} options Constructor options
  */
-nyc.ol.control.LayerSwipe = function(map, layers){
-	this.map = map;
-	this.layers = layers || this.getLayersFromMap(map);
+nyc.ol.control.LayerSwipe = function(options){
+	this.map = options.map;
+	this.layers = options.layers || this.getLayersFromMap(map);
 	map.on('pointermove', $.proxy(this.swipe, this));
 	$(map.getTarget()).append(nyc.ol.control.LayerSwipe.HTML).trigger('create');
 	$('#btn-swipe').click($.proxy(this.showChoices, this));
@@ -292,6 +291,15 @@ nyc.ol.control.LayerSwipe.prototype = {
 		return layers;
 	}
 };
+
+/**
+ * @desc Constructor options for {@link nyc.ol.control.LayerSwipe}
+ * @public
+ * @typedef {Object}
+ * @property {ol.Map} map The map on which to perform layer fades
+ * @property {Object<string, ol.layer.Base>} =layers Layers to choose from (default is all layers with a name property)
+ */
+nyc.ol.control.LayerSwipe.Options;
 
 /**
  * @private

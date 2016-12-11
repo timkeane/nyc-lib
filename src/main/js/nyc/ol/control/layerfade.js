@@ -7,12 +7,12 @@ nyc.ol.control = nyc.ol.control || {};
  * @public
  * @class
  * @constructor
- * @param {ol.Map} map The map on which to perform layer fades
- * @param {Object<string, ol.layer.Base>} =layers Layers to choose from (default is all layers with a name property)
+ * @param {nyc.ol.control.LayerFader.Options} options Constructor options
  */
-nyc.ol.control.LayerFade = function(map, layers){
-	this.map = map;
-	this.layers = layers || this.getLayersFromMap(map);
+nyc.ol.control.LayerFade = function(options){
+	this.map = options.map;
+	this.layers = options.slayers || this.getLayersFromMap(map);
+	this.autoFadeInterval = options.autoFadeInterval || this.autoFadeInterval;
 	$(map.getTarget()).append(nyc.ol.control.LayerFade.HTML).trigger('create');
 	$('#btn-fade').click($.proxy(this.showChoices, this));
 	$('div.fade-btns a').click($.proxy(this.buttonClick, this));
@@ -29,7 +29,7 @@ nyc.ol.control.LayerFade.prototype = {
 	 * @private
 	 * @member {number}
 	 */
-	fadeStepTimeout: 10000,
+	autoFadeInterval: 10000,
 	/**
 	 * @private
 	 * @member {Object<string, ol.layer.Base>}
@@ -55,7 +55,7 @@ nyc.ol.control.LayerFade.prototype = {
 			var layer = layers[i], last = i == layers.length - 1;
 			layer.setOpacity(0);
 			layer.setVisible(true);
-			layer.set('fadeStepTimeout', this.fadeStepTimeout/100);
+			layer.set('autoFadeInterval', this.autoFadeInterval/100);
 			layer.set('lastFadeLayer', last);
 			layer.set('fadeStep', 0);
 			layer.fadeOut = nyc.ol.control.LayerFade.fadeOut;
@@ -127,7 +127,7 @@ nyc.ol.control.LayerFade.prototype = {
 		$('#fade-progress').width(1);
 		$('#fade-progress').animate(
 			{width: $(this.map.getTarget()).width() + 'px'}, 
-			(layers.length - 1) * this.fadeStepTimeout
+			(layers.length - 1) * this.autoFadeInterval
 		);		
 	},
 	/**
@@ -224,7 +224,7 @@ nyc.ol.control.LayerFade.fadeIn = function(){
 			this.fadeOut();
 		}
 	}else{
-		setTimeout($.proxy(this.fadeIn, this), this.get('fadeStepTimeout'))
+		setTimeout($.proxy(this.fadeIn, this), this.get('autoFadeInterval'))
 	}
 };
 
@@ -240,9 +240,19 @@ nyc.ol.control.LayerFade.fadeOut = function(){
 	}
 	this.setOpacity(step/100);
 	if (step > 0){
-		setTimeout($.proxy(this.fadeOut, this), this.get('fadeStepTimeout'));
+		setTimeout($.proxy(this.fadeOut, this), this.get('autoFadeInterval'));
 	}
 };
+
+/**
+ * @desc Constructor options for {@link nyc.ol.control.LayerFade}
+ * @public
+ * @typedef {Object}
+ * @property {ol.Map} map The map on which to perform layer fades
+ * @property {Object<string, ol.layer.Base>} =layers Layers to choose from (default is all layers with a name property)
+ * @property {number} [autoFadeInterval=10000] The animation interval for auto fade in milliseconds
+ */
+nyc.ol.control.LayerFade.Options;
 
 /**
  * @private
