@@ -298,7 +298,7 @@ nyc.ol.control.LayerSwipe.prototype = {
  * @const
  * @type {string}
  */
-nyc.ol.control.LayerSwipe.HTML = '<a id="btn-swipe" class="ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" data-zoom-incr="1" title="Layer swipe">' +
+nyc.ol.control.LayerSwipe.HTML = '<a id="btn-swipe" class="ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" title="Layer swipe">' +
 		'Layer swipe' +
 	'</a>' +
 	'<div id="swipe-choices"><div>Choose one or two layers to swipe:</div><div data-role="controlgroup"></div></div>';

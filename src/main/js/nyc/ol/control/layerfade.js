@@ -249,7 +249,7 @@ nyc.ol.control.LayerFade.fadeOut = function(){
  * @const
  * @type {string}
  */
-nyc.ol.control.LayerFade.HTML = '<a id="btn-fade" class="ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" data-zoom-incr="1" title="Layer fade">' +
+nyc.ol.control.LayerFade.HTML = '<a id="btn-fade" class="ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" title="Layer fade">' +
 		'Layer fade' +
 	'</a>' +
 	'<div id="fade-menu" style="float:left;width:700px;">' +

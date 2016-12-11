@@ -44,6 +44,11 @@ nyc.Choice = function(options){
 nyc.Choice.prototype = {
 	/**
 	 * @private
+	 * @member {Array<nyc.Choice.Choice>}
+	 */
+	choices: null,
+	/**
+	 * @private
 	 * @member {string}
 	 */
 	type: null,

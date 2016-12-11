@@ -11,7 +11,6 @@ div#fade-menu {
 	position: fixed;
 	top: 48px;
 	right: 3px;
-	border: 1px solid black;
 	width: 312px !important;
     background-color: rgba(0,0,0,0.5);
 }
@@ -21,7 +20,6 @@ div#fade-menu, div#fade-status {
 }
 div#fade-menu, div#fade-menu a, div#fade-status {
     text-shadow: none;
-	font-size: 14px;
 }
 div#fade-menu, li.fade-lyr, .fade-choices {
     border: 1px solid rgb(221, 221, 221);

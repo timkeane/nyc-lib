@@ -30,8 +30,6 @@
 	background-color: transparent;
 	padding: 1px 1px 1px 30px;
 }
-#swipe-choices input {
-}
 #swipe-choices label:after {
 	margin-left: -5px;
 	margin-top: -11px;
