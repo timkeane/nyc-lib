@@ -6,54 +6,39 @@
     background-position: center;
     background-repeat: no-repeat;
 }
-#swipe-choices, #swipe-choices label {
-    color: #fff;
-    text-shadow: none;
-    font-weight: bold;
-}
-#swipe-choices {
+div#mnu-swipe {
+	display: none;
 	position: fixed;
-    top: 48px;
-    right: 3px;
-    width: 150px;
-    background-color: rgba(0, 0, 0, 0.5);
+	top: 48px;
+	right: 3px;
     border: 1px solid rgb(221, 221, 221);
     border-radius: .6em;
-    padding: 5px;
-    display: none;
+	width: 312px;
+    background-color: rgba(0,0,0,0.5);
+    text-shadow: none;
 }
-#swipe-choices input {
-	visibility: hidden;
+div#mnu-swipe div.ui-collapsible {
+	margin: 3px;
+	border-radius: .6em;
 }
-#swipe-choices label {
-	border: none;
-	background-color: transparent;
-	padding: 1px 1px 1px 30px;
-}
-#swipe-choices label:after {
-	margin-left: -5px;
-	margin-top: -11px;
-	background-color: #fff;
-	border: 1px solid #fff;
-}
-#swipe-choices label.ui-checkbox-on:after {
-	background-color: #000;
-}
-div.swipe-label {
+table.swipe-label {
 	position: fixed;
 	background-color: rgba(255,255,255,0.5);
 	border-radius: 3px;
+	border-collapse: collapse;
 }
-div.swipe-label div {
+table.swipe-label td {
 	display: inline-block;
 	text-align: center;
+	verticle-align: middle;
 	text-shadow: none;
-	font-size: 10px;
 	font-weight: bold;
 	padding: 2px;
-	width: 80px;
-	height:10px;
+	width: 100px;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+}
+span.current-value {
+	display: none;
 }

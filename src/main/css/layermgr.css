@@ -6,7 +6,7 @@
     background-position: center;
     background-repeat: no-repeat;
 }
-div#layer-mgr {
+div#mnu-layer-mgr {
 	display: none;
 	position: fixed;
 	top: 48px;
@@ -17,27 +17,27 @@ div#layer-mgr {
     background-color: rgba(0,0,0,0.5);
     text-shadow: none;
 }
-div#layer-mgr div.ui-collapsible {
+div#mnu-layer-mgr div.ui-collapsible {
 	margin: 3px;
+	border-radius: .6em;
 }
-div#layer-mgr div.ui-collapsible-content,
-div#layer-mgr .ui-controlgroup,
-div#layer-mgr div.ui-controlgroup-controls,
-div#layer-mgr div.ui-radio,
-div#layer-mgr div.ui-radio label {
+/*
+div#mnu-layer-mgr div.ui-collapsible-content,
+div#mnu-layer-mgr div.ui-radio label {
 	background-color: transparent;
     text-shadow: none;
     color: #fff;
 }
-#layer-mgr input {
-	visibility: hidden;
+div#mnu-layer-mgr fieldset {
+	width: 100%;	
+	margin: 3px 0;
 }
-#layer-mgr label:after, #layer-mgr label.ui-radio-on:after {
-	margin-top: -11px;
-	background-color: #fff;
-	border: 1px solid #fff;
+#mnu-layer-mgr label, #mnu-layer-mgr label.ui-state-active {
+	background-color: transparent;
+	text-align: left;
+	box-shadow: none;
 }
-#layer-mgr label.ui-radio-on:after {
-	background-color: #000;
-	border: 6px solid rgba(255,255,255,0.9);
+*/
+span.current-value {
+	display: none;
 }

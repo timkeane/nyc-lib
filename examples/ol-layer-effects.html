@@ -10,6 +10,8 @@
 	<link rel="stylesheet" href="../src/main/css/control-common.css"> 
 	<link rel="stylesheet" href="../src/main/css/dialog.css"> 
 	<link rel="stylesheet" href="../src/main/css/zoomsearch.css"> 
+	<link rel="stylesheet" href="../src/main/css/layerfade.css"> 
+	<link rel="stylesheet" href="../src/main/css/layermgr.css"> 
 	<link rel="stylesheet" href="../src/main/css/layerswipe.css"> 
 	<!-- nyc css -->
 
@@ -24,6 +26,7 @@
 	<script src="../src/main/js/nyc/collapsible-choice.js"></script>
 	<script src="../src/main/js/nyc/collapsible-check.js"></script>
 	<script src="../src/main/js/nyc/collapsible-radio.js"></script>
+	<script src="../src/main/js/nyc/jq.js"></script>
 	<script src="../src/main/js/nyc/locate.js"></script>
 	<script src="../src/main/js/nyc/locationmgr.js"></script>
 	<script src="../src/main/js/nyc/menu.js"></script>
@@ -34,24 +37,32 @@
 	<script src="../src/main/js/nyc/ol/locate.js"></script>
 	<script src="../src/main/js/nyc/ol/locator.js"></script>
 	<script src="../src/main/js/nyc/ol/control/layerpicker.js"></script>
+	<script src="../src/main/js/nyc/ol/control/layerfade.js"></script>
+	<script src="../src/main/js/nyc/ol/control/layermgr.js"></script>
 	<script src="../src/main/js/nyc/ol/control/layerswipe.js"></script>
 	<script src="../src/main/js/nyc/ol/control/zoomsearch.js"></script>
 	<!-- nyc js -->
 	
 	<style>
-		 #map {
-		 	position: fixed;
-		 	top: 0;
-		 	left: 0;
-		 	bottom: 0;
-		 	right: 0;
-		 }
+		#map {
+			position: fixed;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+		}
+		#btn-fade {
+			right: 44px;
+		} 
+		#btn-swipe {
+			right: 85px;
+		} 
 	</style>
 </head>
 <body>
 	<div id="map"></div>
 	<script>
-		var map, swipe;
+		var map, fade, swipe, lyrMgr;
 		
 		$(document).ready(function(){			
 			map = new nyc.ol.Basemap({target: $('#map').get(0)});
@@ -65,13 +76,25 @@
 				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=YOUR_APP_KEY&app_id=YOUR_APP_ID'
 			);
 
-			var mgr = new nyc.LocationMgr({
+			new nyc.LocationMgr({
 				controls: new nyc.ol.control.ZoomSearch(map),
 				locate: new nyc.ol.Locate(geocoder),
 				locator: new nyc.ol.Locator({map: map, layer: layer})
 			});
 
 			swipe = new nyc.ol.control.LayerSwipe({map: map});
+			lyrMgr = new nyc.ol.control.LayerMgr({map: map});
+			fade = new nyc.ol.control.LayerFade({map: map});
+
+// 			fade.on('active', function(){
+// 				lyrMgr.clear();
+// 				swipe.clear();
+// 			});
+
+// 			swipe.on('active', function(){
+// 				lyrMgr.clear();
+// 				fade.clear();
+// 			});
 		});
 	</script>
 </body>

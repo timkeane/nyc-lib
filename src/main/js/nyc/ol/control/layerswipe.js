@@ -6,16 +6,17 @@ nyc.ol.control = nyc.ol.control || {};
  * @desc Class that provides layer swiping effect
  * @public
  * @class
+ * @extends {nyc.ol.control.LayerPicker}
  * @constructor
- * @param {nyc.ol.control.LayerSwipe.Options} options Constructor options
+ * @param {nyc.ol.control.LayerPicker.Options} options Constructor options
  */
 nyc.ol.control.LayerSwipe = function(options){
-	this.map = options.map;
-	this.layers = options.layers || this.getLayersFromMap(map);
-	map.on('pointermove', $.proxy(this.swipe, this));
-	$(map.getTarget()).append(nyc.ol.control.LayerSwipe.HTML).trigger('create');
-	$('#btn-swipe').click($.proxy(this.showChoices, this));
-	$('#swipe-choices').mouseleave($.proxy(this.makeChoices, this));
+	nyc.ol.control.LayerPicker.call(this, options);
+	$(this.menu).append(nyc.ol.control.LayerSwipe.MENU_BUTTONS_HTML).trigger('create');
+	$(this.menu).find('input').change($.proxy(this.validate, this));
+	$(this.menu).find('.btn-ok').click($.proxy(this.makeChoices, this));
+	$(this.menu).find('.btn-cancel').click($.proxy(this.cancel, this));
+	this.map.on('pointermove', $.proxy(this.swipe, this));
 };
 
 nyc.ol.control.LayerSwipe.prototype = {
@@ -24,16 +25,6 @@ nyc.ol.control.LayerSwipe.prototype = {
 	 * @member {boolean}
 	 */
 	active: false,
-	/**
-	 * @private
-	 * @member {ol.Map}
-	 */
-	map: null,
-	/**
-	 * @private
-	 * @member {Object<string, ol.layer.Base>}
-	 */
-	layers: null,
 	/**
 	 * @private
 	 * @member {ol.layer.Base}
@@ -45,14 +36,38 @@ nyc.ol.control.LayerSwipe.prototype = {
 	 */
 	rightLayer: null,
 	/**
-	 * @desc Set the left layer of the swipe
 	 * @public
+	 * @override
 	 * @method
-	 * @param {Object<string, ol.layer.Base>} layers Layers to choose from
+	 * @return {string}
 	 */
-	setLayers: function(layers){
-		this.layers = layers;
-		$('#swipe-choices div.ui-controlgroup-controls').empty();
+	getMenuId: function(){
+		return 'mnu-swipe';
+	},
+	/**
+	 * @public
+	 * @override
+	 * @method
+	 * @return {string}
+	 */
+	getButtonHtml: function(){
+		return nyc.ol.control.LayerSwipe.BUTTON_HTML;
+	},
+	/**
+	 * @public
+	 * @override
+	 * @method
+	 * @param {ol.Map} map
+	 * @return {Array<nyc.ol.control.LayerPicker.LayerGroup>}
+	 */
+	getLayerGoupsFromMap: function(map){
+		var layers = [];
+		map.getLayers().forEach(function(layer){
+			if (layer.get('name')){
+				layers.push(layer);
+			}
+		});
+		return [{name: 'Swipe layers', layers: layers, expanded: true}];
 	},
 	/**
 	 * @desc Set the left layer of the swipe
@@ -75,6 +90,16 @@ nyc.ol.control.LayerSwipe.prototype = {
 		this.setOriginalExtent(layer);
 		this.setVisible(layer);
 		this.rightLayer = layer;
+	},
+	/**
+	 * @desc Clear the display
+	 * @public
+	 * @method
+	 */
+	cancel: function(){
+		this.toggleMenu();
+		this.setActive(false);
+		this.reset();
 	},
 	/**
 	 * @desc Set active state of swipe
@@ -101,6 +126,7 @@ nyc.ol.control.LayerSwipe.prototype = {
 	setVisible: function(layer){
 		if (layer){
 			layer.setVisible(true);
+			layer.setZIndex(999);
 		}
 	},
 	/**
@@ -150,6 +176,7 @@ nyc.ol.control.LayerSwipe.prototype = {
 	resetExtent: function(layer){
 		if (layer){
 			layer.setExtent(layer.get('originalExtent'));
+			layer.setVisible(false);
 		}
 	},
 	/**
@@ -159,6 +186,8 @@ nyc.ol.control.LayerSwipe.prototype = {
 	 */
 	swipe: function(event){
 		if (this.active){
+			this.setVisible(this.leftLayer);
+			this.setVisible(this.rightLayer);
 			var x = event.coordinate[0];
 			this.swipeLeft(x);
 			this.swipeRight(x);
@@ -193,44 +222,26 @@ nyc.ol.control.LayerSwipe.prototype = {
 	/**
 	 * @private
 	 * @method
-	 */
-	showChoices: function(){
-		var choices = $('#swipe-choices div.ui-controlgroup-controls');
-		this.setActive(false);
-		if (!choices.html()){
-			for (var name in this.layers){
-				var label = $('<label>' + name + '</label>'), check = $('<input type="checkbox" name="' + name + '">');
-				label.prepend(check);
-				choices.append(label).trigger('create');
-				check.click($.proxy(this.validate, this));
-			}
-		}
-		$('#swipe-choices').slideDown();
-	},
-	/**
-	 * @private
-	 * @method
 	 * @param {JQuery.Event} event
 	 */
 	validate: function(event){
 		var check = event.target;
-		if ($('#swipe-choices input:checked').length > 2 && check.checked){
-			check.checked = false;
-			$(check).checkboxradio('refresh');
+		if ($(this.menu).find('input:checked').length > 2 && check.checked){
+			$(check).trigger('click');
 		}
 	},
-	
 	/**
 	 * @private
 	 * @method
+	 * @param {Array<ol.layer.Base>} layers
 	 * @param {Array<Element>} choices
 	 */
-	resetBasemap: function(choices){
+	resetBasemap: function(layers, choices){
 		if (this.map.getBaseLayers){
 			var photos = this.map.getBaseLayers().photos;
 			for (var photo in photos){
 				for (var i = 0; i < choices.length; i++){
-					if (this.layers[choices[i]] === photos[photo]){
+					if (layers[choices[i]] === photos[photo]){
 						this.map.hidePhoto();
 						return;
 					}
@@ -243,14 +254,14 @@ nyc.ol.control.LayerSwipe.prototype = {
 	 * @method
 	 */
 	makeChoices: function(){
-		$('#swipe-choices').slideUp();
-		var choices = $('#swipe-choices input:checked');
+		this.toggleMenu();
+		var choices = this.controls[0].val(), layers = this.getLayers();
 		this.setLeft();
 		this.setRight();
 		if (choices.length){
-			this.resetBasemap(choices);
-			this.setLeft(this.layers[choices[0].name]);
-			if (choices[1]) this.setRight(this.layers[choices[1].name]);
+			this.resetBasemap(layers, choices);
+			this.setLeft(layers[choices[0].value]);
+			if (choices[1]) this.setRight(layers[choices[1].value]);
 			this.setActive(true);
 		}
 	},
@@ -261,53 +272,34 @@ nyc.ol.control.LayerSwipe.prototype = {
 	 */
 	label: function(pixel){
 		if (this.rightLayer){
-			var label = $('div.swipe-label');
+			var label = $('.swipe-label');
 			if (!label.length){
-				label = $('<div class="swipe-label"></div>');
+				label = $('<table class="swipe-label"><tbody><tr></tr></tbody></table>');
 				$(this.map.getTarget()).append(label);
-				label.html('<div>' + this.leftLayer.get('name') + '</div><div>' + this.rightLayer.get('name') + '</div>').fadeIn();
+				label.find('tr').html('<td>' + this.leftLayer.get('name') + '</td><td>' + this.rightLayer.get('name') + '</td>').fadeIn();
 				setTimeout(function(){
 					label.fadeOut();
-				}, 5000);
+				}, 4000);
 			}
-			if (label.css('display') == 'block'){
+			if (label.css('display') != 'none'){
 				label.css({left: pixel[0] - label.width()/2 + 'px', top: pixel[1] + 'px'});
 			}
 		}
-	},
-	/**
-	 * @private
-	 * @method
-	 * @param {ol.Map} map
-	 */
-	getLayersFromMap: function(map){
-		var layers = {};
-		map.getLayers().forEach(function(layer){
-			var name = layer.get('name');
-			if (name){
-				layers[name] = layer;
-			}
-		});
-		return layers;
 	}
 };
 
-/**
- * @desc Constructor options for {@link nyc.ol.control.LayerSwipe}
- * @public
- * @typedef {Object}
- * @property {ol.Map} map The map on which to perform layer fades
- * @property {Object<string, ol.layer.Base>} =layers Layers to choose from (default is all layers with a name property)
- */
-nyc.ol.control.LayerSwipe.Options;
+nyc.inherits(nyc.ol.control.LayerSwipe, nyc.ol.control.LayerPicker);
 
 /**
  * @private
  * @const
  * @type {string}
  */
-nyc.ol.control.LayerSwipe.HTML = '<a id="btn-swipe" class="ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" title="Layer swipe">' +
-		'Layer swipe' +
-	'</a>' +
-	'<div id="swipe-choices"><div>Choose one or two layers to swipe:</div><div data-role="controlgroup"></div></div>';
+nyc.ol.control.LayerSwipe.BUTTON_HTML = '<a id="btn-swipe" class="ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" title="Layer swipe">Layer swipe</a>';
 
+/**
+ * @private
+ * @const
+ * @type {string}
+ */
+nyc.ol.control.LayerSwipe.MENU_BUTTONS_HTML = '<div class="swipe-btns"><a class="btn-cancel" data-role="button">Cancel</a><a class="btn-ok" data-role="button">OK</a></div>';

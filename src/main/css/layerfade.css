@@ -6,7 +6,7 @@
     background-position: center;
     background-repeat: no-repeat;
 }
-div#fade-menu {
+div#mnu-fade {
 	display: none;
 	position: fixed;
 	top: 48px;
@@ -14,14 +14,14 @@ div#fade-menu {
 	width: 312px !important;
     background-color: rgba(0,0,0,0.5);
 }
-div#fade-menu, div#fade-status {
+div#mnu-fade, div#fade-status {
     color: #fff;
     font-weight: bold;
 }
-div#fade-menu, div#fade-menu a, div#fade-status {
+div#mnu-fade, div#mnu-fade a, div#fade-status {
     text-shadow: none;
 }
-div#fade-menu, li.fade-lyr, .fade-choices {
+div#mnu-fade, li.fade-lyr, .fade-choices {
     border: 1px solid rgb(221, 221, 221);
     border-radius: .6em;
     padding: 3px;
@@ -89,4 +89,16 @@ div#fade-status div {
 	margin-top: 3px;
     display: inline-block;
     text-align: center;
+}
+div.ui-radio label.ui-checkboxradio-checked.ui-checkboxradio-checked:after {
+	background-color: #fff;
+	opacity: 1;
+	width: 8px;
+	height: 8px;
+	border: 5px solid #000;
+}
+div.ui-checkbox label.ui-checkboxradio-checked.ui-checkboxradio-checked:after {
+	background-color: #000;
+	opacity: 1;
+	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20width%3D%2214px%22%20height%3D%2214px%22%3E%3Cpolygon%20style%3D%22fill%3A%23fff%22%20points%3D%2214%2C4%2011%2C1%205.003%2C6.997%203%2C5%200%2C8%204.966%2C13%204.983%2C12.982%205%2C13%20%22%2F%3E%3C%2Fsvg%3E");
 }

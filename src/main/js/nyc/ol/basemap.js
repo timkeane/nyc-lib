@@ -162,6 +162,8 @@ nyc.ol.Basemap.BASE_URL = '/geoserver/gwc/service/tms/1.0.0/basemap@EPSG%3A90091
  * @type {Object<string, string>}
  */
 nyc.ol.Basemap.PHOTO_URLS = {
+	'1924': '/geoserver/gwc/service/tms/1.0.0/1924@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
+	'1951': '/geoserver/gwc/service/tms/1.0.0/1951@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
 	'2010': '/geoserver/gwc/service/tms/1.0.0/2010@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
 	'2012': '/geoserver/gwc/service/tms/1.0.0/2012@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
 	'2014': '/geoserver/gwc/service/tms/1.0.0/2014@EPSG%3A900913@png8/{z}/{x}/{-y}.png8'

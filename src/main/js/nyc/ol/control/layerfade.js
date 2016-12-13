@@ -6,6 +6,7 @@ nyc.ol.control = nyc.ol.control || {};
  * @desc Class that provides layer swiping effect
  * @public
  * @class
+ * @extends {nyc.Menu}
  * @constructor
  * @param {nyc.ol.control.LayerFader.Options} options Constructor options
  */
@@ -16,7 +17,8 @@ nyc.ol.control.LayerFade = function(options){
 	$(map.getTarget()).append(nyc.ol.control.LayerFade.HTML).trigger('create');
 	$('#btn-fade').click($.proxy(this.showChoices, this));
 	$('div.fade-btns a').click($.proxy(this.buttonClick, this));
-	nyc.ol.control.ui.load();
+	nyc.jq.ui.load();
+	this.menu = $('#mnu-fade').get(0);
 };
 
 nyc.ol.control.LayerFade.prototype = {
@@ -43,7 +45,7 @@ nyc.ol.control.LayerFade.prototype = {
 	 */
 	setLayers: function(layers){
 		this.layers = layers;
-		$('#fade-menu ul, #fade-menu ol').empty();
+		$('#mnu-fade ul, #mnu-fade ol').empty();
 	},
 	/**
 	 * @private
@@ -66,21 +68,33 @@ nyc.ol.control.LayerFade.prototype = {
 		layers[0].setOpacity(1);
 	},
 	/**
+	 * @desc Clear the display
+	 * @public
+	 * @method
+	 */
+	clear: function(){
+		$('#fade-status, #fade-progress, #fade-slider').fadeOut();
+		for (var name in this.layers){
+			this.layers[name].setVisible(false);
+			this.layers[name].setOpacity(1);
+		}
+	},
+	/**
 	 * @private
 	 * @method
 	 */
 	showChoices: function(){
-		var items = $('#fade-menu li');
-		$('#fade-status, #fade-progress, #fade-slider').fadeOut();
+		var items = $('#mnu-fade li');
+		this.clear();
 		if (!items.length){
-			var choices = $('#fade-menu ul');
+			var choices = $('#mnu-fade ul');
 			for (var name in this.layers){
 				var li = $('<li class="fade-lyr">' + name + '</li>');
 				choices.append(li);
 			}
 		}
-        $('.fade-choices').sortable({connectWith: '#fade-menu ul, #fade-menu ol'}).disableSelection();
-		$('#fade-menu').slideDown();
+        $('.fade-choices').sortable({connectWith: '#mnu-fade ul, #mnu-fade ol'}).disableSelection();
+        this.toggleMenu();
 	},
 	/**
 	 * @private
@@ -149,6 +163,7 @@ nyc.ol.control.LayerFade.prototype = {
 		}
 		for (var i = 0; i < layers.length; i++){
 			var layer = layers[i];
+			layer.setVisible(true);
 			if (i < layerIdx || i > layerIdx + 1){
 				layer.setOpacity(0);
 			}else if (i == layerIdx && !layer.get('lastFadeLayer')){
@@ -188,7 +203,7 @@ nyc.ol.control.LayerFade.prototype = {
 	buttonClick: function(event){
 		var btn = $(event.currentTarget);
 		$('#fade-progress').width(0);
-		$('#fade-menu').slideUp();
+        this.toggleMenu();
 		if (btn.hasClass('btn-cancel')){
 			return;
 		}
@@ -211,12 +226,15 @@ nyc.ol.control.LayerFade.prototype = {
 	}
 };
 
+nyc.inherits(nyc.ol.control.LayerFade, nyc.Menu);
+
 /**
  * @private
  * @type {function}
  */
 nyc.ol.control.LayerFade.fadeIn = function(){
 	var step = this.get('fadeStep') + 1;
+	this.setVisible(true);
 	this.set('fadeStep', step);
 	this.setOpacity(step/100);
 	if (step == 100){
@@ -234,6 +252,7 @@ nyc.ol.control.LayerFade.fadeIn = function(){
  */
 nyc.ol.control.LayerFade.fadeOut = function(){
 	var step = this.get('fadeStep') - 1;
+	this.setVisible(true);
 	this.set('fadeStep', step);
 	if (step == 99 && this.get('nextFadeLayer')){
 		this.get('nextFadeLayer').fadeIn();
@@ -262,7 +281,7 @@ nyc.ol.control.LayerFade.Options;
 nyc.ol.control.LayerFade.HTML = '<a id="btn-fade" class="ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" title="Layer fade">' +
 		'Layer fade' +
 	'</a>' +
-	'<div id="fade-menu" style="float:left;width:700px;">' +
+	'<div id="mnu-fade" class="ctl-mnu-tgl" style="float:left;width:700px;">' +
 		'<div class="fade-list">Choose...' +
 			'<ul class="fade-choices"></ul>' +
 		'</div>' +
