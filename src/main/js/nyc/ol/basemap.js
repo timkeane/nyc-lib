@@ -164,6 +164,10 @@ nyc.ol.Basemap.BASE_URL = '/geoserver/gwc/service/tms/1.0.0/basemap@EPSG%3A90091
 nyc.ol.Basemap.PHOTO_URLS = {
 	'1924': '/geoserver/gwc/service/tms/1.0.0/1924@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
 	'1951': '/geoserver/gwc/service/tms/1.0.0/1951@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
+	'1996': '/geoserver/gwc/service/tms/1.0.0/1996@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
+	'2004': '/geoserver/gwc/service/tms/1.0.0/2004@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
+	'2006': '/geoserver/gwc/service/tms/1.0.0/2006@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
+	'2008': '/geoserver/gwc/service/tms/1.0.0/2008@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
 	'2010': '/geoserver/gwc/service/tms/1.0.0/2010@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
 	'2012': '/geoserver/gwc/service/tms/1.0.0/2012@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
 	'2014': '/geoserver/gwc/service/tms/1.0.0/2014@EPSG%3A900913@png8/{z}/{x}/{-y}.png8'
