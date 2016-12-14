@@ -25,13 +25,17 @@ nyc.Menu.prototype = {
 		var me = this, open = $('.ctl-mnu-tgl.mnu-open').not($(me.menu));
 		if (open.length){
 			open.slideUp(function(){
-				$(me.menu).slideToggle(me.addClass);
+				$(me.menu).slideToggle(me.css);
 			});						
 		}else{
-			$(me.menu).slideToggle(me.addClass);
+			$(me.menu).slideToggle(me.css);
 		}
 	},
-	addClass: function(){
+	/**
+	 * @private
+	 * @method
+	 */
+	css: function(){
 		$('.ctl-mnu-tgl:hidden').removeClass('mnu-open');
 		$('.ctl-mnu-tgl:visible').addClass('mnu-open');
 	}
