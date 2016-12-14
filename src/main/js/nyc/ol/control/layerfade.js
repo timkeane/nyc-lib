@@ -38,15 +38,6 @@ nyc.ol.control.LayerFade.prototype = {
 	 */
 	layers: null,
 	/**
-	 * @desc Clear the display
-	 * @public
-	 * @method
-	 */
-	cancel: function(){
-		$(this.menu).slideUp();
-		this.clear();
-	},
-	/**
 	 * @private
 	 * @method
 	 * @param {Array<ol.layer.Base>} layers
@@ -71,7 +62,7 @@ nyc.ol.control.LayerFade.prototype = {
 	 * @public
 	 * @method
 	 */
-	clear: function(){
+	cancel: function(){
 		$('#fade-status, #fade-progress, #fade-slider').stop().fadeOut();
 		for (var name in this.layers){
 			this.layers[name].setVisible(false);
@@ -84,7 +75,7 @@ nyc.ol.control.LayerFade.prototype = {
 	 */
 	showChoices: function(){
 		var items = $('#mnu-fade li');
-		this.clear();
+		this.cancel();
 		if (!items.length){
 			var choices = $('#mnu-fade ul');
 			for (var name in this.layers){
@@ -201,11 +192,11 @@ nyc.ol.control.LayerFade.prototype = {
 	 */
 	buttonClick: function(event){
 		var btn = $(event.currentTarget);
+        this.toggleMenu();
 		$('#fade-progress').width(0);
 		if (btn.hasClass('btn-cancel')){
 			return;
 		}
-        this.toggleMenu();
 		this.makeChoices(btn.hasClass('btn-auto'));
 	},
 	/**

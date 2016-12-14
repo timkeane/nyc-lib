@@ -17,6 +17,7 @@ nyc.ol.control.LayerSwipe = function(options){
 	$(this.menu).find('input').change($.proxy(this.validate, this));
 	$(this.menu).find('.btn-ok').click($.proxy(this.makeChoices, this));
 	$(this.menu).find('.btn-cancel').click($.proxy(this.cancel, this));
+	$(this.menu).find('.btn-cancel').click($.proxy(this.toggleMenu, this));
 	this.map.on('pointermove', $.proxy(this.swipe, this));
 };
 
@@ -98,7 +99,6 @@ nyc.ol.control.LayerSwipe.prototype = {
 	 * @method
 	 */
 	cancel: function(){
-		$(this.menu).slideUp();
 		this.setActive(false);
 		this.reset();
 	},
