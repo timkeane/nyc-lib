@@ -61,6 +61,7 @@ ext {
 		'nyc/ol/locate.js', 
 		'nyc/ol/locator.js', 
 		'nyc/ol/popup.js', 
+		'nyc/ol/control/layerpicker.js',
 		'nyc/ol/control/layermgr.js',
 		'nyc/ol/control/layerfade.js',
 		'nyc/ol/control/layerswipe.js',
@@ -150,6 +151,7 @@ ext {
 		'layerfade.css', 
 		'layerswipe.css', 
 		'legend.css', 
+		'mapmenu.css', 
 		'ol-popup.css', 
 		'share.css', 
 		'zoomsearch.css'

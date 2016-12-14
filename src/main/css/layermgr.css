@@ -6,6 +6,10 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+div#mnu-layer-mgr .ui-collapsible-content {
+	max-height:300px;
+	overflow-y: auto;
+}
 div#mnu-layer-mgr {
 	display: none;
 	position: fixed;
@@ -13,31 +17,6 @@ div#mnu-layer-mgr {
 	right: 3px;
     border: 1px solid rgb(221, 221, 221);
     border-radius: .6em;
-	width: 312px;
     background-color: rgba(0,0,0,0.5);
     text-shadow: none;
-}
-div#mnu-layer-mgr div.ui-collapsible {
-	margin: 3px;
-	border-radius: .6em;
-}
-/*
-div#mnu-layer-mgr div.ui-collapsible-content,
-div#mnu-layer-mgr div.ui-radio label {
-	background-color: transparent;
-    text-shadow: none;
-    color: #fff;
-}
-div#mnu-layer-mgr fieldset {
-	width: 100%;	
-	margin: 3px 0;
-}
-#mnu-layer-mgr label, #mnu-layer-mgr label.ui-state-active {
-	background-color: transparent;
-	text-align: left;
-	box-shadow: none;
-}
-*/
-span.current-value {
-	display: none;
 }

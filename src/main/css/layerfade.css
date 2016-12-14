@@ -11,8 +11,9 @@ div#mnu-fade {
 	position: fixed;
 	top: 48px;
 	right: 3px;
-	width: 312px !important;
     background-color: rgba(0,0,0,0.5);
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: .6em;
 }
 div#mnu-fade, div#fade-status {
     color: #fff;
@@ -21,7 +22,7 @@ div#mnu-fade, div#fade-status {
 div#mnu-fade, div#mnu-fade a, div#fade-status {
     text-shadow: none;
 }
-div#mnu-fade, li.fade-lyr, .fade-choices {
+li.fade-lyr, .fade-choices {
     border: 1px solid rgb(221, 221, 221);
     border-radius: .6em;
     padding: 3px;
@@ -30,10 +31,9 @@ li.fade-lyr:hover {
 	background-color: #000;
 }
 .fade-choices {
-    margin: 0;
-    width: 144px;
 	overflow-y: auto;
-	height: 100px;
+	height: 300px;
+	margin: 2px 0;
 }
 ul.fade-choices {
     list-style-type: none;
@@ -44,15 +44,14 @@ ol.fade-choices {
 .fade-choices li {
     margin: 0 0 3px;
     cursor: pointer;
-    border-radius: 4px;
 }
-div.fade-list, div.fade-btns a  {
+div.fade-list {
     display: inline-block;
-    margin: 2px;
+    width: 149px;
+    margin: 5px;
 }
-div.fade-btns a {
-	width: 82px;
-	padding: 8px;
+div.fade-list:first-of-type {
+    margin-right: 0;
 }
 div#fade-status, div#fade-progress, div#fade-slider {
 	display: none;
@@ -90,14 +89,14 @@ div#fade-status div {
     display: inline-block;
     text-align: center;
 }
-div.ui-radio label.ui-checkboxradio-checked.ui-checkboxradio-checked:after {
+div.ctl-mnu-tgl div.ui-radio label.ui-checkboxradio-checked.ui-checkboxradio-checked:after {
 	background-color: #fff;
 	opacity: 1;
 	width: 8px;
 	height: 8px;
 	border: 5px solid #000;
 }
-div.ui-checkbox label.ui-checkboxradio-checked.ui-checkboxradio-checked:after {
+div.ctl-mnu-tgl div.ui-checkbox label.ui-checkboxradio-checked.ui-checkboxradio-checked:after {
 	background-color: #000;
 	opacity: 1;
 	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20width%3D%2214px%22%20height%3D%2214px%22%3E%3Cpolygon%20style%3D%22fill%3A%23fff%22%20points%3D%2214%2C4%2011%2C1%205.003%2C6.997%203%2C5%200%2C8%204.966%2C13%204.983%2C12.982%205%2C13%20%22%2F%3E%3C%2Fsvg%3E");

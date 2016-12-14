@@ -38,14 +38,13 @@ nyc.ol.control.LayerFade.prototype = {
 	 */
 	layers: null,
 	/**
-	 * @desc Set the layers of the fade
+	 * @desc Clear the display
 	 * @public
 	 * @method
-	 * @param {Object<string, ol.layer.Base>} layers Layers to choose from
 	 */
-	setLayers: function(layers){
-		this.layers = layers;
-		$('#mnu-fade ul, #mnu-fade ol').empty();
+	cancel: function(){
+		$(this.menu).slideUp();
+		this.clear();
 	},
 	/**
 	 * @private
@@ -73,7 +72,7 @@ nyc.ol.control.LayerFade.prototype = {
 	 * @method
 	 */
 	clear: function(){
-		$('#fade-status, #fade-progress, #fade-slider').fadeOut();
+		$('#fade-status, #fade-progress, #fade-slider').stop().fadeOut();
 		for (var name in this.layers){
 			this.layers[name].setVisible(false);
 			this.layers[name].setOpacity(1);
@@ -203,10 +202,10 @@ nyc.ol.control.LayerFade.prototype = {
 	buttonClick: function(event){
 		var btn = $(event.currentTarget);
 		$('#fade-progress').width(0);
-        this.toggleMenu();
 		if (btn.hasClass('btn-cancel')){
 			return;
 		}
+        this.toggleMenu();
 		this.makeChoices(btn.hasClass('btn-auto'));
 	},
 	/**
@@ -281,7 +280,7 @@ nyc.ol.control.LayerFade.Options;
 nyc.ol.control.LayerFade.HTML = '<a id="btn-fade" class="ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" title="Layer fade">' +
 		'Layer fade' +
 	'</a>' +
-	'<div id="mnu-fade" class="ctl-mnu-tgl" style="float:left;width:700px;">' +
+	'<div id="mnu-fade" class="ctl-mnu-tgl">' +
 		'<div class="fade-list">Choose...' +
 			'<ul class="fade-choices"></ul>' +
 		'</div>' +

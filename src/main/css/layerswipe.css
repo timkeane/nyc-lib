@@ -13,13 +13,12 @@ div#mnu-swipe {
 	right: 3px;
     border: 1px solid rgb(221, 221, 221);
     border-radius: .6em;
-	width: 312px;
     background-color: rgba(0,0,0,0.5);
     text-shadow: none;
 }
-div#mnu-swipe div.ui-collapsible {
-	margin: 3px;
-	border-radius: .6em;
+div#mnu-swipe .ui-collapsible-content {
+	max-height:300px;
+	overflow-y: auto;
 }
 table.swipe-label {
 	position: fixed;

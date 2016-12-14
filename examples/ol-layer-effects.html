@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="../src/main/css/layerfade.css"> 
 	<link rel="stylesheet" href="../src/main/css/layermgr.css"> 
 	<link rel="stylesheet" href="../src/main/css/layerswipe.css"> 
+	<link rel="stylesheet" href="../src/main/css/mapmenu.css"> 
 	<!-- nyc css -->
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
@@ -86,15 +87,12 @@
 			lyrMgr = new nyc.ol.control.LayerMgr({map: map});
 			fade = new nyc.ol.control.LayerFade({map: map});
 
-// 			fade.on('active', function(){
-// 				lyrMgr.clear();
-// 				swipe.clear();
-// 			});
-
-// 			swipe.on('active', function(){
-// 				lyrMgr.clear();
-// 				fade.clear();
-// 			});
+ 			$('#btn-fade, #btn-layer-mgr').click(function(){
+ 				swipe.cancel();
+ 			});
+ 			$('#btn-swipe, #btn-layer-mgr').click(function(){
+ 				fade.cancel();
+ 			});
 		});
 	</script>
 </body>

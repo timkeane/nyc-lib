@@ -1,0 +1,67 @@
+div.ctl-mnu-tgl {
+	max-height: calc(100% - 54px);
+	overflow-y: auto;
+	z-index: 1000;
+	width: 316px;
+	max-width: calc(100% - 6px);
+}
+div.ctl-mnu-tgl div.ui-collapsible {
+	margin: 5px;
+	border-radius: .6em;
+}
+div.ctl-mnu-tgl a.ui-link.ui-btn {
+	display: inline-block;
+	width: 60px;
+	border-radius: .6em;
+	float: right;
+	margin: 0 5px 5px 0;
+}
+div.ctl-mnu-tgl div.ui-collapsible-content.ui-body-inherit, 
+div.ctl-mnu-tgl div.ui-checkbox label,
+div.ctl-mnu-tgl div.ui-radio label,
+div.ctl-mnu-tgl div.ui-checkbox label:hover,
+div.ctl-mnu-tgl div.ui-radio label:hover {
+	background-color: transparent;
+	text-shadow: none;
+	color: #fff;
+}
+div.ctl-mnu-tgl div.ui-checkbox input, div.ctl-mnu-tgl div.ui-radio input {
+	background-color: transparent;
+	border: none;
+	margin: 0;
+	width: 21px;
+	height: 21px;
+	margin-top: -9px;
+	margin-left: 4px;
+} div.ui-checkbox label, div.ctl-mnu-tgl div.ui-radio label {
+	padding: .8em 1em .6em 2.5em;
+}
+div.ctl-mnu-tgl div.ui-checkbox label:hover, 
+div.ctl-mnu-tgl div.ui-radio label:hover {
+	background-color: #000;
+}
+div.ctl-mnu-tgl div.ui-checkbox label.ui-btn:after, div.ctl-mnu-tgl div.ui-radio label.ui-btn:after {
+	background-color: #fff;
+	border: 1px solid #fff;
+}
+div.ctl-mnu-tgl div.ui-checkbox label.ui-btn.ui-checkbox-on:after {
+	background-color: #000;
+	opacity: 1;
+	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20width%3D%2214px%22%20height%3D%2214px%22%3E%3Cpolygon%20style%3D%22fill%3A%23fff%22%20points%3D%2214%2C4%2011%2C1%205.003%2C6.997%203%2C5%200%2C8%204.966%2C13%204.983%2C12.982%205%2C13%20%22%2F%3E%3C%2Fsvg%3E");
+}
+div.ctl-mnu-tgl div.ui-radio label.ui-btn.ui-radio-on:after {
+	background-color: #fff;
+	opacity: 1;
+	width: 8px;
+	height: 8px;
+	border: 5px solid #000;
+}
+div.ctl-mnu-tgl div.ui-radio input.ui-btn:after {
+	margin-left: -3px;
+	content: ' ';
+	width: 13px;
+	height: 13px;
+	border-radius: 13px;
+	background-color: #fff;
+	border: 1px solid #fff;
+}
