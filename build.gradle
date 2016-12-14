@@ -288,8 +288,11 @@ task minifyJsOl(type: MiniJsTask) {
 	destinationDir = "${pkgDir}/js"
 }
 minifyJsOl.doLast {
+	if (project.hasProperty('local.tile.host')){
+		tilehost = project.ext['local.tile.host']
+	}
 	if (project.hasProperty('env')){
-		tilehost = project.ext["${env}.tilehost.host"]
+		tilehost = project.ext["${env}.tile.host"]
 		if (env == 'stg'){
 			/* change URLs for basemap tiles */
 		    ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
