@@ -33,9 +33,12 @@ ext {
 	srcDir = "${projectDir}/src/main"
 	jsSrcDir = "${srcDir}/js"
 	cssSrcDir = "${srcDir}/css"
+	localhost = 'http://localhost:8080'
+	localhostDeployedBuildPath = '/git/nyc-lib/build'
 	olJsFiles = [
 		'nyc/nyc.js', 
 		'nyc/date.js', 
+		'nyc/jq.js', 
 		'nyc/util.js', 
 		'nyc/template.js', 
 		'nyc/collapsible.js', 
@@ -219,8 +222,8 @@ task examples() << {
 		geoid = project.ext['nyc-lib.example.geoclient.app.id']
 		geokey = project.ext['nyc-lib.example.geoclient.app.key']
 	}
-	def host = 'https://maps.nyc.gov'
-	if (project.hasProperty('env') && project.hasProperty("${env}.nyc-lib.host")){
+	def host = "${localhost}${localhostDeployedBuildPath}"
+	if (project.hasProperty('env')){
 		host = project.ext["${env}.nyc-lib.host"]
 	}
 	examples.each{File file ->
@@ -284,7 +287,9 @@ task minifyJsOl(type: MiniJsTask) {
 	destinationDir = "${pkgDir}/js"
 }
 minifyJsOl.doLast {
+	def basemapHost = localhost
 	if (project.hasProperty('env')){
+		basemapHost = project.ext["${env}.basemap.host"]
 		if (env == 'stg'){
 			/* change URLs for basemap tiles */
 		    ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
@@ -297,7 +302,8 @@ minifyJsOl.doLast {
 			ant.replace(file: "${pkgDir}/src/js/nyc/ol/layer/baselayer.js", token: '//maps2.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
 			ant.replace(file: "${pkgDir}/src/js/nyc/ol/layer/baselayer.js", token: '//maps3.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
 		}
-	}
+		ant.replace(file: "${pkgDir}/src/js/nyc/ol/basemap.js", token: '/geoserver/gwc', value: "${basemapHost}/geoserver/gwc")
+	}	
 }
 
 task minifyJsOlRedLine(type: MiniJsTask) {
