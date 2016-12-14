@@ -24,21 +24,25 @@ nyc.ol.control.LayerPicker.prototype = {
 	 */
 	container: null,
 	/**
+	 * @desc The map from which layers can be picked
 	 * @public
 	 * @member {ol.Map}
 	 */
 	map: null,
 	/**
+	 * @desc The layer picker controls
 	 * @public
 	 * @member {Array<nyc.Choice>}
 	 */
 	controls: null,
 	/**
+	 * @desc The layer groups displayed on the picker
 	 * @public
 	 * @member {Array<nyc.ol.control.LayerPicker.LayerGroup>}
 	 */
 	layerGroups: null,
 	/**
+	 * @desc Provides layer groups from the map when they are not provided to the constructor
 	 * @public
 	 * @method
 	 * @abstract
@@ -49,6 +53,7 @@ nyc.ol.control.LayerPicker.prototype = {
 		throw 'Must be implemented';
 	},
 	/**
+	 * @desc Return a map of layers by name
 	 * @public
 	 * @method
 	 * @abstract
@@ -64,6 +69,7 @@ nyc.ol.control.LayerPicker.prototype = {
 		return layers;
 	},
 	/**
+	 * @desc Provides an HTML DOM element id for menu creation when a DOM target is not provided to the constructor 
 	 * @public
 	 * @method
 	 * @abstract
@@ -73,6 +79,7 @@ nyc.ol.control.LayerPicker.prototype = {
 		throw 'Must be implemented';
 	},
 	/**
+	 * @desc Provides an HTML string for creating a menu actuator when a DOM target is not provided to the constructor 
 	 * @public
 	 * @method
 	 * @abstract
@@ -130,7 +137,7 @@ nyc.ol.control.LayerPicker.prototype = {
 			}
 		});
 		setTimeout(function(){
-			$(container).find('input').each(function(){
+			container.find('input').each(function(){
 				$(this).checkboxradio();
 			});
 		}, 100);
@@ -140,7 +147,7 @@ nyc.ol.control.LayerPicker.prototype = {
 nyc.inherits(nyc.ol.control.LayerPicker, nyc.Menu);
 
 /**
- * @desc Layer group
+ * @desc Layer group for {@link nyc.ol.control.LayerPicker.Options}
  * @public
  * @typedef {Object}
  * @property {string} name The group name

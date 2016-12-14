@@ -13,8 +13,8 @@ nyc.ol.control = nyc.ol.control || {};
 nyc.ol.control.LayerMgr = function(options){
 	var me = this;
 	nyc.ol.control.LayerPicker.call(me, options);
-	$(me.menu).append(nyc.ol.control.LayerMgr.MENU_BUTTONS_HTML).trigger('create');
-	$(me.menu).find('.btn-ok').click($.proxy(me.toggleMenu, me));
+	me.container.append(nyc.ol.control.LayerMgr.MENU_BUTTONS_HTML).trigger('create');
+	me.container.find('.btn-ok').click($.proxy(me.toggleMenu, me));
 	$.each(me.controls, function(i, control){
 		control.on('change', function(choices){
 			$.each(control.choices, function(_, choice){
@@ -74,6 +74,17 @@ nyc.ol.control.LayerMgr.prototype = {
 		}
 		layerGroups[0].expanded = true;
 		return layerGroups;
+	},
+	/**
+	 * @desc Turn off all layers
+	 * @public
+	 * @method
+	 */
+	clear: function(){
+		this.container.find('input').each(function(){
+			this.checked = false;
+			$(this).checkboxradio('refresh');
+		})
 	}
 };
 

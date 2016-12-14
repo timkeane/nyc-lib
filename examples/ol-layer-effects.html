@@ -87,11 +87,14 @@
 			lyrMgr = new nyc.ol.control.LayerMgr({map: map});
 			fade = new nyc.ol.control.LayerFade({map: map});
 
+ 			$('#btn-swipe, #btn-layer-mgr').click(function(){
+ 				fade.cancel();
+ 			});
  			$('#btn-fade, #btn-layer-mgr').click(function(){
  				swipe.cancel();
  			});
- 			$('#btn-swipe, #btn-layer-mgr').click(function(){
- 				fade.cancel();
+ 			$('#btn-swipe, #btn-fade').click(function(){
+ 				lyrMgr.clear();
  			});
 		});
 	</script>
