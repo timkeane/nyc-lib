@@ -134,6 +134,23 @@ nyc.ol.Basemap.prototype.getBaseLayers = function(){
 };
 
 /** 
+ * @desc Returns the base layers
+ * @public
+ * @method
+ * @return {nyc.ol.Basemap.BaseLayers}
+ */
+nyc.ol.Basemap.prototype.sortedPhotos = function(){
+	var sorted = [];
+	for (var photo in this.photos){
+		sorted.push(this.photos[photo]);
+	}
+	//sort on the first 4 puts 2001-2 in the proper place
+	return sorted.sort(function(a, b){
+		return a.get('name').substr(0, 4) - b.get('name').substr(0, 4);
+	});
+};
+
+/** 
  * @private
  * @method
  */
@@ -165,7 +182,7 @@ nyc.ol.Basemap.PHOTO_URLS = {
 	'1924': '/geoserver/gwc/service/tms/1.0.0/1924@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
 	'1951': '/geoserver/gwc/service/tms/1.0.0/1951@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
 	'1996': '/geoserver/gwc/service/tms/1.0.0/1996@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
-	'2002': '/geoserver/gwc/service/tms/1.0.0/2002@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
+	'2001-2': '/geoserver/gwc/service/tms/1.0.0/2001-2@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
 	'2004': '/geoserver/gwc/service/tms/1.0.0/2004@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
 	'2006': '/geoserver/gwc/service/tms/1.0.0/2006@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
 	'2008': '/geoserver/gwc/service/tms/1.0.0/2008@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
