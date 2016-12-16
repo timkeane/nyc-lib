@@ -61,7 +61,7 @@ nyc.ol.control.LayerMgr.prototype = {
 			for (var photo in photos){
 				photoLayers.push(photos[photo]);
 			}
-			layerGroups.push({name: 'Aerial photos', layers: photoLayers, singleSelect: true}); //sort?
+			layerGroups.push({name: 'Aerial photos', layers: photoLayers, singleSelect: true});
 		}
 		map.getLayers().forEach(function(layer){
 			var name = layer.get('name'); 
@@ -70,7 +70,7 @@ nyc.ol.control.LayerMgr.prototype = {
 			}
 		});
 		if (layers.length){
-			layerGroups.push({name: 'Data layers', layers: layers}); //sort?
+			layerGroups.push({name: 'Data layers', layers: layers});
 		}
 		layerGroups[0].expanded = true;
 		return layerGroups;
@@ -81,10 +81,7 @@ nyc.ol.control.LayerMgr.prototype = {
 	 * @method
 	 */
 	clear: function(){
-		this.container.find('input').each(function(){
-			this.checked = false;
-			$(this).checkboxradio('refresh');
-		})
+		this.container.find('input').prop('checked', false).checkboxradio('refresh');
 	}
 };
 

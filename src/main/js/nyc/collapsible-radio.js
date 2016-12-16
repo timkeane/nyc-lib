@@ -33,10 +33,9 @@ nyc.Radio.prototype = {
 				choice.checked = true;
 				me.value = [choice];
 				me.currentVal.html(choice.label);
-				me.trigger('change', [choice]);
-				return false;
 			}
 		});
+		me.trigger('change', [me.value]);
 	}		
 };
 

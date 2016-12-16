@@ -131,6 +131,7 @@ nyc.ol.control.LayerPicker.prototype = {
 				options.choices.push({value: name, label: name, checked: layer.getVisible()});
 			});
 			if (group.singleSelect){
+				options.choices.unshift({value: 'none', label: 'None'});
 				controls.push(new nyc.Radio(options));
 			}else{
 				controls.push(new nyc.Check(options));	
