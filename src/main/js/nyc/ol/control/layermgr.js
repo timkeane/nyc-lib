@@ -57,11 +57,8 @@ nyc.ol.control.LayerMgr.prototype = {
 	getLayerGoupsFromMap: function(map){
 		var layers = [], layerGroups = [], photos = {};
 		if (map.getBaseLayers){
-			photos = map.getBaseLayers().photos, photoLayers = [];
-			for (var photo in photos){
-				photoLayers.push(photos[photo]);
-			}
-			layerGroups.push({name: 'Aerial photos', layers: photoLayers, singleSelect: true});
+			var photos = map.getBaseLayers().photos;
+			layerGroups.push({name: 'Aerial photos', layers: map.sortedPhotos(), singleSelect: true});
 		}
 		map.getLayers().forEach(function(layer){
 			var name = layer.get('name'); 
