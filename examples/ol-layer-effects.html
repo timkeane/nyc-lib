@@ -96,6 +96,11 @@
  			$('#btn-swipe, #btn-fade').click(function(){
  				lyrMgr.clear();
  			});
+ 			$('#btn-layer-mgr').click(function(){
+ 				$.each(lyrMgr.controls, function(_, control){
+ 					control.trigger('change', control.val());
+ 				});
+			});
 		});
 	</script>
 </body>

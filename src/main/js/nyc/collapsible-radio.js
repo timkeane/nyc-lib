@@ -26,6 +26,7 @@ nyc.Radio.prototype = {
 	 */
 	changed: function(event){
 		var me = this;
+		me.value = [];
 		$.each(me.inputs, function(i, input){
 			var choice = me.choices[i];
 			choice.checked = false;

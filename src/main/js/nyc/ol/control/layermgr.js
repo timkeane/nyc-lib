@@ -78,7 +78,10 @@ nyc.ol.control.LayerMgr.prototype = {
 	 * @method
 	 */
 	clear: function(){
-		this.container.find('input').prop('checked', false).checkboxradio('refresh');
+		this.container.find('input')
+			.prop('checked', false)
+			.checkboxradio('refresh')
+			.trigger('change');
 	}
 };
 
