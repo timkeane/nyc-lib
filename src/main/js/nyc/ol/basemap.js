@@ -153,7 +153,7 @@ nyc.ol.Basemap.prototype.photoChange = function(){
  * @const
  * @type {string}
  */
-nyc.ol.Basemap.BASE_URL = '/geoserver/gwc/service/tms/1.0.0/basemap@EPSG%3A900913@png8/{z}/{x}/{-y}.png8';
+nyc.ol.Basemap.BASE_URL = '/geoserver/gwc/service/tms/1.0.0/basemap@EPSG%3A900913@jpeg/{z}/{x}/{-y}.jpg';
 
 /**
  * @desc The URLs of the New York City aerial imagery map tiles 
