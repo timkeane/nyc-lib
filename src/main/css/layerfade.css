@@ -98,7 +98,7 @@ div#fade-status div {
     display: inline-block;
     text-align: center;
 }
-/* fixes .ui-checkboxradio styles broken when JQueryUI steps on JQueryMobile */
+/* Fixes .ui-checkboxradio styles broken when JQueryUI steps on JQueryMobile */
 .ctl-mnu-tgl div.ui-radio label.ui-checkboxradio-checked.ui-checkboxradio-checked:after, div.ui-radio label.ui-checkboxradio-checked.ui-checkboxradio-checked:after {
 	content: '\25CF';
 	text-align: center;
@@ -112,7 +112,7 @@ div#fade-status div {
 	height: 14px;
 	border: 1px solid #fff;
 }
-/* fixes .ui-checkboxradio styles broken when JQueryUI steps on JQueryMobile */
+/* Fixes .ui-checkboxradio styles broken when JQueryUI steps on JQueryMobile */
 .ctl-mnu-tgl div.ui-checkbox label.ui-checkboxradio-checked.ui-checkboxradio-checked:after, div.ui-checkbox label.ui-checkboxradio-checked.ui-checkboxradio-checked:after {
 	background-color: #000;
 	opacity: 1;

@@ -21,7 +21,10 @@ nyc.jq.ui = {
 	 */
 	load: function(){
 		if (!$.ui || !$.ui.draggable){
-			$.getScript(this.js);
+			$.getScript(this.js, function(){
+				/* Fix widgets that will be broken by loading JQueryUI */
+				$('.nyc-choice input').checkboxradio({});
+			});
 		}
 	}
 };

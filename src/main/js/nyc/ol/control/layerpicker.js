@@ -137,11 +137,6 @@ nyc.ol.control.LayerPicker.prototype = {
 				controls.push(new nyc.Check(options));	
 			}
 		});
-		setTimeout(function(){
-			container.find('input').each(function(){
-				$(this).checkboxradio();
-			});
-		}, 100);
 	}
 };
 

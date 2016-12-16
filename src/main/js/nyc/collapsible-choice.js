@@ -11,7 +11,7 @@ var nyc = nyc || {};
  * @fires nyc.Choice#change
  */
 nyc.Choice = function(options){
-	var me = this, fieldset = $('<fieldset data-role="controlgroup"></fieldset>');
+	var me = this, fieldset = $('<fieldset class="nyc-choice" data-role="controlgroup"></fieldset>');
 	
 	me.choices = options.choices;
 
