@@ -12,7 +12,7 @@ nyc.ol.control = nyc.ol.control || {};
  */
 nyc.ol.control.LayerFade = function(options){
 	this.map = options.map;
-	this.layers = options.slayers || this.getLayersFromMap(map);
+	this.layers = options.layers || this.getLayersFromMap(map);
 	this.autoFadeInterval = options.autoFadeInterval || this.autoFadeInterval;
 	$(map.getTarget()).append(nyc.ol.control.LayerFade.HTML).trigger('create');
 	$('#btn-fade').click($.proxy(this.showChoices, this));

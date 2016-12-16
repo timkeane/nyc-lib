@@ -67,13 +67,21 @@ div#fade-status, div#fade-slider {
 	right: 0;
 }
 div#fade-slider {
-	margin: 0 12px;
+	margin: 0 0 5px 0;
 	height: 18px;
 	background-color: transparent;
 	border: none;
 }
+div#fade-slider.ui-widget-content span {
+	position: absolute;
+	background-color: #f6f6f6;
+	border: 1px solid #ddd;
+	padding: 10px;
+	cursor: pointer;
+}
 div#fade-slider.ui-widget-content span.ui-state-default:hover, 
 div#fade-slider.ui-widget-content span.ui-state-active {
+	outline-color: transparent;
 	background-color: #000;
 	border: 1px solid #c5c5c5;
 }
