@@ -3,7 +3,7 @@
 A set of common libraries used to develop NYC mapping applications
 
 ###Documentation, Examples and Distributions###
-http://maps.nyc.gov/nyc-lib
+https://maps.nyc.gov/nyc-lib
 
 ###Geocoding###
 * To use `nyc.Geoclient` as the implementation of `nyc.Geocoder` you must first get your Geoclient App ID and App Key from the [NYC Developer Portal](https://developer.cityofnewyork.us/api/geoclient-api)
