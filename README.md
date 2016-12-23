@@ -20,7 +20,7 @@ https://maps.nyc.gov/nyc-lib
 ###Build###
 * `./gradlew buildLibs`
 	* builds libraries `nyc-ol-lib.js`, `nyc-ol-redline-lib.js`, `nyc-leaf-lib.js`, `nyc.carto-lib.js`
-* `./gradlew jsDoc` (requires npm and jsdoc)
+* `./gradlew jsDoc` (requires npm and JsDoc)
 	* builds [JsDoc](http://usejsdoc.org/)
-* `./gradlew archive`  (requires npm and jsdoc)
+* `./gradlew archive`  (requires npm and JsDoc)
 	* builds and zips libraries `nyc-ol-lib.js`, `nyc-ol-redline-lib.js`, `nyc-leaf-lib.js`, `nyc.carto-lib.js` with [JsDoc](http://usejsdoc.org/)
