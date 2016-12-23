@@ -22,6 +22,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.19.1/ol.js"></script>
 	<!-- nyc js -->
 	<script src="../src/main/js/nyc/nyc.js"></script>
+	<script src="../src/main/js/nyc/util.js"></script>
 	<script src="../src/main/js/nyc/dialog.js"></script>
 	<script src="../src/main/js/nyc/collapsible.js"></script>
 	<script src="../src/main/js/nyc/collapsible-choice.js"></script>
@@ -69,7 +70,15 @@
 			map = new nyc.ol.Basemap({target: $('#map').get(0)});
 
 			var source = new ol.source.Vector();
-			var layer = new ol.layer.Vector({source: source});
+			var layer = new ol.layer.Vector({
+				source: source,
+				style: [new ol.style.Style({
+						image: new ol.style.Icon({
+						scale: 48 / 512, 
+						src: 'img/me' +  (nyc.util.isIe() || nyc.util.isIos() ? '.png' : '.svg')
+					})
+				})]
+			});
 			map.addLayer(layer);
 			
 			/* See README.md for getting your GeoClient App Id and App Key */
