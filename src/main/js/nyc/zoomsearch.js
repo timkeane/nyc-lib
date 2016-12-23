@@ -17,6 +17,7 @@ nyc.ZoomSearch = function(useSearchTypeMenu){
 	me.list = $('#fld-srch');
 	me.typBtn.click($.proxy(me.searchType, me));
 	me.input.on('keyup change', $.proxy(me.key, me));
+	me.input.click(function(){me.input.select();});
 	$('#btn-z-in, #btn-z-out').click($.proxy(me.zoom, me));
 	$('#fld-srch-container .ui-input-clear').click(function(){
 		me.list.slideUp();
@@ -39,7 +40,7 @@ nyc.ZoomSearch.prototype = {
 	 * @private
 	 * @member {JQuery}
 	 */
-	input: true,
+	input: null,
 	/**
 	 * @desc A method to return the map container  HTML element wrapped in a JQuery
 	 * @public
