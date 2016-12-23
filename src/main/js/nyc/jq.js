@@ -18,13 +18,18 @@ nyc.jq.ui = {
 	 * @public
 	 * @static
 	 * @method 
+	 * @param {function} callback A function to call once JQueryUI has loaded {@see https://api.jquery.com/jquery.getscript/}
 	 */
-	load: function(){
+	load: function(callback){
 		if (!$.ui || !$.ui.draggable){
-			$.getScript(this.js, function(){
-				/* Fix widgets that will be broken by loading JQueryUI */
+			$.getScript(this.js, function(script, status, xhr){
+				if (callback) callback(script, status, xhr);
+				/* Fix JQueryMobile widgets that will be broken by loading JQueryUI */
 				$('.nyc-choice input').checkboxradio({});
 			});
+		}else{
+			if (callback) callback(script, status, xhr);
+			$('.nyc-choice input').checkboxradio({});
 		}
 	}
 };
