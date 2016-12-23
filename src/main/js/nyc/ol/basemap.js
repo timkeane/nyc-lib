@@ -214,7 +214,7 @@ nyc.ol.Basemap.UNIVERSE_EXTENT = [-8453323, 4774561, -7983695, 5165920];
  * @const
  * @type {ol.Extent}
  */
-nyc.ol.Basemap.EXTENT = [-8266522, 4937867,-8203781, 5000276];
+nyc.ol.Basemap.EXTENT = [-8266522, 4937867, -8203781, 5000276];
 
 /**
  * @const
