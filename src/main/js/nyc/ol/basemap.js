@@ -69,6 +69,7 @@ nyc.ol.Basemap = function(options, preload){
 	options.view = options.view || new ol.View({
 		center: nyc.ol.Basemap.CENTER,
 		minZoom: 8,
+		maxZoom: 21,
 		zoom: 8
 	});
 	options.layers = layers.concat(options.layers || []);
@@ -170,7 +171,7 @@ nyc.ol.Basemap.prototype.photoChange = function(){
  * @const
  * @type {string}
  */
-nyc.ol.Basemap.BASE_URL = '/geoserver/gwc/service/tms/1.0.0/basemap@EPSG%3A900913@jpeg/{z}/{x}/{-y}.jpg';
+nyc.ol.Basemap.BASE_URL = '/tiles/carto/basemap/{z}/{x}/{-y}.jpg';
 
 /**
  * @desc The URLs of the New York City aerial imagery map tiles 
@@ -179,16 +180,16 @@ nyc.ol.Basemap.BASE_URL = '/geoserver/gwc/service/tms/1.0.0/basemap@EPSG%3A90091
  * @type {Object<string, string>}
  */
 nyc.ol.Basemap.PHOTO_URLS = {
-	'1924': '/geoserver/gwc/service/tms/1.0.0/1924@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
-	'1951': '/geoserver/gwc/service/tms/1.0.0/1951@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
-	'1996': '/geoserver/gwc/service/tms/1.0.0/1996@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
-	'2001-2': '/geoserver/gwc/service/tms/1.0.0/2001-2@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
-	'2004': '/geoserver/gwc/service/tms/1.0.0/2004@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
-	'2006': '/geoserver/gwc/service/tms/1.0.0/2006@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
-	'2008': '/geoserver/gwc/service/tms/1.0.0/2008@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
-	'2010': '/geoserver/gwc/service/tms/1.0.0/2010@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
-	'2012': '/geoserver/gwc/service/tms/1.0.0/2012@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
-	'2014': '/geoserver/gwc/service/tms/1.0.0/2014@EPSG%3A900913@png8/{z}/{x}/{-y}.png8'
+	'1924': '/tiles/photo/1924/{z}/{x}/{-y}.png8',
+	'1951': '/tiles/photo/1951/{z}/{x}/{-y}.png8',
+	'1996': '/tiles/photo/1996/{z}/{x}/{-y}.png8',
+	'2001-2': '/tiles/photo/2001-2/{z}/{x}/{-y}.png8',
+	'2004': '/tiles/photo/2004/{z}/{x}/{-y}.png8',
+	'2006': '/tiles/photo/2006/{z}/{x}/{-y}.png8',
+	'2008': '/tiles/photo/2008/{z}/{x}/{-y}.png8',
+	'2010': '/tiles/photo/2010/{z}/{x}/{-y}.png8',
+	'2012': '/tiles/photo/2012/{z}/{x}/{-y}.png8',
+	'2014': '/tiles/photo/2014/{z}/{x}/{-y}.png8'
 };
 
 /**
@@ -198,8 +199,8 @@ nyc.ol.Basemap.PHOTO_URLS = {
  * @type {Object<string, string>}
  */
 nyc.ol.Basemap.LABEL_URLS = {
-	base: '/geoserver/gwc/service/tms/1.0.0/label@EPSG%3A900913@png8/{z}/{x}/{-y}.png8',
-	photo: '/geoserver/gwc/service/tms/1.0.0/label-lt@EPSG%3A900913@png8/{z}/{x}/{-y}.png8'
+	base: '/tiles/carto/label/{z}/{x}/{-y}.png8',
+	photo: '/tiles/carto/label-lt/{z}/{x}/{-y}.png8'
 };
 
 /**
