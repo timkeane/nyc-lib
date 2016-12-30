@@ -6,7 +6,7 @@ nyc.ol.control = nyc.ol.control || {};
  * @desc Class that provides layer swiping effect
  * @public
  * @class
- * @extends {nyc.Menu}
+ * @extends {nyc.ol.control.LayerPicker}
  * @constructor
  * @param {nyc.ol.control.LayerMgr.Options} options Constructor options
  */

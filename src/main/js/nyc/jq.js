@@ -26,10 +26,20 @@ nyc.jq.ui = {
 				if (callback) callback(script, status, xhr);
 				/* Fix JQueryMobile widgets that will be broken by loading JQueryUI */
 				$('.nyc-choice input').checkboxradio({});
+				nyc.jq.ui.fixCss();
 			});
 		}else{
 			if (callback) callback(script, status, xhr);
 			$('.nyc-choice input').checkboxradio({});
+			this.fixCss();			
 		}
+	},
+	/**
+	 * @private
+	 * @static
+	 * @method 
+	 */
+	fixCss: function(){
+		$('.nyc-choice label.ui-radio-on').removeClass('ui-radio-on').addClass('ui-radio-off');		
 	}
 };

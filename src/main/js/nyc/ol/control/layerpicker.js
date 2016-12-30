@@ -16,6 +16,8 @@ nyc.ol.control.LayerPicker = function(options){
 	this.layerGroups = options.layerGroups || this.getLayerGoupsFromMap(options.map);
 	this.controls = [];
 	this.render(this.map, this.layerGroups, options.target);
+	
+	var container = this.container;
 };
 
 nyc.ol.control.LayerPicker.prototype = {
