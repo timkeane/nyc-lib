@@ -306,8 +306,8 @@ minifyJsOl.doLast {
 			ant.replace(file: "${pkgDir}/src/js/nyc/ol/layer/baselayer.js", token: '//maps3.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
 		}
 	}
-	ant.replace(file: "${pkgDir}/js/nyc-ol-lib.js", token: '/geoserver/gwc', value: "${tilehost}/geoserver/gwc")
-	ant.replace(file: "${pkgDir}/src/js/nyc/ol/basemap.js", token: '/geoserver/gwc', value: "${tilehost}/geoserver/gwc")
+	ant.replace(file: "${pkgDir}/js/nyc-ol-lib.js", token: '/tiles/', value: "${tilehost}/tiles/")
+	ant.replace(file: "${pkgDir}/src/js/nyc/ol/basemap.js", token: '/tiles/', value: "${tilehost}/tiles/")
 }
 
 task minifyJsOlRedLine(type: MiniJsTask) {
