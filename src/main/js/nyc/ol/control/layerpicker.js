@@ -5,6 +5,7 @@ nyc.ol.control = nyc.ol.control || {};
 /**
  * @desc Class that provides layer a picker
  * @public
+ * @abstract
  * @class
  * @extends {nyc.Menu}
  * @constructor
@@ -12,7 +13,7 @@ nyc.ol.control = nyc.ol.control || {};
  */
 nyc.ol.control.LayerPicker = function(options){
 	this.map = options.map;
-	this.layerGroups = this.getLayerGoupsFromMap(options.map);
+	this.layerGroups = options.layerGroups || this.getLayerGoupsFromMap(options.map);
 	this.controls = [];
 	this.render(this.map, this.layerGroups, options.target);
 };
@@ -124,14 +125,15 @@ nyc.ol.control.LayerPicker.prototype = {
 	render: function(map, layerGroups, target){
 		var container = this.getContainer(map, target), controls = this.controls;
 		$.each(layerGroups, function(_, group){
-			var options = {target: $('<div></div>'), title: group.name, expanded: group.expanded, choices: []};
+			var hasVis = false, options = {target: $('<div></div>'), title: group.name, expanded: group.expanded, choices: []};
 			container.append(options.target);
 			$.each(group.layers, function(_, layer){
-				var name = layer.get('name');
-				options.choices.push({value: name, label: name, checked: layer.getVisible()});
+				var name = layer.get('name'), vis = layer.getVisible();
+				options.choices.push({value: name, label: name, checked: vis});
+				hasVis = hasVis || vis;
 			});
 			if (group.singleSelect){
-				options.choices.unshift({value: 'none', label: 'None'});
+				options.choices.unshift({value: 'none', label: 'None', checked: !hasVis});
 				controls.push(new nyc.Radio(options));
 			}else{
 				controls.push(new nyc.Check(options));	
