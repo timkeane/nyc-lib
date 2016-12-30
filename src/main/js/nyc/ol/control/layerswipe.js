@@ -63,9 +63,14 @@ nyc.ol.control.LayerSwipe.prototype = {
 	 * @return {Array<nyc.ol.control.LayerPicker.LayerGroup>}
 	 */
 	getLayerGoupsFromMap: function(map){
-		var layers = [];
+		var layers = [], photos = {};
+		if (map.getBaseLayers){
+			var photos = map.getBaseLayers().photos;
+			layers = map.sortedPhotos();
+		}
 		map.getLayers().forEach(function(layer){
-			if (layer.get('name')){
+			var name = layer.get('name'); 
+			if (name && !photos[name]){
 				layers.push(layer);
 			}
 		});
