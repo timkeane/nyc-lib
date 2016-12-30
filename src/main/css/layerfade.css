@@ -22,6 +22,12 @@ div#mnu-fade, div#fade-status {
 div#mnu-fade, div#mnu-fade a, div#fade-status {
     text-shadow: none;
 }
+div#mnu-fade thead td {
+	padding: 5px 0 0 5px;;
+}
+div#mnu-fade td {
+	width: 50%;
+}
 li.fade-lyr, .fade-choices {
     border: 1px solid rgb(221, 221, 221);
     border-radius: .6em;
@@ -45,14 +51,6 @@ ol.fade-choices {
     margin: 0 0 3px;
     cursor: pointer;
     padding: 8px 3px
-}
-div.fade-list {
-    display: inline-block;
-    width: 149px;
-    margin: 5px;
-}
-div.fade-list:first-of-type {
-    margin-right: 0;
 }
 div#fade-status, div#fade-progress, div#fade-slider {
 	display: none;

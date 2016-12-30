@@ -16,7 +16,7 @@ nyc.ol.control.LayerFade = function(options){
 	this.autoFadeInterval = options.autoFadeInterval || this.autoFadeInterval;
 	$(map.getTarget()).append(nyc.ol.control.LayerFade.HTML).trigger('create');
 	$('#btn-fade').click($.proxy(this.showChoices, this));
-	$('div.fade-btns a').click($.proxy(this.buttonClick, this));
+	$('.fade-btns a').click($.proxy(this.buttonClick, this));
 	nyc.jq.ui.load();
 	this.menu = $('#mnu-fade').get(0);
 };
@@ -34,9 +34,14 @@ nyc.ol.control.LayerFade.prototype = {
 	autoFadeInterval: 10000,
 	/**
 	 * @private
-	 * @member {Object<string, ol.layer.Base>}
+	 * @member {Array<ol.layer.Base>}
 	 */
 	layers: null,
+	/**
+	 * @private
+	 * @member {Object<string, ol.layer.Base>}
+	 */
+	layersByName: null,
 	/**
 	 * @private
 	 * @method
@@ -64,10 +69,10 @@ nyc.ol.control.LayerFade.prototype = {
 	 */
 	cancel: function(){
 		$('#fade-status, #fade-progress, #fade-slider').stop().fadeOut();
-		for (var name in this.layers){
-			this.layers[name].setVisible(false);
-			this.layers[name].setOpacity(1);
-		}
+		$.each(this.layers, function(){
+			this.setVisible(false);
+			this.setOpacity(1);
+		});
 	},
 	/**
 	 * @private
@@ -78,10 +83,10 @@ nyc.ol.control.LayerFade.prototype = {
 		this.cancel();
 		if (!items.length){
 			var choices = $('#mnu-fade ul');
-			for (var name in this.layers){
-				var li = $('<li class="fade-lyr">' + name + '</li>');
+			$.each(this.layers, function(){
+				var li = $('<li class="fade-lyr">' + this.get('name') + '</li>');
 				choices.append(li);
-			}
+			});
 		}
         $('.fade-choices').sortable({connectWith: '#mnu-fade ul, #mnu-fade ol'}).disableSelection();
         this.toggleMenu();
@@ -92,12 +97,12 @@ nyc.ol.control.LayerFade.prototype = {
 	 * @param {boolean} auto
 	 */
 	makeChoices: function(auto){
-		var me = this, choices = $('ol.fade-choices li'), layers = [];
+		var layersByName = this.layersByName, choices = $('ol.fade-choices li'), layers = [];
 		if (choices.length > 1){
 			choices.each(function(){
-				layers.push(me.layers[$(this).html()]);
+				layers.push(layersByName[$(this).html()]);
 			});
-			me.setupFade(layers);
+			this.setupFade(layers);
 			this.status(layers);
 			if (auto){
 				layers[0].fadeOut();
@@ -203,15 +208,23 @@ nyc.ol.control.LayerFade.prototype = {
 	 * @private
 	 * @method
 	 * @param {ol.Map} map
+	 * @return {Array<ol.layer.Base>}
 	 */
 	getLayersFromMap: function(map){
-		var layers = {};
+		var layers = [], layersByName = {}, photos = {};
+		if (map.getBaseLayers){
+			layers = map.sortedPhotos();
+			photos = map.getBaseLayers().photos;
+			layersByName = map.getBaseLayers().photos;
+		}
 		map.getLayers().forEach(function(layer){
-			var name = layer.get('name');
-			if (name){
-				layers[name] = layer;
+			var name = layer.get('name'); 
+			if (name && !photos[name]){
+				layers.push(layer);
+				layersByName[mame] = layer;
 			}
 		});
+		this.layersByName = layersByName;
 		return layers;
 	}
 };
@@ -258,7 +271,7 @@ nyc.ol.control.LayerFade.fadeOut = function(){
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The map on which to perform layer fades
- * @property {Object<string, ol.layer.Base>} =layers Layers to choose from (default is all layers with a name property)
+ * @property {Array<ol.layer.Base>} =layers Layers to choose from (default is all layers with a name property)
  * @property {number} [autoFadeInterval=10000] The animation interval for auto fade in milliseconds
  */
 nyc.ol.control.LayerFade.Options;
@@ -272,18 +285,28 @@ nyc.ol.control.LayerFade.HTML = '<a id="btn-fade" class="ctl ctl-btn" data-role=
 		'Layer fade' +
 	'</a>' +
 	'<div id="mnu-fade" class="ctl-mnu-tgl">' +
-		'<div class="fade-list">Choose...' +
-			'<ul class="fade-choices"></ul>' +
-		'</div>' +
-    	'<div class="fade-list">Order...' +
-    		'<ol class="fade-choices"></ol>' +
-    	'</div>' +
-		'<div class="fade-btns">' +
-			'<a class="btn-cancel" data-role="button">Cancel</a>' + 
-			'<a class="btn-auto" data-role="button">Auto</a>' +
-			'<a class="btn-manual" data-role="button">Manual</a>' +
-		'</div>' +
-    '</div>' +
+		'<table>' +
+			'<thead>' +
+				'<tr>' +
+					'<td>Choose...</td>' +
+					'<td>Order...</td>' +
+				'</tr>' +
+			'</thead>' +
+			'<tbody>' +
+				'<tr>' +
+					'<td><ul class="fade-choices"></ul></td>' +
+					'<td><ol class="fade-choices"></ol></td>' +
+				'</tr>' +
+				'<tr>' +
+					'<td class="fade-btns" colspan="2">' +
+						'<a class="btn-cancel" data-role="button">Cancel</a>' +
+						'<a class="btn-auto" data-role="button">Auto</a>' +
+						'<a class="btn-manual" data-role="button">Manual</a>' +
+					'</td>' +
+				'</tr>' +
+			'</tbody>' +
+		'</table>' +
+	'</div>' +
 	'<div id="fade-progress"></div>' +
 	'<div id="fade-status"></div>' +
 	'<div id="fade-slider"></div>';
