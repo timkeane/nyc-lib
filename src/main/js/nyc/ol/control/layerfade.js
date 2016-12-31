@@ -8,13 +8,13 @@ nyc.ol.control = nyc.ol.control || {};
  * @class
  * @extends {nyc.Menu}
  * @constructor
- * @param {nyc.ol.control.LayerFader.Options} options Constructor options
+ * @param {nyc.ol.control.LayerFade.Options} options Constructor options
  */
 nyc.ol.control.LayerFade = function(options){
 	this.map = options.map;
-	this.layers = options.layers || this.getLayersFromMap(map);
+	this.layers = options.layers || this.getLayersFromMap(this.map);
 	this.autoFadeInterval = options.autoFadeInterval || this.autoFadeInterval;
-	$(map.getTarget()).append(nyc.ol.control.LayerFade.HTML).trigger('create');
+	$(this.map.getTarget()).append(nyc.ol.control.LayerFade.HTML).trigger('create');
 	$('#btn-fade').click($.proxy(this.showChoices, this));
 	$('.fade-btns a').click($.proxy(this.buttonClick, this));
 	nyc.jq.ui.load();
