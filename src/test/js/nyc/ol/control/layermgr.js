@@ -53,5 +53,58 @@ QUnit.test('constructor', function(assert){
 	
 	assert.notOk(this.LAYER_A.getVisible());
 	assert.ok(this.LAYER_B.getVisible());
+});
 
+QUnit.test('getMenuId', function(assert){
+	assert.expect(1);
+	
+	var options = {
+		map: this.TEST_OL_MAP,
+		layerGroups: this.LAYER_GROUPS
+	};
+		
+	var mgr = new nyc.ol.control.LayerMgr(options);
+	
+	assert.equal(mgr.getMenuId(), 'mnu-layer-mgr');
+});
+
+QUnit.test('getButtonHtml', function(assert){
+	assert.expect(1);
+	
+	var options = {
+		map: this.TEST_OL_MAP,
+		layerGroups: this.LAYER_GROUPS
+	};
+		
+	var mgr = new nyc.ol.control.LayerMgr(options);
+	
+	assert.equal(mgr.getButtonHtml(), nyc.ol.control.LayerMgr.BUTTON_HTML);
+});
+
+QUnit.test('getLayerGoupsFromMap', function(assert){
+	assert.expect(1);
+	
+	var target = $('<div></div>');
+	$('body').append(target);
+	
+	this.LAYER_A.set('name', null);
+	
+	var options = {
+		map: new nyc.ol.Basemap({target: target.get(0), layers: [this.LAYER_1, this.LAYER_2, this.LAYER_A, this.LAYER_B]})
+	};
+		
+	var mgr = new nyc.ol.control.LayerMgr(options);
+	
+	assert.deepEqual(mgr.layerGroups, [{
+		name: 'Aerial photos',
+		expanded: true,
+		singleSelect: true,
+		layers: options.map.sortedPhotos()
+	},
+	{
+		name: 'Data layers',
+		layers: [this.LAYER_1, this.LAYER_2, this.LAYER_B]
+	}]);
+	
+	target.remove();
 });
