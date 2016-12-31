@@ -353,3 +353,153 @@ QUnit.test('swipe', function(assert){
 	assert.ok(this.LAYER_A.getVisible());
 	assert.ok(this.LAYER_B.getVisible());
 });
+
+QUnit.test('swipeLeft', function(assert){
+	assert.expect(2);
+	
+	this.LAYER_1.setExtent([100, 200, 400, 500]);
+	
+	var options = {
+		map: this.TEST_OL_MAP,
+		layerGroups: this.LAYER_GROUPS
+	};
+	
+	var swipe = new nyc.ol.control.LayerSwipe(options);
+	
+	swipe.swipeLeft(300);
+	
+	assert.deepEqual(this.LAYER_1.getExtent(), [100, 200, 400, 500]);
+	
+	swipe.setLeft(this.LAYER_1);
+	swipe.swipeLeft(300);
+	
+	assert.deepEqual(this.LAYER_1.getExtent(), [100, 200, 300, 500]);
+});
+
+QUnit.test('swipeRight', function(assert){
+	assert.expect(2);
+	
+	this.LAYER_1.setExtent([100, 200, 400, 500]);
+	
+	var options = {
+		map: this.TEST_OL_MAP,
+		layerGroups: this.LAYER_GROUPS
+	};
+	
+	var swipe = new nyc.ol.control.LayerSwipe(options);
+	
+	swipe.swipeRight(300);
+	
+	assert.deepEqual(this.LAYER_1.getExtent(), [100, 200, 400, 500]);
+	
+	swipe.setRight(this.LAYER_1);
+	swipe.swipeRight(300);
+	
+	assert.deepEqual(this.LAYER_1.getExtent(), [300, 200, 400, 500]);
+});
+
+QUnit.test('validate', function(assert){
+	assert.expect(5);
+		
+	var options = {
+		map: this.TEST_OL_MAP,
+		layerGroups: this.LAYER_GROUPS
+	};
+	
+	var swipe = new nyc.ol.control.LayerSwipe(options);
+	
+	var checboxes = swipe.container.find('input');
+	
+	assert.equal(swipe.container.find('input:checked').length, 1);
+	
+	$(checboxes.get(1)).prop('checked', true).trigger('change');
+
+	assert.equal(swipe.container.find('input:checked').length, 2);
+
+	$(checboxes.get(2)).prop('checked', true).trigger('change');
+
+	assert.equal(swipe.container.find('input:checked').length, 2);
+
+	$(checboxes.get(1)).prop('checked', false).trigger('change');
+
+	assert.equal(swipe.container.find('input:checked').length, 1);
+
+	$(checboxes.get(2)).prop('checked', true).trigger('change');
+
+	assert.equal(swipe.container.find('input:checked').length, 2);
+});
+
+QUnit.test('makeChoices', function(assert){
+	assert.expect(5);
+	
+	var options = {
+		map: this.TEST_OL_MAP,
+		layerGroups: this.LAYER_GROUPS
+	};
+	
+	var swipe = new nyc.ol.control.LayerSwipe(options);
+	
+	swipe.toggleMenu = function(){
+		assert.ok(true);
+	};
+	
+	assert.notOk(swipe.active);
+	
+	var checboxes = swipe.container.find('input');
+	$(checboxes.get(0)).prop('checked', false).trigger('change');
+	$(checboxes.get(1)).prop('checked', true).trigger('change');
+	$(checboxes.get(2)).prop('checked', true).trigger('change');
+
+	swipe.container.find('.btn-ok').trigger('click');
+	
+	assert.ok(swipe.active);
+	assert.deepEqual(swipe.leftLayer, this.LAYER_2);
+	assert.deepEqual(swipe.rightLayer, this.LAYER_A);
+});
+
+QUnit.test('label (no rightLayer)', function(assert){
+	assert.expect(1);
+	
+	var options = {
+		map: this.TEST_OL_MAP,
+		layerGroups: this.LAYER_GROUPS
+	};
+	
+	var swipe = new nyc.ol.control.LayerSwipe(options);
+	
+	swipe.setLeft(this.LAYER_1);
+	
+	swipe.label([100, 200]);
+	
+	assert.equal($('.swipe-label').length, 0);
+});
+
+QUnit.test('label', function(assert){
+	assert.expect(5);
+	
+	var done = assert.async();
+	
+	var options = {
+		map: this.TEST_OL_MAP,
+		layerGroups: this.LAYER_GROUPS
+	};
+	
+	var swipe = new nyc.ol.control.LayerSwipe(options);
+	
+	swipe.setLeft(this.LAYER_1);
+	swipe.setRight(this.LAYER_2);
+	
+	swipe.label([100, 200]);
+	
+	var label = $('.swipe-label');
+	assert.equal(label.get(0).rows[0].cells[0].innerHTML, this.LAYER_1.get('name'));
+	assert.equal(label.get(0).rows[0].cells[1].innerHTML, this.LAYER_2.get('name'));
+	assert.equal(label.css('left'), 100 - label.width()/2 + 'px');
+	assert.equal(label.css('top'), '200px');
+	setTimeout(function(){
+		assert.equal(label.css('display'), 'none');
+		done();
+		label.remove();
+	}, 5000);
+});
+

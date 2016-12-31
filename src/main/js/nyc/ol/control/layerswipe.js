@@ -239,25 +239,6 @@ nyc.ol.control.LayerSwipe.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {Array<ol.layer.Base>} layers
-	 * @param {Array<Element>} choices
-	 */
-	resetBasemap: function(layers, choices){
-		if (this.map.getBaseLayers){
-			var photos = this.map.getBaseLayers().photos;
-			for (var photo in photos){
-				for (var i = 0; i < choices.length; i++){
-					if (layers[choices[i]] === photos[photo]){
-						this.map.hidePhoto();
-						return;
-					}
-				}
-			}
-		}
-	},
-	/**
-	 * @private
-	 * @method
 	 */
 	makeChoices: function(){
 		this.toggleMenu();
@@ -265,7 +246,6 @@ nyc.ol.control.LayerSwipe.prototype = {
 		this.setLeft();
 		this.setRight();
 		if (choices.length){
-			this.resetBasemap(layers, choices);
 			this.setLeft(layers[choices[0].value]);
 			if (choices[1]) this.setRight(layers[choices[1].value]);
 			this.setActive(true);
