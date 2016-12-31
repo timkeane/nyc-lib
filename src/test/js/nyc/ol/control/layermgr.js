@@ -90,7 +90,10 @@ QUnit.test('getLayerGoupsFromMap', function(assert){
 	this.LAYER_A.set('name', null);
 	
 	var options = {
-		map: new nyc.ol.Basemap({target: target.get(0), layers: [this.LAYER_1, this.LAYER_2, this.LAYER_A, this.LAYER_B]})
+		map: new nyc.ol.Basemap({
+			target: target.get(0), 
+			layers: [this.LAYER_1, this.LAYER_2, this.LAYER_A, this.LAYER_B]
+		})
 	};
 		
 	var mgr = new nyc.ol.control.LayerMgr(options);
