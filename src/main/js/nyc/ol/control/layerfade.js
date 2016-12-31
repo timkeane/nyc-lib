@@ -39,11 +39,6 @@ nyc.ol.control.LayerFade.prototype = {
 	layers: null,
 	/**
 	 * @private
-	 * @member {Object<string, ol.layer.Base>}
-	 */
-	layersByName: null,
-	/**
-	 * @private
 	 * @method
 	 * @param {Array<ol.layer.Base>} layers
 	 */
@@ -97,7 +92,7 @@ nyc.ol.control.LayerFade.prototype = {
 	 * @param {boolean} auto
 	 */
 	makeChoices: function(auto){
-		var layersByName = this.layersByName, choices = $('ol.fade-choices li'), layers = [];
+		var layersByName = this.getLayersByName(), choices = $('ol.fade-choices li'), layers = [];
 		if (choices.length > 1){
 			choices.each(function(){
 				layers.push(layersByName[$(this).html()]);
@@ -211,21 +206,30 @@ nyc.ol.control.LayerFade.prototype = {
 	 * @return {Array<ol.layer.Base>}
 	 */
 	getLayersFromMap: function(map){
-		var layers = [], layersByName = {}, photos = {};
+		var layers = [], photos = {};
 		if (map.getBaseLayers){
 			layers = map.sortedPhotos();
 			photos = map.getBaseLayers().photos;
-			layersByName = map.getBaseLayers().photos;
 		}
 		map.getLayers().forEach(function(layer){
 			var name = layer.get('name'); 
 			if (name && !photos[name]){
 				layers.push(layer);
-				layersByName[mame] = layer;
 			}
 		});
-		this.layersByName = layersByName;
 		return layers;
+	},
+	/**
+	 * @private
+	 * @method
+	 * @return {Object<string, ol.layer.Base>}
+	 */
+	getLayersByName: function(){
+		var layersByName = {};
+		$.each(this.layers, function(){
+			layersByName[this.get('name')] = this;
+		});
+		return layersByName;
 	}
 };
 
