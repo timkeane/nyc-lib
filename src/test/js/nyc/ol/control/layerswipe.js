@@ -25,16 +25,60 @@ QUnit.module('nyc.ol.control.LayerSwipe', {
 });
 
 QUnit.test('constructor', function(assert){
-	assert.expect(1);
+	assert.expect(13);
 	
 	var options = {
 		map: this.TEST_OL_MAP,
 		layerGroups: this.LAYER_GROUPS
 	};
-		
+
+	var validate = nyc.ol.control.LayerSwipe.prototype.validate;
+	var makeChoices = nyc.ol.control.LayerSwipe.prototype.makeChoices;
+	var cancel = nyc.ol.control.LayerSwipe.prototype.cancel;
+	var toggleMenu = nyc.ol.control.LayerSwipe.prototype.toggleMenu;
+	var reset = nyc.ol.control.LayerSwipe.prototype.reset;
+	var swp = nyc.ol.control.LayerSwipe.prototype.swipe;
+	
+	nyc.ol.control.LayerSwipe.prototype.validate = function(){
+		assert.ok(true);
+	};
+	nyc.ol.control.LayerSwipe.prototype.makeChoices = function(){
+		assert.ok(true);
+	};
+	nyc.ol.control.LayerSwipe.prototype.cancel = function(){
+		assert.ok(true);
+	};
+	nyc.ol.control.LayerSwipe.prototype.toggleMenu = function(){
+		assert.ok(true);
+	};
+	nyc.ol.control.LayerSwipe.prototype.reset = function(){
+		assert.ok(true);
+	};
+	nyc.ol.control.LayerSwipe.prototype.swipe = function(event){
+		assert.ok(true);
+	};
+	
 	var swipe = new nyc.ol.control.LayerSwipe(options);
 	
+	assert.equal($(this.TEST_OL_MAP.getTarget()).find('#btn-swipe').length, 1);
+	assert.equal($(this.TEST_OL_MAP.getTarget()).find('#mnu-swipe').length, 1);
+
 	assert.equal(swipe.controls.length, 1);
+	
+	swipe.container.find('input').each(function(){
+		$(this).trigger('change');
+	});
+	swipe.container.find('.btn-ok').trigger('click');
+	swipe.container.find('.btn-cancel').trigger('click');
+	$(this.TEST_OL_MAP.getTarget()).find('#btn-swipe').trigger('click');
+	this.TEST_OL_MAP.dispatchEvent('pointermove',{});
+
+	nyc.ol.control.LayerSwipe.prototype.validate = validate;
+	nyc.ol.control.LayerSwipe.prototype.makeChoices = makeChoices;
+	nyc.ol.control.LayerSwipe.prototype.cancel = cancel;
+	nyc.ol.control.LayerSwipe.prototype.toggleMenu = toggleMenu;
+	nyc.ol.control.LayerSwipe.prototype.reset = reset;
+	nyc.ol.control.LayerSwipe.prototype.swipe = swp;
 });
 
 QUnit.test('getMenuId', function(assert){
@@ -65,17 +109,16 @@ QUnit.test('getButtonHtml', function(assert){
 
 QUnit.test('getLayerGoupsFromMap', function(assert){
 	assert.expect(1);
-	
-	var target = $('<div></div>');
-	$('body').append(target);
-	
+		
 	this.LAYER_A.set('name', null);
 	
+	this.TEST_OL_MAP.addLayer(this.LAYER_1);
+	this.TEST_OL_MAP.addLayer(this.LAYER_2);
+	this.TEST_OL_MAP.addLayer(this.LAYER_A);
+	this.TEST_OL_MAP.addLayer(this.LAYER_B);
+	
 	var options = {
-		map: new nyc.ol.Basemap({
-			target: target.get(0), 
-			layers: [this.LAYER_1, this.LAYER_2, this.LAYER_A, this.LAYER_B]
-		})
+		map: this.TEST_OL_MAP
 	};
 	
 	var layers = options.map.sortedPhotos();
@@ -91,7 +134,6 @@ QUnit.test('getLayerGoupsFromMap', function(assert){
 		layers: layers
 	}]);
 	
-	target.remove();
 });
 
 QUnit.test('setLeft', function(assert){

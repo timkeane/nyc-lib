@@ -31,15 +31,24 @@ QUnit.module('nyc.ol.control.LayerMgr', {
 });
 
 QUnit.test('constructor', function(assert){
-	assert.expect(5);
+	assert.expect(8);
 	
 	var options = {
 		map: this.TEST_OL_MAP,
 		layerGroups: this.LAYER_GROUPS
 	};
-		
+	
+	var toggleMenu = nyc.ol.control.LayerMgr.prototype.toggleMenu;
+	nyc.ol.control.LayerMgr.prototype.toggleMenu = function(){
+		assert.ok(true);
+	};
+	
 	var mgr = new nyc.ol.control.LayerMgr(options);
 	
+	mgr.container.find('.btn-ok').trigger('click');
+
+	assert.equal($(this.TEST_OL_MAP.getTarget()).find('#btn-layer-mgr').length, 1);
+	assert.equal($(this.TEST_OL_MAP.getTarget()).find('#mnu-layer-mgr').length, 1);
 	assert.equal(mgr.controls.length, 2);
 	
 	mgr.controls[0].choices[0].checked = false;
@@ -56,6 +65,8 @@ QUnit.test('constructor', function(assert){
 	
 	assert.notOk(this.LAYER_A.getVisible());
 	assert.ok(this.LAYER_B.getVisible());
+	
+	nyc.ol.control.LayerMgr.prototype.toggleMenu = toggleMenu;
 });
 
 QUnit.test('getMenuId', function(assert){
@@ -87,16 +98,15 @@ QUnit.test('getButtonHtml', function(assert){
 QUnit.test('getLayerGoupsFromMap', function(assert){
 	assert.expect(1);
 	
-	var target = $('<div></div>');
-	$('body').append(target);
-	
 	this.LAYER_A.set('name', null);
 	
+	this.TEST_OL_MAP.addLayer(this.LAYER_1);
+	this.TEST_OL_MAP.addLayer(this.LAYER_2);
+	this.TEST_OL_MAP.addLayer(this.LAYER_A);
+	this.TEST_OL_MAP.addLayer(this.LAYER_B);
+
 	var options = {
-		map: new nyc.ol.Basemap({
-			target: target.get(0), 
-			layers: [this.LAYER_1, this.LAYER_2, this.LAYER_A, this.LAYER_B]
-		})
+		map: this.TEST_OL_MAP
 	};
 		
 	var mgr = new nyc.ol.control.LayerMgr(options);
@@ -111,6 +121,4 @@ QUnit.test('getLayerGoupsFromMap', function(assert){
 		name: 'Data layers',
 		layers: [this.LAYER_1, this.LAYER_2, this.LAYER_B]
 	}]);
-	
-	target.remove();
 });

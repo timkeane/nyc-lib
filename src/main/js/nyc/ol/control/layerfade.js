@@ -17,7 +17,7 @@ nyc.ol.control.LayerFade = function(options){
 	$(this.map.getTarget()).append(nyc.ol.control.LayerFade.HTML).trigger('create');
 	$('#btn-fade').click($.proxy(this.showChoices, this));
 	$('.fade-btns a').click($.proxy(this.buttonClick, this));
-	nyc.jq.ui.load();
+	nyc.jq.ui.load(options.callback);
 	this.menu = $('#mnu-fade').get(0);
 };
 
@@ -273,6 +273,7 @@ nyc.ol.control.LayerFade.fadeOut = function(){
  * @property {ol.Map} map The map on which to perform layer fades
  * @property {Array<ol.layer.Base>} =layers Layers to choose from (default is all layers with a name property)
  * @property {number} [autoFadeInterval=10000] The animation interval for auto fade in milliseconds
+ * @property {function=} callback A function to be called when JQueryUI has loaded 
  */
 nyc.ol.control.LayerFade.Options;
 
