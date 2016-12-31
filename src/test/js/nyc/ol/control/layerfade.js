@@ -463,3 +463,107 @@ QUnit.test('manualFade (last layer)', function(assert){
 	assert.equal(layers[1].getOpacity(), 1 - (value - start - interval/2)/interval);
 	assert.equal(layers[2].getOpacity(), (value - start - interval/2)/interval);
 });
+
+QUnit.test('slider', function(assert){
+	assert.expect(7);
+
+	var options = {
+		map: this.TEST_OL_MAP,
+		layers: this.LAYERS
+	};
+	
+	var fade = new nyc.ol.control.LayerFade(options);
+	
+	var layers = [this.LAYERS[0], this.LAYERS[1], this.LAYERS[2]];
+	var max = $(this.TEST_OL_MAP.getTarget()).width();
+	var interval = max/layers.length;
+	
+	fade.manualFade = function(lyrs, ivl, value){
+		assert.deepEqual(lyrs, layers);
+		assert.equal(ivl, interval);
+		assert.equal(value, 100);
+	};
+	
+	$('#fade-slider').hide();
+	
+	fade.slider(layers);
+	
+	assert.equal($('#fade-slider').css('display'), 'block');
+	assert.equal($('#fade-slider').slider('option', 'min'), 0);
+	assert.equal($('#fade-slider').slider('option', 'max'), max);
+	assert.equal($('#fade-slider').slider('option', 'value'), 0);
+
+	$('#fade-slider').slider('option', 'slide')({}, {value: 100});
+});
+
+QUnit.test('buttonClick (Cancel)', function(assert){
+	assert.expect(2);
+
+	var options = {
+		map: this.TEST_OL_MAP,
+		layers: this.LAYERS
+	};
+	
+	var fade = new nyc.ol.control.LayerFade(options);
+	
+	fade.toggleMenu = function(){
+		assert.ok(true);
+	};
+
+	fade.makeChoices = function(){
+		assert.ok(false);
+	};
+	$('#fade-progress').width(1000);
+
+	fade.buttonClick({currentTarget: $(fade.menu).find('a.btn-cancel')});
+	
+	assert.equal($('#fade-progress').width(), 0);
+});
+
+QUnit.test('buttonClick (Manual)', function(assert){
+	assert.expect(3);
+
+	var options = {
+		map: this.TEST_OL_MAP,
+		layers: this.LAYERS
+	};
+	
+	var fade = new nyc.ol.control.LayerFade(options);
+	
+	fade.toggleMenu = function(){
+		assert.ok(true);
+	};
+
+	fade.makeChoices = function(auto){
+		assert.notOk(auto);
+	};
+	$('#fade-progress').width(1000);
+
+	fade.buttonClick({currentTarget: $(fade.menu).find('a.btn-manual')});
+	
+	assert.equal($('#fade-progress').width(), 0);
+});
+
+QUnit.test('buttonClick (Auto)', function(assert){
+	assert.expect(3);
+
+	var options = {
+		map: this.TEST_OL_MAP,
+		layers: this.LAYERS
+	};
+	
+	var fade = new nyc.ol.control.LayerFade(options);
+	
+	fade.toggleMenu = function(){
+		assert.ok(true);
+	};
+
+	fade.makeChoices = function(auto){
+		assert.ok(auto);
+	};
+	$('#fade-progress').width(1000);
+
+	fade.buttonClick({currentTarget: $(fade.menu).find('a.btn-auto')});
+	
+	assert.equal($('#fade-progress').width(), 0);
+});
