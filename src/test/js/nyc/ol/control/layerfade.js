@@ -345,3 +345,121 @@ QUnit.test('progress', function(assert){
 		done();
 	}, 2 * fade.autoFadeInterval);
 });
+
+QUnit.test('manualFade (first layer)', function(assert){
+	assert.expect(7);
+
+	var options = {
+		map: this.TEST_OL_MAP,
+		layers: this.LAYERS
+	};
+		
+	var fade = new nyc.ol.control.LayerFade(options);
+
+	var layers = [this.LAYERS[0], this.LAYERS[1], this.LAYERS[2]];
+	layers[0].set('nextFadeLayer', layers[1]);
+	layers[1].set('nextFadeLayer', layers[2]);
+	layers[2].set('lastFadeLayer', true);
+	layers[0].setVisible(false);
+	layers[1].setVisible(false);
+	layers[2].setVisible(false);
+	layers[0].setOpacity(0);
+	layers[1].setOpacity(0);
+	layers[2].setOpacity(0);
+	
+	var progress = $('#fade-progress').width(1000000000000);
+	var interval = 300;
+	var value = 100;
+
+	fade.manualFade(layers, interval, value);
+	
+	assert.equal(progress.width(), value);
+	
+	$.each(layers, function(){
+		assert.notOk(this.getVisible());		
+	});
+	
+	assert.equal(layers[0].getOpacity(), 0);
+	assert.equal(layers[1].getOpacity(), 0);
+	assert.equal(layers[2].getOpacity(), 0);
+});
+
+QUnit.test('manualFade (second layer)', function(assert){
+	assert.expect(7);
+
+	var options = {
+		map: this.TEST_OL_MAP,
+		layers: this.LAYERS
+	};
+		
+	var fade = new nyc.ol.control.LayerFade(options);
+
+	var layers = [this.LAYERS[0], this.LAYERS[1], this.LAYERS[2]];
+	layers[0].set('nextFadeLayer', layers[1]);
+	layers[1].set('nextFadeLayer', layers[2]);
+	layers[2].set('lastFadeLayer', true);
+	layers[0].setVisible(false);
+	layers[1].setVisible(false);
+	layers[2].setVisible(false);
+	layers[0].setOpacity(0);
+	layers[1].setOpacity(0);
+	layers[2].setOpacity(0);
+	
+	var progress = $('#fade-progress').width(1000000000000);
+	var interval = 300;
+	var value = 400;
+	var end = interval;
+	var start = end - interval;
+
+	fade.manualFade(layers, interval, value);
+	
+	assert.equal(progress.width(), value);
+	
+	$.each(layers, function(){
+		assert.ok(this.getVisible());		
+	});
+	
+	assert.equal(layers[0].getOpacity(), 1 - (value - start - interval/2)/interval);
+	assert.equal(layers[1].getOpacity(), (value - start - interval/2)/interval);
+	assert.equal(layers[2].getOpacity(), 0);
+});
+
+QUnit.test('manualFade (last layer)', function(assert){
+	assert.expect(7);
+
+	var options = {
+		map: this.TEST_OL_MAP,
+		layers: this.LAYERS
+	};
+		
+	var fade = new nyc.ol.control.LayerFade(options);
+
+	var layers = [this.LAYERS[0], this.LAYERS[1], this.LAYERS[2]];
+	layers[0].set('nextFadeLayer', layers[1]);
+	layers[1].set('nextFadeLayer', layers[2]);
+	layers[2].set('lastFadeLayer', true);
+	layers[0].setVisible(false);
+	layers[1].setVisible(false);
+	layers[2].setVisible(false);
+	layers[0].setOpacity(0);
+	layers[1].setOpacity(0);
+	layers[2].setOpacity(0);
+	
+	var progress = $('#fade-progress').width(1000000000000);
+	var interval = 300;
+	var value = 700;
+	var end = 2 * interval;
+	var start = end - interval;
+
+	fade.manualFade(layers, interval, value);
+	
+	assert.equal(progress.width(), value);
+	
+	$.each(layers, function(){
+		assert.ok(this.getVisible());		
+	});
+	
+	assert.equal(layers[0].getOpacity(), 0);
+	assert.equal(layers[1].getOpacity(), 1 - (value - start - interval/2)/interval);
+	assert.equal(layers[2].getOpacity(), (value - start - interval/2)/interval);
+});

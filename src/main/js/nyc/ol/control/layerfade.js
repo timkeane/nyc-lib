@@ -142,7 +142,7 @@ nyc.ol.control.LayerFade.prototype = {
 	 * @param {number} value
 	 */
 	manualFade: function(layers, interval, value){
-		var layerIdx;
+		var layerIdx = -1;
 		$('#fade-progress').width(value);
 		for (var i = 0; i < layers.length; i++){
 			var end = ((i + 1) * interval) + interval/2, start = end - interval;
@@ -151,23 +151,21 @@ nyc.ol.control.LayerFade.prototype = {
 				break;
 			}
 		}
-		for (var i = 0; i < layers.length; i++){
-			var layer = layers[i];
-			layer.setVisible(true);
-			if (i < layerIdx || i > layerIdx + 1){
-				layer.setOpacity(0);
-			}else if (i == layerIdx && !layer.get('lastFadeLayer')){
-				if (layer.get('lastFadeLayer')){
-					layer.setOpacity(1);
-				}else{
+		if (layerIdx >= 0){
+			for (var i = 0; i < layers.length; i++){
+				var layer = layers[i];
+				layer.setVisible(true);
+				if (i < layerIdx || i > layerIdx + 1){
+					layer.setOpacity(0);
+				}else if (i == layerIdx && !layer.get('lastFadeLayer')){
 					var end = (i + 1) * interval, start = end - interval;
 					layer.setOpacity(1 - (value - start - interval/2)/interval);
 					if (layer.get('nextFadeLayer')){
 						layer.get('nextFadeLayer').setOpacity((value - start - interval/2)/interval);
-					}								
+					}
 				}
-			}
-		}		
+			}		
+		}
 	},
 	/**
 	 * @private
