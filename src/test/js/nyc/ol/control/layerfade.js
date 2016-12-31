@@ -40,7 +40,6 @@ QUnit.test('constructor', function(assert){
 	
 	var fade = new nyc.ol.control.LayerFade(options);
 	
-	
 	assert.deepEqual(fade.layers, this.LAYERS);
 	assert.equal(fade.autoFadeInterval, 2000);
 	assert.equal($(this.TEST_OL_MAP.getTarget()).find('#btn-fade').length, 1);
@@ -54,4 +53,46 @@ QUnit.test('constructor', function(assert){
 	
 	nyc.ol.control.LayerFade.prototype.showChoices = showChoices;
 	nyc.ol.control.LayerFade.prototype.buttonClick = buttonClick;
+});
+
+QUnit.test('setupFade', function(assert){
+	assert.expect(24);
+		
+	var options = {
+		map: this.TEST_OL_MAP,
+		layers: this.LAYERS
+	};
+	
+	var layers = [this.LAYERS[0], this.LAYERS[2], this.LAYERS[3]];
+	$.each(layers, function(_, layer){
+		layer.setOpacity(1);
+		layer.setVisible(false);
+	});
+	
+	var fade = new nyc.ol.control.LayerFade(options);
+	
+	fade.setupFade(layers);
+	
+	$.each(layers, function(_, layer){
+		assert.ok(layer.getVisible());
+		assert.equal(layer.get('autoFadeInterval'), fade.autoFadeInterval/100);
+		assert.deepEqual(layer.fadeOut, nyc.ol.control.LayerFade.fadeOut);
+		assert.deepEqual(layer.fadeIn, nyc.ol.control.LayerFade.fadeIn);
+	});
+	
+	assert.equal(layers[0].getOpacity(), 1);
+	assert.equal(layers[1].getOpacity(), 0);
+	assert.equal(layers[2].getOpacity(), 0);
+
+	assert.equal(layers[0].get('fadeStep'), 100);
+	assert.equal(layers[1].get('fadeStep'), 0);
+	assert.equal(layers[2].get('fadeStep'), 0);
+
+	assert.notOk(layers[0].get('lastFadeLayer'));
+	assert.notOk(layers[1].get('lastFadeLayer'));
+	assert.ok(layers[2].get('lastFadeLayer'));
+
+	assert.equal(layers[0].get('nextFadeLayer'), layers[1]);
+	assert.equal(layers[1].get('nextFadeLayer'), layers[2]);
+	assert.notOk(layers[2].get('nextFadeLayer'));	
 });
