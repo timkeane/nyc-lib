@@ -4,6 +4,9 @@ QUnit.module('nyc.ol.control.LayerPicker', {
 	},
 	afterEach: function(assert){
 		teardown(assert, this);
+		$('.nyc-choice').each(function(){
+			$(this).parent().parent().remove();
+		});
 	}
 });
 

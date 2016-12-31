@@ -24,6 +24,9 @@ QUnit.module('nyc.ol.control.LayerMgr', {
 		delete this.LAYER_A;
 		delete this.LAYER_B;
 		delete this.LAYER_GROUPS;
+		$('.nyc-choice').each(function(){
+			$(this).parent().remove();
+		});
 	}
 });
 
