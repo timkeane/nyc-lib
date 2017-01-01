@@ -608,14 +608,14 @@ QUnit.test('getLayersByName', function(assert){
 });
 
 QUnit.test('fadeIn (not lastFadeLayer)', function(assert){
-	assert.expect(11);
+	assert.expect(12);
 
 	var done = assert.async();
 	
 	var layer = this.LAYERS[0];
 	var autoFadeInterval = 10000;
 	layer.setOpacity(0);
-	layer.setVisible(true);
+	layer.setVisible(false);
 	layer.set('autoFadeInterval', autoFadeInterval/100);
 	layer.set('fadeStep', 0);
 	layer.fadeOut = function(){
@@ -635,17 +635,19 @@ QUnit.test('fadeIn (not lastFadeLayer)', function(assert){
 	}, 2 + autoFadeInterval/10);
 	
 	layer.fadeIn();
+	
+	assert.ok(layer.getVisible());
 });
 
 QUnit.test('fadeIn (lastFadeLayer)', function(assert){
-	assert.expect(10);
+	assert.expect(11);
 
 	var done = assert.async();
 	
 	var layer = this.LAYERS[0];
 	var autoFadeInterval = 10000;
 	layer.setOpacity(0);
-	layer.setVisible(true);
+	layer.setVisible(false);
 	layer.set('autoFadeInterval', autoFadeInterval/100);
 	layer.set('fadeStep', 0);
 	layer.set('lastFadeLayer', true);
@@ -666,4 +668,66 @@ QUnit.test('fadeIn (lastFadeLayer)', function(assert){
 	}, 2 + autoFadeInterval/10);
 	
 	layer.fadeIn();
+	assert.ok(layer.getVisible());
+});
+
+QUnit.test('fadeOut (not lastFadeLayer)', function(assert){
+	assert.expect(12);
+
+	var done = assert.async();
+	
+	var layer = this.LAYERS[0];
+	var autoFadeInterval = 10000;
+	layer.setOpacity(1);
+	layer.setVisible(false);
+	layer.set('autoFadeInterval', autoFadeInterval/100);
+	layer.set('fadeStep', 100);
+	layer.set('nextFadeLayer', this.LAYERS[1]);
+	this.LAYERS[1].fadeIn = function(){
+		assert.ok(true);
+	};
+	layer.fadeOut = nyc.ol.control.LayerFade.fadeOut;
+	
+	var lastOpacity = 1;
+	var interval = setInterval(function(){
+		if (layer.getOpacity() == 0){
+			clearInterval(interval);
+			done();
+		}else{
+			assert.ok(layer.getOpacity() > 0 && layer.getOpacity() < lastOpacity);
+			lastOpacity = layer.getOpacity();
+		}
+	}, 2 + autoFadeInterval/10);
+	
+	layer.fadeOut();
+	assert.ok(layer.getVisible());
+});
+
+QUnit.test('fadeOut (lastFadeLayer)', function(assert){
+	assert.expect(11);
+
+	var done = assert.async();
+	
+	var layer = this.LAYERS[0];
+	var autoFadeInterval = 10000;
+	layer.setOpacity(1);
+	layer.setVisible(false);
+	layer.set('autoFadeInterval', autoFadeInterval/100);
+	layer.set('fadeStep', 100);
+	layer.set('lastFadeLayer', true);
+	layer.fadeOut = nyc.ol.control.LayerFade.fadeOut;
+	
+	var lastOpacity = 1;
+	var interval = setInterval(function(){
+		if (layer.getOpacity() == 0){
+			clearInterval(interval);
+			done();
+		}else{
+			assert.ok(layer.getOpacity() > 0 && layer.getOpacity() < lastOpacity);
+			lastOpacity = layer.getOpacity();
+		}
+	}, 2 + autoFadeInterval/10);
+	
+	layer.fadeOut();
+	assert.ok(layer.getVisible());
 });
