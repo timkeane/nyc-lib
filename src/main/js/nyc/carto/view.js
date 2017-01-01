@@ -7,6 +7,7 @@ nyc.carto.View = function(){};
  * @desc An interface for managing views on layers
  * @public
  * @class
+ * @extends {nyc.EventHandling}
  * @constructor
  * @param {cartodb.CartoDBLayer.SubLayer} layer The layer whose view will be managed
  */

@@ -44,6 +44,7 @@ nyc.ol.FeatureEvent;
  * @desc A class to provide the user with drawing tools
  * @public
  * @class
+ * @extends {nyc.EventHandling}
  * @constructor
  * @param {nyc.ol.Draw.Options} options Constructor options
  */

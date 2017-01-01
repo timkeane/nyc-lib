@@ -4,6 +4,8 @@ nyc.carto = nyc.carto || {};
 /**
  * @desc An interface for symbolizing CartoDB layers
  * @public
+ * @extends {nyc.EventHandling}
+ * @extends {nyc.ReplaceTokens}
  * @interface
  */
 nyc.carto.Symbolizer = function(){};

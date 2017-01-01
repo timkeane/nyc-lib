@@ -4,6 +4,7 @@ var nyc = nyc || {};
  * @desc A geocoder interface
  * @public
  * @interface
+ * @extends {nyc.EventHandling}
  */
 nyc.Geocoder = function(){};
 

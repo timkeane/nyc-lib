@@ -6,8 +6,6 @@ nyc.carto = nyc.carto || {};
  * @public
  * @class
  * @implements {nyc.carto.Symbolizer}
- * @extends {nyc.ReplaceTokens}
- * @extends {nyc.EventHandling}
  * @constructor
  * @param {nyc.carto.HeatSymbolizer.Options} options Constructor options
  * @fires nyc.carto.HeatSymbolizer#symbolized

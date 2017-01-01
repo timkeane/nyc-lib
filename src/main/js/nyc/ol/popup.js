@@ -5,6 +5,7 @@ nyc.ol = nyc.ol || {};
  * @desc A class to display popups on a map
  * @public
  * @class
+ * @extends {ol.Overlay}
  * @constructor
  * @param {ol.Map} map The OpenLayers map on which to display the popup
  * @param {Object} options Overlay options

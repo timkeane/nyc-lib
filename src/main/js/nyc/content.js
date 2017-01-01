@@ -4,6 +4,7 @@ var nyc = nyc || {};
  * @desc A class to provide messages with substitution values
  * @public 
  * @class
+ * @extends {nyc.ReplaceTokens}
  * @constructor
  * @param {Object<string, string>|Array<Object<string, string>>} messages The messages with optional tokens mapped by message id
  */

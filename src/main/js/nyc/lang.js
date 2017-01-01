@@ -8,6 +8,7 @@ var nyc = nyc || {};
  * @desc Class for language translation using the Google Translate Gadget
  * @public 
  * @class
+ * @extends {nyc.EventHandling}
  * @constructor
  * @property {(String|Element|JQuery)} target The HTML DOM element that will provide language choices
  * @param {nyc.Lang.Choices} languages The languages to provide

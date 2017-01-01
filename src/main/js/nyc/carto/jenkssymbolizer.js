@@ -6,8 +6,8 @@ nyc.carto = nyc.carto || {};
  * @class
  * @public
  * @class
- * @extends {nyc.carto.JenksSymbolizer}
- * @extends {nyc.carto.SqlTemplate}
+ * @extends {nyc.EventHandling}
+ * @extends {nyc.carto.Symbolizer}
  * @constructor
  * @param {nyc.carto.JenksSymbolizer.Options} options Constructor options
  * @fires nyc.carto.JenksSymbolizer#symbolized

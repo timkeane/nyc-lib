@@ -21,7 +21,10 @@ var nyc = nyc || {};
  */
 
 /**
- * nyc.Directions
+ * @desc Provides directions using google maps
+ * @public
+ * @class
+ * @extends {nyc.EventHandling}
  * @constructor
  * @param {(string|Element|JQuery)} mapTarget The HTML DOM element on which to render the map for displaying the direction routes
  * @param {(string|Element|JQuery)} routeTarget The HTML DOM element in list route descriptions

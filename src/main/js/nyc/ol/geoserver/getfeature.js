@@ -10,6 +10,7 @@ nyc.ol.geoserver = nyc.ol.geoserver || {};
  * @desc A class to retrieve the feature of the specified layer at a map click and provide a WKT representation of its geometry 
  * @public
  * @class
+ * @extends {nyc.EventHandling}
  * @constructor
  * @param {nyc.ol.geoserver.GetFeature.Options} options Constructor options
  * @fires nyc.ol.geoserver.GetFeature#addfeature
