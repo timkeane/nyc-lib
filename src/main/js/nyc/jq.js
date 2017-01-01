@@ -23,15 +23,15 @@ nyc.jq.ui = {
 	load: function(callback){
 		if (!$.ui || !$.ui.draggable){
 			$.getScript(this.js, function(script, status, xhr){
-				if (callback) callback(script, status, xhr);
 				/* Fix JQueryMobile widgets that will be broken by loading JQueryUI */
 				$('.nyc-choice input').checkboxradio({});
 				nyc.jq.ui.fixCss();
+				if (callback) callback(script, status, xhr);
 			});
 		}else{
-			if (callback) callback(script, status, xhr);
 			$('.nyc-choice input').checkboxradio({});
 			this.fixCss();			
+			if (callback) callback(script, status, xhr);
 		}
 	},
 	/**
