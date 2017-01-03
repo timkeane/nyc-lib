@@ -74,17 +74,57 @@ nyc.ol.control.LayerFade.prototype = {
 	 * @method
 	 */
 	showChoices: function(){
-		var items = $('#mnu-fade li');
-		this.cancel();
+		var me = this, items = $('#mnu-fade ul li');
+		me.cancel();
 		if (!items.length){
 			var choices = $('#mnu-fade ul');
-			$.each(this.layers, function(){
-				var li = $('<li class="fade-lyr">' + this.get('name') + '</li>');
+			$.each(this.layers, function(i, layer){
+				var name = layer.get('name'),
+					li = $('<li class="fade-lyr"></li>'),
+					span = $('<span></sapn>');
+				span.data('fade-idx', i + 1);
+				span.click($.proxy(me.swap, me));
+				li.html(name)
+					.data('fade-layer', name)
+					.append(span);
 				choices.append(li);
 			});
 		}
-        $('.fade-choices').sortable({connectWith: '#mnu-fade ul, #mnu-fade ol'}).disableSelection();
-        this.toggleMenu();
+        $('.fade-choices').sortable({
+        	connectWith: '#mnu-fade ul, #mnu-fade ol',
+        	change: function(){
+        		$('li.fade-msg').remove();
+        	}
+        }).disableSelection();
+        me.toggleMenu();
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {JQuery.Event} event
+	 */
+	swap: function(event){
+		var span = $(event.currentTarget), idx = span.data('fade-idx');		
+		if (!isNaN(idx)){
+			var li = span.parent();
+			if (li.parent().is('ol')){
+				var before = [];
+				$('ul.fade-choices span').each(function(){
+					if ($(this).data('fade-idx') > idx){
+						before = $(this).parent();
+						return false;
+					}
+				});
+				if (before.length){
+					li.insertBefore(before);
+				}else{
+					$('ul.fade-choices').append(li);
+				}
+			}else{
+        		$('li.fade-msg').remove();
+				$('ol.fade-choices').append(li);
+			}
+		}
 	},
 	/**
 	 * @private
@@ -95,7 +135,7 @@ nyc.ol.control.LayerFade.prototype = {
 		var layersByName = this.getLayersByName(), choices = $('ol.fade-choices li'), layers = [];
 		if (choices.length > 1){
 			choices.each(function(){
-				layers.push(layersByName[$(this).html()]);
+				layers.push(layersByName[$(this).data('fade-layer')]);
 			});
 			this.setupFade(layers);
 			this.status(layers);
@@ -113,11 +153,10 @@ nyc.ol.control.LayerFade.prototype = {
 	 * @param {Array<ol.layer.Base>} layers
 	 */
 	status: function(layers){
-		var width = $(this.map.getTarget()).width()/layers.length;
 		$('#fade-status').empty();
 		$.each(layers, function(){
 			var name = this.get('name'), div = $('<div>' + name + '</div>');
-			div.addClass('fade-lyr-' + name).css('width', width + 'px');
+			div.addClass('fade-lyr-' + name).css('width', 100 / layers.length + '%');
 			$('#fade-status').append(div);
 		});
 		$('#fade-status, #fade-progress').fadeIn();
@@ -235,7 +274,7 @@ nyc.inherits(nyc.ol.control.LayerFade, nyc.Menu);
 
 /**
  * @private
- * @type {function}
+ * @type {function()}
  */
 nyc.ol.control.LayerFade.fadeIn = function(){
 	var step = this.get('fadeStep') + 1;
@@ -253,7 +292,7 @@ nyc.ol.control.LayerFade.fadeIn = function(){
 
 /**
  * @private
- * @type {function}
+ * @type {function()}
  */
 nyc.ol.control.LayerFade.fadeOut = function(){
 	var step = this.get('fadeStep') - 1;
@@ -275,7 +314,7 @@ nyc.ol.control.LayerFade.fadeOut = function(){
  * @property {ol.Map} map The map on which to perform layer fades
  * @property {Array<ol.layer.Base>} =layers Layers to choose from (default is all layers with a name property)
  * @property {number} [autoFadeInterval=10000] The animation interval for auto fade in milliseconds
- * @property {function=} callback A function to be called when JQueryUI has loaded 
+ * @property {function()=} callback A function to be called when JQueryUI has loaded 
  */
 nyc.ol.control.LayerFade.Options;
 
@@ -291,14 +330,14 @@ nyc.ol.control.LayerFade.HTML = '<a id="btn-fade" class="ctl ctl-btn" data-role=
 		'<table>' +
 			'<thead>' +
 				'<tr>' +
-					'<td>Choose...</td>' +
-					'<td>Order...</td>' +
+					'<td>Layers</td>' +
+					'<td>Fade order</td>' +
 				'</tr>' +
 			'</thead>' +
 			'<tbody>' +
 				'<tr>' +
 					'<td><ul class="fade-choices"></ul></td>' +
-					'<td><ol class="fade-choices"></ol></td>' +
+					'<td><ol class="fade-choices"><li class="fade-msg">Move layers here from the list on the left to specify fade order.</li></ol></td>' +
 				'</tr>' +
 				'<tr>' +
 					'<td class="fade-btns" colspan="2">' +

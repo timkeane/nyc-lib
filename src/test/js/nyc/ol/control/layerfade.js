@@ -157,7 +157,7 @@ QUnit.test('showChoices', function(assert){
 	assert.equal($('#mnu-fade ul li').length, 4);
 	
 	$.each($('#mnu-fade ul li'), function(i, li){
-		assert.equal($(li).html(), layers[i].get('name'));
+		assert.equal($(li).html(), layers[i].get('name') + '<span></span>');
 	});
 	
 	assert.equal($('.fade-choices').sortable('option', 'connectWith'), '#mnu-fade ul, #mnu-fade ol');
@@ -166,6 +166,59 @@ QUnit.test('showChoices', function(assert){
 	fade.showChoices();
 	
 	assert.equal($('#mnu-fade ul li').length, 4);
+});
+
+QUnit.test('swap', function(assert){
+	assert.expect(20);
+	
+	//var done = assert.async();
+	
+	var layers = this.LAYERS;
+	
+	var options = {
+		map: this.TEST_OL_MAP,
+		layers: layers
+	};
+	
+	var fade = new nyc.ol.control.LayerFade(options);
+
+	assert.equal($('#mnu-fade ul li').length, 0);
+	assert.equal($('#mnu-fade ol li').length, 1);
+	assert.equal($('#mnu-fade ol li').not('.fade-msg').length, 0);
+	
+	fade.showChoices();
+
+	assert.equal($('#mnu-fade ul li').length, 4);
+	assert.equal($('#mnu-fade ol li').length, 1);
+	assert.equal($('#mnu-fade ol li').not('.fade-msg').length, 0);
+	
+	var span0 = $($('#mnu-fade ul li').get(0)).find('span');
+	var span1 = $($('#mnu-fade ul li').get(1)).find('span');
+	var span2 = $($('#mnu-fade ul li').get(2)).find('span');
+	var span3 = $($('#mnu-fade ul li').get(3)).find('span');
+
+	span1.trigger('click');
+
+	assert.equal($('.fade-msg').length, 0);
+	assert.equal($('#mnu-fade ul li').length, 3);
+	assert.equal($('#mnu-fade ol li').length, 1);
+	assert.equal($('#mnu-fade ol li').data('fade-layer'), 'layer2');
+
+	span0.trigger('click');
+
+	assert.equal($('#mnu-fade ul li').length, 2);
+	assert.equal($('#mnu-fade ol li').length, 2);
+	assert.equal($($('#mnu-fade ol li').get(0)).data('fade-layer'), 'layer2');
+	assert.equal($($('#mnu-fade ol li').get(1)).data('fade-layer'), 'layer1');
+
+	span1.trigger('click');
+	
+	assert.equal($('#mnu-fade ul li').length, 3);
+	assert.equal($($('#mnu-fade ul li').get(0)).data('fade-layer'), 'layer2');
+	assert.equal($($('#mnu-fade ul li').get(1)).data('fade-layer'), 'layerA');
+	assert.equal($($('#mnu-fade ul li').get(2)).data('fade-layer'), 'layerB');
+	assert.equal($('#mnu-fade ol li').length, 1);
+	assert.equal($('#mnu-fade ol li').data('fade-layer'), 'layer1');
 });
 
 QUnit.test('makeChoices (no choices)', function(assert){
@@ -224,9 +277,12 @@ QUnit.test('makeChoices (auto)', function(assert){
 	
 	var fade = new nyc.ol.control.LayerFade(options);
 	
-	$('ol.fade-choices').append('<li>' + layers[3].get('name') + '</li>');
-	$('ol.fade-choices').append('<li>' + layers[0].get('name') + '</li>');
-	$('ol.fade-choices').append('<li>' + layers[2].get('name') + '</li>');
+	$('li.fade-msg').remove();
+	$.each([layers[3], layers[0], layers[2]], function(){
+		var li = $('<li></li>');
+		li.data('fade-layer', this.get('name'));
+		$('ol.fade-choices').append(li);
+	});
 	
 	fade.setupFade = function(lyrs){
 		assert.deepEqual(lyrs, [layers[3], layers[0], layers[2]]);
@@ -266,9 +322,12 @@ QUnit.test('makeChoices (manual)', function(assert){
 	
 	var fade = new nyc.ol.control.LayerFade(options);
 	
-	$('ol.fade-choices').append('<li>' + layers[3].get('name') + '</li>');
-	$('ol.fade-choices').append('<li>' + layers[0].get('name') + '</li>');
-	$('ol.fade-choices').append('<li>' + layers[2].get('name') + '</li>');
+	$('li.fade-msg').remove();
+	$.each([layers[3], layers[0], layers[2]], function(){
+		var li = $('<li></li>');
+		li.data('fade-layer', this.get('name'));
+		$('ol.fade-choices').append(li);
+	});
 	
 	fade.setupFade = function(lyrs){
 		assert.deepEqual(lyrs, [layers[3], layers[0], layers[2]]);
@@ -625,7 +684,7 @@ QUnit.test('fadeIn (not lastFadeLayer)', function(assert){
 	
 	var lastOpacity = 0;
 	var interval = setInterval(function(){
-		if (layer.getOpacity() == 1){
+		if (layer.getOpacity() >= 1){
 			clearInterval(interval);
 			done();
 		}else{
@@ -658,7 +717,7 @@ QUnit.test('fadeIn (lastFadeLayer)', function(assert){
 	
 	var lastOpacity = 0;
 	var interval = setInterval(function(){
-		if (layer.getOpacity() == 1){
+		if (layer.getOpacity() >= 1){
 			clearInterval(interval);
 			done();
 		}else{
@@ -690,7 +749,7 @@ QUnit.test('fadeOut (not lastFadeLayer)', function(assert){
 	
 	var lastOpacity = 1;
 	var interval = setInterval(function(){
-		if (layer.getOpacity() == 0){
+		if (layer.getOpacity() <= 0){
 			clearInterval(interval);
 			done();
 		}else{
@@ -719,7 +778,7 @@ QUnit.test('fadeOut (lastFadeLayer)', function(assert){
 	
 	var lastOpacity = 1;
 	var interval = setInterval(function(){
-		if (layer.getOpacity() == 0){
+		if (layer.getOpacity() <= 0){
 			clearInterval(interval);
 			done();
 		}else{
