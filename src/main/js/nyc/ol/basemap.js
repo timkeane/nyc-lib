@@ -171,7 +171,7 @@ nyc.ol.Basemap.prototype.photoChange = function(){
  * @const
  * @type {string}
  */
-nyc.ol.Basemap.BASE_URL = '/tiles/carto/basemap/{z}/{x}/{-y}.jpg';
+nyc.ol.Basemap.BASE_URL = '/tms/1.0.0/carto/basemap/{z}/{x}/{-y}.jpg';
 
 /**
  * @desc The URLs of the New York City aerial imagery map tiles 
@@ -180,16 +180,16 @@ nyc.ol.Basemap.BASE_URL = '/tiles/carto/basemap/{z}/{x}/{-y}.jpg';
  * @type {Object<string, string>}
  */
 nyc.ol.Basemap.PHOTO_URLS = {
-	'1924': '/tiles/photo/1924/{z}/{x}/{-y}.png8',
-	'1951': '/tiles/photo/1951/{z}/{x}/{-y}.png8',
-	'1996': '/tiles/photo/1996/{z}/{x}/{-y}.png8',
-	'2001-2': '/tiles/photo/2001-2/{z}/{x}/{-y}.png8',
-	'2004': '/tiles/photo/2004/{z}/{x}/{-y}.png8',
-	'2006': '/tiles/photo/2006/{z}/{x}/{-y}.png8',
-	'2008': '/tiles/photo/2008/{z}/{x}/{-y}.png8',
-	'2010': '/tiles/photo/2010/{z}/{x}/{-y}.png8',
-	'2012': '/tiles/photo/2012/{z}/{x}/{-y}.png8',
-	'2014': '/tiles/photo/2014/{z}/{x}/{-y}.png8'
+	'1924': '/tms/1.0.0/photo/1924/{z}/{x}/{-y}.png8',
+	'1951': '/tms/1.0.0/photo/1951/{z}/{x}/{-y}.png8',
+	'1996': '/tms/1.0.0/photo/1996/{z}/{x}/{-y}.png8',
+	'2001-2': '/tms/1.0.0/photo/2001-2/{z}/{x}/{-y}.png8',
+	'2004': '/tms/1.0.0/photo/2004/{z}/{x}/{-y}.png8',
+	'2006': '/tms/1.0.0/photo/2006/{z}/{x}/{-y}.png8',
+	'2008': '/tms/1.0.0/photo/2008/{z}/{x}/{-y}.png8',
+	'2010': '/tms/1.0.0/photo/2010/{z}/{x}/{-y}.png8',
+	'2012': '/tms/1.0.0/photo/2012/{z}/{x}/{-y}.png8',
+	'2014': '/tms/1.0.0/photo/2014/{z}/{x}/{-y}.png8'
 };
 
 /**
@@ -199,8 +199,8 @@ nyc.ol.Basemap.PHOTO_URLS = {
  * @type {Object<string, string>}
  */
 nyc.ol.Basemap.LABEL_URLS = {
-	base: '/tiles/carto/label/{z}/{x}/{-y}.png8',
-	photo: '/tiles/carto/label-lt/{z}/{x}/{-y}.png8'
+	base: '/tms/1.0.0/carto/label/{z}/{x}/{-y}.png8',
+	photo: '/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8'
 };
 
 /**
