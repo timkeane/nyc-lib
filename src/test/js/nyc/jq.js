@@ -16,12 +16,12 @@ QUnit.test('load', function(assert){
 
 	assert.equal($('.nyc-choice label.ui-radio-on').length, 2);
 	assert.equal($('.nyc-choice label.ui-radio-off').length, 0);
-	assert.ok(!$.ui || !$.ui.draggable);
+	assert.ok(!$.ui || !$.ui.sortable);
 	
 	
 	
 	nyc.jq.ui.load(function(){
-		assert.notOk(!$.ui || !$.ui.draggable);
+		assert.notOk(!$.ui || !$.ui.sortable);
 		assert.equal($('.nyc-choice label.ui-radio-on').length, 0);
 		assert.equal($('.nyc-choice label.ui-radio-off').length, 2);
 		assert.equal($('label.ui-checkboxradio-label').length, 2);
