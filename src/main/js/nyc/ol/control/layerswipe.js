@@ -268,7 +268,7 @@ nyc.ol.control.LayerSwipe.prototype = {
 				}, 4000);
 			}
 			if (label.css('display') != 'none'){
-				label.css({left: pixel[0] - label.width()/2 + 'px', top: pixel[1] + 'px'});
+				label.css({left: pixel[0] - label.width()/2 + 'px', top: pixel[1] - label.height() + 'px'});
 			}
 		}
 	}

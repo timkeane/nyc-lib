@@ -1,21 +1,28 @@
 div.ctl-mnu-tgl {
-	max-height: calc(100% - 54px);
+	display: none;
+	position: fixed;
+	top: 2.2rem;
+	right: .1rem;
+	width: 19.8rem;
+	max-width: calc(100% - .3rem);
+	max-height: calc(100% - 2.4rem);
+	color: #fff;
+	font-weight: bold;
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: .2em;
+    background-color: rgba(0,0,0,0.5);
 	overflow-y: auto;
 	z-index: 1000;
-	width: 316px;
-	max-width: calc(100% - 6px);
 }
 div.ctl-mnu-tgl div.ui-collapsible {
-	margin: 5px;
-	border-radius: .6em;
+	margin: .2rem;
 }
 div.ctl-mnu-tgl a.ui-link.ui-btn {
 	display: inline-block;
-	width: 80px;
-	border-radius: .6em;
+	width: 5rem;
 	float: right;
-	margin: 0 5px 5px 0;
-	padding: 8px;
+	margin: 0 .2rem .2rem 0;
+	padding: .5rem;
 }
 div.ctl-mnu-tgl div.ui-collapsible-content.ui-body-inherit, 
 div.ctl-mnu-tgl div.ui-checkbox label,
@@ -23,7 +30,6 @@ div.ctl-mnu-tgl div.ui-radio label,
 div.ctl-mnu-tgl div.ui-checkbox label:hover,
 div.ctl-mnu-tgl div.ui-radio label:hover {
 	background-color: transparent;
-	text-shadow: none;
 	color: #fff;
 }
 div.ctl-mnu-tgl div.ui-checkbox input, div.ctl-mnu-tgl div.ui-radio input {
@@ -45,24 +51,10 @@ div.ctl-mnu-tgl div.ui-checkbox label.ui-btn.ui-checkbox-on:after {
 	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20width%3D%2214px%22%20height%3D%2214px%22%3E%3Cpolygon%20style%3D%22fill%3A%23fff%22%20points%3D%2214%2C4%2011%2C1%205.003%2C6.997%203%2C5%200%2C8%204.966%2C13%204.983%2C12.982%205%2C13%20%22%2F%3E%3C%2Fsvg%3E");
 }
 div.ctl-mnu-tgl div.ui-radio label.ui-btn.ui-btn-icon-left.ui-radio-on:after {
-	content: '\25CF';
-	text-align: center;
-	font-size: 20px;
-	line-height: 12px;
-	padding: 2px;
-	margin-left: -1px;
-	background-color: #000;
-	opacity: 1;
-	width: 14px;
-	height: 14px;
-	border: 1px solid #fff;
+	border-color: #000;
 }
-div.ctl-mnu-tgl div.ui-radio input.ui-btn:after {
-	margin-left: -3px;
-	content: ' ';
-	width: 13px;
-	height: 13px;
-	border-radius: 13px;
-	background-color: #fff;
-	border: 1px solid #fff;
+/* media query? */
+div.ctl-mnu-tgl .ui-collapsible-content {
+	max-height: 28.5rem;
+	overflow-y: auto;
 }

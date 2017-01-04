@@ -1,7 +1,7 @@
 span.current-value {
 	font-weight: normal;
 	float: right;
-    max-width: 180px;
+    max-width: 11.25rem;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;	
@@ -10,5 +10,5 @@ a.ui-collapsible-heading-toggle {
     white-space: normal;
 }
 .ui-collapsible {
-	border-radius: 0.6em;
+	border-radius: .2em;
 }

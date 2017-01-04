@@ -1,20 +1,20 @@
 #ctl-z-srch {
 	position: absolute;
-	left: 0;
-	top: 0;	
+	left: .2rem;
+	top: -.3rem;	
 	right: 0;
-	max-width: 450px;
+	max-width: 28.125rem;
 }
 .ui-input-search .ui-shadow-inset .ui-input-has-clear .ui-body-inherit .ui-corner-all {
 	background-color: yellow;
 }
 #btn-z-in {
-	left: 3px;
+	left: 0;
 	top: 0;
 }
 #btn-z-out {
-	left: 3px;
-	top: 42px;
+	left: 0;
+	top: 2rem;
 }
 #btn-z-in:after {
 	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20width%3D%2214px%22%20height%3D%2214px%22%3E%3Cpolygon%20fill%3D%22%23FFF%22%20points%3D%2214%2C5%209%2C5%209%2C0%205%2C0%205%2C5%200%2C5%200%2C9%205%2C9%205%2C14%209%2C14%209%2C9%2014%2C9%22%2F%3E%3C%2Fsvg%3E");
@@ -23,9 +23,8 @@
 	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20width%3D%2214px%22%20height%3D%2214px%22%3E%3Crect%20y%3D%225%22%20style%3D%22fill%3A%23fff%3B%22%20width%3D%2214%22%20height%3D%224%22%2F%3E%3C%2Fsvg%3E");
 }
 #btn-geo {
-    left: 3px;
-    top: 84px;
-    background-size: 24px;
+    left: 0;
+    top: 4rem;
 }
 #btn-geo, #srch-type-geo span:after {
 	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3Asvg%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%3E%3Cg%20style%3D%22stroke%3A%23fff%3Bstroke-width%3A2%3Bfill%3Anone%22%3E%3Ccircle%20cx%3D%227%22%20cy%3D%227%22%20r%3D%225%22%2F%3E%3Cpolyline%20points%3D%220%2C7%204.5%2C7%22%2F%3E%3Cpolyline%20points%3D%229.5%2C7%2014%2C7%22%2F%3E%3Cpolyline%20points%3D%227%2C0%207%2C4.5%22%2F%3E%3Cpolyline%20points%3D%227%2C14%207%2C9.5%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
@@ -34,11 +33,11 @@
     background-position: center;
 }
 #fld-srch-container {
-	top: 0;
-	left: 40px;
-	right: 3px;
-	max-width: 400px;
-	padding: 0 5px;
+	top: -.05rem;
+	left: 1.8rem;
+	right: .1rem;
+	max-width: 25rem;
+	padding: 0 .2rem;
 }
 #fld-srch-container .ui-input-search {
 	opacity: 0.7;
@@ -46,27 +45,24 @@
 #fld-srch-container .ui-input-search.ui-focus {
 	opacity: 1;
 }
-#fld-srch-container .ui-corner-all {
-	border-radius: 0.6em;
-}
 #fld-srch-container input {
-	font-size: 17px;
+	max-height: 1.8em;
+	min-height: 1.8em;
 }
 #fld-srch-container a.ui-input-clear {
 	border: none;
-	border-radius: 22px;
 	background-color: transparent;
-	width: 22px;
-	height: 22px;
-	margin: -11px 6px 0 0;
+	width: 1.3rem;
+	height: 1.3rem;
+	margin-right: .2rem;
 }
 #fld-srch-container a.searching:after {
 	background-image: url(../img/searching.gif);
-	background-size: 13px;
+	background-size: .7rem;
 }
 .ui-listview>.ui-li-static {
 	cursor: pointer;
-	padding: 8px;
+	padding: .22rem;
 	margin: 0;
 }
 .ui-listview>.ui-li-static {
@@ -83,12 +79,10 @@
 	background-color: #000;
 }
 #fld-srch-container ul {
-	right: 5px;
-	left: 5px;
-	max-width: 400px;
-	max-height: 400px;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.5);
-	margin: -4px 0 0 0;
+	max-width: 25rem;
+	max-height: 25rem;
+	box-shadow: .2rem .2rem .4rem rgba(0,0,0,0.1);
+	margin: -.325rem 0 0 0;
 	overflow-x: hidden;
 	overflow-y: auto;
 	z-index: 3000;
@@ -98,8 +92,8 @@
 }
 #fld-srch-retention {
 	position: absolute;
-	left: -1000px;
-	top: -1000px;
+	left: -1000rem;
+	top: -1000rem;
 }
 #btn-srch-typ {
 	position: absolute;

@@ -1,7 +1,7 @@
 #btn-get-feat {
 	position: absolute;
-	right: 3px;
-	top: 3px;
+	right: 0.1rem;
+	top: -.1rem;
 }
 #btn-get-feat.active {
 	background-color: #000;

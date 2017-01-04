@@ -1,0 +1,11 @@
+html, body * {
+	font-size: 16pt;
+	text-shadow: none !important;
+	font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;	
+}
+.ui-btn {
+	font-size: 16pt !important;
+}
+.ui-corner-all, .ui-btn.ui-corner-all {
+	border-radius: .2rem;
+}

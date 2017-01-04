@@ -9,39 +9,41 @@ div.dia-container {
 	background-color: transparent;
 }
 .dia-container * {
-	font-size: 14px;
+	font-size: 1rem;	
 }
 .dia {
 	position: fixed;
 	left: 50%;
 	top: 50%;
-	width: 280px;
-	min-height: 80px;
-	margin-top: -80px;
-	margin-left: -150px;
+	width: 15rem;
+	min-height: 5rem;
+	padding: .5rem;
+	margin-top: -5rem;
+	margin-left: -8rem;
 	background-color: #fff;
-	border-radius: 0.6em;
-	padding: 10px;
-	box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
+	border-radius: .2rem;
+	border: 1px solid rgba(0,0,0,0.1);
+	box-shadow: .2rem .2rem .4rem rgba(0,0,0,0.1);
 }
 .dia-btns a {
-	width: 80px;
-	margin: 5px 2px 2px 2px;
+	width: 5rem;
+	margin: .3125rem .125rem .125rem .125rem;
 }
 .dia-btns, .dia-msg {
 	text-align: center;
-	margin-top: 5px
+	margin-top: .3125rem;
 }
 .dia .ui-input-text {
 	width: 100%;
 }
-@media only screen and (min-width : 500px) {
+@media only screen and (min-width : 31.25rem) {
 	.dia-3-btns .dia {
-		width: 350px;
+		width: 22.2rem;
+		margin-left: -11.6rem;
 	}
 }
-@media only screen and (max-width : 499px) {
+@media only screen and (max-width : 31.2rem) {
 	.dia-3-btns .dia-btns a {
-		width: 55px;
+		width: 3.4375rem;
 	}
 }

@@ -36,7 +36,7 @@ nyc.Lang = function(target, languages, isButton){
 		$('#lang-choice-button').addClass('ctl ctl-btn');
 		$('#lang-choice-button span').remove();
 	}else{
-		$('#lang-choice-button').addClass('menu');
+		$('#lang-choice-button').addClass('mnu');
 	}
 	$('body').addClass('lang-en');		
 	$.getScript('//translate.google.com/translate_a/element.js?cb=nyc.lang.init');

@@ -144,6 +144,7 @@ ext {
 		'nyc/jcard/jcard.js'
 	]
 	olCssFiles = [
+		'nyc-base.css', 
 		'control-common.css', 
 		'collapsible.css', 
 		'directions.css', 
@@ -161,10 +162,12 @@ ext {
 		'zoomsearch.css'
 	]
 	olRedLineCssFiles = [
+		'nyc-base.css', 
 		'draw.css',
 		'getfeature.css'
 	]
 	leafCssFiles = [
+		'nyc-base.css', 
 		'control-common.css', 
 		'collapsible.css', 
 		'dialog.css', 
@@ -175,6 +178,7 @@ ext {
 		'zoomsearch.css'
 	]
 	cartoCssFiles = [
+		'nyc-base.css', 
 		'control-common.css', 
 		'chart.css', 
 		'collapsible.css', 
