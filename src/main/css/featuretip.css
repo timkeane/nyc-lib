@@ -1,6 +1,6 @@
 .feature-tip, .feature-tip-helper {
 	position: absolute;
-	border-radius: 0.6em;
+	border-radius: 3px;
 	padding: 3px;
 	font-size: 12px;
 	max-width: 150px;

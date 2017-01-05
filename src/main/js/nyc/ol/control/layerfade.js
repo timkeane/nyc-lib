@@ -339,15 +339,11 @@ nyc.ol.control.LayerFade.HTML = '<a id="btn-fade" class="ctl ctl-btn" data-role=
 					'<td><ul class="fade-choices"></ul></td>' +
 					'<td><ol class="fade-choices"><li class="fade-msg">Move layers here from the list on the left to specify fade order.</li></ol></td>' +
 				'</tr>' +
-				'<tr>' +
-					'<td class="fade-btns" colspan="2">' +
-						'<a class="btn-cancel" data-role="button">Cancel</a>' +
-						'<a class="btn-auto" data-role="button">Auto</a>' +
-						'<a class="btn-manual" data-role="button">Manual</a>' +
-					'</td>' +
-				'</tr>' +
 			'</tbody>' +
 		'</table>' +
+		'<a class="btn-cancel" data-role="button">Cancel</a>' +
+		'<a class="btn-auto" data-role="button">Auto</a>' +
+		'<a class="btn-manual" data-role="button">Manual</a>' +
 	'</div>' +
 	'<div id="fade-progress"></div>' +
 	'<div id="fade-status"></div>' +

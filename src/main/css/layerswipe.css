@@ -1,25 +1,15 @@
 #btn-swipe {
-    top: -.3rem;
-    right: .1rem;
-    background-size: 1.3em;
+    top: 3px;
+    right: 3px;
+    background-size: 26px;
     background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3Asvg%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%22256%22%20width%3D%22256%22%3E%3Ccircle%20style%3D%22fill%3A%23fff%22%20cx%3D%22128%22%20cy%3D%22128%22%20r%3D%2240%22%2F%3E%3Crect%20style%3D%22fill%3A%23fff%22%20width%3D%2230%22%20height%3D%22216%22%20x%3D%22113%22%20y%3D%2220%22%2F%3E%3Cpolygon%20fill%3D%22none%22%20style%3D%22fill%3A%23fff%22%20points%3D%2220%2C128%2080%2C88%2080%2C168%22%2F%3E%3Cpolygon%20fill%3D%22none%22%20style%3D%22fill%3A%23fff%22%20points%3D%22236%2C128%20176%2C88%20176%2C168%22%2F%3E%3C%2Fsvg%3E");
     background-position: center;
     background-repeat: no-repeat;
 }
-div#mnu-swipe {	
-	display: none;
-	position: fixed;
-	top: 2.2rem;
-	right: .1rem;
-    border: 1px solid rgb(221, 221, 221);
-    border-radius: .2em;
-    background-color: rgba(0,0,0,0.5);
-    text-shadow: none;
-}
 table.swipe-label {
 	position: fixed;
 	background-color: rgba(255,255,255,0.5);
-	border-radius: .2rem;
+	border-radius: 3px;
 	border-collapse: collapse;
 }
 table.swipe-label td {
@@ -28,8 +18,8 @@ table.swipe-label td {
 	verticle-align: middle;
 	text-shadow: none;
 	font-weight: bold;
-	padding: .1rem;
-	width: 6.25rem;
+	padding: 3px;
+	width: 100px;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;

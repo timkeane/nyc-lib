@@ -8,42 +8,43 @@ div.dia-container {
 	z-index: 5000;
 	background-color: transparent;
 }
-.dia-container * {
-	font-size: 1rem;	
-}
 .dia {
 	position: fixed;
 	left: 50%;
 	top: 50%;
-	width: 15rem;
-	min-height: 5rem;
-	padding: .5rem;
-	margin-top: -5rem;
-	margin-left: -8rem;
+	width: 240px;
+	min-height: 80px;
+	padding: 8px;
+	margin-top: -80px;
+	margin-left: -128px;
 	background-color: #fff;
-	border-radius: .2rem;
+	border-radius: 3px;
 	border: 1px solid rgba(0,0,0,0.1);
-	box-shadow: .2rem .2rem .4rem rgba(0,0,0,0.1);
+	box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
 }
 .dia-btns a {
-	width: 5rem;
-	margin: .3125rem .125rem .125rem .125rem;
+	width: 80px;
+	margin: 5px 2px 2px 2px;
 }
 .dia-btns, .dia-msg {
 	text-align: center;
-	margin-top: .3125rem;
+	margin-top: 5px;
 }
 .dia .ui-input-text {
 	width: 100%;
 }
-@media only screen and (min-width : 31.25rem) {
+@media only screen and (min-width : 500px) {
 	.dia-3-btns .dia {
-		width: 22.2rem;
-		margin-left: -11.6rem;
+		width: 360px;
+		margin-left: -188px;
 	}
 }
-@media only screen and (max-width : 31.2rem) {
+@media only screen and (max-width : 499px) {
+	.dia-3-btns .dia {
+		width: 300px;
+		margin-left: -158px;
+	}
 	.dia-3-btns .dia-btns a {
-		width: 3.4375rem;
+		width: 60px;
 	}
 }

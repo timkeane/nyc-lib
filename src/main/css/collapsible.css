@@ -1,14 +1,15 @@
 span.current-value {
 	font-weight: normal;
 	float: right;
-    max-width: 11.25rem;
+    max-width: 180px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;	
 }
-a.ui-collapsible-heading-toggle {
+.nyc-clpsbl a.ui-collapsible-heading-toggle {
     white-space: normal;
+	padding: 8px 16px 8px 40px;
 }
 .ui-collapsible {
-	border-radius: .2em;
+	border-radius: 3px;
 }

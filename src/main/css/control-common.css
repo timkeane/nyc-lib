@@ -2,12 +2,10 @@
 	position: absolute;
 	z-index: 100;
 } 
-.ui-page-theme-a a.ui-btn.ui-corner-all, .ui-page-theme-a button.ui-btn.ui-corner-all, .ui-page-theme-a div.ui-controlgroup-controls  {
-	border-radius: .2rem;
-}
 .ctl-btn {
-	width: 1.7rem;
-	height: 1.7rem;
+	width: 35px;
+	height: 35px;
+	margin: 0;
 }
 .ctl-btn.ui-btn, .ctl-btn.ui-btn:visited {
 	background-color: rgba(0,0,0,0.5);
@@ -17,7 +15,7 @@
 }
 .ctl-btn.ui-btn:after, .ctl-btn.ui-btn:hover:after {
 	background-color: transparent;
-	background-size: 1em;
+	background-size: 20px;
 }
 .noshow {
 	display: none;

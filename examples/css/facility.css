@@ -22,21 +22,18 @@ html, body.ui-overlay-a, div.ui-page-active {
 	text-align: center;
 }
 #first-load img {
-	width: 13.75rem;
-	height: 4.6875rem;
+	width: 220px;
+	height: 75px;
 }
 #first-load p {
-	font-size: 2rem;
+	font-size: 34px;
 	font-weight: bold;
 	color: black;
 	text-align: center;
-	margin-top: -1rem;
+	margin-top: -14px;
 }
 #map {
 	height: 50%;
-}
-#ctl-z-srch {
-	top: -5px;
 }
 #facility {
 	height: calc(50% - 60px);
@@ -51,7 +48,7 @@ html, body.ui-overlay-a, div.ui-page-active {
 	border: 1px solid rgba(0,0,0,0.3);
 }
 #map, #facility, div.ol-viewport {
-	border-radius: 0.6em;
+	border-radius: 3px;
 }
 #facility table {
 	width: 100%;
@@ -67,7 +64,6 @@ label[for="filter-choices"] {
 	font-weight: bold;
 }
 #filter-choices-button {
-	border-radius: 0.6em;
 	min-width: 200px;
 }
 #facility table {
