@@ -58,6 +58,7 @@ ext {
 		'nyc/menu.js', 
 		'nyc/share.js',
 		'nyc/listpager.js',
+		'nyc/mapcontainer.js',
 		'nyc/zoomsearch.js',
 		'nyc/ol/ol.js', 
 		'nyc/ol/basemap.js', 

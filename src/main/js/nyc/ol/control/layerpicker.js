@@ -16,8 +16,6 @@ nyc.ol.control.LayerPicker = function(options){
 	this.layerGroups = options.layerGroups || this.getLayerGoupsFromMap(options.map);
 	this.controls = [];
 	this.render(this.map, this.layerGroups, options.target);
-	
-	var container = this.container;
 };
 
 nyc.ol.control.LayerPicker.prototype = {
@@ -72,13 +70,13 @@ nyc.ol.control.LayerPicker.prototype = {
 		return layers;
 	},
 	/**
-	 * @desc Provides an HTML DOM element id for menu creation when a DOM target is not provided to the constructor 
+	 * @desc Provides an HTML DOM element class for menu creation when a DOM target is not provided to the constructor 
 	 * @public
 	 * @method
 	 * @abstract
 	 * @return {string}
 	 */
-	getMenuId: function(){
+	getMenuClass: function(){
 		throw 'Must be implemented';
 	},
 	/**
@@ -109,13 +107,22 @@ nyc.ol.control.LayerPicker.prototype = {
 	 * @return {JQuery} 
 	 */
 	getContainer: function(map, target){
-		var container = target ? $(target) : $('<div id="' + this.getMenuId() + '" class="ctl-mnu-tgl"></div>');
+		var container = target ? $(target) : $('<div id="' + this.getMenuClass() + '" class="ctl-mnu-tgl"></div>');
 		this.container = container;
 		if (target) return container;
 		$(map.getTarget()).append(container);
 		this.menu = container.get(0);
 		this.addButton(map);
 		return container;
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {string} selector
+	 * @return {JQuery} 
+	 */
+	element: function(selector){
+		return this.container.find(selector);
 	},
 	/**
 	 * @private

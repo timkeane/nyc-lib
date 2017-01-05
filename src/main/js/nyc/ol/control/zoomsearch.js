@@ -23,7 +23,7 @@ nyc.ol.control.ZoomSearch = function(map, useSearchTypeMenu){
 	this.view = map.getView();
 	this.geoJson = new ol.format.GeoJSON();
 	nyc.ZoomSearch.apply(this, [useSearchTypeMenu]);
-	$('#ctl-z-srch').on('click dblclick mouseover mousemove', function(){$('.feature-tip').hide();});
+	this.element('.z-srch').on('click dblclick mouseover mousemove', function(){$('.feature-tip').hide();});
 };
 
 nyc.ol.control.ZoomSearch.prototype = {

@@ -16,7 +16,7 @@ nyc.leaf = nyc.leaf || {};
 nyc.leaf.ZoomSearch = function(map, useSearchTypeMenu){
 	this.map = map;
 	nyc.ZoomSearch.apply(this, [useSearchTypeMenu]);
-	$('#ctl-z-srch').on('click dblclick mouseover mousemove', this.stopEvent);
+	this.container().find('.ctl-z-srch').on('click dblclick mouseover mousemove', this.stopEvent);
 };
 
 nyc.leaf.ZoomSearch.prototype = {
