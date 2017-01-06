@@ -22,7 +22,7 @@ QUnit.test('container', function(assert){
 	assert.expect(1);
 
 	var control = new nyc.ol.control.ZoomSearch(this.TEST_OL_MAP);
-	assert.deepEqual(control.container(), $(this.TEST_OL_MAP.getTarget()));
+	assert.deepEqual(control.getContainer(), $(this.TEST_OL_MAP.getTarget()));
 });
 
 QUnit.test('setFeatures (with menu, minimal options)', function(assert){

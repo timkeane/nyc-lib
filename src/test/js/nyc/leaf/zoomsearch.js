@@ -50,7 +50,7 @@ QUnit.test('container', function(assert){
 	assert.expect(1);
 
 	var control = new nyc.leaf.ZoomSearch(this.MOCK_MAP);
-	assert.deepEqual(control.container(), $('#test-map'));
+	assert.deepEqual(control.getContainer(), $('#test-map'));
 });
 
 QUnit.test('setFeatures (with menu, minimal options)', function(assert){

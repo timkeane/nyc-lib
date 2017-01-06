@@ -14,7 +14,7 @@ nyc.ol.control.LayerMgr = function(options){
 	var me = this;
 	nyc.ol.control.LayerPicker.call(me, options);
 	me.container.append(nyc.ol.control.LayerMgr.MENU_BUTTONS_HTML).trigger('create');
-	me.element('.btn-ok').click($.proxy(me.toggleMenu, me));
+	me.getElem('.btn-ok').click($.proxy(me.toggleMenu, me));
 	$.each(me.controls, function(i, control){
 		control.on('change', function(choices){
 			$.each(control.choices, function(_, choice){
@@ -78,7 +78,7 @@ nyc.ol.control.LayerMgr.prototype = {
 	 * @method
 	 */
 	clear: function(){
-		this.element('input')
+		this.getElem('input')
 			.prop('checked', false)
 			.checkboxradio('refresh')
 			.trigger('change');

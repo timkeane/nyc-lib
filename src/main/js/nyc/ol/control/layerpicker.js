@@ -7,29 +7,36 @@ nyc.ol.control = nyc.ol.control || {};
  * @public
  * @abstract
  * @class
+ * @extends {nyc.CtlContainer}
  * @extends {nyc.Menu}
  * @constructor
  * @param {nyc.ol.control.LayerPicker.Options} options Constructor options
  */
 nyc.ol.control.LayerPicker = function(options){
 	this.map = options.map;
+	this.target = options.target;
 	this.layerGroups = options.layerGroups || this.getLayerGoupsFromMap(options.map);
 	this.controls = [];
-	this.render(this.map, this.layerGroups, options.target);
+	this.render(this.map, this.layerGroups, this.target);
 };
 
 nyc.ol.control.LayerPicker.prototype = {
-	/**
-	 * @private
-	 * @member {JQuery}
-	 */
-	container: null,
 	/**
 	 * @desc The map from which layers can be picked
 	 * @public
 	 * @member {ol.Map}
 	 */
 	map: null,
+	/**
+	 * @private
+	 * @member {Element|JQuery|string}
+	 */
+	target: null,
+	/**
+	 * @private
+	 * @member {JQuery}
+	 */
+	container: null,
 	/**
 	 * @desc The layer picker controls
 	 * @public
@@ -103,13 +110,13 @@ nyc.ol.control.LayerPicker.prototype = {
 	 * @private
 	 * @method
 	 * @param {ol.Map} map
-	 * @param {Element|JQuery|string} target=
 	 * @return {JQuery} 
 	 */
-	getContainer: function(map, target){
-		var container = target ? $(target) : $('<div id="' + this.getMenuClass() + '" class="ctl-mnu-tgl"></div>');
+	getContainer: function(){
+		if (this.container) return this.container;
+		var container = this.target ? $(this.target) : $('<div id="' + this.getMenuClass() + '" class="ctl-mnu-tgl"></div>');
 		this.container = container;
-		if (target) return container;
+		if (this.target) return container;
 		$(map.getTarget()).append(container);
 		this.menu = container.get(0);
 		this.addButton(map);
@@ -121,7 +128,7 @@ nyc.ol.control.LayerPicker.prototype = {
 	 * @param {string} selector
 	 * @return {JQuery} 
 	 */
-	element: function(selector){
+	getElem: function(selector){
 		return this.container.find(selector);
 	},
 	/**
@@ -132,7 +139,7 @@ nyc.ol.control.LayerPicker.prototype = {
 	 * @param {JQuery} target
 	 */
 	render: function(map, layerGroups, target){
-		var container = this.getContainer(map, target), controls = this.controls;
+		var container = this.getContainer(), controls = this.controls;
 		$.each(layerGroups, function(_, group){
 			var hasVis = false, options = {target: $('<div></div>'), title: group.name, expanded: group.expanded, choices: []};
 			container.append(options.target);
@@ -151,6 +158,7 @@ nyc.ol.control.LayerPicker.prototype = {
 	}
 };
 
+nyc.inherits(nyc.ol.control.LayerPicker, nyc.CtlContainer);
 nyc.inherits(nyc.ol.control.LayerPicker, nyc.Menu);
 
 /**

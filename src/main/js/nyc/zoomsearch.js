@@ -5,7 +5,7 @@ var nyc = nyc || {};
  * @public
  * @class
  * @extends {nyc.EventHandling}
- * @extends {nyc.MapContainer}
+ * @extends {nyc.CtlContainer}
  * @constructor
  * @param {boolean} [useSearchTypeMenu=false] Use search types menu
  */
@@ -13,22 +13,22 @@ nyc.ZoomSearch = function(useSearchTypeMenu){
 	var me = this;
 	me.useSearchTypeMenu = useSearchTypeMenu;
 	me.render(useSearchTypeMenu);
-	me.typBtn = me.element('btn-srch-typ');
-	me.input = me.element('.fld-srch-container input');
-	me.list = me.element('.fld-srch');
+	me.typBtn = me.getElem('btn-srch-typ');
+	me.input = me.getElem('.fld-srch-container input');
+	me.list = me.getElem('.fld-srch');
 	me.typBtn.click($.proxy(me.searchType, me));
 	me.input.on('keyup change', $.proxy(me.key, me));
 	me.input.click(function(){me.input.select();});
-	me.element('.btn-z-in, .btn-z-out').click($.proxy(me.zoom, me));
-	me.element('.fld-srch-container .ui-input-clear').click(function(){
+	me.getElem('.btn-z-in, .btn-z-out').click($.proxy(me.zoom, me));
+	me.getElem('.fld-srch-container .ui-input-clear').click(function(){
 		me.list.slideUp();
 	});
-	me.element('.btn-geo, .srch-type-geo').click(function(){
+	me.getElem('.btn-geo, .srch-type-geo').click(function(){
 		me.val('');
 		me.input.attr('placeholder', 'Search for an address...');
 		me.trigger(nyc.ZoomSearch.EventType.GEOLOCATE);
 	});
-	me.element('.mnu-srch-typ li').click($.proxy(me.choices, me));
+	me.getElem('.mnu-srch-typ li').click($.proxy(me.choices, me));
 };
 
 nyc.ZoomSearch.prototype = {
@@ -70,7 +70,7 @@ nyc.ZoomSearch.prototype = {
 	 */
 	render: function(useSearchTypeMenu){
 		var html = nyc.ZoomSearch[useSearchTypeMenu ? 'SEARCH_TYPES_HTML' : 'BASIC_HTML'];
-		this.container().append(html).trigger('create');
+		this.getContainer().append(html).trigger('create');
 	},
 	/**
 	 * @private
@@ -82,7 +82,7 @@ nyc.ZoomSearch.prototype = {
 			this.triggerSearch();
 			this.list.slideUp();
 		}else{
-			this.element('.mnu-srch-typ').hide();
+			this.getElem('.mnu-srch-typ').hide();
 			this.list.slideDown();
 		}
 	},
@@ -138,7 +138,7 @@ nyc.ZoomSearch.prototype = {
 	 * @param {boolean} show Show searching status
 	 */
 	searching: function(show){
-		this.element('.fld-srch-container a.ui-input-clear')[show ? 'addClass' : 'removeClass']('searching');
+		this.getElem('.fld-srch-container a.ui-input-clear')[show ? 'addClass' : 'removeClass']('searching');
 	},
 	/**
 	 * @desc Add searchable features
@@ -161,11 +161,11 @@ nyc.ZoomSearch.prototype = {
 		span.addClass('srch-icon-' + options.featureTypeName);		
 		li.append(span);
 		li.append(options.featureTypeTitle);
-		me.element('.mnu-srch-typ').append(li).listview('refresh');
+		me.getElem('.mnu-srch-typ').append(li).listview('refresh');
 		li.click($.proxy(me.choices, me));
 		$.each(options.features, function(_, feature){
 			var location = me.featureAsLocation(feature, options);
-			me.element('.fld-srch-retention').append(me.listItem(options.featureTypeName, location));
+			me.getElem('.fld-srch-retention').append(me.listItem(options.featureTypeName, location));
 		});
 		me.emptyList();
 	},
@@ -177,7 +177,7 @@ nyc.ZoomSearch.prototype = {
 	 */
 	removeFeatures: function(featureTypeName){
 		$('li.srch-type-' + featureTypeName).remove();
-		this.element('.mnu-srch-typ').listview('refresh');
+		this.getElem('.mnu-srch-typ').listview('refresh');
 		this.emptyList();
 	},
 	/**
@@ -206,7 +206,7 @@ nyc.ZoomSearch.prototype = {
 	 */
 	searchType: function(){
 		this.list.hide();
-		this.element('.mnu-srch-typ').slideToggle();
+		this.getElem('.mnu-srch-typ').slideToggle();
 		this.flipIcon();
 	},
 	/**
@@ -229,13 +229,13 @@ nyc.ZoomSearch.prototype = {
 		var featureTypeName = $(e.target).data('srch-type') || 'addr',
 			placeholder = $(e.target).data('placeholder') || 'Search for an address...';
 		this.isAddrSrch = featureTypeName == 'addr';
-		this.element('.mnu-srch-typ').slideUp();
+		this.getElem('.mnu-srch-typ').slideUp();
 		this.val('');
 		this.input.focus();
 		this.flipIcon();
 		this.emptyList();
 		this.input.attr('placeholder', placeholder);
-		this.list.append(this.element('.fld-srch-retention li.srch-type-' + featureTypeName))
+		this.list.append(this.getElem('.fld-srch-retention li.srch-type-' + featureTypeName))
 			.listview('refresh');
 	},
 	/**
@@ -244,10 +244,10 @@ nyc.ZoomSearch.prototype = {
 	 * @method
 	 */
 	emptyList: function(disambiguating){
-		this.element('.fld-srch-retention').append(this.element('.fld-srch li'));
+		this.getElem('.fld-srch-retention').append(this.getElem('.fld-srch li'));
 		this.list.empty();
 		if (!this.useSearchTypeMenu && !disambiguating){
-			this.list.append(this.element('.fld-srch-retention li.srch-type-feature'))
+			this.list.append(this.getElem('.fld-srch-retention li.srch-type-feature'))
 				.listview('refresh');
 		}
 	},
@@ -266,7 +266,7 @@ nyc.ZoomSearch.prototype = {
 };
 
 nyc.inherits(nyc.ZoomSearch, nyc.EventHandling);
-nyc.inherits(nyc.ZoomSearch, nyc.MapContainer);
+nyc.inherits(nyc.ZoomSearch, nyc.CtlContainer);
 
 /**
  * @desc Object type to hold data about possible locations resulting from a geocoder search

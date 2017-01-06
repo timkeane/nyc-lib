@@ -13,11 +13,11 @@ nyc.ol.control = nyc.ol.control || {};
 nyc.ol.control.LayerSwipe = function(options){
 	nyc.ol.control.LayerPicker.call(this, options);
 	this.container.append(nyc.ol.control.LayerSwipe.MENU_BUTTONS_HTML).trigger('create');
-	this.element('input').change($.proxy(this.validate, this));
-	this.element('.btn-ok').click($.proxy(this.makeChoices, this));
-	this.element('.btn-cancel').click($.proxy(this.cancel, this));
-	this.element('.btn-cancel').click($.proxy(this.toggleMenu, this));
-	this.element('.btn-swipe').click($.proxy(this.reset, this));
+	this.getElem('input').change($.proxy(this.validate, this));
+	this.getElem('.btn-ok').click($.proxy(this.makeChoices, this));
+	this.getElem('.btn-cancel').click($.proxy(this.cancel, this));
+	this.getElem('.btn-cancel').click($.proxy(this.toggleMenu, this));
+	this.getElem('.btn-swipe').click($.proxy(this.reset, this));
 	this.map.on('pointermove', $.proxy(this.swipe, this));
 };
 
@@ -232,7 +232,7 @@ nyc.ol.control.LayerSwipe.prototype = {
 	 */
 	validate: function(event){
 		var check = event.target;
-		if (this.element('input:checked').length > 2 && check.checked){
+		if (this.getElem('input:checked').length > 2 && check.checked){
 			$(check).trigger('click');
 		}
 	},
