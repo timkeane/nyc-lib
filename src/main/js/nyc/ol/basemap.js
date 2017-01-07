@@ -104,8 +104,8 @@ nyc.ol.Basemap.prototype.showPhoto = function(year){
  * @param labelType {nyc.Basemap.BaseLayers} The label type to show
  */
 nyc.ol.Basemap.prototype.showLabels = function(labelType){
-	this.labels.base.setVisible(labelType == nyc.Basemap.BaseLayers.BASE);
-	this.labels.photo.setVisible(labelType == nyc.Basemap.BaseLayers.PHOTO);
+	this.labels.base.setVisible(labelType == nyc.Basemap.LabelType.BASE);
+	this.labels.photo.setVisible(labelType == nyc.Basemap.LabelType.PHOTO);
 };
 
 /** 
@@ -115,7 +115,7 @@ nyc.ol.Basemap.prototype.showLabels = function(labelType){
  */
 nyc.ol.Basemap.prototype.hidePhoto = function(){
 	this.base.setVisible(true);
-	this.showLabels(nyc.Basemap.BaseLayers.BASE);
+	this.showLabels(nyc.Basemap.LabelType.BASE);
 	for (var year in this.photos){
 		this.photos[year].setVisible(false);
 	}
@@ -159,11 +159,11 @@ nyc.ol.Basemap.prototype.sortedPhotos = function(){
 nyc.ol.Basemap.prototype.photoChange = function(){
 	for (var photo in this.photos){
 		if (this.photos[photo].getVisible()){
-			this.showLabels(nyc.Basemap.BaseLayers.PHOTO);
+			this.showLabels(nyc.Basemap.LabelType.PHOTO);
 			return;
 		}
 	}
-	this.showLabels(nyc.Basemap.BaseLayers.BASE);
+	this.showLabels(nyc.Basemap.LabelType.BASE);
 };
 
 /**

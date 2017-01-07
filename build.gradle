@@ -41,6 +41,8 @@ ext {
 		'nyc/date.js', 
 		'nyc/jq.js', 
 		'nyc/util.js', 
+		'nyc/basemap.js', 
+		'nyc/ctlcontainer.js', 
 		'nyc/template.js', 
 		'nyc/collapsible.js', 
 		'nyc/collapsible-choice.js',
@@ -58,7 +60,6 @@ ext {
 		'nyc/menu.js', 
 		'nyc/share.js',
 		'nyc/listpager.js',
-		'nyc/ctlcontainer.js',
 		'nyc/zoomsearch.js',
 		'nyc/ol/ol.js', 
 		'nyc/ol/basemap.js', 
@@ -88,6 +89,8 @@ ext {
 		'nyc/nyc.js', 
 		'nyc/date.js', 
 		'nyc/util.js', 
+		'nyc/basemap.js', 
+		'nyc/ctlcontainer.js', 
 		'nyc/collapsible.js', 
 		'nyc/collapsible-choice.js',
 		'nyc/collapsible-radio.js', 
@@ -105,6 +108,7 @@ ext {
 		'nyc/listpager.js',
 		'nyc/zoomsearch.js',
 		'nyc/leaf/leaf.js', 
+		'nyc/leaf/basemap.js', 
 		'nyc/leaf/locate.js', 
 		'nyc/leaf/locator.js', 
 		'nyc/leaf/zoomsearch.js',
@@ -311,9 +315,16 @@ minifyJsOl.doLast {
 			ant.replace(file: "${pkgDir}/src/js/nyc/ol/layer/baselayer.js", token: '//maps3.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
 		}
 	}
-			/* change URLs for basemap tiles */
+	
+	/* change URLs for basemap tiles */
 	ant.replace(file: "${pkgDir}/js/nyc-ol-lib.js", token: '/tms/', value: "${tilehost}/tms/")
 	ant.replace(file: "${pkgDir}/src/js/nyc/ol/basemap.js", token: '/tms/', value: "${tilehost}/tms/")
+	
+	ant.replace(file: "${pkgDir}/js/nyc-leaf-lib.js", token: '/tms/', value: "${tilehost}/tms/")
+	ant.replace(file: "${pkgDir}/src/js/nyc/leaf/basemap.js", token: '/tms/', value: "${tilehost}/tms/")
+
+	ant.replace(file: "${pkgDir}/js/nyc-leaf-lib.js", token: '{1-4}', value: '{s}')
+	ant.replace(file: "${pkgDir}/src/js/nyc/leaf/basemap.js", token: '{1-4}', value: {s})
 }
 
 task minifyJsOlRedLine(type: MiniJsTask) {
