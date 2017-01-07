@@ -5,7 +5,6 @@ var nyc = nyc || {};
  * @public
  * @class
  * @extends {nyc.EventHandling}
- * @extends {nyc.CtlContainer}
  * @constructor
  * @param {boolean} [useSearchTypeMenu=false] Use search types menu
  */
@@ -13,22 +12,22 @@ nyc.ZoomSearch = function(useSearchTypeMenu){
 	var me = this;
 	me.useSearchTypeMenu = useSearchTypeMenu;
 	me.render(useSearchTypeMenu);
-	me.typBtn = me.getElem('btn-srch-typ');
-	me.input = me.getElem('.fld-srch-container input');
-	me.list = me.getElem('.fld-srch');
+	me.typBtn = $('#btn-srch-typ');
+	me.input = $('#fld-srch-container input');
+	me.list = $('#fld-srch');
 	me.typBtn.click($.proxy(me.searchType, me));
 	me.input.on('keyup change', $.proxy(me.key, me));
 	me.input.click(function(){me.input.select();});
-	me.getElem('.btn-z-in, .btn-z-out').click($.proxy(me.zoom, me));
-	me.getElem('.fld-srch-container .ui-input-clear').click(function(){
+	$('#btn-z-in, #btn-z-out').click($.proxy(me.zoom, me));
+	$('#fld-srch-container .ui-input-clear').click(function(){
 		me.list.slideUp();
 	});
-	me.getElem('.btn-geo, .srch-type-geo').click(function(){
+	$('#btn-geo, #srch-type-geo').click(function(){
 		me.val('');
 		me.input.attr('placeholder', 'Search for an address...');
 		me.trigger(nyc.ZoomSearch.EventType.GEOLOCATE);
 	});
-	me.getElem('.mnu-srch-typ li').click($.proxy(me.choices, me));
+	$('#mnu-srch-typ li').click($.proxy(me.choices, me));
 };
 
 nyc.ZoomSearch.prototype = {
@@ -42,6 +41,16 @@ nyc.ZoomSearch.prototype = {
 	 * @member {JQuery}
 	 */
 	input: null,
+	/**
+	 * @desc A method to return the map container  HTML element wrapped in a JQuery
+	 * @public
+	 * @abstract
+	 * @method
+	 * @return {JQuery} The the map container HTML element wrapped in a JQuery
+	 */
+	container: function(){
+		throw 'Must be implemented';
+	},
 	/**
 	 * @desc Handle the zoom event triggered by user interaction
 	 * @public
@@ -70,7 +79,7 @@ nyc.ZoomSearch.prototype = {
 	 */
 	render: function(useSearchTypeMenu){
 		var html = nyc.ZoomSearch[useSearchTypeMenu ? 'SEARCH_TYPES_HTML' : 'BASIC_HTML'];
-		this.getContainer().append(html).trigger('create');
+		this.container().append(html).trigger('create');
 	},
 	/**
 	 * @private
@@ -82,7 +91,7 @@ nyc.ZoomSearch.prototype = {
 			this.triggerSearch();
 			this.list.slideUp();
 		}else{
-			this.getElem('.mnu-srch-typ').hide();
+			$('#mnu-srch-typ').hide();
 			this.list.slideDown();
 		}
 	},
@@ -138,7 +147,7 @@ nyc.ZoomSearch.prototype = {
 	 * @param {boolean} show Show searching status
 	 */
 	searching: function(show){
-		this.getElem('.fld-srch-container a.ui-input-clear')[show ? 'addClass' : 'removeClass']('searching');
+		$('#fld-srch-container a.ui-input-clear')[show ? 'addClass' : 'removeClass']('searching');
 	},
 	/**
 	 * @desc Add searchable features
@@ -161,11 +170,11 @@ nyc.ZoomSearch.prototype = {
 		span.addClass('srch-icon-' + options.featureTypeName);		
 		li.append(span);
 		li.append(options.featureTypeTitle);
-		me.getElem('.mnu-srch-typ').append(li).listview('refresh');
+		$('#mnu-srch-typ').append(li).listview('refresh');
 		li.click($.proxy(me.choices, me));
 		$.each(options.features, function(_, feature){
 			var location = me.featureAsLocation(feature, options);
-			me.getElem('.fld-srch-retention').append(me.listItem(options.featureTypeName, location));
+			$('#fld-srch-retention').append(me.listItem(options.featureTypeName, location));
 		});
 		me.emptyList();
 	},
@@ -177,7 +186,7 @@ nyc.ZoomSearch.prototype = {
 	 */
 	removeFeatures: function(featureTypeName){
 		$('li.srch-type-' + featureTypeName).remove();
-		this.getElem('.mnu-srch-typ').listview('refresh');
+		$('#mnu-srch-typ').listview('refresh');
 		this.emptyList();
 	},
 	/**
@@ -206,7 +215,7 @@ nyc.ZoomSearch.prototype = {
 	 */
 	searchType: function(){
 		this.list.hide();
-		this.getElem('.mnu-srch-typ').slideToggle();
+		$('#mnu-srch-typ').slideToggle();
 		this.flipIcon();
 	},
 	/**
@@ -229,13 +238,13 @@ nyc.ZoomSearch.prototype = {
 		var featureTypeName = $(e.target).data('srch-type') || 'addr',
 			placeholder = $(e.target).data('placeholder') || 'Search for an address...';
 		this.isAddrSrch = featureTypeName == 'addr';
-		this.getElem('.mnu-srch-typ').slideUp();
+		$('#mnu-srch-typ').slideUp();
 		this.val('');
 		this.input.focus();
 		this.flipIcon();
 		this.emptyList();
 		this.input.attr('placeholder', placeholder);
-		this.list.append(this.getElem('.fld-srch-retention li.srch-type-' + featureTypeName))
+		this.list.append($('#fld-srch-retention li.srch-type-' + featureTypeName))
 			.listview('refresh');
 	},
 	/**
@@ -244,10 +253,10 @@ nyc.ZoomSearch.prototype = {
 	 * @method
 	 */
 	emptyList: function(disambiguating){
-		this.getElem('.fld-srch-retention').append(this.getElem('.fld-srch li'));
+		$('#fld-srch-retention').append($('#fld-srch li'));
 		this.list.empty();
 		if (!this.useSearchTypeMenu && !disambiguating){
-			this.list.append(this.getElem('.fld-srch-retention li.srch-type-feature'))
+			this.list.append($('#fld-srch-retention li.srch-type-feature'))
 				.listview('refresh');
 		}
 	},
@@ -266,7 +275,6 @@ nyc.ZoomSearch.prototype = {
 };
 
 nyc.inherits(nyc.ZoomSearch, nyc.EventHandling);
-nyc.inherits(nyc.ZoomSearch, nyc.CtlContainer);
 
 /**
  * @desc Object type to hold data about possible locations resulting from a geocoder search
@@ -324,20 +332,20 @@ nyc.ZoomSearch.EventType = {
  * @type {string}
  */
 nyc.ZoomSearch.BASIC_HTML = 
-	'<div class="z-srch ol-unselectable">' +
-	'<div class="fld-srch-container ctl">' +
-		'<ul class="fld-srch ui-corner-all" data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search for an address..."></ul>' +
+	'<div id="ctl-z-srch" class="ol-unselectable">' +
+	'<div id="fld-srch-container" class="ctl">' +
+		'<ul id="fld-srch" class="ui-corner-all" data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search for an address..."></ul>' +
 	'</div>' +
-	'<a class="btn-z-in ctl ctl-btn" data-role="button" data-icon="plus" data-iconpos="notext" data-zoom-incr="1" title="Zoom in">' +
+	'<a id="btn-z-in" class="ctl ctl-btn" data-role="button" data-icon="plus" data-iconpos="notext" data-zoom-incr="1" title="Zoom in">' +
 		'<span class="noshow">Zoom in</span>' +
 	'</a>' +
-	'<a class="btn-z-out ctl ctl-btn" data-role="button" data-icon="minus" data-iconpos="notext" data-zoom-incr="-1" title="Zoom out">' +
+	'<a id="btn-z-out" class="ctl ctl-btn" data-role="button" data-icon="minus" data-iconpos="notext" data-zoom-incr="-1" title="Zoom out">' +
 		'Zoom out' +
 	'</a>' +
-	'<a class="btn-geo ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" title="Current location">' +
+	'<a id="btn-geo" class="ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" title="Current location">' +
 		'Zoom out' +
 	'</a>' +
-	'<ul class="fld-srch-retention"></ul>' +
+	'<ul id="fld-srch-retention"></ul>' +
 	'</div>';
 
 /**
@@ -346,21 +354,21 @@ nyc.ZoomSearch.BASIC_HTML =
  * @type {string}
  */
 nyc.ZoomSearch.SEARCH_TYPES_HTML = 
-	'<div class="z-srch srch-types ol-unselectable">' +
-	'<div class="fld-srch-container ctl">' +
-		'<ul class="fld-srch ui-corner-all" data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search for an address..."></ul>' +
-		'<ul class="mnu-srch-typ ctl ui-corner-all" data-role="listview">' + 
-			'<li class="srch-by">Search by...</li>' +
-			'<li class="srch-type-geo"><span class="ui-btn-icon-left srch-icon-geo"></span>My current location</li>' +
-			'<li class="srch-type-addr"><span class="ui-btn-icon-left ui-icon-home"></span>Address, intersection, ZIP Code, etc.</li>' +
+	'<div id="ctl-z-srch" class="srch-types ol-unselectable">' +
+	'<div id="fld-srch-container" class="ctl">' +
+		'<ul id="fld-srch" class="ui-corner-all" data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search for an address..."></ul>' +
+		'<ul id="mnu-srch-typ" class="ctl ui-corner-all" data-role="listview">' + 
+			'<li id="srch-by">Search by...</li>' +
+			'<li id="srch-type-geo"><span class="ui-btn-icon-left srch-icon-geo"></span>My current location</li>' +
+			'<li id="srch-type-addr"><span class="ui-btn-icon-left ui-icon-home"></span>Address, intersection, ZIP Code, etc.</li>' +
 		'</ul>' +
-		'<a class="btn-srch-typ ui-btn ui-icon-carat-d ui-btn-icon-notext" title="Search Type">Search Type</a>' +
+		'<a id="btn-srch-typ" class="ui-btn ui-icon-carat-d ui-btn-icon-notext" title="Search Type">Search Type</a>' +
 	'</div>' +
-	'<a class="btn-z-in ctl ctl-btn" data-role="button" data-icon="plus" data-iconpos="notext" data-zoom-incr="1" title="Zoom in">' +
+	'<a id="btn-z-in" class="ctl ctl-btn" data-role="button" data-icon="plus" data-iconpos="notext" data-zoom-incr="1" title="Zoom in">' +
 		'<span class="noshow">Zoom in</span>' +
 	'</a>' +
-	'<a class="btn-z-out ctl ctl-btn" data-role="button" data-icon="minus" data-iconpos="notext" data-zoom-incr="-1" title="Zoom out">' +
+	'<a id="btn-z-out" class="ctl ctl-btn" data-role="button" data-icon="minus" data-iconpos="notext" data-zoom-incr="-1" title="Zoom out">' +
 		'Zoom out' +
 	'</a>' +
-	'<ul class="fld-srch-retention"></ul>' +
+	'<ul id="fld-srch-retention"></ul>' +
 	'</div>';

@@ -14,7 +14,7 @@ nyc.ol.control.LayerMgr = function(options){
 	var me = this;
 	nyc.ol.control.LayerPicker.call(me, options);
 	me.container.append(nyc.ol.control.LayerMgr.MENU_BUTTONS_HTML).trigger('create');
-	me.getElem('.btn-ok').click($.proxy(me.toggleMenu, me));
+	me.container.find('.btn-ok').click($.proxy(me.toggleMenu, me));
 	$.each(me.controls, function(i, control){
 		control.on('change', function(choices){
 			$.each(control.choices, function(_, choice){
@@ -35,8 +35,8 @@ nyc.ol.control.LayerMgr.prototype = {
 	 * @method
 	 * @return {string}
 	 */
-	getMenuClass: function(){
-		return 'mnu-lyr-mgr';
+	getMenuId: function(){
+		return 'mnu-layer-mgr';
 	},
 	/**
 	 * @public
@@ -78,7 +78,7 @@ nyc.ol.control.LayerMgr.prototype = {
 	 * @method
 	 */
 	clear: function(){
-		this.getElem('input')
+		this.container.find('input')
 			.prop('checked', false)
 			.checkboxradio('refresh')
 			.trigger('change');
@@ -92,7 +92,7 @@ nyc.inherits(nyc.ol.control.LayerMgr, nyc.ol.control.LayerPicker);
  * @const
  * @type {string}
  */
-nyc.ol.control.LayerMgr.BUTTON_HTML = '<a class="btn-lyr-mgr ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" title="Layer manager">Layer manager</a>';
+nyc.ol.control.LayerMgr.BUTTON_HTML = '<a id="btn-layer-mgr" class="ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" title="Layer manager">Layer manager</a>';
 
 /**
  * @private

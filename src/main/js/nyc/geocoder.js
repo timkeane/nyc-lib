@@ -41,7 +41,7 @@ nyc.Geocoder.prototype = {
 		 * @param {string} input The value to geocode
 		 */
 	search: function(input){
-		throw 'Not Implemented'
+		throw 'Not Implemented';
 	}
 };
 

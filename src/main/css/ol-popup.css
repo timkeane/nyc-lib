@@ -1,13 +1,13 @@
 div.popup {
 	max-width: 300px;
 	background-color: #fff;
-	border-radius: 3px;
-	border: 1px solid rgba(0,0,0,0.1);
-	box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+	border: 1px solid #000;
 	display: none;
 	position: absolute;
 	bottom: 12px;
 	left: -50px;
+	border-radius:8px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.5);
 	z-index: 200;
 }
 .inf-center {
@@ -35,7 +35,7 @@ div.popup {
 	margin-left: -10px;
 }
 .popup:before {
-	border-top-color: rgba(0,0,0,0.1);
+	border-top-color: #000;
 	border-width: 12px;
 	left: 48px;
 	margin-left: -12px;

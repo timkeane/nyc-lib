@@ -5,9 +5,10 @@ nyc.ol = nyc.ol || {};
  * @desc Class that provides an ol.Map with base layers and labels
  * @public
  * @class
+ * @implements {nyc.Basemap}
  * @extends {ol.Map}
  * @constructor
- * @param {Object} option Constructor options 
+ * @param {Object} options Constructor options 
  * @param {number} [preload=0] Preload option for base layer 
  * @see http://openlayers.org/en/latest/apidoc/ol.Map.html
  */
@@ -97,14 +98,14 @@ nyc.ol.Basemap.prototype.showPhoto = function(year){
 };
 
 /** 
- * @desc Show photo layer
+ * @desc Show the specified label layer
  * @public
  * @method	
- * @param labelType {nyc.ol.Basemap.LabelType} The label type to show
+ * @param labelType {nyc.Basemap.BaseLayers} The label type to show
  */
 nyc.ol.Basemap.prototype.showLabels = function(labelType){
-	this.labels.base.setVisible(labelType == nyc.ol.Basemap.LabelType.BASE);
-	this.labels.photo.setVisible(labelType == nyc.ol.Basemap.LabelType.PHOTO);
+	this.labels.base.setVisible(labelType == nyc.Basemap.BaseLayers.BASE);
+	this.labels.photo.setVisible(labelType == nyc.Basemap.BaseLayers.PHOTO);
 };
 
 /** 
@@ -113,8 +114,8 @@ nyc.ol.Basemap.prototype.showLabels = function(labelType){
  * @method	
  */
 nyc.ol.Basemap.prototype.hidePhoto = function(){
-	this.base.setVisible(true)
-	this.showLabels(nyc.ol.Basemap.LabelType.BASE);
+	this.base.setVisible(true);
+	this.showLabels(nyc.Basemap.BaseLayers.BASE);
 	for (var year in this.photos){
 		this.photos[year].setVisible(false);
 	}
@@ -124,7 +125,7 @@ nyc.ol.Basemap.prototype.hidePhoto = function(){
  * @desc Returns the base layers
  * @public
  * @method
- * @return {nyc.ol.Basemap.BaseLayers}
+ * @return {nyc.Basemap.BaseLayers}
  */
 nyc.ol.Basemap.prototype.getBaseLayers = function(){
 	return {
@@ -138,7 +139,7 @@ nyc.ol.Basemap.prototype.getBaseLayers = function(){
  * @desc Returns the base layers
  * @public
  * @method
- * @return {nyc.ol.Basemap.BaseLayers}
+ * @return {nyc.Basemap.BaseLayers}
  */
 nyc.ol.Basemap.prototype.sortedPhotos = function(){
 	var sorted = [];
@@ -158,11 +159,11 @@ nyc.ol.Basemap.prototype.sortedPhotos = function(){
 nyc.ol.Basemap.prototype.photoChange = function(){
 	for (var photo in this.photos){
 		if (this.photos[photo].getVisible()){
-			this.showLabels(nyc.ol.Basemap.LabelType.PHOTO);
+			this.showLabels(nyc.Basemap.BaseLayers.PHOTO);
 			return;
 		}
 	}
-	this.showLabels(nyc.ol.Basemap.LabelType.BASE);
+	this.showLabels(nyc.Basemap.BaseLayers.BASE);
 };
 
 /**
@@ -204,13 +205,14 @@ nyc.ol.Basemap.LABEL_URLS = {
 };
 
 /**
- * @public 
+ * @private
  * @const
  * @type {ol.Extent}
  */
 nyc.ol.Basemap.UNIVERSE_EXTENT = [-8453323, 4774561, -7983695, 5165920];
 
 /**
+ * @desc The bounds of New York City
  * @public 
  * @const
  * @type {ol.Extent}
@@ -218,6 +220,8 @@ nyc.ol.Basemap.UNIVERSE_EXTENT = [-8453323, 4774561, -7983695, 5165920];
 nyc.ol.Basemap.EXTENT = [-8266522, 4937867, -8203781, 5000276];
 
 /**
+ * @desc The center of New York City
+ * @public 
  * @const
  * @type {ol.Coordinate}
  */
@@ -237,28 +241,3 @@ nyc.ol.Basemap.LABEL_EXTENT = [-8268000, 4870900, -8005000, 5055500];
  */
 nyc.ol.Basemap.PHOTO_EXTENT = [-8268357, 4937238, -8203099, 5001716];
 
-/** 
- * @desc Enumerator for label types
- * @public
- * @enum {string}
- */
-nyc.ol.Basemap.LabelType = {
-	/**
-	 * @desc Label type for base layer
-	 */
-	BASE: 'base',
-	/**
-	 * @desc Label type for photo layer
-	 */
-	PHOTO: 'photo'
-};
-
-/**
- * @desc Object type to hold base layers
- * @public
- * @typedef {Object}
- * @property {ol.layer.Tile} base The base layer
- * @property {<string, ol.layer.Tile>} labels The label layers 
- * @property {<number, ol.layer.Tile>} photos The photo layers 
- */
-nyc.ol.Basemap.BaseLayers;

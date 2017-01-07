@@ -1,4 +1,4 @@
-.btn-fade {
+#btn-fade {
     top: 3px;
     right: 3px;
     background-size: 25px;
@@ -6,29 +6,28 @@
     background-position: center;
     background-repeat: no-repeat;
 }
-.mnu-fade, .fade-status {
+div#mnu-fade, div#fade-status {
     color: #fff;
     font-weight: bold;
 }
-.mnu-fade, .mnu-fade a, .fade-status {
+div#mnu-fade, div#mnu-fade a, div#fade-status {
     text-shadow: none;
 }
-.mnu-fade table {
-	width: calc(100% - 6px);
+div#mnu-fade table {
 	border-collapse: collapse;
 	margin: 0 3px;
 }
-.mnu-fade thead td {
+div#mnu-fade thead td {
 	padding: 3px 0 0 3px;
 }
-.mnu-fade td {
+div#mnu-fade td {
 	width: 50%;
 }
 ul.fade-choices {
 	margin-right: 1px;
 }
-ol.fade-choices span {
-	margin-right: 3px;
+ol.fade-choices {
+	margin-left: 1px;
 }
 li.fade-lyr, .fade-choices {
     border: 1px solid rgb(221, 221, 221);
@@ -73,44 +72,46 @@ ol.fade-choices li span {
     cursor: pointer;
     padding: 8px 3px;
 }
-.fade-status, .fade-progress, .fade-slider {
+div#fade-status, div#fade-progress, div#fade-slider {
 	display: none;
 	position: fixed;
 	left: 0;
+}
+div#fade-status, div#fade-progress, div#fade-slider {
 	bottom: 0;
     background-color: rgba(0,0,0,0.3);
 }
-.fade-status, .fade-slider {
+div#fade-status, div#fade-slider {
 	right: 0;
 }
-div.fade-slider {
-	margin: 0 20px 7px 2px;
+div#fade-slider {
+	margin: 0 2px 7px 2px;
 	height: 16px;
 	background-color: transparent;
 	border: none;
 }
-.fade-slider.ui-widget-content span {
+div#fade-slider.ui-widget-content span {
 	position: absolute;
 	background-color: #f6f6f6;
 	border: 1px solid #ddd;
 	padding: 10px;
 	cursor: pointer;
 }
-.fade-slider.ui-widget-content span.ui-state-default:hover, 
-.fade-slider.ui-widget-content span.ui-state-active {
+div#fade-slider.ui-widget-content span.ui-state-default:hover, 
+div#fade-slider.ui-widget-content span.ui-state-active {
 	outline-color: transparent;
 	background-color: #000;
 	border: 1px solid #c5c5c5;
 }
-.fade-progress {
+div#fade-progress {
 	height: 24px;
 	width: 1px;
 }
-.fade-status {
+div#fade-status {
 	height: 24px;
 	border-top: 1px solid rgb(221, 221, 221);
 }
-.fade-status div {
+div#fade-status div {
 	margin-top: 2px;
     display: inline-block;
     text-align: center;

@@ -23,10 +23,13 @@
 	<script src="../src/main/js/nyc/nyc.js"></script>
 	<script src="../src/main/js/nyc/dialog.js"></script>
 	<script src="../src/main/js/nyc/locate.js"></script>
+	<script src="../src/main/js/nyc/locationmgr.js"></script>
 	<script src="../src/main/js/nyc/geocoder.js"></script>
 	<script src="../src/main/js/nyc/zoomsearch.js"></script>
 	<script src="../src/main/js/nyc/leaf/leaf.js"></script>
+	<script src="../src/main/js/nyc/leaf/basemap.js"></script>
 	<script src="../src/main/js/nyc/leaf/locate.js"></script>
+	<script src="../src/main/js/nyc/leaf/locator.js"></script>
 	<script src="../src/main/js/nyc/leaf/zoomsearch.js"></script>
 	<!-- nyc js -->
 	
@@ -46,13 +49,10 @@
 <body>
 	<div id="map"></div>
 	<script>
+		var map;
 		$(document).ready(function(){
-			
-			var map = L.map('map');
-			map.addLayer(
-				L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png')
-			);
-			map.setView(nyc.leaf.CENTER, 11);
+						
+			map = new nyc.leaf.Basemap('#map');
 						
 			/* See README.md for getting your GeoClient App Id and App Key */
 			var geocoder = new nyc.Geoclient(
@@ -60,49 +60,15 @@
 				'EPSG:4326'
 			);
 			
-			var locate = new nyc.leaf.Locate(map, geocoder);
-			var controls = new nyc.leaf.ZoomSearch(map);
-			
-			$.ajax({
-				url: 'data/idnyc.json',
-				success: function(data){
-					$.each(data.features, function(_, feature){
-						feature.geometry.coordinates = proj4('EPSG:2263', 'EPSG:4326', feature.geometry.coordinates);
-					});
-					controls.setFeatures({
-						features: data.features,
-						featureTypeName: 'IDNYC'
-					});
-				}
+			var mgr = new nyc.LocationMgr({
+				controls: new nyc.leaf.ZoomSearch(map),
+				locate: new nyc.leaf.Locate(map, geocoder),
+				locator: new nyc.leaf.Locator({map: map})
 			});
-			
-			var marker;
-			function goToLocation(data){
-				var coords = [data.coordinates[1], data.coordinates[0]];
-				controls.searching(false);
-				if (!marker) marker = L.marker(coords).addTo(map);
-				marker.setLatLng(coords);
-				map.setView(coords, 16);
-			};
-			
-			var dialog;
-			function ambiguous(ambiguous){
-				controls.searching(false);
-				if (!ambiguous.possible.length){
-					dialog = dialog || new nyc.Dialog();
-					dialog.ok('Could not find ' + ambiguous.input);
-				}else{
-					controls.disambiguate(ambiguous);
-				}
-			};
 
-			controls.on(nyc.ZoomSearch.EventType.GEOLOCATE, locate.locate, locate);
-			controls.on(nyc.ZoomSearch.EventType.SEARCH, locate.search, locate);
-			controls.on(nyc.ZoomSearch.EventType.DISAMBIGUATED, goToLocation);
-						
-			locate.on(nyc.Locate.EventType.GEOLOCATION, goToLocation);
-			locate.on(nyc.Locate.EventType.GEOCODE, goToLocation);
-			locate.on(nyc.Locate.EventType.AMBIGUOUS, ambiguous);
+			mgr.on(nyc.Locate.EventType.GEOCODE, function(result){
+				console.info(result);
+			});
 			
 		});
 	</script>
