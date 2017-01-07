@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="../src/main/css/nyc-base.css"> 
 	<link rel="stylesheet" href="../src/main/css/control-common.css"> 
 	<link rel="stylesheet" href="../src/main/css/dialog.css"> 
+	<link rel="stylesheet" href="../src/main/css/featuretip.css"> 
 	<link rel="stylesheet" href="../src/main/css/zoomsearch.css"> 
 	<!-- nyc css -->
 
@@ -32,76 +33,28 @@
 	<script src="../src/main/js/nyc/ol/layer/baselayer.js"></script>
 	<script src="../src/main/js/nyc/ol/locate.js"></script>
 	<script src="../src/main/js/nyc/ol/locator.js"></script>
+	<script src="../src/main/js/nyc/ol/featuretip.js"></script>
 	<script src="../src/main/js/nyc/ol/source/decorating.js"></script>
-	<script src="../src/main/js/nyc/ol/source/filteringandsorting.js"></script>
 	<script src="../src/main/js/nyc/ol/control/zoomsearch.js"></script>
 	<!-- nyc js -->
 	
 	<style>
-		#map, label[for="choices"], #choices-button, #sorted {
-			position: fixed;
-		}
 		#map {
+			position: fixed;
 			top: 0;
 			left: 0;
 			bottom: 0;
 			right: 0;
 		}
-		label[for="choices"], #choices-button, #sorted {
-			right: 5px;
-		}
-		label[for="choices"] {
-			bottom: 45px;
-			font-weight: bold;
-			text-align: left;
-			width: 180px;
-		}
-		#choices-button {
-			bottom: 5px;
-			width: 124px;
-		}
-		#sorted {
-			bottom: 100px;
-			width: 180px;
-			height: 200px;
-			overflow: auto;
-			display: none;
-			background-color: white;
-			border: 1px solid black;
-			border-radius: 3px;
-		}
 		.info {
-			border-bottom: 1px solid lightgray;
-			font-size: 67%;
-			padding: 3px;
+			width: 200px;
 		}
 	</style>
 </head>
 <body>
 	<div id="map"></div>
-	<label for="choices">Filter by type:</label>
-	<select id="choices" onchange="filter(this);">
-		<option>all</option>
-		<option>permanent</option>
-		<option>financial</option>
-		<option>cultural</option>
-	</select>
-	<div id="sorted"></div>
 	<script>
 		var map, jsonSrc, jsonLyr;
-		
-		function filter(select){
-			var type = select.value, filter = {property: 'type'};
-			filter.values = type == 'all' ? ['permanent', 'financial', 'cultural'] : [type];
-			jsonSrc.filter([filter]);
-		};
-		
-		function sort(location){
-			$('#sorted').empty().show();
-			$.each(jsonSrc.sort(location.coordinates), function(_, feature){
-				$('#sorted').append(feature.html());	
-			});
-		};
 		
 		$(document).ready(function(){
 			
@@ -114,29 +67,28 @@
 				})
 			});
 			
-			jsonSrc = new nyc.ol.source.FilteringAndSorting(
-				{url: 'data/idnyc.json', format: new ol.format.GeoJSON()},
-				[{
-					html: function(){
-						var html = $('<div class="info"></div>');
-						html.append((this.get('distance')/5280).toFixed(2) + ' mi<br>');
-						html.append(this.get('name') + '<br>');
-						html.append(this.get('address1') + '<br>');
-						html.append(this.get('city') + ', NY ' + this.get('zip'));
-						return html;
-					}
-				}]
-			);
+			jsonSrc = new ol.source.Vector({
+				url: 'data/idnyc.json', 
+				format: new ol.format.GeoJSON()
+			});
 
 			jsonLyr = new ol.layer.Vector({source: jsonSrc});
 			
 			map.addLayer(jsonLyr);
-			
+
+			new nyc.ol.FeatureTip(map, [{
+				source: jsonSrc, 
+				labelFunction: function(){
+					return {text: this.get('name')};
+				}
+			}]);
+
 			map.getView().fit(nyc.ol.EXTENT, map.getSize());
 
 			var source = new ol.source.Vector();
 			var layer = new ol.layer.Vector({source: source});
 			map.addLayer(layer);
+			
 			
 			/* See README.md for getting your GeoClient App Id and App Key */
 			var geocoder = new nyc.Geoclient(
@@ -149,9 +101,6 @@
 				locate: new nyc.ol.Locate(geocoder, 'EPSG:2263'),
 				locator: new nyc.ol.Locator({map: map, layer: layer})
 			});
-
-			locMgr.on('geocode', sort);
-			locMgr.on('geolocation', sort);
 		});
 	</script>
 </body>

@@ -6,6 +6,7 @@ nyc.ol.control = nyc.ol.control || {};
  * @desc Class that provides layer swiping effect
  * @public
  * @class
+ * @extends {nyc.CtlContainer}
  * @extends {nyc.Menu}
  * @constructor
  * @param {nyc.ol.control.LayerFade.Options} options Constructor options
@@ -14,11 +15,11 @@ nyc.ol.control.LayerFade = function(options){
 	this.map = options.map;
 	this.layers = options.layers || this.getLayersFromMap(this.map);
 	this.autoFadeInterval = options.autoFadeInterval || this.autoFadeInterval;
-	$(this.map.getTarget()).append(nyc.ol.control.LayerFade.HTML).trigger('create');
-	$('#btn-fade').click($.proxy(this.showChoices, this));
-	$('.fade-btns a').click($.proxy(this.buttonClick, this));
+	this.getContainer().append(nyc.ol.control.LayerFade.HTML).trigger('create');
+	this.getElem('.btn-fade').click($.proxy(this.showChoices, this));
+	this.getElem('.mnu-fade a').click($.proxy(this.buttonClick, this));
+	this.menu = this.getElem('.mnu-fade').get(0);
 	nyc.jq.ui.load(options.callback);
-	this.menu = $('#mnu-fade').get(0);
 };
 
 nyc.ol.control.LayerFade.prototype = {
@@ -37,6 +38,14 @@ nyc.ol.control.LayerFade.prototype = {
 	 * @member {Array<ol.layer.Base>}
 	 */
 	layers: null,
+	/**
+	 * @public
+	 * @method
+	 * @return {JQuery}
+	 */
+	getContainer: function(){
+		return $(this.map.getTarget());
+	},
 	/**
 	 * @private
 	 * @method
@@ -63,7 +72,7 @@ nyc.ol.control.LayerFade.prototype = {
 	 * @method
 	 */
 	cancel: function(){
-		$('#fade-status, #fade-progress, #fade-slider').stop().fadeOut();
+		this.getElem('.fade-status, .fade-progress, .fade-slider').stop().fadeOut();
 		$.each(this.layers, function(){
 			this.setVisible(false);
 			this.setOpacity(1);
@@ -74,11 +83,11 @@ nyc.ol.control.LayerFade.prototype = {
 	 * @method
 	 */
 	showChoices: function(){
-		var me = this, items = $('#mnu-fade ul li');
+		var me = this, items = me.getElem('.mnu-fade ul li');
 		me.cancel();
 		if (!items.length){
-			var choices = $('#mnu-fade ul');
-			$.each(this.layers, function(i, layer){
+			var choices = me.getElem('.mnu-fade ul');
+			$.each(me.layers, function(i, layer){
 				var name = layer.get('name'),
 					li = $('<li class="fade-lyr"></li>'),
 					span = $('<span></sapn>');
@@ -90,8 +99,8 @@ nyc.ol.control.LayerFade.prototype = {
 				choices.append(li);
 			});
 		}
-        $('.fade-choices').sortable({
-        	connectWith: '#mnu-fade ul, #mnu-fade ol',
+        me.getElem('.fade-choices').sortable({
+        	connectWith: me.getElem('.mnu-fade ul, .mnu-fade ol'),
         	change: function(){
         		$('li.fade-msg').remove();
         	}
@@ -153,13 +162,13 @@ nyc.ol.control.LayerFade.prototype = {
 	 * @param {Array<ol.layer.Base>} layers
 	 */
 	status: function(layers){
-		$('#fade-status').empty();
+		var status = this.getElem('.fade-status').empty();
 		$.each(layers, function(){
 			var name = this.get('name'), div = $('<div>' + name + '</div>');
 			div.addClass('fade-lyr-' + name).css('width', 100 / layers.length + '%');
-			$('#fade-status').append(div);
+			status.append(div);
 		});
-		$('#fade-status, #fade-progress').fadeIn();
+		this.getElem('.fade-status, .fade-progress').fadeIn();
 	},
 	/**
 	 * @private
@@ -167,8 +176,8 @@ nyc.ol.control.LayerFade.prototype = {
 	 * @param {Array<ol.layer.Base>} layers
 	 */
 	progress: function(layers){
-		$('#fade-progress').width(1);
-		$('#fade-progress').animate(
+		this.getElem('.fade-progress').width(1);
+		this.getElem('.fade-progress').animate(
 			{width: $(this.map.getTarget()).width() + 'px'}, 
 			(layers.length - 1) * this.autoFadeInterval
 		);		
@@ -182,7 +191,7 @@ nyc.ol.control.LayerFade.prototype = {
 	 */
 	manualFade: function(layers, interval, value){
 		var layerIdx = -1;
-		$('#fade-progress').width(value);
+		this.getElem('.fade-progress').width(value);
 		for (var i = 0; i < layers.length; i++){
 			var end = ((i + 1) * interval) + interval/2, start = end - interval;
 			if (value >= start && value < end){
@@ -213,7 +222,7 @@ nyc.ol.control.LayerFade.prototype = {
 	 */
 	slider: function(layers){
 		var me = this, max = $(this.map.getTarget()).width(), interval = max/layers.length;
-		$('#fade-slider').show().slider({
+		me.getElem('.fade-slider').show().slider({
 			min: 0,
 			max: max,
 			value: 0,
@@ -230,7 +239,7 @@ nyc.ol.control.LayerFade.prototype = {
 	buttonClick: function(event){
 		var btn = $(event.currentTarget);
         this.toggleMenu();
-		$('#fade-progress').width(0);
+		this.getElem('.fade-progress').width(0);
 		if (btn.hasClass('btn-cancel')){
 			return;
 		}
@@ -270,6 +279,7 @@ nyc.ol.control.LayerFade.prototype = {
 	}
 };
 
+nyc.inherits(nyc.ol.control.LayerFade, nyc.CtlContainer);
 nyc.inherits(nyc.ol.control.LayerFade, nyc.Menu);
 
 /**
@@ -323,10 +333,10 @@ nyc.ol.control.LayerFade.Options;
  * @const
  * @type {string}
  */
-nyc.ol.control.LayerFade.HTML = '<a id="btn-fade" class="ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" title="Layer fade">' +
+nyc.ol.control.LayerFade.HTML = '<a class="btn-fade ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" title="Layer fade">' +
 		'Layer fade' +
 	'</a>' +
-	'<div id="mnu-fade" class="ctl-mnu-tgl">' +
+	'<div class="mnu-fade ctl-mnu-tgl">' +
 		'<table>' +
 			'<thead>' +
 				'<tr>' +
@@ -345,7 +355,7 @@ nyc.ol.control.LayerFade.HTML = '<a id="btn-fade" class="ctl ctl-btn" data-role=
 		'<a class="btn-auto" data-role="button">Auto</a>' +
 		'<a class="btn-manual" data-role="button">Manual</a>' +
 	'</div>' +
-	'<div id="fade-progress"></div>' +
-	'<div id="fade-status"></div>' +
-	'<div id="fade-slider"></div>';
+	'<div class="fade-progress"></div>' +
+	'<div class="fade-status"></div>' +
+	'<div class="fade-slider"></div>';
 

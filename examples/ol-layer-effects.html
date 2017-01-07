@@ -9,15 +9,15 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.css">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.19.1/ol.css" rel="stylesheet">
 	<!-- nyc css -->
-	<link rel="stylesheet" href="../src/main/css/nyc-base.css"> 
-	<link rel="stylesheet" href="../src/main/css/control-common.css"> 
-	<link rel="stylesheet" href="../src/main/css/dialog.css"> 
-	<link rel="stylesheet" href="../src/main/css/collapsible.css"> 
-	<link rel="stylesheet" href="../src/main/css/zoomsearch.css"> 
-	<link rel="stylesheet" href="../src/main/css/layerfade.css"> 
-	<link rel="stylesheet" href="../src/main/css/layermgr.css"> 
-	<link rel="stylesheet" href="../src/main/css/layerswipe.css"> 
-	<link rel="stylesheet" href="../src/main/css/mapmenu.css"> 
+	<link rel="stylesheet" href="../src/main/css/nyc-base.css">
+	<link rel="stylesheet" href="../src/main/css/control-common.css">
+	<link rel="stylesheet" href="../src/main/css/dialog.css">
+	<link rel="stylesheet" href="../src/main/css/collapsible.css">
+	<link rel="stylesheet" href="../src/main/css/zoomsearch.css">
+	<link rel="stylesheet" href="../src/main/css/layerfade.css">
+	<link rel="stylesheet" href="../src/main/css/layermgr.css">
+	<link rel="stylesheet" href="../src/main/css/layerswipe.css">
+	<link rel="stylesheet" href="../src/main/css/mapmenu.css">
 	<!-- nyc css -->
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
@@ -38,7 +38,7 @@
 	<script src="../src/main/js/nyc/locationmgr.js"></script>
 	<script src="../src/main/js/nyc/menu.js"></script>
 	<script src="../src/main/js/nyc/geocoder.js"></script>
-	<script src="../src/main/js/nyc/mapcontainer.js"></script>
+	<script src="../src/main/js/nyc/ctlcontainer.js"></script>
 	<script src="../src/main/js/nyc/zoomsearch.js"></script>
 	<script src="../src/main/js/nyc/ol/ol.js"></script>
 	<script src="../src/main/js/nyc/ol/basemap.js"></script>
@@ -50,7 +50,7 @@
 	<script src="../src/main/js/nyc/ol/control/layerswipe.js"></script>
 	<script src="../src/main/js/nyc/ol/control/zoomsearch.js"></script>
 	<!-- nyc js -->
-	
+
 	<style>
 		#map {
 			position: fixed;
@@ -59,20 +59,20 @@
 			bottom: 0;
 			right: 0;
 		}
-		#btn-fade {
+		.btn-fade {
 			right: 43px;
-		} 
-		#btn-swipe {
+		}
+		.btn-swipe {
 			right: 83px;
-		} 
+		}
 	</style>
 </head>
 <body>
 	<div id="map"></div>
 	<script>
 		var map, fade, swipe, lyrMgr;
-		
-		$(document).ready(function(){			
+
+		$(document).ready(function(){
 			map = new nyc.ol.Basemap({target: $('#map').get(0)});
 
 			var source = new ol.source.Vector();
@@ -80,13 +80,13 @@
 				source: source,
 				style: [new ol.style.Style({
 						image: new ol.style.Icon({
-						scale: 48 / 512, 
+						scale: 48 / 512,
 						src: 'img/me' +  (nyc.util.isIe() || nyc.util.isIos() ? '.png' : '.svg')
 					})
 				})]
 			});
 			map.addLayer(layer);
-			
+
 			/* See README.md for getting your GeoClient App Id and App Key */
 			var geocoder = new nyc.Geoclient(
 				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=YOUR_APP_KEY&app_id=YOUR_APP_ID'

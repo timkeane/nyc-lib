@@ -16,7 +16,7 @@ nyc.leaf = nyc.leaf || {};
 nyc.leaf.ZoomSearch = function(map, useSearchTypeMenu){
 	this.map = map;
 	nyc.ZoomSearch.apply(this, [useSearchTypeMenu]);
-	$('#ctl-z-srch').on('click dblclick mouseover mousemove', this.stopEvent);
+	this.getContainer().find('.ctl-z-srch').on('click dblclick mouseover mousemove', this.stopEvent);
 };
 
 nyc.leaf.ZoomSearch.prototype = {
@@ -26,13 +26,13 @@ nyc.leaf.ZoomSearch.prototype = {
 	 */
 	map: null,
 	/**
-	 * @desc A method to return the map container  HTML element wrapped in a JQuery
+	 * @desc A method to return the map container HTML element wrapped in a JQuery
 	 * @public
 	 * @override
 	 * @method
 	 * @return {JQuery} The the map container HTML element wrapped in a JQuery
 	 */
-	container: function(){
+	getContainer: function(){
 		return $(this.map.getContainer());
 	},
 	/**

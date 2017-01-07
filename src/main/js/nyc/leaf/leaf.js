@@ -7,28 +7,27 @@ nyc.leaf = nyc.leaf || {};
 
 /** 
  * @external L.LatLng 
- * @see http://leafletjs.com/
+ * @see http://leafletjs.com/reference.html
  */
 /** 
  * @external L.LatLngBounds 
- * @see http://leafletjs.com/
+ * @see http://leafletjs.com/reference.html
  */
 /** 
  * @external L.Map 
- * @see http://leafletjs.com/
+ * @see http://leafletjs.com/reference.html
  */
 /** 
  * @external L.Layer 
- * @see http://leafletjs.com/
+ * @see http://leafletjs.com/reference.html
  */
 /** 
  * @external L.GeoJson 
- * @see http://leafletjs.com/
+ * @see http://leafletjs.com/reference.html
  */
 
 /**
- * @deprecated
- * @desc The  bounds of New York City
+ * @desc The approximate bounding box of New York City
  * @public 
  * @const
  * @type {L.LatLngBounds}
@@ -36,8 +35,7 @@ nyc.leaf = nyc.leaf || {};
 nyc.leaf.EXTENT = L.latLngBounds([40.496, -74.257], [40.916, -73.699]);
 
 /**
- * @deprecated
- * @desc The center of New York City
+ * @desc The approximate center point of New York City
  * @public 
  * @const
  * @type {L.LatLng}

@@ -3,9 +3,9 @@ nyc.ol = nyc.ol || {};
 nyc.ol.layer = nyc.ol.layer || {};
 
 /**
- * @deprecated
  * @desc Class that extends ol.layer.Tile to create the NYC base map layer
  * @public
+ * @deprecated
  * @class
  * @extends {ol.layer.Tile}
  * @constructor
@@ -19,7 +19,6 @@ nyc.ol.layer.BaseLayer = function(options){
 ol.inherits(nyc.ol.layer.BaseLayer, ol.layer.Tile);
 
 /**
- * @deprecated
  * @desc Resolutions for zoom levels 0 - 10 
  * @public
  * @const
@@ -28,7 +27,6 @@ ol.inherits(nyc.ol.layer.BaseLayer, ol.layer.Tile);
 nyc.ol.layer.BaseLayer.RESOLUTIONS = [434.027777777778, 303.819444444444, 222.222222222222, 111.111111111111, 55.5555555555556, 27.7777777777778, 13.8888888888889, 6.94444444444444, 3.47222222222222, 1.73611111111111, 0.868055555555556];
 
 /**
- * @deprecated
  * @desc The origin of the New York City base map tiles 
  * @public
  * @const
@@ -37,7 +35,6 @@ nyc.ol.layer.BaseLayer.RESOLUTIONS = [434.027777777778, 303.819444444444, 222.22
 nyc.ol.layer.BaseLayer.ORIGIN = [700000, 440000];
 
 /**
- * @deprecated
  * @desc The extent of the New York City base map tiles 
  * @public
  * @const
@@ -46,7 +43,6 @@ nyc.ol.layer.BaseLayer.ORIGIN = [700000, 440000];
 nyc.ol.layer.BaseLayer.EXTENT = [700000, -4444.4444444447, 1366666.6666667, 440000];
 
 /**
- * @deprecated
  * @desc The size of the New York City base map tiles 
  * @public
  * @const
@@ -55,7 +51,6 @@ nyc.ol.layer.BaseLayer.EXTENT = [700000, -4444.4444444447, 1366666.6666667, 4400
 nyc.ol.layer.BaseLayer.TILE_SIZE = 512;
 
 /**
- * @deprecated
  * @desc The URL of the New York City base map tiles 
  * @public
  * @const
@@ -64,7 +59,6 @@ nyc.ol.layer.BaseLayer.TILE_SIZE = 512;
 nyc.ol.layer.BaseLayer.BASIC_URLS = ['//maps.nyc.gov/gis/data/tiles/basic/', '//maps1.nyc.gov/gis/data/tiles/basic/', '//maps2.nyc.gov/gis/data/tiles/basic/', '//maps3.nyc.gov/gis/data/tiles/basic/'];
 
 /**
- * @deprecated
  * @desc The URL of the New York City ortho image tiles 
  * @public
  * @const
@@ -73,7 +67,6 @@ nyc.ol.layer.BaseLayer.BASIC_URLS = ['//maps.nyc.gov/gis/data/tiles/basic/', '//
 nyc.ol.layer.BaseLayer.ORTHO_URLS = ['//maps.nyc.gov/gis/data/tiles/orthosLatest/', '//maps1.nyc.gov/gis/data/tiles/orthosLatest/', '//maps2.nyc.gov/gis/data/tiles/orthosLatest/', '//maps3.nyc.gov/gis/data/tiles/orthosLatest/'];
 
 /**
- * @deprecated
  * @desc The file extension of the New York City base map tiles 
  * @public
  * @type {string}
@@ -81,7 +74,6 @@ nyc.ol.layer.BaseLayer.ORTHO_URLS = ['//maps.nyc.gov/gis/data/tiles/orthosLatest
 nyc.ol.layer.BaseLayer.IMAGE_EXTENSION = 'jpg';
 
 /**
- * @deprecated
  * @desc The tile options used to create the New York City base map tile layer
  * @public
  * @const
@@ -103,7 +95,6 @@ nyc.ol.layer.BaseLayer.BASIC_OPTIONS = {
 };
 
 /**
- * @deprecated
  * @desc The default tile options used to create the New York City base map tile layer
  * @public
  * @const
@@ -113,7 +104,6 @@ nyc.ol.layer.BaseLayer.BASIC_OPTIONS = {
 nyc.ol.layer.BaseLayer.DEFAULT_OPTIONS = nyc.ol.layer.BaseLayer.BASIC_OPTIONS;
 
 /**
- * @deprecated
  * @desc The tile options used to create the New York City ortho image tile layer
  * @public
 * @const
@@ -134,3 +124,6 @@ nyc.ol.layer.BaseLayer.ORTHO_OPTIONS = {
 		})
 	})
 };
+
+
+

@@ -13,11 +13,11 @@ nyc.ol.control = nyc.ol.control || {};
 nyc.ol.control.LayerSwipe = function(options){
 	nyc.ol.control.LayerPicker.call(this, options);
 	this.container.append(nyc.ol.control.LayerSwipe.MENU_BUTTONS_HTML).trigger('create');
-	this.container.find('input').change($.proxy(this.validate, this));
-	this.container.find('.btn-ok').click($.proxy(this.makeChoices, this));
-	this.container.find('.btn-cancel').click($.proxy(this.cancel, this));
-	this.container.find('.btn-cancel').click($.proxy(this.toggleMenu, this));
-	$('#btn-swipe').click($.proxy(this.reset, this));
+	this.getElem('input').change($.proxy(this.validate, this));
+	this.getElem('.btn-ok').click($.proxy(this.makeChoices, this));
+	this.getElem('.btn-cancel').click($.proxy(this.cancel, this));
+	this.getElem('.btn-cancel').click($.proxy(this.toggleMenu, this));
+	this.getElem('.btn-swipe').click($.proxy(this.reset, this));
 	this.map.on('pointermove', $.proxy(this.swipe, this));
 };
 
@@ -43,7 +43,7 @@ nyc.ol.control.LayerSwipe.prototype = {
 	 * @method
 	 * @return {string}
 	 */
-	getMenuId: function(){
+	getMenuClass: function(){
 		return 'mnu-swipe';
 	},
 	/**
@@ -232,7 +232,7 @@ nyc.ol.control.LayerSwipe.prototype = {
 	 */
 	validate: function(event){
 		var check = event.target;
-		if (this.container.find('input:checked').length > 2 && check.checked){
+		if (this.getElem('input:checked').length > 2 && check.checked){
 			$(check).trigger('click');
 		}
 	},
@@ -281,7 +281,7 @@ nyc.inherits(nyc.ol.control.LayerSwipe, nyc.ol.control.LayerPicker);
  * @const
  * @type {string}
  */
-nyc.ol.control.LayerSwipe.BUTTON_HTML = '<a id="btn-swipe" class="ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" title="Layer swipe">Layer swipe</a>';
+nyc.ol.control.LayerSwipe.BUTTON_HTML = '<a class="btn-swipe ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" title="Layer swipe">Layer swipe</a>';
 
 /**
  * @private

@@ -3,7 +3,6 @@ nyc.ol = nyc.ol || {};
 nyc.ol.source = nyc.ol.source || {};
 
 /**
- * @deprecated
  * @desc Class for source that provides tiles from an ArcGIS Server tile cache
  * @public
  * @class
@@ -88,7 +87,6 @@ nyc.ol.source.AcrGisCache = function(options){
 ol.inherits(nyc.ol.source.AcrGisCache, ol.source.TileImage);
 
 /**
- * @deprecated
  * @desc Object type to hold constructor options for {@link nyc.ol.source.AcrGisCache}
  * @typedef {Object} 
  * @property {string} imageExtension The image extension for tiles

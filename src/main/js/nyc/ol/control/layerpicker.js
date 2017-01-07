@@ -77,7 +77,7 @@ nyc.ol.control.LayerPicker.prototype = {
 		return layers;
 	},
 	/**
-	 * @desc Provides an HTML DOM element class for menu creation when a DOM target is not provided to the constructor 
+	 * @desc Provides an HTML DOM element class for menu creation when a DOM target is not provided to the constructor
 	 * @public
 	 * @method
 	 * @abstract
@@ -87,7 +87,7 @@ nyc.ol.control.LayerPicker.prototype = {
 		throw 'Must be implemented';
 	},
 	/**
-	 * @desc Provides an HTML string for creating a menu actuator when a DOM target is not provided to the constructor 
+	 * @desc Provides an HTML string for creating a menu actuator when a DOM target is not provided to the constructor
 	 * @public
 	 * @method
 	 * @abstract
@@ -110,7 +110,7 @@ nyc.ol.control.LayerPicker.prototype = {
 	 * @private
 	 * @method
 	 * @param {ol.Map} map
-	 * @return {JQuery} 
+	 * @return {JQuery}
 	 */
 	getContainer: function(){
 		if (this.container) return this.container;
@@ -126,7 +126,7 @@ nyc.ol.control.LayerPicker.prototype = {
 	 * @private
 	 * @method
 	 * @param {string} selector
-	 * @return {JQuery} 
+	 * @return {JQuery}
 	 */
 	getElem: function(selector){
 		return this.container.find(selector);
@@ -152,12 +152,13 @@ nyc.ol.control.LayerPicker.prototype = {
 				options.choices.unshift({value: 'none', label: 'None', checked: !hasVis});
 				controls.push(new nyc.Radio(options));
 			}else{
-				controls.push(new nyc.Check(options));	
+				controls.push(new nyc.Check(options));
 			}
 		});
 	}
 };
 
+nyc.inherits(nyc.ol.control.LayerPicker, nyc.CtlContainer);
 nyc.inherits(nyc.ol.control.LayerPicker, nyc.Menu);
 
 /**

@@ -8,7 +8,7 @@ var nyc = nyc || {};
  */
 nyc.CtlContainer = function(){};
 
-nyc.MapContainer.prototype = {
+nyc.CtlContainer.prototype = {
 	/**
 	 * @desc A method to return a control container HTML element wrapped in a JQuery
 	 * @public
