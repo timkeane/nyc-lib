@@ -102,16 +102,16 @@
 			lyrMgr = new nyc.ol.control.LayerMgr({map: map});
 			fade = new nyc.ol.control.LayerFade({map: map});
 
- 			$('#btn-swipe, #btn-layer-mgr').click(function(){
+ 			$('.btn-swipe, .btn-lyr-mgr').click(function(){
  				fade.cancel();
  			});
- 			$('#btn-fade, #btn-layer-mgr').click(function(){
+ 			$('.btn-fade, .btn-lyr-mgr').click(function(){
  				swipe.cancel();
  			});
- 			$('#btn-swipe, #btn-fade').click(function(){
+ 			$('.btn-swipe, .btn-fade').click(function(){
  				lyrMgr.clear();
  			});
- 			$('#btn-layer-mgr').click(function(){
+ 			$('.btn-lyr-mgr').click(function(){
  				$.each(lyrMgr.controls, function(_, control){
  					control.trigger('change', control.val());
  				});
