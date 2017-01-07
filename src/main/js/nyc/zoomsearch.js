@@ -5,7 +5,7 @@ var nyc = nyc || {};
  * @public
  * @class
  * @extends {nyc.EventHandling}
- * @extends {nyc.CtlContainer}
+ * @mixes {nyc.CtlContainer}
  * @constructor
  * @param {boolean} [useSearchTypeMenu=false] Use search types menu
  */

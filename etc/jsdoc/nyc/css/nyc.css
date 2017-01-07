@@ -44,7 +44,7 @@ h1.page-title {
 	width: 100%;
 }
 .nyc-src-code {
-	border-radius: 5px;
+	border-radius: 3px;
 	margin: -8px 0 14px 0;
 	background-color: #0095dd;
 	font-family: Consolas, Monaco, 'Andale Mono', monospace;

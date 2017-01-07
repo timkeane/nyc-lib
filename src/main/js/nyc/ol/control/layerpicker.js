@@ -8,7 +8,7 @@ nyc.ol.control = nyc.ol.control || {};
  * @abstract
  * @class
  * @extends {nyc.CtlContainer}
- * @extends {nyc.Menu}
+ * @mixes {nyc.Menu}
  * @constructor
  * @param {nyc.ol.control.LayerPicker.Options} options Constructor options
  */
