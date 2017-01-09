@@ -15,7 +15,6 @@ QUnit.module('nyc.ol.control.LayerMgr', {
 			singleSelect: true,
 			layers: [this.LAYER_A, this.LAYER_B]
 		}];
-		
 	},
 	afterEach: function(assert){
 		teardown(assert, this);
@@ -47,8 +46,8 @@ QUnit.test('constructor', function(assert){
 	
 	mgr.container.find('.btn-ok').trigger('click');
 
-	assert.equal($(this.TEST_OL_MAP.getTarget()).find('#btn-layer-mgr').length, 1);
-	assert.equal($(this.TEST_OL_MAP.getTarget()).find('#mnu-layer-mgr').length, 1);
+	assert.equal($(this.TEST_OL_MAP.getTarget()).find('.btn-lyr-mgr').length, 1);
+	assert.equal($(this.TEST_OL_MAP.getTarget()).find('.mnu-lyr-mgr').length, 1);
 	assert.equal(mgr.controls.length, 2);
 	
 	mgr.controls[0].choices[0].checked = false;
@@ -69,7 +68,7 @@ QUnit.test('constructor', function(assert){
 	nyc.ol.control.LayerMgr.prototype.toggleMenu = toggleMenu;
 });
 
-QUnit.test('getMenuId', function(assert){
+QUnit.test('getMenuClass', function(assert){
 	assert.expect(1);
 	
 	var options = {
@@ -79,7 +78,7 @@ QUnit.test('getMenuId', function(assert){
 		
 	var mgr = new nyc.ol.control.LayerMgr(options);
 	
-	assert.equal(mgr.getMenuId(), 'mnu-layer-mgr');
+	assert.equal(mgr.getMenuClass(), 'mnu-lyr-mgr');
 });
 
 QUnit.test('getButtonHtml', function(assert){

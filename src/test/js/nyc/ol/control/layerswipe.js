@@ -25,7 +25,7 @@ QUnit.module('nyc.ol.control.LayerSwipe', {
 });
 
 QUnit.test('constructor', function(assert){
-	assert.expect(13);
+	assert.expect(12);
 	
 	var options = {
 		map: this.TEST_OL_MAP,
@@ -40,28 +40,25 @@ QUnit.test('constructor', function(assert){
 	var swp = nyc.ol.control.LayerSwipe.prototype.swipe;
 	
 	nyc.ol.control.LayerSwipe.prototype.validate = function(){
-		assert.ok(true);
+		assert.ok(true, 'validate should be called 4 times');
 	};
 	nyc.ol.control.LayerSwipe.prototype.makeChoices = function(){
-		assert.ok(true);
+		assert.ok(true, 'makeChoices should be called 1 time');
 	};
 	nyc.ol.control.LayerSwipe.prototype.cancel = function(){
-		assert.ok(true);
+		assert.ok(true, 'cancel should be called 1 time');
 	};
 	nyc.ol.control.LayerSwipe.prototype.toggleMenu = function(){
-		assert.ok(true);
-	};
-	nyc.ol.control.LayerSwipe.prototype.reset = function(){
-		assert.ok(true);
+		assert.ok(true, 'toggleMenu should be called 2 times');
 	};
 	nyc.ol.control.LayerSwipe.prototype.swipe = function(event){
-		assert.ok(true);
+		assert.ok(true, 'swipe should be called 1 time');
 	};
 	
 	var swipe = new nyc.ol.control.LayerSwipe(options);
 	
-	assert.equal($(this.TEST_OL_MAP.getTarget()).find('#btn-swipe').length, 1);
-	assert.equal($(this.TEST_OL_MAP.getTarget()).find('#mnu-swipe').length, 1);
+	assert.equal($(this.TEST_OL_MAP.getTarget()).find('.btn-swipe').length, 1);
+	assert.equal($(this.TEST_OL_MAP.getTarget()).find('.mnu-swipe').length, 1);
 
 	assert.equal(swipe.controls.length, 1);
 	
@@ -70,7 +67,7 @@ QUnit.test('constructor', function(assert){
 	});
 	swipe.container.find('.btn-ok').trigger('click');
 	swipe.container.find('.btn-cancel').trigger('click');
-	$(this.TEST_OL_MAP.getTarget()).find('#btn-swipe').trigger('click');
+	$(this.TEST_OL_MAP.getTarget()).find('.btn-swipe').trigger('click');
 	this.TEST_OL_MAP.dispatchEvent('pointermove',{});
 
 	nyc.ol.control.LayerSwipe.prototype.validate = validate;
@@ -81,7 +78,7 @@ QUnit.test('constructor', function(assert){
 	nyc.ol.control.LayerSwipe.prototype.swipe = swp;
 });
 
-QUnit.test('getMenuId', function(assert){
+QUnit.test('getMenuClass', function(assert){
 	assert.expect(1);
 	
 	var options = {
@@ -91,7 +88,7 @@ QUnit.test('getMenuId', function(assert){
 		
 	var swipe = new nyc.ol.control.LayerSwipe(options);
 	
-	assert.equal(swipe.getMenuId(), 'mnu-swipe');
+	assert.equal(swipe.getMenuClass(), 'mnu-swipe');
 });
 
 QUnit.test('getButtonHtml', function(assert){
@@ -537,7 +534,7 @@ QUnit.test('label', function(assert){
 	assert.equal(label.get(0).rows[0].cells[0].innerHTML, this.LAYER_1.get('name'));
 	assert.equal(label.get(0).rows[0].cells[1].innerHTML, this.LAYER_2.get('name'));
 	assert.equal(label.css('left'), 100 - label.width()/2 + 'px');
-	assert.equal(label.css('top'), '200px');
+	assert.equal(label.css('top'), '176px');
 	setTimeout(function(){
 		assert.equal(label.css('display'), 'none');
 		done();

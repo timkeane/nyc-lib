@@ -36,8 +36,10 @@ QUnit.test('constructor/disabled', function(assert){
 	assert.deepEqual(radio.val(), [choices[0]]);
 
 	$.each(radio.inputs, function(i, input){
+		var labelClone = $('label[for="' + input.attr('id') +'"]').clone();
+		$(labelClone.children().get(0)).remove();
+		assert.equal(labelClone.html(), choices[i].label);
 		assert.equal(input.val(), i);
-		assert.equal($('label[for="' + input.attr('id') +'"]').html(), choices[i].label);
 		assert.notOk(input.prop('disabled'));
 		radio.disabled(choices[i].value, true);
 		assert.ok(input.prop('disabled'));

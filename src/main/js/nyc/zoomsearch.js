@@ -13,7 +13,7 @@ nyc.ZoomSearch = function(useSearchTypeMenu){
 	var me = this;
 	me.useSearchTypeMenu = useSearchTypeMenu;
 	me.render(useSearchTypeMenu);
-	me.typBtn = me.getElem('btn-srch-typ');
+	me.typBtn = me.getElem('.btn-srch-typ');
 	me.input = me.getElem('.fld-srch-container input');
 	me.list = me.getElem('.fld-srch');
 	me.typBtn.click($.proxy(me.searchType, me));
@@ -254,7 +254,7 @@ nyc.ZoomSearch.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {Object} e
+	 * @param {jQuery.Event} e
 	 */
 	disambiguated: function(e){
 		var li = $(e.target);

@@ -30,18 +30,18 @@ QUnit.test('zoom', function(assert){
 	var control = new nyc.leaf.ZoomSearch(this.MOCK_MAP);
 	
 	var zoom = this.MOCK_MAP.getZoom();
-	$('#btn-z-in').trigger('click');
+	control.getElem('.btn-z-in').trigger('click');
 	assert.equal(this.MOCK_MAP.getZoom(), zoom + 1);
 	
-	$('#btn-z-out').trigger('click');
+	control.getElem('.btn-z-out').trigger('click');
 	assert.equal(this.MOCK_MAP.getZoom(), zoom);
 	
 	this.MOCK_MAP.zoom = 0;
-	$('#btn-z-out').trigger('click');
+	control.getElem('.btn-z-out').trigger('click');
 	assert.equal(this.MOCK_MAP.getZoom(), 0);
 	
 	this.MOCK_MAP.zoom = nyc.leaf.ZoomSearch.MAX_ZOOM;
-	$('#btn-z-in').trigger('click');
+	control.getElem('.btn-z-in').trigger('click');
 	assert.equal(this.MOCK_MAP.getZoom(), nyc.leaf.ZoomSearch.MAX_ZOOM);
 	
 });
@@ -69,7 +69,7 @@ QUnit.test('setFeatures (with menu, minimal options)', function(assert){
 		featureTypeTitle: 'Test Feature Type',
 		placeholder: 'Search by Test Feature Type...'
 	});
-	$.each($('#fld-srch-retention li.srch-type-test'), function(i, li){
+	$.each(control.getElem('.fld-srch-retention li.srch-type-test'), function(i, li){
 		assert.equal($(li).html(), 'feature' + i);
 		assert.deepEqual($(li).data('location'), {
 			name: features[i].properties.name,
@@ -100,7 +100,7 @@ QUnit.test('setFeatures (without menu, all options)', function(assert){
 		labelField: 'label',
 		placeholder: 'Search by Test Feature Type...'
 	});
-	$.each($('#fld-srch li.srch-type-test'), function(i, li){
+	$.each(control.getElem('.fld-srch li.srch-type-test'), function(i, li){
 		assert.equal($(li).html(), 'label' + i);
 		assert.deepEqual($(li).data('location'), {
 			name: features[i].properties.name,

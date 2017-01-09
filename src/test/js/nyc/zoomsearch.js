@@ -34,7 +34,7 @@ QUnit.module('nyc.ZoomSearch', {
 		this.TEST_CONTROL = function(useSearchTypeMenu){
 			nyc.ZoomSearch.apply(this, [useSearchTypeMenu]);
 		};
-		this.TEST_CONTROL.prototype.container = function(){
+		this.TEST_CONTROL.prototype.getContainer = function(){
 			return $('#test-container'); 
 		}
 		nyc.inherits(this.TEST_CONTROL, nyc.ZoomSearch);
@@ -51,17 +51,17 @@ QUnit.test('render (useSearchTypeMenu = false)', function(assert){
 	assert.expect(10);
 	
 	var control = new this.TEST_CONTROL();
-	assert.ok($('#btn-z-in').length);
-	assert.ok($('#btn-z-out').length);
-	assert.ok($('#fld-srch-container input').length);
-	assert.ok($('#fld-srch').length);
-	assert.ok($('#fld-srch-retention').length);
+	assert.equal(control.getElem('.btn-z-in').length, 1);
+	assert.equal(control.getElem('.btn-z-out').length, 1);
+	assert.equal(control.getElem('.fld-srch-container input').length, 1);
+	assert.equal(control.getElem('.fld-srch').length, 1);
+	assert.equal(control.getElem('.fld-srch-retention').length, 1);
 	
-	assert.ok($('#btn-geo').length);
-	assert.notOk($('#btn-srch-typ').length);
-	assert.notOk($('#mnu-srch-typ').length);
-	assert.notOk($('#srch-type-geo').length);
-	assert.notOk($('#srch-type-addr').length);
+	assert.equal(control.getElem('.btn-geo').length, 1);
+	assert.notOk(control.getElem('.btn-srch-typ').length);
+	assert.notOk(control.getElem('.mnu-srch-typ').length);
+	assert.notOk(control.getElem('.srch-type-geo').length);
+	assert.notOk(control.getElem('.srch-type-addr').length);
 });
 
 QUnit.test('geolocate (useSearchTypeMenu = false)', function(assert){
@@ -71,8 +71,8 @@ QUnit.test('geolocate (useSearchTypeMenu = false)', function(assert){
 	control.on(nyc.ZoomSearch.EventType.GEOLOCATE, function(){
 		assert.ok(true);
 	});
-	$('#btn-geo').trigger('click');
-	$('#srch-type-geo').trigger('click');
+	control.getElem('.btn-geo').trigger('click');
+	control.getElem('.srch-type-geo').trigger('click');
 });
 
 QUnit.test('geolocate (useSearchTypeMenu = true)', function(assert){
@@ -82,28 +82,26 @@ QUnit.test('geolocate (useSearchTypeMenu = true)', function(assert){
 	control.on(nyc.ZoomSearch.EventType.GEOLOCATE, function(){
 		assert.ok(true);
 	});
-	$('#btn-geo').trigger('click');
-	$('#srch-type-geo').trigger('click');
+	control.getElem('.btn-geo').trigger('click');
+	control.getElem('.srch-type-geo').trigger('click');
 });
 
 QUnit.test('render (useSearchTypeMenu = false)', function(assert){
 	assert.expect(10);
 	
 	var control = new this.TEST_CONTROL();
-	assert.ok($('#btn-z-in').length);
-	assert.ok($('#btn-z-out').length);
-	assert.ok($('#fld-srch-container input').length);
-	assert.ok($('#fld-srch').length);
-	assert.ok($('#fld-srch-retention').length);
+	assert.equal(control.getElem('.btn-z-in').length, 1);
+	assert.equal(control.getElem('.btn-z-out').length, 1);
+	assert.equal(control.getElem('.fld-srch-container input').length, 1);
+	assert.equal(control.getElem('.fld-srch').length, 1);
+	assert.equal(control.getElem('.fld-srch-retention').length, 1);
 	
-	assert.ok($('#btn-geo').length);
-	assert.notOk($('#btn-srch-typ').length);
-	assert.notOk($('#mnu-srch-typ').length);
-	assert.notOk($('#srch-type-geo').length);
-	assert.notOk($('#srch-type-addr').length);
+	assert.equal(control.getElem('.btn-geo').length, 1);
+	assert.notOk(control.getElem('.btn-srch-typ').length);
+	assert.notOk(control.getElem('.mnu-srch-typ').length);
+	assert.notOk(control.getElem('.srch-type-geo').length);
+	assert.notOk(control.getElem('.srch-type-addr').length);
 });
-
-
 
 QUnit.test('key (keyCode = 13)', function(assert){
 	assert.expect(1);
@@ -112,10 +110,10 @@ QUnit.test('key (keyCode = 13)', function(assert){
 	control.one(nyc.ZoomSearch.EventType.SEARCH, function(data){
 		assert.equal(data, 'my address');
 	}); 
-	$('#fld-srch-container input').val(' my address ');
+	control.getElem('.fld-srch-container input').val(' my address ');
 	 var evt = $.Event('keyup');
 	 evt.keyCode = 13;
-	 $('#fld-srch-container input').trigger(evt);
+	 control.getElem('.fld-srch-container input').trigger(evt);
 });
 
 QUnit.test('key (keyCode != 13)', function(assert){
@@ -126,10 +124,10 @@ QUnit.test('key (keyCode != 13)', function(assert){
 	control.one(nyc.ZoomSearch.EventType.SEARCH, function(data){
 		handled = true;
 	}); 
-	$('#fld-srch-container input').val(' my address ');
+	control.getElem('.fld-srch-container input').val(' my address ');
 	 var evt = $.Event('keyup');
 	 evt.keyCode = 0;
-	 $('#fld-srch-container input').trigger(evt);
+	 control.getElem('.fld-srch-container input').trigger(evt);
 	 assert.notOk(handled);
 });
 
@@ -143,7 +141,7 @@ QUnit.test('triggerSearch (input = "my address")', function(assert){
 	control.one(nyc.ZoomSearch.EventType.SEARCH, function(data){
 		assert.equal(data, 'my address');
 	}); 
-	$('#fld-srch-container input').val(' my address ');
+	control.getElem('.fld-srch-container input').val(' my address ');
 	control.triggerSearch();
 });
 
@@ -157,10 +155,10 @@ QUnit.test('triggerSearch (no input)', function(assert){
 	var handled = false;
 	var handler = function(){handled = true;};
 	control.on(nyc.ZoomSearch.EventType.SEARCH, handler); 
-	$('#fld-srch-container input').val('');
+	control.getElem('.ld-srch-container input').val('');
 	control.triggerSearch();
 	assert.notOk(handled);
-	$('#fld-srch-container input').val(' ');
+	control.getElem('.fld-srch-container input').val(' ');
 	control.triggerSearch();
 	assert.notOk(handled);
 	control.off(nyc.ZoomSearch.EventType.SEARCH, handler); 
@@ -174,7 +172,7 @@ QUnit.test('val', function(assert){
 		assert.notOk(show);
 	};
 
-	$('#fld-srch-container input').val('my address');
+	control.getElem('.fld-srch-container input').val('my address');
 	assert.equal(control.val(), 'my address');
 	assert.equal(control.val('your address'), 'your address');
 	assert.equal(control.val(), 'your address');
@@ -229,13 +227,13 @@ QUnit.test('searching', function(assert){
 	assert.expect(3);
 
 	var control = new this.TEST_CONTROL();
-	assert.notOk($('#fld-srch-container a.ui-input-clear').hasClass('searching'));
+	assert.notOk(control.getElem('.fld-srch-container a.ui-input-clear').hasClass('searching'));
 	
 	control.searching(true);
-	assert.ok($('#fld-srch-container a.ui-input-clear').hasClass('searching'));
+	assert.ok(control.getElem('.fld-srch-container a.ui-input-clear').hasClass('searching'));
 	
 	control.searching(false);
-	assert.notOk($('#fld-srch-container a.ui-input-clear').hasClass('searching'));
+	assert.notOk(control.getElem('.fld-srch-container a.ui-input-clear').hasClass('searching'));
 });
 
 QUnit.test('listItem', function(assert){
@@ -274,13 +272,13 @@ QUnit.test('searchType', function(assert){
 	};
 	
 	control.list.show();
-	$('#mnu-srch-typ').hide();
+	control.getElem('.mnu-srch-typ').hide();
 	
 	control.searchType()
 	
 	assert.equal(control.list.css('display'), 'none');
 	setTimeout(function(){
-		assert.equal($('#mnu-srch-typ').css('display'), 'block');
+		assert.equal(control.getElem('.mnu-srch-typ').css('display'), 'block');
 		done();
 	}, 1000);
 });
@@ -317,19 +315,19 @@ QUnit.test('choices (srch-type = addr)', function(assert){
 	};
 	control.isAddrSrch = false;
 	control.val('before');
-	$('#mnu-srch-typ').show();
+	control.getElem('.mnu-srch-typ').show();
 	control.input.attr('placeholder', 'placeholder');
 	
 	var liAddr = $('<li></li><li></li><li></li>').addClass('srch-type-addr');
 	var liOther = $('<li>1</li><li></li><li></li>').addClass('srch-type-other');
-	$('#fld-srch-retention').append(liAddr);
-	$('#fld-srch-retention').append(liOther);
+	control.getElem('.fld-srch-retention').append(liAddr);
+	control.getElem('.fld-srch-retention').append(liOther);
 	
 	assert.notOk(control.isAddrSrch);
 	assert.ok(control.val());
 	assert.notOk(control.input.get(0) === document.activeElement);
-	assert.notOk($('#fld-srch li.srch-type-addr').length);
-	assert.notOk($('#fld-srch li.srch-type-other').length);
+	assert.notOk(control.getElem('.fld-srch li.srch-type-addr').length);
+	assert.notOk(control.getElem('.fld-srch li.srch-type-other').length);
 	
 	control.choices({target: liAddr.get(1)});
 	
@@ -340,11 +338,11 @@ QUnit.test('choices (srch-type = addr)', function(assert){
 	
 	assert.equal(control.input.attr('placeholder'), 'Search for an address...');
 	
-	assert.equal($('#fld-srch li.srch-type-addr').length, 3);
-	assert.notOk($('#fld-srch li.srch-type-other').length);
+	assert.equal(control.getElem('.fld-srch li.srch-type-addr').length, 3);
+	assert.notOk(control.getElem('.fld-srch li.srch-type-other').length);
 	
 	setTimeout(function(){
-		assert.equal($('#mnu-srch-typ').css('display'), 'none');
+		assert.equal(control.getElem('.mnu-srch-typ').css('display'), 'none');
 		done();
 	}, 1000);
 });
@@ -362,19 +360,19 @@ QUnit.test('choices (srch-type = other)', function(assert){
 	};
 	control.isAddrSrch = false;
 	control.val('before');
-	$('#mnu-srch-typ').show();
+	control.getElem('.mnu-srch-typ').show();
 	control.input.attr('placeholder', 'placeholder');
 	
 	var liAddr = $('<li></li><li></li><li></li>').addClass('srch-type-addr');
 	var liOther = $('<li>1</li><li></li><li></li>').addClass('srch-type-other').data('srch-type', 'other').data('placeholder', 'Search Other...');
-	$('#fld-srch-retention').append(liAddr);
-	$('#fld-srch-retention').append(liOther);
+	control.getElem('.fld-srch-retention').append(liAddr);
+	control.getElem('.fld-srch-retention').append(liOther);
 	
 	assert.notOk(control.isAddrSrch);
 	assert.ok(control.val());
 	assert.notOk(control.input.get(0) === document.activeElement);
-	assert.notOk($('#fld-srch li.srch-type-addr').length);
-	assert.notOk($('#fld-srch li.srch-type-other').length);
+	assert.notOk(control.getElem('.fld-srch li.srch-type-addr').length);
+	assert.notOk(control.getElem('.fld-srch li.srch-type-other').length);
 	
 	control.choices({target: liOther.get(1)});
 	
@@ -385,27 +383,28 @@ QUnit.test('choices (srch-type = other)', function(assert){
 	
 	assert.equal(control.input.attr('placeholder'), 'Search Other...');
 	
-	assert.equal($('#fld-srch li.srch-type-other').length, 3);
-	assert.notOk($('#fld-srch li.srch-type-addr').length);
+	assert.equal(control.getElem('.fld-srch li.srch-type-other').length, 3);
+	assert.notOk(control.getElem('.fld-srch li.srch-type-addr').length);
 	
 	setTimeout(function(){
-		assert.equal($('#mnu-srch-typ').css('display'), 'none');
+		assert.equal(control.getElem('.mnu-srch-typ').css('display'), 'none');
 		done();
 	}, 1000);
 });
 
 QUnit.test('emptyList', function(assert){
-	assert.expect(3);
+	assert.expect(4);
 
 	var control = new this.TEST_CONTROL();
 	var liAddr = $('<li></li><li></li><li></li>').addClass('srch-type-addr');
-	$('#fld-srch').append(liAddr);
+	control.getElem('.fld-srch').append(liAddr);
 	
-	assert.notOk($('#fld-srch-retention li.srch-type-addr').length);
+	assert.equal(control.getElem('.fld-srch-retention').length, 1);
+	assert.notOk(control.getElem('.fld-srch-retention li.srch-type-addr').length);
 
 	control.emptyList();
 	
-	assert.notOk($('#fld-srch li.srch-type-addr').length);
-	assert.equal($('#fld-srch-retention li.srch-type-addr').length, 3);
+	assert.notOk(control.getElem('.fld-srch li.srch-type-addr').length);
+	assert.equal(control.getElem('.fld-srch-retention li.srch-type-addr').length, 3);
 });
 

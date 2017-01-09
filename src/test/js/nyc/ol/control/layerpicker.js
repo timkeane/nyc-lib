@@ -14,21 +14,21 @@ QUnit.test('constructor with layerGroups', function(assert){
 	assert.expect(6);
 	
 	var options = {
-		map: 'myMap',
+		map: this.TEST_OL_MAP,
 		layerGroups: 'myLayerGroups',
 		target: 'myTarget'
 	};
 	
 	var render = nyc.ol.control.LayerPicker.prototype.render;
 	nyc.ol.control.LayerPicker.prototype.render = function(map, layerGroups, target){
-		assert.equal(map, 'myMap');
+		assert.deepEqual(map, options.map);
 		assert.equal(layerGroups, 'myLayerGroups');
 		assert.equal(target, 'myTarget');
 	};
 	
 	var picker = new nyc.ol.control.LayerPicker(options);
 	
-	assert.equal(picker.map, 'myMap');
+	assert.deepEqual(picker.map, options.map);
 	assert.equal(picker.layerGroups, 'myLayerGroups');
 	assert.deepEqual(picker.controls, []);
 	
@@ -39,25 +39,25 @@ QUnit.test('constructor without layerGroups', function(assert){
 	assert.expect(7);
 	
 	var options = {
-		map: 'myMap',
+		map: this.TEST_OL_MAP,
 		target: 'myTarget'
 	};
 	
 	var getLayerGoupsFromMap = nyc.ol.control.LayerPicker.prototype.getLayerGoupsFromMap;
 	var render = nyc.ol.control.LayerPicker.prototype.render;
 	nyc.ol.control.LayerPicker.prototype.getLayerGoupsFromMap = function(map){
-		assert.equal(map, 'myMap');
+		assert.equal(map, options.map);
 		return 'someLayerGroups';
 	};
 	nyc.ol.control.LayerPicker.prototype.render = function(map, layerGroups, target){
-		assert.equal(map, 'myMap');
+		assert.deepEqual(map, options.map);
 		assert.equal(layerGroups, 'someLayerGroups');
 		assert.equal(target, 'myTarget');
 	};
 	
 	var picker = new nyc.ol.control.LayerPicker(options);
 	
-	assert.equal(picker.map, 'myMap');
+	assert.deepEqual(picker.map, options.map);
 	assert.equal(picker.layerGroups, 'someLayerGroups');
 	assert.deepEqual(picker.controls, []);
 	
@@ -69,7 +69,7 @@ QUnit.test('getLayerGoupsFromMap', function(assert){
 	assert.expect(1);
 	
 	var options = {
-		map: 'myMap',
+		map: this.TEST_OL_MAP,
 		target: 'myTarget'
 	};
 	
@@ -90,7 +90,7 @@ QUnit.test('getLayers', function(assert){
 	var layerB = new ol.layer.Base({name: 'layerB'});
 	
 	var options = {
-		map: 'myMap',
+		map: this.TEST_OL_MAP,
 		target: 'myTarget',
 		layerGroups: [{
 			name: 'Group1',
@@ -106,7 +106,7 @@ QUnit.test('getLayers', function(assert){
 	
 	var render = nyc.ol.control.LayerPicker.prototype.render;	
 	nyc.ol.control.LayerPicker.prototype.render = function(map, layerGroups, target){
-		assert.equal(map, 'myMap');
+		assert.deepEqual(map, options.map);
 		assert.deepEqual(layerGroups, options.layerGroups);
 		assert.equal(target, 'myTarget');
 	};
@@ -118,11 +118,11 @@ QUnit.test('getLayers', function(assert){
 	nyc.ol.control.LayerPicker.prototype.render = render;
 });
 
-QUnit.test('getMenuId', function(assert){
+QUnit.test('getMenuClass', function(assert){
 	assert.expect(1);
 	
 	var options = {
-		map: 'myMap',
+		map: this.TEST_OL_MAP,
 		layerGroups: 'myLayerGroups',
 		target: 'myTarget'
 	};
@@ -132,7 +132,7 @@ QUnit.test('getMenuId', function(assert){
 	
 	try{
 		var picker = new nyc.ol.control.LayerPicker(options);
-		picker.getMenuId();
+		picker.getMenuClass();
 		assert.ok(false);
 	}catch (e){
 		assert.equal(e, 'Must be implemented');
@@ -145,7 +145,7 @@ QUnit.test('getButtonHtml', function(assert){
 	assert.expect(1);
 	
 	var options = {
-		map: 'myMap',
+		map: this.TEST_OL_MAP,
 		layerGroups: 'myLayerGroups',
 		target: 'myTarget'
 	};
@@ -170,7 +170,6 @@ QUnit.test('addButton', function(assert){
 	var options = {
 		map: this.TEST_OL_MAP,
 		layerGroups: 'myLayerGroups',
-		target: 'myTarget'
 	};
 	
 	var render = nyc.ol.control.LayerPicker.prototype.render;	
@@ -178,7 +177,7 @@ QUnit.test('addButton', function(assert){
 	var toggleMenu = nyc.ol.control.LayerPicker.prototype.toggleMenu;	
 	nyc.ol.control.LayerPicker.prototype.render = function(){};
 	nyc.ol.control.LayerPicker.prototype.getButtonHtml = function(){
-		return '<a id="test-btn"></a>';
+		return '<a class="test-btn"></a>';
 	};
 	nyc.ol.control.LayerPicker.prototype.toggleMenu = function(){
 		assert.ok(true);
@@ -187,8 +186,8 @@ QUnit.test('addButton', function(assert){
 	var picker = new nyc.ol.control.LayerPicker(options);
 	picker.addButton(picker.map);
 	
-	assert.equal($(this.TEST_OL_MAP.getTarget()).find('#test-btn').length, 1);
-	$('#test-btn').trigger('click');
+	assert.equal($(this.TEST_OL_MAP.getTarget()).find('.test-btn').length, 1);
+	$(this.TEST_OL_MAP.getTarget()).find('.test-btn').trigger('click');
 	
 	nyc.ol.control.LayerPicker.prototype.render = render;
 	nyc.ol.control.LayerPicker.prototype.getButtonHtml = getButtonHtml;
@@ -201,7 +200,7 @@ QUnit.test('getContainer target provided', function(assert){
 	var target = $('<div></div>');
 	$('body').append(target);
 	var options = {
-		map: 'mymap',
+		map: this.TEST_OL_MAP,
 		layerGroups: 'myLayerGroups',
 		target: target
 	};
@@ -211,7 +210,7 @@ QUnit.test('getContainer target provided', function(assert){
 	
 	var picker = new nyc.ol.control.LayerPicker(options);
 	
-	assert.strictEqual(picker.getContainer(picker.map, target).get(0), target.get(0));
+	assert.strictEqual(picker.getContainer().get(0), target.get(0));
 	assert.strictEqual(picker.container.get(0), target.get(0));
 	assert.equal(picker.container.length, 1);
 	
@@ -228,28 +227,28 @@ QUnit.test('getContainer target not provided', function(assert){
 	};
 	
 	var render = nyc.ol.control.LayerPicker.prototype.render;	
-	var getMenuId = nyc.ol.control.LayerPicker.prototype.getMenuId;	
+	var getMenuClass = nyc.ol.control.LayerPicker.prototype.getMenuClass;	
 	var addButton = nyc.ol.control.LayerPicker.prototype.addButton;	
 	nyc.ol.control.LayerPicker.prototype.render = function(){};
-	nyc.ol.control.LayerPicker.prototype.getMenuId = function(){return 'test-mnu';};
+	nyc.ol.control.LayerPicker.prototype.getMenuClass = function(){return 'test-mnu';};
 	nyc.ol.control.LayerPicker.prototype.addButton = function(map){
 		assert.deepEqual(map, options.map);
 	};	
 	
 	var picker = new nyc.ol.control.LayerPicker(options);
 	
-	assert.strictEqual(picker.getContainer(picker.map).get(0), $(this.TEST_OL_MAP.getTarget()).find('#test-mnu').get(0));
-	assert.strictEqual(picker.container.get(0), $(this.TEST_OL_MAP.getTarget()).find('#test-mnu').get(0));
-	assert.strictEqual(picker.menu, $(this.TEST_OL_MAP.getTarget()).find('#test-mnu').get(0));
+	assert.strictEqual(picker.getContainer().get(0), $(this.TEST_OL_MAP.getTarget()).find('.test-mnu').get(0));
+	assert.strictEqual(picker.container.get(0), $(this.TEST_OL_MAP.getTarget()).find('.test-mnu').get(0));
+	assert.strictEqual(picker.menu, $(this.TEST_OL_MAP.getTarget()).find('.test-mnu').get(0));
 	assert.equal(picker.container.length, 1);
 	
 	nyc.ol.control.LayerPicker.prototype.render = render;
-	nyc.ol.control.LayerPicker.prototype.getMenuId = getMenuId;
+	nyc.ol.control.LayerPicker.prototype.getMenuClass = getMenuClass;
 	nyc.ol.control.LayerPicker.prototype.addButton = addButton;
 });
 
 QUnit.test('render', function(assert){
-	assert.expect(7);
+	assert.expect(6);
 	var container = $('<div></div>');
 	$('body').append(container);
 	
@@ -259,7 +258,7 @@ QUnit.test('render', function(assert){
 	var layerB = new ol.layer.Base({name: 'layerB', visible: false});
 	
 	var options = {
-		map: 'myMap',
+		map: this.TEST_OL_MAP,
 		target: 'myTarget',
 		layerGroups: [{
 			name: 'Group1',
@@ -274,9 +273,8 @@ QUnit.test('render', function(assert){
 	};
 
 	var getContainer = nyc.ol.control.LayerPicker.prototype.getContainer;
-	nyc.ol.control.LayerPicker.prototype.getContainer= function(map, target){
-		assert.equal(map, options.map);
-		assert.equal(target, options.target);
+	nyc.ol.control.LayerPicker.prototype.getContainer= function(){
+		assert.ok(true);
 		return container;
 	};
 	

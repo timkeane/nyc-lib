@@ -32,22 +32,22 @@ QUnit.test('constructor', function(assert){
 	var showChoices = nyc.ol.control.LayerFade.prototype.showChoices;
 	var buttonClick = nyc.ol.control.LayerFade.prototype.buttonClick;
 	nyc.ol.control.LayerFade.prototype.showChoices = function(){
-		assert.ok(true);
+		assert.ok(true, 'showChoices should be called 3 times');
 	};
 	nyc.ol.control.LayerFade.prototype.buttonClick = function(){
-		assert.ok(true);
+		assert.ok(true, 'buttonClick should be called 1 time');
 	};
 	
 	var fade = new nyc.ol.control.LayerFade(options);
 	
 	assert.deepEqual(fade.layers, this.LAYERS);
 	assert.equal(fade.autoFadeInterval, 2000);
-	assert.equal($(this.TEST_OL_MAP.getTarget()).find('#btn-fade').length, 1);
-	assert.equal($(this.TEST_OL_MAP.getTarget()).find('#mnu-fade').length, 1);
-	assert.deepEqual(fade.menu, $('#mnu-fade').get(0));
+	assert.equal($(this.TEST_OL_MAP.getTarget()).find('.btn-fade').length, 1);
+	assert.equal($(this.TEST_OL_MAP.getTarget()).find('.mnu-fade').length, 1);
+	assert.deepEqual(fade.menu, $(this.TEST_OL_MAP.getTarget()).find('.mnu-fade').get(0));
 
-	$('#btn-fade').trigger('click');
-	$('.fade-btns a').each(function(){
+	$(this.TEST_OL_MAP.getTarget()).find('.btn-fade').trigger('click');
+	$(fade.menu).find('a').each(function(){
 		$(this).trigger('click');
 	});
 	
@@ -97,7 +97,7 @@ QUnit.test('setupFade', function(assert){
 	assert.notOk(layers[2].get('nextFadeLayer'));	
 });
 
-QUnit.test('setupFade', function(assert){
+QUnit.test('cancel', function(assert){
 	assert.expect(11);
 	
 	var done = assert.async();
@@ -114,7 +114,7 @@ QUnit.test('setupFade', function(assert){
 	
 	var fade = new nyc.ol.control.LayerFade(options);
 	
-	$('#fade-status, #fade-progress, #fade-slider').show();
+	$('.fade-status, .fade-progress, .fade-slider').show();
 	
 	fade.cancel();
 	
@@ -124,7 +124,7 @@ QUnit.test('setupFade', function(assert){
 	});
 	
 	setTimeout(function(){
-		$('#fade-status, #fade-progress, #fade-slider').each(function(){
+		$('.fade-status, .fade-progress, .fade-slider').each(function(){
 			assert.equal($(this).css('display'), 'none');
 		});
 		done();
@@ -132,7 +132,7 @@ QUnit.test('setupFade', function(assert){
 });
 
 QUnit.test('showChoices', function(assert){
-	assert.expect(12);
+	assert.expect(14);
 		
 	var layers = this.LAYERS;
 	
@@ -150,22 +150,24 @@ QUnit.test('showChoices', function(assert){
 		assert.ok(true);
 	};
 	
-	assert.equal($('#mnu-fade ul li').length, 0);
+	assert.equal($(this.TEST_OL_MAP.getTarget()).find('.mnu-fade ul li').length, 0);
 	
 	fade.showChoices();
 	
-	assert.equal($('#mnu-fade ul li').length, 4);
+	assert.equal($(this.TEST_OL_MAP.getTarget()).find('.mnu-fade ul li').length, 4);
 	
-	$.each($('#mnu-fade ul li'), function(i, li){
+	$.each($(this.TEST_OL_MAP.getTarget()).find('.mnu-fade ul li'), function(i, li){
 		assert.equal($(li).html(), layers[i].get('name') + '<span></span>');
 	});
 	
-	assert.equal($('.fade-choices').sortable('option', 'connectWith'), '#mnu-fade ul, #mnu-fade ol');
+	assert.equal($(this.TEST_OL_MAP.getTarget()).find('.fade-choices').sortable('option', 'connectWith').length, 2);
+	assert.deepEqual($(this.TEST_OL_MAP.getTarget()).find('.fade-choices').sortable('option', 'connectWith').get(0), $(this.TEST_OL_MAP.getTarget()).find('.mnu-fade ul').get(0));
+	assert.deepEqual($(this.TEST_OL_MAP.getTarget()).find('.fade-choices').sortable('option', 'connectWith').get(1), $(this.TEST_OL_MAP.getTarget()).find('.mnu-fade ol').get(0));
 
 	/* 2nd call only results in function calls - adds no more list items */
 	fade.showChoices();
 	
-	assert.equal($('#mnu-fade ul li').length, 4);
+	assert.equal($(this.TEST_OL_MAP.getTarget()).find('.mnu-fade ul li').length, 4);
 });
 
 QUnit.test('swap', function(assert){
@@ -182,43 +184,43 @@ QUnit.test('swap', function(assert){
 	
 	var fade = new nyc.ol.control.LayerFade(options);
 
-	assert.equal($('#mnu-fade ul li').length, 0);
-	assert.equal($('#mnu-fade ol li').length, 1);
-	assert.equal($('#mnu-fade ol li').not('.fade-msg').length, 0);
+	assert.equal(fade.getElem('.mnu-fade ul li').length, 0);
+	assert.equal(fade.getElem('.mnu-fade ol li').length, 1);
+	assert.equal(fade.getElem('.mnu-fade ol li').not('.fade-msg').length, 0);
 	
 	fade.showChoices();
 
-	assert.equal($('#mnu-fade ul li').length, 4);
-	assert.equal($('#mnu-fade ol li').length, 1);
-	assert.equal($('#mnu-fade ol li').not('.fade-msg').length, 0);
+	assert.equal(fade.getElem('.mnu-fade ul li').length, 4);
+	assert.equal(fade.getElem('.mnu-fade ol li').length, 1);
+	assert.equal(fade.getElem('.mnu-fade ol li').not('.fade-msg').length, 0);
 	
-	var span0 = $($('#mnu-fade ul li').get(0)).find('span');
-	var span1 = $($('#mnu-fade ul li').get(1)).find('span');
-	var span2 = $($('#mnu-fade ul li').get(2)).find('span');
-	var span3 = $($('#mnu-fade ul li').get(3)).find('span');
+	var span0 = $(fade.getElem('.mnu-fade ul li').get(0)).find('span');
+	var span1 = $(fade.getElem('.mnu-fade ul li').get(1)).find('span');
+	var span2 = $(fade.getElem('.mnu-fade ul li').get(2)).find('span');
+	var span3 = $(fade.getElem('.mnu-fade ul li').get(3)).find('span');
 
 	span1.trigger('click');
 
 	assert.equal($('.fade-msg').length, 0);
-	assert.equal($('#mnu-fade ul li').length, 3);
-	assert.equal($('#mnu-fade ol li').length, 1);
-	assert.equal($('#mnu-fade ol li').data('fade-layer'), 'layer2');
+	assert.equal(fade.getElem('.mnu-fade ul li').length, 3);
+	assert.equal(fade.getElem('.mnu-fade ol li').length, 1);
+	assert.equal(fade.getElem('.mnu-fade ol li').data('fade-layer'), 'layer2');
 
 	span0.trigger('click');
 
-	assert.equal($('#mnu-fade ul li').length, 2);
-	assert.equal($('#mnu-fade ol li').length, 2);
-	assert.equal($($('#mnu-fade ol li').get(0)).data('fade-layer'), 'layer2');
-	assert.equal($($('#mnu-fade ol li').get(1)).data('fade-layer'), 'layer1');
+	assert.equal(fade.getElem('.mnu-fade ul li').length, 2);
+	assert.equal(fade.getElem('.mnu-fade ol li').length, 2);
+	assert.equal($(fade.getElem('.mnu-fade ol li').get(0)).data('fade-layer'), 'layer2');
+	assert.equal($(fade.getElem('.mnu-fade ol li').get(1)).data('fade-layer'), 'layer1');
 
 	span1.trigger('click');
 	
-	assert.equal($('#mnu-fade ul li').length, 3);
-	assert.equal($($('#mnu-fade ul li').get(0)).data('fade-layer'), 'layer2');
-	assert.equal($($('#mnu-fade ul li').get(1)).data('fade-layer'), 'layerA');
-	assert.equal($($('#mnu-fade ul li').get(2)).data('fade-layer'), 'layerB');
-	assert.equal($('#mnu-fade ol li').length, 1);
-	assert.equal($('#mnu-fade ol li').data('fade-layer'), 'layer1');
+	assert.equal(fade.getElem('.mnu-fade ul li').length, 3);
+	assert.equal($(fade.getElem('.mnu-fade ul li').get(0)).data('fade-layer'), 'layer2');
+	assert.equal($(fade.getElem('.mnu-fade ul li').get(1)).data('fade-layer'), 'layerA');
+	assert.equal($(fade.getElem('.mnu-fade ul li').get(2)).data('fade-layer'), 'layerB');
+	assert.equal(fade.getElem('.mnu-fade ol li').length, 1);
+	assert.equal(fade.getElem('.mnu-fade ol li').data('fade-layer'), 'layer1');
 });
 
 QUnit.test('makeChoices (no choices)', function(assert){

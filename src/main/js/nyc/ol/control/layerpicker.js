@@ -114,12 +114,12 @@ nyc.ol.control.LayerPicker.prototype = {
 	 */
 	getContainer: function(){
 		if (this.container) return this.container;
-		var container = this.target ? $(this.target) : $('<div id="' + this.getMenuClass() + '" class="ctl-mnu-tgl"></div>');
+		var container = this.target ? $(this.target) : $('<div class="' + this.getMenuClass() + ' ctl-mnu-tgl"></div>');
 		this.container = container;
 		if (this.target) return container;
-		$(map.getTarget()).append(container);
+		$(this.map.getTarget()).append(container);
 		this.menu = container.get(0);
-		this.addButton(map);
+		this.addButton(this.map);
 		return container;
 	},
 	/**
