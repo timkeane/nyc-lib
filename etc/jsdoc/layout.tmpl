@@ -19,13 +19,15 @@
 
 <div id="main">
 
+    <h1 class="banner">
+	    <span>maps.nyc.gov</span>
+    </h1>
     <h1 class="page-title">
     	<?js if (title.indexOf('Source') == 0) { ?>
     		 Source:<span class="nyc-smaller"><?js= title.split(':')[1] ?></span>
     	<?js }else{ ?>
     		<?js= title ?>
     	<?js } ?>
-	    <span id="maps-nyc-gov">maps.nyc.gov</span>
     </h1>
 
 	<?js if (title == 'Home'){ ?>
@@ -50,32 +52,32 @@
 				    </p>
 				    <p>
 					    These libraries provide functionality for applications utilizing 
-					    <a href="http://openlayers.org/">OpenLayer 3</a>, 
+					    <a href="http://openlayers.org/">OpenLayer</a>, 
 					    <a href="http://leafletjs.com/">Leaflet</a>,
-					    <a href="https://cartodb.com/">CartoDB</a> and 
+					    <a href="https://cartodb.com/">Carto</a> and 
 					    <a href="http://www.chartjs.org/">ChartJS</a>.
 				    </p>
-					<p><a href="../examples">Examples...</a></p>
+					<p><a href="../examples/">Examples...</a></p>
 				    
 			    	<h4>nyc-ol-lib <span class="nyc-smaller">(OpenLayers)</span></h4>
 			    	
-			    	<textarea class="nyc-src-code">&lt;link href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.19.1/ol.css" rel="stylesheet"&gt;
+			    	<textarea class="nyc-src-code">&lt;link href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.20.1/ol.css" rel="stylesheet"&gt;
 &lt;link href="@@NYC-LIB-URL@@/css/nyc-ol-lib.css" rel="stylesheet"&gt;
 &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"&gt;&lt;/script&gt;
 &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"&gt;&lt;/script&gt;
-&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.19.1/ol.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.20.1/ol.js"&gt;&lt;/script&gt;
 &lt;script src="@@NYC-LIB-URL@@/js/nyc-ol-lib.js"&gt;&lt;/script&gt;</textarea>
 			    	
 			    	<h4>nyc-ol-redline-lib <span class="nyc-smaller">(OpenLayers)</span></h4>
 			    	
-			    	<textarea class="nyc-src-code">&lt;link href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.19.1/ol.css" rel="stylesheet"&gt;
+			    	<textarea class="nyc-src-code">&lt;link href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.20.1/ol.css" rel="stylesheet"&gt;
 &lt;link href="@@NYC-LIB-URL@@/css/nyc-ol-redline-lib.css" rel="stylesheet"&gt;
 &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"&gt;&lt;/script&gt;
 &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"&gt;&lt;/script&gt;
-&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.19.1/ol.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.20.1/ol.js"&gt;&lt;/script&gt;
 &lt;script src="@@NYC-LIB-URL@@/js/nyc-ol-redline-lib.js"&gt;&lt;/script&gt;</textarea>
 
-			    	<h4>nyc-carto-lib <span class="nyc-smaller">(CartoDB and ChartJS)</span></h4>
+			    	<h4>nyc-carto-lib <span class="nyc-smaller">(Carto and ChartJS)</span></h4>
 			    	
 			    	<textarea class="nyc-src-code">&lt;link href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css" rel="stylesheet"&gt;
 &lt;link href="@@NYC-LIB-URL@@/css/nyc-carto-lib.css" rel="stylesheet"&gt;
@@ -86,10 +88,10 @@
 			    	
 			    	<h4>nyc-leaf-lib <span class="nyc-smaller">(Leaflet)</span></h4>
 			    	
-			    	<textarea class="nyc-src-code">&lt;link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" rel="stylesheet"&gt;
+			    	<textarea class="nyc-src-code">&lt;link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.css" rel="stylesheet"&gt;
 &lt;link href="@@NYC-LIB-URL@@/css/nyc-leaf-lib.css" rel="stylesheet"&gt;
 &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"&gt;&lt;/script&gt;
-&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.js"&gt;&lt;/script&gt;
 &lt;script src="@@NYC-LIB-URL@@/js/nyc-leaf-lib.js"&gt;&lt;/script&gt;</textarea>
 
 				</div>

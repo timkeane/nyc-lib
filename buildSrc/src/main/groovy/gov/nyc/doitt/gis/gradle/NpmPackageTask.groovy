@@ -30,6 +30,7 @@ class NpmPackageTask extends DefaultTask {
 		pkg.put('contributors', contributors)
 		pkg.put('repository', [type: 'git', url: gitHubUrl])
 		pkg.put('keywords', keywords)
+		pkg.put('dependencies', dependencies)
 		new File(packageFile).text = builder.toPrettyString()
 	}
 }

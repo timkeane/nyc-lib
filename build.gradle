@@ -206,14 +206,15 @@ task npmPackage(type: NpmPackageTask) {
 	author = 'Tim Keane'
 	contributors = []
 	gitHubUrl = 'https://github.com/timkeane/nyc-lib/'
-	keywords = ['ol3', 'CartoDB', 'LeafletJS', 'ChartJS']
+	keywords = ['ol3', 'OpenLayers', 'Carto', 'LeafletJS', 'ChartJS']
 	dependencies = [
-		ol3: '> 3.11.0', 
-		CartoDB: '> 3.14', 
+		OpenLayers: '> 3.11.0', 
+		Carto: '> 3.14', 
 		ChartJS: '> 1.0.1',
 		proj4js: '> 2.3.10', 
 		JQuery: '> 1.11.0', 
-		JQueryMobile: '> 1.4.5'
+		JQueryMobile: '> 1.4.5',
+		'jquery-csv': '0.71'
 	]
 }
 
@@ -447,7 +448,7 @@ task deploy(dependsOn: [archive]) << {
 	}
 	
 	def index = file('index.html')
-	index.append '<!DOCTYPE html><html><head><title>nyc-lib</title><style>body{font-family:arial}#older{display:none}.latest-stable{color:limegreen}</style><script src="https://code.jquery.com/jquery-1.11.3.min.js"></script><script>function toggle(a){$("#older").slideToggle(function(){$(a).html($("#older").css("display") == "block" ? "Hide older versions..." : "Show older versions...");});}</script></head><body><h1>nyc-lib</h1>'
+	index.append '<!DOCTYPE html><html><head><title>nyc-lib</title><style>html{background:url(archive/mtc.png) no-repeat center center fixed;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;}html,body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;}#banner{width:3.2em;background-image:url(archive/nyc.svg);background-repeat:no-repeat;background-size:3em;}#banner span{position:relative;left:0;top:1em;font-size:.44em;font-weight:bold;}h1{display:inline-block;}a,a:visited{color:#000;text-decoration:underline;}a:hover,a:active{color:red !important;}.latest-stable{color:limegreen}</style><script src="https://code.jquery.com/jquery-1.11.3.min.js"></script><script>function toggle(a){$("#older").slideToggle(function(){$(a).html($("#older").css("display") == "block" ? "Hide older versions..." : "Show older versions...");});}</script></head><body><h1 id="banner"><span>maps.nyc.gov</span>&nbsp;</h1><h1>nyc-lib</h1>'
 	def list = file('index.list')
 	def versions = []
 	def line
