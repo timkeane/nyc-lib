@@ -6,12 +6,43 @@
 
 	<title>nyc-lib Examples</title>	
 	<style>
-		body {
-			font-family: Arial;
+		html {
+			background: url(/nyc-lib/archive/mtc.png) no-repeat center center fixed;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
 		}
-	</style>
+		html, body {
+			font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+		}
+		#banner {
+			width: 3.2em;
+			background-image: url(/nyc-lib/archive/nyc.svg);
+			background-repeat: no-repeat;
+			background-size: 3em;
+		}
+		#banner span {
+			position: relative;
+			left: 0;
+			top: 1em;
+			font-size: .44em;
+			font-weight :bold;
+		}
+		h1 {
+			display: inline-block;
+		}
+		a, a:visited {
+			color: #000;
+			text-decoration: underline;
+		}
+		a:hover, a:active {
+			color: red !important;
+		}
+		</style>
 </head>
 <body>
+	<h1 id="banner"><span>maps.nyc.gov</span></h1>
 	<h1>nyc-lib Examples</h1>	
 	<ul>
 		<li><a href="dialog.html">nyc.Dialog</a></li>
