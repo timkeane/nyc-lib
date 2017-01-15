@@ -12,9 +12,9 @@ QUnit.test('zoom', function(assert){
 
 	var control = new nyc.ol.control.ZoomSearch(this.TEST_OL_MAP);
 	var zoom = this.TEST_OL_MAP.getView().getZoom();
-	$('#btn-z-in').trigger('click');
+	 $(this.TEST_OL_MAP.getTarget()).find('.btn-z-in').trigger('click');
 	assert.equal(this.TEST_OL_MAP.getView().getZoom(), zoom + 1);
-	$('#btn-z-out').trigger('click');
+	$(this.TEST_OL_MAP.getTarget()).find('.btn-z-out').trigger('click');
 	assert.equal(this.TEST_OL_MAP.getView().getZoom(), zoom);
 });
 
@@ -42,7 +42,7 @@ QUnit.test('setFeatures (with menu, minimal options)', function(assert){
 		featureTypeTitle: 'Test Feature Type',
 		placeholder: 'Search by Test Feature Type...'
 	});
-	$.each($('#fld-srch-retention li.srch-type-test'), function(i, li){
+	$.each($(this.TEST_OL_MAP.getTarget()).find('.fld-srch-retention li.srch-type-test'), function(i, li){
 		var data = features[i].getProperties();
 		data.__feature_label = features[i].get('name');
 		assert.equal($(li).html(), 'feature' + i);
@@ -76,7 +76,7 @@ QUnit.test('setFeatures (without menu, all options)', function(assert){
 		labelField: 'label',
 		placeholder: 'Search by Test Feature Type...'
 	});
-	$.each($('#fld-srch li.srch-type-test'), function(i, li){
+	$.each($(this.TEST_OL_MAP.getTarget()).find('.fld-srch li.srch-type-test'), function(i, li){
 		var data = features[i].getProperties();
 		data.__feature_label = features[i].get('label');
 		assert.equal($(li).html(), 'label' + i);
