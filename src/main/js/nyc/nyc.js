@@ -71,6 +71,11 @@ nyc.EventHandling = function(){};
 
 nyc.EventHandling.prototype = {
 	/**
+	 * @private
+	 * @type {Object<string, Array<nyc.EventHandling.Handler>>}
+	 */
+    evtHdlrs: null,
+	/**
 	 * @desc Connect a function to an event
 	 * @public
 	 * @method
@@ -136,7 +141,7 @@ nyc.EventHandling.prototype = {
     		}
     	});
     },
-	/**
+    /**
 	 * @private
 	 * @method
 	 * @param {string} eventName
@@ -150,3 +155,13 @@ nyc.EventHandling.prototype = {
         this.evtHdlrs[eventName].push({handler: evtHdlr, scope: hdlrScope, remove: one});		    	
     }
 };
+
+/**
+ * @desc Object type to hold event handlers
+ * @private
+ * @typedef {Object}
+ * @property {function()} handler The event handler
+ * @property {Object} scope The event handler scope
+ * @property {boolean} [remove=false] Remove after one execution
+ */
+nyc.EventHandling.Handler;
