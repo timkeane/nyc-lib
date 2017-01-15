@@ -2,7 +2,7 @@ var nyc = nyc || {};
 nyc.carto = nyc.carto || {};
 
 /**
- * @desc A class to render ChartJS charts using CartoDB data
+ * @desc A class to render ChartJS charts using Carto data
  * @public
  * @class
  * @extends {nyc.carto.SqlTemplate}
@@ -165,7 +165,7 @@ nyc.inherits(nyc.carto.Chart, nyc.carto.SqlTemplate);
  * @public
  * @typedef {Object}
  * @property {(JQuery|Element|string)} canvas The canvas element for chart rendering
- * @property {cartodb.SQL} cartoSql The object used to query CartoDB data 
+ * @property {cartodb.SQL} cartoSql The object used to query Carto data 
  * @property {string} sqlTemplate The template with optional replacement tokens for generating queries for cartoSql
  * @property {string} descriptionTemplate The template with optional replacement tokens for the chart description
  * @property {string} dataColumn The data column for the y-axis chart values

@@ -15,7 +15,7 @@ nyc.carto = nyc.carto || {};
  */
 
 /**
- * @desc Class for retrieving data from CartoDB
+ * @desc Class for retrieving data from Carto
  * @public
  * @class
  * @constructor

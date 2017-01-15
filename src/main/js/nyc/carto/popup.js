@@ -2,7 +2,7 @@ var nyc = nyc || {};
 nyc.carto = nyc.carto || {};
 
 /**
- * @desc A class to create and manage CartoDB infowindows and tooltips
+ * @desc A class to create and manage Carto infowindows and tooltips
  * @public
  * @class
  * @extends {nyc.EventHandling}
@@ -36,25 +36,25 @@ nyc.carto.Popup = function(options){
 
 nyc.carto.Popup.prototype = {
 	/**
-	 * @desc The CartoDB infowindow
+	 * @desc The Carto infowindow
 	 * @public
 	 * @member {Object} 
 	 */
 	infowin: null,
 	/**
-	 * @desc The CartoDB tooltip
+	 * @desc The Carto tooltip
 	 * @public
 	 * @member {Object} 
 	 */
 	tip: null,
 	/**
-	 * @desc The CartoDB featureClick event arguments
+	 * @desc The Carto featureClick event arguments
 	 * @public
 	 * @member {Array<Object>} 
 	 */
 	popupEventData: null,
 	/**
-	 * @desc The CartoDB featureOver event arguments
+	 * @desc The Carto featureOver event arguments
 	 * @public
 	 * @member {Array<Object>} 
 	 */

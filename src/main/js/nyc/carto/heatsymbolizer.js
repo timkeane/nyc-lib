@@ -59,7 +59,7 @@ nyc.inherits(nyc.carto.HeatSymbolizer, nyc.carto.Symbolizer);
  * @public
  * @typedef {Object}
  * @property {L.Map} map The Leaflet map containing the heat map layer
- * @property {carto.Layer} layer The CartoDB heat map layer
+ * @property {carto.Layer} layer The Carto heat map layer
  * @property {string} css CartoCSS with optional replacement tokens for rendering the heat map (valid tokens are ${size}, ${sizePlus2} and ${sizePlus4})
  * @property {Array<Number>} [sizes=[2, 4, 8, 16, 32, 64, 128, 256, 512]] An array of marker sizes for replacing tokens in the css where the last number in the array is to be used at zoom level 18
  */

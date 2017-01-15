@@ -107,7 +107,7 @@ nyc.inherits(nyc.carto.JenksSymbolizer, nyc.carto.Symbolizer);
  * @desc Object type to hold constructor options for {@link nyc.carto.SqlJenksSymbolizer}
  * @public
  * @typedef {Object}
- * @property {cartodb.SQL} cartoSql The object used to query CartoDB data 
+ * @property {cartodb.SQL} cartoSql The object used to query Carto data 
  * @property {string} jenksColumn The data column for calculating Jenks natural breaks in the data
  * @property {Array<string>} cssRules An array of CartoCSS with the token ${value} to be replaced by the Jenks calculated values
  * @property {string=} baseCss CartoCSS that remains unchanged regardless of changing data

@@ -145,12 +145,12 @@ nyc.carto.ViewSwitcher.prototype = {
 nyc.inherits(nyc.carto.ViewSwitcher, nyc.EventHandling);
 
 /**
- * @desc CartoDB data access class
+ * @desc Carto data access class
  * @public
  * @class
  * @extends {nyc.carto.SqlTemplate}
  * @constructor
- * @param {cartodb.SQL} cartoSql The object used to query CartoDB data 
+ * @param {cartodb.SQL} cartoSql The object used to query Carto data 
  * @param {string} sqlTemplate The template with optional replacement tokens for generating queries for cartoSql
  * @param {Object<string, string>} filters The filters used with the sqlTemplate for generating queries for cartoSql
  */
@@ -180,7 +180,7 @@ nyc.carto.Dao.prototype = {
 	 * @public
 	 * @method
 	 * @param {Object<string, Object<string, string>>} filterValues The values object used along with the views filters and sqlTemlate to modify the query for this view
-	 * @param {function(Object)} callback The callback function to receive data from CartoDB
+	 * @param {function(Object)} callback The callback function to receive data from Carto
 	 */
 	data: function(filterValues, callback){
 		var sql = this.sql(this.sqlTemplate, filterValues, this.filters);

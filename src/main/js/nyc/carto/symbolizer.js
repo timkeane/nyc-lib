@@ -2,7 +2,7 @@ var nyc = nyc || {};
 nyc.carto = nyc.carto || {};
 
 /**
- * @desc An interface for symbolizing CartoDB layers
+ * @desc An interface for symbolizing Carto layers
  * @public
  * @extends {nyc.EventHandling}
  * @extends {nyc.ReplaceTokens}
