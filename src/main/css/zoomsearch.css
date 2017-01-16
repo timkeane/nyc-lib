@@ -46,7 +46,7 @@ div.z-srch {
 	max-height: 35px;
 	min-height: 35px;
 }
-.fld-srch-container a.ui-input-clear {
+div.fld-srch-container a.ui-input-clear.ui-btn.ui-icon-delete {
 	border: none;
 	background-color: transparent;
 	width: 22px;
