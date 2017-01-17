@@ -5,8 +5,8 @@ nyc.leaf = nyc.leaf || {};
  * @desc Class that provides an L.Map with base layers and labels
  * @public
  * @class
- * @extends {nyc.Basemap}
  * @extends {L.Map}
+ * @mixes nyc.Basemap
  * @param {Element|JQuery|string} target The target DOM node for creating the map
  * @constructor
  * @see http://leafletjs.com/

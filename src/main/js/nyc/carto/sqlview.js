@@ -6,7 +6,7 @@ nyc.carto = nyc.carto || {};
  * @public
  * @class
  * @extends {nyc.carto.SqlTemplate}
- * @mixes {nyc.carto.View}
+ * @mixes nyc.carto.View
  * @constructor
  * @param {nyc.carto.SqlView.Options} options Constructor options
  * @fires nyc.carto.View#updated

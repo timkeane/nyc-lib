@@ -7,7 +7,7 @@ nyc.carto = nyc.carto || {};
  * @public
  * @class
  * @extends {nyc.EventHandling}
- * @mixes {nyc.carto.Symbolizer}
+ * @mixes nyc.carto.Symbolizer
  * @constructor
  * @param {nyc.carto.JenksSymbolizer.Options} options Constructor options
  * @fires nyc.carto.JenksSymbolizer#symbolized

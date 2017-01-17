@@ -6,7 +6,7 @@ nyc.ol = nyc.ol || {};
  * @public
  * @class
  * @extends {ol.Map}
- * @mixes {nyc.Basemap}
+ * @mixes nyc.Basemap
  * @constructor
  * @param {Object} options Constructor options 
  * @param {number} [preload=0] Preload option for base layer 

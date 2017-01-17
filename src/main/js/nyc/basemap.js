@@ -90,7 +90,7 @@ nyc.Basemap.LabelType = {
  * @public
  * @typedef {Object}
  * @property {Object} base The base layer
- * @property {<string, ol.layer.Base|L.Layer>} labels The label layers 
- * @property {<number, ol.layer.Base|L.Layer>} photos The photo layers 
+ * @property {Object<string, ol.layer.Base|L.Layer>} labels The label layers 
+ * @property {Object<string, ol.layer.Base|L.Layer>} photos The photo layers 
  */
 nyc.Basemap.BaseLayers;

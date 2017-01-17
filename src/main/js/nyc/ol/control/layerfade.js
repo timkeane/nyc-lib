@@ -7,7 +7,7 @@ nyc.ol.control = nyc.ol.control || {};
  * @public
  * @class
  * @extends {nyc.CtlContainer}
- * @mixes {nyc.Menu}
+ * @mixes nyc.Menu
  * @constructor
  * @param {nyc.ol.control.LayerFade.Options} options Constructor options
  */
