@@ -35,13 +35,11 @@ nyc.Content.prototype = {
 	 */
 	message: function(msgId, values){
 		if (!this.messages[msgId]){
-			console.error('Message "' + msgId + '" not found', this. e);
 			return '';
 		}
 		try{
 			return this.replace(this.messages[msgId], values || {});						
 		}catch(e){
-			console.error('Message "' + msgId + '" not found', this. e);
 			return '';
 		}
 	}
