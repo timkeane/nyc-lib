@@ -1,9 +1,11 @@
 var nyc = nyc || {};
 
 /**
- * @desc An interface for creating and manipulating the NYC basemap 
+ * @desc An abstract class for creating and manipulating the NYC basemap 
  * @public
- * @interface
+ * @abstract
+ * @class
+ * @constructor
  */
 nyc.Basemap = function(){};
 
@@ -46,7 +48,24 @@ nyc.Basemap.prototype = {
 	 */
 	getBaseLayers: function(){
 		throw 'Not Implemented';
-	}	
+	},
+	/** 
+	 * @desc Returns the base layers
+	 * @public
+	 * @method
+	 * @return {nyc.Basemap.BaseLayers}
+	 */
+	sortedPhotos: function(){
+		var sorted = [];
+		for (var photo in this.photos){
+			sorted.push(this.photos[photo]);
+		}
+		/* sort descending on the first 4 digits - puts 2001-2 in the proper place */
+		return sorted.sort(function(a, b){
+			var aName = a.name || a.get('name'), bName = b.name || b.get('name');
+			return bName.substr(0, 4) - aName.substr(0, 4);
+		});
+	}
 };
 
 

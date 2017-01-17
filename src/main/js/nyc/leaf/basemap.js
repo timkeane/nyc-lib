@@ -5,7 +5,7 @@ nyc.leaf = nyc.leaf || {};
  * @desc Class that provides an L.Map with base layers and labels
  * @public
  * @class
- * @implements {nyc.Basemap}
+ * @extends {nyc.Basemap}
  * @extends {L.Map}
  * @param {Element|JQuery|string} target The target DOM node for creating the map
  * @constructor
@@ -23,6 +23,7 @@ nyc.leaf.Basemap = function(target){
 		bounds: nyc.leaf.Basemap.UNIVERSE_EXTENT,
 		zIndex: 0
 	});
+	map.base.name = 'base';
 	map.addLayer(map.base);
 
 	map.labels = {};
@@ -35,6 +36,7 @@ nyc.leaf.Basemap = function(target){
 			bounds: nyc.leaf.Basemap.LABEL_EXTENT,
 			zIndex: 1000
 		});
+		map.labels[labelType].name = labelType; 
 		if (labelType == 'base'){
 			map.addLayer(map.labels[labelType]);
 		}
@@ -53,11 +55,10 @@ nyc.leaf.Basemap = function(target){
 		if ((year * 1) > map.latestPhoto){
 			map.latestPhoto = year;
 		}
+		photo.name = year;
 		map.photos[year] = photo;
 	}
-
 	map.fitBounds(nyc.leaf.Basemap.EXTENT);
-	
 	return map;
 };
 
@@ -150,6 +151,7 @@ nyc.leaf.Basemap.prototype = {
 	}	
 };
 
+nyc.inherits(nyc.leaf.Basemap, nyc.Basemap);
 nyc.inherits(L.Map, nyc.leaf.Basemap);
 
 /**

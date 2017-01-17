@@ -5,8 +5,8 @@ nyc.ol = nyc.ol || {};
  * @desc Class that provides an ol.Map with base layers and labels
  * @public
  * @class
- * @implements {nyc.Basemap}
  * @extends {ol.Map}
+ * @mixes {nyc.Basemap}
  * @constructor
  * @param {Object} options Constructor options 
  * @param {number} [preload=0] Preload option for base layer 
@@ -83,6 +83,7 @@ nyc.ol.Basemap = function(options, preload){
 };
 
 ol.inherits(nyc.ol.Basemap, ol.Map);
+nyc.inherits(nyc.ol.Basemap, nyc.Basemap);
 
 /** 
  * @desc Show photo layer
@@ -133,23 +134,6 @@ nyc.ol.Basemap.prototype.getBaseLayers = function(){
 		labels: this.labels,
 		photos: this.photos
 	};
-};
-
-/** 
- * @desc Returns the base layers
- * @public
- * @method
- * @return {nyc.Basemap.BaseLayers}
- */
-nyc.ol.Basemap.prototype.sortedPhotos = function(){
-	var sorted = [];
-	for (var photo in this.photos){
-		sorted.push(this.photos[photo]);
-	}
-	//sort on the first 4 puts 2001-2 in the proper place
-	return sorted.sort(function(a, b){
-		return a.get('name').substr(0, 4) - b.get('name').substr(0, 4);
-	});
 };
 
 /** 
