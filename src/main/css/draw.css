@@ -12,8 +12,11 @@
 }
 .draw-mnu-btn button, .draw-btn button {
 	background-color: rgba(0,0,0,0.5);
+	border: none;
+	border-bottom: 1px solid #bbb;
 }
 .draw-mnu-btn button.ui-corner-top {
+	border-top: 1px solid #bbb;
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
 }
