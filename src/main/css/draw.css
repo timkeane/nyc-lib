@@ -34,9 +34,7 @@
 	display: none;
 }
 .ui-page-theme-a .draw-ctx-mnu button, .ui-page-theme-a .draw-btn-mnu button, .ui-page-theme-a .draw-ctx-mnu button:hover, .ui-page-theme-a .draw-btn-mnu button:hover {
-	font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
 	color: #fff;
-	text-shadow: none;
 }
 .draw-btn-mnu {
 	top: 43px;
