@@ -1,11 +1,13 @@
+
 div.ctl-mnu-tgl {
 	display: none;
 	position: fixed;
 	top: 43px;
+	bottom: 3px;
 	right: 3px;
-	width: 300px;
-	max-width: calc(100% - 6px);
-	max-height: calc(100% - 46px);
+	width: 320px;
+	height: auto;
+	max-height: 610px;
     border: 1px solid rgb(221, 221, 221);
     border-radius: 3px;
     background-color: rgba(0,0,0,0.5);
@@ -51,8 +53,10 @@ div.ctl-mnu-tgl div.ui-checkbox label.ui-btn.ui-checkbox-on:after {
 div.ctl-mnu-tgl div.ui-radio label.ui-btn.ui-btn-icon-left.ui-radio-on:after {
 	border-color: #000;
 }
-/* media query? */
+div.ctl-mnu-tgl div.ui-collapsible {
+	height: calc(100% - 60px);
+}
 div.ctl-mnu-tgl .ui-collapsible-content {
-	max-height: 360px;
+	max-height: calc(100% - 53px);
 	overflow-y: auto;
 }

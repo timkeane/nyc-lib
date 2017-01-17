@@ -15,6 +15,7 @@
 }
 .mnu-fade table {
 	width: calc(100% - 6px);
+	height: calc(100% - 60px);
 	border-collapse: collapse;
 	margin: 0 3px;
 }
@@ -40,7 +41,7 @@ li.fade-lyr:hover {
 }
 .fade-choices {
 	overflow-y: auto;
-	height: 300px;
+	height: 100%;
 	margin: 3px 0;
 }
 ul.fade-choices, li.fade-msg {
