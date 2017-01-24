@@ -22,7 +22,7 @@ nyc.ol.geoserver.FeatureTxn = function(options){
 	this.format = new ol.format.WFS();
 	this.serializer = new XMLSerializer();
 	this.options = {
-		gmlOptions: {srsName: 'EPSG:900913'},
+		gmlOptions: {srsName: options.projection},
 		featureNS: options.namespace,
 		featureType: options.typeName
 	};
@@ -123,6 +123,7 @@ nyc.ol.geoserver.FeatureTxn.prototype = {
  * @property {string} namespace The namespace URI of the layer to which features will be written
  * @property {string} typeName The type name of the layer from which to retrieve features
  * @property {string} geomColumn The name of the layer's geometry column that will be queried
+ * @property {string} projection The projection
  * @property {function()} success A success callback
  * @property {function(string)} error An error callback that receives a WFS exception
  */
