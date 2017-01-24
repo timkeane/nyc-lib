@@ -188,9 +188,11 @@ nyc.ol.Draw.prototype = {
 					}
 					var start = coordinates[0];
 					var end = coordinates[1];
-					geometry.setCoordinates([
-                         [start, [start[0], end[1]], end, [end[0], start[1]], start]
-                    ]);
+					if (end){
+						geometry.setCoordinates([
+	                         [start, [start[0], end[1]], end, [end[0], start[1]], start]
+	                    ]);
+					}
 					return geometry;
 				};
 			}
@@ -224,7 +226,7 @@ nyc.ol.Draw.prototype = {
 	getFeatures: function(){
 		var me = this, features = [];
 		$.each(me.source.getFeatures(), function(_, f){
-			features.push({feature: feature, wkt: me.wkt.writeFeature(me.serializable(f))});
+			features.push({feature: f, wkt: me.wkt.writeFeature(me.serializable(f))});
 		});
 		return features;
 	},
@@ -335,7 +337,7 @@ nyc.ol.Draw.prototype = {
     	});
     },
 	/**
-	 * @private
+	 * @public
 	 * @method
 	 * @param {ol.Feature} feature
 	 */

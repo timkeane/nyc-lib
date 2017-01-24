@@ -3,7 +3,7 @@ nyc.ol = nyc.ol || {};
 nyc.ol.source = nyc.ol.source || {};
 
 /**
- * @desc Class that extends ol.source.GeoJSON for providing features decorated by an array of mixin objects
+ * @desc Class that extends ol.source.Vector for providing features decorated by an array of mixin objects
  * @public
  * @class
  * @extends {ol.source.Vector}

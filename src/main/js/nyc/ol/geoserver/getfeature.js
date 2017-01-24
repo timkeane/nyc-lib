@@ -79,11 +79,6 @@ nyc.ol.geoserver.GetFeature.prototype = {
 	geoJson: null,
 	/**
 	 * @private
-	 * @member {ol.format.GeoJSON} geoJson
-	 */ 
-	geoJson: null,
-	/**
-	 * @private
 	 * @member {ol.format.WKT} wkt
 	 */ 
 	wkt: null,
