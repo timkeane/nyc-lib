@@ -36,6 +36,21 @@ nyc.ol.geoserver.FeatureTxn.prototype = {
 	url: null,
 	/**
 	 * @private
+	 * @member {string}
+	 */ 
+	geomColumn: null,
+	/**
+	 * @private
+	 * @member {function()}
+	 */ 
+	success: null,
+	/**
+	 * @private
+	 * @member {function()}
+	 */ 
+	error: null,
+	/**
+	 * @private
 	 * @member {ol.format.WFS}
 	 */ 
 	format: null,
@@ -45,20 +60,15 @@ nyc.ol.geoserver.FeatureTxn.prototype = {
 	 */ 
 	serializer: null,
 	/**
-	 * @method
-	 * @param {ol.Feature}
+	 * @private
+	 * @member {Object}
 	 */ 
-	clone: function(feature){
-		var clone = new ol.Feature(), props = feature.getProperties();
-		clone.setId(feature.getId());
-		delete props.geometry;
-		props[this.geomColumn] = feature.getGeometry(); 
-		clone.setProperties(props);
-		return clone;
-	},
+	options: null,
 	/**
+	 * @desc Insert a new feature in the layer
+	 * @public
 	 * @method
-	 * @param {ol.Feature}
+	 * @param {ol.Feature} feature
 	 */ 
 	add: function(feature){
 		var me = this, clone = me.clone(feature), node = me.format.writeTransaction([clone], null, null, me.options);
@@ -76,8 +86,10 @@ nyc.ol.geoserver.FeatureTxn.prototype = {
 		});
 	},
 	/**
+	 * @desc Delete a feature from the layer
+	 * @public
 	 * @method
-	 * @param {ol.Feature}
+	 * @param {ol.Feature} feature
 	 */ 
 	remove: function(feature){
 		var me = this, clone = me.clone(feature), node = me.format.writeTransaction(null, null, [clone], me.options);
@@ -95,8 +107,10 @@ nyc.ol.geoserver.FeatureTxn.prototype = {
 		});
 	},
 	/**
+	 * @desc Modify a feature of the layer
+	 * @public
 	 * @method
-	 * @param {ol.Feature}
+	 * @param {ol.Feature} feature
 	 */ 
 	update: function(feature){
 		var me = this, clone = me.clone(feature), node = me.format.writeTransaction(null, [clone], null, me.options);
@@ -112,6 +126,19 @@ nyc.ol.geoserver.FeatureTxn.prototype = {
 				me.error(arguments);
 			}
 		});
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {ol.Feature} feature
+	 */ 
+	clone: function(feature){
+		var clone = new ol.Feature(), props = feature.getProperties();
+		clone.setId(feature.getId());
+		delete props.geometry;
+		props[this.geomColumn] = feature.getGeometry(); 
+		clone.setProperties(props);
+		return clone;
 	}
 };
 
