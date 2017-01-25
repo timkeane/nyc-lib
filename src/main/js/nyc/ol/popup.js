@@ -139,6 +139,5 @@ nyc.ol.Popup.prototype.pan = function(){
 	} else if (fromBottom < 0) {
 		px[1] -= fromBottom;
 	}
-	map.beforeRender(ol.animation.pan({source:center}));
-	view.setCenter(map.getCoordinateFromPixel(px));
+	view.animate({center: map.getCoordinateFromPixel(px)});
 };
