@@ -47,6 +47,9 @@ nyc.ol.FeatureEvent;
  * @extends {nyc.EventHandling}
  * @constructor
  * @param {nyc.ol.Draw.Options} options Constructor options
+ * @fires nyc.ol.Draw#addfeature
+ * @fires nyc.ol.Draw#changefeature
+ * @fires nyc.ol.Draw#removefeature
  */
 nyc.ol.Draw = function(options){
 	var me = this;
