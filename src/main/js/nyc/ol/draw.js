@@ -49,12 +49,12 @@ nyc.ol.FeatureEvent;
  * @param {nyc.ol.Draw.Options} options Constructor options
  */
 nyc.ol.Draw = function(options){
-	var me = this, features = new ol.Collection();
+	var me = this;
 	me.map = options.map;
 	me.viewport = $(me.map.getViewport());
 	me.wkt = new ol.format.WKT({});
 	me.xml = new XMLSerializer();
-	me.source = new ol.source.Vector({features: features});
+	me.source = options.source || new ol.source.Vector({});
 	me.layer = new ol.layer.Vector({
 		source: me.source,
 		style: options.style || me.defaultStyle
@@ -62,7 +62,7 @@ nyc.ol.Draw = function(options){
 	me.map.addLayer(me.layer);
 	me.map.addInteraction(
 		new ol.interaction.Modify({
-			features: features,
+			features: new ol.Collection(me.source.getFeatures()),
 			deleteCondition: function(event){
 				me.escape();
 				return ol.events.condition.shiftKeyOnly(event) &&
@@ -256,7 +256,7 @@ nyc.ol.Draw.prototype = {
 	 */
 	buttonMenu: function(){
 		var me = this, viewport = me.viewport;
-		viewport.find('.ol-overlaycontainer-stopevent').append(nyc.ol.Draw.BUTTON_MENU_HTML);
+		viewport.find('.ol-overlaycontainer-stopevent').append(nyc.ol.Draw.BUTTON_MENU_HTML).trigger('create');
 		me.btnMnu = viewport.find('.draw-btn-mnu');
 		me.mnuBtn = viewport.find('.draw-btn');
 		me.mnuBtn.click(function(){
@@ -443,6 +443,7 @@ nyc.inherits(nyc.ol.Draw, nyc.EventHandling);
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The OpenLayers map with which the user will interact
+ * @property {ol.sourceVector=} source The source data to edit
  * @property {ol.style.Style=} style The style to use for features added to the map
  */
 nyc.ol.Draw.Options;
@@ -499,7 +500,7 @@ nyc.ol.Draw.CONTEXT_MENU_HTML = '<div class="ctl ol-unselectable draw-ctx-mnu">'
  * @const
  * @type {string}
  */
-nyc.ol.Draw.BUTTON_MENU_HTML = '<div class="ol-unselectable draw-btn"><button class="ctl ctl-btn ui-btn ui-corner-all"><span>Draw</span></button></div>' +
+nyc.ol.Draw.BUTTON_MENU_HTML = '<a class="draw-btn ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext">Draw</a></div>' +
 	'<div class="ol-unselectable ctl draw-btn-mnu">' +
 		'<div class="draw-mnu-btn point" data-draw-type="Point"><button class="ctl-btn ui-btn ui-corner-top" title="Click to draw a point">Point</button></div>' +
 		'<div class="draw-mnu-btn line" data-draw-type="LineString"><button class="ctl-btn ui-btn" title="Click to draw each point of a line">Line</button></div>' +
