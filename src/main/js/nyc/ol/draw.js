@@ -282,8 +282,9 @@ nyc.ol.Draw.prototype = {
 		}else if(css == 'cancel'){
 			me.deactivate();
 		}else{
-			me.mnuBtn.get(0).className = 'ol-unselectable draw-btn ' + css;
 			me.activate(type);
+			me.mnuBtn.removeClass('point line polygon circle square box');
+			me.mnuBtn.addClass(css);
 		}
 		me.closeMenus();
 	},
@@ -366,6 +367,7 @@ nyc.ol.Draw.prototype = {
 	 */
 	deactivate: function(){
 		this.type = null;
+		this.mnuBtn.removeClass('point line polygon circle square box');
 		if (this.drawer){
 			this.map.removeInteraction(this.drawer);
 			this.source.un('addfeature', this.triggerFeatureEvent, this);
