@@ -26,17 +26,16 @@ nyc.ol.Draw = function(options){
 	});
 	me.map.addLayer(me.layer);
 	
-	me.map.addInteraction(
-		new ol.interaction.Modify({
-			features: me.features,
-			deleteCondition: function(event){
-				if (ol.events.condition.singleClick(event) && ol.events.condition.noModifierKeys(event)){
-					me.escape();
-					return true;
-				}
+	me.modify = new ol.interaction.Modify({
+		features: me.features,
+		deleteCondition: function(event){
+			if (ol.events.condition.singleClick(event) && ol.events.condition.noModifierKeys(event)){
+				me.escape();
+				return true;
 			}
-		})
-	);
+		}
+	});
+
 	me.buttonMenu();
 	me.mover = new nyc.ol.Drag(me.layer);
 	me.mover.setActive(false);
@@ -177,6 +176,7 @@ nyc.ol.Draw.prototype = {
 				}
 			});
 			me.map.addInteraction(me.drawer);
+			me.map.addInteraction(me.modify);
 			$(document).keyup(function(evt){
 				if (evt.keyCode == 27){
 					me.escape();
@@ -193,14 +193,15 @@ nyc.ol.Draw.prototype = {
 	getFeatures: function(){
 		var features = {added: [], changed: [], unchanged: [], removed: this.removed};
 		this.features.forEach(function(feature){
-			if (feature.added){
+			if (feature._added){
 				features.added.push(feature);
-			}else if (feature.changed){
+			}else if (feature._changed){
 				features.changed.push(feature);
 			}else{
 				features.unchanged.push(feature);
 			}
 		});
+		return features;
 	},
 	/**
 	 * @desc Get the features that have been drawn
@@ -355,6 +356,7 @@ nyc.ol.Draw.prototype = {
 			this.source.un('addfeature', this.triggerFeatureEvent, this);
 			this.source.un('changefeature', this.triggerFeatureEvent, this);
 			this.drawer = null;
+			this.map.removeInteraction(this.modify);
 		}
 		if (this.drag){
 			theis.drag.setActive(false);
@@ -369,9 +371,9 @@ nyc.ol.Draw.prototype = {
 		var feature = event.feature;
 		if (this.triggerEvent(feature.getGeometry().getType())){
 			if (event.type == nyc.ol.FeatureEventType.ADD){
-				feature.added = true;
-			}else if (event.type == nyc.ol.FeatureEventType.CHANGED){
-				feature.changed = true;				
+				feature._added = true;
+			}else if (event.type == nyc.ol.FeatureEventType.CHANGE){
+				feature._changed = true;				
 			}
 			this.trigger(event.type,  this.circleToPolygon(feature));
 		}
