@@ -173,7 +173,7 @@ nyc.carto.Popup.prototype = {
 	/**
 	 * @private 
 	 * @method
-	 * @param {Object} event
+	 * @param {JQuery.Event} event
 	 */
 	hideTip: function(event){
 		var map = this.map.getContainer(), pop = this.infowin.el;

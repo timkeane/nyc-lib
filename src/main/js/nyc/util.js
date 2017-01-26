@@ -68,7 +68,7 @@ nyc.util = {
 	 * @public
 	 * @static
 	 * @function
-	 * @param {Object} event The event object
+	 * @param {JQuery.Event} event The event object
 	 * @param {function(Object)} handler The event handler function 
 	 * @param {Object=} scope The scope in which to invoke the event handler
 	 */

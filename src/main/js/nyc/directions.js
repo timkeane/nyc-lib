@@ -213,7 +213,7 @@ nyc.Directions.prototype = {
 	/** 
 	 * @private 
 	 * @method
-	 * @param {Object} event
+	 * @param {JQuery.Event} event
 	 */
 	mode: function(event){
 		this.args = this.args || {};

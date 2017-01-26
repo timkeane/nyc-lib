@@ -256,7 +256,7 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {Object} event
+	 * @param {JQuery.Event} event
 	 */
 	choose: function(event){
 		var me = this, btn = event.target;
@@ -278,7 +278,7 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {Object} event
+	 * @param {JQuery.Event} event
 	 */
 	contextMenu: function(event){
 		var me = this, map = me.map;

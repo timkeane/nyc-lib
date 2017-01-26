@@ -22,7 +22,7 @@ nyc.Check.prototype = {
 	/** 
 	 * @public
 	 * @method
-	 * @param {Object} event The change event object 
+	 * @param {JQuery.Event} event The change event object 
 	 */
 	changed: function(event){
 		var me = this, display = me.currentVal; chosen = [], comma = '';

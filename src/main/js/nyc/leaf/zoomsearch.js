@@ -71,7 +71,7 @@ nyc.leaf.ZoomSearch.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {Object} event
+	 * @param {JQuery.Event} event
 	 */
 	stopEvent: function(event){
 		L.DomEvent.disableClickPropagation(event.target);

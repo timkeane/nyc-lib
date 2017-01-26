@@ -66,7 +66,7 @@ nyc.Choice.prototype = {
 	 * @public
 	 * @abstract
 	 * @method
-	 * @param {Object} event The change event object from an input element
+	 * @param {JQuery.Event} event The change event object from an input element
 	 */
 	changed: function(event){
 		throw 'Must be implemented';
