@@ -88,12 +88,12 @@
 				propertyNames: ['STREET']
 			});
 			
-			getFeature.on(nyc.ol.FeatureEventType.ADD, function(event){
-				console.info("Feature added:", event);
+			getFeature.on(nyc.ol.FeatureEventType.ADD, function(feature){
+				console.info("Feature added:", feature);
 			});
 
-			getFeature.on(nyc.ol.FeatureEventType.REMOVE, function(event){
-				console.info("Feature removed:", event);
+			getFeature.on(nyc.ol.FeatureEventType.REMOVE, function(feature){
+				console.info("Feature removed:", feature);
 			});
 
 		});

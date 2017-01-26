@@ -96,3 +96,23 @@ nyc.ol.EXTENT = [912090, 119053, 1068317, 273931];
  * @type {ol.Coordinate}
  */
 nyc.ol.CENTER = [990203, 196492];
+
+/**
+ * @desc Enumeration for feature event types
+ * @public
+ * @enum {string}
+ */
+nyc.ol.FeatureEventType = {
+	/**
+	 * @desc The addfeature event type
+	 */
+	ADD: 'addfeature',
+	/**
+	 * @desc The changefeature event type
+	 */
+	CHANGE: 'changefeature',
+	/**
+	 * @desc The removefeature event type
+	 */
+	REMOVE: 'removefeature'
+};

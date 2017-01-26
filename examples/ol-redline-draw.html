@@ -50,9 +50,10 @@
 <body>
 	<div id="map"></div>
 	<script>
+		var map, draw;
 		$(document).ready(function(){
 
-			var map = new ol.Map({
+			map = new ol.Map({
 				target: $('#map').get(0),
 				layers: [new nyc.ol.layer.BaseLayer()],
 				view: new ol.View({
@@ -78,18 +79,18 @@
 				locator: new nyc.ol.Locator({map: map, layer: layer})
 			});
 
-			var draw = new nyc.ol.Draw({map: map});
+			draw = new nyc.ol.Draw({map: map});
 			
-			draw.on(nyc.ol.FeatureEventType.ADD, function(event){
-				console.info("Feature added:", event);
+			draw.on(nyc.ol.FeatureEventType.ADD, function(feature){
+				console.info("Feature added:", feature);
 			});
 
-			draw.on(nyc.ol.FeatureEventType.CHANGE, function(event){
-				console.info("Feature changed:", event);
+			draw.on(nyc.ol.FeatureEventType.CHANGE, function(feature){
+				console.info("Feature changed:", feature);
 			});
 
-			draw.on(nyc.ol.FeatureEventType.REMOVE, function(event){
-				console.info("Feature removed:", event);
+			draw.on(nyc.ol.FeatureEventType.REMOVE, function(feature){
+				console.info("Feature removed:", feature);
 			});
 
 		});

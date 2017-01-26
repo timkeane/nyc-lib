@@ -2,45 +2,6 @@ var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 
 /**
- * @desc The object returned by events fired by {@link nyc.ol.Draw} and {@link nyc.ol.geoserver.GetFeature}
- * @public
- * @typedef {Object}
- * @property {ol.Feature} feature
- * @property {string} wkt
- */
-nyc.ol.Feature;
-
-/**
- * @desc Enumeration for feature event types
- * @public
- * @enum {string}
- */
-nyc.ol.FeatureEventType = {
-	/**
-	 * @desc The addfeature event type
-	 */
-	ADD: 'addfeature',
-	/**
-	 * @desc The changefeature event type
-	 */
-	CHANGE: 'changefeature',
-	/**
-	 * @desc The removefeature event type
-	 */
-	REMOVE: 'removefeature'
-};
-
-/**
- * @desc Event object
- * @public
- * @typedef {Object}
- * @property {nyc.ol.Feature} feature The event data
- * @property {nyc.ol.FeatureEventType} type The event type
- */
-nyc.ol.FeatureEvent;
-
-
-/**
  * @desc A class to provide the user with drawing tools
  * @public
  * @class
@@ -53,23 +14,26 @@ nyc.ol.FeatureEvent;
  */
 nyc.ol.Draw = function(options){
 	var me = this;
+	me.features = new ol.Collection();
 	me.map = options.map;
+	me.source = new ol.source.Vector({features: me.features});
 	me.viewport = $(me.map.getViewport());
-	me.wkt = new ol.format.WKT({});
-	me.xml = new XMLSerializer();
-	me.source = options.source || new ol.source.Vector({});
+	me.removed = [];
+	
 	me.layer = new ol.layer.Vector({
 		source: me.source,
 		style: options.style || me.defaultStyle
 	});
 	me.map.addLayer(me.layer);
+	
 	me.map.addInteraction(
 		new ol.interaction.Modify({
-			features: new ol.Collection(me.source.getFeatures()),
+			features: me.features,
 			deleteCondition: function(event){
-				me.escape();
-				return ol.events.condition.shiftKeyOnly(event) &&
-					ol.events.condition.singleClick(event);
+				if (ol.events.condition.singleClick(event) && ol.events.condition.noModifierKeys(event)){
+					me.escape();
+					return true;
+				}
 			}
 		})
 	);
@@ -98,9 +62,9 @@ nyc.ol.Draw.prototype = {
 	map: null,
 	/**
 	 * @private
-	 * @member {ol.format.WKT}
+	 * @member {Array<ol.Feature>}
 	 */
-	wkt: null,
+	removed: null,
 	/**
 	 * @private
 	 * @member {nyc.ol.Draw.Type}
@@ -224,14 +188,33 @@ nyc.ol.Draw.prototype = {
 	 * @desc Get the features that have been drawn
 	 * @public
 	 * @method
-	 * @return {Array<nyc.ol.Feature>} The features
+	 * @return {Object<string, Array<ol.Feature>>} The features
 	 */
 	getFeatures: function(){
-		var me = this, features = [];
-		$.each(me.source.getFeatures(), function(_, f){
-			features.push({feature: f, wkt: me.wkt.writeFeature(me.serializable(f))});
+		var features = {added: [], changed: [], unchanged: [], removed: this.removed};
+		this.features.forEach(function(feature){
+			if (feature.added){
+				features.added.push(feature);
+			}else if (feature.changed){
+				features.changed.push(feature);
+			}else{
+				features.unchanged.push(feature);
+			}
 		});
-		return features;
+	},
+	/**
+	 * @desc Get the features that have been drawn
+	 * @public
+	 * @method
+	 * @param {Array<nyc.ol.Feature>} The features
+	 */
+	setFeatures: function(features){
+		var feats = this.features;
+		feats.clear();
+		this.removed = [];
+		$.each(features, function(){
+			feats.push(this);
+		});
 	},
 	/**
 	 * @private
@@ -300,8 +283,8 @@ nyc.ol.Draw.prototype = {
 		var me = this, map = me.map;
 		if (me.active()){
 			var feature = map.forEachFeatureAtPixel(
-				map.getEventPixel(event), function(feature, layer){
-		    		if (layer == me.layer){
+				map.getEventPixel(event), function(feature){
+		    		if ($.inArray(feature, me.features.getArray()) > -1){
 		    			return feature;
 		    		}
 		        });
@@ -347,13 +330,8 @@ nyc.ol.Draw.prototype = {
 	 */
 	removeFeature: function(feature){
 		this.source.removeFeature(feature);
-		this.trigger(nyc.ol.FeatureEventType.REMOVE, {
-			type: nyc.ol.FeatureEventType.REMOVE,
-			feature: {
-				feature: feature,
-				wkt: this.wkt.writeFeature(this.serializable(feature))
-			}
-		});
+		this.removed.push(feature);
+		this.trigger(nyc.ol.FeatureEventType.REMOVE, feature);
 	},
 	/**
 	 * @desc Remove all drawn features
@@ -362,6 +340,7 @@ nyc.ol.Draw.prototype = {
 	 */
 	clear: function(){
 		this.source.clear();
+		this.removed = [];
 	},
 	/**
 	 * @desc Deactivate to stop drawing
@@ -389,12 +368,12 @@ nyc.ol.Draw.prototype = {
 	triggerFeatureEvent: function(event){
 		var feature = event.feature;
 		if (this.triggerEvent(feature.getGeometry().getType())){
-			this.trigger(event.type, {
-				feature: {
-					feature: feature,
-					wkt: this.wkt.writeFeature(this.serializable(feature))
-				}
-			});
+			if (event.type == nyc.ol.FeatureEventType.ADD){
+				feature.added = true;
+			}else if (event.type == nyc.ol.FeatureEventType.CHANGED){
+				feature.changed = true;				
+			}
+			this.trigger(event.type,  this.circleToPolygon(feature));
 		}
 	},
 	/**
@@ -403,10 +382,9 @@ nyc.ol.Draw.prototype = {
 	 * @param {ol.Feature} feature
 	 * @return {ol.Feature}
 	 */
-	serializable: function(feature){
+	circleToPolygon: function(feature){
 		var geom = feature.getGeometry();
 		if (geom.getType() == nyc.ol.Draw.Type.CIRCLE){
-			feature = new ol.Feature(feature.getProperties());
 			feature.setGeometry(ol.geom.Polygon.fromCircle(geom));
 		}
 		return feature;
@@ -448,7 +426,6 @@ nyc.inherits(nyc.ol.Draw, nyc.EventHandling);
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The OpenLayers map with which the user will interact
- * @property {ol.sourceVector=} source The source data to edit
  * @property {ol.style.Style=} style The style to use for features added to the map
  */
 nyc.ol.Draw.Options;
@@ -565,7 +542,7 @@ ol.inherits(nyc.ol.Drag, ol.interaction.Pointer);
 nyc.ol.Drag.prototype.handleDownEvent = function(event){
 	var me = this, map = event.map;
 	var feature = map.forEachFeatureAtPixel(event.pixel, function(feature, layer){
-		if (layer == me.layer){
+		if (layer === me.layer){
 			return feature;
 		}
 	});
@@ -585,7 +562,7 @@ nyc.ol.Drag.prototype.handleDragEvent = function(event){
 	var me = this, map = event.map;
 
 	var feature = map.forEachFeatureAtPixel(event.pixel, function(feature, layer){
-		if (layer == me.layer){
+		if (layer === me.layer){
 			return feature;
 		}
 	});
@@ -608,7 +585,7 @@ nyc.ol.Drag.prototype.handleDragEvent = function(event){
 nyc.ol.Drag.prototype.handleMoveEvent = function(event){
 	var me = this, map = event.map;
 	var feature = map.forEachFeatureAtPixel(event.pixel, function(feature, layer){
-		if (layer == me.layer){
+		if (layer === me.layer){
 			return feature;
 		}
 	});

@@ -21,7 +21,6 @@ nyc.ol.geoserver.GetFeature = function(options){
 	this.map = options.map;
 	$(this.map.getViewport()).append(nyc.ol.geoserver.GetFeature.HTML).trigger('create');
 	$('#btn-get-feat').click($.proxy(this.toggleActive, this));
-	this.wkt = new ol.format.WKT({});
 	this.geoJson = new ol.format.GeoJSON({});
 	this.buffer = options.buffer || 25;
 	this.units = options.units || nyc.ol.geoserver.GetFeature.BufferUnits.FEET;
@@ -158,13 +157,11 @@ nyc.ol.geoserver.GetFeature.prototype = {
 	 * @param {Object} data The GeoServer WFS GetFeature response
 	 */
 	callback: function(response){
-		var data = {type: nyc.ol.FeatureEventType.ADD};
 		if (response && response.features && response.features.length){
-			data.feature = this.geoJson.readFeature(response.features[0]);
-			data.feature.wkt = this.wkt.writeFeature(data.feature);
-			this.source.addFeature(data.feature);
+			var feature = this.geoJson.readFeature(response.features[0]);
+			this.trigger(nyc.ol.FeatureEventType.ADD, feature);
+			this.source.addFeature(feature);
 		}
-		this.trigger(nyc.ol.FeatureEventType.ADD, data);
 	},
 	/**
 	 * @private
@@ -219,13 +216,7 @@ nyc.ol.geoserver.GetFeature.prototype = {
 		        }
 			);	
 		if (feature){
-			this.trigger(nyc.ol.FeatureEventType.REMOVE, {
-				type: nyc.ol.FeatureEventType.REMOVE,
-				feature: {
-					feature: feature, 
-					wkt: me.wkt.writeFeature(feature)
-				}
-			});
+			this.trigger(nyc.ol.FeatureEventType.REMOVE, feature);
 			me.source.removeFeature(feature);
 		}
 	}	
