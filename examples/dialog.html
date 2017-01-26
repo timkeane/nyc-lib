@@ -32,6 +32,7 @@
 	<button class="open-dia" onclick="dia.yesNo({message: 'Are you there?', callback: dialogCallback});">Show Yes/No dialog</button>
 	<button class="open-dia" onclick="dia.yesNoCancel({message: 'Are you there?', callback: dialogCallback});">Show Yes/No/Cancel dialog</button>
 	<button class="open-dia" onclick="dia.input({message: 'Where are you?', placeholder: 'Tell me...', callback: dialogCallback});">Show Input dialog</button>
+	<button class="open-dia" onclick="dia.login({callback: dialogCallback});">Show Login dialog</button>
 	<script>
 		var dia;
 		function dialogCallback(result){
@@ -47,6 +48,9 @@
 			});
 			dia.on(nyc.Dialog.EventType.INPUT, function(result){
 				console.info('nyc.Dialog.EventType.INPUT', result);
+			});
+			dia.on(nyc.Dialog.EventType.LOGIN, function(result){
+				console.info('nyc.Dialog.EventType.LOGIN', result);
 			});
 		});
 	</script>
