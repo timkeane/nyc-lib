@@ -68,7 +68,7 @@ nyc.ol.geoserver.FeatureTxn.prototype = {
 	 * @desc Authenticate with the WFS
 	 * @public
 	 * @method
-	 * @param {nyc.ol.geoserver.FeatureTxn.Auth}  Authorization options
+	 * @param {nyc.ol.geoserver.FeatureTxn.Auth} options Authorization options
 	 */ 
 	auth: function(options){
 	    var isLoggedIn = this.isLoggedIn;
