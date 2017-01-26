@@ -191,7 +191,7 @@ nyc.ol.geoserver.FeatureTxn.prototype = {
 nyc.ol.geoserver.FeatureTxn.Options;
 
 /**
- * @desc Object type to hold auth options for {@link nyc.ol.geoserver#GetFeature:auth}
+ * @desc Object type to hold auth options for {@link nyc.ol.geoserver.GetFeature#auth}
  * @public
  * @typedef {Object}
  * @property {string} url A GeoServer login URL 
