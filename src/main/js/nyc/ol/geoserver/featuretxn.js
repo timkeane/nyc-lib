@@ -174,7 +174,7 @@ nyc.ol.geoserver.FeatureTxn.prototype = {
 		var rx = new RegExp('<span class\=\"username\">(.|\n)*?<\/span>');
 		return rx.exec(response) != null;
 	}
-}
+};
 
 /**
  * @desc Object type to hold constructor options for {@link nyc.ol.geoserver.GetFeature}
