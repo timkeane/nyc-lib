@@ -14,15 +14,15 @@ div.chart-series-0 div.chart-series-icon {
     background-color: #000;
 }
 div.chart-series-1 div.chart-series-icon {
-    background-color: rgba(0,0,0,0.3);
+    background-color: var(--theme-carto-ctl-bg-color);
 }
 div#chart-tip {
 	display: none;
 	position: absolute;
-	background: rgba(255,255,255,0.9);
+	background: var(--theme-tip-bg-color);
 	padding: 5px;
-	border-radius: 4px;
-	box-shadow: 5px 10px 20px 5px rgba(0,0,0,0.5);
+	border-radius: var(--theme-border-radius);
+	box-shadow: var(--theme-box-shadow);
 	min-width: 80px;
 	z-index: 2000;
 }
@@ -33,11 +33,11 @@ div.chart-tip-0:before, div.chart-tip-1:before {
 	content: 'xx';
 	margin-right: 3px;
 	text-shadow: none;
-	color: rgba(0,0,0,0);
+	color: var(--theme-carto-ctl-bg-color-darkest);
 }
 div.chart-tip-0:before {
-	background-color: #000;
+	background-color: var(--theme-carto-ctl-bg-color-darkest);
 }
 div.chart-tip-1:before {
-	background-color: rgba(0,0,0,0.3);
+	background-color: var(--theme-carto-ctl-bg-color);
 }

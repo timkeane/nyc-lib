@@ -4,5 +4,5 @@
 	top: 3px;
 }
 #btn-get-feat.active {
-	background-color: #000;
+	background-color: var(--theme-ctl-bg-color-hover);
 }

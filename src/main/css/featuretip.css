@@ -1,11 +1,10 @@
 .feature-tip, .feature-tip-helper {
 	position: absolute;
-	border-radius: 3px;
+	border-radius: var(--theme-border-radius);
 	padding: 3px;
 	font-size: 12px;
 	max-width: 150px;
 	text-align: center;
-	background-color: rgba(255,255,255,0.8);
-	font-family: helvetica;
-	box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+	background-color: var(--theme-tip-bg-color);
+	box-shadow: var(--theme-box-shadow);
 }

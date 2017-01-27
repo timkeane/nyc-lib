@@ -12,7 +12,7 @@ table td.leg-bin {
 	text-align: center;
 }
 table td.leg-bin img {
-	background-color: rgba(0,0,0,0.5);
+	background-color: var(--theme-ctl-bg-color);
 }
 table.leg-polygon td.leg-bin img {
 	width: 22px;

@@ -14,17 +14,17 @@ div.z-srch {
 	top: 40px;
 }
 .btn-z-in:after {
-	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20width%3D%2214px%22%20height%3D%2214px%22%3E%3Cpolygon%20fill%3D%22%23FFF%22%20points%3D%2214%2C5%209%2C5%209%2C0%205%2C0%205%2C5%200%2C5%200%2C9%205%2C9%205%2C14%209%2C14%209%2C9%2014%2C9%22%2F%3E%3C%2Fsvg%3E");
+	background-image: var(--theme-zoom-in-bg-img);
 }
 .btn-z-out:after {
-	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20width%3D%2214px%22%20height%3D%2214px%22%3E%3Crect%20y%3D%225%22%20style%3D%22fill%3A%23fff%3B%22%20width%3D%2214%22%20height%3D%224%22%2F%3E%3C%2Fsvg%3E");
+	background-image: var(--theme-zoom-out-bg-img);
 }
 .btn-geo {
     left: 0;
     top: 80px;
 }
 .btn-geo, .srch-type-geo span:after {
-	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3Asvg%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214%22%20height%3D%2214%22%3E%3Cg%20style%3D%22stroke%3A%23fff%3Bstroke-width%3A2%3Bfill%3Anone%22%3E%3Ccircle%20cx%3D%227%22%20cy%3D%227%22%20r%3D%225%22%2F%3E%3Cpolyline%20points%3D%220%2C7%204.5%2C7%22%2F%3E%3Cpolyline%20points%3D%229.5%2C7%2014%2C7%22%2F%3E%3Cpolyline%20points%3D%227%2C0%207%2C4.5%22%2F%3E%3Cpolyline%20points%3D%227%2C14%207%2C9.5%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+	background-image: var(--theme-zoom-geo-bg-img);
     background-size: 25px;
     background-repeat: no-repeat;
     background-position: center;
@@ -54,7 +54,7 @@ div.fld-srch-container a.ui-input-clear.ui-btn.ui-icon-delete {
 	margin: -11px 5px 0 0;
 }
 .fld-srch-container a.searching:after {
-	background-image: url(../img/searching.gif);
+	background-image: var(--theme-zoom-busy-bg-img);
 	background-size: 15px;
 }
 .ui-listview>.ui-li-static {
@@ -63,22 +63,20 @@ div.fld-srch-container a.ui-input-clear.ui-btn.ui-icon-delete {
 	margin: 0;
 }
 .fld-srch-container .ui-listview>.ui-li-static {
+	background-color: var(--theme-pop-bg-color);
 	cursor: pointer;
-	background-color: #fff;
-	color: #000;
-	text-shadow: none;
 }
 .fld-srch-container .ui-listview>.ui-li-static:hover {
-	background-color: rgba(0,0,0,0.5);
-	color: #fff;
+	background-color: var(--theme-ctl-bg-color);
+	color: var(--theme-ctl-text-color);
 }
 .fld-srch-container .ui-listview>.ui-li-static:hover .ui-btn-icon-left:after {
-	background-color: #000;
+	background-color: var(--theme-ctl-bg-color-hover);
 }
 .fld-srch-container ul.ui-listview {
+	box-shadow: var(--theme-box-shadow);
 	max-width: 400px;
 	max-height: 400px;
-	box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
 	overflow-x: hidden;
 	overflow-y: auto;
 	z-index: 3000;
@@ -104,16 +102,12 @@ div.fld-srch-container a.ui-input-clear.ui-btn.ui-icon-delete {
 	opacity: 1;
 }
 .btn-srch-typ:after, .fld-srch-container .ui-input-clear:after, .mnu-srch-typ .ui-btn-icon-left:after {
-	background-color: rgba(0,0,0,0.5);
+	background-color: var(--theme-ctl-bg-color);
 }
 .btn-srch-typ:hover:after, .fld-srch-container .ui-input-clear:hover:after {
-	background-color: #000;
+	background-color: var(--theme-ctl-bg-color-hover);
 }
 .srch-type-geo span:after {
-	background-size: 16px 16px;
-}
-span.srch-upk-icon:after {
-	background-image: url(../img/hand.png);
 	background-size: 16px 16px;
 }
 .srch-types .ui-input-clear {

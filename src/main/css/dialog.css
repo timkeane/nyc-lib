@@ -17,10 +17,11 @@ div.dia-container {
 	padding: 8px;
 	margin-top: -80px;
 	margin-left: -128px;
-	background-color: #fff;
-	border-radius: 3px;
-	border: 1px solid rgba(0,0,0,0.1);
-	box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+	background-color: var(--theme-pop-bg-color);
+	border-radius: var(--theme-border-radius);
+	border: var(--theme-pop-border);
+	border-color: var(--theme-pop-border-color);
+	box-shadow: var(--theme-box-shadow);
 }
 .dia-btns a {
 	width: 80px;

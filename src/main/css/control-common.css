@@ -8,10 +8,10 @@
 	margin: 0;
 }
 .ctl-btn.ui-btn, .ctl-btn.ui-btn:visited {
-	background-color: rgba(0,0,0,0.5);
+	background-color: var(--theme-ctl-bg-color);
 }
 .ctl-btn.ui-btn:hover {
-	background-color: #000;
+	background-color: var(--theme-ctl-bg-color-hover);
 }
 .ctl-btn.ui-btn:after, .ctl-btn.ui-btn:hover:after {
 	background-color: transparent;
