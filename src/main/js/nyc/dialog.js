@@ -191,7 +191,7 @@ nyc.Dialog.prototype = {
 			this.container.find('.btn-cancel').css('display', 'inline-block');	
 			this.container.addClass('dia-3-btns');	
 		}
-		this.msgElem.html(options.message);
+		this.msgElem.html(options.message || '');
 		this.container.fadeIn();
 		this.callback = options.callback;
 	},
