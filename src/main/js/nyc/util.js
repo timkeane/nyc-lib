@@ -82,6 +82,23 @@ nyc.util = {
 			}
 		}
 		target.data('last-click', now);		
+	},
+	/**
+	 * @desc A function to pad values
+	 * @public
+	 * @static
+	 * @function
+	 * @param {string|number} val The value to pad
+	 * @param {number} len The length of the padded result 
+	 * @param {string} [chr=0] The padding character
+	 * @return {string}
+	 */
+	pad: function(val, len, chr) {
+		var str = val + '';
+		while (str.length < len) {
+			str = (chr || '0') + str;
+		}
+		return str;
 	}
 };
 
