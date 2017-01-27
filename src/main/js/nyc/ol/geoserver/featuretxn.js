@@ -93,7 +93,7 @@ nyc.ol.geoserver.FeatureTxn.prototype = {
 	 * @desc Insert a new feature in the layer
 	 * @public
 	 * @method
-	 * @param {ol.Feature} feature
+	 * @param {ol.Feature} feature The feature to insert
 	 */ 
 	add: function(feature){
 		var me = this, clone = me.clone(feature), node = me.format.writeTransaction([clone], null, null, me.options);
@@ -114,7 +114,7 @@ nyc.ol.geoserver.FeatureTxn.prototype = {
 	 * @desc Delete a feature from the layer
 	 * @public
 	 * @method
-	 * @param {ol.Feature} feature
+	 * @param {ol.Feature} feature The feature to delete
 	 */ 
 	remove: function(feature){
 		var me = this, clone = me.clone(feature), node = me.format.writeTransaction(null, null, [clone], me.options);
@@ -135,7 +135,7 @@ nyc.ol.geoserver.FeatureTxn.prototype = {
 	 * @desc Modify a feature of the layer
 	 * @public
 	 * @method
-	 * @param {ol.Feature} feature
+	 * @param {ol.Feature} feature The feature to update
 	 */ 
 	update: function(feature){
 		var me = this, clone = me.clone(feature), node = me.format.writeTransaction(null, [clone], null, me.options);
