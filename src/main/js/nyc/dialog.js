@@ -279,7 +279,7 @@ nyc.Dialog.prototype = {
 				this.hndlYesNo(event);
 				this.hndlInput(event);
 				this.hndlLogin(event);
-			}else if (event.keyCode == 27){
+			}else if (event.keyCode == 27 && this.currentType != nyc.Dialog.Type.OK){
 				this.hide();
 			}
 		}
