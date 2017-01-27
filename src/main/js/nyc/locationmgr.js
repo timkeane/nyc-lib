@@ -19,6 +19,7 @@ nyc.LocationMgr = function(options){
 	this.locate.on(nyc.Locate.EventType.GEOCODE, this.located, this);
 	this.locate.on(nyc.Locate.EventType.GEOLOCATION, this.located, this);
 	this.locate.on(nyc.Locate.EventType.AMBIGUOUS, this.ambiguous, this);
+	this.locate.on(nyc.Locate.EventType.ERROR, this.error, this);
 	this.controls.on(nyc.ZoomSearch.EventType.SEARCH, this.locate.search, this.locate);
 	this.controls.on(nyc.ZoomSearch.EventType.GEOLOCATE, this.locate.locate, this.locate);
 	this.controls.on(nyc.ZoomSearch.EventType.DISAMBIGUATED, this.located, this);
@@ -52,6 +53,14 @@ nyc.LocationMgr.prototype = {
 	 * @member {boolean}
 	 */
 	autoLocate: false,
+	/** 
+	 * @private 
+	 * @method
+	 */
+	error: function(){
+		this.controls.searching(false);
+		this.dialog.ok({message: 'Failed to contact geocoder'});
+	},
 	/** 
 	 * @private 
 	 * @method
