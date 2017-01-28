@@ -6,6 +6,7 @@ import gov.nyc.doitt.nyc.gis.gradle.util.Util
 
 class MiniCssTask extends DefaultTask {
 	def libName = ''
+	def themeFile = ''
 	def fileNames = []
 	def sourceDir = ''
 	def destinationDir = ''
@@ -23,7 +24,24 @@ class MiniCssTask extends DefaultTask {
 			css = css.replaceAll(/\/\*[\d\D]*?\*\//, '')
 			cssOut.append(css)
 			this.copySource(fileNames[i])
-		}		
+		}
+		this.doTheme(cssOut)
+	}
+	void doTheme(def cssOut){ //ie does not support css variables
+		if (this.themeFile != ''){
+			def theme = new File("${sourceDir}/${themeFile}")
+			theme.readLines().each{ line ->
+				line = line.trim()
+				if (line.indexOf('--') == 0){
+					def var = 'var(' + line.substring(0, line.indexOf(':')).trim() + ')'		
+					def val = line.substring(line.indexOf(':') + 1).trim()
+					val = val.substring(0, val.lastIndexOf(';')).trim()
+					ant.replace(file: cssOut, token: var, value: val)
+				}
+			}
+			ant.replace(file: cssOut, token: '@import url("theme.css");', value: '')
+			ant.copy(file: "${sourceDir}/${themeFile}", tofile: "${destinationDir}/../src/css/${themeFile}")
+		}
 	}
 	void copySource(String file){
 		def dir = Util.getDirectoryName("${destinationDir}/../src/css/${file}")

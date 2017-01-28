@@ -153,7 +153,6 @@ ext {
 		'nyc/jcard/jcard.js'
 	]
 	olCssFiles = [
-		'theme.css', 
 		'nyc-base.css', 
 		'control-common.css', 
 		'collapsible.css', 
@@ -172,13 +171,11 @@ ext {
 		'zoomsearch.css'
 	]
 	olRedLineCssFiles = [
-		'theme.css', 
 		'nyc-base.css', 
 		'draw.css',
 		'getfeature.css'
 	]
 	leafCssFiles = [
-		'theme.css', 
 		'nyc-base.css', 
 		'control-common.css', 
 		'collapsible.css', 
@@ -190,7 +187,6 @@ ext {
 		'zoomsearch.css'
 	]
 	cartoCssFiles = [
-		'theme.css', 
 		'nyc-base.css', 
 		'control-common.css', 
 		'chart.css', 
@@ -362,6 +358,7 @@ task minifyJsCarto(type: MiniJsTask) {
 
 task minifyCssOl(type: MiniCssTask) {
 	libName = 'nyc-ol-lib'
+	themeFile = 'theme.css'
 	fileNames = olCssFiles
 	sourceDir = cssSrcDir
 	destinationDir = "${pkgDir}/css"
@@ -369,6 +366,7 @@ task minifyCssOl(type: MiniCssTask) {
 
 task minifyCssOlRedLine(type: MiniCssTask) {
 	libName = 'nyc-ol-redline-lib'
+	themeFile = 'theme.css'
 	fileNames = olRedLineCssFiles
 	sourceDir = cssSrcDir
 	destinationDir = "${pkgDir}/css"
@@ -376,6 +374,7 @@ task minifyCssOlRedLine(type: MiniCssTask) {
 
 task minifyCssLeaf(type: MiniCssTask) {
 	libName = 'nyc-leaf-lib'
+	themeFile = 'theme.css'
 	fileNames = leafCssFiles
 	sourceDir = cssSrcDir
 	destinationDir = "${pkgDir}/css"
@@ -383,6 +382,7 @@ task minifyCssLeaf(type: MiniCssTask) {
 
 task minifyCssCarto(type: MiniCssTask) {
 	libName = 'nyc-carto-lib'
+	themeFile = 'theme.css'
 	fileNames = cartoCssFiles
 	sourceDir = cssSrcDir
 	destinationDir = "${pkgDir}/css"
