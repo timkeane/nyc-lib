@@ -26,6 +26,7 @@ class MiniCssTask extends DefaultTask {
 			this.copySource(fileNames[i])
 		}
 		this.doTheme(cssOut)
+		
 	}
 	void doTheme(def cssOut){ //ie does not support css variables
 		if (this.themeFile != ''){

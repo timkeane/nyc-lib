@@ -33,8 +33,8 @@ ext {
 	srcDir = "${projectDir}/src/main"
 	jsSrcDir = "${srcDir}/js"
 	cssSrcDir = "${srcDir}/css"
-	localhost = 'http://localhost:8080'
-	tilehost = 'http://localhost:8080'
+	localhost = 'http://localhost'
+	tilehost = 'http://localhost'
 	localhostDeployedBuildPath = '/git/nyc-lib/build'
 	olJsFiles = [
 		'nyc/nyc.js', 
