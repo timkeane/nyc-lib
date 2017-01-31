@@ -61,7 +61,7 @@ nyc.ol.geoserver.Creds.modifyReadyStateChanged = function(xhr, creds){
 			chg();
 		}
 		if (this.readyState == XMLHttpRequest.DONE && this.status != 200){
-			creds.trigger('fail', this);
+			creds.trigger(nyc.ol.geoserver.Creds.EventType.FAIL, this);
 		}
 	};
 };
