@@ -9,6 +9,7 @@ var nyc = nyc || {};
  * @fires nyc.Dialog#ok
  * @fires nyc.Dialog#yesno
  * @fires nyc.Dialog#input
+ * @fires nyc.Dialog#login
  */
 nyc.Dialog = function(){
 	this.container = $(nyc.Dialog.HTML).trigger('create');
@@ -198,11 +199,15 @@ nyc.Dialog.prototype = {
 	/**
 	 * @private
 	 * @method
+	 * @param {function()} afterHide
 	 */
-	hide: function(){
-		var container = this.container;
-		container.fadeOut(function(){
-			container.find('input').val('');
+	hide: function(afterHide){
+		var me = this;
+		me.container.fadeOut(function(){
+			me.container.find('input').val('');
+			if (afterHide){
+				afterHide();
+			}
 		});
 	},
 	/**
@@ -212,12 +217,14 @@ nyc.Dialog.prototype = {
 	 * @param {(boolean|string|Object)} result 
 	 */
 	hndlAny: function(type, result){
-		if (this.callback){
-			this.callback(result);
-			this.callback = null;
-		}
-		this.trigger(type, result);
-		this.hide();
+		var me = this;
+		me.hide(function(){
+			if (me.callback){
+				me.callback(result);
+				me.callback = null;
+			}
+			me.trigger(type, result);			
+		});
 	},
 	/**
 	 * @private
@@ -333,7 +340,11 @@ nyc.Dialog.EventType = {
 	/**
 	 * @desc Dialog input event type
 	 */
-	INPUT: 'input'
+	INPUT: 'input',
+	/**
+	 * @desc Dialog login event type
+	 */
+	LOGIN: 'login'
 };
 
 /**
@@ -352,6 +363,14 @@ nyc.Dialog.EventType = {
  * @desc The result of a dialog event
  * @event nyc.Dialog#input
  * @type {string}
+ */
+
+/**
+ * @desc The result of a dialog event
+ * @event nyc.Dialog#login
+ * @type {Object}
+ * @property {string} user The user name
+ * @property {string} password The password
  */
 
 /**
