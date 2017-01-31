@@ -84,7 +84,8 @@ ext {
 	olRedLineJsFiles = [
 		'nyc/ol/draw.js', 
 		'nyc/ol/geoserver/getfeature.js', 
-		'nyc/ol/geoserver/featuretxn.js'
+		'nyc/ol/geoserver/featuretxn.js',
+		'nyc/ol/geoserver/creds.js'
 	]
 	leafJsFiles = [
 		'nyc/nyc.js', 

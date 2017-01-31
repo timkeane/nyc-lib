@@ -1,9 +1,5 @@
 var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
-/** 
- * @public 
- * @namespace
- */
 nyc.ol.geoserver = nyc.ol.geoserver || {};
 
 /**
@@ -64,31 +60,6 @@ nyc.ol.geoserver.FeatureTxn.prototype = {
 	 * @member {Object}
 	 */ 
 	options: null,
-	/**
-	 * @desc Authenticate with the WFS
-	 * @public
-	 * @method
-	 * @param {nyc.ol.geoserver.FeatureTxn.Auth} options Authorization options
-	 */ 
-	auth: function(options){
-	    var isLoggedIn = this.isLoggedIn;
-		$.ajax({
-	        url: options.url,
-	        data: 'username=' + options.user + '&password=' + options.password,
-	        type: 'POST',
-	        contentType: 'application/x-www-form-urlencoded',
-	        success: function(response){
-	            if (isLoggedIn(response)){
-	            	options.callback(true);
-	            }else{
-	            	this.error(arguments);
-	            }
-	        },
-	        error: function(){
-	        	options.callback(false);
-	        }
-	    });
-	},
 	/**
 	 * @desc Insert a new feature in the layer
 	 * @public
@@ -164,15 +135,6 @@ nyc.ol.geoserver.FeatureTxn.prototype = {
 		props[this.geomColumn] = feature.getGeometry(); 
 		clone.setProperties(props);
 		return clone;
-	},
-	/**
-	 * @private
-	 * @method
-	 * @param {string} feature
-	 */ 
-	isLoggedIn: function(response){
-		var rx = new RegExp('<span class\=\"username\">(.|\n)*?<\/span>');
-		return rx.exec(response) != null;
 	}
 };
 
@@ -190,14 +152,4 @@ nyc.ol.geoserver.FeatureTxn.prototype = {
  */
 nyc.ol.geoserver.FeatureTxn.Options;
 
-/**
- * @desc Object type to hold auth options for {@link nyc.ol.geoserver.GetFeature#auth}
- * @public
- * @typedef {Object}
- * @property {string} url A GeoServer login URL 
- * @property {string} user The user name
- * @property {string} password The password
- * @property {function(boolean)} callback Success/failure callback
- */
-nyc.ol.geoserver.FeatureTxn.Auth;
 
