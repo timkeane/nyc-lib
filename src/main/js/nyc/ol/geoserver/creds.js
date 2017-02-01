@@ -4,14 +4,21 @@ nyc.ol.geoserver = nyc.ol.geoserver || {};
 
 /**
  * @desc A class that intercepts XMLHttpRequests and set a GeoServer-specific header for authentication
- * @public
+ * @protected
  * @class
  * @constructor
  * @fires nyc.ol.geoserver.Creds#fail
  */
-nyc.ol.geoserver.Creds = function(){};
+nyc.ol.geoserver.Creds = function(){
+	this.servers = {};
+};
 
 nyc.ol.geoserver.Creds.prototype = {
+	/*
+	 * @private
+	 * @member {Object<string, nyc.ol.geoserver.Creds.Credentials>}
+	 */
+	servers: null,
 	/**
 	 * @desc Set credentials for a specific GeoServer instance
 	 * @public
@@ -27,7 +34,7 @@ nyc.ol.geoserver.Creds.prototype = {
 			nyc.ol.geoserver.Creds.xhrOpen = XMLHttpRequest.prototype.open;
 			XMLHttpRequest.prototype.open = nyc.ol.geoserver.Creds.xhrOpenWithCreds;
 		}
-		nyc.ol.geoserver.Creds.servers[server] = this;
+		this.servers[server] = credentials;
 	}
 };
 
@@ -37,12 +44,13 @@ nyc.ol.geoserver.Creds.prototype = {
  * @method
  */ 
 nyc.ol.geoserver.Creds.xhrOpenWithCreds = function(){
+	var servers = nyc.ol.geoserver.Creds.INSTANCE.servers;
 	nyc.ol.geoserver.Creds.xhrOpen.apply(this, arguments);
-	for (var svr in nyc.ol.geoserver.Creds.servers){
+	for (var svr in servers){
 		if (arguments[1].indexOf(svr) == 0){
-			var creds = nyc.ol.geoserver.Creds.servers[svr];
+			var creds = servers[svr];
 			this.setRequestHeader('X-Credentials', 'private-user=' + creds.user + '&private-pw=' + creds.password);
-			nyc.ol.geoserver.Creds.modifyReadyStateChanged(this, creds);
+			nyc.ol.geoserver.Creds.modifyReadyStateChanged(this);
 		}
 	}
 };
@@ -52,24 +60,37 @@ nyc.ol.geoserver.Creds.xhrOpenWithCreds = function(){
  * @static
  * @method
  * @param {XMLHttpRequest} xhr
- * @param {nyc.ol.geoserver.Creds} creds
  */ 
-nyc.ol.geoserver.Creds.modifyReadyStateChanged = function(xhr, creds){
+nyc.ol.geoserver.Creds.modifyReadyStateChanged = function(xhr){
 	var chg = xhr.onreadystatechange;
 	xhr.onreadystatechange = function(){
 		if (chg){
 			chg();
 		}
 		if (this.readyState == XMLHttpRequest.DONE && this.status != 200){
-			creds.trigger(nyc.ol.geoserver.Creds.EventType.FAIL, this);
+			nyc.ol.geoserver.Creds.INSTANCE.trigger(nyc.ol.geoserver.Creds.EventType.FAIL, this);
 		}
 	};
 };
 
 nyc.inherits(nyc.ol.geoserver.Creds, nyc.EventHandling);
 
-nyc.ol.geoserver.Creds.servers;
-nyc.ol.geoserver.Creds.xhrOpen;
+/**
+ * @private
+ * @const
+ * @type {nyc.ol.geoserver.Creds}
+ */
+nyc.ol.geoserver.Creds.INSTANCE;
+
+/** 
+ * @desc A factory method to get the singleton instance of {@link nyc.ol.geoserver.Creds}
+ * @public
+ * @function 
+ */
+nyc.ol.geoserver.Creds.getInstance = function(){
+	nyc.ol.geoserver.Creds.INSTANCE = nyc.ol.geoserver.Creds.INSTANCE || new nyc.ol.geoserver.Creds();
+	return nyc.ol.geoserver.Creds.INSTANCE;
+};
 
 /**
  * @desc Credential event type
@@ -97,3 +118,10 @@ nyc.ol.geoserver.Creds.EventType = {
  * @property {string} password The password
  */
 nyc.ol.geoserver.Creds.Credentials;
+
+/**
+ * @private
+ * @const
+ * @type {function()}
+ */
+nyc.ol.geoserver.Creds.xhrOpen;
