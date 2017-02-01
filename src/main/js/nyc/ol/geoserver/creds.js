@@ -121,7 +121,6 @@ nyc.ol.geoserver.Creds.Credentials;
 
 /**
  * @private
- * @const
  * @type {function()}
  */
 nyc.ol.geoserver.Creds.xhrOpen;
