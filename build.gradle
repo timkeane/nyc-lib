@@ -41,6 +41,7 @@ ext {
 		'nyc/date.js', 
 		'nyc/jq.js', 
 		'nyc/util.js', 
+		'nyc/proximityinfo.js', 
 		'nyc/basemap.js', 
 		'nyc/ctlcontainer.js', 
 		'nyc/template.js', 
@@ -91,6 +92,7 @@ ext {
 		'nyc/nyc.js', 
 		'nyc/date.js', 
 		'nyc/util.js', 
+		'nyc/proximityinfo.js', 
 		'nyc/basemap.js', 
 		'nyc/ctlcontainer.js', 
 		'nyc/collapsible.js', 
@@ -119,6 +121,7 @@ ext {
 	cartoJsFiles = [
 		'nyc/nyc.js', 
 		'nyc/date.js', 
+		'nyc/proximityinfo.js', 
 		'nyc/util.js', 
 		'nyc/basemap.js', 
 		'nyc/ctlcontainer.js', 
