@@ -10,7 +10,7 @@ nyc.ProximityInfo.prototype = {
 	 * @param {nyc.ProximityInfo.InfoPointOptions|nyc.ProximityInfo.InfoBinBblOptions} options
 	 */
 	info: function(options){
-		this.checkOptions(options);
+		this.validateOptions(options);
 		this.whichInfo(options)
 	},
 	/**
@@ -20,7 +20,7 @@ nyc.ProximityInfo.prototype = {
 	 * @param {nyc.ProximityInfo.ProximityOptions} options
 	 */
 	proximity: function(x, y, buffer, epsg){
-		this.checkOptions(options);
+		this.validateOptions(options);
 		this.ajax(nyc.ProximityInfo.PROXIMITY, options);
 	},
 	/**
@@ -42,7 +42,7 @@ nyc.ProximityInfo.prototype = {
 	 * @method
 	 * @param {nyc.ProximityInfo.InfoPointOptions|nyc.ProximityInfo.ProximityOptions} options
 	 */
-	checkOptions: function(options){
+	validateOptions: function(options){
 		options.buffer = nyc.ProximityInfo.BUFFER[options.buffer] || 100;
 		options.epsg = options.epsg || 900913;
 		options.binOrBbl = options.binOrBbl ? options.binOrBbl.trim() : '';
