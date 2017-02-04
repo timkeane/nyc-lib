@@ -22,6 +22,7 @@ nyc.ol.style.mvt = nyc.ol.style.mvt || {};
  */
 nyc.ol.style.mvt.withPointConversion = function(options){
 	var currentTile;
+	var grid = options.mvtLayer.getSource().getTileGrid();
 	var source = new ol.source.Vector({});
 	options.map.addLayer(new ol.layer.Vector({
 		source: source,
@@ -37,7 +38,7 @@ nyc.ol.style.mvt.withPointConversion = function(options){
 		if (mvtFeature.getGeometry().getType() == 'Point'){
 			var fid = mvtFeature.get(options.fidProperty);
 			if (!source.getFeatureById(fid)){
-				var converted = nyc.ol.style.mvt.convertPointFeature(options.map, currentTile, mvtFeature, fid);
+				var converted = nyc.ol.style.mvt.convertPointFeature(options.map, grid, currentTile, mvtFeature, fid);
 				source.addFeature(converted);
 			}
 		}else{
@@ -63,16 +64,16 @@ nyc.ol.style.mvt.WithPointConversionOptions;
  * @private
  * @function
  * @param {ol.Map} map The map onto which the point feature will be rendered
+ * @param {ol.tilegrid.TileGrid} grid The tile grid containing the tile being rendered
  * @param {ol.VectorTile} tile The tile containing the point feature
  * @param {ol.render.Feature} feature The point feature
  * @param {string|number} fid A unique id for the converted point feature
  * @return {ol.Feature} feature The converted point feature
  */
-nyc.ol.style.mvt.convertPointFeature = function(map, tile, feature, fid){
+nyc.ol.style.mvt.convertPointFeature = function(map, grid, tile, feature, fid){
 	var tileCoord = tile.getTileCoord();
-	var extent = nyc.ol.TILE_GRID.getTileCoordExtent(tileCoord);
-	var size = nyc.ol.TILE_GRID.getTileSize(tile);
-	var unitsPerPixel = nyc.ol.TILE_GRID.getResolution(tileCoord[0]);
+	var extent = grid.getTileCoordExtent(tileCoord);
+	var unitsPerPixel = grid.getResolution(tileCoord[0]);
 	var pixel = feature.getOrientedFlatCoordinates();
 	var x = extent[0] + (pixel[0] * unitsPerPixel);
 	var y = extent[3] - (pixel[1] * unitsPerPixel);
