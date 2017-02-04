@@ -52,7 +52,7 @@ nyc.ol.style.mvt.withPointConversion = function(options){
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The map onto which the point feature will be rendered
- * @property {ol.VectorTile} tile The tile containing the point feature
+ * @property {ol.layer.VectorTile} mvtLayer The MVT vector tile layer
  * @property {string} fidProperty The property name containing a unique id for features
  * @property {ol.StyleFunction} featureStyle The style function for non-point features 
  * @property {ol.StyleFunction} pointStyle The style function for point features 
