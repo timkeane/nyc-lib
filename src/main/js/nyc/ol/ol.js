@@ -116,3 +116,10 @@ nyc.ol.FeatureEventType = {
 	 */
 	REMOVE: 'removefeature'
 };
+
+/**
+ * @desc The tile grid for NYC TMS layers
+ * @public
+ * @type {ol.tilegrid.TileGrid}
+ */
+nyc.ol.TILE_GRID = ol.tilegrid.createXYZ({minZoom: 8, maxZoom: 21});

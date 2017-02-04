@@ -63,6 +63,7 @@ ext {
 		'nyc/listpager.js',
 		'nyc/zoomsearch.js',
 		'nyc/ol/ol.js', 
+		'nyc/ol/style/mvt.js', 
 		'nyc/ol/basemap.js', 
 		'nyc/ol/featuretip.js', 
 		'nyc/ol/locate.js', 
@@ -86,7 +87,6 @@ ext {
 		'nyc/ol/draw.js', 
 		'nyc/ol/geoserver/getfeature.js', 
 		'nyc/ol/geoserver/featuretxn.js',
-		'nyc/ol/geoserver/creds.js'
 	]
 	leafJsFiles = [
 		'nyc/nyc.js', 
