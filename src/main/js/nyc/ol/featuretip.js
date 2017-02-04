@@ -18,6 +18,7 @@ nyc.ol.FeatureTip = function(map, tipDefs){
 	this.tip = $(this.mapDiv).children('.feature-tip');
 	this.helper = $(this.mapDiv).children('.feature-tip-helper');
 	$(map.getViewport()).mousemove($.proxy(this.label, this));
+	$(map.getViewport()).mouseout($.proxy(this.hide, this));
 };
 
 nyc.ol.FeatureTip.prototype = {
@@ -57,14 +58,7 @@ nyc.ol.FeatureTip.prototype = {
 	 */
 	addtipDefs: function(tipDefs){
 		$.each(tipDefs, function(_, def){
-			var src = def.source, func = def.labelFunction, features = src.getFeatures();
-			if (features.getArray) features = features.getArray();
-			$.each(features, function(_, f){
-				f.getLabel = func;
-			});
-			src.on('addfeature', function(e){
-				e.feature.getLabel = func;
-			});
+			def.layer.nycTip = def.labelFunction;
 		});		
 	},
 	/**
@@ -74,8 +68,8 @@ nyc.ol.FeatureTip.prototype = {
 	 */
 	label: function(event){
 			var px = this.map.getEventPixel(event.originalEvent),
-				lbl = this.map.forEachFeatureAtPixel(px, function(f, _){
-					return f && f.getLabel ? f.getLabel() : null;
+				lbl = this.map.forEachFeatureAtPixel(px, function(f, lyr){
+					return f && lyr.nycTip ? lyr.nycTip.call(f) : null;
 				});
 		if (lbl){
 			this.tip.html(lbl.text)
@@ -108,7 +102,7 @@ nyc.ol.FeatureTip.prototype = {
  * @desc Object with configuration options for feature tips 
  * @public
  * @typedef {Object}
- * @property {ol.source.Vector} source The source of the features
+ * @property {ol.layer.Vector} layer The layer whose features will have tips
  * @property {nyc.ol.FeatureTip.LabelFunction} labelFunction A function to generate tips
  */
 nyc.ol.FeatureTip.TipDef;
