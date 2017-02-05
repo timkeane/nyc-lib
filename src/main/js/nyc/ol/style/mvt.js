@@ -14,37 +14,44 @@ nyc.ol.style = nyc.ol.style || {};
 nyc.ol.style.mvt = nyc.ol.style.mvt || {};
 
 /**
- * @desc A function to create a composite style function for an ol.layer.TileVector layer with format ol.format.MVT that extracts point features and renders them into a separate ol.layer.Vector layer
+ * @desc A function to create a proxy layer for styling points from an ol.layer.TileVector layer with format ol.format.MVT
  * @public
  * @function
  * @param {nyc.ol.style.mvt.WithPointConversionOptions} options Options for creating the style function
- * @return {ol.StyleFunction} The style function
+ * @return {ol.layer.Vector}
  */
-nyc.ol.style.mvt.withPointConversion = function(options){
+nyc.ol.style.mvt.proxyPointLayer = function(options){
 	var currentTile;
-	var grid = options.mvtLayer.getSource().getTileGrid();
+	var map = options.map;
+	var mvtLayer = options.mvtLayer;
+	var grid = mvtLayer.getSource().getTileGrid();
 	var source = new ol.source.Vector({});
-	options.map.addLayer(new ol.layer.Vector({
+	var mainStyle = mvtLayer.getStyle();
+	var proxyLayer = new ol.layer.Vector({
 		source: source,
 		style: options.pointStyle,
-		zIndex: options.mvtLayer.getZIndex() + 1
-	}));
-	var layerRenderer = options.map.getRenderer().getLayerRenderer(options.mvtLayer);
+		zIndex: mvtLayer.getZIndex() + 1
+	});
+	map.addLayer(proxyLayer);
+	var layerRenderer = map.getRenderer().getLayerRenderer(mvtLayer);
 	layerRenderer.drawTileImage = function(){
 		currentTile = arguments[0];
 		ol.renderer.canvas.VectorTileLayer.prototype.drawTileImage.apply(this, arguments);
 	};
-	return function(mvtFeature, resolution){
-		if (mvtFeature.getGeometry().getType() == 'Point'){
-			var fid = mvtFeature.get(options.fidProperty);
-			if (!source.getFeatureById(fid)){
-				var converted = nyc.ol.style.mvt.convertPointFeature(options.map, grid, currentTile, mvtFeature, fid);
-				source.addFeature(converted);
+	mvtLayer.setStyle(
+		function(mvtFeature, resolution){
+			if (mvtFeature.getGeometry().getType() == 'Point'){
+				var fid = mvtFeature.get(options.fidProperty);
+				if (!source.getFeatureById(fid)){
+					var converted = nyc.ol.style.mvt.convertPointFeature(map, grid, currentTile, mvtFeature, fid);
+					source.addFeature(converted);
+				}
+			}else{
+				return mainStyle(mvtFeature, resolution);
 			}
-		}else{
-			return options.featureStyle(mvtFeature, resolution);
 		}
-	}
+	);
+	return proxyLayer;
 };
 
 /**
@@ -54,7 +61,6 @@ nyc.ol.style.mvt.withPointConversion = function(options){
  * @property {ol.Map} map The map onto which the point feature will be rendered
  * @property {ol.layer.VectorTile} mvtLayer The MVT vector tile layer
  * @property {string} fidProperty The property name containing a unique id for features
- * @property {ol.StyleFunction} featureStyle The style function for non-point features 
  * @property {ol.StyleFunction} pointStyle The style function for point features 
  */
 nyc.ol.style.mvt.WithPointConversionOptions;
