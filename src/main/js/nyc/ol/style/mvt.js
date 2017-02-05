@@ -17,7 +17,7 @@ nyc.ol.style.mvt = nyc.ol.style.mvt || {};
  * @desc A function to create a proxy layer for styling points from an ol.layer.TileVector layer with format ol.format.MVT
  * @public
  * @function
- * @param {nyc.ol.style.mvt.WithPointConversionOptions} options Options for creating the style function
+ * @param {nyc.ol.style.mvt.ProxyPointLayerOptions} options Options for creating the style function
  * @return {ol.layer.Vector}
  */
 nyc.ol.style.mvt.proxyPointLayer = function(options){
@@ -63,7 +63,7 @@ nyc.ol.style.mvt.proxyPointLayer = function(options){
  * @property {string} fidProperty The property name containing a unique id for features
  * @property {ol.StyleFunction} pointStyle The style function for point features 
  */
-nyc.ol.style.mvt.WithPointConversionOptions;
+nyc.ol.style.mvt.ProxyPointLayerOptions;
 
 /**
  * @desc A function to convert ol.render.Feature to ol.Feature
