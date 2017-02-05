@@ -176,7 +176,7 @@ nyc.Geoclient.prototype = {
 			a = nyc.Geocoder.Accuracy.LOW;
 		}else{//address, bbl, bin, place
 			var x = r.internalLabelXCoordinate, y = r.internalLabelYCoordinate;
-			ln1 = (r.houseNumber ? (r.houseNumber + ' ') : '') + r.firstStreetNameNormalized;
+			ln1 = (r.houseNumber ? (r.houseNumber + ' ') : '') + (r.firstStreetNameNormalized || r.giStreetName1 || '');
 			p = [(x && y ? x : r.xCoordinate) * 1, (x && y ? y : r.yCoordinate) * 1];
 			a = x && y ? nyc.Geocoder.Accuracy.HIGH : nyc.Geocoder.Accuracy.MEDIUM;
 		}
