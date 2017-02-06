@@ -1,5 +1,16 @@
 var nyc = nyc || {};
 
+/**
+ * @desc A class for retrieving proximity information
+ * @public
+ * @class
+ * @extends {nyc.EventHandling}
+ * @mixes nyc.ReplaceTokens
+ * @constructor
+ * @param {nyc.Geoclient} geoclient A GeoClient instance
+ * @fires nyc.ProximityInfo#info
+ * @fires nyc.ProximityInfo#proximity
+ */
 nyc.ProximityInfo = function(){};
 
 nyc.ProximityInfo.prototype = {
@@ -10,8 +21,7 @@ nyc.ProximityInfo.prototype = {
 	 * @param {nyc.ProximityInfo.InfoPointOptions|nyc.ProximityInfo.InfoBinBblOptions} options
 	 */
 	info: function(options){
-		this.validateOptions(options);
-		this.whichInfo(options)
+		this.whichInfo(this.getValues(options))
 	},
 	/**
 	 * @desc Return all address features within a buffer of a point
@@ -20,8 +30,7 @@ nyc.ProximityInfo.prototype = {
 	 * @param {nyc.ProximityInfo.ProximityOptions} options
 	 */
 	proximity: function(x, y, buffer, epsg){
-		this.validateOptions(options);
-		this.ajax(nyc.ProximityInfo.PROXIMITY, options);
+		this.ajax(nyc.ProximityInfo.PROXIMITY, this.getValues(options));
 	},
 	/**
 	 * @private
@@ -41,13 +50,23 @@ nyc.ProximityInfo.prototype = {
 	 * @private
 	 * @method
 	 * @param {nyc.ProximityInfo.InfoPointOptions|nyc.ProximityInfo.ProximityOptions} options
+	 * @return {Object}
 	 */
-	validateOptions: function(options){
-		options.buffer = nyc.ProximityInfo.BUFFER[options.buffer] || 100;
-		options.epsg = options.epsg || 900913;
-		options.binOrBbl = options.binOrBbl ? options.binOrBbl.trim() : '';
-		if ((options.binOrBbl.length != 7 && options.binOrBbl.length != 10) && (isNaN(options.x) || isNaN(options.y))){
+	getValues: function(options){
+		var buffer = nyc.ProximityInfo.BUFFER[options.buffer] || 100;
+		var coordinates = options.coordinates || []; 
+		var projection = options.projection || 'EPSG:900913';
+		var binOrBbl = options.binOrBbl ? options.binOrBbl.trim() : '';
+		if ((binOrBbl.length != 7 && binOrBbl.length != 10) && (isNaN(coordinates[0]) || isNaN(coordinates[1]))){
 			throw 'invalid options';
+		}
+		return {
+			buffer: buffer,
+			binOrBbl: binOrBbl,
+			epsg: projection.split(':')[1],
+			x: coordinates[0],
+			y: coordinates[1],
+			callback: options.callback
 		}
 	},
 	/**
@@ -111,13 +130,24 @@ nyc.ProximityInfo.EventType = {
 };
 
 /**
+ * @desc The result of a proximity request
+ * @event nyc.ProximityInfo#proximity
+ * @type {Object}
+ */
+
+/**
+ * @desc The result of a info request
+ * @event nyc.ProximityInfo#info
+ * @type {Object}
+ */
+
+/**
  * @desc Object type to hold options for {@link nyc.ProximityInfo#proximity}
  * @public
  * @typedef {Object}
- * @property {number} x X coordinate (longitude) 
- * @property {number} y Y coordinate (latitude) 
+ * @property {Array<number>} coordinates Coordinates
  * @property {nyc.ProximityInfo.BUFFER} [buffer=100] The buffer distance in feet  
- * @property {number} [epsg=900913] EPSG code of input coordinates and output features 
+ * @property {string} [projection="EPSG:900913"] The projection of input coordinates and output features 
  * @property {function(Object)=} callback Callback function that recieves GeoJSON FeatureCollection 
  */
 nyc.ProximityInfo.ProximityOptions;
@@ -126,9 +156,8 @@ nyc.ProximityInfo.ProximityOptions;
  * @desc Object type to hold options for {@link nyc.ProximityInfo#info}
  * @public
  * @typedef {Object}
- * @property {number} x X coordinate (longitude) 
- * @property {number} y Y coordinate (latitude) 
- * @property {number} [epsg=900913] EPSG code of input coordinates and output features 
+ * @property {Array<number>} coordinates Coordinates
+ * @property {string} [projection="EPSG:900913"] The projection of input coordinates and output features 
  * @property {function(Object)=} callback Callback function that recieves GeoJSON FeatureCollection 
  */
 nyc.ProximityInfo.InfoPointOptions;
@@ -138,7 +167,8 @@ nyc.ProximityInfo.InfoPointOptions;
  * @public
  * @typedef {Object}
  * @property {string} binOrBbl A valid BIN or BBL 
- * @property {function(Object)=} callback Callback function that recieves GeoJSON FeatureCollection 
+ * @property {string} [projection="EPSG:900913"] The projection of input coordinates and output features 
+ * @property {function(Object)=} callback Callback function that receives GeoJSON FeatureCollection 
  */
 nyc.ProximityInfo.InfoBinBblOptions;
 
@@ -153,14 +183,14 @@ nyc.ProximityInfo.INFO_POINT_URL = 'http://10.155.206.37/info/epsg:${epsg}/coord
  * @const
  * @type {string}
  */
-nyc.ProximityInfo.INFO_BIN_URL = 'http://10.155.206.37/info/epsg:${epsg}/bin/${bin}';
+nyc.ProximityInfo.INFO_BIN_URL = 'http://10.155.206.37/info/epsg:${epsg}/bin/${binOrBbl}';
 
 /**
  * @private
  * @const
  * @type {string}
  */
-nyc.ProximityInfo.INFO_BBL_URL = 'http://10.155.206.37/info/epsg:${epsg}/bbl/${bbl}';
+nyc.ProximityInfo.INFO_BBL_URL = 'http://10.155.206.37/info/epsg:${epsg}/bbl/${binOrBbl}';
 
 /**
  * @private

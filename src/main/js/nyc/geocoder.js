@@ -49,8 +49,8 @@ nyc.Geocoder.prototype = {
  * @desc A class for geocoding using the New York City Geoclient API
  * @public
  * @class
- * @constructor
  * @implements {nyc.Geocoder}
+ * @constructor
  * @param {string} url The URL for accessing the Geoclient API
  * @param {string} [projection='EPSG:900913'] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
  * @fires nyc.Locate#geocode
@@ -65,15 +65,16 @@ nyc.Geoclient = function(url, projection){
 
 nyc.Geoclient.prototype = {
 	/** 
-	 * @private 
+	 * @desc The epsg code
+	 * @public 
 	 * @member {string}
 	 */
-	url: null,
+	projection: null,
 	/** 
 	 * @private 
 	 * @member {string}
 	 */
-	projection: null,
+	url: null,
 	/**
 	 * @desc Geocode an input string representing a location
 	 * @public

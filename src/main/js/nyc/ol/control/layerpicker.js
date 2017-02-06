@@ -177,7 +177,7 @@ nyc.ol.control.LayerPicker.LayerGroup;
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The map containing layers to manage
- * @property {Element|JQuery|string} target= The target DOM node for creating the layer manager
- * @property {Array<nyc.ol.control.LayerPicker.LayerGroup>} =layerGroups Grouped layers to manage (default is all map layers with a name property)
+ * @property {Element|JQuery|string=} target The target DOM node for creating the layer manager
+ * @property {Array<nyc.ol.control.LayerPicker.LayerGroup>=} layerGroups Grouped layers to manage (default is all map layers with a name property)
  */
 nyc.ol.control.LayerPicker.Options;

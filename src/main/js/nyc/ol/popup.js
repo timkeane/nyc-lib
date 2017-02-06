@@ -81,7 +81,9 @@ nyc.ol.Popup.prototype.setOptions = function(options){
 		}
 	}
 	this.coordinates = this.options.coordinates;
-	this.content.html(this.options.html || '').trigger('create');
+	if (this.options.html){
+		this.content.html(this.options.html).trigger('create');
+	}
 	if (this.isMobile()){
 		this.content.find('a, button').each(function(_, n){
 			if ($(n).attr('onclick')){
@@ -110,6 +112,7 @@ nyc.ol.Popup.prototype.hide = function() {
  */
 nyc.ol.Popup.prototype.pan = function(){
 	var n = this.getElement();
+	if ($(n).css('display') == 'none') return;
 	var map = this.getMap();
 	var view = map.getView();
 	var tailHeight = parseInt($(n).css('bottom'));
