@@ -21,7 +21,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.20.1/ol.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.21.0-beta.2/ol-debug.js"></script>
 	<!-- nyc js -->
 	<script src="../src/main/js/nyc/nyc.js"></script>
 	<script src="../src/main/js/nyc/util.js"></script>
@@ -44,8 +44,13 @@
 	<script src="../src/main/js/nyc/ol/control/layerpicker.js"></script>
 	<script src="../src/main/js/nyc/ol/control/layermgr.js"></script>
 	<script src="../src/main/js/nyc/ol/control/zoomsearch.js"></script>
+	<script src="../src/main/js/nyc/ol/style/mvt.js"></script>
 	<!-- nyc js -->
-	
+	<script src="../src/main/js/nyc/ol/style/dsny/plow.js"></script>
+	<script src="../src/main/js/nyc/ol/layer/group/dsny/plow.js"></script>
+	<script src="../src/main/js/nyc/ol/style/transportation.js"></script>
+	<script src="../src/main/js/nyc/ol/layer/group/transportation.js"></script>
+
 	<style>
 		 #map {
 		 	position: fixed;
@@ -59,27 +64,40 @@
 <body>
 	<div id="map"></div>
 	<script>
-		var map;
+		var map, plowLayers, tranportationLayers;
 
 		$(document).ready(function(){
 
 			map = new nyc.ol.Basemap({target: $('#map').get(0)});
 			
-			var layer = new ol.layer.Vector({source: new ol.source.Vector()});
-			map.addLayer(layer);
+			plowLayers = nyc.ol.layer.group.dsny.plow.addTo(map);
+			tranportationLayers = nyc.ol.layer.group.transportation.addTo(map);
 			
 			/* See README.md for getting your GeoClient App Id and App Key */
 			var geocoder = new nyc.Geoclient(
-				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=YOUR_APP_KEY&app_id=YOUR_APP_ID'
+				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
 			);
 
-			var mgr = new nyc.LocationMgr({
+			var locLyr = new ol.layer.Vector({
+				source: new ol.source.Vector(),
+				zIndex: 2000,
+				style: [new ol.style.Style({
+					image: new ol.style.Icon({
+						scale: 48 / 512,
+						src: 'img/me' +  (nyc.util.isIe() || nyc.util.isIos() ? '.png' : '.svg')
+					})
+				})]
+			});
+			map.addLayer(locLyr);
+
+			new nyc.LocationMgr({
 				controls: new nyc.ol.control.ZoomSearch(map),
 				locate: new nyc.ol.Locate(geocoder),
-				locator: new nyc.ol.Locator({map: map, layer: layer})
+				locator: new nyc.ol.Locator({map: map, layer: locLyr})
 			});
 
 			new nyc.ol.control.LayerMgr({map: map});
+			
 		});
 	</script>
 </body>

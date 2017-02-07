@@ -411,6 +411,7 @@ allJs.doLast {
 		include 'js/nyc/ie/legacy/mutationobserver.js'
 		include 'js/nyc/info/template/*'
 		include 'js/nyc/ol/style/**'
+		include 'js/nyc/ol/layer/group/**'
 		into "${pkgDir}/src"
 	}
 	copy {
@@ -418,6 +419,7 @@ allJs.doLast {
 		include 'js/nyc/ie/legacy/mutationobserver.js'
 		include 'js/nyc/info/template/*'
 		include 'js/nyc/ol/style/**'
+		include 'js/nyc/ol/layer/group/**'
 		exclude 'js/nyc/ol/style/mvt.js'
 		into pkgDir
 	}
