@@ -22,7 +22,7 @@ nyc.Collapsible = function(options){
 			collapsed: !options.expanded, 
 			collapsedIcon: 'carat-d', 
 			expandedIcon: 'carat-u'
-		}).addClass('nyc-clpsbl');
+		}).addClass('ctl-collapse');
 	
 };
 

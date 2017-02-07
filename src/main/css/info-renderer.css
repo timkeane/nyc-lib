@@ -1,0 +1,29 @@
+.prp-title {
+	width: 265px;
+}
+.prp-content {
+	width: 280px;
+}
+.prp-content .ui-collapsible {
+	margin: 3px 0;	
+}
+.prp-content span, .prp-content a {
+    font-size: 14px;
+}
+.prp-fld {
+    font-weight: bold;
+    margin-right: 3px;
+}
+.prp-more {
+	display: none;
+}
+span.prp-credit, span.prp-credit * {
+	font-weight: normal;
+	font-size: 12px;
+}
+.prp-content .ui-collapsible-content {
+	padding: 0;
+}
+.prp-content .ui-collapsible-content p {
+	margin: 5px 3px 3px;
+}

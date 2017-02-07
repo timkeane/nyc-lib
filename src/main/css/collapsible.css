@@ -6,10 +6,13 @@ span.current-value {
     text-overflow: ellipsis;
     overflow: hidden;	
 }
-.nyc-clpsbl a.ui-collapsible-heading-toggle {
+.ctl-collapse a.ui-collapsible-heading-toggle {
     white-space: normal;
 	padding: 8px 16px 8px 40px;
 }
 .ui-collapsible {
-	border-radius: 3px;
+	border-radius: var(--theme-border-radius);
+}
+.ctl-collapse a.ui-collapsible-heading-toggle:hover:after {
+	background-color: var(--theme-ctl-bg-color-hover);
 }

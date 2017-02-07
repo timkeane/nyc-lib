@@ -14,7 +14,7 @@
 	<link rel="stylesheet" href="../src/main/css/dialog.css"> 
 	<link rel="stylesheet" href="../src/main/css/collapsible.css"> 
 	<link rel="stylesheet" href="../src/main/css/ol-popup.css"> 
-	<link rel="stylesheet" href="../src/main/css/propertyinforenderer.css"> 
+	<link rel="stylesheet" href="../src/main/css/info-renderer.css"> 
 	<link rel="stylesheet" href="../src/main/css/zoomsearch.css"> 
 	<!-- nyc css -->
 
@@ -25,8 +25,8 @@
 	<!-- nyc js -->
 	<script src="../src/main/js/nyc/nyc.js"></script>
 	<script src="../src/main/js/nyc/basemap.js"></script>
-	<script src="../src/main/js/nyc/proximityinfo.js"></script>
-	<script src="../src/main/js/nyc/propertyinforenderer.js"></script>
+	<script src="../src/main/js/nyc/info/info.js"></script>
+	<script src="../src/main/js/nyc/info/renderer.js"></script>
 	<script src="../src/main/js/nyc/basemap.js"></script>
 	<script src="../src/main/js/nyc/dialog.js"></script>
 	<script src="../src/main/js/nyc/locate.js"></script>
@@ -43,108 +43,75 @@
 	<script src="../src/main/js/nyc/ol/source/arcgiscache.js"></script>
 	<script src="../src/main/js/nyc/ol/layer/baselayer.js"></script>
 	<!-- nyc js -->
+	<script src="../src/main/js/nyc/info/template/citymap.js"></script>
 	
 	<style>
-		 #map1, #map2 {
+		 #map {
 		 	position: fixed;
 		 	top: 0;
 		 	left: 0;
 		 	bottom: 0;
-		 	right: 50%;
-		 }
-		 #map2 {
-		 	left: 50%;
 		 	right: 0;
 		 }
 	</style>
 </head>
 <body>
-	<div id="map1"></div>
-	<div id="map2"></div>
+	<div id="map"></div>
 	<script>
-		var map1, map2, popup1, popup2, info;
+		var map, popup, info;
 
 		$(document).ready(function(){
 
-			map1 = new nyc.ol.Basemap({target: $('#map1').get(0)});
+			map = new nyc.ol.Basemap({target: $('#map').get(0)});
 			
-			var layer1 = new ol.layer.Vector({source: new ol.source.Vector()});
-			map1.addLayer(layer1);
+			var layer = new ol.layer.Vector({source: new ol.source.Vector()});
+			map.addLayer(layer);
 			
 			/* See README.md for getting your GeoClient App Id and App Key */
 			new nyc.LocationMgr({
-				controls: new nyc.ol.control.ZoomSearch(map1),
+				controls: new nyc.ol.control.ZoomSearch(map),
 				locate: new nyc.ol.Locate(new nyc.Geoclient(
 					'https://maps.nyc.gov/geoclient/v1/search.json?app_key=YOUR_APP_KEY&app_id=YOUR_APP_ID'
 				)),
-				locator: new nyc.ol.Locator({map: map1, layer: layer1})
+				locator: new nyc.ol.Locator({map: map, layer: layer})
 			});
 
-			map2 = new ol.Map({
-				target: $('#map2').get(0),
-				layers: [new nyc.ol.layer.BaseLayer()],
-				view: new ol.View({
-					projection: 'EPSG:2263',
-					resolutions: nyc.ol.layer.BaseLayer.RESOLUTIONS
-				})
-			});
-			map2.getView().fit(nyc.ol.EXTENT, map2.getSize());
+			popup = new nyc.ol.Popup(map);
 
-			var layer2 = new ol.layer.Vector({source: new ol.source.Vector()});
-			map2.addLayer(layer2);
-			
-			/* See README.md for getting your GeoClient App Id and App Key */
-			new nyc.LocationMgr({
-				controls: new nyc.ol.control.ZoomSearch(map2),
-				locate: new nyc.ol.Locate(
-					new nyc.Geoclient(
-						'https://maps.nyc.gov/geoclient/v1/search.json?app_key=YOUR_APP_KEY&app_id=YOUR_APP_ID',
-						'EPSG:2263'
-					), 
-					'EPSG:2263'
-				),
-				locator: new nyc.ol.Locator({map: map2, layer: layer2})
-			});
-
-			popup1 = new nyc.ol.Popup(map1);
-			popup2 = new nyc.ol.Popup(map2);
-
-			info = new nyc.PropertyInfoRenderer({
-				extraTemplates: nyc.PropertyInfoRenderer.EXTRA_TEMPLATES
+			info = new nyc.info.Renderer({
+				extraTemplates: nyc.info.template.citymap.propertyInfo
 			});
 			
-			map1.on('click', getInfo);
-			map2.on('click', getInfo);
+			map.on('click', getInfo);
 		
 		});
 		
-		var clickedMap, clickedCoord;
+		var clickedCoord;
 		function getInfo(event){
-			var options = {projection: 'EPSG:900913', callback: showInfo}, px = event.pixel;
-			if (event.map === map1){
-				clickedMap = map1;
-				clickedCoord = map1.getCoordinateFromPixel(px);
-				options.coordinates = clickedCoord;
-				options.target = $(popup1.getElement()).find('.popup-content');
-			}else{
-				clickedMap = map2;
-				clickedCoord = map2.getCoordinateFromPixel(px);
-				options.projection = 'EPSG:2263';
-				options.coordinates = clickedCoord;
-				options.target = $(popup2.getElement()).find('.popup-content');
-			}
-			info.info(options);
+			clickedCoord = map.getCoordinateFromPixel(event.pixel);
+			info.info({
+				coordinates: clickedCoord,
+				callback: showInfo
+			});
 		};
 		
 		function showInfo(info){
-			var popup = clickedMap === map1 ? popup1 : popup2;
-			popup.show({
-				coordinates: clickedCoord,
-				html: info.allHtml
-			});
-			$(popup.getElement()).find('[data-role="collapsible"]').collapsible({
-				expand: $.proxy(popup.pan, popup)
-			});
+			if (info.allHtml){
+				popup.show({
+					coordinates: clickedCoord,
+					html: info.allHtml
+				});
+				$(popup.getElement()).find('[data-role="collapsible"]').collapsible({
+					expand: function(event, ui){
+						var target = $(event.target), parent = $(popup.getElement());
+						$.each(parent.find('.ui-collapsible').not(target), function(){
+							$(this).collapsible('collapse');
+						});
+						popup.pan();
+					},
+					collapse: $.proxy(popup.pan, popup)
+				});
+			}
 		};
 		
 	</script>

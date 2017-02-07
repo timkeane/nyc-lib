@@ -2,7 +2,6 @@ import gov.nyc.doitt.nyc.gis.gradle.*
 
 plugins {
     id 'base'
-    id 'jetty'
     id 'org.hidetake.ssh' version '1.1.2'
     id 'groovy'
 }
@@ -36,13 +35,17 @@ ext {
 	localhost = 'http://localhost'
 	tilehost = 'http://localhost'
 	localhostDeployedBuildPath = '/git/nyc-lib/build'
+	olJsStyles = [
+		'nyc/ol/style/dcp/zoning.js'
+	]
+	jsInfoTemplates = [
+		'nyc/info/template/citymap.js'
+	]
 	olJsFiles = [
 		'nyc/nyc.js', 
 		'nyc/date.js', 
 		'nyc/jq.js', 
 		'nyc/util.js', 
-		'nyc/proximityinfo.js', 
-		'nyc/propertyinforenderer.js', 
 		'nyc/basemap.js', 
 		'nyc/ctlcontainer.js', 
 		'nyc/template.js', 
@@ -63,6 +66,8 @@ ext {
 		'nyc/share.js',
 		'nyc/listpager.js',
 		'nyc/zoomsearch.js',
+		'nyc/info/info.js', 
+		'nyc/info/renderer.js', 
 		'nyc/ol/ol.js', 
 		'nyc/ol/style/mvt.js', 
 		'nyc/ol/basemap.js', 
@@ -93,8 +98,6 @@ ext {
 		'nyc/nyc.js', 
 		'nyc/date.js', 
 		'nyc/util.js', 
-		'nyc/proximityinfo.js', 
-		'nyc/propertyinforenderer.js', 
 		'nyc/basemap.js', 
 		'nyc/ctlcontainer.js', 
 		'nyc/collapsible.js', 
@@ -113,6 +116,8 @@ ext {
 		'nyc/share.js',
 		'nyc/listpager.js',
 		'nyc/zoomsearch.js',
+		'nyc/info/info.js', 
+		'nyc/info/renderer.js', 
 		'nyc/leaf/leaf.js', 
 		'nyc/leaf/basemap.js', 
 		'nyc/leaf/locate.js', 
@@ -123,8 +128,6 @@ ext {
 	cartoJsFiles = [
 		'nyc/nyc.js', 
 		'nyc/date.js', 
-		'nyc/proximityinfo.js', 
-		'nyc/propertyinforenderer.js', 
 		'nyc/util.js', 
 		'nyc/basemap.js', 
 		'nyc/ctlcontainer.js', 
@@ -144,6 +147,8 @@ ext {
 		'nyc/share.js',
 		'nyc/listpager.js',
 		'nyc/zoomsearch.js',
+		'nyc/info/info.js', 
+		'nyc/info/renderer.js', 
 		'nyc/leaf/leaf.js', 
 		'nyc/leaf/basemap.js', 
 		'nyc/leaf/locate.js', 
@@ -174,7 +179,7 @@ ext {
 		'legend.css', 
 		'mapmenu.css', 
 		'ol-popup.css', 
-		'propertyinforenderer.css', 
+		'info-renderer.css', 
 		'share.css', 
 		'zoomsearch.css'
 	]
@@ -191,7 +196,7 @@ ext {
 		'directions.css', 
 		'lang.css', 
 		'legend.css', 
-		'propertyinforenderer.css', 
+		'info-renderer.css', 
 		'share.css', 
 		'zoomsearch.css'
 	]
@@ -204,7 +209,7 @@ ext {
 		'directions.css', 
 		'lang.css', 
 		'legend.css', 
-		'propertyinforenderer.css', 
+		'info-renderer.css', 
 		'share.css', 
 		'carto-popup.css', 
 		'zoomsearch.css'
@@ -270,6 +275,7 @@ task examples() << {
 			}
 			newHtml = (newHtml =~ /YOUR_APP_ID/).replaceFirst(geoid)
 			newHtml = (newHtml =~ /YOUR_APP_KEY/).replaceFirst(geokey)
+			newHtml = (newHtml =~ /\.\.\/src\/main\/js/).replaceAll("${host}/nyc-lib/${ver}/js") //takes care of scripts from this project not bundled into a -lib.js  
 			file.write(newHtml)
 		}
 	}
@@ -403,7 +409,17 @@ allJs.doLast {
 	copy {
 		from srcDir
 		include 'js/nyc/ie/legacy/mutationobserver.js'
+		include 'js/nyc/info/template/*'
+		include 'js/nyc/ol/style/**'
 		into "${pkgDir}/src"
+	}
+	copy {
+		from srcDir
+		include 'js/nyc/ie/legacy/mutationobserver.js'
+		include 'js/nyc/info/template/*'
+		include 'js/nyc/ol/style/**'
+		exclude 'js/nyc/ol/style/mvt.js'
+		into pkgDir
 	}
 }
 
@@ -515,37 +531,6 @@ task deploy(dependsOn: [archive]) << {
     }
     delete 'index.html'
     delete 'index.list'
-}
-
-[jettyRun]*.with {
-    webXml = file("etc/jetty/webdefault.xml")
-}
-
-jettyRun {
-	webAppSourceDirectory file('./')
-	contextPath ''
-	httpPort 8088
-	stopPort 8090
-	stopKey 'stopKey'
-	reload 'automatic'
-	scanIntervalSeconds 2
-}
-jettyRun.doFirst { 
-	if (project.hasProperty('git.geoclient.url')){
-	    ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
-		ant.replace(file: 'src/test/js/setup-teardown.js', token: project.ext['git.geoclient.url'], value: project.ext['test.geoclient.url'])
-	}
-}
-
-jettyStop {
-	stopPort 8090
-	stopKey 'stopKey'
-}
-jettyStop.doFirst { 
-	if (project.hasProperty('git.geoclient.url')){
-	    ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
-		ant.replace(file: 'src/test/js/setup-teardown.js', token: project.ext['test.geoclient.url'], value: project.ext['git.geoclient.url'])
-	}
 }
 
 task wrapper(type: Wrapper) {

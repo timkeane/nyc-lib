@@ -9,7 +9,7 @@ nyc.ol = nyc.ol || {};
  * @extends {nyc.EventHandling}
  * @constructor
  * @param {nyc.Geocoder} geocoder A geocoder implementation
- * @param {string} [projection='EPSG:900913'] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
+ * @param {string} [projection=EPSG:900913] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
  * @param {ol.Extent=} extentLimit Geolocation coordinates outside of this bounding box are ignored  
  * @fires nyc.Locate#geocode
  * @fires nyc.Locate#ambiguous

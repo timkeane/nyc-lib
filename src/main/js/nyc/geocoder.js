@@ -52,7 +52,7 @@ nyc.Geocoder.prototype = {
  * @implements {nyc.Geocoder}
  * @constructor
  * @param {string} url The URL for accessing the Geoclient API
- * @param {string} [projection='EPSG:900913'] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
+ * @param {string} [projection=EPSG:900913] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
  * @fires nyc.Locate#geocode
  * @fires nyc.Locate#ambiguous
  * @fires nyc.Locate#error
