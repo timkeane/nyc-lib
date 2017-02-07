@@ -23,6 +23,7 @@ nyc.ol.layer.group.dsny.plow = {};
  * @return {Array<ol.layer.Base>} The added layers
  */
 nyc.ol.layer.group.dsny.plow.addTo = function(map){
+	var layers = [];
 
 	var priorityLyr = new ol.layer.VectorTile({
 		source: new ol.source.VectorTile({
@@ -36,7 +37,9 @@ nyc.ol.layer.group.dsny.plow.addTo = function(map){
 		visible: false
 	});
 	map.addLayer(priorityLyr);
+	layers.push(priorityLyr);
+	priorityLyr.set('name', 'Snow Removal Designation');
 
-	return [priorityLyr];
+	return layers;
 	
 };

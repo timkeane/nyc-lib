@@ -31,6 +31,7 @@ nyc.ol.layer.group.transportation.addTo = function(map){
 	});
 	map.addLayer(subway);	
 	layers.push(subway);
+	subway.set('name', 'Subway');
 	
 	var subwayProxy = nyc.ol.style.mvt.proxyPointLayer({
 		map: map,
