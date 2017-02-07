@@ -30,9 +30,13 @@ nyc.ol.style.mvt.proxyPointLayer = function(options){
 	var proxyLayer = new ol.layer.Vector({
 		source: source,
 		style: options.pointStyle,
-		zIndex: mvtLayer.getZIndex() + 1
+		zIndex: mvtLayer.getZIndex() + 1,
+		visible: mvtLayer.getVisible()
 	});
 	map.addLayer(proxyLayer);
+	mvtLayer.on('change:visible', function(){
+		proxyLayer.setVisible(mvtLayer.getVisible());
+	});
 	var layerRenderer = map.getRenderer().getLayerRenderer(mvtLayer);
 	layerRenderer.drawTileImage = function(){
 		currentTile = arguments[0];
