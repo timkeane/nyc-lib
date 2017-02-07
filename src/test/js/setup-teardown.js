@@ -196,7 +196,7 @@ function setup(assert, hooks){
 			
 		hooks.GOOGLE_URL = 'https://maps.googleapis.com/maps/api/js?&sensor=false&libraries=visualization';
 		
-		hooks.GEOCLIENT_URL = '//maps.nyc.gov/geoclient/v1/search.json?app_key=YOUR_APP_KEY&app_id=YOUR_APP_ID';
+		hooks.GEOCLIENT_URL = '//maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example';
 
 };
 

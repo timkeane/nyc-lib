@@ -11,7 +11,6 @@ https://maps.nyc.gov/nyc-lib
   * Developer Management > View or Create a New Project...
   * Configure [Gradle](http://./gradlew.org/)
     * Set `git.geoclient.url='//maps.nyc.gov/geoclient/v1/search.json?app_key=YOUR_APP_KEY&app_id=YOUR_APP_ID'` in `$GRADLE_USER_HOME/gradle.properties`
-    * Set `test.geoclient.url='//maps.nyc.gov/geoclient/v1/search.json?app_key={actual App Key}&app_id={actual App ID}'` in `$GRADLE_USER_HOME/gradle.properties`
 
 ###Build###
 * `./gradlew buildLibs`
