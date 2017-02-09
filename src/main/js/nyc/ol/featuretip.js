@@ -87,7 +87,7 @@ nyc.ol.FeatureTip.prototype = {
 	 * @param {ol.Pixel} px 
 	 */
 	flip: function(lbl, px){
-		var width = this.helper.html(lbl.text).width(), height = this.helper.height();
+		var width = this.helper.html(this.tip.html()).width(), height = this.helper.height();
 		this.helper[0].className = 'feature-tip-helper ' + (lbl.cssClass || '');
 		if ((this.tip.position().left + width) > $(this.mapDiv).width()){
 			this.tip.css('left', px[0] - width - 10 + 'px');

@@ -35,12 +35,18 @@ ext {
 	localhost = 'http://localhost'
 	tilehost = 'http://localhost'
 	localhostDeployedBuildPath = '/git/nyc-lib/build'
-	olJsStyles = [
-		'nyc/ol/style/dcp/zoning.js'
-	]
-	jsInfoTemplates = [
+	
+	olJsPlowStyles = ['plow/plow.js']
+	olJsPlowLayers = ['group.js', 'plow/plow.js']
+	olJsTransitStyles = ['transit/subway.js']
+	olJsTransitLayers = ['group.js', 'transit/transit.js', 'transit/subway.js']
+	olJsZoningStyles = ['zoning/district.js']
+	olJsZoningLayers = ['group.js', 'zoning/zoning.js', 'zoning/district.js']
+
+	jsInfoTemplates = [ //TODO ????
 		'nyc/info/template/citymap.js'
 	]
+	
 	olJsFiles = [
 		'nyc/nyc.js', 
 		'nyc/date.js', 
@@ -275,7 +281,7 @@ task examples() << {
 			}
 			newHtml = (newHtml =~ /YOUR_APP_ID/).replaceFirst(geoid)
 			newHtml = (newHtml =~ /YOUR_APP_KEY/).replaceFirst(geokey)
-			newHtml = (newHtml =~ /\.\.\/src\/main\/js/).replaceAll("${host}/nyc-lib/${ver}/js") //takes care of scripts from this project not bundled into a -lib.js  
+			newHtml = (newHtml =~ /\.\.\/src\/main\//).replaceAll("${host}/nyc-lib/${ver}/") //takes care of scripts from this project not bundled into a -lib file  
 			file.write(newHtml)
 		}
 	}
@@ -372,12 +378,102 @@ task minifyJsCarto(type: MiniJsTask) {
 	destinationDir = "${pkgDir}/js"
 }
 
+
+task minifyJsOlPlowLayers(type: MiniJsTask) {
+	version = ver
+	libName = 'nyc-ol-plow-layer'
+	fileNames = olJsPlowLayers
+	sourceDir = "${jsSrcDir}/nyc/ol/layer"
+	destinationDir = "${pkgDir}/js"
+}
+task minifyJsOlPlowStyles(type: MiniJsTask) {
+	version = ver
+	libName = 'nyc-ol-plow-style'
+	fileNames = olJsPlowStyles
+	sourceDir = "${jsSrcDir}/nyc/ol/style"
+	destinationDir = "${pkgDir}/js"
+}
+
+task minifyJsOlTransitLayers(type: MiniJsTask) {
+	version = ver
+	libName = 'nyc-ol-transit-layer'
+	fileNames = olJsTransitLayers
+	sourceDir = "${jsSrcDir}/nyc/ol/layer"
+	destinationDir = "${pkgDir}/js"
+}
+task minifyJsOlTransitStyles(type: MiniJsTask) {
+	version = ver
+	libName = 'nyc-ol-transit-style'
+	fileNames = olJsTransitStyles
+	sourceDir = "${jsSrcDir}/nyc/ol/style"
+	destinationDir = "${pkgDir}/js"
+}
+
+task minifyJsOlZoningLayers(type: MiniJsTask) {
+	version = ver
+	libName = 'nyc-ol-zoning-layer'
+	fileNames = olJsZoningLayers
+	sourceDir = "${jsSrcDir}/nyc/ol/layer"
+	destinationDir = "${pkgDir}/js"
+}
+task minifyJsOlZoningStyles(type: MiniJsTask) {
+	version = ver
+	libName = 'nyc-ol-zoning-style'
+	fileNames = olJsZoningStyles
+	sourceDir = "${jsSrcDir}/nyc/ol/style"
+	destinationDir = "${pkgDir}/js"
+}
+
+task minifyJsOlAllLayers(type: MiniJsTask) {
+	version = ver
+	libName = 'nyc-ol-layer'
+	sourceDir = "${jsSrcDir}/nyc/ol/layer"
+	destinationDir = "${pkgDir}/js"
+}
+minifyJsOlAllLayers.doFirst {
+	def jsFiles = ['group.js'];
+	[olJsPlowLayers, olJsTransitLayers, olJsZoningLayers].each { files ->
+		files.each { f ->
+			if (jsFiles.indexOf(f) == -1){
+				jsFiles.add(f)
+			}
+		}
+	}	
+	fileNames jsFiles
+}
+task minifyJsOlAllStyles(type: MiniJsTask) {
+	version = ver
+	libName = 'nyc-ol-style'
+	sourceDir = "${jsSrcDir}/nyc/ol/style"
+	destinationDir = "${pkgDir}/js"
+}
+minifyJsOlAllStyles.doFirst {
+	def jsFiles = [];
+	[olJsPlowStyles, olJsTransitStyles, olJsZoningStyles].each { files ->
+		files.each { f ->
+			if (jsFiles.indexOf(f) == -1){
+				jsFiles.add(f)
+			}
+		}
+	}	
+	fileNames jsFiles
+}
+
+
+
 task minifyCssOl(type: MiniCssTask) {
 	libName = 'nyc-ol-lib'
 	themeFile = 'theme.css'
 	fileNames = olCssFiles
 	sourceDir = cssSrcDir
 	destinationDir = "${pkgDir}/css"
+	doLast {
+		copy {
+			from cssSrcDir
+			include 'layer/**'
+			into "${pkgDir}/css"
+		}
+	}
 }
 
 task minifyCssOlRedLine(type: MiniCssTask) {
@@ -404,14 +500,29 @@ task minifyCssCarto(type: MiniCssTask) {
 	destinationDir = "${pkgDir}/css"
 }
 
-task allJs(dependsOn: [minifyJsOl, minifyJsOlRedLine, minifyJsLeaf, minifyJsCarto]) << {}
+task allJs(dependsOn: [
+	minifyJsOl, 
+	minifyJsOlRedLine, 
+	minifyJsLeaf, 
+	minifyJsCarto, 
+	minifyJsOlPlowLayers,
+	minifyJsOlPlowStyles,
+	minifyJsOlTransitLayers,
+	minifyJsOlTransitStyles,
+	minifyJsOlZoningLayers,
+	minifyJsOlZoningStyles,
+	minifyJsOlAllLayers, 
+	minifyJsOlAllStyles]) << {}
 allJs.doLast {
 	copy {
 		from srcDir
 		include 'js/nyc/ie/legacy/mutationobserver.js'
 		include 'js/nyc/info/template/*'
 		include 'js/nyc/ol/style/**'
-		include 'js/nyc/ol/layer/group/**'
+		include 'js/nyc/ol/layer/group.js'
+		include 'js/nyc/ol/layer/plow/**'
+		include 'js/nyc/ol/layer/transit/**'
+		include 'js/nyc/ol/layer/zoning/**'
 		into "${pkgDir}/src"
 	}
 	copy {
@@ -419,7 +530,10 @@ allJs.doLast {
 		include 'js/nyc/ie/legacy/mutationobserver.js'
 		include 'js/nyc/info/template/*'
 		include 'js/nyc/ol/style/**'
-		include 'js/nyc/ol/layer/group/**'
+		include 'js/nyc/ol/layer/group.js'
+		include 'js/nyc/ol/layer/plow/**'
+		include 'js/nyc/ol/layer/transit/**'
+		include 'js/nyc/ol/layer/zoning/**'
 		exclude 'js/nyc/ol/style/mvt.js'
 		into pkgDir
 	}

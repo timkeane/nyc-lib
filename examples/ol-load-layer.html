@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="../src/main/css/zoomsearch.css"> 
 	<link rel="stylesheet" href="../src/main/css/mapmenu.css"> 
 	<!-- nyc css -->
+	<link rel="stylesheet" href="../src/main/css/layer/transit.css"> 
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.js"></script>
@@ -46,10 +47,15 @@
 	<script src="../src/main/js/nyc/ol/control/zoomsearch.js"></script>
 	<script src="../src/main/js/nyc/ol/style/mvt.js"></script>
 	<!-- nyc js -->
-	<script src="../src/main/js/nyc/ol/style/dsny/plow.js"></script>
-	<script src="../src/main/js/nyc/ol/layer/group/dsny/plow.js"></script>
-	<script src="../src/main/js/nyc/ol/style/transportation.js"></script>
-	<script src="../src/main/js/nyc/ol/layer/group/transportation.js"></script>
+
+	<script src="../src/main/js/nyc/ol/layer/group.js"></script>
+
+	<script src="../src/main/js/nyc/ol/layer/plow/plow.js"></script>
+	<script src="../src/main/js/nyc/ol/style/plow/plow.js"></script>
+
+	<script src="../src/main/js/nyc/ol/layer/transit/transit.js"></script>
+	<script src="../src/main/js/nyc/ol/layer/transit/subway.js"></script>
+	<script src="../src/main/js/nyc/ol/style/transit/subway.js"></script>
 
 	<style>
 		 #map {
@@ -64,14 +70,14 @@
 <body>
 	<div id="map"></div>
 	<script>
-		var map, plowLayers, tranportationLayers;
+		var map, plowLayers, transitLayers;
 
 		$(document).ready(function(){
 
 			map = new nyc.ol.Basemap({target: $('#map').get(0)});
 			
-			plowLayers = nyc.ol.layer.group.dsny.plow.addTo(map);
-			tranportationLayers = nyc.ol.layer.group.transportation.addTo(map);
+			plowLayers = nyc.ol.layer.plow.addGroupTo(map);
+			transitLayers = nyc.ol.layer.transit.addGroupTo(map);
 			
 			/* See README.md for getting your GeoClient App Id and App Key */
 			var geocoder = new nyc.Geoclient(
@@ -98,6 +104,25 @@
 
 			new nyc.ol.control.LayerMgr({map: map});
 			
+			var popup = new nyc.ol.Popup(map);
+			map.on('click', function(event){
+				var px = event.pixel, div = $('<div></div>');
+				map.forEachFeatureAtPixel(px, function(feature, layer){
+					$.each([plowLayers, transitLayers], function(){
+						$.each(this.allLayers, function(){
+							if (this.html){
+								div.append(this.html(feature, layer));
+							}
+						});
+					});
+				});
+				if (div.html()){
+					popup.show({
+						coordinates: map.getCoordinateFromPixel(px),
+						html: div
+					});
+				}
+			});
 		});
 	</script>
 </body>

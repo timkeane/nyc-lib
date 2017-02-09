@@ -432,7 +432,6 @@ nyc.inherits(nyc.ol.Draw, nyc.EventHandling);
  */
 nyc.ol.Draw.Options;
 
-
 /**
  * @desc Enumeration for feature event types
  * @public

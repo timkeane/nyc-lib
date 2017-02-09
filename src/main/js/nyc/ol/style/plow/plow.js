@@ -6,13 +6,7 @@ nyc.ol.style = nyc.ol.style || {};
  * @public 
  * @namespace
  */
-nyc.ol.style.dsny = nyc.ol.style.dsny || {};
-
-/** 
- * @public 
- * @namespace
- */
-nyc.ol.style.dsny.plow = {
+nyc.ol.style.plow = {
 	/**
 	 * @private
 	 * @member {Object}
@@ -35,7 +29,7 @@ nyc.ol.style.dsny.plow = {
 	 * @return {ol.style.Style}
 	 */
 	priority: function(feature, resolution){
-		var cache = nyc.ol.style.dsny.plow.cache.priority;
+		var cache = nyc.ol.style.plow.cache.priority;
 		var zoom = nyc.ol.TILE_GRID.getZForResolution(resolution);
 		var priority = feature.get('PRIORITY');
 		cache[zoom] = cache[zoom] || {};
@@ -43,7 +37,7 @@ nyc.ol.style.dsny.plow = {
 			var width = Math.pow(2, zoom - 7) / 200;
 			cache[zoom][priority] = new ol.style.Style({
 				stroke: new ol.style.Stroke({
-					color: nyc.ol.style.dsny.plow.color.priority[priority],
+					color: nyc.ol.style.plow.color.priority[priority],
 					width: width > .5 ? width : .5
 				})
 			});

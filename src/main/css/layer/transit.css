@@ -1,0 +1,62 @@
+.popup-content .subway-info {
+	width: 265px;
+}
+div.subway-icon {
+	display: inline-block;
+	font-weight: bold;
+	text-align: center;
+	padding: 2px 0;
+	width: 22px;
+	margin-right: 3px;
+	border: 1px solid rgba(0,0,0,0.1);
+	border-radius: 16px;
+}
+div.subway-icon div {
+	color: #fff;
+}
+.subway-1, .subway-2, .subway-3 {
+	background-color: #ff3433;
+}
+.subway-4, .subway-5, .subway-6 {
+	background-color: #009d33;
+}
+.subway-7 {
+	background-color: #c801cc;
+}
+.subway-A, .subway-C, .subway-E {
+	background-color: #0e689a;
+}
+.subway-B, .subway-D, .subway-F {
+	background-color: #fa9705;
+}
+.subway-G {
+	background-color: #98cd01;
+}
+div.subway-J, div.subway-M, div.subway-Z {
+	background-color: #9d6400;
+}
+.subway-L, .subway-S {
+	background-color: #999999;
+}
+div.subway-N, div.subway-Q, div.subway-R {
+	background-color: #ffff0c;
+}
+div.subway-N div, div.subway-Q div, div.subway-R div {
+	color: #000;
+}
+div.express {
+	padding: 0;
+	width: 18px;
+	border-radius: 0;
+	transform: rotate(45deg);
+	margin: 4px;
+}
+div.express div {
+	transform: rotate(-45deg);
+}
+
+div.feature-tip.tip-subway-ln {
+	border: none;
+	background-color: transparent;
+	box-shadow: none;
+}
