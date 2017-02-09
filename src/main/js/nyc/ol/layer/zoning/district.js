@@ -34,6 +34,7 @@ nyc.ol.layer.zoning.district = {
 		});
 		map.addLayer(distLyr);
 		added.groupLayers.push(distLyr);
+		distLyr.set('name', 'Zoning District');
 
 		var distLbl = nyc.ol.style.mvt.proxyPointLayer({
 			map: map,
@@ -46,23 +47,15 @@ nyc.ol.layer.zoning.district = {
 
 		added.tips.push(
 	        new nyc.ol.FeatureTip(map, [{layer: distLyr, labelFunction: function(){
-	        	return {text: '<b>' + this.get('ZONEDIST') + '</b><br>' + CATEGORIES[this.get('CATEGORY')].desc};
+				nyc.ol.layer.mixin(this, nyc.ol.layer.zoning.district.mixins);	        	
+	        	return {cssClass: 'tip-zoning', text: this.tip()};
 	        }}])
 		);
 
 		distLyr.html = function(feature, layer){
 			if (layer === this && feature.get('layer') == 'zoning-district'){
-				var html = $('<div class="zoning"></div>');
-				var dist = $('<a target="_blank"></a>').html(feature.get('ZONEDIST'));
-				var cat = CATEGORIES[feature.get('CATEGORY')];
-				var category = $('<a target="_blank"></a>').html(cat.desc);
-				dist.attr('href', DCP_BASE_URL + feature.get('URL'));
-				category.attr('href', DCP_BASE_URL + cat.url);
-				html.append('<div><b>Zoning designation:</b><div>');
-				html.append(dist);
-				html.append('<div><b>Description:</b><div>');
-				html.append(category);
-				return html;
+				nyc.ol.layer.mixin(feature, nyc.ol.layer.zoning.district.mixins);				
+				return feature.html();
 			}
 		};
 		
@@ -72,7 +65,54 @@ nyc.ol.layer.zoning.district = {
 	 * @private
 	 * @member {Array<Object>}
 	 */
-	minins: [
-	
+	mixins: [
+         {
+        	 baseUrl: 'http://www1.nyc.gov/site/planning/zoning/districts-tools/',
+        	 categories: {
+        		 MED_HI_RES: {desc: 'Residential (Medium and Higher Density)', url: 'residence-districts-r1-r10.page'},
+        		 LOW_RES: {desc: 'Residential (Lower Density)', url: 'residence-districts-r1-r10.page'},
+        		 COM: {desc: 'Commercial', url: 'commercial-districts-c1-c8.page'},
+        		 MIX: {desc: 'Mixed Use', url: 'glossary.page#paired_districts'},
+        		 MAN: {desc: 'Manufacturing', url: 'mfg-districts.page'},
+        		 BPC: {desc: 'Battery Park City', url: 'special-purpose-districts-manhattan.page#bpark'},
+        		 PARK: {desc: 'Park', url: 'glossary.page#public_park'}
+			}
+		},
+ 		new nyc.Content({
+ 			tip: '<b>${ZONEDIST}</b><br>${category}',
+ 			popup: '<div class="zoning">' +
+	 			'<div><b>Zoning designation:</b></div>' +
+	 			'<div><a href="${zonedistUrl}" target="_blank">${ZONEDIST}</a></div>' +
+	 			'<div><b>Description:</b></div>' +
+	 			'<div><a href="${categoryUrl}" target="_blank">${category}</a></div>'
+		}),
+		{
+			/**
+			 * @private
+			 * @function
+			 * @param {string} infoClass A css class for list view or popup view
+			 * @return {JQuery}
+			 */
+			html: function(){
+				this.embelish();				
+				return this.message('popup', this.getProperties());
+			},
+			/**
+			 * @private
+			 * @function
+			 * @param {string} infoClass A css class for list view or popup view
+			 * @return {JQuery}
+			 */
+			tip: function(){
+				this.embelish();
+				return this.message('tip', this.getProperties());
+			},
+			embelish: function(){
+				var props = this.getProperties(), category = this.categories[this.get('CATEGORY')];
+				props.category = category.desc;
+				props.categoryUrl = this.baseUrl + category.url;
+				props.zonedistUrl = this.baseUrl + this.get('URL');
+			}
+		}
 	]
 };

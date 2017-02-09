@@ -6,7 +6,7 @@ nyc.ol.layer = nyc.ol.layer || {};
  * @public 
  * @namespace
  */
-nyc.ol.layer.transit = nyc.ol.layer.transit = {
+nyc.ol.layer.transit = {
 	/**
 	 * @desc Add transit layers to the map
 	 * @public

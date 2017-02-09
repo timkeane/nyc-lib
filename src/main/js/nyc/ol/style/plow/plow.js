@@ -17,7 +17,7 @@ nyc.ol.style.plow = {
 	 * @member {Object}
 	 */
 	color: {
-		priority: {P: '#BF402E', S: '#1141AF', T: '#FFC228', V: '#A0CC17'},
+		priority: {C: '#BF402E', S: '#1141AF', H: '#FFC228', V: '#A0CC17'},
 		visited: {}
 	},	
 	/**

@@ -51,6 +51,37 @@ nyc.ol.layer.plow.priority = {
 		added.allLayers.push(priorityLyr);
 		priorityLyr.set('name', 'Snow Removal Designation');
 	
+		added.tips.push(
+	        new nyc.ol.FeatureTip(map, [{layer: priorityLyr, labelFunction: function(){
+				nyc.ol.layer.mixin(this, nyc.ol.layer.plow.priority.mixins);		
+	        	return {cssClass: 'tip-plow', text: this.html()};
+	        }}])
+		);
+		
+		priorityLyr.html = function(feature, layer){
+			if (layer === this && feature.get('layer') == 'SNOW_PRIORITY'){
+				nyc.ol.layer.mixin(feature, nyc.ol.layer.plow.priority.mixins);		
+				return feature.html();
+			}
+		};
+		
 		return added;
-	}	
+	},
+	/**
+	 * @private
+	 * @member {Array<Object>}
+	 */
+	mixins: [
+         {designation: {C: 'Critical', S: 'Sector', H: 'Haulster', V: 'Non-DSNY'}},
+         new nyc.Content({tip: '<div class="plow"><b>${NAME}</b><br>${priority}</div>'}),
+         {
+        	 html: function(){
+        		 this.embelish();
+        		 return this.message('tip', this.getProperties());
+        	 },
+        	 embelish: function(){
+        		 this.getProperties().priority = this.designation[this.get('PRIORITY')];
+        	 }
+    	 }
+	]
 };
