@@ -36,12 +36,9 @@ ext {
 	tilehost = 'http://localhost'
 	localhostDeployedBuildPath = '/git/nyc-lib/build'
 	
-	olJsPlowStyles = ['nyc/ol/style/plow/plow.js']
-	olJsPlowLayers = ['nyc/ol/layer/group.js', 'nyc/ol/layer/plow/plow.js']
-	olJsTransitStyles = ['nyc/ol/style/transit/subway.js']
-	olJsTransitLayers = ['nyc/ol/layer/group.js', 'nyc/ol/layer/transit/transit.js', 'nyc/ol/layer/transit/subway.js']
-	olJsZoningStyles = ['nyc/ol/style/zoning/district.js']
-	olJsZoningLayers = ['nyc/ol/layer/group.js', 'nyc/ol/layer/zoning/zoning.js', 'nyc/ol/layer/zoning/district.js']
+	olJsPlowLayers = ['nyc/ol/style/plow/plow.js', 'nyc/ol/layer/group.js', 'nyc/ol/layer/plow/plow.js']
+	olJsTransitLayers = ['nyc/ol/style/transit/subway.js', 'nyc/ol/layer/group.js', 'nyc/ol/layer/transit/transit.js', 'nyc/ol/layer/transit/subway.js']
+	olJsZoningLayers = ['nyc/ol/style/zoning/district.js', 'nyc/ol/layer/group.js', 'nyc/ol/layer/zoning/zoning.js', 'nyc/ol/layer/zoning/district.js']
 
 	jsInfoTemplates = [ //TODO ????
 		'nyc/info/template/citymap.js'
@@ -378,48 +375,26 @@ task minifyJsCarto(type: MiniJsTask) {
 	destinationDir = "${pkgDir}/js"
 }
 
-
 task minifyJsOlPlowLayers(type: MiniJsTask) {
 	version = ver
-	libName = 'nyc-ol-plow-layer'
+	libName = 'nyc-ol-layer-plow'
 	fileNames = olJsPlowLayers
-	sourceDir = jsSrcDir
-	destinationDir = "${pkgDir}/js"
-}
-task minifyJsOlPlowStyles(type: MiniJsTask) {
-	version = ver
-	libName = 'nyc-ol-plow-style'
-	fileNames = olJsPlowStyles
 	sourceDir = jsSrcDir
 	destinationDir = "${pkgDir}/js"
 }
 
 task minifyJsOlTransitLayers(type: MiniJsTask) {
 	version = ver
-	libName = 'nyc-ol-transit-layer'
+	libName = 'nyc-ol-layer-transit'
 	fileNames = olJsTransitLayers
-	sourceDir = jsSrcDir
-	destinationDir = "${pkgDir}/js"
-}
-task minifyJsOlTransitStyles(type: MiniJsTask) {
-	version = ver
-	libName = 'nyc-ol-transit-style'
-	fileNames = olJsTransitStyles
 	sourceDir = jsSrcDir
 	destinationDir = "${pkgDir}/js"
 }
 
 task minifyJsOlZoningLayers(type: MiniJsTask) {
 	version = ver
-	libName = 'nyc-ol-zoning-layer'
+	libName = 'nyc-ol-layer-zoning'
 	fileNames = olJsZoningLayers
-	sourceDir = jsSrcDir
-	destinationDir = "${pkgDir}/js"
-}
-task minifyJsOlZoningStyles(type: MiniJsTask) {
-	version = ver
-	libName = 'nyc-ol-zoning-style'
-	fileNames = olJsZoningStyles
 	sourceDir = jsSrcDir
 	destinationDir = "${pkgDir}/js"
 }
@@ -433,23 +408,6 @@ task minifyJsOlAllLayers(type: MiniJsTask) {
 minifyJsOlAllLayers.doFirst {
 	def jsFiles = ['nyc/ol/layer/group.js'];
 	[olJsPlowLayers, olJsTransitLayers, olJsZoningLayers].each { files ->
-		files.each { f ->
-			if (jsFiles.indexOf(f) == -1){
-				jsFiles.add(f)
-			}
-		}
-	}	
-	fileNames jsFiles
-}
-task minifyJsOlAllStyles(type: MiniJsTask) {
-	version = ver
-	libName = 'nyc-ol-style'
-	sourceDir = jsSrcDir
-	destinationDir = "${pkgDir}/js"
-}
-minifyJsOlAllStyles.doFirst {
-	def jsFiles = [];
-	[olJsPlowStyles, olJsTransitStyles, olJsZoningStyles].each { files ->
 		files.each { f ->
 			if (jsFiles.indexOf(f) == -1){
 				jsFiles.add(f)
@@ -506,13 +464,9 @@ task allJs(dependsOn: [
 	minifyJsLeaf, 
 	minifyJsCarto, 
 	minifyJsOlPlowLayers,
-	minifyJsOlPlowStyles,
 	minifyJsOlTransitLayers,
-	minifyJsOlTransitStyles,
 	minifyJsOlZoningLayers,
-	minifyJsOlZoningStyles,
-	minifyJsOlAllLayers, 
-	minifyJsOlAllStyles]) << {}
+	minifyJsOlAllLayers]) << {}
 allJs.doLast {
 	copy {
 		from srcDir

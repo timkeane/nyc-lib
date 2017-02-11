@@ -8,7 +8,7 @@ nyc.ol.control = nyc.ol.control || {};
  * @class
  * @extends {nyc.ol.control.LayerPicker}
  * @constructor
- * @param {nyc.ol.control.LayerMgr.Options} options Constructor options
+ * @param {nyc.ol.control.LayerPicker.Options} options Constructor options
  */
 nyc.ol.control.LayerMgr = function(options){
 	var me = this;
@@ -16,15 +16,7 @@ nyc.ol.control.LayerMgr = function(options){
 	me.container.append(nyc.ol.control.LayerMgr.MENU_BUTTONS_HTML).trigger('create');
 	me.getElem('.btn-ok').click($.proxy(me.toggleMenu, me));
 	$.each(me.controls, function(i, control){
-		control.on('change', function(choices){
-			$.each(control.choices, function(_, choice){
-				$.each(me.layerGroups[i].layers, function(_, layer){
-					if (choice.label == layer.get('name')){
-						layer.setVisible(choice.checked);
-					}
-				});
-			});
-		});
+		me.hookup(control, me.layerGroups[i].layers);		
 	});
 };
 
@@ -82,6 +74,22 @@ nyc.ol.control.LayerMgr.prototype = {
 			.prop('checked', false)
 			.checkboxradio('refresh')
 			.trigger('change');
+	},
+	loadedGroup: function(control, group, layers){
+		this.hookup(control, layers);
+	},
+	hookup: function(control, layers){
+		if (!layers.groupLayerClass){
+			control.on('change', function(choices){
+				$.each(control.choices, function(_, choice){
+					$.each(layers, function(_, layer){
+						if (choice.label == layer.get('name')){
+							layer.setVisible(choice.checked);
+						}
+					});
+				});
+			});		
+		}
 	}
 };
 

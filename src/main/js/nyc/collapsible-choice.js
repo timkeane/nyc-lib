@@ -11,37 +11,18 @@ var nyc = nyc || {};
  * @fires nyc.Choice#change
  */
 nyc.Choice = function(options){
-	var me = this, fieldset = $('<fieldset class="nyc-choice" data-role="controlgroup"></fieldset>');
-	
-	me.choices = options.choices;
-
-	nyc.Choice.uniqueId++;
-	
-	me.inputs = [];
-	$.each(me.choices, function(i, choice){
-		var input = $('<input type="' + me.type + '">').uniqueId(),
-			label = $('<label></label>');
-		input.attr('name', 'nyc-radio-name' + '-' + nyc.Choice.uniqueId)
-			.attr('value', i);
-		input.change($.proxy(me.changed, me));
-		label.attr('for', input.attr('id')).html(choice.label);
-		fieldset.append(input).append(label);
-		me.inputs.push(input);
-	});
-		
-	$(options.target).append(fieldset).trigger('create');
-
-	$.each(me.inputs, function(i, input){
-		if (me.choices[i].checked){
-			input.prop('checked', true).checkboxradio("refresh");
-			return me.type == 'checkbox';
-		}
-	});	
-
+	this.container = $(options.target);
+	$(options.target).append(this.fieldset);
 	nyc.Collapsible.apply(this, [options]);
+	this.setChoices(options.choices);
 };
 
 nyc.Choice.prototype = {
+	/**
+	 * @private
+	 * @member {JQuery}
+	 */
+	fieldset: null,
 	/**
 	 * @private
 	 * @member {Array<nyc.Choice.Choice>}
@@ -96,6 +77,38 @@ nyc.Choice.prototype = {
 			}
 		});
 		$(this.inputs[choiceIndex]).prop('disabled', disabled).checkboxradio('refresh');
+	},
+	/** 
+	 * @desc Enable/disable a radio button
+	 * @public
+	 * @method
+ * @property {Array<nyc.Choice.Choice>} choices The choices for the user
+	 */
+	setChoices: function(choices){
+		var me = this, fieldset = $('<fieldset class="nyc-choice" data-role="controlgroup"></fieldset>');;
+		me.container.find('.ui-collapsible-content').empty().append(fieldset);
+		me.inputs = [];
+		me.choices = choices;
+		nyc.Choice.uniqueId++;
+		$.each(me.choices, function(i, choice){
+			var input = $('<input type="' + me.type + '">').uniqueId(),
+				label = $('<label></label>');
+			input.attr('name', 'nyc-radio-name' + '-' + nyc.Choice.uniqueId)
+				.attr('value', i);
+			input.change($.proxy(me.changed, me));
+			label.attr('for', input.attr('id')).html(choice.label);
+			fieldset.append(input).append(label);
+			me.inputs.push(input);
+		});
+			
+		fieldset.trigger('create');
+
+		$.each(me.inputs, function(i, input){
+			if (me.choices[i].checked){
+				input.prop('checked', true).checkboxradio('refresh');
+				return me.type == 'checkbox';
+			}
+		});	
 	}
 };
 

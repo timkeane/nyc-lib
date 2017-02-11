@@ -77,6 +77,10 @@ class JsMinifier {
 			prefix = "/*\n\n${name}\n\n*/\n"
 		}
 		String suffix = "\n//# sourceMappingURL=${libName}.sourcemap.json"
+		if (libName.split('-')[2] == 'lib'){
+			suffix = "nyc.version='${version}';${suffix}"
+		}
+		
 		return [prefix, suffix]
 	}
 	void setLocationMapping(SourceMap sourceMap, String sourceDir){

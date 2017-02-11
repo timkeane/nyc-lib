@@ -17,7 +17,7 @@ nyc.ol.style.transit.subway = {
 	 * @private
 	 * @member {Object}
 	 */
-	cache: {line: {}, station: {}, transfer: {}},
+	cache: {SUBWAY_LINE: {}, SUBWAY_STATION: {}, SUBWAY_TRANSFER: {}, SUBWAY_ENTRANCE: {}},
 	/**
 	 * @private
 	 * @member {Object}
@@ -41,9 +41,10 @@ nyc.ol.style.transit.subway = {
 	 * @return {ol.style.Style}
 	 */
 	line: function(feature, resolution){
-		var route = feature.get('RT_SYMBOL');
-		if (route){
-			var cache = nyc.ol.style.transit.subway.cache.line;
+		var layer = feature.get('layer');
+		var cache = nyc.ol.style.transit.subway.cache[layer];
+		if (layer == 'SUBWAY_LINE'){
+			var route = feature.get('RT_SYMBOL');
 			var zoom = nyc.ol.TILE_GRID.getZForResolution(resolution);
 			cache[zoom] = cache[zoom] || {};
 			if (!cache[zoom][route]){
@@ -51,7 +52,8 @@ nyc.ol.style.transit.subway = {
 				cache[zoom][route] = new ol.style.Style({
 					stroke: new ol.style.Stroke({
 						color: nyc.ol.style.transit.subway.color[route],
-						width: width
+						width: width,
+						lineJoin: 'miter'
 					})
 				});
 			}
@@ -69,7 +71,8 @@ nyc.ol.style.transit.subway = {
 	 * @return {ol.style.Style}
 	 */
 	transfer: function(feature, resolution){
-		var cache = nyc.ol.style.transit.subway.cache.transfer;
+		var layer = feature.get('layer');
+		var cache = nyc.ol.style.transit.subway.cache[layer];
 		var zoom = nyc.ol.TILE_GRID.getZForResolution(resolution);
 		if (!cache[zoom]){
 			var width = [1, 1, 2, 4, 6, 8, 10, 12, 14, 18, 22, 26, 32, 32][zoom - 8] / 2;
@@ -90,23 +93,32 @@ nyc.ol.style.transit.subway = {
 	 * @param {number} resolution The resolution of the view
 	 * @return {ol.style.Style}
 	 */
-	station: function(feature, resolution){
-		var cache = nyc.ol.style.transit.subway.cache.station;
+	point: function(feature, resolution){
+		var layer = feature.get('layer');
+		var cache = nyc.ol.style.transit.subway.cache[layer];
 		var zoom = nyc.ol.TILE_GRID.getZForResolution(resolution);
-		var radius = [2, 4, 6, 8, 12, 16, 20, 26, 32, 36, 42][zoom - 11];
+		var radius = nyc.ol.style.transit.subway.radius(zoom, layer);
 		if (radius && !cache[zoom]){
 			cache[zoom] = new ol.style.Style({
 				image: new ol.style.Circle({
 					radius: radius,
 					stroke: new ol.style.Stroke({
-						color : '#000',
+						color : layer == 'SUBWAY_STATION' ? '#000' : '#228B22',
 						width : radius / 3
 					}),
-					fill: new ol.style.Fill({color: 'rgba(255,255,255,.8)'})
+					fill: new ol.style.Fill({
+						color: layer == 'SUBWAY_STATION' ? 'rgba(255,255,255,.8)' : 'rgba(50,205,50,.8)'
+					})
 				})
 			});
 		}
 		return cache[zoom];
+	},
+	radius: function(zoom, layer){
+		if (layer == 'SUBWAY_STATION'){
+			return [2, 4, 6, 8, 12, 16, 20, 26, 32, 36, 42][zoom - 11];
+		}
+		return [5, 6, 7, 8, 9, 10, 11][zoom - 15];
 	}
 };
 

@@ -1,7 +1,7 @@
-.popup-content .subway-info {
+.popup-content .subway {
 	width: 265px;
 }
-div.subway-icon {
+a.subway-icon {
 	display: inline-block;
 	font-weight: bold;
 	text-align: center;
@@ -10,8 +10,9 @@ div.subway-icon {
 	margin-right: 3px;
 	border: 1px solid rgba(0,0,0,0.1);
 	border-radius: 16px;
+	text-decoration: none;
 }
-div.subway-icon div {
+a.subway-icon div {
 	color: #fff;
 }
 .subway-1, .subway-2, .subway-3 {
@@ -32,16 +33,16 @@ div.subway-icon div {
 .subway-G {
 	background-color: #98cd01;
 }
-div.subway-J, div.subway-M, div.subway-Z {
+.subway-J, .subway-M, .subway-Z {
 	background-color: #9d6400;
 }
 .subway-L, .subway-S {
 	background-color: #999999;
 }
-div.subway-N, div.subway-Q, div.subway-R {
+.subway-N, .subway-Q, .subway-R {
 	background-color: #ffff0c;
 }
-div.subway-N div, div.subway-Q div, div.subway-R div {
+a.subway-N div, a.subway-Q div, a.subway-R div {
 	color: #000;
 }
 div.express {
@@ -55,7 +56,7 @@ div.express div {
 	transform: rotate(-45deg);
 }
 
-div.feature-tip.tip-subway-ln {
+div.feature-tip.subway-ln {
 	border: none;
 	background-color: transparent;
 	box-shadow: none;

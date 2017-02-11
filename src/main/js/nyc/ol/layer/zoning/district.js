@@ -3,25 +3,27 @@ nyc.ol = nyc.ol || {};
 nyc.ol.layer = nyc.ol.layer || {};
 nyc.ol.layer.zoning = nyc.ol.layer.zoning || {};
 
-/** 
- * @public 
- * @namespace
- */
-nyc.ol.layer.zoning.district = {
+nyc.ol.layer.zoning.District = function(map){
+	nyc.ol.layer.Group.apply(this, [map]);
+	this.addTo(map);
+};
+
+nyc.inherits(nyc.ol.layer.zoning.District, nyc.ol.layer.Group);
+
+nyc.ol.layer.zoning.District.prototype = {
 	/**
 	 * @private
 	 * @member {string}
 	 */
 	url: '/geoserver/gwc/service/tms/1.0.0/zoning%3Azoning@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf',
 	/**
-	 * @desc Add zoning district layer to the map
-	 * @public
-	 * @function
-	 * @param {ol.Map} map The map into which the layers will be added
-	 * @return {nyc.ol.layer.Adds} The added layers
+	 * @private
+	 * @method
+	 * @param {ol.Map} map 
 	 */
 	addTo: function(map){
-		var added = {groupLayers: [], proxyLayers: [], allLayers: [], tips: []};
+		var me = this, added = me.addedLayers;
+
 		var distLyr = new ol.layer.VectorTile({
 			source: new ol.source.VectorTile({
 		        url: this.url,
@@ -47,19 +49,17 @@ nyc.ol.layer.zoning.district = {
 
 		added.tips.push(
 	        new nyc.ol.FeatureTip(map, [{layer: distLyr, labelFunction: function(){
-				nyc.ol.layer.mixin(this, nyc.ol.layer.zoning.district.mixins);	        	
+				me.mixin(this, me.mixins);	        	
 	        	return {cssClass: 'tip-zoning', text: this.tip()};
 	        }}])
 		);
 
 		distLyr.html = function(feature, layer){
 			if (layer === this && feature.get('layer') == 'zoning-district'){
-				nyc.ol.layer.mixin(feature, nyc.ol.layer.zoning.district.mixins);				
+				me.mixin(feature, me.mixins);	        	
 				return feature.html();
 			}
 		};
-		
-		return added;
 	},
 	/**
 	 * @private
@@ -79,7 +79,7 @@ nyc.ol.layer.zoning.district = {
 			}
 		},
  		new nyc.Content({
- 			tip: '<b>${ZONEDIST}</b><br>${category}',
+ 			tip: '<div class="zoning"><b>${ZONEDIST}</b><br>${category}</div>',
  			popup: '<div class="zoning">' +
 	 			'<div><b>Zoning designation:</b></div>' +
 	 			'<div><a href="${zonedistUrl}" target="_blank">${ZONEDIST}</a></div>' +
@@ -116,3 +116,5 @@ nyc.ol.layer.zoning.district = {
 		}
 	]
 };
+
+nyc.inherits(nyc.ol.layer.zoning.District, nyc.ol.layer.Group);

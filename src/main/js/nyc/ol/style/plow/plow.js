@@ -38,7 +38,8 @@ nyc.ol.style.plow = {
 			cache[zoom][priority] = new ol.style.Style({
 				stroke: new ol.style.Stroke({
 					color: nyc.ol.style.plow.color.priority[priority],
-					width: width > .5 ? width : .5
+					width: width > .5 ? width : .5,
+					lineJoin: 'miter'
 				})
 			});
 		}

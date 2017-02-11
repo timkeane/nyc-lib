@@ -2,7 +2,6 @@ div.ctl-mnu-tgl {
 	display: none;
 	position: fixed;
 	top: 43px;
-	bottom: 3px;
 	right: 3px;
 	width: 320px;
 	height: auto;
@@ -51,9 +50,6 @@ div.ctl-mnu-tgl div.ui-checkbox label.ui-btn.ui-checkbox-on:after {
 }
 div.ctl-mnu-tgl div.ui-radio label.ui-btn.ui-btn-icon-left.ui-radio-on:after {
 	border-color: var(--theme-ctl-bg-color-hover);
-}
-div.ctl-mnu-tgl div.ui-collapsible {
-	height: calc(100% - 60px);
 }
 div.ctl-mnu-tgl .ui-collapsible-content {
 	max-height: calc(100% - 53px);

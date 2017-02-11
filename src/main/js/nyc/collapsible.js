@@ -11,6 +11,7 @@ var nyc = nyc || {};
 nyc.Collapsible = function(options){
 	var heading = $('<h3></h3>');
 
+	this.container = $(options.target);
 	this.currentVal = $('<span class="current-value"></span>');
 	
 	heading.html(options.title || '')
@@ -27,6 +28,12 @@ nyc.Collapsible = function(options){
 };
 
 nyc.Collapsible.prototype = {
+	/**
+	 * @desc A JQuery element representation of the container
+	 * @public
+	 * @member {JQuery}
+	 */
+	container: null,
 	/**
 	 * @desc A JQuery element used to display a readable representation of the current value
 	 * @public

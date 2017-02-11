@@ -61,6 +61,16 @@ nyc.ol.control.LayerPicker.prototype = {
 		throw 'Must be implemented';
 	},
 	/**
+	 * @desc Provides notification that layers form a group namespace have been added  
+	 * @public
+	 * @method
+	 * @abstract
+	 * @param {nyc.Choice} control
+	 * @param {Object} group
+	 * @param {Array<ol.layer.Base>} layers
+	 */
+	loadedGroup: function(group, layers){},
+	/**
 	 * @desc Return a map of layers by name
 	 * @public
 	 * @method
@@ -139,22 +149,88 @@ nyc.ol.control.LayerPicker.prototype = {
 	 * @param {JQuery} target
 	 */
 	render: function(map, layerGroups, target){
-		var container = this.getContainer(), controls = this.controls;
+		var me = this, controls = me.controls;
 		$.each(layerGroups, function(_, group){
-			var hasVis = false, options = {target: $('<div></div>'), title: group.name, expanded: group.expanded, choices: []};
-			container.append(options.target);
-			$.each(group.layers, function(_, layer){
-				var name = layer.get('name'), vis = layer.getVisible();
-				options.choices.push({value: name, label: name, checked: vis});
-				hasVis = hasVis || vis;
-			});
-			if (group.singleSelect){
-				options.choices.unshift({value: 'none', label: 'None', checked: !hasVis});
-				controls.push(new nyc.Radio(options));
+			var control = me.getControl(group);
+			controls.push(control);
+			if (group.layers.groupLayerClass){
+				control.container.find('h3')
+					.data('control', control)
+					.data('group', group)
+					.one('click', $.proxy(me.getGroup, me));
 			}else{
-				controls.push(new nyc.Check(options));
-			}
+				me.setChoices(control, group.layers);
+			}		
 		});
+	},
+	getControl: function(group){		
+		var options = {target: $('<div></div>'), title: group.name, expanded: group.expanded}, control;
+		this.getContainer().append(options.target);
+		if (group.singleSelect){
+			control = new nyc.Radio(options);
+		}else{
+			control = new nyc.Check(options);
+		}
+		return control;
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {nyc.Choice} control
+	 * @param {Array<ol.layer.Base>} layers
+	 */
+	setChoices: function(control, layers){
+		var hasVis = false, choices = [];
+		$.each(layers, function(){
+			var name = this.get('name'), vis = this.getVisible();
+			choices.push({value: name, label: name, checked: vis});
+			hasVis = hasVis || vis;
+		});
+		if (control.type == 'radio'){
+			choices.unshift({value: 'none', label: 'None', checked: !hasVis});
+		}
+		control.setChoices(choices);
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {JQueryEvent} event
+	 */
+	getGroup: function(event){
+		var target = $(event.delegateTarget);
+		this.populateGroup(target.data('control'), target.data('group'));
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {nyc.Choice} control
+	 * @param {nyc.ol.control.LayerPicker.LayerGroup} layerGroup
+	 */
+	populateGroup: function(control, layerGroup){
+		var group = this.instantiateGroup(layerGroup.layers.groupLayerClass);
+		if (group){
+			var layers = group.addedLayers.groupLayers;
+			this.setChoices(control, layers);
+			this.loadedGroup(control, layerGroup, layers);
+		}else{
+			var me = this;
+			$.getScript(layerGroup.layers.url, function(){
+				me.populateGroup(control, layerGroup);
+			});
+		}
+	},
+	instantiateGroup: function(groupLayerClass){
+		var group = groupLayerClass;
+		if (typeof groupLayerClass == 'string'){
+			group = window;
+			$.each(groupLayerClass.split('.'), function(){
+				group = group[this];
+				if (!group) return false;
+			});
+		}
+		if (group){
+			return new group(this.map);
+		}
 	}
 };
 
@@ -166,11 +242,21 @@ nyc.inherits(nyc.ol.control.LayerPicker, nyc.Menu);
  * @public
  * @typedef {Object}
  * @property {string} name The group name
- * @property {Array<ol.layer.Base>} layers The layers (layers should have a name property)
+ * @property {Array<ol.layer.Base>|nyc.ol.control.LayerPicker.LayerGroupNamespace=} layers The layers (layers should have a name property)
  * @property {boolean} [singleSelect=false] Only one layer per group can be visible at a time
  * @property {boolean} [expanded=false] The group starting display state
  */
 nyc.ol.control.LayerPicker.LayerGroup;
+
+/**
+ * @desc Layer group namespace for {@link nyc.ol.control.LayerPicker.LayerGroup}
+ * @public
+ * @typedef {Object}
+ * @property {string} name The group name
+ * @property {Object|string} namespace A layer group namespace
+ * @property {string=} url The URL to the layer group JavaScript
+ */
+nyc.ol.control.LayerPicker.LayerGroupNamespace;
 
 /**
  * @desc Constructor options for {@link nyc.ol.control.LayerPicker}

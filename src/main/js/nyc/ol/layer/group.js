@@ -3,20 +3,58 @@ nyc.ol = nyc.ol || {};
 nyc.ol.layer = nyc.ol.layer || {};
 
 /**
- * @private
- * @function
- * @param {ol.Feature|ol.render.Feature} feature
- * @param {Array<Object>} mixins
+ * @desc Abstract class for creating layer groups
+ * @abstract
+ * @class
+ * @constructor
+ * @param {ol.Map} map
  */
-nyc.ol.layer.mixin = function(feature, mixins){
-	feature.mixins = feature.mixins || [];
-	if ($.inArray(mixins, feature.mixins) == -1){
-		feature.mixins.push(mixins);
-		$.each(mixins, function(){
-			for (var memb in this){
-				feature[memb] = this[memb];
-			}
+nyc.ol.layer.Group = function(map){
+	this.map = map;
+	this.addedLayers = {groupLayers: [], proxyLayers: [], allLayers: [], tips: []};
+};
+
+nyc.ol.layer.Group.prototype = {
+	/**
+	 * @private
+	 * @member {ol.Map}
+	 */
+	map: null,
+	/**
+	 * @public
+	 * @member {Array<nyc.ol.layer.Adds>}
+	 */
+	addedLayers: null,
+	/**
+	 * @public
+	 * @method
+	 * @param {Array<nyc.ol.layer.Adds>} layerAdds Layers to append to the group
+	 */
+	append: function(layerAdds){
+		var added = this.addedLayers;
+		$.each(layerAdds, function(){
+			added.groupLayers = added.groupLayers.concat(this.groupLayers);
+			added.proxyLayers = added.proxyLayers.concat(this.proxyLayers);
+			added.allLayers = added.allLayers.concat(this.allLayers);
+			added.tips = added.tips.concat(this.tips);
 		});
+	},
+	/**
+	 * @public
+	 * @method
+	 * @param {ol.Feature|ol.render.Feature} feature
+	 * @param {Array<Object>} mixins
+	 */
+	mixin: function(feature, mixins){
+		feature.mixins = feature.mixins || [];
+		if ($.inArray(mixins, feature.mixins) == -1){
+			feature.mixins.push(mixins);
+			$.each(mixins, function(){
+				for (var memb in this){
+					feature[memb] = this[memb];
+				}
+			});
+		}
 	}
 };
 
