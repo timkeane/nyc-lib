@@ -16,8 +16,6 @@ nyc.ol.layer.zoning.District = function(map){
 	this.addTo(map);
 };
 
-nyc.inherits(nyc.ol.layer.zoning.District, nyc.ol.layer.Group);
-
 nyc.ol.layer.zoning.District.prototype = {
 	/**
 	 * @private
