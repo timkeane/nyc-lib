@@ -102,14 +102,7 @@
 					html: info.allHtml
 				});
 				$(popup.getElement()).find('[data-role="collapsible"]').collapsible({
-					expand: function(event, ui){
-						var target = $(event.target), parent = $(popup.getElement());
-						$.each(parent.find('.ui-collapsible').not(target), function(){
-							$(this).collapsible('collapse');
-						});
-						popup.pan();
-					},
-					collapse: $.proxy(popup.pan, popup)
+					expand: $.proxy(popup.pan, popup)
 				});
 			}
 		};

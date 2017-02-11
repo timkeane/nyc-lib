@@ -62,12 +62,13 @@ nyc.info.Renderer.prototype = {
 			extraHtml: [],
 			data: props
 		};
-		result.allHtml = result.defaultHtml;
+		result.allHtml = result.defaultHtml + '<div class="prp-content" data-role="collapsible-set">';
 		$.each(this.extraTemplates, function(_, tmpl){
 			var html = me.replace(tmpl, props);
 			result.extraHtml.push(html);
 			result.allHtml += html
 		});
+		result.allHtml += '</div>';
 		result.allHtml += result.creditHtml;
 		return result;
 	},
