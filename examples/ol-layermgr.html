@@ -118,6 +118,7 @@
 					}
 				});
 				if (div.html()){
+					$('.feature-tip').fadeOut();
 					popup.show({
 						coordinates: map.getCoordinateFromPixel(px),
 						html: div

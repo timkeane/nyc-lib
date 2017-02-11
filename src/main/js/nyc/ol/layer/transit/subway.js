@@ -3,9 +3,13 @@ nyc.ol = nyc.ol || {};
 nyc.ol.layer = nyc.ol.layer || {};
 nyc.ol.layer.transit = nyc.ol.layer.transit || {};
 
-/** 
- * @public 
- * @namespace
+/**
+ * @desc Abstract class for creating layer groups
+ * @public
+ * @class
+ * @extends {nyc.ol.layer.Group}
+ * @constructor
+ * @param {ol.Map} map The map to which the layers will be added
  */
 nyc.ol.layer.transit.Subway = function(map){
 	nyc.ol.layer.Group.apply(this, [map]);
@@ -60,6 +64,13 @@ nyc.ol.layer.transit.Subway.prototype = {
 			}
 		}
 	},
+	/**
+	 * @private
+	 * @method
+	 * @param {ol.Map} map 
+	 * @param {ol.layer.VectorTile} subwayLyr 
+	 * @param {ol.layer.Vector} stationProxy 
+	 */
 	tips: function(map, subwayLyr, stationProxy){
 		var me = this;
 		me.addedLayers.tips.push(

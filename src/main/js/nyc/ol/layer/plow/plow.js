@@ -8,12 +8,28 @@ nyc.ol.layer = nyc.ol.layer || {};
  */
 nyc.ol.layer.plow = {};
 
+/**
+ * @desc Abstract class for creating layer groups
+ * @public
+ * @class
+ * @extends {nyc.ol.layer.Group}
+ * @constructor
+ * @param {ol.Map} map The map to which the layers will be added
+ */
 nyc.ol.layer.plow.Group = function(map){
 	nyc.ol.layer.Group.apply(this, [map]);
 	this.append([new nyc.ol.layer.plow.Priority(map).addedLayers]);
 };
 nyc.inherits(nyc.ol.layer.plow.Group, nyc.ol.layer.Group);
 
+/**
+ * @desc Abstract class for creating layer groups
+ * @public
+ * @class
+ * @extends {nyc.ol.layer.Group}
+ * @constructor
+ * @param {ol.Map} map The map to which the layers will be added
+ */
 nyc.ol.layer.plow.Priority = function(map){
 	nyc.ol.layer.Group.apply(this, [map]);
 	this.addTo(map);

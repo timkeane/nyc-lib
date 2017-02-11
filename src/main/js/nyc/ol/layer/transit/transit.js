@@ -8,6 +8,14 @@ nyc.ol.layer = nyc.ol.layer || {};
  */
 nyc.ol.layer.transit = {};
 
+/**
+ * @desc Abstract class for creating layer groups
+ * @public
+ * @class
+ * @extends {nyc.ol.layer.Group}
+ * @constructor
+ * @param {ol.Map} map The map to which the layers will be added
+ */
 nyc.ol.layer.transit.Group = function(map){
 	nyc.ol.layer.Group.apply(this, [map]);
 	this.append([new nyc.ol.layer.transit.Subway(map).addedLayers]);

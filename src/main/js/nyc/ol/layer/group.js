@@ -4,10 +4,11 @@ nyc.ol.layer = nyc.ol.layer || {};
 
 /**
  * @desc Abstract class for creating layer groups
+ * @public
  * @abstract
  * @class
  * @constructor
- * @param {ol.Map} map
+ * @param {ol.Map} map The map to which the layers will be added
  */
 nyc.ol.layer.Group = function(map){
 	this.map = map;
@@ -21,11 +22,13 @@ nyc.ol.layer.Group.prototype = {
 	 */
 	map: null,
 	/**
+	 * @desc The layers added to the map by this group
 	 * @public
 	 * @member {Array<nyc.ol.layer.Adds>}
 	 */
 	addedLayers: null,
 	/**
+	 * @desc Appends layers from a subgroup
 	 * @public
 	 * @method
 	 * @param {Array<nyc.ol.layer.Adds>} layerAdds Layers to append to the group
