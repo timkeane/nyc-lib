@@ -68,8 +68,7 @@ nyc.info.Renderer.prototype = {
 			result.extraHtml.push(html);
 			result.allHtml += html
 		});
-		result.allHtml += '</div>';
-		result.allHtml += result.creditHtml;
+		result.allHtml += ('</div>' + result.creditHtml);
 		return result;
 	},
 	/**

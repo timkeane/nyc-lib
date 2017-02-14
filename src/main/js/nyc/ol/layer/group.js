@@ -62,23 +62,6 @@ nyc.ol.layer.Group.prototype = {
 };
 
 /**
- * @private
- * @function
- * @param {Array<nyc.ol.layer.Adds>} layerAdds
- * @returns {nyc.ol.layer.Adds}
- */
-nyc.ol.layer.group = function(layerAdds){
-	var group = {groupLayers: [], proxyLayers: [], allLayers: [], tips: []};
-	$.each(layerAdds, function(){
-		group.groupLayers = group.groupLayers.concat(this.groupLayers);
-		group.proxyLayers = group.proxyLayers.concat(this.proxyLayers);
-		group.allLayers = group.allLayers.concat(this.allLayers);
-		group.tips = group.tips.concat(this.tips);
-	});
-	return group;
-};
-
-/**
  * @desc Object type to hold the results of adding layers
  * @public
  * @typedef {Object}
