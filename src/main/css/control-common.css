@@ -21,7 +21,7 @@
 .noshow {
 	display: none;
 }
-.ui-btn {
+a.ui-btn {
 	padding: 8px 3px;
 	box-shadow: none;
 }

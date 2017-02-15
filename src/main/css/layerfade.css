@@ -6,6 +6,9 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+.mnu-fade {
+    overflow-x: hidden;
+}
 div.mnu-fade *, div.fade-status div {
     color: var(--theme-ctl-text-color);
     font-weight: bold;
