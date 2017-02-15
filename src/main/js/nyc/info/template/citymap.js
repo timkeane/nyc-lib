@@ -72,13 +72,17 @@ nyc.info.template.citymap = {
  			'</p>' +
      	'</div>',
  		'<div class="ctl-collapse" data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">' + 
- 			'<h3>Community Information</h3>' +
- 			'<p>' +
- 				'<span class="prp-fld">Community District:</span>' + 
- 				'<span class="prp-val">${CD}</span><br>' + 
- 				'<span class="prp-fld">Police Precinct:</span>' + 
- 				'<span class="prp-val">${POLICEPRCT}</span><br>' +
- 			'</p>' +
+			'<h3>Community Information</h3>' +
+			'<p>' +
+				'<span class="prp-fld">Community District:</span>' + 
+				'<span class="prp-val">${CD}</span><br>' + 
+				'<span class="prp-fld">Police Precinct:</span>' + 
+				'<span class="prp-val">${POLICEPRCT}</span><br>' +
+			'</p>' +
+		'</div>',
+ 		'<div class="ctl-collapse elected" data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">' + 
+ 			'<h3>Elected Officials Information</h3>' +
+ 			'<p></p>' +
      	'</div>'
      ]	
 };			

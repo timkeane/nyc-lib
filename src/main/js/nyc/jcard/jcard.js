@@ -272,7 +272,7 @@ nyc.jcard.Builder.prototype = {
 	 * @return {Array} The JCard phone property
 	 */ 
 	phone: function(phone){
-		var number = '+1-' + phone.area + '-' + phone.number;
+		var number = phone.area ? '+1-' + phone.area + '-' + phone.number : phone.number;
 		number += phone.extension ? (',' + phone.extension) : '';
 		return this.prop(nyc.jcard.Property.PHONE, this.params(phone.type), nyc.jcard.Data.URI, [number]);
 	},
@@ -281,9 +281,10 @@ nyc.jcard.Builder.prototype = {
 	 * @public
 	 * @method
 	 * @param {string} phone The phone to create
+	 * @param {nyc.jcard.Type} type The type of phone to create
 	 * @return {Array} The JCard phone property
 	 */ 
-	parsePhone: function(phone){
+	parsePhone: function(phone, type){
 		var number = phone, area = '', extension = '';
 		phone = phone.replace(/[^\w]/g, '');
 		if (phone.substr(0, 1) == '1') {
@@ -296,7 +297,7 @@ nyc.jcard.Builder.prototype = {
 				extension = phone.substr(10);
 			}
 		}
-		return this.phone({area: area, phone: number, extension: extension});
+		return this.phone({area: area, number: number, extension: extension, type: type});
 	},
 	/** 
 	 * @desc Create a JCard URL property

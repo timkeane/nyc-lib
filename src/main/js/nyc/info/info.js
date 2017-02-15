@@ -20,6 +20,15 @@ nyc.info.Info = function(){};
 
 nyc.info.Info.prototype = {
 	/**
+	 * @desc Return all featues of the specified layer within a the specified distance of a point
+	 * @public
+	 * @method
+	 * @param {nyc.info.Info.NearestRequest} options
+	 */
+	nearest: function(options){
+		this.ajax(nyc.info.Info.NEAREST_URL, this.getValues(options));
+	},
+	/**
 	 * @desc Return all building and tax lot features at a point
 	 * @public
 	 * @method
@@ -29,13 +38,13 @@ nyc.info.Info.prototype = {
 		this.whichInfo(this.getValues(options))
 	},
 	/**
-	 * @desc Return all address features within a buffer of a point
+	 * @desc Return all address features within a distance of a point
 	 * @public
 	 * @method
 	 * @param {nyc.info.Info.ProximityRequest} options
 	 */
-	proximity: function(x, y, buffer, epsg){
-		this.ajax(nyc.info.Info.PROXIMITY, this.getValues(options));
+	proximity: function(x, y, distance, epsg){
+		this.ajax(nyc.info.Info.PROXIMITY_URL, this.getValues(options));
 	},
 	/**
 	 * @private
@@ -58,15 +67,20 @@ nyc.info.Info.prototype = {
 	 * @return {Object}
 	 */
 	getValues: function(options){
-		var buffer = nyc.info.Info.BUFFER[options.buffer] || 100;
 		var coordinates = options.coordinates || []; 
 		var projection = options.projection || 'EPSG:900913';
 		var binOrBbl = options.binOrBbl ? options.binOrBbl.trim() : '';
+		var distance = options.distance || '100:feet';
+		if (options.layer) {
+			distance = options.distance || '1000:feet';
+		}
 		if ((binOrBbl.length != 7 && binOrBbl.length != 10) && (isNaN(coordinates[0]) || isNaN(coordinates[1]))){
 			throw 'invalid options';
 		}
 		return {
-			buffer: buffer,
+			namespace: options.namespace,
+			layer: options.layer,
+			distance: distance,
 			binOrBbl: binOrBbl,
 			epsg: projection.split(':')[1],
 			x: coordinates[0],
@@ -85,6 +99,7 @@ nyc.info.Info.prototype = {
 		$.ajax({
 			url: me.replace(url, options),
 			success: function(data){
+				data.request = options;
 				if (options.callback){
 					options.callback(data);
 				}
@@ -98,8 +113,13 @@ nyc.info.Info.prototype = {
 	 * @param {string} url
 	 */
 	eventType: function(url){
-		return url == nyc.info.Info.PROXIMITY_URL ? 
-				nyc.info.Info.EventType.PROXIMITY : nyc.info.Info.EventType.INFO;
+		if (url == nyc.info.Info.PROXIMITY_URL){
+			return nyc.info.Info.EventType.PROXIMITY
+		}
+		if (url == nyc.info.Info.NEAREST_URL){
+			return nyc.info.Info.EventType.NEAREST
+		}
+		return nyc.info.Info.EventType.INFO;
 	}
 };
 
@@ -107,27 +127,83 @@ nyc.inherits(nyc.info.Info, nyc.EventHandling);
 nyc.inherits(nyc.info.Info, nyc.ReplaceTokens);
 
 /**
- * @desc Valid buffer distances in feet for address proximity searches
+ * @desc Valid distances for address proximity searches
+ * @public
+ * @enum {string}
+ */
+nyc.info.Info.PROXIMITY_DISTANCE = {
+		/**
+		 * @desc 50 feet
+		 */
+		'50ft': '50:feet',
+		/**
+		 * @desc 100 feet
+		 */
+		'100ft': '100:feet',
+		/**
+		 * @desc 200 feet
+		 */
+		'200ft': '200:feet',
+		/**
+		 * @desc 400 feet
+		 */
+		'400ft': '400:feet',
+		/**
+		 * @desc 15 meters
+		 */
+		'15m': '15:meters',
+		/**
+		 * @desc 30 meters
+		 */
+		'30m': '30:meters',
+		/**
+		 * @desc 60 meters
+		 */
+		'60m': '60:meters',
+		/**
+		 * @desc 120 meters
+		 */
+		'120m': '120:meters'
+};
+
+/**
+ * @desc Valid distances for nearest searches
  * @public
  * @enum {number}
  */
-nyc.info.Info.BUFFER = {
-	/**
-	 * @desc 50 feet
-	 */
-	50: 50,
-	/**
-	 * @desc 100 feet
-	 */
-	100: 100,
-	/**
-	 * @desc 200 feet
-	 */
-	200: 200,
-	/**
-	 * @desc 400 feet
-	 */
-	400: 400
+nyc.info.Info.NEAREST_DISTANCE = {
+		/**
+		 * @desc 500 feet
+		 */
+		'500ft': '500:feet',
+		/**
+		 * @desc 1000 feet
+		 */
+		'1000ft': '1000:feet',
+		/**
+		 * @desc 1 mile
+		 */
+		'1mi': '5280:feet',
+		/**
+		 * @desc 5 miles
+		 */
+		'5mi': '26400:feet',
+		/**
+		 * @desc 150 meters
+		 */
+		'150m': '150:meters',
+		/**
+		 * @desc 300 meters
+		 */
+		'300m': '300:meters',
+		/**
+		 * @desc 1.5 kilometers
+		 */
+		'1.5km': '1500:meters',
+		/**
+		 * @desc 8 kilometers
+		 */
+		'8km': '8000:meters'
 };
 
 /**
@@ -143,7 +219,11 @@ nyc.info.Info.EventType = {
 	/**
 	 * @desc The proximity event type
 	 */
-	PROXIMITY: 'proximity'
+	PROXIMITY: 'proximity',
+	/**
+	 * @desc The nearest event type
+	 */
+	NEAREST: 'nearest'
 };
 
 /**
@@ -163,7 +243,7 @@ nyc.info.Info.EventType = {
  * @public
  * @typedef {Object}
  * @property {Array<number>} coordinates Coordinates
- * @property {nyc.info.Info.BUFFER} [buffer=100] The buffer distance in feet  
+ * @property {nyc.info.Info.PROXIMITY_DISTANCE} [distance=100:feet] The distance  
  * @property {string} [projection=EPSG:900913] The projection of input coordinates and output features 
  * @property {function(Object)=} callback Callback function that recieves GeoJSON FeatureCollection 
  */
@@ -190,6 +270,19 @@ nyc.info.Info.PointRequest;
 nyc.info.Info.BinBblRequest;
 
 /**
+ * @desc Object type to hold options for {@link nyc.info.Info#nearest}
+ * @public
+ * @typedef {Object}
+ * @property {Array<number>} coordinates Coordinates
+ * @property {string} namespace The namespace for the layer 
+ * @property {string} layer The layer name 
+ * @property {nyc.info.Info.PROXIMITY_DISTANCE} [distance=1000:feet] The distance  
+ * @property {string} [projection=EPSG:900913] The projection of input coordinates and output features 
+ * @property {function(Object)=} callback Callback function that recieves GeoJSON FeatureCollection 
+ */
+nyc.info.Info.NearestRequest;
+
+/**
  * @private
  * @const
  * @type {string}
@@ -214,5 +307,12 @@ nyc.info.Info.INFO_BBL_URL = 'http://10.155.206.37/info/epsg:${epsg}/bbl/${binOr
  * @const
  * @type {string}
  */
-nyc.info.Info.PROXIMITY_URL = 'http://10.155.206.37/proximity/address/${buffer}:feet/epsg:${epsg}/${x}/${y}';
+nyc.info.Info.PROXIMITY_URL = 'http://10.155.206.37/proximity/address/${distance}/epsg:${epsg}/${x}/${y}';
+
+/**
+ * @private
+ * @const
+ * @type {string}
+ */
+nyc.info.Info.NEAREST_URL = 'http://10.155.206.37/nearest/${distance}/${namespace}:${layer}/epsg:${epsg}/${x}/${y}';
 

@@ -2,10 +2,11 @@
 	position: absolute;
 	z-index: 100;
 } 
-.ctl-btn {
+.ctl-btn.ui-btn {
 	width: 35px;
 	height: 35px;
 	margin: 0;
+	padding: 0;
 }
 .ctl-btn.ui-btn, .ctl-btn.ui-btn:visited {
 	background-color: var(--theme-ctl-bg-color);
@@ -19,4 +20,8 @@
 }
 .noshow {
 	display: none;
+}
+.ui-btn {
+	padding: 8px 3px;
+	box-shadow: none;
 }

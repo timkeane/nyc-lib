@@ -25,6 +25,9 @@ div.mnu-fade *, div.fade-status div {
 .mnu-fade td {
 	width: 50%;
 }
+ul.fade-choices, ol.fade-choices {
+	min-height: 404px;
+}
 ul.fade-choices {
 	margin-right: 1px;
 }

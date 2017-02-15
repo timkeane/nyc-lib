@@ -99,7 +99,29 @@ nyc.util = {
 			str = (chr || '0') + str;
 		}
 		return str;
-	}
+	},
+	/**
+	 * @desc A function format phone numbers
+	 * @public
+	 * @static
+	 * @function
+	 * @param {string} phone The phone number
+	 * @return {string}
+	 */
+	formatPhone: function(phone) {
+		var formatted = ('' + phone).replace(/[^a-zA-Z0-9.]+/g, '');
+		if (formatted.length < 10){
+			return phone;
+		}
+		if (formatted.length > 10){
+			if (formatted.length == 11 && formatted.substr(0, 1)){
+				formatted = formatted.substr(1);
+			}else{
+				return phone;
+			}
+		}
+		return '(' + formatted.substr(0, 3) + ') ' + formatted.substr(3, 3) + '-' + formatted.substr(6, 4);
+	}	
 };
 
 /**

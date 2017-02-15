@@ -5,7 +5,7 @@ QUnit.module('nyc.LocationMgr', {
 		var source = new ol.source.Vector();
 		var layer = new ol.layer.Vector({source: source});
 		var geocoder = new nyc.Geoclient(
-				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=YOUR_APP_KEY&app_id=YOUR_APP_ID',
+				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example',
 				'EPSG:4326'
 			);
 
