@@ -2,7 +2,7 @@
 	position: absolute;
 	z-index: 100;
 } 
-.ctl-btn.ui-btn {
+a.ctl-btn.ui-btn {
 	width: 35px;
 	height: 35px;
 	margin: 0;
