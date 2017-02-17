@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+	<title>OpenLayers Example</title>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.20.1/ol.css" rel="stylesheet">
+	<!-- nyc css -->
+	<link rel="stylesheet" href="../src/main/css/nyc-base.css"> 
+	<link rel="stylesheet" href="../src/main/css/control-common.css"> 
+	<link rel="stylesheet" href="../src/main/css/dialog.css"> 
+	<link rel="stylesheet" href="../src/main/css/zoomsearch.css"> 
+	<!-- nyc css -->
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.20.1/ol.js"></script>
+	<!-- nyc js -->
+	<script src="../src/main/js/nyc/nyc.js"></script>
+	<script src="../src/main/js/nyc/util.js"></script>
+	<script src="../src/main/js/nyc/dialog.js"></script>
+	<script src="../src/main/js/nyc/info/info.js"></script>	
+	<script src="../src/main/js/nyc/locate.js"></script>
+	<script src="../src/main/js/nyc/locationmgr.js"></script>
+	<script src="../src/main/js/nyc/geocoder.js"></script>
+	<script src="../src/main/js/nyc/ctlcontainer.js"></script>
+	<script src="../src/main/js/nyc/zoomsearch.js"></script>
+	<script src="../src/main/js/nyc/ol/ol.js"></script>
+	<script src="../src/main/js/nyc/ol/source/arcgiscache.js"></script>
+	<script src="../src/main/js/nyc/ol/layer/baselayer.js"></script>
+	<script src="../src/main/js/nyc/ol/locate.js"></script>
+	<script src="../src/main/js/nyc/ol/locator.js"></script>
+	<script src="../src/main/js/nyc/ol/control/zoomsearch.js"></script>
+	<script src="../src/main/js/nyc/ol/style/pattern.js"></script>
+	<!-- nyc js -->
+	
+	<style>
+		 #map {
+		 	position: fixed;
+		 	top: 0;
+		 	left: 0;
+		 	bottom: 0;
+		 	right: 0;
+		 }
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+	<script>
+		var map;
+		$(document).ready(function(){
+			
+			map = new ol.Map({
+				target: $('#map').get(0),
+				layers: [new nyc.ol.layer.BaseLayer()],
+				view: new ol.View({
+					projection: 'EPSG:2263',
+					resolutions: nyc.ol.layer.BaseLayer.RESOLUTIONS
+				})
+			});
+			map.getView().fit(nyc.ol.EXTENT, map.getSize());
+			
+			/* See README.md for getting your GeoClient App Id and App Key */
+			var geocoder = new nyc.Geoclient(
+				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example',
+				'EPSG:2263'
+			);
+
+			var mgr = new nyc.LocationMgr({
+				controls: new nyc.ol.control.ZoomSearch(map),
+				locate: new nyc.ol.Locate(geocoder, 'EPSG:2263'),
+				locator: new nyc.ol.Locator({map: map, info: new nyc.info.Info()})
+			});
+			
+			mgr.on(nyc.Locate.EventType.GEOCODE, function(result){
+				console.info(result);
+			});
+
+		});
+	</script>
+</body>
+</html>

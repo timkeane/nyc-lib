@@ -2,19 +2,15 @@ QUnit.module('nyc.LocationMgr', {
 	beforeEach: function(assert){
 		setup(assert, this);
 				
-		var source = new ol.source.Vector();
-		var layer = new ol.layer.Vector({source: source});
 		var geocoder = new nyc.Geoclient(
-				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example',
-				'EPSG:4326'
-			);
-
-		this.TEST_OL_MAP.addLayer(layer);
+			'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example',
+			'EPSG:4326'
+		);
 		
 		this.TEST_LOCATION_MGR = new nyc.LocationMgr({
 			controls: new nyc.ol.control.ZoomSearch(this.TEST_OL_MAP),
 			locate: new nyc.ol.Locate(geocoder, 'EPSG:2263'),
-			locator: new nyc.ol.Locator({map: this.TEST_OL_MAP, layer: layer})
+			locator: new nyc.ol.Locator({map: this.TEST_OL_MAP})
 		});
 
 	},

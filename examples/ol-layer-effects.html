@@ -27,6 +27,7 @@
 	<!-- nyc js -->
 	<script src="../src/main/js/nyc/nyc.js"></script>
 	<script src="../src/main/js/nyc/util.js"></script>
+	<script src="../src/main/js/nyc/info/info.js"></script>
 	<script src="../src/main/js/nyc/basemap.js"></script>
 	<script src="../src/main/js/nyc/dialog.js"></script>
 	<script src="../src/main/js/nyc/collapsible.js"></script>
@@ -49,6 +50,7 @@
 	<script src="../src/main/js/nyc/ol/control/layermgr.js"></script>
 	<script src="../src/main/js/nyc/ol/control/layerswipe.js"></script>
 	<script src="../src/main/js/nyc/ol/control/zoomsearch.js"></script>
+	<script src="../src/main/js/nyc/ol/style/pattern.js"></script>
 	<!-- nyc js -->
 
 	<style>
@@ -98,7 +100,7 @@
 			new nyc.LocationMgr({
 				controls: new nyc.ol.control.ZoomSearch(map),
 				locate: new nyc.ol.Locate(geocoder),
-				locator: new nyc.ol.Locator({map: map, layer: layer})
+				locator: new nyc.ol.Locator({map: map, info: new nyc.info.Info()})
 			});
 
 			swipe = new nyc.ol.control.LayerSwipe({map: map});

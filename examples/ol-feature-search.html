@@ -21,6 +21,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.20.1/ol.js"></script>
 	<!-- nyc js -->
 	<script src="../src/main/js/nyc/nyc.js"></script>
+	<script src="../src/main/js/nyc/util.js"></script>
 	<script src="../src/main/js/nyc/dialog.js"></script>
 	<script src="../src/main/js/nyc/locate.js"></script>
 	<script src="../src/main/js/nyc/geocoder.js"></script>
@@ -31,6 +32,7 @@
 	<script src="../src/main/js/nyc/ol/layer/baselayer.js"></script>
 	<script src="../src/main/js/nyc/ol/locate.js"></script>
 	<script src="../src/main/js/nyc/ol/control/zoomsearch.js"></script>
+	<script src="../src/main/js/nyc/ol/style/pattern.js"></script>
 	<!-- nyc js -->
 	
 	<style>
@@ -75,7 +77,7 @@
 			var locate = new nyc.ol.Locate(geocoder, 'EPSG:2263');
 			var controls = new nyc.ol.control.ZoomSearch(map);
 
-			controls.container().one('click', function(){
+			controls.getContainer().one('click', function(){
 				controls.setFeatures({
 					features: jsonSrc.getFeatures(),
 					featureTypeName: 'IDNYC'

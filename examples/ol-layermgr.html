@@ -51,6 +51,7 @@
 	<script src="../src/main/js/nyc/ol/control/layermgr.js"></script>
 	<script src="../src/main/js/nyc/ol/control/zoomsearch.js"></script>
 	<script src="../src/main/js/nyc/ol/style/mvt.js"></script>
+	<script src="../src/main/js/nyc/ol/style/pattern.js"></script>
 	<!-- nyc js -->
 
 	<script src="../src/main/js/nyc/ol/layer/group.js"></script>
@@ -77,9 +78,6 @@
 
 			map = new nyc.ol.Basemap({target: $('#map').get(0)});
 			
-			var layer = new ol.layer.Vector({source: new ol.source.Vector()});
-			map.addLayer(layer);
-			
 			/* See README.md for getting your GeoClient App Id and App Key */
 			var geocoder = new nyc.Geoclient(
 				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
@@ -88,7 +86,7 @@
 			new nyc.LocationMgr({
 				controls: new nyc.ol.control.ZoomSearch(map),
 				locate: new nyc.ol.Locate(geocoder),
-				locator: new nyc.ol.Locator({map: map, layer: layer})
+				locator: new nyc.ol.Locator({map: map})
 			});
 
 			mgr = new nyc.ol.control.LayerMgr({

@@ -11,15 +11,26 @@ nyc.ol = nyc.ol || {};
  */
 nyc.ol.Locator = function(options){
 	this.map = options.map;
+	this.info = options.info;
 	this.view = this.map.getView();
-	this.layerSource = options.layer.getSource();
+	this.createLayer(options.style);
 	this.zoom = options.zoom !== undefined ? options.zoom : nyc.ol.Locate.ZOOM_LEVEL;
-	this.geoJsonFormat = new ol.format.GeoJSON({
+	this.format = new ol.format.GeoJSON({
 		projection: this.view.getProjection()
 	});
 };
 
 nyc.ol.Locator.prototype = {
+	/**
+	 * @public
+	 * @member {ol.layer.Vector}
+	 */
+	layer: null,
+	/**
+	 * @private
+	 * @member {ol.source.Vector}
+	 */
+	source: null,
 	/**
 	 * @private
 	 * @member {ol.Map}
@@ -32,14 +43,14 @@ nyc.ol.Locator.prototype = {
 	view: null,
 	/**
 	 * @private
-	 * @member {ol.source.Vector}
+	 * @member {nyc.info.Info}
 	 */
-	layerSource: null,
+	info: null,
 	/**
 	 * @private
 	 * @member {ol.format.GeoJSON}
 	 */
-	geoJsonFormat: null,
+	format: null,
 	/**
 	 * @public
 	 * @override
@@ -49,16 +60,16 @@ nyc.ol.Locator.prototype = {
 	 */
 	zoomLocation: function(data, callback){
 		var feature = this.feature(data), geom = feature.getGeometry();
-		this.layerSource.clear();
-		this.layerSource.addFeature(feature);
+		this.source.clear();
+		this.source.addFeature(feature);
 		this.map.once('moveend', callback);
 		this.map.beforeRender(
 			ol.animation.zoom({resolution: this.view.getResolution()}), 
 			ol.animation.pan({source: this.view.getCenter()})
 		);
-		if (geom.getType() == 'Point'){
+		if (!geom || geom.getType() == 'Point'){
 			this.view.setZoom(this.zoom);
-			this.view.setCenter(geom.getCoordinates());			
+			this.view.setCenter(data.coordinates);			
 		}else{
 			this.view.fit(geom.getExtent(), this.map.getSize());
 		}
@@ -66,26 +77,67 @@ nyc.ol.Locator.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {nyc.Locate.Result} data
+	 * @param {nyc.Locate.Result} location
 	 * @return {ol.Feature}
 	 */
-	 feature: function(data){		 
-		 var geoJson = data.geoJsonGeometry, geom;
-		 if (geoJson){
-			 geom = this.geoJsonFormat.readGeometry(data.geoJsonGeometry);
-		 }else{
-			 geom = new ol.geom.Point(data.coordinates);
-		 }
-		 return new ol.Feature({geometry: geom, name: data.name, isFeature: geoJson !== undefined});
-	 }
+	feature: function(location){		 
+		var format = this.format, geoJson = location.geoJsonGeometry, feature = new ol.Feature({name: location.name});
+		if (geoJson){
+			feature.setGeometry(format.readGeometry(location.geoJsonGeometry));
+		}else{
+			feature.setGeometry(new ol.geom.Point(location.coordinates));				 
+			if (this.info){
+				var binOrBbl = location.data.buildingIdentificationNumber || location.data.bbl;
+				if (binOrBbl){
+					this.info.info({
+						binOrBbl: binOrBbl, 
+						projection: this.view.getProjection().getCode(),
+						callback: function(resp){
+							var feat = resp.features[0];
+							if (feat){
+								feature.setGeometry(format.readGeometry(feat.geometry)); 
+							}
+						}
+					});
+				}
+			}
+		}
+		return feature;
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {ol.style.Style} style
+	 */
+	createLayer: function(style){
+		if (!style){
+			var icon = new ol.style.Icon({
+				scale: 48 / 512,
+				src: 'img/me' +  (nyc.util.isIe() || nyc.util.isIos() ? '.png' : '.svg')
+			});
+			var stroke = new ol.style.Stroke({
+				width: 2,
+				color: '#000'
+			});
+			var fill = new nyc.ol.style.PatternFill({image: nyc.ol.style.PatternFill.Pattern.DOT9, opacity: .2});
+			style = new ol.style.Style({image: icon, stroke: stroke, fill: fill})
+		}
+		this.source = new ol.source.Vector();
+		this.layer = new ol.layer.Vector({
+			source: this.source,
+			style: style
+		});
+		this.map.addLayer(this.layer);
+	}
 };
 
 /**
- * @desc Object type to hold constructor options for {@link nyc.leaf.Locator}
+ * @desc Object type to hold constructor options for {@link nyc.ol.Locator}
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The map on which location will be managed
- * @property {ol.layer.Vector} layer The layer on which user-specified locations will be displayed
+ * @property {ol.style.Style=} style The style for the layer on which user-specified locations will be displayed
+ * @property {nyc.info.Info=} info Building or tax lot feature finder  
  * @property {number} [zoom={@link nyc.ol.Locate.ZOOM_LEVEL}] The zoom level used when locating coordinates
  */
 nyc.ol.Locator.Options;

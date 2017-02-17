@@ -29,6 +29,7 @@
 	<!-- nyc js -->
 	<script src="../src/main/js/nyc/nyc.js"></script>
 	<script src="../src/main/js/nyc/util.js"></script>
+	<script src="../src/main/js/nyc/content.js"></script>
 	<script src="../src/main/js/nyc/basemap.js"></script>
 	<script src="../src/main/js/nyc/dialog.js"></script>
 	<script src="../src/main/js/nyc/collapsible.js"></script>
@@ -43,12 +44,15 @@
 	<script src="../src/main/js/nyc/zoomsearch.js"></script>
 	<script src="../src/main/js/nyc/ol/ol.js"></script>
 	<script src="../src/main/js/nyc/ol/basemap.js"></script>
+	<script src="../src/main/js/nyc/ol/featuretip.js"></script>
 	<script src="../src/main/js/nyc/ol/locate.js"></script>
 	<script src="../src/main/js/nyc/ol/locator.js"></script>
+	<script src="../src/main/js/nyc/ol/popup.js"></script>
 	<script src="../src/main/js/nyc/ol/control/layerpicker.js"></script>
 	<script src="../src/main/js/nyc/ol/control/layermgr.js"></script>
 	<script src="../src/main/js/nyc/ol/control/zoomsearch.js"></script>
 	<script src="../src/main/js/nyc/ol/style/mvt.js"></script>
+	<script src="../src/main/js/nyc/ol/style/pattern.js"></script>
 	<!-- nyc js -->
 
 	<script src="../src/main/js/nyc/ol/layer/group.js"></script>
@@ -73,36 +77,23 @@
 <body>
 	<div id="map"></div>
 	<script>
-		var map, plowLayers, transitLayers;
+		var map, transitLayers;
 
 		$(document).ready(function(){
 
 			map = new nyc.ol.Basemap({target: $('#map').get(0)});
 			
-			//plowLayers = nyc.ol.layer.plow.addGroupTo(map);
-			transitLayers = new nyc.ol.layer.transit.Transit(map);
+			transitLayers = new nyc.ol.layer.transit.Group(map);
 			
 			/* See README.md for getting your GeoClient App Id and App Key */
 			var geocoder = new nyc.Geoclient(
 				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
 			);
 
-			var locLyr = new ol.layer.Vector({
-				source: new ol.source.Vector(),
-				zIndex: 2000,
-				style: [new ol.style.Style({
-					image: new ol.style.Icon({
-						scale: 48 / 512,
-						src: 'img/me' +  (nyc.util.isIe() || nyc.util.isIos() ? '.png' : '.svg')
-					})
-				})]
-			});
-			map.addLayer(locLyr);
-
 			new nyc.LocationMgr({
 				controls: new nyc.ol.control.ZoomSearch(map),
 				locate: new nyc.ol.Locate(geocoder),
-				locator: new nyc.ol.Locator({map: map, layer: locLyr})
+				locator: new nyc.ol.Locator({map: map})
 			});
 
 			new nyc.ol.control.LayerMgr({map: map});

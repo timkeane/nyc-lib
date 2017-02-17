@@ -287,32 +287,32 @@ nyc.info.Info.NearestRequest;
  * @const
  * @type {string}
  */
-nyc.info.Info.INFO_POINT_URL = 'http://10.155.206.37/info/epsg:${epsg}/coord/${x}/${y}';
+nyc.info.Info.INFO_POINT_URL = 'https://10.155.206.37/info/epsg:${epsg}/coord/${x}/${y}';
 /**
  * @private
  * @const
  * @type {string}
  */
-nyc.info.Info.INFO_BIN_URL = 'http://10.155.206.37/info/epsg:${epsg}/bin/${binOrBbl}';
+nyc.info.Info.INFO_BIN_URL = 'https://10.155.206.37/info/epsg:${epsg}/bin/${binOrBbl}';
 
 /**
  * @private
  * @const
  * @type {string}
  */
-nyc.info.Info.INFO_BBL_URL = 'http://10.155.206.37/info/epsg:${epsg}/bbl/${binOrBbl}';
+nyc.info.Info.INFO_BBL_URL = 'https://10.155.206.37/info/epsg:${epsg}/bbl/${binOrBbl}';
 
 /**
  * @private
  * @const
  * @type {string}
  */
-nyc.info.Info.PROXIMITY_URL = 'http://10.155.206.37/proximity/address/${distance}/epsg:${epsg}/${x}/${y}';
+nyc.info.Info.PROXIMITY_URL = 'https://10.155.206.37/proximity/address/${distance}/epsg:${epsg}/${x}/${y}';
 
 /**
  * @private
  * @const
  * @type {string}
  */
-nyc.info.Info.NEAREST_URL = 'http://10.155.206.37/nearest/${distance}/${namespace}:${layer}/epsg:${epsg}/${x}/${y}';
+nyc.info.Info.NEAREST_URL = 'https://10.155.206.37/nearest/${distance}/${namespace}:${layer}/epsg:${epsg}/${x}/${y}';
 

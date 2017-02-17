@@ -302,16 +302,10 @@ $(document).ready(function(){
 		'EPSG:2263'
 	);
 
-	var locationLayer = new ol.layer.Vector({
-		source: new ol.source.Vector(),
-		style: [locationStyle]
-	});
-	map.addLayer(locationLayer);
-
 	var locMgr = new nyc.LocationMgr({
 		controls: new nyc.ol.control.ZoomSearch(map),
 		locate: new nyc.ol.Locate(geocoder, 'EPSG:2263'),
-		locator: new nyc.ol.Locator({map: map, layer: locationLayer}),
+		locator: new nyc.ol.Locator({map: map}),
 		autoLocate: config.autoLocate
 	});
 	locMgr.on('geocode', sortFacilities);
