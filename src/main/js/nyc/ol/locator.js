@@ -43,7 +43,7 @@ nyc.ol.Locator.prototype = {
 	view: null,
 	/**
 	 * @private
-	 * @member {nyc.info.Info}
+	 * @member {nyc.info.Finder}
 	 */
 	info: null,
 	/**
@@ -160,7 +160,7 @@ nyc.ol.Locator.prototype = {
  * @typedef {Object}
  * @property {ol.Map} map The map on which location will be managed
  * @property {ol.style.Style=} style The style for the layer on which user-specified locations will be displayed
- * @property {nyc.info.Info=} info Building or tax lot feature finder  
+ * @property {nyc.info.Finder=} info Building or tax lot feature finder  
  * @property {number} [zoom={@link nyc.ol.Locate.ZOOM_LEVEL}] The zoom level used when locating coordinates
  */
 nyc.ol.Locator.Options;

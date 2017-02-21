@@ -100,7 +100,7 @@
 			new nyc.LocationMgr({
 				controls: new nyc.ol.control.ZoomSearch(map),
 				locate: new nyc.ol.Locate(geocoder),
-				locator: new nyc.ol.Locator({map: map, info: new nyc.info.Info()})
+				locator: new nyc.ol.Locator({map: map, info: new nyc.info.Finder()})
 			});
 
 			swipe = new nyc.ol.control.LayerSwipe({map: map});

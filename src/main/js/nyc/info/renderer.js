@@ -15,13 +15,13 @@ nyc.info.Renderer = function(options){
 	options = options || {};
 	this.defaultTemplate = options.defaultTemplate || nyc.info.Renderer.DEFAULT_TEMPLATE;
 	this.extraTemplates = options.extraTemplates || [];
-	this.proximityInfo = new nyc.info.Info();	
+	this.proximityInfo = new nyc.info.Finder();	
 };
 
 nyc.info.Renderer.prototype = {
 	/**
 	 * @private
-	 * @member {nyc.info.Info}
+	 * @member {nyc.info.Finder}
 	 */
 	proximityInfo: null,
 	/** 

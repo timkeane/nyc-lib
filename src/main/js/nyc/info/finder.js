@@ -13,26 +13,26 @@ nyc.info = nyc.info || {};
  * @extends {nyc.EventHandling}
  * @mixes nyc.ReplaceTokens
  * @constructor
- * @fires nyc.info.Info#info
- * @fires nyc.info.Info#proximity
+ * @fires nyc.info.Finder#info
+ * @fires nyc.info.Finder#proximity
  */
-nyc.info.Info = function(){};
+nyc.info.Finder = function(){};
 
-nyc.info.Info.prototype = {
+nyc.info.Finder.prototype = {
 	/**
 	 * @desc Return all featues of the specified layer within a the specified distance of a point
 	 * @public
 	 * @method
-	 * @param {nyc.info.Info.NearestRequest} options
+	 * @param {nyc.info.Finder.NearestRequest} options
 	 */
 	nearest: function(options){
-		this.ajax(nyc.info.Info.NEAREST_URL, this.getValues(options));
+		this.ajax(nyc.info.Finder.NEAREST_URL, this.getValues(options));
 	},
 	/**
 	 * @desc Return all building and tax lot features at a point
 	 * @public
 	 * @method
-	 * @param {nyc.info.Info.PointRequest|nyc.info.Info.BinBblRequest} options
+	 * @param {nyc.info.Finder.PointRequest|nyc.info.Finder.BinBblRequest} options
 	 */
 	info: function(options){
 		this.whichInfo(this.getValues(options))
@@ -41,29 +41,29 @@ nyc.info.Info.prototype = {
 	 * @desc Return all address features within a distance of a point
 	 * @public
 	 * @method
-	 * @param {nyc.info.Info.ProximityRequest} options
+	 * @param {nyc.info.Finder.ProximityRequest} options
 	 */
 	proximity: function(x, y, distance, epsg){
-		this.ajax(nyc.info.Info.PROXIMITY_URL, this.getValues(options));
+		this.ajax(nyc.info.Finder.PROXIMITY_URL, this.getValues(options));
 	},
 	/**
 	 * @private
 	 * @method
-	 * @param {nyc.info.Info.PointRequest|nyc.info.Info.BinBblRequest} options
+	 * @param {nyc.info.Finder.PointRequest|nyc.info.Finder.BinBblRequest} options
 	 */
 	whichInfo: function(options){
 		if (!options.binOrBbl){
-			this.ajax(nyc.info.Info.INFO_POINT_URL, options);
+			this.ajax(nyc.info.Finder.INFO_POINT_URL, options);
 		}else if (options.binOrBbl.length == 7){
-			this.ajax(nyc.info.Info.INFO_BIN_URL, options);
+			this.ajax(nyc.info.Finder.INFO_BIN_URL, options);
 		}else{
-			this.ajax(nyc.info.Info.INFO_BBL_URL, options);
+			this.ajax(nyc.info.Finder.INFO_BBL_URL, options);
 		}
 	},
 	/**
 	 * @private
 	 * @method
-	 * @param {nyc.info.Info.PointRequest|nyc.info.Info.ProximityRequest} options
+	 * @param {nyc.info.Finder.PointRequest|nyc.info.Finder.ProximityRequest} options
 	 * @return {Object}
 	 */
 	getValues: function(options){
@@ -92,7 +92,7 @@ nyc.info.Info.prototype = {
 	 * @private
 	 * @method
 	 * @param {string} url
-	 * @param {nyc.info.Info.PointRequest|nyc.info.Info.ProximityRequest} options
+	 * @param {nyc.info.Finder.PointRequest|nyc.info.Finder.ProximityRequest} options
 	 */
 	ajax: function(url, options){
 		var me = this;
@@ -113,25 +113,25 @@ nyc.info.Info.prototype = {
 	 * @param {string} url
 	 */
 	eventType: function(url){
-		if (url == nyc.info.Info.PROXIMITY_URL){
-			return nyc.info.Info.EventType.PROXIMITY
+		if (url == nyc.info.Finder.PROXIMITY_URL){
+			return nyc.info.Finder.EventType.PROXIMITY
 		}
-		if (url == nyc.info.Info.NEAREST_URL){
-			return nyc.info.Info.EventType.NEAREST
+		if (url == nyc.info.Finder.NEAREST_URL){
+			return nyc.info.Finder.EventType.NEAREST
 		}
-		return nyc.info.Info.EventType.INFO;
+		return nyc.info.Finder.EventType.INFO;
 	}
 };
 
-nyc.inherits(nyc.info.Info, nyc.EventHandling);
-nyc.inherits(nyc.info.Info, nyc.ReplaceTokens);
+nyc.inherits(nyc.info.Finder, nyc.EventHandling);
+nyc.inherits(nyc.info.Finder, nyc.ReplaceTokens);
 
 /**
  * @desc Valid distances for address proximity searches
  * @public
  * @enum {string}
  */
-nyc.info.Info.PROXIMITY_DISTANCE = {
+nyc.info.Finder.PROXIMITY_DISTANCE = {
 		/**
 		 * @desc 50 feet
 		 */
@@ -171,7 +171,7 @@ nyc.info.Info.PROXIMITY_DISTANCE = {
  * @public
  * @enum {number}
  */
-nyc.info.Info.NEAREST_DISTANCE = {
+nyc.info.Finder.NEAREST_DISTANCE = {
 		/**
 		 * @desc 500 feet
 		 */
@@ -211,7 +211,7 @@ nyc.info.Info.NEAREST_DISTANCE = {
  * @public
  * @enum {string}
  */
-nyc.info.Info.EventType = {
+nyc.info.Finder.EventType = {
 	/**
 	 * @desc The info event type
 	 */
@@ -228,91 +228,91 @@ nyc.info.Info.EventType = {
 
 /**
  * @desc The result of a proximity request
- * @event nyc.info.Info#proximity
+ * @event nyc.info.Finder#proximity
  * @type {Object}
  */
 
 /**
  * @desc The result of a info request
- * @event nyc.info.Info#info
+ * @event nyc.info.Finder#info
  * @type {Object}
  */
 
 /**
- * @desc Object type to hold options for {@link nyc.info.Info#proximity}
+ * @desc Object type to hold options for {@link nyc.info.Finder#proximity}
  * @public
  * @typedef {Object}
  * @property {Array<number>} coordinates Coordinates
- * @property {nyc.info.Info.PROXIMITY_DISTANCE} [distance=100:feet] The distance  
+ * @property {nyc.info.Finder.PROXIMITY_DISTANCE} [distance=100:feet] The distance  
  * @property {string} [projection=EPSG:900913] The projection of input coordinates and output features 
  * @property {function(Object)=} callback Callback function that recieves GeoJSON FeatureCollection 
  */
-nyc.info.Info.ProximityRequest;
+nyc.info.Finder.ProximityRequest;
 
 /**
- * @desc Object type to hold options for {@link nyc.info.Info#info}
+ * @desc Object type to hold options for {@link nyc.info.Finder#info}
  * @public
  * @typedef {Object}
  * @property {Array<number>} coordinates Coordinates
  * @property {string} [projection=EPSG:900913] The projection of input coordinates and output features 
  * @property {function(Object)=} callback Callback function that recieves GeoJSON FeatureCollection 
  */
-nyc.info.Info.PointRequest;
+nyc.info.Finder.PointRequest;
 
 /**
- * @desc Object type to hold options for {@link nyc.info.Info#info}
+ * @desc Object type to hold options for {@link nyc.info.Finder#info}
  * @public
  * @typedef {Object}
  * @property {string} binOrBbl A valid BIN or BBL 
  * @property {string} [projection=EPSG:900913] The projection of input coordinates and output features 
  * @property {function(Object)=} callback Callback function that receives GeoJSON FeatureCollection 
  */
-nyc.info.Info.BinBblRequest;
+nyc.info.Finder.BinBblRequest;
 
 /**
- * @desc Object type to hold options for {@link nyc.info.Info#nearest}
+ * @desc Object type to hold options for {@link nyc.info.Finder#nearest}
  * @public
  * @typedef {Object}
  * @property {Array<number>} coordinates Coordinates
  * @property {string} namespace The namespace for the layer 
  * @property {string} layer The layer name 
- * @property {nyc.info.Info.PROXIMITY_DISTANCE} [distance=1000:feet] The distance  
+ * @property {nyc.info.Finder.PROXIMITY_DISTANCE} [distance=1000:feet] The distance  
  * @property {string} [projection=EPSG:900913] The projection of input coordinates and output features 
  * @property {function(Object)=} callback Callback function that recieves GeoJSON FeatureCollection 
  */
-nyc.info.Info.NearestRequest;
+nyc.info.Finder.NearestRequest;
 
 /**
  * @private
  * @const
  * @type {string}
  */
-nyc.info.Info.INFO_POINT_URL = 'https://10.155.206.37/info/epsg:${epsg}/coord/${x}/${y}';
+nyc.info.Finder.INFO_POINT_URL = 'https://10.155.206.37/info/epsg:${epsg}/coord/${x}/${y}';
 /**
  * @private
  * @const
  * @type {string}
  */
-nyc.info.Info.INFO_BIN_URL = 'https://10.155.206.37/info/epsg:${epsg}/bin/${binOrBbl}';
+nyc.info.Finder.INFO_BIN_URL = 'https://10.155.206.37/info/epsg:${epsg}/bin/${binOrBbl}';
 
 /**
  * @private
  * @const
  * @type {string}
  */
-nyc.info.Info.INFO_BBL_URL = 'https://10.155.206.37/info/epsg:${epsg}/bbl/${binOrBbl}';
+nyc.info.Finder.INFO_BBL_URL = 'https://10.155.206.37/info/epsg:${epsg}/bbl/${binOrBbl}';
 
 /**
  * @private
  * @const
  * @type {string}
  */
-nyc.info.Info.PROXIMITY_URL = 'https://10.155.206.37/proximity/address/${distance}/epsg:${epsg}/${x}/${y}';
+nyc.info.Finder.PROXIMITY_URL = 'https://10.155.206.37/proximity/address/${distance}/epsg:${epsg}/${x}/${y}';
 
 /**
  * @private
  * @const
  * @type {string}
  */
-nyc.info.Info.NEAREST_URL = 'https://10.155.206.37/nearest/${distance}/${namespace}:${layer}/epsg:${epsg}/${x}/${y}';
+nyc.info.Finder.NEAREST_URL = 'https://10.155.206.37/nearest/${distance}/${namespace}:${layer}/epsg:${epsg}/${x}/${y}';
 
