@@ -81,8 +81,7 @@ nyc.ol.control.ZoomSearch.prototype = {
 	 */
 	zoom: function(event){
 		var view = this.view;
-		this.map.beforeRender(ol.animation.zoom({resolution: view.getResolution()}));
-		view.setZoom(view.getZoom() + $(event.target).data('zoom-incr'));
+		view.animate({zoom: view.getZoom() + $(event.target).data('zoom-incr')});
 	}
 };
 

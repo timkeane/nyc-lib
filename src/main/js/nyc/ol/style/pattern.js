@@ -32,11 +32,6 @@ nyc.ol.style.PatternFill.prototype.loaded = function(event){
 	ctx1.fillStyle = ctx1.createPattern(img, 'repeat');
 	ctx1.fillRect(0, 0, cnv1.width, cnv1.height);
 	this.setColor(ctx2.createPattern(cnv1, 'repeat'));
-	delete ctx1;
-	delete ctx2;
-	delete cnv1;
-	delete cnv2;
-	delete img;
 	this.trigger('ready', this);
 };
 

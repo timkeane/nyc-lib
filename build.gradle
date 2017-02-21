@@ -72,6 +72,7 @@ ext {
 		'nyc/info/info.js', 
 		'nyc/info/renderer.js', 
 		'nyc/ol/ol.js', 
+		'nyc/ol/style/style.js', 
 		'nyc/ol/style/mvt.js', 
 		'nyc/ol/style/pattern.js', 
 		'nyc/ol/basemap.js', 

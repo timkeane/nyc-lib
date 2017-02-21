@@ -52,6 +52,16 @@ nyc.ol.Locator.prototype = {
 	 */
 	format: null,
 	/**
+	 * @private
+	 * @member {ol.style.Style}
+	 */
+	pointStyle: null,
+	/**
+	 * @private
+	 * @member {ol.style.Style}
+	 */
+	anyStyle: null,
+	/**
 	 * @public
 	 * @override
 	 * @method
@@ -59,19 +69,14 @@ nyc.ol.Locator.prototype = {
 	 * @param {function()} callback The function to call after the locator has zoomed to the location
 	 */
 	zoomLocation: function(data, callback){
-		var feature = this.feature(data), geom = feature.getGeometry();
-		this.source.clear();
-		this.source.addFeature(feature);
-		this.map.once('moveend', callback);
-		this.map.beforeRender(
-			ol.animation.zoom({resolution: this.view.getResolution()}), 
-			ol.animation.pan({source: this.view.getCenter()})
-		);
+		var map = this.map, view = this.view, source= this.source, feature = this.feature(data), geom = feature.getGeometry();
+		source.clear();
+		source.addFeature(feature);
+		map.once('moveend', callback);
 		if (!geom || geom.getType() == 'Point'){
-			this.view.setZoom(this.zoom);
-			this.view.setCenter(data.coordinates);			
+			view.animate({center: data.coordinates, zoom: this.zoom});
 		}else{
-			this.view.fit(geom.getExtent(), this.map.getSize());
+			view.fit(geom.getExtent(), map.getSize());
 		}
 	},
 	/**
@@ -107,27 +112,45 @@ nyc.ol.Locator.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {ol.style.Style} style
+	 * @param {ol.style.Style|Array<ol.style.Style>|ol.StyleFunction=} style
 	 */
 	createLayer: function(style){
-		if (!style){
-			var icon = new ol.style.Icon({
-				scale: 48 / 512,
-				src: 'img/me' +  (nyc.util.isIe() || nyc.util.isIos() ? '.png' : '.svg')
-			});
-			var stroke = new ol.style.Stroke({
-				width: 2,
-				color: '#000'
-			});
-			var fill = new nyc.ol.style.PatternFill({image: nyc.ol.style.PatternFill.Pattern.DOT9, opacity: .2});
-			style = new ol.style.Style({image: icon, stroke: stroke, fill: fill})
-		}
+		if (!style) this.createStyle();
 		this.source = new ol.source.Vector();
 		this.layer = new ol.layer.Vector({
 			source: this.source,
-			style: style
+			style: style || $.proxy(this.style, this)
 		});
 		this.map.addLayer(this.layer);
+	},
+	/**
+	 * @private
+	 * @method
+	 */
+	createStyle: function(){
+		var icon = nyc.ol.style.LOCATION_ICON;
+		var stroke = new ol.style.Stroke({
+			width: 2,
+			color: '#000'
+		});
+		var fill = new nyc.ol.style.PatternFill({image: nyc.ol.style.PatternFill.Pattern.DOT9, opacity: .2});		
+		this.anyStyle = new ol.style.Style({image: icon, stroke: stroke, fill: fill});
+		this.pointStyle = new ol.style.Style({image: icon});
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {ol.Feature} feature
+	 * @param {number} resolution
+	 */
+	style: function(feature, resolution){
+		if (resolution < 2){
+			return this.anyStyle;
+		}else{
+			var center = ol.extent.getCenter(feature.getGeometry().getExtent());
+			this.pointStyle.setGeometry(new ol.geom.Point(center));
+			return this.pointStyle;
+		}
 	}
 };
 

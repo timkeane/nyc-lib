@@ -64,12 +64,7 @@ function selectFacility(feature, row){
 function zoomToFacility(feature, row){
 	var view = map.getView(), geom = feature.getGeometry();
 	selectFacility(feature, row);
-	map.beforeRender(
-		ol.animation.zoom({resolution: view.getResolution()}), 
-		ol.animation.pan({source: view.getCenter()})
-	);
-	view.setZoom(7);
-	view.setCenter(geom.getCoordinates());
+	view.animate({center: geom.getCoordinates(), zoom: 7});
 };
 
 function rowClick(event){
