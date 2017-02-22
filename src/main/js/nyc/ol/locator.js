@@ -72,7 +72,9 @@ nyc.ol.Locator.prototype = {
 		var map = this.map, view = this.view, source= this.source, feature = this.feature(data), geom = feature.getGeometry();
 		source.clear();
 		source.addFeature(feature);
-		map.once('moveend', callback);
+		if (callback){
+			map.once('moveend', callback);
+		}
 		if (!geom || geom.getType() == 'Point'){
 			view.animate({center: data.coordinates, zoom: this.zoom});
 		}else{

@@ -44,6 +44,7 @@ div.popup {
 }
 .popup-content {
 	margin: 5px 25px 10px 10px;
+	width: 265px;
 }
 a.popup-closer, a.popup-closer:visited {
 	position: absolute;

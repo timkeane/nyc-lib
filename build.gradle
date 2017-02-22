@@ -184,7 +184,6 @@ ext {
 		'legend.css', 
 		'mapmenu.css', 
 		'ol-popup.css', 
-		'info-renderer.css', 
 		'share.css', 
 		'zoomsearch.css'
 	]
@@ -201,7 +200,6 @@ ext {
 		'directions.css', 
 		'lang.css', 
 		'legend.css', 
-		'info-renderer.css', 
 		'share.css', 
 		'zoomsearch.css'
 	]
@@ -214,7 +212,6 @@ ext {
 		'directions.css', 
 		'lang.css', 
 		'legend.css', 
-		'info-renderer.css', 
 		'share.css', 
 		'carto-popup.css', 
 		'zoomsearch.css'

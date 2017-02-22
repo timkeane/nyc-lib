@@ -62,7 +62,7 @@ nyc.info.Renderer.prototype = {
 			extraHtml: [],
 			data: props
 		};
-		result.allHtml = result.defaultHtml + '<div class="prp-content" data-role="collapsible-set">';
+		result.allHtml = result.defaultHtml + '<div class="info-content" data-role="collapsible-set">';
 		$.each(this.extraTemplates, function(_, tmpl){
 			var html = me.replace(tmpl, props);
 			result.extraHtml.push(html);
@@ -130,10 +130,10 @@ nyc.info.Renderer.Options;
  */
 nyc.info.Renderer.Request;
 
-nyc.info.Renderer.DEFAULT_TEMPLATE = '<div class="prp-title"><div class="prp-fld">${ADDRESS}<br>${BOROUGH_NAME}, NY ${ZIPCODE}</div></div>'; 
+nyc.info.Renderer.DEFAULT_TEMPLATE = '<span class="info-fld">${ADDRESS}<br>${BOROUGH_NAME}, NY ${ZIPCODE}</span>'; 
 
-nyc.info.Renderer.CREDIT_TEMPLATE = '<div class="prp-content">' +
-	'<span class="prp-credit">' + 
+nyc.info.Renderer.CREDIT_TEMPLATE = '<div class="info-content">' +
+	'<span class="info-credit">' + 
 		'Source: <a href="http://www1.nyc.gov/site/planning/data-maps/open-data.page" target="_blank">Dept. of City Planning, PLUTO ${VERSION}</a>' + 
 	'</span>' + 
 '</div>';

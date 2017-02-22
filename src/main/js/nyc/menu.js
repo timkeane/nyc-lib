@@ -20,17 +20,19 @@ nyc.Menu.prototype = {
 	 * @desc Close all other menus and toggle this menu
 	 * @public
 	 * @method
+	 * @param {function()=} callback
 	 */
-	toggleMenu: function(){
+	toggleMenu: function(callback){
+		callback = callback || function(){};
 		var mnu = this.menu;
 		if (mnu){
 			var open = $('.ctl-mnu-tgl:visible').not($(mnu));
 			if (open.length){
 				open.slideUp(function(){
-					$(mnu).slideToggle();
+					$(mnu).slideToggle(callback);
 				});						
 			}else{
-				$(mnu).slideToggle();
+				$(mnu).slideToggle(callback);
 			}
 		}
 	}
