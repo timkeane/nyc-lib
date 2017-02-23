@@ -82,6 +82,16 @@ nyc.ol.Locator.prototype = {
 		}
 	},
 	/**
+	 * @public
+	 * @override
+	 * @method
+	 * @param {nyc.Locate.Result} data The data to set as the location
+	 */
+	setLocation: function(data){
+		this.source.clear();
+		this.source.addFeature(this.feature(data));
+	},
+	/**
 	 * @private
 	 * @method
 	 * @param {nyc.Locate.Result} location

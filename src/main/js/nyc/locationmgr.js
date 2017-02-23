@@ -53,6 +53,15 @@ nyc.LocationMgr.prototype = {
 	 * @member {boolean}
 	 */
 	autoLocate: false,
+	/**
+	 * @desc Geocode an input string representing a location
+	 * @public
+	 * @method
+	 * @param {nyc.Locate.Result} data The location
+	 */
+	setLocation: function(data){
+		this.locator.setLocation(data);
+	},
 	/** 
 	 * @private 
 	 * @method

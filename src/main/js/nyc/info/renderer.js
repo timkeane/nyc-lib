@@ -54,13 +54,18 @@ nyc.info.Renderer.prototype = {
 	/**
 	 * @private
 	 * @method
+	 * @param {Object<string, Object>} props
+	 * @param {Object} building
+	 * @param {Object} taxlot
 	 */
-	render: function(props){
+	render: function(props, building, taxlot){
 		var me = this, result = {
 			creditHtml:  me.replace(nyc.info.Renderer.CREDIT_TEMPLATE, props),
 			defaultHtml: me.replace(me.defaultTemplate, props),
 			extraHtml: [],
-			data: props
+			data: props,
+			building: building,
+			taxlot: taxlot
 		};
 		result.allHtml = result.defaultHtml + '<div class="info-content" data-role="collapsible-set">';
 		$.each(this.extraTemplates, function(_, tmpl){
@@ -78,13 +83,16 @@ nyc.info.Renderer.prototype = {
 	 * @param {function(Object)} callback
 	 */
 	handleResp: function(response, callback){
-		var props;
+		var props, building, taxlot;
 		$.each(response.features, function(){
 			if (this.id.indexOf('TAXLOT') === 0){
+				taxlot = this;
 				props = this.properties;
+			}else{
+				building = this;
 			}
 		});
-		callback(props ? this.render(props) : {});
+		callback(props ? this.render(props, building, taxlot) : {});
 	}
 };
 
@@ -95,10 +103,12 @@ nyc.inherits(nyc.info.Renderer, nyc.ReplaceTokens);
  * @desc Object type to hold the results of an {@link nyc.info.Renderer#info}
  * @public
  * @typedef {Object}
- * @property {string} creditHtml  
- * @property {defaultHtml} defaultHtml
- * @property {Array<string>} extraHtml 
- * @property {Object} data 
+ * @property {string} creditHtml HTML crediting the source of the data
+ * @property {defaultHtml} defaultHtml HTML for the default feature info
+ * @property {Array<string>} extraHtml HTML for additional feature info
+ * @property {Object<string, Object>} data The data used to render the HTML
+ * @property {Object} building The BUILDING feature
+ * @property {Object} taxlot The TAXLOT feature
  */
 nyc.info.Renderer.Event;
 
