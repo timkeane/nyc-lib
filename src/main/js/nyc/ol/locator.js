@@ -75,7 +75,7 @@ nyc.ol.Locator.prototype = {
 		if (callback){
 			map.once('moveend', callback);
 		}
-		if (!geom || geom.getType() == 'Point'){
+		if (data.coordinates){
 			view.animate({center: data.coordinates, zoom: this.zoom});
 		}else{
 			view.fit(geom.getExtent(), map.getSize());
@@ -134,6 +134,13 @@ nyc.ol.Locator.prototype = {
 			style: style || $.proxy(this.style, this)
 		});
 		this.map.addLayer(this.layer);
+		new nyc.ol.FeatureTip(this.map, [{
+			layer: this.layer, 
+			labelFunction: function(){
+				console.warn(this);
+				return {text: this.get('name')};
+			}
+		}]);
 	},
 	/**
 	 * @private

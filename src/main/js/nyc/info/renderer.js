@@ -92,7 +92,7 @@ nyc.info.Renderer.prototype = {
 				building = this;
 			}
 		});
-		callback(props ? this.render(props, building, taxlot) : {});
+		callback(props ? this.render(props, building, taxlot) : null);
 	}
 };
 
