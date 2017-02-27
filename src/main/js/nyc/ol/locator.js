@@ -137,8 +137,10 @@ nyc.ol.Locator.prototype = {
 		new nyc.ol.FeatureTip(this.map, [{
 			layer: this.layer, 
 			labelFunction: function(){
-				console.warn(this);
-				return {text: this.get('name')};
+				return {
+					cssClass: 'nyc-user-location',
+					text: this.get('name')
+				};
 			}
 		}]);
 	},
