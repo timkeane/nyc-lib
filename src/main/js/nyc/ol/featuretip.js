@@ -69,7 +69,7 @@ nyc.ol.FeatureTip.prototype = {
 	label: function(event){
 			var px = this.map.getEventPixel(event.originalEvent),
 				lbl = this.map.forEachFeatureAtPixel(px, function(f, lyr){
-					return f && lyr.nycTip ? lyr.nycTip.call(f) : null;
+					return f && lyr && lyr.nycTip ? lyr.nycTip.call(f) : null;
 				});
 		if (lbl){
 			this.tip.html(lbl.text)
