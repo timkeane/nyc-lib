@@ -248,7 +248,7 @@ QUnit.test('getContainer target not provided', function(assert){
 });
 
 QUnit.test('render', function(assert){
-	assert.expect(6);
+	assert.expect(7);
 	var container = $('<div></div>');
 	$('body').append(container);
 	

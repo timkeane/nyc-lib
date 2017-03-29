@@ -88,7 +88,7 @@ nyc.Locate.ResultType = {
  * @property {number} accuracy The accuracy of the geocoded location in meters or units of a specified projection
  * @property {nyc.Locate.ResultType} type They type of result
  * @property {boolean=} zip Is this the geocoded location a ZIP Code center point
- * @property {Object=} geoJsonGeometry A geoJSON representation of the geocoded location coordinates
+ * @property {Object=} geometry A geoJSON representation of the geocoded location coordinates
  * @property {Object=} data Additional properties provided by the geocoder
  */
 nyc.Locate.Result;

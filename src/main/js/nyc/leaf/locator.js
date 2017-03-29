@@ -40,7 +40,7 @@ nyc.leaf.Locator.prototype = {
 	 * @param {function()} callback The function to call after the locator has zoomed to the location
 	 */
 	zoomLocation: function(data, callback){
-		var geoJson = data.geoJsonGeometry;
+		var geoJson = data.geometry;
 		if (this.layer){
 			this.map.removeLayer(this.layer);			
 		}
@@ -58,7 +58,7 @@ nyc.leaf.Locator.prototype = {
 	 */
 	locatedGeoJson: function(data){
 		this.layer = L.geoJson(
-			{type: 'Feature', geometry: data.geoJsonGeometry}, 
+			{type: 'Feature', geometry: data.geometry}, 
 			{style: this.style}
 		).addTo(this.map);
 		this.map.fitBounds(this.layer.getBounds());

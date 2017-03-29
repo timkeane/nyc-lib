@@ -74,7 +74,7 @@ QUnit.test('setFeatures (with menu, minimal options)', function(assert){
 		assert.deepEqual($(li).data('location'), {
 			name: features[i].properties.name,
 			coordinates: undefined,
-			geoJsonGeometry: features[i].geometry, 
+			geometry: features[i].geometry, 
 			data: features[i].properties,
 			accuracy: nyc.Geocoder.Accuracy.HIGH,
 			type: nyc.Locate.ResultType.GEOCODE
@@ -105,7 +105,7 @@ QUnit.test('setFeatures (without menu, all options)', function(assert){
 		assert.deepEqual($(li).data('location'), {
 			name: features[i].properties.name,
 			coordinates: undefined,
-			geoJsonGeometry: features[i].geometry, 
+			geometry: features[i].geometry, 
 			data: features[i].properties,
 			accuracy: nyc.Geocoder.Accuracy.HIGH,
 			type: nyc.Locate.ResultType.GEOCODE

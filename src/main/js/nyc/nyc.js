@@ -55,7 +55,7 @@ nyc.ReplaceTokens.prototype = {
 	 */
 	replace: function(str, values){
 		for (var name in values){
-			str = str.replace(new RegExp('\\$\\{' + name + '\\}', 'g'), values[name] || '');
+			str = str.replace(new RegExp('\\$\\{' + name + '\\}', 'g'), values[name] !== undefined ? values[name] : '');
 		}
 		return str;
 	}

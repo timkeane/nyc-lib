@@ -66,7 +66,7 @@ nyc.ol.control.ZoomSearch.prototype = {
 		return {
 			name: feature.get(options.nameField), 
 			coordinates: type == 'Point' ? geom.getCoordinates() : undefined,
-			geoJsonGeometry: JSON.parse(this.geoJson.writeGeometry(geom)), 
+			geometry: JSON.parse(this.geoJson.writeGeometry(geom)), 
 			data: data,
 			type: nyc.Locate.ResultType.GEOCODE,
 			accuracy: nyc.Geocoder.Accuracy.HIGH

@@ -41,7 +41,7 @@ QUnit.test('zoomLocation', function(assert){
 	};
 	locator.zoomLocation(
 		{
-			geoJsonGeometry: {
+			geometry: {
 				type: 'Polygon', coordinates: [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]]	
 			}
 		},

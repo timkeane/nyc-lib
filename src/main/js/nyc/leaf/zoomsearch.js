@@ -49,7 +49,7 @@ nyc.leaf.ZoomSearch.prototype = {
 		return {
 			name: data[options.nameField],
 			coordinates: geom.type == "Point" ? geom.coordinates : undefined,
-			geoJsonGeometry: geom, 
+			geometry: geom, 
 			data: data,
 			type: nyc.Locate.ResultType.GEOCODE,
 			accuracy: nyc.Geocoder.Accuracy.HIGH

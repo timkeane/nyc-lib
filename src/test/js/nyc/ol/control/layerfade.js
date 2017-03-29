@@ -702,7 +702,7 @@ QUnit.test('fadeIn (not lastFadeLayer)', function(assert){
 });
 
 QUnit.test('fadeIn (lastFadeLayer)', function(assert){
-	assert.expect(10);
+	assert.expect(11);
 
 	var done = assert.async();
 	
@@ -734,7 +734,7 @@ QUnit.test('fadeIn (lastFadeLayer)', function(assert){
 });
 
 QUnit.test('fadeOut (not lastFadeLayer)', function(assert){
-	assert.expect(11);
+	assert.expect(12);
 
 	var done = assert.async();
 	
@@ -766,7 +766,7 @@ QUnit.test('fadeOut (not lastFadeLayer)', function(assert){
 });
 
 QUnit.test('fadeOut (lastFadeLayer)', function(assert){
-	assert.expect(10);
+	assert.expect(11);
 
 	var done = assert.async();
 	

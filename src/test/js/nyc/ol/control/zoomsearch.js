@@ -7,15 +7,34 @@ QUnit.module('nyc.ol.control.ZoomSearch', {
 	}
 });
 
-QUnit.test('zoom', function(assert){
-	assert.expect(2);
-
+QUnit.test('zoom in', function(assert){
+	assert.expect(1);
+	var done = assert.async();
+	
+	var view = this.TEST_OL_MAP.getView();
 	var control = new nyc.ol.control.ZoomSearch(this.TEST_OL_MAP);
-	var zoom = this.TEST_OL_MAP.getView().getZoom();
-	 $(this.TEST_OL_MAP.getTarget()).find('.btn-z-in').trigger('click');
-	assert.equal(this.TEST_OL_MAP.getView().getZoom(), zoom + 1);
+	var zoom = view.getZoom();
+	$(this.TEST_OL_MAP.getTarget()).find('.btn-z-in').trigger('click');
+	
+	setTimeout(function(){
+		assert.equal(view.getZoom(), zoom + 1);
+		done();
+	}, 1500);
+});
+
+QUnit.test('zoom out', function(assert){
+	assert.expect(1);
+	var done = assert.async();
+	
+	var view = this.TEST_OL_MAP.getView();
+	var control = new nyc.ol.control.ZoomSearch(this.TEST_OL_MAP);
+	var zoom = view.getZoom();
 	$(this.TEST_OL_MAP.getTarget()).find('.btn-z-out').trigger('click');
-	assert.equal(this.TEST_OL_MAP.getView().getZoom(), zoom);
+	
+	setTimeout(function(){
+		assert.equal(view.getZoom(), zoom - 1);
+		done();
+	}, 1500);
 });
 
 QUnit.test('container', function(assert){
@@ -49,7 +68,7 @@ QUnit.test('setFeatures (with menu, minimal options)', function(assert){
 		assert.deepEqual($(li).data('location'), {
 			name: features[i].get('name'),
 			coordinates: features[i].getGeometry().getCoordinates(),
-			geoJsonGeometry: JSON.parse(new ol.format.GeoJSON().writeGeometry(features[i].getGeometry())), 
+			geometry: JSON.parse(new ol.format.GeoJSON().writeGeometry(features[i].getGeometry())), 
 			data: data,
 			accuracy: nyc.Geocoder.Accuracy.HIGH,
 			type: nyc.Locate.ResultType.GEOCODE
@@ -83,7 +102,7 @@ QUnit.test('setFeatures (without menu, all options)', function(assert){
 		assert.deepEqual($(li).data('location'), {
 			name: features[i].get('name'),
 			coordinates: features[i].getGeometry().getCoordinates(),
-			geoJsonGeometry: JSON.parse(new ol.format.GeoJSON().writeGeometry(features[i].getGeometry())), 
+			geometry: JSON.parse(new ol.format.GeoJSON().writeGeometry(features[i].getGeometry())), 
 			data: data,
 			accuracy: nyc.Geocoder.Accuracy.HIGH,
 			type: nyc.Locate.ResultType.GEOCODE

@@ -68,7 +68,7 @@ nyc.ol.Locator.prototype = {
 	 * @param {nyc.Locate.Result} data The location to which the map will be oriented
 	 * @param {function()} callback The function to call after the locator has zoomed to the location
 	 */
-	zoomLocation: function(data, callback){
+	zoomLocation: function(data, callback){ //TODO pull up into locmgr?
 		var map = this.map, view = this.view, source= this.source, feature = this.feature(data), geom = feature.getGeometry();
 		source.clear();
 		source.addFeature(feature);
@@ -98,9 +98,9 @@ nyc.ol.Locator.prototype = {
 	 * @return {ol.Feature}
 	 */
 	feature: function(location){		 
-		var format = this.format, geoJson = location.geoJsonGeometry, feature = new ol.Feature({name: location.name});
+		var format = this.format, geoJson = location.geometry, feature = new ol.Feature({name: location.name});
 		if (geoJson){
-			feature.setGeometry(format.readGeometry(location.geoJsonGeometry));
+			feature.setGeometry(format.readGeometry(location.geometry));
 		}else{
 			feature.setGeometry(new ol.geom.Point(location.coordinates));				 
 			if (this.info){
@@ -131,7 +131,8 @@ nyc.ol.Locator.prototype = {
 		this.source = new ol.source.Vector();
 		this.layer = new ol.layer.Vector({
 			source: this.source,
-			style: style || $.proxy(this.style, this)
+			style: style || $.proxy(this.style, this),
+			zIndex: 10000
 		});
 		this.map.addLayer(this.layer);
 		new nyc.ol.FeatureTip(this.map, [{

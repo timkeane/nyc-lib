@@ -9,7 +9,7 @@ QUnit.module('nyc.ZoomSearch', {
 				coordinates: [1, 2],
 				accuracy: nyc.Geocoder.Accuracy.HIGH,
 				name: '2 Broadway, Manhattan, NY 10004',
-				geoJsonGeometry: null,
+				geometry: null,
 				data: 'data'
 			},
 			{
@@ -17,7 +17,7 @@ QUnit.module('nyc.ZoomSearch', {
 				coordinates: [3, 4],
 				accuracy: nyc.Geocoder.Accuracy.HIGH,
 				name: '2 Broadway, Queens, NY 11414',
-				geoJsonGeometry: null,
+				geometry: null,
 				data: 'data'			
 			},
 			{
@@ -25,7 +25,7 @@ QUnit.module('nyc.ZoomSearch', {
 				coordinates: [5, 6],
 				accuracy: nyc.Geocoder.Accuracy.MEDIUM,
 				name: '2 Broadway, Staten Is, NY 10310',
-				geoJsonGeometry: null,
+				geometry: null,
 				data: 'data'			
 			}]
 		};
@@ -243,7 +243,7 @@ QUnit.test('listItem', function(assert){
 	var location = {
 		 name: 'test-name',
 		 coordinates: [1, 2],
-		 geoJsonGeometry: "geoJsonGeometry",
+		 geometry: "geometry",
 		 accuracy: nyc.Geocoder.Accuracy.HIGH,
 		 type: nyc.Locate.ResultType.GEOCODE,
 		 data: "data"
