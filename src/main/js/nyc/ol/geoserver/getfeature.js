@@ -19,15 +19,17 @@ nyc.ol.geoserver = nyc.ol.geoserver || {};
  */
 nyc.ol.geoserver.GetFeature = function(options){
 	this.map = options.map;
+	this.viewProj = this.map.getView().getProjection().getCode();
+	this.dataProj = options.projection || 'EPSG:900913';
 	$(this.map.getViewport()).append(nyc.ol.geoserver.GetFeature.HTML).trigger('create');
 	$('#btn-get-feat').click($.proxy(this.toggleActive, this));
-	this.geoJson = new ol.format.GeoJSON({});
+	this.geoJson = new ol.format.GeoJSON();
 	this.buffer = options.buffer || 25;
 	this.units = options.units || nyc.ol.geoserver.GetFeature.BufferUnits.FEET;
 	this.geomColumn = options.geomColumn || 'SHAPE';
 	options.propertyNames = options.propertyNames || [];
 	options.propertyNames.push(this.geomColumn);
-	this.source = new ol.source.Vector({});
+	this.source = new ol.source.Vector({projection: this.projection});
 	this.layer = new ol.layer.Vector({
 		source: this.source,
 		style: options.style || this.defaultStyle
@@ -48,49 +50,64 @@ nyc.ol.geoserver.GetFeature = function(options){
 nyc.ol.geoserver.GetFeature.prototype = {
 	/**
 	 * @private
-	 * @member {JQuery} btn
+	 * @member {ol.Map}
+	 */ 
+	map: null,
+	/**
+	 * @private
+	 * @member {JQuery}
 	 */ 
 	btn: null,
 	/**
 	 * @private
-	 * @member {string} url
+	 * @member {string}
+	 */ 
+	viewProj: null,
+	/**
+	 * @private
+	 * @member {string}
+	 */ 
+	dataProj: null,
+	/**
+	 * @private
+	 * @member {string}
 	 */ 
 	url: null,
 	/**
 	 * @private
-	 * @member {number} buffer
+	 * @member {number}
 	 */ 
 	buffer: null,
 	/**
 	 * @private
-	 * @member {ol.source.Vector} source
+	 * @member {ol.source.Vector}
 	 */ 
 	source: null,
 	/**
 	 * @private
-	 * @member {ol.source.Layer} layer
+	 * @member {ol.source.Layer}
 	 */ 
 	layer: null,
 	/**
 	 * @private
-	 * @member {ol.format.GeoJSON} geoJson
+	 * @member {ol.format.GeoJSON}
 	 */ 
 	geoJson: null,
 	/**
 	 * @private
-	 * @member {ol.format.WKT} wkt
+	 * @member {ol.format.WKT}
 	 */ 
 	wkt: null,
 	/**
 	 * @private
-	 * @member {boolean} active
+	 * @member {boolean}
 	 */ 
 	active: false,
 	/**
 	 * @private
-	 * @member {string} filter
+	 * @member {string}
 	 */ 
-	filter: "DWITHIN(${geomColumn},POINT(${x} ${y}),${buffer},${units})",
+	filter: 'DWITHIN(${geomColumn},POINT(${x} ${y}),${buffer},${units})',
 	/**
 	 * @private
 	 * @member {ol.style.Style} defaultStyle
@@ -159,6 +176,7 @@ nyc.ol.geoserver.GetFeature.prototype = {
 	callback: function(response){
 		if (response && response.features && response.features.length){
 			var feature = this.geoJson.readFeature(response.features[0]);
+			feature.setGeometry(feature.getGeometry().transform(this.dataProj, this.viewProj));
 			this.trigger(nyc.ol.FeatureEventType.ADD, feature);
 			this.source.addFeature(feature);
 		}
@@ -174,10 +192,10 @@ nyc.ol.geoserver.GetFeature.prototype = {
 	}else if (event.originalEvent.shiftKey){
 			this.removeFeature(event);
 		}else{
-			var filter = this.filter, xy = event.coordinate;
+			var coord = proj4(this.viewProj, this.dataProj, event.coordinate), filter = this.filter;
 			filter = filter.replace(/\$\{geomColumn\}/, this.geomColumn);
-			filter = filter.replace(/\$\{x\}/, xy[0]);
-			filter = filter.replace(/\$\{y\}/, xy[1]);
+			filter = filter.replace(/\$\{x\}/, coord[0]);
+			filter = filter.replace(/\$\{y\}/, coord[1]);
 			filter = filter.replace(/\$\{buffer\}/, this.buffer);
 			filter = filter.replace(/\$\{units\}/, this.units);
 			$.ajax({
@@ -242,6 +260,7 @@ nyc.ol.geoserver.GetFeature.HTML = 	'<a id="btn-get-feat" class="ctl ctl-btn" da
  * @property {string} namespace The namespace of the layer from which to retrieve features
  * @property {string} typeName The type name of the layer from which to retrieve features
  * @property {string} geomColumn The name of the layer's geometry column that will be queried
+ * @property {string} [projection=EPSG:900913] The projection of the layer
  * @property {Array<string>=} propertyNames The property names of the layer to retrieve with the features
  * @property {number} [buffer=25] The buffer radius to use around the map click when querying the layer
  * @property {nyc.ol.geoserver.GetFeature.BufferUnits} [units=feet] The units of the buffer

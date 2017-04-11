@@ -257,26 +257,12 @@ $(document).ready(function(){
 	
 	tbody = $('#facility tbody');
 	
-	var base = new nyc.ol.layer.BaseLayer();
-	var timeout = false;
-	base.on('postcompose', function(event){
-		nyc.ol.layer.grayscale(event);
-		if (!timeout)
-			setTimeout(function(){
-				$('#first-load').fadeOut();
-			}, 1000);
-		timeout = true;
-	});
-
-	map = new ol.Map({
-		target: $('#map').get(0),
-		layers: [base],
-		view: new ol.View({
-			projection: 'EPSG:2263',
-			resolutions: nyc.ol.layer.BaseLayer.RESOLUTIONS
-		})
-	});
-
+	map = new nyc.ol.Basemap({target: $('#map').get(0)});
+	
+	setTimeout(function(){
+		$('#first-load').fadeOut();
+	}, 1000);
+	
 	selectionSource = new ol.source.Vector();
 	map.addLayer(new ol.layer.Vector({
 		source: selectionSource,
@@ -290,16 +276,13 @@ $(document).ready(function(){
 	source.once('change:featuresloaded', facilitiesLoaded);
 	
 	map.addLayer(new ol.layer.Vector({source: source, style: featureStyle, projection: config.projection}));
-	map.getView().fit(nyc.ol.EXTENT, map.getSize());
 	
-	var geocoder = new nyc.Geoclient(
-		'https://maps.nyc.gov/geoclient/v1/search.json?app_key=' + config.geoclientAppKey + '&app_id=' + config.geoclientAppId,
-		'EPSG:2263'
-	);
+	var geocoder = new nyc.Geoclient('https://maps.nyc.gov/geoclient/v1/search.json?app_key=' + 
+			config.geoclientAppKey + '&app_id=' + config.geoclientAppId);
 
 	var locMgr = new nyc.LocationMgr({
 		controls: new nyc.ol.control.ZoomSearch(map),
-		locate: new nyc.ol.Locate(geocoder, 'EPSG:2263'),
+		locate: new nyc.ol.Locate(geocoder),
 		locator: new nyc.ol.Locator({map: map}),
 		autoLocate: config.autoLocate
 	});

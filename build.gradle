@@ -337,14 +337,11 @@ minifyJsOl.doLast {
 	}
 	
 	/* change URLs for basemap tiles */
-	ant.replace(file: "${pkgDir}/js/nyc-ol-lib.js", token: '/tms/', value: "${tilehost}/tms/")
-	ant.replace(file: "${pkgDir}/src/js/nyc/ol/basemap.js", token: '/tms/', value: "${tilehost}/tms/")
+	ant.replace(file: "${pkgDir}/js/nyc-ol-lib.js", token: 'https://maps{1-4}.nyc.gov/tms/', value: "${tilehost}/tms/")
+	ant.replace(file: "${pkgDir}/src/js/nyc/ol/basemap.js", token: 'https://maps{1-4}.nyc.gov/tms/', value: "${tilehost}/tms/")
 	
-	ant.replace(file: "${pkgDir}/js/nyc-leaf-lib.js", token: '/tms/', value: "${tilehost}/tms/")
-	ant.replace(file: "${pkgDir}/src/js/nyc/leaf/basemap.js", token: '/tms/', value: "${tilehost}/tms/")
-
-	ant.replace(file: "${pkgDir}/js/nyc-leaf-lib.js", token: '{1-4}', value: '{s}')
-	ant.replace(file: "${pkgDir}/src/js/nyc/leaf/basemap.js", token: '{1-4}', value: {s})
+	ant.replace(file: "${pkgDir}/js/nyc-leaf-lib.js", token: 'https://maps{s}.nyc.gov/tms/', value: "${tilehost}/tms/")
+	ant.replace(file: "${pkgDir}/src/js/nyc/leaf/basemap.js", token: 'https://maps{s}.nyc.gov/tms/', value: "${tilehost}/tms/")
 }
 
 task minifyJsOlRedLine(type: MiniJsTask) {

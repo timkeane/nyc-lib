@@ -160,7 +160,7 @@ nyc.inherits(L.Map, nyc.leaf.Basemap);
  * @const
  * @type {string}
  */
-nyc.leaf.Basemap.BASE_URL = '/tms/1.0.0/carto/basemap/{z}/{x}/{y}.jpg';
+nyc.leaf.Basemap.BASE_URL = 'https://maps{s}.nyc.gov/tms/1.0.0/carto/basemap/{z}/{x}/{y}.jpg';
 
 /**
  * @desc The URLs of the New York City aerial imagery map tiles 
@@ -169,16 +169,16 @@ nyc.leaf.Basemap.BASE_URL = '/tms/1.0.0/carto/basemap/{z}/{x}/{y}.jpg';
  * @type {Object<string, string>}
  */
 nyc.leaf.Basemap.PHOTO_URLS = {
-	'1924': '/tms/1.0.0/photo/1924/{z}/{x}/{y}.png8',
-	'1951': '/tms/1.0.0/photo/1951/{z}/{x}/{y}.png8',
-	'1996': '/tms/1.0.0/photo/1996/{z}/{x}/{y}.png8',
-	'2001-2': '/tms/1.0.0/photo/2001-2/{z}/{x}/{y}.png8',
-	'2004': '/tms/1.0.0/photo/2004/{z}/{x}/{y}.png8',
-	'2006': '/tms/1.0.0/photo/2006/{z}/{x}/{y}.png8',
-	'2008': '/tms/1.0.0/photo/2008/{z}/{x}/{y}.png8',
-	'2010': '/tms/1.0.0/photo/2010/{z}/{x}/{y}.png8',
-	'2012': '/tms/1.0.0/photo/2012/{z}/{x}/{y}.png8',
-	'2014': '/tms/1.0.0/photo/2014/{z}/{x}/{y}.png8'
+	'1924': 'https://maps{s}.nyc.gov/tms/1.0.0/photo/1924/{z}/{x}/{y}.png8',
+	'1951': 'https://maps{s}.nyc.gov/tms/1.0.0/photo/1951/{z}/{x}/{y}.png8',
+	'1996': 'https://maps{s}.nyc.gov/tms/1.0.0/photo/1996/{z}/{x}/{y}.png8',
+	'2001-2': 'https://maps{s}.nyc.gov/tms/1.0.0/photo/2001-2/{z}/{x}/{y}.png8',
+	'2004': 'https://maps{s}.nyc.gov/tms/1.0.0/photo/2004/{z}/{x}/{y}.png8',
+	'2006': 'https://maps{s}.nyc.gov/tms/1.0.0/photo/2006/{z}/{x}/{y}.png8',
+	'2008': 'https://maps{s}.nyc.gov/tms/1.0.0/photo/2008/{z}/{x}/{y}.png8',
+	'2010': 'https://maps{s}.nyc.gov/tms/1.0.0/photo/2010/{z}/{x}/{y}.png8',
+	'2012': 'https://maps{s}.nyc.gov/tms/1.0.0/photo/2012/{z}/{x}/{y}.png8',
+	'2014': 'https://maps{s}.nyc.gov/tms/1.0.0/photo/2014/{z}/{x}/{y}.png8'
 };
 
 /**
@@ -188,8 +188,8 @@ nyc.leaf.Basemap.PHOTO_URLS = {
  * @type {Object<string, string>}
  */
 nyc.leaf.Basemap.LABEL_URLS = {
-	base: '/tms/1.0.0/carto/label/{z}/{x}/{y}.png8',
-	photo: '/tms/1.0.0/carto/label-lt/{z}/{x}/{y}.png8'
+	base: 'https://maps{s}.nyc.gov/tms/1.0.0/carto/label/{z}/{x}/{y}.png8',
+	photo: 'https://maps{s}.nyc.gov/tms/1.0.0/carto/label-lt/{z}/{x}/{y}.png8'
 };
 
 /**
