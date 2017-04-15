@@ -21,7 +21,7 @@ nyc.ol.layer.zoning.District.prototype = {
 	 * @private
 	 * @member {string}
 	 */
-	url: '/geoserver/gwc/service/tms/1.0.0/zoning%3Azoning@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf',
+	url: '/geoserver/gwc/service/tms/1.0.0/zoning%3Azoning@EPSG%3A3857@pbf/{z}/{x}/{-y}.pbf',
 	/**
 	 * @private
 	 * @method

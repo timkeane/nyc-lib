@@ -20,7 +20,7 @@ nyc.ol.geoserver = nyc.ol.geoserver || {};
 nyc.ol.geoserver.GetFeature = function(options){
 	this.map = options.map;
 	this.viewProj = this.map.getView().getProjection().getCode();
-	this.dataProj = options.projection || 'EPSG:900913';
+	this.dataProj = options.projection || 'EPSG:3857';
 	$(this.map.getViewport()).append(nyc.ol.geoserver.GetFeature.HTML).trigger('create');
 	$('#btn-get-feat').click($.proxy(this.toggleActive, this));
 	this.geoJson = new ol.format.GeoJSON();
@@ -260,7 +260,7 @@ nyc.ol.geoserver.GetFeature.HTML = 	'<a id="btn-get-feat" class="ctl ctl-btn" da
  * @property {string} namespace The namespace of the layer from which to retrieve features
  * @property {string} typeName The type name of the layer from which to retrieve features
  * @property {string} geomColumn The name of the layer's geometry column that will be queried
- * @property {string} [projection=EPSG:900913] The projection of the layer
+ * @property {string} [projection=EPSG:3857] The projection of the layer
  * @property {Array<string>=} propertyNames The property names of the layer to retrieve with the features
  * @property {number} [buffer=25] The buffer radius to use around the map click when querying the layer
  * @property {nyc.ol.geoserver.GetFeature.BufferUnits} [units=feet] The units of the buffer

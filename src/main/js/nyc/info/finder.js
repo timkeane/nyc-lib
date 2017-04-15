@@ -68,7 +68,7 @@ nyc.info.Finder.prototype = {
 	 */
 	getValues: function(options){
 		var coordinates = options.coordinates || []; 
-		var projection = options.projection || 'EPSG:900913';
+		var projection = options.projection || 'EPSG:3857';
 		var binOrBbl = options.binOrBbl ? options.binOrBbl.trim() : '';
 		var distance = options.distance || '100:feet';
 		if (options.layer) {
@@ -244,7 +244,7 @@ nyc.info.Finder.EventType = {
  * @typedef {Object}
  * @property {Array<number>} coordinates Coordinates
  * @property {nyc.info.Finder.PROXIMITY_DISTANCE} [distance=100:feet] The distance  
- * @property {string} [projection=EPSG:900913] The projection of input coordinates and output features 
+ * @property {string} [projection=EPSG:3857] The projection of input coordinates and output features 
  * @property {function(Object)=} callback Callback function that recieves GeoJSON FeatureCollection 
  */
 nyc.info.Finder.ProximityRequest;
@@ -254,7 +254,7 @@ nyc.info.Finder.ProximityRequest;
  * @public
  * @typedef {Object}
  * @property {Array<number>} coordinates Coordinates
- * @property {string} [projection=EPSG:900913] The projection of input coordinates and output features 
+ * @property {string} [projection=EPSG:3857] The projection of input coordinates and output features 
  * @property {function(Object)=} callback Callback function that recieves GeoJSON FeatureCollection 
  */
 nyc.info.Finder.PointRequest;
@@ -264,7 +264,7 @@ nyc.info.Finder.PointRequest;
  * @public
  * @typedef {Object}
  * @property {string} binOrBbl A valid BIN or BBL 
- * @property {string} [projection=EPSG:900913] The projection of input coordinates and output features 
+ * @property {string} [projection=EPSG:3857] The projection of input coordinates and output features 
  * @property {function(Object)=} callback Callback function that receives GeoJSON FeatureCollection 
  */
 nyc.info.Finder.BinBblRequest;
@@ -277,7 +277,7 @@ nyc.info.Finder.BinBblRequest;
  * @property {string} namespace The namespace for the layer 
  * @property {string} layer The layer name 
  * @property {nyc.info.Finder.PROXIMITY_DISTANCE} [distance=1000:feet] The distance  
- * @property {string} [projection=EPSG:900913] The projection of input coordinates and output features 
+ * @property {string} [projection=EPSG:3857] The projection of input coordinates and output features 
  * @property {function(Object)=} callback Callback function that receives GeoJSON FeatureCollection 
  */
 nyc.info.Finder.NearestRequest;

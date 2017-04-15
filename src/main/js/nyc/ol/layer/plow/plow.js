@@ -40,7 +40,7 @@ nyc.ol.layer.plow.Priority.prototype = {
 	 * @private
 	 * @member {string}
 	 */
-	url: 'http://msdlva-geoapp01.csc.nycnet:83/geoserver/gwc/service/tms/1.0.0/plow%3ASNOW_PRIORITY@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf',
+	url: 'http://msdlva-geoapp01.csc.nycnet:83/geoserver/gwc/service/tms/1.0.0/plow%3ASNOW_PRIORITY@EPSG%3A3857@pbf/{z}/{x}/{-y}.pbf',
 	/**
 	 * @private
 	 * @method

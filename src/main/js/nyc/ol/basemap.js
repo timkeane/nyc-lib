@@ -174,7 +174,8 @@ nyc.ol.Basemap.PHOTO_URLS = {
 	'2008': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/2008/{z}/{x}/{-y}.png8',
 	'2010': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/2010/{z}/{x}/{-y}.png8',
 	'2012': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/2012/{z}/{x}/{-y}.png8',
-	'2014': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/2014/{z}/{x}/{-y}.png8'
+	'2014': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/2014/{z}/{x}/{-y}.png8',
+	'2016': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/2016/{z}/{x}/{-y}.png8'
 };
 
 /**
