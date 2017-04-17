@@ -287,32 +287,32 @@ nyc.info.Finder.NearestRequest;
  * @const
  * @type {string}
  */
-nyc.info.Finder.INFO_POINT_URL = 'https://10.155.206.37/info/epsg:${epsg}/coord/${x}/${y}';
+nyc.info.Finder.INFO_POINT_URL = '/info/epsg:${epsg}/coord/${x}/${y}';
 /**
  * @private
  * @const
  * @type {string}
  */
-nyc.info.Finder.INFO_BIN_URL = 'https://10.155.206.37/info/epsg:${epsg}/bin/${binOrBbl}';
+nyc.info.Finder.INFO_BIN_URL = '/info/epsg:${epsg}/bin/${binOrBbl}';
 
 /**
  * @private
  * @const
  * @type {string}
  */
-nyc.info.Finder.INFO_BBL_URL = 'https://10.155.206.37/info/epsg:${epsg}/bbl/${binOrBbl}';
+nyc.info.Finder.INFO_BBL_URL = '/info/epsg:${epsg}/bbl/${binOrBbl}';
 
 /**
  * @private
  * @const
  * @type {string}
  */
-nyc.info.Finder.PROXIMITY_URL = 'https://10.155.206.37/proximity/address/${distance}/epsg:${epsg}/${x}/${y}';
+nyc.info.Finder.PROXIMITY_URL = '/proximity/address/${distance}/epsg:${epsg}/${x}/${y}';
 
 /**
  * @private
  * @const
  * @type {string}
  */
-nyc.info.Finder.NEAREST_URL = 'https://10.155.206.37/nearest/${distance}/${namespace}:${layer}/epsg:${epsg}/${x}/${y}';
+nyc.info.Finder.NEAREST_URL = '/nearest/${distance}/${namespace}:${layer}/epsg:${epsg}/${x}/${y}';
 
