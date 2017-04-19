@@ -15,7 +15,7 @@ A set of common libraries used to develop NYC mapping applications
 * Run ```gradle jettyRun``` or ```gradlew jettyRun``` and navigate your browser to ```http://localhost:8088/src/main/test/``` to run [QUnit](https://qunitjs.com/) tests
 * To successfully run test ```nyc.Geocoder.search (address)``` you must configure [Gradle](http://gradle.org/) ass describe above
 
-### Build
+## Build
 * ```gradlew buildLibs```
 	* builds libraries ```nyc-ol-lib.js```, ```nyc-ol-redline-lib.js```, ```nyc-leaf-lib.js```, ```nyc.carto-lib.js```
 * ```gradlew jsDoc``` 
