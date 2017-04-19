@@ -71,7 +71,8 @@ nyc.ol.Basemap = function(options, preload){
 		center: nyc.ol.Basemap.CENTER,
 		minZoom: 8,
 		maxZoom: 21,
-		zoom: 8
+		zoom: 8,
+		constrainRotation: 1
 	});
 	options.layers = layers.concat(options.layers || []);
 	

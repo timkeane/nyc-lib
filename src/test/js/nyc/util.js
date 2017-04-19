@@ -108,6 +108,13 @@ QUnit.test('formatNumberHtml (currency - fr)', function(assert){
 	decimal.remove();
 });
 
+QUnit.test('pad', function(assert){
+	assert.expect(2);
+	assert.equal(nyc.util.pad('23', 4, 'x'), 'xx23');
+	assert.equal(nyc.util.pad('23', 4), '0023');
+});
+
+
 QUnit.test('preventDblEventHandler', function(assert){
 	assert.expect(0);
 });
