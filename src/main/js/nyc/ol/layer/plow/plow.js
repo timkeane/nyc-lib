@@ -40,7 +40,7 @@ nyc.ol.layer.plow.Priority.prototype = {
 	 * @private
 	 * @member {string}
 	 */
-	url: 'http://msdlva-geoapp01.csc.nycnet:83/geoserver/gwc/service/tms/1.0.0/plow%3ASNOW_PRIORITY@EPSG%3A3857@pbf/{z}/{x}/{-y}.pbf',
+	url: 'http://msdlva-geoapp01.csc.nycnet:83/geoserver/gwc/service/tms/1.0.0/plow%3ASNOW_PRIORITY@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf',
 	/**
 	 * @private
 	 * @method
@@ -85,14 +85,14 @@ nyc.ol.layer.plow.Priority.prototype = {
 	 */
 	mixins: [
          {designation: {C: 'Critical', S: 'Sector', H: 'Haulster', V: 'Non-DSNY'}},
-         new nyc.Content({tip: '<div class="plow"><b>${NAME}</b><br>${priority}</div>'}),
+         new nyc.Content({tip: '<div class="plow"><b>${STREET}</b><br>${priority}</div>'}),
          {
         	 html: function(){
         		 this.embelish();
         		 return this.message('tip', this.getProperties());
         	 },
         	 embelish: function(){
-        		 this.getProperties().priority = this.designation[this.get('PRIORITY')];
+        		 this.getProperties().priority = this.designation[this.get('DSNY_DESIGNATION')];
         	 }
     	 }
 	]

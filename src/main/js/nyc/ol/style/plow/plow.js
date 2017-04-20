@@ -31,7 +31,7 @@ nyc.ol.style.plow = {
 	priority: function(feature, resolution){
 		var cache = nyc.ol.style.plow.cache.priority;
 		var zoom = nyc.ol.TILE_GRID.getZForResolution(resolution);
-		var priority = feature.get('PRIORITY');
+		var priority = feature.get('DSNY_DESIGNATION');
 		cache[zoom] = cache[zoom] || {};
 		if (!cache[zoom][priority]){
 			var width = Math.pow(2, zoom - 7) / 200;
