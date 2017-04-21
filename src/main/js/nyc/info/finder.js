@@ -20,7 +20,7 @@ nyc.info.Finder = function(){};
 
 nyc.info.Finder.prototype = {
 	/**
-	 * @desc Return all featues of the specified layer within a the specified distance of a point
+	 * @desc Return all features of the specified layer within a the specified distance of a point
 	 * @public
 	 * @method
 	 * @param {nyc.info.Finder.NearestRequest} options
