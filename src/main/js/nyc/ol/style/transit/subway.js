@@ -53,7 +53,9 @@ nyc.ol.style.transit.subway = {
 					stroke: new ol.style.Stroke({
 						color: nyc.ol.style.transit.subway.color[route],
 						width: width,
-						lineJoin: 'miter'
+						lineJoin: 'bevel',
+						lineCap: 'square',
+						miterLimit: 200
 					})
 				});
 			}

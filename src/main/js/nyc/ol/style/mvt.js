@@ -9,7 +9,7 @@ nyc.ol.style = nyc.ol.style || {};
 nyc.ol.style.mvt = nyc.ol.style.mvt || {};
 
 /**
- * @desc A function to create a proxy layer for styling points from an ol.layer.TileVector layer with format ol.format.MVT
+ * @desc A function to create a proxy layer for styling points from an ol.layer.TileVector layer with format ol.format.MVT - WARNING: This function uses portions of the OpenLayers API that are only visible when using ol-debug.js
  * @public
  * @function
  * @param {nyc.ol.style.mvt.ProxyPointLayerOptions} options Options for creating the style function

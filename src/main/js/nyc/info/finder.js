@@ -7,7 +7,7 @@ var nyc = nyc || {};
 nyc.info = nyc.info || {};
 
 /**
- * @desc A class for retrieving proximity information
+ * @desc A class for retrieving proximity information (Not ready for prime time)
  * @public
  * @class
  * @extends {nyc.EventHandling}
@@ -132,38 +132,38 @@ nyc.inherits(nyc.info.Finder, nyc.ReplaceTokens);
  * @enum {string}
  */
 nyc.info.Finder.PROXIMITY_DISTANCE = {
-		/**
-		 * @desc 50 feet
-		 */
-		'50ft': '50:feet',
-		/**
-		 * @desc 100 feet
-		 */
-		'100ft': '100:feet',
-		/**
-		 * @desc 200 feet
-		 */
-		'200ft': '200:feet',
-		/**
-		 * @desc 400 feet
-		 */
-		'400ft': '400:feet',
-		/**
-		 * @desc 15 meters
-		 */
-		'15m': '15:meters',
-		/**
-		 * @desc 30 meters
-		 */
-		'30m': '30:meters',
-		/**
-		 * @desc 60 meters
-		 */
-		'60m': '60:meters',
-		/**
-		 * @desc 120 meters
-		 */
-		'120m': '120:meters'
+	/**
+	 * @desc 50 feet
+	 */
+	'50ft': '50:feet',
+	/**
+	 * @desc 100 feet
+	 */
+	'100ft': '100:feet',
+	/**
+	 * @desc 200 feet
+	 */
+	'200ft': '200:feet',
+	/**
+	 * @desc 400 feet
+	 */
+	'400ft': '400:feet',
+	/**
+	 * @desc 15 meters
+	 */
+	'15m': '15:meters',
+	/**
+	 * @desc 30 meters
+	 */
+	'30m': '30:meters',
+	/**
+	 * @desc 60 meters
+	 */
+	'60m': '60:meters',
+	/**
+	 * @desc 120 meters
+	 */
+	'120m': '120:meters'
 };
 
 /**
@@ -172,38 +172,38 @@ nyc.info.Finder.PROXIMITY_DISTANCE = {
  * @enum {number}
  */
 nyc.info.Finder.NEAREST_DISTANCE = {
-		/**
-		 * @desc 500 feet
-		 */
-		'500ft': '500:feet',
-		/**
-		 * @desc 1000 feet
-		 */
-		'1000ft': '1000:feet',
-		/**
-		 * @desc 1 mile
-		 */
-		'1mi': '5280:feet',
-		/**
-		 * @desc 5 miles
-		 */
-		'5mi': '26400:feet',
-		/**
-		 * @desc 150 meters
-		 */
-		'150m': '150:meters',
-		/**
-		 * @desc 300 meters
-		 */
-		'300m': '300:meters',
-		/**
-		 * @desc 1.5 kilometers
-		 */
-		'1.5km': '1500:meters',
-		/**
-		 * @desc 8 kilometers
-		 */
-		'8km': '8000:meters'
+	/**
+	 * @desc 500 feet
+	 */
+	'500ft': '500:feet',
+	/**
+	 * @desc 1000 feet
+	 */
+	'1000ft': '1000:feet',
+	/**
+	 * @desc 1 mile
+	 */
+	'1mi': '5280:feet',
+	/**
+	 * @desc 5 miles
+	 */
+	'5mi': '26400:feet',
+	/**
+	 * @desc 150 meters
+	 */
+	'150m': '150:meters',
+	/**
+	 * @desc 300 meters
+	 */
+	'300m': '300:meters',
+	/**
+	 * @desc 1.5 kilometers
+	 */
+	'1.5km': '1500:meters',
+	/**
+	 * @desc 8 kilometers
+	 */
+	'8km': '8000:meters'
 };
 
 /**
