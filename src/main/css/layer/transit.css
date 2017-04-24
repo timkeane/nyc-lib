@@ -45,14 +45,14 @@ a.subway-icon div {
 a.subway-N div, a.subway-Q div, a.subway-R div {
 	color: #000;
 }
-div.express {
+a.express {
 	padding: 0;
 	width: 18px;
 	border-radius: 0;
 	transform: rotate(45deg);
 	margin: 4px;
 }
-div.express div {
+a.express div {
 	transform: rotate(-45deg);
 }
 
