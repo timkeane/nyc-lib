@@ -194,31 +194,31 @@ QUnit.test('swap', function(assert){
 	assert.equal(fade.getElem('.mnu-fade ol li').length, 1);
 	assert.equal(fade.getElem('.mnu-fade ol li').not('.fade-msg').length, 0);
 	
-	var span0 = $(fade.getElem('.mnu-fade ul li').get(0)).find('span');
-	var span1 = $(fade.getElem('.mnu-fade ul li').get(1)).find('span');
-	var span2 = $(fade.getElem('.mnu-fade ul li').get(2)).find('span');
-	var span3 = $(fade.getElem('.mnu-fade ul li').get(3)).find('span');
+	var li0 = $(fade.getElem('.mnu-fade ul li').get(0));
+	var li1 = $(fade.getElem('.mnu-fade ul li').get(1));
+	var li2 = $(fade.getElem('.mnu-fade ul li').get(2));
+	var li3 = $(fade.getElem('.mnu-fade ul li').get(3));
 
-	span1.trigger('click');
+	li1.trigger('click');
 
 	assert.equal($('.fade-msg').length, 0);
 	assert.equal(fade.getElem('.mnu-fade ul li').length, 3);
 	assert.equal(fade.getElem('.mnu-fade ol li').length, 1);
 	assert.equal(fade.getElem('.mnu-fade ol li').data('fade-layer'), 'layer2');
 
-	span0.trigger('click');
+	li0.trigger('click');
 
 	assert.equal(fade.getElem('.mnu-fade ul li').length, 2);
 	assert.equal(fade.getElem('.mnu-fade ol li').length, 2);
 	assert.equal($(fade.getElem('.mnu-fade ol li').get(0)).data('fade-layer'), 'layer2');
 	assert.equal($(fade.getElem('.mnu-fade ol li').get(1)).data('fade-layer'), 'layer1');
 
-	span1.trigger('click');
+	li1.trigger('click');
 	
 	assert.equal(fade.getElem('.mnu-fade ul li').length, 3);
-	assert.equal($(fade.getElem('.mnu-fade ul li').get(0)).data('fade-layer'), 'layer2');
-	assert.equal($(fade.getElem('.mnu-fade ul li').get(1)).data('fade-layer'), 'layerA');
-	assert.equal($(fade.getElem('.mnu-fade ul li').get(2)).data('fade-layer'), 'layerB');
+	assert.equal($(fade.getElem('.mnu-fade ul li').get(0)).data('fade-layer'), 'layerA');
+	assert.equal($(fade.getElem('.mnu-fade ul li').get(1)).data('fade-layer'), 'layerB');
+	assert.equal($(fade.getElem('.mnu-fade ul li').get(2)).data('fade-layer'), 'layer2');
 	assert.equal(fade.getElem('.mnu-fade ol li').length, 1);
 	assert.equal(fade.getElem('.mnu-fade ol li').data('fade-layer'), 'layer1');
 });

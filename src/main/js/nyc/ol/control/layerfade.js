@@ -91,8 +91,8 @@ nyc.ol.control.LayerFade.prototype = {
 				var name = layer.get('name'),
 					li = $('<li class="fade-lyr"></li>'),
 					span = $('<span></sapn>');
-				span.data('fade-idx', i + 1);
-				span.click($.proxy(me.swap, me));
+				li.data('fade-idx', i + 1);
+				li.click($.proxy(me.swap, me));
 				li.html(name)
 					.data('fade-layer', name)
 					.append(span);
@@ -113,9 +113,8 @@ nyc.ol.control.LayerFade.prototype = {
 	 * @param {JQuery.Event} event
 	 */
 	swap: function(event){
-		var span = $(event.currentTarget), idx = span.data('fade-idx');		
+		var li = $(event.currentTarget), idx = li.data('fade-idx');		
 		if (!isNaN(idx)){
-			var li = span.parent();
 			if (li.parent().is('ol')){
 				var before = [];
 				$('ul.fade-choices span').each(function(){
