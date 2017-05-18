@@ -61,3 +61,39 @@ body .goog-text-highlight {
 	-moz-box-sizing: inherit;
 	position: inherit;
 }
+#lang-hint-arrow {
+	background-image: var(--theme-lang-hint-arrow-img);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 144px 64px;
+	width: 144px;
+	height: 36px;
+	padding: 19px 0 11px 10px;
+	text-align: center;
+	left: 45px;
+	position: relative;
+	top: -13px;
+}
+#lang-hint-arrow span {
+	font-size: 18px;
+	font-weight: bold;
+	line-height: 27px;
+	margin-left: -15px;
+}
+#lang-hint-arrow a {
+    position: absolute;
+    top: -3px;
+    right: 8px;
+    border: none;
+    background-color: #fff;
+    border-radius: 23px;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+}
+#lang-hint-arrow a:after {
+    background-color: var(--theme-ctl-bg-color);
+}
+#lang-hint-arrow a:hover:after {
+    background-color: var(--theme-ctl-bg-color-hover);
+}
