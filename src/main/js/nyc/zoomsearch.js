@@ -335,7 +335,7 @@ nyc.ZoomSearch.BASIC_HTML =
 		'Zoom out' +
 	'</a>' +
 	'<a class="btn-geo ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" title="Current location">' +
-		'Zoom out' +
+		'Current location' +
 	'</a>' +
 	'<ul class="fld-srch-retention"></ul>' +
 	'</div>';
