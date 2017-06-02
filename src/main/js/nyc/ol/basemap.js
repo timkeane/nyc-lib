@@ -13,58 +13,58 @@ nyc.ol = nyc.ol || {};
  * @see http://openlayers.org/en/latest/apidoc/ol.Map.html
  */
 nyc.ol.Basemap = function(options, preload){
-	var layers = [], viewProvided = options.view;
+	var me = this, layers = [], viewProvided = options.view;
 	
 	/**
 	 * @private
 	 * @member {number}
 	 */
-	this.latestPhoto = 0;
+	me.latestPhoto = 0;
 
 	/**
 	 * @private
 	 * @member {ol.layer.Tile}
 	 */
-	this.base = new ol.layer.Tile({
+	me.base = new ol.layer.Tile({
 		extent: nyc.ol.Basemap.UNIVERSE_EXTENT,
 		source: new ol.source.XYZ({url: nyc.ol.Basemap.BASE_URL}),
 		preload: preload || 0
 	});
-	layers.push(this.base);
+	layers.push(me.base);
 
 	/**
 	 * @private
 	 * @member {Object<string, ol.layer.Tile>}
 	 */
-	this.labels = {};
+	me.labels = {};
 	for (var labelType in nyc.ol.Basemap.LABEL_URLS) {
-		this.labels[labelType] = new ol.layer.Tile({
+		me.labels[labelType] = new ol.layer.Tile({
 			extent: nyc.ol.Basemap.LABEL_EXTENT,
 			source: new ol.source.XYZ({url: nyc.ol.Basemap.LABEL_URLS[labelType]}),
 			zIndex: 1000,
 			visible: labelType == 'base'
 		});		
-		layers.push(this.labels[labelType]);
+		layers.push(me.labels[labelType]);
 	}
 	
 	/**
 	 * @private
 	 * @member {Object<string, ol.layer.Tile>}
 	 */
-	this.photos = {};
+	me.photos = {};
 	for (var year in nyc.ol.Basemap.PHOTO_URLS) {
 		var photo = new ol.layer.Tile({
 			extent: nyc.ol.Basemap.PHOTO_EXTENT,
 			source: new ol.source.XYZ({url: nyc.ol.Basemap.PHOTO_URLS[year]}),
 			visible: false
 		});		
-		if ((year * 1) > this.latestPhoto){
-			this.latestPhoto = year;
+		if ((year * 1) > me.latestPhoto){
+			me.latestPhoto = year;
 		}
 		photo.set('name', year);
 		layers.push(photo);
-		photo.on('change:visible', $.proxy(this.photoChange, this));
-		this.photos[year] = photo;
+		photo.on('change:visible', $.proxy(me.photoChange, me));
+		me.photos[year] = photo;
 	}
 	
 	options.view = options.view || new ol.View({
@@ -76,11 +76,21 @@ nyc.ol.Basemap = function(options, preload){
 	});
 	options.layers = layers.concat(options.layers || []);
 	
-	ol.Map.call(this, options);
+	ol.Map.call(me, options);
 	
 	if (!viewProvided){
-		this.getView().fit(nyc.ol.Basemap.EXTENT, this.getSize());		
+		me.getView().fit(nyc.ol.Basemap.EXTENT, me.getSize());		
 	}
+	
+	//hack fix for misbehaving iphone 
+	$(window).orientationchange(function(){
+		setTimeout(function(){
+			var div = $(me.getTarget());
+			me.setSize([div.width(), div.height()]);
+			me.renderSync();
+		}, 500);
+	});
+
 };
 
 ol.inherits(nyc.ol.Basemap, ol.Map);
