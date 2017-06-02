@@ -112,6 +112,9 @@ nyc.Lang.prototype = {
 				$('#lang-hint-arrow').fadeOut();
 			});
 			this.showHint();
+			setTimeout(function(){
+				$('#lang-hint-arrow').fadeOut();
+			}, 10000);
 		}
     },
 	/** 
