@@ -8,7 +8,7 @@
 	background-repeat: no-repeat;
 	background-position: 3px center;
 	background-size: 24px;
-	padding: 18px;
+	padding: 17px 18px 18px 17px;
 }
 #lang-choice-button.mnu {
 	height: 32px;
@@ -70,9 +70,9 @@ body .goog-text-highlight {
 	height: 36px;
 	padding: 19px 0 11px 10px;
 	text-align: center;
-	left: 45px;
-	position: relative;
-	top: -13px;
+	left: 35px;
+	position: absolute;
+	top: -6px;
 }
 #lang-hint-arrow span {
 	font-size: 18px;
