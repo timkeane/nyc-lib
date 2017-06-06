@@ -83,13 +83,13 @@ nyc.ol.Basemap = function(options, preload){
 	}
 	
 	//hack fix for misbehaving iphone 
-	$(window).orientationchange(function(){
-		setTimeout(function(){
-			var div = $(me.getTarget());
-			me.setSize([div.width(), div.height()]);
-			me.renderSync();
-		}, 500);
-	});
+	if (nyc.util.isIos()){
+		$(window).resize(function(){
+			setTimeout(function(){
+				me.updateSize();
+			}, 400);
+		});		
+	}
 
 };
 
