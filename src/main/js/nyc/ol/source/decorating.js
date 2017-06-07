@@ -96,6 +96,7 @@ nyc.ol.source.Decorating.xhrLoader = function(extent, resolution, projection){
  * @desc Object type to hold the projection for auto loading of features
  * @public
  * @typedef {Object}
+ * @property {ol.proj.ProjectionLike} nativeProjection The projection of the source data
  * @property {ol.proj.ProjectionLike} projection The projection of the map view in which the features of this source will be rendered
  */
 nyc.ol.source.Decorating.AutoLoad;

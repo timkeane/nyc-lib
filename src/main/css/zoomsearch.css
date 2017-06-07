@@ -120,7 +120,7 @@ div.fld-srch-container a.ui-input-clear.ui-btn.ui-icon-delete {
 @media only screen and (max-width : 405px) {
 	.fld-srch-container {
 		width: auto;
-		right: 0;
+		right: 3px;
 	}
 }
 .ol-zoom, .ol-attribution {

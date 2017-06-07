@@ -113,8 +113,7 @@
 			jsonSrc = new nyc.ol.source.FilteringAndSorting(
 				{
 					url: 'data/idnyc.json', 
-					format: new ol.format.GeoJSON(),
-					projection: 'EPSG:2263'
+					format: new ol.format.GeoJSON()
 				},
 				[{
 					html: function(){
@@ -125,7 +124,11 @@
 						html.append(this.get('city') + ', NY ' + this.get('zip'));
 						return html;
 					}
-				}]
+				}],
+				{
+					nativeProjection: 'EPSG:2263',
+					displayProjection: 'EPSG:3857'
+				}
 			);
 
 			jsonLyr = new ol.layer.Vector({source: jsonSrc});

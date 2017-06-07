@@ -10,36 +10,35 @@ var nyc = nyc || {};
  * @class
  * @extends {nyc.EventHandling}
  * @constructor
- * @property {(String|Element|JQuery)} target The HTML DOM element that will provide language choices
- * @param {nyc.Lang.Choices} languages The languages to provide
- * @param {boolean} [isButton=false] Show as a button
+ * @param {nyc.Lang.Options} options Constructor options
  */
-nyc.Lang = function(target, languages, isButton){
+nyc.Lang = function(options){
 	var codes = [], div = $(nyc.Lang.HTML);
 	nyc.lang = this;
-	this.isButton = isButton;
+	this.isButton = options.isButton;
+	this.languages = options.languages;
+	this.isButton = options.isButton;
 	this.hints = [];
 	this.namedCodes = {};
-	$(target).append(div);
-	for (var code in languages){
-		var name = languages[code].val,
-			opt = $('<option></option>').attr('value', name).html(languages[code].desc);
+	$(options.target).append(div);
+	for (var code in this.languages){
+		var name = this.languages[code].val,
+			opt = $('<option></option>').attr('value', name).html(this.languages[code].desc);
 		$('#lang-choice').append(opt);
 		codes.push(code);
-		this.hints.push(languages[code].hint);
+		this.hints.push(this.languages[code].hint);
 		this.namedCodes[name] = code;
 	}
 	this.codes = codes.toString();
-	this.languages = languages;
 	div.trigger('create');
-	if (isButton){
+	if (options.isButton){
 		$('#lang-choice-button').addClass('ctl ctl-btn');
 		$('#lang-choice-button span').remove();
 	}else{
 		$('#lang-choice-button').addClass('mnu');
 	}
 	$('body').addClass('lang-en');		
-	$.getScript('//translate.google.com/translate_a/element.js?cb=nyc.lang.init');
+	$.getScript('https://translate.google.com/translate_a/element.js?cb=nyc.lang.init');
 };
 
 nyc.Lang.prototype = {
@@ -95,6 +94,7 @@ nyc.Lang.prototype = {
 		nyc.lang.setLangDropdown();
 		if (nyc.lang.isButton){
 			$('#lang-choice-button span').hide();
+			nyc.lang.showArrow();
 		}else{
 			$('#lang-choice-button span').html('Translate').show();			
 		}
@@ -105,16 +105,34 @@ nyc.Lang.prototype = {
 	 * @private
 	 * @method 
 	 */
-	showHint: function(){
-		var hints = this.hints;
-		if (!this.isButton){
-			var h = 0;
-			setInterval(function(){
-				$('#lang-choice-button span').html(hints[h] || 'Translate');
-				h++;
-				if (h == hints.length) h = 0;
-			}, 1000);
+	showArrow: function(){
+		if (this.showArrow){
+			$('#lang-btn').append(nyc.Lang.ARROW_HTML).trigger('create');
+			$('#lang-hint-arrow a').click(function(){
+				$('#lang-hint-arrow').fadeOut();
+			});
+			this.showHint();
+			setTimeout(function(){
+				$('#lang-hint-arrow').fadeOut();
+			}, 10000);
 		}
+    },
+	/** 
+	 * @private
+	 * @method 
+	 */
+	showHint: function(){
+		var hints = this.hints, h = 0;
+		if (!this.isButton){
+			hint = '#lang-choice-button span';
+		}else if (this.showArrow){
+			hint = '#lang-hint-arrow span';
+		}
+		setInterval(function(){
+			$(hint).html(hints[h] || 'Translate');
+			h++;
+			if (h == hints.length) h = 0;
+		}, 1000);
     },
 	/** 
 	 * @private
@@ -283,6 +301,17 @@ nyc.Lang.prototype = {
 nyc.inherits(nyc.Lang, nyc.EventHandling);
 
 /**
+ * @desc Constructor for {@link nyc.Lang}
+ * @public
+ * @typedef {Object}
+ * @property {(String|Element|JQuery)} target The HTML DOM element that will provide language choices
+ * @property {nyc.Lang.Choices} languages The languages to provide
+ * @property {boolean} [isButton=false] Show as a button
+ * @property {boolean} [showArrow=false] Show the hint arrow if displaying as a button
+ */
+nyc.Lang.Options;
+
+/**
  * @desc Enumeration for nyc.Lang event types
  * @public
  * @enum {string}
@@ -337,8 +366,18 @@ nyc.Lang.Choices;
  * @const
  * @type {string}
  */
-nyc.Lang.HTML = 
-	"<div id='lang-btn' title='Translate...'>" +
-		"<div id='lang-trans'></div>" +
-		"<select id='lang-choice' class='notranslate' translate='no'></select>" +
-	"</div>";
+nyc.Lang.HTML = '<div id="lang-btn" title="Translate...">' +
+		'<div id="lang-trans"></div>' +
+		'<select id="lang-choice" class="notranslate" translate="no"></select>' +
+	'</div>';
+
+/**
+ * @private
+ * @const
+ * @type {string}
+ */
+nyc.Lang.ARROW_HTML = '<div id="lang-hint-arrow" class="notranslate" translate="no">' +
+		'<span>Translate</span>' +
+		'<!-- my sincerest apologies to all sensible people -->' +
+		'<a data-role="button" data-icon="delete" data-iconpos="notext">Close</a>' +
+	'</div>';

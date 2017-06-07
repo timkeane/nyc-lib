@@ -15,6 +15,7 @@ nyc.ol.source = nyc.ol.source || {};
  */
 nyc.ol.source.FilteringAndSorting = function(options, decorationMixins, autoLoad){
 	var me = this;
+	autoLoad = autoLoad || {};
 	/**
 	 * @private
 	 * @member {Array<ol.Feature>}
@@ -25,6 +26,16 @@ nyc.ol.source.FilteringAndSorting = function(options, decorationMixins, autoLoad
 	 * @member {boolean}
 	 */
 	me.filtering = false;
+	/**
+	 * @private
+	 * @member {ol.ProjectionLike}
+	 */
+	me.nativeProjection = autoLoad.nativeProjection;
+	/**
+	 * @private
+	 * @member {ol.ProjectionLike}
+	 */
+	me.projection = autoLoad.projection;
 	decorationMixins = decorationMixins || [];
 	decorationMixins.push({
 		getDistance: function(){
@@ -83,11 +94,14 @@ nyc.ol.source.FilteringAndSorting.prototype.filter = function(filters){
  * @return {Array<ol.Feature>} An array of the features contained in this source that are the result is the intersection of the currently applied filters sorted by their distance to the coordinate provided
  */
 nyc.ol.source.FilteringAndSorting.prototype.sort = function(coordinate){
-	var result = this.getFeatures();
+	var me = this, result = me.getFeatures();
 	if (coordinate){
 		$.each(result, function(_, facility){
 			var center = ol.extent.getCenter(facility.getGeometry().getExtent()),
 				line = new ol.geom.LineString([center, coordinate]);
+			if (me.nativeProjection && me.projection){
+				line.transform(me.projection, me.nativeProjection);
+			}
 			facility.setDistance(line.getLength());
 		});
 		result.sort(function(a, b){
