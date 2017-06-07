@@ -22,19 +22,25 @@
 	<!-- nyc js -->
 	
 	<style>
-		div {
+		body.ui-mobile-viewport {
 			margin: 10px;
+			overflow: hidden;
+		}
+		#lang {
+			position: fixed;
+			left: 10px;
+			top: 60px;
 		}
 	</style>
 </head>
 <body>
 	<div>Something to translate</div>
 	<div class="notranslate" translate="no">Something not to translate</div>
-	<div id="someRandomDomId"></div>
+	<div id="lang"></div>
 	<script>
 		$(document).ready(function(){
 			new nyc.Lang({
-				target: '#someRandomDomId',
+				target: '#lang',
 				languages: {
 				    en: {val: 'English', desc: 'English', hint: 'Translate'},
 				    ar: {val: 'Arabic', desc: '&#x627;&#x644;&#x639;&#x631;&#x628;&#x64A;&#x629;', hint: '&#x62A;&#x631;&#x62C;&#x645;'},

@@ -38,7 +38,7 @@ nyc.Lang = function(options){
 		$('#lang-choice-button').addClass('mnu');
 	}
 	$('body').addClass('lang-en');		
-	$.getScript('//translate.google.com/translate_a/element.js?cb=nyc.lang.init');
+	$.getScript('https://translate.google.com/translate_a/element.js?cb=nyc.lang.init');
 };
 
 nyc.Lang.prototype = {
@@ -122,20 +122,17 @@ nyc.Lang.prototype = {
 	 * @method 
 	 */
 	showHint: function(){
-		var hint;
+		var hints = this.hints, h = 0;
 		if (!this.isButton){
-			hint = $('#lang-choice-button span');
+			hint = '#lang-choice-button span';
 		}else if (this.showArrow){
-			hint = $('#lang-hint-arrow span');
+			hint = '#lang-hint-arrow span';
 		}
-		if (hint){
-			var hints = this.hints, h = 0;
-			setInterval(function(){
-				hint.html(hints[h] || 'Translate');
-				h++;
-				if (h == hints.length) h = 0;
-			}, 1000);
-		}
+		setInterval(function(){
+			$(hint).html(hints[h] || 'Translate');
+			h++;
+			if (h == hints.length) h = 0;
+		}, 1000);
     },
 	/** 
 	 * @private

@@ -12,6 +12,8 @@
 }
 #lang-choice-button.mnu {
 	height: 32px;
+	padding: 2px 0 3px 0;
+	max-width: 100%;
 }
 #lang-choice-button.ctl-btn {
 	background-image: var(--theme-lang-choice-bg-img);
@@ -32,14 +34,14 @@
 	background-image: none;
 }
 #lang-choice-button:after {
-	background-color: rgba(0,0,0,0.5);
-	width: 19px;
-	height: 19px;
-	border-radius: 10px;
-	background-image: var(--theme-lang-mnu-bg-img);
-	position: absolute;
-	top: 18px;
-	right: 3px;
+    background-color: rgba(0,0,0,0.5);
+    width: 22px;
+    height: 22px;
+    border-radius: 11px;
+    background-image: var(--theme-lang-mnu-bg-img);
+    position: absolute;
+    top: 19px;
+    right: 3px;
 }
 #lang-choice-button:hover:after {
 	background-color: #000;
