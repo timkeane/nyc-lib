@@ -236,6 +236,7 @@ nyc.ZoomSearch.prototype = {
 		this.emptyList();
 		this.input.attr('placeholder', placeholder);
 		this.list.append(this.getElem('.fld-srch-retention li.srch-type-' + featureTypeName))
+			.listview({})
 			.listview('refresh');
 	},
 	/**
@@ -248,6 +249,7 @@ nyc.ZoomSearch.prototype = {
 		this.list.empty();
 		if (!this.useSearchTypeMenu && !disambiguating){
 			this.list.append(this.getElem('.fld-srch-retention li.srch-type-feature'))
+				.listview({})
 				.listview('refresh');
 		}
 	},
