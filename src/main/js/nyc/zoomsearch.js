@@ -18,7 +18,7 @@ nyc.ZoomSearch = function(useSearchTypeMenu){
 	me.list = me.getElem('.fld-srch');
 	me.typBtn.click($.proxy(me.searchType, me));
 	me.input.on('keyup change', $.proxy(me.key, me));
-	me.input.click(function(){me.input.select();});
+	me.input.focus(function(){me.input.select();});
 	me.getElem('.btn-z-in, .btn-z-out').click($.proxy(me.zoom, me));
 	me.getElem('.fld-srch-container .ui-input-clear').click(function(){
 		me.list.slideUp();
