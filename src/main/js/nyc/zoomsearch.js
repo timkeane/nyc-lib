@@ -259,9 +259,10 @@ nyc.ZoomSearch.prototype = {
 	 * @param {jQuery.Event} e
 	 */
 	disambiguated: function(e){
-		var li = $(e.target);
+		var li = $(e.target), data = li.data('location');
 		this.val(li.html());
-		this.trigger(nyc.ZoomSearch.EventType.DISAMBIGUATED, li.data('location'));
+		data.isFeature = li.hasClass('srch-type-feature');
+		this.trigger(nyc.ZoomSearch.EventType.DISAMBIGUATED, data);
 		li.parent().slideUp();
 		this.emptyList();
 	}		
