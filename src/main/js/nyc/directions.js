@@ -36,8 +36,8 @@ nyc.Directions = function(mapTarget, routeTarget, url){
 	me.routeTarget = routeTarget;
 	me.url = (url || nyc.Directions.GOOGLE_URL) + '&callback=nyc.directions.init';
 	nyc.directions = me;
-	$('.dir-mode-btn').click($.proxy(this.mode, this));
-	$(window).on('orientationchange resize', me.height);
+	$('.dir-mode-btn').click($.proxy(me.mode, me));
+	$(window).on('orientationchange resize', $.proxy(me.height, me));
 	$('#fld-from input').keypress(function(e){
 		if (e.keyCode == 13){
 			me.args.from = $('#fld-from input').val();
@@ -226,12 +226,34 @@ nyc.Directions.prototype = {
 	 * @method
 	 */
 	height: function(){
+		if (nyc.util.isIos()){
+			this.heightAdjIos();
+		}else{
+			this.heightAdj();
+		}
+	},
+	/** 
+	 * @private 
+	 * @method
+	 */
+	heightAdj: function(){
 		var toggle =  $('#dir-toggle').css('display') == 'block' ? $('#dir-toggle').height() : 0,
 			panel = $('#dir-panel').height() || 0,
 			banner = $('.banner').height() || 0,
 			content = $('#dir-content').height() || 0,
 			copy = $('#copyright').height() || 0;
-		$('#directions').height(panel - toggle - banner - content - copy - 10);
+		$('#directions').height(panel - toggle - banner - content - copy - 10);			
+	},
+	/** 
+	 * @private 
+	 * @method
+	 */
+	heightAdjIos: function(){
+		var me = this;
+		setInterval(function(){
+			me.heightAdj();				
+			google.maps.event.trigger(me.map, 'resize');
+		}, 400);
 	}
 };
 
