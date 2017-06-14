@@ -21,27 +21,39 @@ nyc.Geocoder.Accuracy = {
 	/**
 	 * @desc Medium accuracy
 	 */
-	MEDIUM: 100,
+	MEDIUM: 30,
 	/**
 	 * @desc Low accuracy
 	 */
-	LOW: 1000,
+	LOW: 300,
 	/**
 	 * @desc ZIP Code accuracy
 	 */
-	ZIP_CODE: 2000
+	ZIP_CODE: 600
 };
 
 nyc.Geocoder.prototype = {
-		/**
-		 * @desc Geocode an input string representing a location
-		 * @public
-		 * @abstract
-		 * @method
-		 * @param {string} input The value to geocode
-		 */
+	/**
+	 * @desc Geocode an input string representing a location
+	 * @public
+	 * @abstract
+	 * @method
+	 * @param {string} input The value to geocode
+	 */
 	search: function(input){
-		throw 'Not Implemented'
+		throw 'Not Implemented';
+	},
+	/**
+	 * @desc Get a distance for an accuracy enumerator based on the projections
+	 * @public
+	 * @abstract
+	 * @method
+	 * @param {nyc.Geocoder.Accuracy} accuracy
+	 * @return {number}
+	 * 
+	 */
+	accuracyDistance: function(accuracy){
+		throw 'Not Implemented';
 	}
 };
 
@@ -103,6 +115,22 @@ nyc.Geoclient.prototype = {
 					me.trigger(nyc.Locate.EventType.ERROR, [xhr, status, error]);
 				}
 			});
+		}
+	},
+	/**
+	 * @desc Get a distance for an accuracy enumerator based on the projections
+	 * @public
+	 * @method
+	 * @param {nyc.Geocoder.Accuracy} accuracy
+	 * @return {number}
+	 * 
+	 */
+	accuracyDistance: function(accuracy){
+		if (this.projection){
+			var prj = new ol.proj.Projection({code: this.projection});
+			return accuracy / prj.getMetersPerUnit();
+		}else{
+			return accuracy;
 		}
 	},
 	/**

@@ -17,6 +17,16 @@ QUnit.module('nyc.Geocoder', {
 	}
 });
 
+QUnit.test('accuracyDistance', function(assert){
+	assert.expect(2);
+
+	var geocoder = new nyc.Geoclient();
+	assert.equal(geocoder.accuracyDistance(nyc.Geocoder.Accuracy.MEDIUM), 30);
+	
+	geocoder = new nyc.Geoclient(null, 'EPSG:2263');
+	assert.equal(Math.round(geocoder.accuracyDistance(nyc.Geocoder.Accuracy.MEDIUM)), 98);
+});
+
 QUnit.test('project', function(assert){
 	assert.expect(2);
 
@@ -82,7 +92,7 @@ QUnit.test('possible', function(assert){
 	assert.deepEqual(
 		geocoder.possible(this.GEOCLIENT_NOT_OK_RESPONSE.results),
 		[{
-			accuracy: 100,
+			accuracy: 30,
 			coordinates:  proj4('EPSG:2263','EPSG:3857', [1002457, 234792]),
 			name: 'Metro North Bridge, Manhattan, NY ',
 			type: 'geocode',
@@ -96,7 +106,7 @@ QUnit.test('possible', function(assert){
 			data: this.GEOCLIENT_NOT_OK_RESPONSE.results[2].response
 		},
 		{
-			accuracy: 100,
+			accuracy: 30,
 			coordinates:  proj4('EPSG:2263','EPSG:3857', [999790, 225881]),
 			name: 'Metro North Park, Manhattan, NY 10029',
 			type: 'geocode',
@@ -147,7 +157,7 @@ QUnit.test('geoclient (ambiguous)', function(assert){
 			input: '2 metrotech, ny',
 			possible: [
 	           {
-	        	   accuracy: 100,
+	        	   accuracy: 30,
 	        	   coordinates:  proj4('EPSG:2263','EPSG:3857', [1002457, 234792]),
 	        	   name: 'Metro North Bridge, Manhattan, NY ',
 	        	   type: 'geocode',
@@ -161,7 +171,7 @@ QUnit.test('geoclient (ambiguous)', function(assert){
 					data: response.results[2].response
 	           },
 	           {
-	        	   accuracy: 100,
+	        	   accuracy: 30,
 	        	   coordinates:  proj4('EPSG:2263','EPSG:3857', [999790, 225881]),
 	        	   name: 'Metro North Park, Manhattan, NY 10029',
 	        	   type: 'geocode',
