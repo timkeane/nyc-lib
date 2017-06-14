@@ -38,7 +38,7 @@ nyc.ol.source.CsvPointFeatureLoader = function(options) {
 					$.each(csvRows, function(i, csvRow){
 						try{
 							var feature = new ol.Feature(csvRow);
-							feature.setId(i);
+							feature.setId(csvRow[options.fidCol] || i);
 							feature.setGeometry(point(csvRow, options.projection, projection));
 							src.addFeature(feature);							
 						}catch(e){
@@ -64,6 +64,7 @@ nyc.ol.source.CsvPointFeatureLoader.prototype = {};
  * @public
  * @typedef {Object}
  * @property {string} url URL to a CSV file
+ * @property {string=} fidCol Name of the CSV column containing the feature id.
  * @property {string=} xCol Name of the CSV column containing X coordinate of feature location. Either xCol and yCol or a geomParser are required.
  * @property {string=} yCol Name of the CSV column containing Y coordinate of feature location. Either xCol and yCol or a geomParser are required.
  * @property {Function(Array<Object>)=} geomParser A function to parse a point from a CSV row
