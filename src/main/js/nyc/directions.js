@@ -251,8 +251,10 @@ nyc.Directions.prototype = {
 	heightAdjIos: function(){
 		var me = this;
 		setInterval(function(){
-			me.heightAdj();				
-			google.maps.event.trigger(me.map, 'resize');
+			try{
+				me.heightAdj();				
+				google.maps.event.trigger(me.map, 'resize');
+			}catch(ignore){}
 		}, 400);
 	}
 };
