@@ -98,7 +98,7 @@ nyc.ol.Locator.prototype = {
 	 * @return {ol.Feature}
 	 */
 	feature: function(location){		 
-		var format = this.format, geoJson = location.geometry, feature = new ol.Feature({name: location.name});
+		var format = this.format, geoJson = location.geometry, feature = new ol.Feature({name: location.name, isFeature: location.isFeature});
 		if (geoJson){
 			feature.setGeometry(format.readGeometry(location.geometry));
 		}else{
