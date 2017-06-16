@@ -85,7 +85,7 @@ nyc.ol.Basemap = function(options, preload){
 	//hack fix for misbehaving iphone 
 	if (nyc.util.isIos()){
 		$(window).resize(function(){
-			setTimeout(function(){
+			setInterval(function(){
 				me.updateSize();
 			}, 400);
 		});		
