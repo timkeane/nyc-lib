@@ -5,6 +5,9 @@ var nyc = nyc || {};
  * @public
  * @interface
  * @extends {nyc.EventHandling}
+ * @fires nyc.Locate#geocode
+ * @fires nyc.Locate#ambiguous
+ * @fires nyc.Locate#error
  */
 nyc.Geocoder = function(){};
 
@@ -57,6 +60,8 @@ nyc.Geocoder.prototype = {
 	}
 };
 
+nyc.inherits(nyc.Geocoder, nyc.EventHandling);
+
 /**
  * @desc A class for geocoding using the New York City Geoclient API
  * @public
@@ -65,9 +70,6 @@ nyc.Geocoder.prototype = {
  * @constructor
  * @param {string} url The URL for accessing the Geoclient API
  * @param {string} [projection=EPSG:3857] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
- * @fires nyc.Locate#geocode
- * @fires nyc.Locate#ambiguous
- * @fires nyc.Locate#error
  * @see https://developer.cityofnewyork.us/api/geoclient-api
  */
 nyc.Geoclient = function(url, projection){
@@ -235,7 +237,7 @@ nyc.Geoclient.prototype = {
 	}
 };
 
-nyc.inherits(nyc.Geoclient, nyc.EventHandling);
+nyc.inherits(nyc.Geoclient, nyc.Geocoder);
 
 /**
  * @private
