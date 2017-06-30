@@ -67,6 +67,13 @@ a.popup-closer:hover {
 .popup .inf-map {
 	display: none;
 }
+@media only screen and (max-height : 650px) {
+	.popup-content {
+	    max-height: 290px;
+	    overflow-x: hidden;
+	    overflow-y: auto;
+	}
+}
 @media only screen and (max-height : 330px) {
 	.popup {
 		max-height: 310px;
