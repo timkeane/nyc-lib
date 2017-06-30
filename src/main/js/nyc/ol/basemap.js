@@ -91,6 +91,12 @@ nyc.ol.Basemap = function(options, preload){
 		});		
 	}
 
+	if ('matchMedia' in window){
+		window.matchMedia('print').addListener(function(media){
+			me.updateSize(); 
+			me.renderSync();
+		});
+	}
 };
 
 ol.inherits(nyc.ol.Basemap, ol.Map);
