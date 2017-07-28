@@ -89,9 +89,9 @@ nyc.ol.layer.zoning.District.prototype = {
  			tip: '<div class="zoning"><b>${ZONEDIST}</b><br>${category}</div>',
  			popup: '<div class="zoning">' +
 	 			'<div><b>Zoning designation:</b></div>' +
-	 			'<div><a href="${zonedistUrl}" target="_blank">${ZONEDIST}</a></div>' +
+	 			'<div><a href="${zonedistUrl}" target="_blank" rel="noopener noreferer">${ZONEDIST}</a></div>' +
 	 			'<div><b>Description:</b></div>' +
-	 			'<div><a href="${categoryUrl}" target="_blank">${category}</a></div>'
+	 			'<div><a href="${categoryUrl}" target="_blank" rel="noopener noreferer">${category}</a></div>'
 		}),
 		{
 			/**
