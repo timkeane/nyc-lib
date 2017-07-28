@@ -99,7 +99,7 @@ nyc.ol.source.FilteringAndSorting.prototype.sort = function(coordinate){
 		$.each(result, function(_, facility){
 			var center = ol.extent.getCenter(facility.getGeometry().getExtent()),
 				line = new ol.geom.LineString([center, coordinate]);
-			if (me.nativeProjection && me.projection){
+			if (me.nativeProjection && me.nativeProjection != 'EPSG:4326' && me.projection){
 				line.transform(me.projection, me.nativeProjection);
 			}
 			facility.setDistance(line.getLength());
