@@ -150,7 +150,7 @@ nyc.ol.Locator.prototype = {
 	 * @method
 	 */
 	createStyle: function(){
-		var icon = nyc.ol.style.LOCATION_ICON;
+		var icon = nyc.ol.style.locationIcon();
 		var stroke = new ol.style.Stroke({
 			width: 2,
 			color: '#000'
