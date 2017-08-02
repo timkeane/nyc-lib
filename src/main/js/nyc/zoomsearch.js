@@ -17,7 +17,12 @@ nyc.ZoomSearch = function(useSearchTypeMenu){
 	me.input = me.getElem('.fld-srch-container input');
 	me.list = me.getElem('.fld-srch');
 	me.typBtn.click($.proxy(me.searchType, me));
-	me.input.on('keyup change', $.proxy(me.key, me));
+	me.input.on('keydown change', $.proxy(me.key, me));
+	me.input.on('keyup', function(e){
+		if (e.keyCode == 13 && !$.ui.keyCode.ENTER){
+			$.ui.keyCode.ENTER = 13;
+		}
+	});
 	me.input.focus(function(){me.input.select();});
 	me.getElem('.btn-z-in, .btn-z-out').click($.proxy(me.zoom, me));
 	me.getElem('.fld-srch-container .ui-input-clear').click(function(){
@@ -78,6 +83,7 @@ nyc.ZoomSearch.prototype = {
 	 * @param {Object} e
 	 */
 	key: function(e){
+		delete $.ui.keyCode.ENTER;
 		if (e.keyCode == 13 && this.isAddrSrch){
 			this.triggerSearch();
 			this.list.slideUp();
