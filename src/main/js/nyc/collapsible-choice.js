@@ -11,9 +11,8 @@ var nyc = nyc || {};
  * @fires nyc.Choice#change
  */
 nyc.Choice = function(options){
-	this.container = $(options.target);
-	$(options.target).append(this.fieldset);
 	nyc.Collapsible.apply(this, [options]);
+	this.container.append(this.fieldset);
 	this.setChoices(options.choices);
 };
 
