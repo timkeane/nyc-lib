@@ -64,6 +64,31 @@ nyc.util = {
 		return elems;
 	},
 	/**
+	 * @desc Format HTML content to locale specific date format
+	 * @public
+	 * @static
+	 * @function
+	 * @param {nyc.util.FormatDateHtmlOptions} options The options for formatting dates
+	 * @returns {JQuery} The elements that have been formatted
+	 */
+	formatDateHtml: function(options){
+		var elems = $(options.elements);
+		if ('toLocaleString' in Date){
+			elems.each(function(_, n){
+				var date = $(n).html();
+				if (date.trim()){
+					var opts = options.options || {};
+					var lang = options.lang || navigator.language;
+					try{
+						date = new Date(date).toLocaleString(lang, opts);
+						$(n).html(date);
+					}catch(ignore){}
+				}
+			});					
+		}
+		return elems;
+	},
+	/**
 	 * @desc A click event handler for HTML elements that will not fire twice on certain mobile devices
 	 * @public
 	 * @static
@@ -133,4 +158,14 @@ nyc.util = {
  * @property {Object=} options The options for Number#toLocaleString {@see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString}
  */
 nyc.util.FormatNumberHtmlOptions;
+
+/**
+ * @desc Object type to hold arguments for {@link nyc.util.formatDateHtml}
+ * @public
+ * @typedef {Object}
+ * @property {JQuery|string} elements The HTML elements to format
+ * @property {string=} lang The language code for formatting
+ * @property {Object=} options The options for Date#toLocaleString {@see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString}
+ */
+nyc.util.FormatDateHtmlOptions;
 
