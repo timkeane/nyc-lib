@@ -102,7 +102,7 @@ nyc.ol.layer.transit.Subway.prototype = {
 			stationTip: '<div class="subway"><div class="notranslate" translate="no">${NAME}</div><div class="icons notranslate" translate="no"></div></div>',
 			lineTip: '<div><div class="icons notranslate" translate="no"></div></div>',
 			info: '<div class="subway"><b class="notranslate" translate="no">${NAME}</b><div class="icons notranslate" translate="no"></div><div class="note">${NOTES}</div></div>',
-			icon: '<a class="subway-icon subway-${line} ${express}" href="http://web.mta.info/nyct/service/${webpage}.htm" title="${name} service info" target="_blank" rel="noopener noreferer"><div>${line}</div></a>'
+			icon: '<a class="subway-icon subway-${line} ${express}" href="http://web.mta.info/nyct/service/${webpage}.htm" title="${name} service info" target="_blank" rel="noopener noreferrer"><div>${line}</div></a>'
 		}),
 		{
 			webpages: {

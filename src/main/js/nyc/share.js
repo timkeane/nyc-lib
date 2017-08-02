@@ -49,19 +49,19 @@ nyc.Share.HTML =
 		'<span class="noshow">Share...</span>' +
 	'</a>' +
 	'<div id="share-btns" class="ctl">' +
-		'<a id="facebook-btn" class="ctl-btn" data-role="button" href="https://www.facebook.com/sharer/sharer.php?u=${url}" target="_blank" rel="noopener noreferer" title="Facebook">' +
+		'<a id="facebook-btn" class="ctl-btn" data-role="button" href="https://www.facebook.com/sharer/sharer.php?u=${url}" target="_blank" rel="noopener noreferrer" title="Facebook">' +
 			'<span class="noshow">Facebook</span>' +
 		'</a>' +
-		'<a id="twitter-btn" class="ctl-btn" data-role="button" href="https://twitter.com/intent/tweet?text=${url} @nycgov&source=webclient" target="_blank" rel="noopener noreferer" title="Twitter">' +
+		'<a id="twitter-btn" class="ctl-btn" data-role="button" href="https://twitter.com/intent/tweet?text=${url} @nycgov&source=webclient" target="_blank" rel="noopener noreferrer" title="Twitter">' +
 			'<span class="noshow">Twitter</span>' +
 		'</a>' +
-		'<a id="google-btn" class="ctl-btn" data-role="button" href="https://plus.google.com/share?url=${url}" target="_blank" rel="noopener noreferer" title="Google+">' +
+		'<a id="google-btn" class="ctl-btn" data-role="button" href="https://plus.google.com/share?url=${url}" target="_blank" rel="noopener noreferrer" title="Google+">' +
 			'<span class="noshow">Google+</span>' +
 		'</a>' +
-		'<a id="linkedin-btn" class="ctl-btn" data-role="button" href="http://www.linkedin.com/shareArticle?mini=true&url=${url}" target="_blank" rel="noopener noreferer" title="LinkedIn">' +
+		'<a id="linkedin-btn" class="ctl-btn" data-role="button" href="http://www.linkedin.com/shareArticle?mini=true&url=${url}" target="_blank" rel="noopener noreferrer" title="LinkedIn">' +
 			'<span class="noshow">LinkedIn</span>' +
 		'</a>' +
-		'<a id="tumblr-btn" class="ctl-btn" data-role="button" href="http://www.tumblr.com/share/link?url=${url}&name=${title}&description=via%20NYC.gov" target="_blank" rel="noopener noreferer" title="Tumblr">' +
+		'<a id="tumblr-btn" class="ctl-btn" data-role="button" href="http://www.tumblr.com/share/link?url=${url}&name=${title}&description=via%20NYC.gov" target="_blank" rel="noopener noreferrer" title="Tumblr">' +
 			'<span class="noshow">Tumblr</span>' +
 		'</a>' +
 		'<a id="email-btn" class="ctl-btn" data-role="button" href="mailto:?subject=${title}&body=${description}%0A%0A${url}" title="email">' +
