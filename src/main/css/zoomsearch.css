@@ -126,3 +126,6 @@ div.fld-srch-container a.ui-input-clear.ui-btn.ui-icon-delete {
 .ol-zoom, .ol-attribution {
 	display: none;
 }
+.leaflet-container .z-srch {
+	z-index: 2000;
+}
