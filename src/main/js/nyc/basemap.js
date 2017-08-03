@@ -68,7 +68,6 @@ nyc.Basemap.prototype = {
 	}
 };
 
-
 /** 
  * @desc Enumerator for label types
  * @public

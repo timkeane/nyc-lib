@@ -69,6 +69,7 @@ ext {
 		'nyc/share.js',
 		'nyc/listpager.js',
 		'nyc/zoomsearch.js',
+		'nyc/soda/query.js', 
 		'nyc/info/finder.js', 
 		'nyc/ol/ol.js', 
 		'nyc/ol/style/style.js', 
@@ -120,6 +121,7 @@ ext {
 		'nyc/share.js',
 		'nyc/listpager.js',
 		'nyc/zoomsearch.js',
+		'nyc/soda/query.js', 
 		'nyc/info/finder.js', 
 		'nyc/leaf/leaf.js', 
 		'nyc/leaf/basemap.js', 
@@ -564,7 +566,7 @@ task deploy(dependsOn: [archive]) << {
 	versions.forEach { aVer ->
 		def name = aVer
 		if (i == 3){
-			index.append '<a href="#" onclick="toggle(this);">Show older versions...</a><div id="older">'		
+			index.append '<a href="#" onclick="toggle(this);">Show older versions...</a><div id="older" style="display:none;">'		
 		}
 		i++
 		if (aVer.indexOf('-X') > -1){
