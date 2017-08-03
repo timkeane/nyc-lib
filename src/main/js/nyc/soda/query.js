@@ -18,7 +18,7 @@ nyc.soda.Query = function(options){
 	this.setUrl(options.url);
 	this.setQuery(options.query);
 	this.clearAllFilters();
-	this.addFilters(options.filters);
+	this.setFilters(options.filters);
 };
 
 nyc.soda.Query.prototype = {
@@ -29,14 +29,23 @@ nyc.soda.Query.prototype = {
 	url: null,
 	/**
 	 * @private
-	 * @member {string}
-	 */
-	baseWhereClause: null,
-	/**
-	 * @private
 	 * @member {nyc.soda.Query.Query}
 	 */
 	query: null,
+	/**
+	 * @private
+	 * @member {Object<string, Array<nyc.soda.Query.Filter>>} 
+	 */
+	filters: null,
+	/**
+	 * @desc Overwrite filters for the query
+	 * @public
+	 * @method
+	 * @param {Object<string, Array<nyc.soda.Query.Filter>>} filters Filter arrays mapped to field names
+	 */
+	setFilters: function(filters){
+		this.filters = filters || {};
+	},
 	/**
 	 * @desc Add filters to the query
 	 * @public
@@ -50,6 +59,16 @@ nyc.soda.Query.prototype = {
 				me.addFilter(field, this);
 			});
 		}
+	},
+	/**
+	 * @desc Overwrite a filter for the query
+	 * @public
+	 * @method
+	 * @param {string} field The field to which the filter will be applied
+	 * @param {nyc.soda.Query.Filter} filters The filter to apply to the field
+	 */
+	setFilter: function(field, filter){
+		this.filters[field] = [filter];
 	},
 	/**
 	 * @desc Add a filter to the query
@@ -75,7 +94,6 @@ nyc.soda.Query.prototype = {
 		this.query.group = query.group || this.query.group;
 		this.query.order = query.order || this.query.order;
 		this.query.limit = query.limit || this.query.limit;
-		this.baseWhereClause = this.query.where || '';
 	},
 	/**
 	 * @desc Execute the query
@@ -138,6 +156,7 @@ nyc.soda.Query.prototype = {
 	 * @method
 	 * @param {string} field 
 	 * @param {nyc.soda.Query.Filter} filters
+	 * @return {string}
 	 */
 	appendFilter: function(where, field, filter){
 		var value = filter.value;
@@ -157,8 +176,7 @@ nyc.soda.Query.prototype = {
 				value = "('" + value.join("', '") + "')";
 			}
 		}
-		where = nyc.soda.Query.and(where, field + ' ' + filter.op + ' ' + value);
-		
+		return nyc.soda.Query.and(where, field + ' ' + filter.op + ' ' + value);
 	},
 	/** 
 	 * @private
@@ -166,9 +184,9 @@ nyc.soda.Query.prototype = {
 	 * @return {string}
 	 */
 	qstr: function(){
-		var me =this, qry = {};
-		for (var p in this.query){
-			qry['$' + p] = this.query[p];
+		var me = this, qry = {};
+		for (var p in me.query){
+			qry['$' + p] = me.query[p];
 		}
 		for (var field in me.filters){
 			$.each(me.filters[field], function(){
@@ -214,10 +232,13 @@ nyc.soda.Query.prototype = {
  * @return {string} The modified where clause
  */
 nyc.soda.Query.and = function(where, clause){
-	if (clause){
-		return where + ' AND ' + clause;
+	if (where){
+		if (clause){
+			return where + ' AND ' + clause;
+		}
+		return where;	
 	}
-	return where;	
+	return clause;
 };
 
 /**
