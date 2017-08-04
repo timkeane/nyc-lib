@@ -1,4 +1,4 @@
-QUnit.module('nyc.Lang', {
+QUnit.module('nyc.lang.Goog', {
 	beforeEach: function(assert){
 		setup(assert, this);		
 		this.GET_SCRIPT = $.getScript;
@@ -9,7 +9,7 @@ QUnit.module('nyc.Lang', {
 				TranslateElement: function(options, target){
 					assert.deepEqual(options, {
 						pageLanguage: 'en',
-						includedLanguages: nyc.lang.codes,
+						includedLanguages: nyc.lang.translate.codes,
 						layout: 2,
 						autoDisplay: false
 					});
@@ -21,8 +21,8 @@ QUnit.module('nyc.Lang', {
 
 		$.getScript = function(url){
 			setTimeout(function(){
-				assert.equal(url, 'https://translate.google.com/translate_a/element.js?cb=nyc.lang.init');
-				nyc.lang.init();				
+				assert.equal(url, 'https://translate.google.com/translate_a/element.js?cb=nyc.lang.translate.init');
+				nyc.lang.translate.init();				
 			}, 100);
 		};
 		
@@ -75,7 +75,7 @@ QUnit.module('nyc.Lang', {
 		delete this.GOOG;
 		
 		delete this.LANGUAGES;
-		delete nyc.lang;
+		delete nyc.lang.translate;
 		
 		this.TEST_INPUT_HTML.remove();
 		this.TEST_BUTTON_HTML.remove();
@@ -104,44 +104,35 @@ QUnit.test('constructor', function(assert){
 		done();
 	}
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 
 });
 
 QUnit.test('init', function(assert){
-	assert.expect(9);
+	assert.expect(5);
 	
 	var done = assert.async();
 	
 	var testLang;
-	var initDropdown = nyc.Lang.prototype.initDropdown;
-	var setLangDropdown = nyc.Lang.prototype.setLangDropdown;
-	var hack = nyc.Lang.prototype.hack;
+	var render = nyc.lang.Goog.prototype.render;
+	var hack = nyc.lang.Goog.prototype.hack;
 	
-	nyc.Lang.prototype.initDropdown = function(){
-		assert.ok(true, 'initDropdown');
+	nyc.lang.Goog.prototype.render = function(target){
+		assert.equal(target, 'body', 'render');
 	};
-	nyc.Lang.prototype.setLangDropdown = function(){
-		assert.ok(true, 'setLangDropdown');
-	};
-	nyc.Lang.prototype.hack = function(){
-		assert.ok(true, 'hack');
+	nyc.lang.Goog.prototype.hack = function(){
+		assert.ok(true, 'hack', 'hack');
 	};
 	
 	function test(){
-		assert.equal($('#lang-choice').css('display'), 'inline-block');			
-		assert.equal($('#lang-choice-button span').html(), 'Translate');			
-		assert.equal($('#lang-choice-button span').css('display'), 'inline');			
-
-		nyc.Lang.prototype.initDropdown = initDropdown;
-		nyc.Lang.prototype.setLangDropdown = setLangDropdown;
-		nyc.Lang.prototype.hack = hack;
+		nyc.lang.Goog.prototype.render = render;
+		nyc.lang.Goog.prototype.hack = hack;
 		done();		
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 
 });
 
@@ -166,21 +157,21 @@ QUnit.test('showHint', function(assert){
 		}, 1010);		
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 
 });
 
-QUnit.test('chooseLang', function(assert){
+QUnit.test('translate', function(assert){
 	assert.expect(14);
 	
 	var done = assert.async();
 
 	var testLang;
-	var showOriginalText = nyc.Lang.prototype.showOriginalText;
+	var showOriginalText = nyc.lang.Goog.prototype.showOriginalText;
 	var languages = this.LANGUAGES;
 	
-	nyc.Lang.prototype.showOriginalText = function(){
+	nyc.lang.Goog.prototype.showOriginalText = function(){
 		assert.ok(true, 'showOriginalText');
 	};
 	
@@ -192,19 +183,19 @@ QUnit.test('chooseLang', function(assert){
 			$(items).each(function(){
 				if (choice != 'English' && $(this).text() == choice){
 					$(this).one('click', function(){
-						assert.ok(true);
+						assert.ok(true, $(this).text());
 					});
 				}
 			});
-			testLang.chooseLang(choice);
+			$('#lang-choice').val(choice).trigger('change');
 		}
 
-		nyc.Lang.prototype.showOriginalText = showOriginalText;
+		nyc.lang.Goog.prototype.showOriginalText = showOriginalText;
 		done();
 	};
 	
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('initDropdown', function(assert){
@@ -213,11 +204,11 @@ QUnit.test('initDropdown', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var chooseLang = nyc.Lang.prototype.chooseLang;
+	var translate = nyc.lang.Goog.prototype.translate;
 	var languages = this.LANGUAGES;
 
-	nyc.Lang.prototype.chooseLang = function(val){
-		assert.equal(val, $('#lang-choice').val());
+	nyc.lang.Goog.prototype.translate = function(event){
+		assert.equal($(event.target).val(), $('#lang-choice').val());
 	};
 	
 	function test(){
@@ -225,12 +216,12 @@ QUnit.test('initDropdown', function(assert){
 			$('#lang-choice').val(languages[code].val).trigger('change');
 		}
 		
-		nyc.Lang.prototype.chooseLang = chooseLang;
+		nyc.lang.Goog.prototype.translate = translate;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('showOriginalText', function(assert){
@@ -239,7 +230,7 @@ QUnit.test('showOriginalText', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var chooseLang = nyc.Lang.prototype.chooseLang;
+	var translate = nyc.lang.Goog.prototype.translate;
 	var languages = this.LANGUAGES;
 	
 	function test(){
@@ -257,8 +248,8 @@ QUnit.test('showOriginalText', function(assert){
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (no cookie, default en-US)', function(assert){
@@ -267,20 +258,20 @@ QUnit.test('setLangDropdown (no cookie, default en-US)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var chooseLang = nyc.Lang.prototype.chooseLang;
+	var translate = nyc.lang.Goog.prototype.translate;
 	var languages = this.LANGUAGES;
 
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);		
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){
+	nyc.lang.Goog.prototype.defaultLang = function(){
 		return 'en-US';
 	};
 
@@ -289,14 +280,14 @@ QUnit.test('setLangDropdown (no cookie, default en-US)', function(assert){
 		$('#lang-choice').one('change', function(evt){
 			assert.equal($(evt.target).val(), languages.en.val);
 		});
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 	
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (no cookie, default en)', function(assert){
@@ -304,33 +295,33 @@ QUnit.test('setLangDropdown (no cookie, default en)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var chooseLang = nyc.Lang.prototype.chooseLang;
+	var translate = nyc.lang.Goog.prototype.translate;
 	var languages = this.LANGUAGES;
 
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);		
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){
+	nyc.lang.Goog.prototype.defaultLang = function(){
 		return 'en';
 	};
 
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (no cookie, default undefined)', function(assert){
@@ -338,17 +329,17 @@ QUnit.test('setLangDropdown (no cookie, default undefined)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);		
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){};
+	nyc.lang.Goog.prototype.defaultLang = function(){};
 
 	$('#lang-choice').one('change', function(evt){
 		assert.equal($(evt.target).val(), languages.en.val);
@@ -356,14 +347,14 @@ QUnit.test('setLangDropdown (no cookie, default undefined)', function(assert){
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (no cookie, default bn)', function(assert){
@@ -371,17 +362,17 @@ QUnit.test('setLangDropdown (no cookie, default bn)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);		
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){
+	nyc.lang.Goog.prototype.defaultLang = function(){
 		return 'bn';
 	};
 
@@ -391,14 +382,14 @@ QUnit.test('setLangDropdown (no cookie, default bn)', function(assert){
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (no cookie, default zh-CN)', function(assert){
@@ -406,17 +397,17 @@ QUnit.test('setLangDropdown (no cookie, default zh-CN)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);		
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){
+	nyc.lang.Goog.prototype.defaultLang = function(){
 		return 'zh-CN';
 	};
 
@@ -426,14 +417,14 @@ QUnit.test('setLangDropdown (no cookie, default zh-CN)', function(assert){
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (cookie en, default en-US)', function(assert){
@@ -441,18 +432,18 @@ QUnit.test('setLangDropdown (cookie en, default en-US)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);	
 		return 'en';
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){
+	nyc.lang.Goog.prototype.defaultLang = function(){
 		return 'en-US';
 	};
 
@@ -462,14 +453,14 @@ QUnit.test('setLangDropdown (cookie en, default en-US)', function(assert){
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (cookie en, default en)', function(assert){
@@ -477,18 +468,18 @@ QUnit.test('setLangDropdown (cookie en, default en)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);	
 		return 'en';
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){
+	nyc.lang.Goog.prototype.defaultLang = function(){
 		return 'en';
 	};
 
@@ -498,14 +489,14 @@ QUnit.test('setLangDropdown (cookie en, default en)', function(assert){
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (cookie en, default undefined)', function(assert){
@@ -513,18 +504,18 @@ QUnit.test('setLangDropdown (cookie en, default undefined)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);	
 		return 'en';
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){};
+	nyc.lang.Goog.prototype.defaultLang = function(){};
 
 	$('#lang-choice').one('change', function(evt){
 		assert.equal($(evt.target).val(), languages.en.val);
@@ -532,14 +523,14 @@ QUnit.test('setLangDropdown (cookie en, default undefined)', function(assert){
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (cookie en, default bn)', function(assert){
@@ -547,18 +538,18 @@ QUnit.test('setLangDropdown (cookie en, default bn)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);	
 		return 'en';
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){
+	nyc.lang.Goog.prototype.defaultLang = function(){
 		return 'bn';
 	};
 
@@ -568,14 +559,14 @@ QUnit.test('setLangDropdown (cookie en, default bn)', function(assert){
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (cookie en, default zh-CN)', function(assert){
@@ -583,18 +574,18 @@ QUnit.test('setLangDropdown (cookie en, default zh-CN)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);	
 		return 'en';
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){
+	nyc.lang.Goog.prototype.defaultLang = function(){
 		return 'zh-CN';
 	};
 
@@ -604,14 +595,14 @@ QUnit.test('setLangDropdown (cookie en, default zh-CN)', function(assert){
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (cookie bn, default en-US)', function(assert){
@@ -619,18 +610,18 @@ QUnit.test('setLangDropdown (cookie bn, default en-US)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);	
 		return 'bn';
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){
+	nyc.lang.Goog.prototype.defaultLang = function(){
 		return 'en-US';
 	};
 
@@ -640,14 +631,14 @@ QUnit.test('setLangDropdown (cookie bn, default en-US)', function(assert){
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (cookie bn, default en)', function(assert){
@@ -655,18 +646,18 @@ QUnit.test('setLangDropdown (cookie bn, default en)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);	
 		return 'bn';
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){
+	nyc.lang.Goog.prototype.defaultLang = function(){
 		return 'en';		
 	};
 
@@ -676,14 +667,14 @@ QUnit.test('setLangDropdown (cookie bn, default en)', function(assert){
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (cookie bn, default undefined)', function(assert){
@@ -691,18 +682,18 @@ QUnit.test('setLangDropdown (cookie bn, default undefined)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);	
 		return 'bn';
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){};
+	nyc.lang.Goog.prototype.defaultLang = function(){};
 
 	$('#lang-choice').one('change', function(evt){
 		assert.equal($(evt.target).val(), languages.bn.val);
@@ -710,14 +701,14 @@ QUnit.test('setLangDropdown (cookie bn, default undefined)', function(assert){
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (cookie en, default bn)', function(assert){
@@ -725,18 +716,18 @@ QUnit.test('setLangDropdown (cookie en, default bn)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);	
 		return 'bn';
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){
+	nyc.lang.Goog.prototype.defaultLang = function(){
 		return 'bn';
 	};
 
@@ -746,14 +737,14 @@ QUnit.test('setLangDropdown (cookie en, default bn)', function(assert){
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (cookie bn, default zh-CN)', function(assert){
@@ -761,18 +752,18 @@ QUnit.test('setLangDropdown (cookie bn, default zh-CN)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);	
 		return 'bn';
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){
+	nyc.lang.Goog.prototype.defaultLang = function(){
 		return 'zh-CN';
 	};
 
@@ -782,14 +773,14 @@ QUnit.test('setLangDropdown (cookie bn, default zh-CN)', function(assert){
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (cookie zh-CN, default en-US)', function(assert){
@@ -797,18 +788,18 @@ QUnit.test('setLangDropdown (cookie zh-CN, default en-US)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);	
 		return 'zh-CN';
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){
+	nyc.lang.Goog.prototype.defaultLang = function(){
 		return 'en-US';
 	};
 
@@ -818,14 +809,14 @@ QUnit.test('setLangDropdown (cookie zh-CN, default en-US)', function(assert){
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (cookie zh-CN, default en)', function(assert){
@@ -833,18 +824,18 @@ QUnit.test('setLangDropdown (cookie zh-CN, default en)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);	
 		return 'zh-CN';
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){
+	nyc.lang.Goog.prototype.defaultLang = function(){
 		return 'en';
 	};
 	
@@ -854,14 +845,14 @@ QUnit.test('setLangDropdown (cookie zh-CN, default en)', function(assert){
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (cookie zh-CN, default undefined)', function(assert){
@@ -869,18 +860,18 @@ QUnit.test('setLangDropdown (cookie zh-CN, default undefined)', function(assert)
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);	
 		return 'zh-CN';
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){};
+	nyc.lang.Goog.prototype.defaultLang = function(){};
 
 	$('#lang-choice').one('change', function(evt){
 		assert.equal($(evt.target).val(), languages['zh-CN'].val);
@@ -888,14 +879,14 @@ QUnit.test('setLangDropdown (cookie zh-CN, default undefined)', function(assert)
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (cookie en, default bn)', function(assert){
@@ -903,18 +894,18 @@ QUnit.test('setLangDropdown (cookie en, default bn)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);	
 		return 'en';
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){
+	nyc.lang.Goog.prototype.defaultLang = function(){
 		return 'bn';
 	};
 
@@ -924,14 +915,14 @@ QUnit.test('setLangDropdown (cookie en, default bn)', function(assert){
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('setLangDropdown (cookie zh-CN, default zh-CN)', function(assert){
@@ -939,18 +930,18 @@ QUnit.test('setLangDropdown (cookie zh-CN, default zh-CN)', function(assert){
 	var done = assert.async();
 
 	var testLang;
-	var getCookieValue = nyc.Lang.prototype.getCookieValue;
-	var showHint = nyc.Lang.prototype.showHint;
-	var defaultLang = nyc.Lang.prototype.defaultLang;
+	var getCookieValue = nyc.lang.Goog.prototype.getCookieValue;
+	var showHint = nyc.lang.Goog.prototype.showHint;
+	var defaultLang = nyc.lang.Goog.prototype.defaultLang;
 
-	nyc.Lang.prototype.getCookieValue = function(){
+	nyc.lang.Goog.prototype.getCookieValue = function(){
 		assert.ok(true);	
 		return 'zh-CN';		
 	};
-	nyc.Lang.prototype.showHint = function(){
+	nyc.lang.Goog.prototype.showHint = function(){
 		assert.ok(true);
 	};
-	nyc.Lang.prototype.defaultLang = function(){
+	nyc.lang.Goog.prototype.defaultLang = function(){
 		return 'zh-CN';		
 	};
 
@@ -960,14 +951,14 @@ QUnit.test('setLangDropdown (cookie zh-CN, default zh-CN)', function(assert){
 	
 	function test(){
 		testLang.setLangDropdown();
-		nyc.Lang.prototype.getCookieValue = getCookieValue;
-		nyc.Lang.prototype.showHint = showHint;
-		nyc.Lang.prototype.defaultLang = defaultLang;
+		nyc.lang.Goog.prototype.getCookieValue = getCookieValue;
+		nyc.lang.Goog.prototype.showHint = showHint;
+		nyc.lang.Goog.prototype.defaultLang = defaultLang;
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('lang', function(assert){
@@ -984,8 +975,8 @@ QUnit.test('lang', function(assert){
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('hack', function(assert){
@@ -1026,8 +1017,8 @@ QUnit.test('hack', function(assert){
 		};
 	};
 	
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('getCookie', function(assert){
@@ -1046,8 +1037,8 @@ QUnit.test('getCookie', function(assert){
 		done();
 	};
 	
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
 
 QUnit.test('getCookieValue', function(assert){
@@ -1066,7 +1057,6 @@ QUnit.test('getCookieValue', function(assert){
 		done();
 	};
 
-	testLang = new nyc.Lang({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.Lang.EventType.READY, test);
+	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
+	testLang.on(nyc.lang.Translate.EventType.READY, test);
 });
-

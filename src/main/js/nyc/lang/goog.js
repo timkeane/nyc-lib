@@ -14,8 +14,6 @@ nyc.lang = nyc.lang || {};
  * @param {nyc.lang.Translate.Options} options Constructor options
  */
 nyc.lang.Goog = function(options){
-	this.afterInit = this.completeRender;
-	this.completeRender = function(){};
 	nyc.lang.Translate.call(this, options);	
 	$.getScript('https://translate.google.com/translate_a/element.js?cb=nyc.lang.translate.init');
 };
@@ -34,7 +32,7 @@ nyc.lang.Goog.prototype = {
 	init: function(){
 		nyc.lang.goog = new google.translate.TranslateElement({
 			pageLanguage: 'en',
-			includedLanguages: nyc.lang.codes,
+			includedLanguages: nyc.lang.translate.codes,
 			layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
 			autoDisplay: false
 		}, 'lang-trans');

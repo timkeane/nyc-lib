@@ -13,17 +13,21 @@ nyc.lang = nyc.lang || {};
  * @extends {nyc.EventHandling}
  * @constructor
  * @param {nyc.lang.Translate.Options} options Constructor options
+ * @fires nyc.lang.Translate.EventType#ready
+ * @fires nyc.lang.Translate.EventType#change
  */
 nyc.lang.Translate = function(options){
 	nyc.lang.translate = this;
     var defaultLang = options.defaultLang || 'en';
-    this.messages = options.messages;
-    this.defaultMessages = options.messages[defaultLang];
 	this.isButton = options.isButton;
 	this.languages = options.languages;
 	this.isButton = options.isButton;
 	this.hints = [];
 	this.namedCodes = {};
+    if (options.messages){
+        this.messages = options.messages;
+        this.defaultMessages = options.messages[defaultLang];
+    }
 	this.render(options.target);
 };
 
