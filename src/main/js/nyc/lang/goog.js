@@ -11,7 +11,7 @@ nyc.lang = nyc.lang || {};
  * @class
  * @extends {nyc.lang.Translate}
  * @constructor
- * @param {nyc.lang.Translate.Options} options Constructor options
+ * @param {nyc.lang.Goog.Options} options Constructor options
  */
 nyc.lang.Goog = function(options){
 	nyc.lang.Translate.call(this, options);	
@@ -156,3 +156,14 @@ nyc.lang.Goog.prototype = {
 };
 
 nyc.inherits(nyc.lang.Goog, nyc.lang.Translate);
+
+/**
+ * @desc Constructor for {@link nyc.lang.Translate}
+ * @public
+ * @typedef {Object}
+ * @property {(String|Element|JQuery)} target The HTML DOM element that will provide language choices
+ * @property {nyc.lang.Translate.Choices} languages The languages to provide
+ * @property {boolean} [isButton=false] Show as a button
+ * @property {boolean} [showArrow=false] Show the hint arrow if displaying as a button
+ */
+nyc.lang.Goog.Options;

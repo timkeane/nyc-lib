@@ -21,12 +21,11 @@ nyc.lang.Translate = function(options){
     var defaultLang = options.defaultLang || 'en';
 	this.isButton = options.isButton;
 	this.languages = options.languages;
-	this.isButton = options.isButton;
 	this.hints = [];
 	this.namedCodes = {};
     if (options.messages){
         this.messages = options.messages;
-        this.defaultMessages = options.messages[defaultLang];
+        this.defaultMessages = options.messages[defaultLang] || options.messages[this.defaultLang()];
     }
 	this.render(options.target);
 };
@@ -62,12 +61,6 @@ nyc.lang.Translate.prototype = {
 	 * @member {Array<string>}
 	 */
 	languages: null,
-	/** 
-	 * @public
-	 * @method 
-	 */
-	ready: function(){
-	},
 	/** 
 	 * @public
 	 * @method 
@@ -221,6 +214,7 @@ nyc.inherits(nyc.lang.Translate, nyc.EventHandling);
  * @typedef {Object}
  * @property {(String|Element|JQuery)} target The HTML DOM element that will provide language choices
  * @property {nyc.lang.Translate.Choices} languages The languages to provide
+ * @property {Object} messages The language-specific message bundles
  * @property {boolean} [isButton=false] Show as a button
  * @property {boolean} [showArrow=false] Show the hint arrow if displaying as a button
  */
