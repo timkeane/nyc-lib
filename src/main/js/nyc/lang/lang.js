@@ -142,6 +142,7 @@ nyc.lang.Translate.prototype = {
 	   if (event){
 		   var lang = $(event.target).val();
 		   if (lang){
+			   this.code = lang;
 			   for (var key in this.defaultMessages){
 				   var msg = this.messages[lang][key] || this.defaultMessages[key];
 				   $('.' + key).html(msg);
@@ -150,6 +151,7 @@ nyc.lang.Translate.prototype = {
 					   $(this).attr(attr, msg);
 				   });
 			   }
+			   this.trigger(nyc.lang.Translate.EventType.CHANGE, this.code);
 		   }
 	   }
    },
