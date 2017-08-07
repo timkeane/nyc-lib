@@ -18,7 +18,7 @@ nyc.lang = nyc.lang || {};
  */
 nyc.lang.Translate = function(options){
 	nyc.lang.translate = this;
-    var defaultLang = options.defaultLang || 'en';
+    this.defaultLanguage = options.defaultLanguage || 'en';
 	this.isButton = options.isButton;
 	this.isArrow = options.isArrow;
 	this.languages = options.languages;
@@ -26,7 +26,7 @@ nyc.lang.Translate = function(options){
 	this.namedCodes = {};
     if (options.messages){
         this.messages = options.messages;
-        this.defaultMessages = options.messages[defaultLang] || options.messages[this.defaultLang()];
+        this.defaultMessages = options.messages[defaultLanguage] || options.messages[this.defaultLang()];
     }
 	this.render(options.target);
 };
@@ -57,6 +57,11 @@ nyc.lang.Translate.prototype = {
 	 * @member {string}
 	 */
 	code: '',
+	/** 
+	 * @private 
+	 * @member {string}
+	 */
+	defaultLanguage: '',
 	/** 
 	 * @private 
 	 * @member {string}
@@ -162,6 +167,7 @@ nyc.lang.Translate.prototype = {
 					   $(this).attr(attr, msg);
 				   });
 			   }
+			   this.css('translated');
 			   this.trigger(nyc.lang.Translate.EventType.CHANGE, this.code);
 		   }
 	   }
@@ -170,19 +176,20 @@ nyc.lang.Translate.prototype = {
 	 * @private
 	 * @method 
 	 */
-	css: function(){
+	css: function(css){
 		$.each(this.codes.split(','), function(_, code){
 			$('body').removeClass('lang-' + code);
 		});
-		$('body')[this.code == 'en' ? 'removeClass' : 'addClass']('translated');
+		$('body')[this.code == this.defaultLanguage ? 'removeClass' : 'addClass'](css);
 		$('body').addClass('lang-' + this.code);		
+		$('body').addClass(css);		
 	},
 	/** 
 	 * @private
 	 * @method 
 	 */
 	defaultLang: function(){
-		return navigator.language ? navigator.language.split('-')[0] : (this.defaultLang || 'en');
+		return navigator.language ? navigator.language.split('-')[0] : (this.defaultLanguage || 'en');
 	},
 	/** 
 	 * @private
@@ -236,6 +243,7 @@ nyc.inherits(nyc.lang.Translate, nyc.EventHandling);
  * @property {(String|Element|JQuery)} target The HTML DOM element that will provide language choices
  * @property {nyc.lang.Translate.Choices} languages The languages to provide
  * @property {Object} messages The language-specific message bundles
+ * @property {string} [defaultLanguage='en'] The default language
  * @property {boolean} [isButton=false] Show as a button
  * @property {boolean} [isArrow=false] Show the hint arrow if displaying as a button
  */

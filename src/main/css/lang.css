@@ -100,3 +100,12 @@ body .goog-text-highlight {
 #lang-hint-arrow a:hover:after {
     background-color: var(--theme-ctl-bg-color-hover);
 }
+body.goog-tranlated font {
+	background-color: inherit !important;
+	color: inherit !important;
+	font-size: inherit !important;
+	font-weight: inherit !important;
+	text-align: inherit !important;
+	width: 100% !important;
+	height: 100% !important;
+}

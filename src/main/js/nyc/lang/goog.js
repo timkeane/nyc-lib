@@ -78,7 +78,7 @@ nyc.lang.Goog.prototype = {
 				$('#lang-choice-button span').show();
 			}
 			this.code = this.namedCodes[lang] || 'en';
-			this.css();
+			this.css('goog-tranlated');
 			this.trigger(nyc.lang.Translate.EventType.CHANGE, this.code);
 		}else{
 			var me = this;
