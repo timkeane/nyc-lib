@@ -15,13 +15,13 @@ nyc.ol.Popup = function(map, options){
 	var me = this;
 	options = options || {};
 	this.options = options;
-	me.container = $(document.createElement('div'));
+	me.container = $('<div></div>');
 	me.container.addClass('popup');
-	me.closer = $(document.createElement('a'));
+	me.closer = $('<a><span class="noshow">Close</span></a>');
 	me.closer.addClass('popup-closer');
 	me.container.append(me.closer);
 	me.closer.click(function(){me.container.fadeOut();});
-	me.content = $(document.createElement('div'));
+	me.content =  $('<div></div>');
 	me.content.addClass('popup-content');
 	me.container.append(me.content);
 	options.element = me.container[0];

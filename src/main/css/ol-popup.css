@@ -60,6 +60,7 @@ a.popup-closer, a.popup-closer:visited {
 	background-size: 15px;
 	background-repeat: no-repeat;
 	background-position: center;
+	z-index: 2;
 }
 a.popup-closer:hover {
 	background-color: var(--theme-ctl-bg-color-hover);
