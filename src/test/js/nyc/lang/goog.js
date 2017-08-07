@@ -136,32 +136,6 @@ QUnit.test('init', function(assert){
 
 });
 
-QUnit.test('showHint', function(assert){
-	assert.expect(13);
-	
-	var done = assert.async();
-
-	var testLang;
-
-	function test(){
-		var hints = testLang.hints;
-		var h = 0;
-		testLang.showHint();
-		var interval = setInterval(function(){
-			assert.equal($('#lang-choice-button span').html(), $('<div>' + hints[h] + '</div>').html());
-			h++;
-			if (h == hints.length){
-				clearInterval(interval);
-				done();
-			}
-		}, 1010);		
-	};
-
-	testLang = new nyc.lang.Goog({target: 'body', languages: this.LANGUAGES});
-	testLang.on(nyc.lang.Translate.EventType.READY, test);
-
-});
-
 QUnit.test('translate', function(assert){
 	assert.expect(14);
 	

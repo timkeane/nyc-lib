@@ -20,6 +20,7 @@ nyc.lang.Translate = function(options){
 	nyc.lang.translate = this;
     var defaultLang = options.defaultLang || 'en';
 	this.isButton = options.isButton;
+	this.isArrow = options.isArrow;
 	this.languages = options.languages;
 	this.hints = [];
 	this.namedCodes = {};
@@ -36,6 +37,16 @@ nyc.lang.Translate.prototype = {
 	 * @member {boolean}
 	 */
 	isButton: false,
+	/** 
+	 * @private 
+	 * @member {boolean}
+	 */
+	isArrow: false,
+	/** 
+	 * @private 
+	 * @member {number}
+	 */
+	arrowTimeout: 10000,
 	/** 
 	 * @private 
 	 * @member {Array<string>}
@@ -102,7 +113,7 @@ nyc.lang.Translate.prototype = {
 	 * @method 
 	 */
 	showArrow: function(){
-		if (this.showArrow){
+		if (this.isArrow){
 			$('#lang-btn').append(nyc.lang.Translate.ARROW_HTML).trigger('create');
 			$('#lang-hint-arrow a').click(function(){
 				$('#lang-hint-arrow').fadeOut();
@@ -110,7 +121,7 @@ nyc.lang.Translate.prototype = {
 			this.showHint();
 			setTimeout(function(){
 				$('#lang-hint-arrow').fadeOut();
-			}, 10000);
+			}, this.arrowTimeout);
 		}
     },
     /** 
@@ -118,17 +129,20 @@ nyc.lang.Translate.prototype = {
      * @method 
      */
     showHint: function(){
-    	var hints = this.hints, h = 0;
+    	var hints = this.hints, h = 0, hint;
     	if (!this.isButton){
     		hint = '#lang-choice-button span';
-    	}else if (this.showArrow){
+    	}else if (this.isArrow){
     		hint = '#lang-hint-arrow span';
     	}
-    	setInterval(function(){
-    		$(hint).html(hints[h] || 'Translate');
-    		h++;
-    		if (h == hints.length) h = 0;
-    	}, 1000);
+    	if (hint){
+        	setInterval(function(){
+        		$(hint).html(hints[h] || 'Translate');
+        		h++;
+        		if (h == hints.length) h = 0;
+        	}, 1000);
+    	}
+    	return hint;
     },
 	/** 
 	 * @desc Sets the chosen language and performs message substitution
@@ -216,7 +230,7 @@ nyc.inherits(nyc.lang.Translate, nyc.EventHandling);
  * @property {nyc.lang.Translate.Choices} languages The languages to provide
  * @property {Object} messages The language-specific message bundles
  * @property {boolean} [isButton=false] Show as a button
- * @property {boolean} [showArrow=false] Show the hint arrow if displaying as a button
+ * @property {boolean} [isArrow=false] Show the hint arrow if displaying as a button
  */
 nyc.lang.Translate.Options;
 
