@@ -464,3 +464,152 @@ QUnit.test('translate', function(assert){
 
 	$('#tst-div').remove();
 });
+
+QUnit.test('css', function(assert){
+	assert.expect(31);
+	
+	var languages = this.LANGUAGES;
+	var messages = this.MESSAGES;
+
+	var testLang = new nyc.lang.Translate({
+		target: 'body', 
+		languages: languages
+	});
+	
+	var test = function(){
+		for (var lang in languages){
+			assert[lang == testLang.code ? 'ok' : 'notOk']($('body').hasClass('lang-' + lang));
+		}		
+	};
+	
+	assert.equal(testLang.code, 'en');
+	test();
+	
+	testLang.code = 'es';
+	testLang.css();
+	test();
+	
+	testLang.code = 'ar';
+	testLang.css();
+	test();
+});
+
+QUnit.test('setLangDropdown (no cookie, default lang is good)', function(assert){
+	assert.expect(4);
+	
+	var languages = this.LANGUAGES;
+	var messages = this.MESSAGES;	
+
+	var testLang = new nyc.lang.Translate({
+		target: 'body', 
+		languages: languages
+	});
+	
+	testLang.defaultLang = function(){
+		assert.ok(true);
+		return 'es';
+	};
+	testLang.getCookieValue = function(){
+		assert.ok(true);
+		return null;
+	};
+	testLang.showHint = function(){
+		assert.ok(true);
+	};
+	
+	testLang.on(nyc.lang.Translate.EventType.CHANGE, function(lang){
+		assert.equal(lang, 'es');
+	});
+	
+	testLang.setLangDropdown();
+});
+
+QUnit.test('setLangDropdown (no cookie, default lang is bad)', function(assert){
+	assert.expect(4);
+	
+	var languages = this.LANGUAGES;
+	var messages = this.MESSAGES;
+	
+	var testLang = new nyc.lang.Translate({
+		target: 'body', 
+		languages: languages
+	});
+	
+	testLang.defaultLang = function(){
+		assert.ok(true);
+		return 'xx';
+	};
+	testLang.getCookieValue = function(){
+		assert.ok(true);
+		return null;
+	};
+	testLang.showHint = function(){
+		assert.ok(true);
+	};
+	
+	testLang.on(nyc.lang.Translate.EventType.CHANGE, function(lang){
+		assert.equal(lang, 'en');
+	});
+	
+	testLang.setLangDropdown();
+});
+
+QUnit.test('setLangDropdown (has cookie with good value)', function(assert){
+	assert.expect(4);
+	
+	var languages = this.LANGUAGES;
+	var messages = this.MESSAGES;
+	
+	var testLang = new nyc.lang.Translate({
+		target: 'body', 
+		languages: languages
+	});
+	
+	testLang.defaultLang = function(){
+		assert.ok(true);
+		return 'es';
+	};
+	testLang.getCookieValue = function(){
+		assert.ok(true);
+		return 'ar';
+	};
+	testLang.showHint = function(){
+		assert.ok(true);
+	};
+	
+	testLang.on(nyc.lang.Translate.EventType.CHANGE, function(lang){
+		assert.equal(lang, 'ar');
+	});
+	
+	testLang.setLangDropdown();
+});
+
+QUnit.test('setLangDropdown (has cookie with bad value)', function(assert){
+	assert.expect(4);
+	
+	var languages = this.LANGUAGES;
+	var messages = this.MESSAGES;
+	
+	var testLang = new nyc.lang.Translate({
+		target: 'body', 
+		languages: languages
+	});
+	
+	testLang.defaultLang = function(){
+		assert.ok(true);
+		return 'es';
+	};
+	testLang.getCookieValue = function(){
+		assert.ok(true);
+		return 'xx';
+	};
+	testLang.showHint = function(){
+		assert.ok(true);
+	};
+	
+	testLang.on(nyc.lang.Translate.EventType.CHANGE, function(lang){
+		assert.equal(lang, 'es');
+	});
+	
+	testLang.setLangDropdown();
+});

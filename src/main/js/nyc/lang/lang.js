@@ -190,9 +190,16 @@ nyc.lang.Translate.prototype = {
 	 */
 	setLangDropdown: function(){
 		var defLang = this.defaultLang(), 
-			langCode = this.getCookieValue();
-		this.showHint();
-		if (!langCode){
+			langCode = this.getCookieValue(),
+			goodCode;
+		this.showHint();		
+		for (var code in this.languages){
+			if (code.indexOf(langCode) == 0){
+				goodCode = true;
+				break;
+			}
+		}
+		if (!goodCode){
 			for (var code in this.languages){
 				if (code.indexOf(defLang) == 0){
 					langCode = code;
