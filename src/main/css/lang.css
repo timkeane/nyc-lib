@@ -101,7 +101,7 @@ body .goog-text-highlight {
     background-color: var(--theme-ctl-bg-color-hover);
 }
 body.goog-tranlated font {
-	background-color: inherit !important;
+	background-color: transparent !important;
 	color: inherit !important;
 	font-size: inherit !important;
 	font-weight: inherit !important;
