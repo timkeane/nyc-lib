@@ -137,7 +137,7 @@ QUnit.test('init', function(assert){
 });
 
 QUnit.test('translate', function(assert){
-	assert.expect(14);
+	assert.expect(13);
 	
 	var done = assert.async();
 

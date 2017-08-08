@@ -44,7 +44,7 @@ QUnit.module('nyc.lang.Translate', {
 	}
 });
 
-QUnit.test('constructor (not button, no defaultLang)', function(assert){
+QUnit.test('constructor (not button, no defaultLanguage)', function(assert){
 	assert.expect(7);
 	
 	var languages = this.LANGUAGES;
@@ -71,7 +71,7 @@ QUnit.test('constructor (not button, no defaultLang)', function(assert){
 	nyc.lang.Translate.prototype.render = render;
 });
 
-QUnit.test('constructor (is button, defaultLang in messages)', function(assert){
+QUnit.test('constructor (is button, defaultLanguage in messages)', function(assert){
 	assert.expect(7);
 	
 	var languages = this.LANGUAGES;
@@ -86,7 +86,7 @@ QUnit.test('constructor (is button, defaultLang in messages)', function(assert){
 		target: 'body', 
 		isButton: true, 
 		languages: languages, 
-		defaultLang: 'ar', 
+		defaultLanguage: 'ar', 
 		messages: messages
 	});
 	
@@ -100,7 +100,7 @@ QUnit.test('constructor (is button, defaultLang in messages)', function(assert){
 	nyc.lang.Translate.prototype.render = render;
 });
 
-QUnit.test('constructor (is button, defaultLang not in messages)', function(assert){
+QUnit.test('constructor (is button, defaultLanguage not in messages)', function(assert){
 	assert.expect(7);
 	
 	var languages = this.LANGUAGES;
@@ -115,7 +115,7 @@ QUnit.test('constructor (is button, defaultLang not in messages)', function(asse
 		target: 'body', 
 		isButton: true, 
 		languages: languages, 
-		defaultLang: 'yi', 
+		defaultLanguage: 'yi', 
 		messages: messages
 	});
 	
@@ -466,10 +466,12 @@ QUnit.test('translate', function(assert){
 });
 
 QUnit.test('css', function(assert){
-	assert.expect(31);
+	assert.expect(34);
 	
 	var languages = this.LANGUAGES;
 	var messages = this.MESSAGES;
+
+	var css = 'translated';
 
 	var testLang = new nyc.lang.Translate({
 		target: 'body', 
@@ -477,6 +479,7 @@ QUnit.test('css', function(assert){
 	});
 	
 	var test = function(){
+		assert.ok($('body').hasClass(css));
 		for (var lang in languages){
 			assert[lang == testLang.code ? 'ok' : 'notOk']($('body').hasClass('lang-' + lang));
 		}		
@@ -485,12 +488,14 @@ QUnit.test('css', function(assert){
 	assert.equal(testLang.code, 'en');
 	test();
 	
+	var css = 'aClass';
 	testLang.code = 'es';
-	testLang.css();
+	testLang.css(css);
 	test();
 	
+	var css = 'aDifferentClass';
 	testLang.code = 'ar';
-	testLang.css();
+	testLang.css(css);
 	test();
 });
 

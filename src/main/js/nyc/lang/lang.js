@@ -26,7 +26,7 @@ nyc.lang.Translate = function(options){
 	this.namedCodes = {};
     if (options.messages){
         this.messages = options.messages;
-        this.defaultMessages = options.messages[defaultLanguage] || options.messages[this.defaultLang()];
+        this.defaultMessages = options.messages[this.defaultLanguage] || options.messages[this.defaultLang()];
     }
 	this.render(options.target);
 };
