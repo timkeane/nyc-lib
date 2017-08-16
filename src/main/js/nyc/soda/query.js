@@ -103,11 +103,14 @@ nyc.soda.Query.prototype = {
 	 * @param {function(Object<string, Object>, nyc.soda.Query)} callback A callback function to receive the data and a reference to this query
 	 */
 	execute: function(options, callback){
-		var me = this, csv;
+		var me = this, filters, csv;
 		options = options || {};
+		filters = options.filters || {};
 		me.setUrl(options.url);
 		me.setQuery(options.query);
-		me.addFilters(options.filters);
+		for (var field in filters){
+			me.filters[field] = filters[field];
+		}
 		$.ajax({
 			url: me.url,
 			method: 'GET',
