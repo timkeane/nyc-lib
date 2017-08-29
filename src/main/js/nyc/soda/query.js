@@ -9,6 +9,7 @@ nyc.soda = nyc.soda || {};
  * @public
  * @class
  * @constructor
+ * @param {nyc.soda.Query.Options} options Constructor options
  * @see https://opendata.cityofnewyork.us/
  * @see https://dev.socrata.com/consumers/getting-started.html
  */
@@ -174,7 +175,7 @@ nyc.soda.Query.prototype = {
 			value = value + '';
 		}else if ($.isArray(value)){
 			if (typeof value[0] == 'number'){
-				value = '(' + value.toString() + ')';
+				value = '(' + value.join(', ') + ')';
 			}else{
 				value = "('" + value.join("', '") + "')";
 			}
@@ -205,7 +206,7 @@ nyc.soda.Query.prototype = {
 	 * @param {function(Object<string, Object>, nyc.soda.Query)} callback
 	 */
 	callback: function(data, callback){
-		var data = this.csv() ? $.csv.toObjects(data) : data; 
+		data = this.csv() ? $.csv.toObjects(data) : data; 
 		if (callback) {
 			callback(data, this);
 		}
