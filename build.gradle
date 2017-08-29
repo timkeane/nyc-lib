@@ -26,7 +26,7 @@ dependencies {
 
 ext {
 	appName = 'nyc-lib'
-	ver = 'v0.4.0-SNAPSHOT'
+	ver = 'v0.4.0'
 	pkgDir = "${buildDir}/${appName}/${ver}"
 	remoteDir = "${appName}/${ver}"
 	srcDir = "${projectDir}/src/main"
@@ -299,7 +299,7 @@ task jsDoc(type: JsDocTask, dependsOn: [npmPackage, examples]) {
 		def tmpl = file('build/jsdoc/layout.tmpl')
 		tmpl << file('etc/jsdoc/layout.tmpl').text
 		tmpl.text = tmpl.text.replaceAll('@@NYC-LIB-VER@@', ver)
-		tmpl.text = tmpl.text.replaceAll('@@NYC-LIB-URL@@', "${host}/${ver}")
+		tmpl.text = tmpl.text.replaceAll('@@NYC-LIB-URL@@', "${host}/nyc-lib/${ver}")
 	}
 	doLast {
 		copy {
