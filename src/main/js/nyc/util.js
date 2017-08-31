@@ -26,6 +26,26 @@ nyc.util = {
 		return navigator.userAgent.match(/(iPad|iPhone|iPod|iOS)/g) != null;
 	},
 	/**
+	 * @desc Check if OS is Android
+	 * @public
+	 * @static
+	 * @function
+	 * @returns {boolean}
+	 */
+	isAndroid: function(){
+		return navigator.userAgent.match(/(Android)/g) != null;
+	},
+	/**
+	 * @desc Check if user agent is mobile
+	 * @public
+	 * @static
+	 * @function
+	 * @returns {boolean}
+	 */
+	isMobile: function(){
+		return nyc.util.isIos() || nyc.util.isAndroid() || navigator.userAgent.match(/(Mobile)/g) != null;
+	},
+	/**
 	 * @desc Check if browser is Safari
 	 * @public
 	 * @static
