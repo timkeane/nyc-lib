@@ -20,6 +20,7 @@ nyc.soda.Query = function(options){
 	this.setQuery(options.query);
 	this.clearAllFilters();
 	this.setFilters(options.filters);
+	this.setAppToken(options.appToken);
 };
 
 nyc.soda.Query.prototype = {
@@ -30,6 +31,11 @@ nyc.soda.Query.prototype = {
 	url: null,
 	/**
 	 * @private
+	 * @member {string}
+	 */
+	appToken: null,
+	/**
+	 * @private
 	 * @member {nyc.soda.Query.Query}
 	 */
 	query: null,
@@ -38,6 +44,15 @@ nyc.soda.Query.prototype = {
 	 * @member {Object<string, Array<nyc.soda.Query.Filter>>} 
 	 */
 	filters: null,
+	/**
+	 * @desc Overwrite filters for the query
+	 * @public
+	 * @method
+	 * @param {Object<string, Array<nyc.soda.Query.Filter>>} filters Filter arrays mapped to field names
+	 */
+	setAppToken: function(appToken){
+		this.appToken = appToken || this.appToken;
+	},
 	/**
 	 * @desc Overwrite filters for the query
 	 * @public
@@ -109,6 +124,7 @@ nyc.soda.Query.prototype = {
 		filters = options.filters || {};
 		me.setUrl(options.url);
 		me.setQuery(options.query);
+		me.setAppToken(options.appToken);
 		for (var field in filters){
 			me.filters[field] = filters[field];
 		}
@@ -197,6 +213,9 @@ nyc.soda.Query.prototype = {
 				qry.$where = me.appendFilter(qry.$where, field, this);
 			});
 		}
+		if (me.appToken){
+			qry.$$appToken = me.appToken;
+		}
 		return $.param(qry);
 	},
 	/** 
@@ -271,6 +290,7 @@ nyc.soda.Query.Query;
  * @public
  * @typedef {Object}
  * @property {string=} url SODA URL
+ * @property {string=} appToken SODA $$app_token parameter
  * @property {nyc.soda.Query.Query=} query Query options
  * @property {Object<string, Array<nyc.soda.Query.Filter>>=} filters Filter arrays mapped to field names
  */

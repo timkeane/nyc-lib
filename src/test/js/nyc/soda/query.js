@@ -1,7 +1,7 @@
 QUnit.module('nyc.soda.Query');
 
 QUnit.test('constructor', function(assert){
-	assert.expect(3);
+	assert.expect(4);
 	
 	var query = {
 		select: 'select-something',
@@ -19,10 +19,12 @@ QUnit.test('constructor', function(assert){
 	var soda = new nyc.soda.Query({
 		url: 'http://soda-url',
 		query: query,
-		filters: filters
+		filters: filters,
+		appToken: 'some-token'
 	});
 	
 	assert.equal(soda.url, 'http://soda-url');
+	assert.equal(soda.appToken, 'some-token');
 	assert.deepEqual(soda.query, query);
 	assert.deepEqual(soda.filters, filters);
 });
@@ -370,10 +372,11 @@ QUnit.test('qstr', function(assert){
 	
 	var soda = new nyc.soda.Query({
 		query: query,
-		filters: filters
+		filters: filters,
+		appToken: 'some-token'
 	});
 	
-	assert.equal(soda.qstr(), "%24select=select-something&%24where=fieldA+%3D+123+AND+field0+!%3D+'xyz'+AND+field0+!%3D+'abc'+AND+field1+IN+(1%2C+2%2C+3)&%24group=group-by-something&%24order=order-by-something&%24limit=1");
+	assert.equal(soda.qstr(), "%24select=select-something&%24where=fieldA+%3D+123+AND+field0+!%3D+'xyz'+AND+field0+!%3D+'abc'+AND+field1+IN+(1%2C+2%2C+3)&%24group=group-by-something&%24order=order-by-something&%24limit=1&%24%24appToken=some-token");
 });
 
 QUnit.test('callback (csv)', function(assert){
