@@ -214,7 +214,7 @@ nyc.soda.Query.prototype = {
 			});
 		}
 		if (me.appToken){
-			qry.$$appToken = me.appToken;
+			qry.$$app_token = me.appToken;
 		}
 		return $.param(qry);
 	},
