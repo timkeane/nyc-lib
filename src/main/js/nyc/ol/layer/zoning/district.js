@@ -36,7 +36,7 @@ nyc.ol.layer.zoning.District.prototype = {
 				tileGrid: nyc.ol.TILE_GRID,
 				format: new ol.format.MVT()
 			}),
-			style: nyc.ol.style.zoning.district.polygon,
+			style: nyc.ol.style.zoning.district.style,
 			extent: nyc.ol.Basemap.EXTENT,
 			visible: false,
 			zIndex: 1000
@@ -44,15 +44,6 @@ nyc.ol.layer.zoning.District.prototype = {
 		map.addLayer(distLyr);
 		added.groupLayers.push(distLyr);
 		distLyr.set('name', 'Zoning District');
-
-		var distLbl = nyc.ol.style.mvt.proxyPointLayer({
-			map: map,
-			mvtLayer: distLyr,
-			fidProperty: 'OBJECTID',
-			pointStyle: nyc.ol.style.zoning.district.label 
-		});
-		distLbl.setMaxResolution(nyc.ol.TILE_GRID.getResolution(14));
-		added.proxyLayers.push(distLbl);
 
 		added.tips.push(
 	        new nyc.ol.FeatureTip(map, [{layer: distLyr, labelFunction: function(){

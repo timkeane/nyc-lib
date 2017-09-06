@@ -36,7 +36,7 @@ nyc.ol.layer.transit.Subway.prototype = {
 				tileGrid: nyc.ol.TILE_GRID,
 				format: new ol.format.MVT()
 			}),
-			style: nyc.ol.style.transit.subway.line,
+			style: nyc.ol.style.transit.subway.style,
 			extent: [-8265953, 4940600, -8209993, 4998150],
 			opacity: .8,
 			visible: false
@@ -45,20 +45,11 @@ nyc.ol.layer.transit.Subway.prototype = {
 		added.groupLayers.push(subwayLyr);
 		added.allLayers.push(subwayLyr);
 		subwayLyr.set('name', 'Subway');
-		
-		var stationProxy = nyc.ol.style.mvt.proxyPointLayer({
-			map: map,
-			mvtLayer: subwayLyr,
-			fidProperty: 'OBJECTID',
-			pointStyle: nyc.ol.style.transit.subway.point 
-		});
-		added.proxyLayers.push(stationProxy);
-		added.allLayers.push(stationProxy);
 	
-		this.tips(map, subwayLyr, stationProxy);
+		this.tips(map, subwayLyr);
 
-		stationProxy.html = function(feature, layer){
-			if (layer === this){
+		subwayLyr.html = function(feature, layer){
+			if (feature.get('layer') == 'SUBWAY_STATION'){
 				me.mixin(feature, me.mixins);
 				return feature.html();
 			}
@@ -71,24 +62,22 @@ nyc.ol.layer.transit.Subway.prototype = {
 	 * @param {ol.layer.VectorTile} subwayLyr 
 	 * @param {ol.layer.Vector} stationProxy 
 	 */
-	tips: function(map, subwayLyr, stationProxy){
+	tips: function(map, subwayLyr){
 		var me = this;
 		me.addedLayers.tips.push(
 				new nyc.ol.FeatureTip(map, [{
 					layer: subwayLyr,
 					labelFunction: function(){
-						if (this.get('layer') == 'SUBWAY_LINE'){
-							me.mixin(this, me.mixins);
+						var layer = this.get('layer');
+						me.mixin(this, me.mixins);
+						if (layer == 'SUBWAY_LINE'){
 							return {cssClass: 'subway-ln', text: this.lineTip()};
+						}else if (layer == 'SUBWAY_STATION'){
+							return {cssClass: 'subway-sta', text: this.stationTip()};
+							
 						}else{
 							return {text: this.get('NOTES')};
 						}
-					}
-				},{
-					layer: stationProxy,
-					labelFunction: function(){
-						me.mixin(this, me.mixins);
-						return {cssClass: 'subway-sta', text: this.stationTip()};
 					}
 				}])
 			);

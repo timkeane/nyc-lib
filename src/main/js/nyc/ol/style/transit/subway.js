@@ -40,6 +40,23 @@ nyc.ol.style.transit.subway = {
 	 * @param {number} resolution The resolution of the view
 	 * @return {ol.style.Style}
 	 */
+	style: function(feature, resolution){
+		var layer = feature.get('layer'), style = nyc.ol.style.transit.subway;
+		if (layer == 'SUBWAY_STATION'){
+			return style.station(feature, resolution);
+		}else if (layer == 'SUBWAY_LINE'){
+			return style.line(feature, resolution);			
+		}
+		return style.transfer(feature, resolution);			
+	},
+	/**
+	 * @desc Style function for Zoning District polygons
+	 * @public
+	 * @function
+	 * @param {ol.Feature|ol.render.Feature} feature The feature to style
+	 * @param {number} resolution The resolution of the view
+	 * @return {ol.style.Style}
+	 */
 	line: function(feature, resolution){
 		var layer = feature.get('layer');
 		var cache = nyc.ol.style.transit.subway.cache[layer];
@@ -95,7 +112,7 @@ nyc.ol.style.transit.subway = {
 	 * @param {number} resolution The resolution of the view
 	 * @return {ol.style.Style}
 	 */
-	point: function(feature, resolution){
+	station: function(feature, resolution){
 		var layer = feature.get('layer');
 		var cache = nyc.ol.style.transit.subway.cache[layer];
 		var zoom = nyc.ol.TILE_GRID.getZForResolution(resolution);

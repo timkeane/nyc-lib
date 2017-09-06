@@ -12,7 +12,7 @@ nyc.ol.layer = nyc.ol.layer || {};
  */
 nyc.ol.layer.Group = function(map){
 	this.map = map;
-	this.addedLayers = {groupLayers: [], proxyLayers: [], allLayers: [], tips: []};
+	this.addedLayers = {groupLayers: [], allLayers: [], tips: []};
 };
 
 nyc.ol.layer.Group.prototype = {
@@ -37,7 +37,6 @@ nyc.ol.layer.Group.prototype = {
 		var added = this.addedLayers;
 		$.each(layerAdds, function(){
 			added.groupLayers = added.groupLayers.concat(this.groupLayers);
-			added.proxyLayers = added.proxyLayers.concat(this.proxyLayers);
 			added.allLayers = added.allLayers.concat(this.allLayers);
 			added.tips = added.tips.concat(this.tips);
 		});
@@ -66,8 +65,6 @@ nyc.ol.layer.Group.prototype = {
  * @public
  * @typedef {Object}
  * @property {Array<ol.layer.Base>} groupLayers The layers added to the map
- * @property {Array<ol.layer.Vector>} proxyLayers The layers proxy layers added to the map by {nyc.ol.style.mvt.proxyPointLayer}
- * @property {Array<ol.layer.Base>} allLayers The groupLayers and the proxyLayers
  * @property {Array<ol.FeatureTip>} tips The feature tips added to the map
  */
 nyc.ol.layer.Adds;

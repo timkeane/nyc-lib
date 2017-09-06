@@ -74,7 +74,6 @@ ext {
 		'nyc/info/finder.js', 
 		'nyc/ol/ol.js', 
 		'nyc/ol/style/style.js', 
-		'nyc/ol/style/mvt.js', 
 		'nyc/ol/style/pattern.js', 
 		'nyc/ol/basemap.js', 
 		'nyc/ol/featuretip.js', 
@@ -486,7 +485,6 @@ allJs.doLast {
 		include 'js/nyc/ol/layer/plow/**'
 		include 'js/nyc/ol/layer/transit/**'
 		include 'js/nyc/ol/layer/zoning/**'
-		exclude 'js/nyc/ol/style/mvt.js'
 		into pkgDir
 	}
 }

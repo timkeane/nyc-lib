@@ -32,6 +32,17 @@ nyc.ol.style.zoning.district = {
 		PARK: 'rgba(211,255,190,.6)'
 	},	
 	/**
+	 * @desc Style function for Zoning District polygons and labels
+	 * @public
+	 * @function
+	 * @param {ol.Feature|ol.render.Feature} feature The feature to style
+	 * @param {number} resolution The resolution of the view
+	 * @return {ol.style.Style}
+	 */
+	style: function(feature, resolution){
+		return nyc.ol.style.zoning.district[feature.get('layer') == 'zoning-district-label' ? 'label' : 'polygon'](feature, resolution);
+	},
+	/**
 	 * @desc Style function for Zoning District polygons
 	 * @public
 	 * @function
@@ -69,20 +80,22 @@ nyc.ol.style.zoning.district = {
 	 * @return {ol.style.Style}
 	 */
 	label: function(feature, resolution){
-		var cache = nyc.ol.style.zoning.district.cache.label;
 		var zoom = nyc.ol.TILE_GRID.getZForResolution(resolution);
-		var district = feature.get('ZONEDIST');
-		cache[zoom] = cache[zoom] || {};
-		if (!cache[zoom][district]){
-			cache[zoom][district] = new ol.style.Style({
-				text: new ol.style.Text({
-					text: district,
-					font: 'bold ' + Math.floor(zoom * .75) + 'px sans-serif',
-					fill: new ol.style.Fill({color: 'rgba(0,0,0,.7)'})
-				})
-			});
+		if (zoom > 14){
+			var cache = nyc.ol.style.zoning.district.cache.label;
+			var district = feature.get('ZONEDIST');
+			cache[zoom] = cache[zoom] || {};
+			if (!cache[zoom][district]){
+				cache[zoom][district] = new ol.style.Style({
+					text: new ol.style.Text({
+						text: district,
+						font: 'bold ' + Math.floor(zoom * .75) + 'px sans-serif',
+						fill: new ol.style.Fill({color: 'rgba(0,0,0,.7)'})
+					})
+				});
+			}
+			return cache[zoom][district];
 		}
-		return cache[zoom][district];
 	}
 };
 

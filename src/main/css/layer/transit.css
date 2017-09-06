@@ -39,10 +39,10 @@ a.subway-icon div {
 .subway-L, .subway-S {
 	background-color: #999999;
 }
-.subway-N, .subway-Q, .subway-R {
+.subway-N, .subway-Q, .subway-R, .subway-W {
 	background-color: #ffff0c;
 }
-a.subway-N div, a.subway-Q div, a.subway-R div {
+a.subway-N div, a.subway-Q div, a.subway-R div, a.subway-W div {
 	color: #000;
 }
 a.express {
