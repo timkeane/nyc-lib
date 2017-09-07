@@ -102,3 +102,6 @@
 .draw-mnu-btn.move button:before {
 	background-image: var(--theme-draw-move-bg-img);
 }
+.free .draw-mnu-btn.move {
+
+}

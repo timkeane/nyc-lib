@@ -140,6 +140,7 @@ nyc.ol.Draw.prototype = {
 		me.type = type;
 		if (type != nyc.ol.Draw.Type.NONE){
 			var geometryFunction, maxPoints;
+			$('draw-ctx-mnu').addClass(type);
 			me.source.on('addfeature', me.triggerFeatureEvent, me);
 			me.source.on('changefeature', me.triggerFeatureEvent, me);
 			if (type == nyc.ol.Draw.Type.FREE){
@@ -150,33 +151,16 @@ nyc.ol.Draw.prototype = {
 			}else if (type == nyc.ol.Draw.Type.BOX){
 				type = nyc.ol.Draw.Type.LINE;
 				maxPoints = 2;
-				geometryFunction = function(coordinates, geometry){
-					if (!geometry){
-						geometry = new ol.geom.Polygon(null);
-					}
-					var start = coordinates[0];
-					var end = coordinates[1];
-					if (end){
-						geometry.setCoordinates([
-	                         [start, [start[0], end[1]], end, [end[0], start[1]], start]
-	                    ]);
-					}
-					return geometry;
-				};
+				geometryFunction = me.geometryFunction;
 			}
+			
 			me.drawer = new ol.interaction.Draw({
 				source: me.source,
 				type: type,
-				freehand: me.type == nyc.ol.Draw.Type.FREE,
 				geometryFunction: geometryFunction,
 				maxPoints: maxPoints,
-				condition: function(mapEvt){
-				    var evt = mapEvt.originalEvent;
-					return evt.button != 2 &&
-						!evt.shiftKey &&
-						!$(evt.target).hasClass('draw-mnu-btn') &&
-						!me.mover.getActive();
-				}
+				freehandCondition: $.proxy(me.freehandCondition, me),
+				condition: $.proxy(me.drawCondition, me)
 			});
 			me.map.addInteraction(me.drawer);
 			me.map.addInteraction(me.modify);
@@ -186,6 +170,29 @@ nyc.ol.Draw.prototype = {
 				}
 			});
 		}
+	},
+	geometryFunction: function(coordinates, geometry){
+		if (!geometry){
+			geometry = new ol.geom.Polygon(null);
+		}
+		var start = coordinates[0];
+		var end = coordinates[1];
+		if (end){
+			geometry.setCoordinates([
+                 [start, [start[0], end[1]], end, [end[0], start[1]], start]
+            ]);
+		}
+		return geometry;
+	},
+	drawCondition: function(mapEvt){
+	    var evt = mapEvt.originalEvent;
+		return evt.button != 2 &&
+			!evt.shiftKey &&
+			!$(evt.target).hasClass('draw-mnu-btn') &&
+			!this.mover.getActive();
+	},
+	freehandCondition: function(mapEvt){
+		return this.type == nyc.ol.Draw.Type.FREE && this.drawCondition(mapEvt);
 	},
 	/**
 	 * @desc Get the features that have been drawn
@@ -308,6 +315,7 @@ nyc.ol.Draw.prototype = {
 		if (!ctxMnu.length){
 			ctxMnu = $(nyc.ol.Draw.CONTEXT_MENU_HTML);
 		}
+		ctxMnu.addClass(me.type.toLowerCase());
 		me.viewport.one('click', function(e){
     		me.escape();
 	    	me.closeMenus();
@@ -353,7 +361,8 @@ nyc.ol.Draw.prototype = {
 	 */
 	deactivate: function(){
 		this.type = null;
-		this.mnuBtn.removeClass('point line polygon circle square box');
+		this.mnuBtn.removeClass('point line polygon circle square box free');
+		$('.draw-ctx-mnu').removeClass('point line polygon circle square box free');
 		if (this.drawer){
 			this.map.removeInteraction(this.drawer);
 			this.source.un('addfeature', this.triggerFeatureEvent, this);
@@ -381,12 +390,11 @@ nyc.ol.Draw.prototype = {
 			if (me.type == nyc.ol.Draw.Type.FREE){
 				me.dia = me.dia || new nyc.Dialog();
 				me.dia.yesNo({message: 'Create ploygon?', callback: function(yes){
-					feature = me.geomToPolygon(feature, yes);
+					me.trigger(event.type, me.geomToPolygon(feature, yes));
 				}});
 			}else{
-				feature = me.geomToPolygon(feature);
+				this.trigger(event.type, me.geomToPolygon(feature));
 			}
-			this.trigger(event.type,  feature);
 		}
 	},
 	/**
@@ -509,9 +517,9 @@ nyc.ol.Draw.BUTTON_MENU_HTML = '<a class="draw-btn ctl ctl-btn" data-role="butto
 		'<div class="draw-mnu-btn point" data-draw-type="Point"><button class="ctl-btn ui-btn ui-corner-top" title="Click to draw a point">Point</button></div>' +
 		'<div class="draw-mnu-btn line" data-draw-type="LineString"><button class="ctl-btn ui-btn" title="Click to draw each point of a line">Line</button></div>' +
 		'<div class="draw-mnu-btn polygon" data-draw-type="Polygon"><button class="ctl-btn ui-btn" title="Click to draw each point of a polygon">Polygon</button></div>' +
-		'<div class="draw-mnu-btn circle" data-draw-type="Circle"><button class="ctl-btn ui-btn" title="Hold shift-key, click and drag to draw a circle">Circle</button></div>' +
-		'<div class="draw-mnu-btn square" data-draw-type="Square"><button class="ctl-btn ui-btn" title="Hold shift-key, click and drag to draw a square">Square</button></div>' +
-		'<div class="draw-mnu-btn box" data-draw-type="Box"><button class="ctl-btn ui-btn" title="Hold shift-key, click and drag to draw a box">Box</button></div>' +
+		'<div class="draw-mnu-btn circle" data-draw-type="Circle"><button class="ctl-btn ui-btn" title="Click then drag to draw a circle">Circle</button></div>' +
+		'<div class="draw-mnu-btn square" data-draw-type="Square"><button class="ctl-btn ui-btn" title="Click then drag to draw a square">Square</button></div>' +
+		'<div class="draw-mnu-btn box" data-draw-type="Box"><button class="ctl-btn ui-btn" title="Click then drag to draw a box">Box</button></div>' +
 		'<div class="draw-mnu-btn free" data-draw-type="Free"><button class="ctl-btn ui-btn" title="Click and drag to draw a freehand line">Freehand</button></div>' +
 		'<div class="draw-mnu-btn delete" data-draw-type="None"><button class="ctl-btn ui-btn" title="Delete all drawn features">Clear All</button></div>' +
 		'<div class="draw-mnu-btn cancel" data-draw-type="None"><button class="ctl-btn ui-btn ui-corner-bottom" title="Deactivate drawing">Deactivate</button></div>' +
