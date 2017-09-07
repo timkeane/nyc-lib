@@ -171,6 +171,14 @@ nyc.ol.Draw.prototype = {
 			});
 		}
 	},
+	/**
+	 * @desc Creates the drawn geometry for a box
+	 * @public
+	 * @method
+	 * @param {Array<ol.Coordinate>} coordinates The coordinates from which to create the box geometry
+	 * @param {ol.geom.Polygon=} geometry The current box geometry to modify
+	 * @return {ol.geom.Polygon} The box geometry
+	 */
 	geometryFunction: function(coordinates, geometry){
 		if (!geometry){
 			geometry = new ol.geom.Polygon(null);
@@ -184,6 +192,13 @@ nyc.ol.Draw.prototype = {
 		}
 		return geometry;
 	},
+	/**
+	 * @desc Determines if drawing should take place 
+	 * @public
+	 * @method
+	 * @param {ol.MapBrowserEvent} mapEvent The map event
+	 * @return {boolean}
+	 */
 	drawCondition: function(mapEvt){
 	    var evt = mapEvt.originalEvent;
 		return evt.button != 2 &&
@@ -191,6 +206,13 @@ nyc.ol.Draw.prototype = {
 			!$(evt.target).hasClass('draw-mnu-btn') &&
 			!this.mover.getActive();
 	},
+	/**
+	 * @desc Determines if freehand drawing should take place 
+	 * @public
+	 * @method
+	 * @param {ol.MapBrowserEvent} mapEvent The map event
+	 * @return {boolean}
+	 */
 	freehandCondition: function(mapEvt){
 		return this.type == nyc.ol.Draw.Type.FREE && this.drawCondition(mapEvt);
 	},
