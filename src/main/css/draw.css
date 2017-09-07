@@ -59,6 +59,7 @@
 .draw-mnu-btn.circle button:before, 
 .draw-mnu-btn.square button:before, 
 .draw-mnu-btn.box button:before, 
+.draw-mnu-btn.free button:before, 
 .draw-mnu-btn.delete button:before,
 .draw-mnu-btn.move button:before,
 .draw-mnu-btn.cancel button:before {
@@ -88,6 +89,9 @@
 }
 .draw-btn.box, .draw-mnu-btn.box button:before {
 	background-image: var(--theme-draw-box-bg-img);
+}
+.draw-btn.free, .draw-mnu-btn.free button:before {
+	background-image: var(--theme-draw-free-bg-img);
 }
 .draw-mnu-btn.delete button:before {
 	background-image: var(--theme-draw-delete-bg-img);

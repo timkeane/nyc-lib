@@ -142,7 +142,9 @@ nyc.ol.Draw.prototype = {
 			var geometryFunction, maxPoints;
 			me.source.on('addfeature', me.triggerFeatureEvent, me);
 			me.source.on('changefeature', me.triggerFeatureEvent, me);
-			if (type == nyc.ol.Draw.Type.SQUARE){
+			if (type == nyc.ol.Draw.Type.FREE){
+				type = nyc.ol.Draw.Type.LINE;
+			}else if (type == nyc.ol.Draw.Type.SQUARE){
 				type = nyc.ol.Draw.Type.CIRCLE;
 				geometryFunction = ol.interaction.Draw.createRegularPolygon(4);
 			}else if (type == nyc.ol.Draw.Type.BOX){
@@ -165,6 +167,7 @@ nyc.ol.Draw.prototype = {
 			me.drawer = new ol.interaction.Draw({
 				source: me.source,
 				type: type,
+				freehand: me.type == nyc.ol.Draw.Type.FREE,
 				geometryFunction: geometryFunction,
 				maxPoints: maxPoints,
 				condition: function(mapEvt){
@@ -270,7 +273,7 @@ nyc.ol.Draw.prototype = {
 			me.deactivate();
 		}else{
 			me.activate(type);
-			me.mnuBtn.removeClass('point line polygon circle square box');
+			me.mnuBtn.removeClass('point line polygon circle square box free');
 			me.mnuBtn.addClass(css);
 		}
 		me.closeMenus();
@@ -368,26 +371,37 @@ nyc.ol.Draw.prototype = {
 	 * @param {ol.source.VectorEvent} event
 	 */
 	triggerFeatureEvent: function(event){
-		var feature = event.feature;
-		if (this.triggerEvent(feature.getGeometry().getType())){
+		var me = this, feature = event.feature;
+		if (me.triggerEvent(feature.getGeometry().getType())){
 			if (event.type == nyc.ol.FeatureEventType.ADD){
 				feature._added = true;
 			}else if (event.type == nyc.ol.FeatureEventType.CHANGE){
 				feature._changed = true;				
 			}
-			this.trigger(event.type,  this.circleToPolygon(feature));
+			if (me.type == nyc.ol.Draw.Type.FREE){
+				me.dia = me.dia || new nyc.Dialog();
+				me.dia.yesNo({message: 'Create ploygon?', callback: function(yes){
+					feature = me.geomToPolygon(feature, yes);
+				}});
+			}else{
+				feature = me.geomToPolygon(feature);
+			}
+			this.trigger(event.type,  feature);
 		}
 	},
 	/**
 	 * @private
 	 * @method
 	 * @param {ol.Feature} feature
+	 * @param {boolean} polygon
 	 * @return {ol.Feature}
 	 */
-	circleToPolygon: function(feature){
+	geomToPolygon: function(feature, polygon){
 		var geom = feature.getGeometry();
-		if (geom.getType() == nyc.ol.Draw.Type.CIRCLE){
+		if (this.type == nyc.ol.Draw.Type.CIRCLE){
 			feature.setGeometry(ol.geom.Polygon.fromCircle(geom));
+		}else if (polygon){
+			feature.setGeometry(new ol.geom.Polygon([geom.getCoordinates()]));
 		}
 		return feature;
 	},
@@ -403,6 +417,9 @@ nyc.ol.Draw.prototype = {
 			return true;
 		}
 		if (drawType == types.LINE && this.type == types.LINE){
+			return true;
+		}
+		if (drawType == types.LINE && this.type == types.FREE){
 			return true;
 		}
 		if (drawType == types.POLYGON && this.type == types.POLYGON){
@@ -463,6 +480,10 @@ nyc.ol.Draw.Type  = {
 	 */
 	BOX: 'Box',
 	/**
+	 * @desc The freehand drawing type
+	 */
+	FREE: 'Free',
+	/**
 	 * @desc No drawing type
 	 */
 	NONE: 'None'
@@ -490,7 +511,8 @@ nyc.ol.Draw.BUTTON_MENU_HTML = '<a class="draw-btn ctl ctl-btn" data-role="butto
 		'<div class="draw-mnu-btn polygon" data-draw-type="Polygon"><button class="ctl-btn ui-btn" title="Click to draw each point of a polygon">Polygon</button></div>' +
 		'<div class="draw-mnu-btn circle" data-draw-type="Circle"><button class="ctl-btn ui-btn" title="Hold shift-key, click and drag to draw a circle">Circle</button></div>' +
 		'<div class="draw-mnu-btn square" data-draw-type="Square"><button class="ctl-btn ui-btn" title="Hold shift-key, click and drag to draw a square">Square</button></div>' +
-		'<div class="draw-mnu-btn box" data-draw-type="Box"><button class="ctl-btn ui-btn"title=" Hold shift-key, click and drag to draw a box">Box</button></div>' +
+		'<div class="draw-mnu-btn box" data-draw-type="Box"><button class="ctl-btn ui-btn" title="Hold shift-key, click and drag to draw a box">Box</button></div>' +
+		'<div class="draw-mnu-btn free" data-draw-type="Free"><button class="ctl-btn ui-btn" title="Click and drag to draw a freehand line">Freehand</button></div>' +
 		'<div class="draw-mnu-btn delete" data-draw-type="None"><button class="ctl-btn ui-btn" title="Delete all drawn features">Clear All</button></div>' +
 		'<div class="draw-mnu-btn cancel" data-draw-type="None"><button class="ctl-btn ui-btn ui-corner-bottom" title="Deactivate drawing">Deactivate</button></div>' +
 	'</div>';
