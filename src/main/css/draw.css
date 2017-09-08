@@ -42,7 +42,7 @@
 	right: 3px;
 }
 .draw-btn-mnu button, .draw-ctx-mnu button {
-	width: 120px;
+	width: 130px;
 	text-align: left;
 	padding: 3px;
 	cursor: pointer;
@@ -53,16 +53,7 @@
 .draw-mnu-btn button {
 	padding-left: 26px;
 }
-.draw-mnu-btn.point button:before, 
-.draw-mnu-btn.line button:before, 
-.draw-mnu-btn.polygon button:before, 
-.draw-mnu-btn.circle button:before, 
-.draw-mnu-btn.square button:before, 
-.draw-mnu-btn.box button:before, 
-.draw-mnu-btn.free button:before, 
-.draw-mnu-btn.delete button:before,
-.draw-mnu-btn.move button:before,
-.draw-mnu-btn.cancel button:before {
+.draw-mnu-btn button:before {
 	content: ' ';
 	background-repeat: no-repeat;
 	background-position: center;
@@ -93,6 +84,9 @@
 .draw-btn.free, .draw-mnu-btn.free button:before {
 	background-image: var(--theme-draw-free-bg-img);
 }
+.draw-btn.gps, .draw-mnu-btn.gps button:before {
+	background-image: var(--theme-zoom-geo-bg-img);
+}
 .draw-mnu-btn.delete button:before {
 	background-image: var(--theme-draw-delete-bg-img);
 }
@@ -101,7 +95,4 @@
 }
 .draw-mnu-btn.move button:before {
 	background-image: var(--theme-draw-move-bg-img);
-}
-.free .draw-mnu-btn.move {
-
 }

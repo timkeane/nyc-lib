@@ -13,34 +13,29 @@ nyc.ol = nyc.ol || {};
  * @fires nyc.ol.Draw#removefeature
  */
 nyc.ol.Draw = function(options){
-	var me = this;
-	me.features = new ol.Collection();
-	me.map = options.map;
-	me.source = new ol.source.Vector({features: me.features});
-	me.viewport = $(me.map.getViewport());
-	me.removed = [];
+	this.features = new ol.Collection();
+	this.map = options.map;
+	this.view = this.map.getView();
+	this.source = new ol.source.Vector({features: this.features});
+	this.viewport = $(this.map.getViewport());
+	this.removed = [];
 	
-	me.layer = new ol.layer.Vector({
-		source: me.source,
-		style: options.style || me.defaultStyle
+	this.layer = new ol.layer.Vector({
+		source: this.source,
+		style: options.style || this.defaultStyle
 	});
-	me.map.addLayer(me.layer);
+	this.map.addLayer(this.layer);
 	
-	me.modify = new ol.interaction.Modify({
-		features: me.features,
-		deleteCondition: function(event){
-			if (ol.events.condition.singleClick(event) && ol.events.condition.noModifierKeys(event)){
-				me.escape();
-				return true;
-			}
-		}
+	this.modify = new ol.interaction.Modify({
+		features: this.features,
+		deleteCondition: $.proxy(this.deleteCondition, this)
 	});
 
-	me.buttonMenu();
-	me.mover = new nyc.ol.Drag(me.layer);
-	me.mover.setActive(false);
-	me.map.addInteraction(me.mover);
-	me.viewport.on('contextmenu', $.proxy(me.contextMenu, me));
+	this.buttonMenu();
+	this.mover = new nyc.ol.Drag(this.layer);
+	this.mover.setActive(false);
+	this.map.addInteraction(this.mover);
+	this.viewport.on('contextmenu', $.proxy(this.contextMenu, this));
 };
 
 nyc.ol.Draw.prototype = {
@@ -126,6 +121,7 @@ nyc.ol.Draw.prototype = {
 	 */
 	active: function(){
 		if (this.drawer) return this.drawer.getActive();
+		if (this.geolocation) return true;
 		return false;
 	},
 	/**
@@ -143,7 +139,7 @@ nyc.ol.Draw.prototype = {
 			$('draw-ctx-mnu').addClass(type);
 			me.source.on('addfeature', me.triggerFeatureEvent, me);
 			me.source.on('changefeature', me.triggerFeatureEvent, me);
-			if (type == nyc.ol.Draw.Type.FREE){
+			if (type == nyc.ol.Draw.Type.GPS || type == nyc.ol.Draw.Type.FREE){
 				type = nyc.ol.Draw.Type.LINE;
 			}else if (type == nyc.ol.Draw.Type.SQUARE){
 				type = nyc.ol.Draw.Type.CIRCLE;
@@ -151,25 +147,59 @@ nyc.ol.Draw.prototype = {
 			}else if (type == nyc.ol.Draw.Type.BOX){
 				type = nyc.ol.Draw.Type.LINE;
 				maxPoints = 2;
-				geometryFunction = me.geometryFunction;
+				geometryFunction = me.boxGeometry;
 			}
 			
-			me.drawer = new ol.interaction.Draw({
-				source: me.source,
-				type: type,
-				geometryFunction: geometryFunction,
-				maxPoints: maxPoints,
-				freehandCondition: $.proxy(me.freehandCondition, me),
-				condition: $.proxy(me.drawCondition, me)
-			});
-			me.map.addInteraction(me.drawer);
-			me.map.addInteraction(me.modify);
-			$(document).keyup(function(evt){
-				if (evt.keyCode == 27){
-					me.escape();
-				}
-			});
+			if (me.type == nyc.ol.Draw.Type.GPS){
+				me.beginGpsCapture();
+			}else{
+				me.drawer = new ol.interaction.Draw({
+					source: me.source,
+					type: type,
+					geometryFunction: geometryFunction,
+					maxPoints: maxPoints,
+					freehandCondition: $.proxy(me.freehandCondition, me),
+					condition: $.proxy(me.drawCondition, me)
+				});
+				me.map.addInteraction(me.drawer);
+				me.map.addInteraction(me.modify);
+				$(document).keyup(function(evt){
+					if (evt.keyCode == 27){
+						me.escape();
+					}
+				});
+			}
 		}
+	},
+	getGpsFeature: function(){
+		if (!this.gpsFeature || $.inArray(this.gpsFeature, this.features.getArray()) == -1){
+			this.gpsFeature = new ol.Feature({geometry: new ol.geom.LineString([])});
+			this.features.push(this.gpsFeature);
+		}
+		return this.gpsFeature;
+	},
+	beginGpsCapture: function(){
+		this.getGpsFeature();
+		this.geolocation = new ol.Geolocation({
+			trackingOptions: {
+				maximumAge: 10000,
+				enableHighAccuracy: true,
+				timeout: 600000
+			}
+		});
+		this.geolocation.on('change', this.addGpsCoordinate, this);
+		this.geolocation.on('error',this.geolocationError, this);
+		this.geolocation.setTracking(true);
+	},
+	geolocationError: function(error) {
+		console.error(error.message, error);
+	},
+	addGpsCoordinate: function(){
+		var gpsFeature = this.getGpsFeature(),
+			geom = gpsFeature.getGeometry(),
+			coords = geom.getCoordinates();
+		coords.push(proj4('EPSG:4326', this.view.getProjection().getCode(), this.geolocation.getPosition()));
+		gpsFeature.setGeometry(new ol.geom.LineString(coords));
 	},
 	/**
 	 * @desc Creates the drawn geometry for a box
@@ -179,7 +209,7 @@ nyc.ol.Draw.prototype = {
 	 * @param {ol.geom.Polygon=} geometry The current box geometry to modify
 	 * @return {ol.geom.Polygon} The box geometry
 	 */
-	geometryFunction: function(coordinates, geometry){
+	boxGeometry: function(coordinates, geometry){
 		if (!geometry){
 			geometry = new ol.geom.Polygon(null);
 		}
@@ -191,6 +221,19 @@ nyc.ol.Draw.prototype = {
             ]);
 		}
 		return geometry;
+	},
+	/**
+	 * @desc Determines if a feature should be deleted 
+	 * @public
+	 * @method
+	 * @param {ol.MapBrowserEvent} mapEvent The map event
+	 * @return {boolean}
+	 */
+	deleteCondition: function(event){
+		if (ol.events.condition.singleClick(event) && ol.events.condition.noModifierKeys(event)){
+			this.escape();
+			return true;
+		}
 	},
 	/**
 	 * @desc Determines if drawing should take place 
@@ -236,7 +279,7 @@ nyc.ol.Draw.prototype = {
 		return features;
 	},
 	/**
-	 * @desc Get the features that have been drawn
+	 * @desc Set features on the drawing
 	 * @public
 	 * @method
 	 * @param {Array<nyc.ol.Feature>} The features
@@ -302,7 +345,7 @@ nyc.ol.Draw.prototype = {
 			me.deactivate();
 		}else{
 			me.activate(type);
-			me.mnuBtn.removeClass('point line polygon circle square box free');
+			me.mnuBtn.removeClass('point line polygon circle square box free gps');
 			me.mnuBtn.addClass(css);
 		}
 		me.closeMenus();
@@ -383,14 +426,19 @@ nyc.ol.Draw.prototype = {
 	 */
 	deactivate: function(){
 		this.type = null;
-		this.mnuBtn.removeClass('point line polygon circle square box free');
-		$('.draw-ctx-mnu').removeClass('point line polygon circle square box free');
+		this.mnuBtn.removeClass('point line polygon circle square box free gps');
+		this.map.removeInteraction(this.modify);
 		if (this.drawer){
 			this.map.removeInteraction(this.drawer);
 			this.source.un('addfeature', this.triggerFeatureEvent, this);
 			this.source.un('changefeature', this.triggerFeatureEvent, this);
-			this.drawer = null;
-			this.map.removeInteraction(this.modify);
+			delete this.drawer;
+		}
+		if (this.geolocation){
+			this.closePolygon(nyc.ol.FeatureEventType.CHANGE, this.getGpsFeature());
+			this.geolocation.un('change', this.addGpsCoordinate, this);
+			this.geolocation.un('error',this.geolocationError, this);
+			delete this.geolocation;
 		}
 		if (this.drag){
 			theis.drag.setActive(false);
@@ -402,22 +450,32 @@ nyc.ol.Draw.prototype = {
 	 * @param {ol.source.VectorEvent} event
 	 */
 	triggerFeatureEvent: function(event){
-		var me = this, feature = event.feature;
-		if (me.triggerEvent(feature.getGeometry().getType())){
-			if (event.type == nyc.ol.FeatureEventType.ADD){
-				feature._added = true;
-			}else if (event.type == nyc.ol.FeatureEventType.CHANGE){
-				feature._changed = true;				
-			}
-			if (me.type == nyc.ol.Draw.Type.FREE){
-				me.dia = me.dia || new nyc.Dialog();
-				me.dia.yesNo({message: 'Create ploygon?', callback: function(yes){
-					me.trigger(event.type, me.geomToPolygon(feature, yes));
-				}});
-			}else{
-				this.trigger(event.type, me.geomToPolygon(feature));
-			}
+		var feature = event.feature;
+		this.source.un('addfeature', this.triggerFeatureEvent, this);
+		this.source.un('changefeature', this.triggerFeatureEvent, this);
+		if (event.type == nyc.ol.FeatureEventType.ADD){
+			feature._added = true;
+		}else if (event.type == nyc.ol.FeatureEventType.CHANGE){
+			feature._changed = true;				
 		}
+		if (this.type == nyc.ol.Draw.Type.FREE){
+			this.closePolygon(event.type, feature);
+		}else{
+			this.triggerEvent(event.type, feature);
+		}
+		this.source.on('addfeature', this.triggerFeatureEvent, this);
+		this.source.on('changefeature', this.triggerFeatureEvent, this);
+	},
+	/**
+	 * @private
+	 * @method
+	 */
+	closePolygon: function(eventType, feature){
+		var me = this;
+		me.dia = me.dia || new nyc.Dialog();
+		me.dia.yesNo({message: 'Create ploygon?', callback: function(yesNo){
+			me.triggerEvent(eventType, feature, yesNo);
+		}});
 	},
 	/**
 	 * @private
@@ -428,7 +486,7 @@ nyc.ol.Draw.prototype = {
 	 */
 	geomToPolygon: function(feature, polygon){
 		var geom = feature.getGeometry();
-		if (this.type == nyc.ol.Draw.Type.CIRCLE){
+		if (geom.getType() == 'Circle'){
 			feature.setGeometry(ol.geom.Polygon.fromCircle(geom));
 		}else if (polygon){
 			feature.setGeometry(new ol.geom.Polygon([geom.getCoordinates()]));
@@ -439,32 +497,9 @@ nyc.ol.Draw.prototype = {
 	 * @private
 	 * @method
 	 * @param {nyc.ol.Draw.Type} drawType
-	 * @return {boolean}
 	 */
-	triggerEvent: function(drawType){
-		var types = nyc.ol.Draw.Type;
-		if (drawType == types.POINT && this.type == types.POINT){
-			return true;
-		}
-		if (drawType == types.LINE && this.type == types.LINE){
-			return true;
-		}
-		if (drawType == types.LINE && this.type == types.FREE){
-			return true;
-		}
-		if (drawType == types.POLYGON && this.type == types.POLYGON){
-			return true;
-		}
-		if (drawType == types.CIRCLE && this.type == types.CIRCLE){
-			return true;
-		}
-		if (drawType == types.POLYGON && this.type == types.SQUARE){
-			return true;
-		}
-		if (drawType == types.POLYGON && this.type == types.BOX){
-			return true;
-		}
-		return false;
+	triggerEvent: function(type, feature, polygon){
+		this.trigger(type, this.geomToPolygon(feature, polygon));
 	}
 };
 
@@ -514,6 +549,10 @@ nyc.ol.Draw.Type  = {
 	 */
 	FREE: 'Free',
 	/**
+	 * @desc The GPS capture drawing type
+	 */
+	GPS: 'GPS',
+	/**
 	 * @desc No drawing type
 	 */
 	NONE: 'None'
@@ -543,6 +582,7 @@ nyc.ol.Draw.BUTTON_MENU_HTML = '<a class="draw-btn ctl ctl-btn" data-role="butto
 		'<div class="draw-mnu-btn square" data-draw-type="Square"><button class="ctl-btn ui-btn" title="Click then drag to draw a square">Square</button></div>' +
 		'<div class="draw-mnu-btn box" data-draw-type="Box"><button class="ctl-btn ui-btn" title="Click then drag to draw a box">Box</button></div>' +
 		'<div class="draw-mnu-btn free" data-draw-type="Free"><button class="ctl-btn ui-btn" title="Click and drag to draw a freehand line">Freehand</button></div>' +
+		'<div class="draw-mnu-btn gps" data-draw-type="GPS"><button class="ctl-btn ui-btn" title="Capture coordiantes from device geoloaction">GPS Capture</button></div>' +
 		'<div class="draw-mnu-btn delete" data-draw-type="None"><button class="ctl-btn ui-btn" title="Delete all drawn features">Clear All</button></div>' +
 		'<div class="draw-mnu-btn cancel" data-draw-type="None"><button class="ctl-btn ui-btn ui-corner-bottom" title="Deactivate drawing">Deactivate</button></div>' +
 	'</div>';
