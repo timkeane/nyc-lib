@@ -36,6 +36,7 @@ nyc.ol.Draw = function(options){
 	this.mover.setActive(false);
 	this.map.addInteraction(this.mover);
 	this.viewport.on('contextmenu', $.proxy(this.contextMenu, this));
+
 };
 
 nyc.ol.Draw.prototype = {
@@ -94,6 +95,16 @@ nyc.ol.Draw.prototype = {
 	 * @member {JQuery}
 	 */
 	ctxMnu: null,
+	/**
+	 * @private
+	 * @member {number}
+	 */
+	gpsDeltaMean: 500,
+	/**
+	 * @private
+	 * @member {number}
+	 */
+	previousM: 0,
 	/**
 	 * @private
 	 * @member {ol.style.Style}
@@ -173,13 +184,24 @@ nyc.ol.Draw.prototype = {
 	},
 	getGpsFeature: function(){
 		if (!this.gpsFeature || $.inArray(this.gpsFeature, this.features.getArray()) == -1){
-			this.gpsFeature = new ol.Feature({geometry: new ol.geom.LineString([])});
+			this.gpsFeature = new ol.Feature({geometry: new ol.geom.LineString([], 'XYZM')});
 			this.features.push(this.gpsFeature);
 		}
 		return this.gpsFeature;
 	},
+	addGpsOverlay: function(){
+		var img = $('<img class="gps-loc">').attr('src', nyc.ol.Draw.GPS_ICON);
+		$('body').append(img);
+		this.gpsOverlay = new ol.Overlay({
+			positioning: 'center-center',
+			element: img.get(0),
+			stopEvent: false
+		});
+		this.map.addOverlay(this.gpsOverlay);
+	},
 	beginGpsCapture: function(){
 		this.getGpsFeature();
+		this.addGpsOverlay();
 		this.geolocation = new ol.Geolocation({
 			trackingOptions: {
 				maximumAge: 10000,
@@ -195,11 +217,63 @@ nyc.ol.Draw.prototype = {
 		console.error(error.message, error);
 	},
 	addGpsCoordinate: function(){
-		var gpsFeature = this.getGpsFeature(),
-			geom = gpsFeature.getGeometry(),
-			coords = geom.getCoordinates();
-		coords.push(proj4('EPSG:4326', this.view.getProjection().getCode(), this.geolocation.getPosition()));
-		gpsFeature.setGeometry(new ol.geom.LineString(coords));
+		var gpsFeature = this.getGpsFeature();
+		var geom = gpsFeature.getGeometry();
+		var fCoords = geom.getCoordinates();
+		var position = this.geolocation.getPosition();
+		var accuracy =  this.geolocation.getAccuracy();
+		var heading =  this.geolocation.getHeading() || 0;
+		var speed =  this.geolocation.getSpeed() || 0;
+		var m = Date.now();
+		var previous = fCoords[fCoords.length - 1];
+		var prevHeading = previous && previous[2];
+		var len = fCoords.length;
+
+		if (len >= 2){
+			this.gpsDeltaMean = (fCoords[len - 1][3] - fCoords[0][3]) / (len - 1);
+		}
+
+		if (prevHeading){
+			var headingDiff = heading - this.mod(prevHeading);
+
+			// force the rotation change to be less than 180°
+			if (Math.abs(headingDiff) > Math.PI){
+			  var sign = (headingDiff >= 0) ? 1 : -1;
+			  headingDiff = -sign * (2 * Math.PI - Math.abs(headingDiff));
+			}
+			heading = prevHeading + headingDiff;
+		}
+
+		position = proj4('EPSG:4326', this.view.getProjection().getCode(), position);
+		
+		fCoords.push([position[0], position[1], heading, m]);
+		gpsFeature.setGeometry(new ol.geom.LineString(fCoords));
+		this.updateView(gpsFeature);
+	},
+	updateView: function(gpsFeature){
+		// use sampling period to get a smooth transition
+		var positions = gpsFeature.getGeometry();
+		var m = Date.now() - this.gpsDeltaMean * 1.5;
+		m = Math.max(m, this.previousM);
+		this.previousM = m;
+		// interpolate position along positions LineString
+		var c = positions.getCoordinateAtM(m, true);
+		this.gpsOverlay.setPosition(c);
+		if (c){
+			this.view.animate({
+				center: this.getCenterWithHeading(c, -c[2], this.view.getResolution()),
+				rotation: -c[2]
+			});
+		}
+	},
+	getCenterWithHeading: function(position, rotation, resolution){
+		var size = map.getSize();
+		var height = size[1];
+
+		return [
+			position[0] - Math.sin(rotation) * height * resolution * 1 / 4,
+			position[1] + Math.cos(rotation) * height * resolution * 1 / 4
+		];
 	},
 	/**
 	 * @desc Creates the drawn geometry for a box
@@ -586,6 +660,8 @@ nyc.ol.Draw.BUTTON_MENU_HTML = '<a class="draw-btn ctl ctl-btn" data-role="butto
 		'<div class="draw-mnu-btn delete" data-draw-type="None"><button class="ctl-btn ui-btn" title="Delete all drawn features">Clear All</button></div>' +
 		'<div class="draw-mnu-btn cancel" data-draw-type="None"><button class="ctl-btn ui-btn ui-corner-bottom" title="Deactivate drawing">Deactivate</button></div>' +
 	'</div>';
+
+nyc.ol.Draw.GPS_ICON = 'data:image/png;base64,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';
 
 /**
  * @desc A class to move features
