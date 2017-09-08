@@ -37,14 +37,31 @@ nyc.ol.Draw = function(options){
 	this.map.addInteraction(this.mover);
 	this.viewport.on('contextmenu', $.proxy(this.contextMenu, this));
 
+	this.tracker = new nyc.ol.Tracker({map: this.map});
+	this.tracker.on(nyc.ol.Tracker.EventType.UPDATED, this.updateTrack, this);
 };
 
 nyc.ol.Draw.prototype = {
 	/**
 	 * @private
-	 * @member {ol.interaction.Interaction}
+	 * @member {ol.interaction.Draw}
 	 */
 	drawer: null,
+	/**
+	 * @private
+	 * @member {ol.interaction.Modify}
+	 */
+	modify: null,
+	/**
+	 * @private
+	 * @member {nyc.ol.Tracker}
+	 */
+	tracker: null,
+	/**
+	 * @private
+	 * @member {ol.Collection}
+	 */
+	features: null,
 	/**
 	 * @private
 	 * @member {nyc.ol.Drag}
@@ -55,6 +72,15 @@ nyc.ol.Draw.prototype = {
 	 * @member {ol.Map}
 	 */
 	map: null,
+	/**
+	 * @private
+	 * @member {ol.View}
+	 */
+	view: null,
+	/**
+	 * @private
+	 */
+	gpsTrack: null,
 	/**
 	 * @private
 	 * @member {Array<ol.Feature>}
@@ -69,12 +95,12 @@ nyc.ol.Draw.prototype = {
 	 * @private
 	 * @member {ol.source.Vector}
 	 */
-	layer: null,
+	source: null,
 	/**
 	 * @private
 	 * @member {ol.layer.Vector}
 	 */
-	source: null,
+	layer: null,
 	/**
 	 * @private
 	 * @member {JQuery}
@@ -97,6 +123,11 @@ nyc.ol.Draw.prototype = {
 	ctxMnu: null,
 	/**
 	 * @private
+	 * @member {nyc.Dialog}
+	 */
+	dia: null,
+	/**
+	 * @private
 	 * @member {number}
 	 */
 	gpsDeltaMean: 500,
@@ -104,26 +135,19 @@ nyc.ol.Draw.prototype = {
 	 * @private
 	 * @member {number}
 	 */
-	previousM: 0,
+	accuracyLimit: 0,
 	/**
-	 * @private
-	 * @member {ol.style.Style}
+	 * @desc Set the accuracy limit for geolocation capture
+	 * @public
+	 * @method
+	 * @param {number} limit
 	 */
-	defaultStyle: new ol.style.Style({
-		fill: new ol.style.Fill({
-			color: 'rgba(255,255,255,0.2)'
-		}),
-		stroke: new ol.style.Stroke({
-			color: 'rgba(255,0,0,0.7)',
-			width: 2
-		}),
-		image: new ol.style.Circle({
-			radius: 7,
-			fill: new ol.style.Fill({
-				color: 'red'
-			})
-		})
-	}),
+	setGpsAccuracyLimit: function(limit){
+		this.accuracyLimit = limit;
+		if (this.tracker){
+			this.tracker.accuracyLimit = limit;
+		}
+	},
 	/**
 	 * @desc Return the active state
 	 * @public
@@ -132,8 +156,7 @@ nyc.ol.Draw.prototype = {
 	 */
 	active: function(){
 		if (this.drawer) return this.drawer.getActive();
-		if (this.geolocation) return true;
-		return false;
+		return this.tracker.getActive();
 	},
 	/**
 	 * @desc Activate to begin adding drawings of the specified type
@@ -182,157 +205,6 @@ nyc.ol.Draw.prototype = {
 			}
 		}
 	},
-	getGpsFeature: function(){
-		if (!this.gpsFeature || $.inArray(this.gpsFeature, this.features.getArray()) == -1){
-			this.gpsFeature = new ol.Feature({geometry: new ol.geom.LineString([], 'XYZM')});
-			this.features.push(this.gpsFeature);
-		}
-		return this.gpsFeature;
-	},
-	addGpsOverlay: function(){
-		var img = $('<img class="gps-loc">').attr('src', nyc.ol.Draw.GPS_ICON);
-		$('body').append(img);
-		this.gpsOverlay = new ol.Overlay({
-			positioning: 'center-center',
-			element: img.get(0),
-			stopEvent: false
-		});
-		this.map.addOverlay(this.gpsOverlay);
-	},
-	beginGpsCapture: function(){
-		this.getGpsFeature();
-		this.addGpsOverlay();
-		this.geolocation = new ol.Geolocation({
-			trackingOptions: {
-				maximumAge: 10000,
-				enableHighAccuracy: true,
-				timeout: 600000
-			}
-		});
-		this.geolocation.on('change', this.addGpsCoordinate, this);
-		this.geolocation.on('error',this.geolocationError, this);
-		this.geolocation.setTracking(true);
-	},
-	geolocationError: function(error) {
-		console.error(error.message, error);
-	},
-	addGpsCoordinate: function(){
-		var gpsFeature = this.getGpsFeature();
-		var geom = gpsFeature.getGeometry();
-		var fCoords = geom.getCoordinates();
-		var position = this.geolocation.getPosition();
-		var accuracy =  this.geolocation.getAccuracy();
-		var heading =  this.geolocation.getHeading() || 0;
-		var speed =  this.geolocation.getSpeed() || 0;
-		var m = Date.now();
-		var previous = fCoords[fCoords.length - 1];
-		var prevHeading = previous && previous[2];
-		var len = fCoords.length;
-
-		if (len >= 2){
-			this.gpsDeltaMean = (fCoords[len - 1][3] - fCoords[0][3]) / (len - 1);
-		}
-
-		if (prevHeading){
-			var headingDiff = heading - this.mod(prevHeading);
-
-			// force the rotation change to be less than 180°
-			if (Math.abs(headingDiff) > Math.PI){
-			  var sign = (headingDiff >= 0) ? 1 : -1;
-			  headingDiff = -sign * (2 * Math.PI - Math.abs(headingDiff));
-			}
-			heading = prevHeading + headingDiff;
-		}
-
-		position = proj4('EPSG:4326', this.view.getProjection().getCode(), position);
-		
-		fCoords.push([position[0], position[1], heading, m]);
-		gpsFeature.setGeometry(new ol.geom.LineString(fCoords));
-		this.updateView(gpsFeature);
-	},
-	updateView: function(gpsFeature){
-		// use sampling period to get a smooth transition
-		var positions = gpsFeature.getGeometry();
-		var m = Date.now() - this.gpsDeltaMean * 1.5;
-		m = Math.max(m, this.previousM);
-		this.previousM = m;
-		// interpolate position along positions LineString
-		var c = positions.getCoordinateAtM(m, true);
-		this.gpsOverlay.setPosition(c);
-		if (c){
-			this.view.animate({
-				center: this.getCenterWithHeading(c, -c[2], this.view.getResolution()),
-				rotation: -c[2]
-			});
-		}
-	},
-	getCenterWithHeading: function(position, rotation, resolution){
-		var size = map.getSize();
-		var height = size[1];
-
-		return [
-			position[0] - Math.sin(rotation) * height * resolution * 1 / 4,
-			position[1] + Math.cos(rotation) * height * resolution * 1 / 4
-		];
-	},
-	/**
-	 * @desc Creates the drawn geometry for a box
-	 * @public
-	 * @method
-	 * @param {Array<ol.Coordinate>} coordinates The coordinates from which to create the box geometry
-	 * @param {ol.geom.Polygon=} geometry The current box geometry to modify
-	 * @return {ol.geom.Polygon} The box geometry
-	 */
-	boxGeometry: function(coordinates, geometry){
-		if (!geometry){
-			geometry = new ol.geom.Polygon(null);
-		}
-		var start = coordinates[0];
-		var end = coordinates[1];
-		if (end){
-			geometry.setCoordinates([
-                 [start, [start[0], end[1]], end, [end[0], start[1]], start]
-            ]);
-		}
-		return geometry;
-	},
-	/**
-	 * @desc Determines if a feature should be deleted 
-	 * @public
-	 * @method
-	 * @param {ol.MapBrowserEvent} mapEvent The map event
-	 * @return {boolean}
-	 */
-	deleteCondition: function(event){
-		if (ol.events.condition.singleClick(event) && ol.events.condition.noModifierKeys(event)){
-			this.escape();
-			return true;
-		}
-	},
-	/**
-	 * @desc Determines if drawing should take place 
-	 * @public
-	 * @method
-	 * @param {ol.MapBrowserEvent} mapEvent The map event
-	 * @return {boolean}
-	 */
-	drawCondition: function(mapEvt){
-	    var evt = mapEvt.originalEvent;
-		return evt.button != 2 &&
-			!evt.shiftKey &&
-			!$(evt.target).hasClass('draw-mnu-btn') &&
-			!this.mover.getActive();
-	},
-	/**
-	 * @desc Determines if freehand drawing should take place 
-	 * @public
-	 * @method
-	 * @param {ol.MapBrowserEvent} mapEvent The map event
-	 * @return {boolean}
-	 */
-	freehandCondition: function(mapEvt){
-		return this.type == nyc.ol.Draw.Type.FREE && this.drawCondition(mapEvt);
-	},
 	/**
 	 * @desc Get the features that have been drawn
 	 * @public
@@ -365,6 +237,187 @@ nyc.ol.Draw.prototype = {
 		$.each(features, function(){
 			feats.push(this);
 		});
+	},
+	/**
+	 * @public
+	 * @method
+	 * @param {ol.Feature} feature
+	 */
+	removeFeature: function(feature){
+		this.source.removeFeature(feature);
+		this.removed.push(feature);
+		this.trigger(nyc.ol.FeatureEventType.REMOVE, feature);
+	},
+	/**
+	 * @desc Remove all drawn features
+	 * @public
+	 * @method
+	 */
+	clear: function(){
+		this.source.clear();
+		this.removed = [];
+	},
+	/**
+	 * @desc Deactivate to stop drawing
+	 * @public
+	 * @method
+	 */
+	deactivate: function(){
+		this.type = null;
+		this.mnuBtn.removeClass('point line polygon circle square box free gps');
+		this.map.removeInteraction(this.modify);
+		if (this.drawer){
+			this.map.removeInteraction(this.drawer);
+			this.source.un('addfeature', this.triggerFeatureEvent, this);
+			this.source.un('changefeature', this.triggerFeatureEvent, this);
+			delete this.drawer;
+		}
+		if (this.tracker.getTracking()){
+			this.source.un('addfeature', this.triggerFeatureEvent, this);
+			this.source.un('changefeature', this.triggerFeatureEvent, this);
+			this.closePolygon(nyc.ol.FeatureEventType.CHANGE, this.getGpsTrack());
+			this.tracker.setTracking(false);
+		}
+		if (this.drag){
+			this.drag.setActive(false);
+		}
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {Array<ol.Coordinate>} coordinates
+	 * @param {ol.geom.Polygon=} geometry
+	 * @return {ol.geom.Polygon}
+	 */
+	boxGeometry: function(coordinates, geometry){
+		if (!geometry){
+			geometry = new ol.geom.Polygon(null);
+		}
+		var start = coordinates[0];
+		var end = coordinates[1];
+		if (end){
+			geometry.setCoordinates([
+                 [start, [start[0], end[1]], end, [end[0], start[1]], start]
+            ]);
+		}
+		return geometry;
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {ol.MapBrowserEvent} mapEvent
+	 * @return {boolean}
+	 */
+	deleteCondition: function(event){
+		if (ol.events.condition.singleClick(event) && ol.events.condition.noModifierKeys(event)){
+			this.escape();
+			return true;
+		}
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {ol.MapBrowserEvent} mapEvent
+	 * @return {boolean}
+	 */
+	drawCondition: function(mapEvt){
+	    var evt = mapEvt.originalEvent;
+		return evt.button != 2 &&
+			!evt.shiftKey &&
+			!$(evt.target).hasClass('draw-mnu-btn') &&
+			!this.mover.getActive();
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {ol.MapBrowserEvent} mapEvent
+	 * @return {boolean}
+	 */
+	freehandCondition: function(mapEvt){
+		return this.type == nyc.ol.Draw.Type.FREE && this.drawCondition(mapEvt);
+	},
+	/**
+	 * @private
+	 * @method
+	 * @return {ol.style.Style}
+	 */
+	defaultStyle: function(feature, resolution){
+		var accuracy = feature.get('accuracy') || 0;
+		var radius = accuracy ? 3 : 7;
+		var pixelAccuracy = accuracy/resolution;
+		console.info(pixelAccuracy);
+		return [
+	        new ol.style.Style({
+				fill: new ol.style.Fill({
+					color: 'rgba(255,255,255,.2)'
+				}),
+	        	zindex: 0
+	        }),
+	        new ol.style.Style({
+				image: new ol.style.Circle({
+					radius: pixelAccuracy,
+					fill: new ol.style.Fill({
+						color: 'rgba(255,255,0,.03)'
+					}),
+					stroke: new ol.style.Stroke({
+						color: 'rgba(255,165,0,1)',
+						width: .25
+					})					
+				}),
+				zindex: 100
+			}),
+	        new ol.style.Style({
+				stroke: new ol.style.Stroke({
+					color: 'red',
+					width: 3
+				}),
+				zindex: 200
+			}),
+	        new ol.style.Style({
+	        	image: new ol.style.Circle({
+					radius: radius,
+					fill: new ol.style.Fill({
+						color: 'red'
+					})
+				}),
+				zindex: 300
+			})
+		];
+	},
+	/**
+	 * @private
+	 * @method
+	 */
+	getGpsTrack: function(){
+		if (!this.gpsTrack || $.inArray(this.gpsTrack, this.features.getArray()) == -1){
+			this.gpsTrack = new ol.Feature({geometry: new ol.geom.LineString([], 'XYZM')});
+			this.features.push(this.gpsTrack);
+		}
+		return this.gpsTrack;
+	},
+	/**
+	 * @private
+	 * @method
+	 */
+	beginGpsCapture: function(){
+		this.tracker.accuracyLimit = this.accuracyLimit;
+		this.tracker.setTracking(true);
+	},
+	/**
+	 * @private
+	 * @method
+	 */
+	updateTrack: function(){
+		var track = this.tracker.positions,
+			positions = track.getCoordinates(),
+			current = positions.length - 1,
+			gpsTrack = this.getGpsTrack();
+		gpsTrack.setGeometry(track);
+		this.source.addFeature(new ol.Feature({
+			geometry: new ol.geom.Point(positions[current]),
+			accuracy: this.tracker.positionAccuracy[current]
+		}));
+		this.map.renderSync();
 	},
 	/**
 	 * @private
@@ -475,80 +528,40 @@ nyc.ol.Draw.prototype = {
     	});
     },
 	/**
-	 * @public
-	 * @method
-	 * @param {ol.Feature} feature
-	 */
-	removeFeature: function(feature){
-		this.source.removeFeature(feature);
-		this.removed.push(feature);
-		this.trigger(nyc.ol.FeatureEventType.REMOVE, feature);
-	},
-	/**
-	 * @desc Remove all drawn features
-	 * @public
-	 * @method
-	 */
-	clear: function(){
-		this.source.clear();
-		this.removed = [];
-	},
-	/**
-	 * @desc Deactivate to stop drawing
-	 * @public
-	 * @method
-	 */
-	deactivate: function(){
-		this.type = null;
-		this.mnuBtn.removeClass('point line polygon circle square box free gps');
-		this.map.removeInteraction(this.modify);
-		if (this.drawer){
-			this.map.removeInteraction(this.drawer);
-			this.source.un('addfeature', this.triggerFeatureEvent, this);
-			this.source.un('changefeature', this.triggerFeatureEvent, this);
-			delete this.drawer;
-		}
-		if (this.geolocation){
-			this.closePolygon(nyc.ol.FeatureEventType.CHANGE, this.getGpsFeature());
-			this.geolocation.un('change', this.addGpsCoordinate, this);
-			this.geolocation.un('error',this.geolocationError, this);
-			delete this.geolocation;
-		}
-		if (this.drag){
-			theis.drag.setActive(false);
-		}
-	},
-	/**
 	 * @private
 	 * @method
 	 * @param {ol.source.VectorEvent} event
 	 */
 	triggerFeatureEvent: function(event){
 		var feature = event.feature;
-		this.source.un('addfeature', this.triggerFeatureEvent, this);
-		this.source.un('changefeature', this.triggerFeatureEvent, this);
+		event.preventDefault();
+		event.stopPropagation();
 		if (event.type == nyc.ol.FeatureEventType.ADD){
 			feature._added = true;
 		}else if (event.type == nyc.ol.FeatureEventType.CHANGE){
 			feature._changed = true;				
 		}
-		if (this.type == nyc.ol.Draw.Type.FREE){
+		if (this.type == nyc.ol.Draw.Type.FREE && event.type == nyc.ol.FeatureEventType.ADD){
+			this.source.un('addfeature', this.triggerFeatureEvent, this);
+			this.source.un('changefeature', this.triggerFeatureEvent, this);
 			this.closePolygon(event.type, feature);
-		}else{
+		}else{ 	 
 			this.triggerEvent(event.type, feature);
 		}
-		this.source.on('addfeature', this.triggerFeatureEvent, this);
-		this.source.on('changefeature', this.triggerFeatureEvent, this);
 	},
 	/**
 	 * @private
 	 * @method
+	 * @param {nyc.ol.FeatureEventType} eventType
+	 * @param {ol.Feature} feature
 	 */
 	closePolygon: function(eventType, feature){
 		var me = this;
 		me.dia = me.dia || new nyc.Dialog();
 		me.dia.yesNo({message: 'Create ploygon?', callback: function(yesNo){
 			me.triggerEvent(eventType, feature, yesNo);
+			me.source.on('addfeature', me.triggerFeatureEvent, me);
+			me.source.on('changefeature', me.triggerFeatureEvent, me);
 		}});
 	},
 	/**
@@ -589,7 +602,7 @@ nyc.inherits(nyc.ol.Draw, nyc.EventHandling);
 nyc.ol.Draw.Options;
 
 /**
- * @desc Enumeration for feature event types
+ * @desc Enumeration for draw types
  * @public
  * @enum {string}
  */
@@ -736,14 +749,14 @@ nyc.ol.Drag.prototype.handleDragEvent = function(event){
 		}
 	});
 
-	var deltaX = event.coordinate[0] - this.coords[0];
-	var deltaY = event.coordinate[1] - this.coords[1];
+	var deltaX = event.coordinate[0] - me.coords[0];
+	var deltaY = event.coordinate[1] - me.coords[1];
 
-	var geometry = this.feature.getGeometry();
+	var geometry = me.feature.getGeometry();
 	geometry.translate(deltaX, deltaY);
 
-	this.coords[0] = event.coordinate[0];
-	this.coords[1] = event.coordinate[1];
+	me.coords[0] = event.coordinate[0];
+	me.coords[1] = event.coordinate[1];
 };
 
 /**
@@ -776,4 +789,3 @@ nyc.ol.Drag.prototype.handleUpEvent = function(event) {
 	this.setActive(false);
 	return false;
 };
-

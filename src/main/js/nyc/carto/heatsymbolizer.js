@@ -68,5 +68,5 @@ nyc.carto.HeatSymbolizer.Options;
 /**
  * @desc The CartoCSS applied to the heat map layer
  * @event nyc.carto.HeatSymbolizer#symbolized
- * @type {String}
+ * @type {string}
  */

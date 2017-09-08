@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="../src/main/css/dialog.css">
 	<link rel="stylesheet" href="../src/main/css/zoomsearch.css">
 	<link rel="stylesheet" href="../src/main/css/draw.css">
+	<link rel="stylesheet" href="../src/main/css/tracker.css">
 	<!-- nyc css -->
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
@@ -38,6 +39,7 @@
 	<script src="../src/main/js/nyc/ol/locator.js"></script>
 	<script src="../src/main/js/nyc/ol/control/zoomsearch.js"></script>
 	<script src="../src/main/js/nyc/ol/style/style.js"></script>
+	<script src="../src/main/js/nyc/ol/tracker.js"></script>
 	<script src="../src/main/js/nyc/ol/draw.js"></script>
 	<script src="../src/main/js/nyc/ol/style/style.js"></script>
 	<script src="../src/main/js/nyc/ol/style/pattern.js"></script>
@@ -51,6 +53,11 @@
 		 	bottom: 0;
 		 	right: 0;
 		 }
+		@media only screen and (max-width : 405px) {
+			.fld-srch-container {
+				right: 44px;
+			}
+		}		 
 	</style>
 </head>
 <body>

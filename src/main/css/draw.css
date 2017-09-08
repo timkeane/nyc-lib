@@ -8,6 +8,11 @@
 	background-repeat: no-repeat;
 	background-image: var(--theme-draw-bg-img);
 }
+.draw-btn-mnu {
+    max-height: calc(100% - 45px);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
 .draw-mnu-btn button {
 	background-color: var(--theme-ctl-bg-color);
 	border: none;
@@ -42,16 +47,16 @@
 	right: 3px;
 }
 .draw-btn-mnu button, .draw-ctx-mnu button {
-	width: 130px;
+	width: 145px;
 	text-align: left;
-	padding: 3px;
+	padding: 10px;
 	cursor: pointer;
 }
 .draw-ctx-mnu button {
 	width: 150px;
 }
 .draw-mnu-btn button {
-	padding-left: 26px;
+	padding-left: 31px;
 }
 .draw-mnu-btn button:before {
 	content: ' ';
@@ -61,7 +66,7 @@
 	width: 18px;
 	height: 18px;
 	position: absolute;
-	left: 3px;
+	left: 8px;
 }
 .draw-btn.point, .draw-mnu-btn.point button:before {
 	background-image: var(--theme-draw-point-bg-img); 
