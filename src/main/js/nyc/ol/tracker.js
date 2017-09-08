@@ -31,11 +31,6 @@ nyc.ol.Tracker = function(options){
 	 * @private
 	 * @member {boolean}
 	 */
-	this.interpolate = options.interpolate;
-	/**
-	 * @private
-	 * @member {boolean}
-	 */
 	this.recenter = options.recenter === undefined ? true : options.recenter;
 	/**
 	 * @private
@@ -61,7 +56,7 @@ nyc.ol.Tracker = function(options){
 	 * @private
 	 * @member {JQuery}
 	 */
-	this.img = $('<img>');
+	this.img = $('<img>').hide();
 	
 	options.trackingOptions = options.trackingOptions ||{
 		maximumAge: 10000,
@@ -103,17 +98,16 @@ ol.inherits(nyc.ol.Tracker, ol.Geolocation);
 nyc.ol.Tracker.prototype.setTracking = function(tracking){
 	var wasTracking = this.getTracking();
 	ol.Geolocation.prototype.setTracking.call(this, tracking);
-	if (this.markerOverlay){
-		this.markerOverlay.setVisible(tracking);
-	}
 	if (tracking){
 		if (!wasTracking){
 			this.positions = new ol.geom.LineString([], 'XYZM');
 			this.positionAccuracy = [];		
 		}
 		$(this.northArrow).show();
+		this.img.show();
 	}else{
 		$(this.northArrow).hide();
+		this.img.hide();
 	}
 };
 
@@ -146,7 +140,7 @@ nyc.ol.Tracker.prototype.updatePosition = function(){
 		if (len >= 2){
 			this.deltaMean = (coords[len - 1][3] - coords[0][3]) / (len - 1);
 		}
-		this.updateView();
+		this.animate();
 	}
 };
 	
@@ -215,18 +209,34 @@ nyc.ol.Tracker.prototype.getCenterWithHeading = function(position, rotation, res
  * @private
  * @method
  */
+nyc.ol.Tracker.prototype.animate = function(){
+	var me = this; 
+	var positions = me.positions;
+	var coords = positions.getCoordinates();
+	var end = coords[coords.length - 1];
+	var start = coords[coords.length - 2];
+	var marker = me.markerOverlay;
+	var m = start[3];
+	var mEnd = end[3];
+	var step = (mEnd - m)/10;
+	var intv = setInterval(function(){
+		var p = positions.getCoordinateAtM(m, true);
+		if (m >= mEnd){
+			clearInterval(intv);
+			p = end;
+			me.updateView();
+		}
+		marker.setPosition(p);
+		m += step;
+	}, step);
+};
+
+/**
+ * @private
+ * @method
+ */
 nyc.ol.Tracker.prototype.updateView = function(){
-	var current = this.positions.getLastCoordinate();
-	// use sampling period to get a smooth transition
-	var m = Date.now() - this.deltaMean * 1.5;
-	m = Math.max(m, this.previousM);
-	this.previousM = m;
-	if (this.interpolate){
-		// interpolate position along positions LineString
-		current = this.positions.getCoordinateAtM(m, true);
-	}
-	this.markerOverlay.setPosition(current);
-	if (current && this.recenter){
+	if (this.recenter){
 		this.view.animate({
 			center: this.getCenterWithHeading(current, -current[2], this.view.getResolution()),
 			rotation: -current[2]
@@ -264,7 +274,6 @@ nyc.ol.Tracker.prototype.mod = function(n){
  * @typedef {Object}
  * @property {ol.Map} map The map on which to track locations
  * @property {GeolocationPositionOptions=} trackingOptions Tracking options @see http://www.w3.org/TR/geolocation-API/#position_options_interface
- * @property {boolean} [interpolate=false] Interpolate position 
  * @property {boolean} [recenter=true] Recenter on location change 
  * @property {boolean} [showNorth=true] Show a north arrow on the map
  * @property {number} [maxPoints=0] The maximum number of points to retain in the track (0 = unlimited) 

@@ -345,7 +345,6 @@ nyc.ol.Draw.prototype = {
 		var accuracy = feature.get('accuracy') || 0;
 		var radius = accuracy ? 3 : 7;
 		var pixelAccuracy = accuracy/resolution;
-		console.info(pixelAccuracy);
 		return [
 	        new ol.style.Style({
 				fill: new ol.style.Fill({
@@ -417,7 +416,7 @@ nyc.ol.Draw.prototype = {
 			geometry: new ol.geom.Point(positions[current]),
 			accuracy: this.tracker.positionAccuracy[current]
 		}));
-		this.map.renderSync();
+		this.source.refresh();
 	},
 	/**
 	 * @private
