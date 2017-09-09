@@ -73,6 +73,7 @@ ext {
 		'nyc/soda/query.js', 
 		'nyc/info/finder.js', 
 		'nyc/ol/ol.js', 
+		'nyc/ol/north.js', 
 		'nyc/ol/tracker.js', 
 		'nyc/ol/style/style.js', 
 		'nyc/ol/style/pattern.js', 
@@ -177,7 +178,7 @@ ext {
 		'collapsible.css', 
 		'directions.css', 
 		'dialog.css', 
-		'tracker.css', 
+		'north.css', 
 		'featuretip.css', 
 		'lang.css', 
 		'layermgr.css', 
@@ -265,8 +266,8 @@ task examples() << {
 			def origHtml = file.text
 			def newHtml = origHtml
 			if (file.name.indexOf('ol-redline-') == 0){
-				newHtml = (origHtml =~ jsexp).replaceFirst("<script src=\"${host}/nyc-lib/${ver}/js/nyc-ol-lib.js\"></script>\\n<script src=\"${host}/nyc-lib/${ver}/js/nyc-ol-redline-lib.js\"></script>")
-				newHtml = (newHtml =~ cssexp).replaceFirst("<link rel=\"stylesheet\" href=\"${host}/nyc-lib/${ver}/css/nyc-ol-lib.css\">\\n<link rel=\"stylesheet\" href=\"${host}/nyc-lib/${ver}/css/nyc-ol-redline-lib.css\">")
+				newHtml = (origHtml =~ jsexp).replaceFirst("<script src=\"${host}/nyc-lib/${ver}/js/nyc-ol-lib.js\"></script>\n<script src=\"${host}/nyc-lib/${ver}/js/nyc-ol-redline-lib.js\"></script>")
+				newHtml = (newHtml =~ cssexp).replaceFirst("<link rel=\"stylesheet\" href=\"${host}/nyc-lib/${ver}/css/nyc-ol-lib.css\">\n<link rel=\"stylesheet\" href=\"${host}/nyc-lib/${ver}/css/nyc-ol-redline-lib.css\">")
 			}else if (file.name.indexOf('ol-') == 0){
 				newHtml = (origHtml =~ jsexp).replaceAll("<script src=\"${host}/nyc-lib/${ver}/js/nyc-ol-lib.js\"></script>")
 				newHtml = (newHtml =~ cssexp).replaceAll("<link rel=\"stylesheet\" href=\"${host}/nyc-lib/${ver}/css/nyc-ol-lib.css\">")

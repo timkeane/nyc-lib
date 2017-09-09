@@ -359,7 +359,7 @@ nyc.ol.Draw.prototype = {
 						color: 'rgba(255,255,0,.03)'
 					}),
 					stroke: new ol.style.Stroke({
-						color: 'rgba(255,165,0,1)',
+						color: 'rgba(255,255,0,1)',
 						width: .25
 					})					
 				}),
@@ -413,10 +413,11 @@ nyc.ol.Draw.prototype = {
 			gpsTrack = this.getGpsTrack();
 		gpsTrack.setGeometry(track);
 		this.source.addFeature(new ol.Feature({
+			id: current,
 			geometry: new ol.geom.Point(positions[current]),
-			accuracy: this.tracker.positionAccuracy[current]
+			accuracy: this.tracker.positionAccuracy[current],
+			timestamp: new Date(positions[current][3]).toISOString()
 		}));
-		this.source.refresh();
 	},
 	/**
 	 * @private
@@ -533,8 +534,6 @@ nyc.ol.Draw.prototype = {
 	 */
 	triggerFeatureEvent: function(event){
 		var feature = event.feature;
-		event.preventDefault();
-		event.stopPropagation();
 		if (event.type == nyc.ol.FeatureEventType.ADD){
 			feature._added = true;
 		}else if (event.type == nyc.ol.FeatureEventType.CHANGE){
