@@ -263,12 +263,11 @@ nyc.ol.Tracker.prototype.animate = function(){
  * @method
  */
 nyc.ol.Tracker.prototype.updateView = function(position){
-	if (this.recenter){
+	if (this.recenter && positions.getCoordinates().length % 2 == 0){
 		this.view.cancelAnimations();
 		this.view.animate({
 			center: this.getCenterWithHeading(position, -position[2]),
-			rotation: -position[2],
-			duration: 700
+			rotation: -position[2]
 		});
 	}
 };
