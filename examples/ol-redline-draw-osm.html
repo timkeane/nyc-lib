@@ -28,10 +28,10 @@
 	<script src="../src/main/js/nyc/dialog.js"></script>
 	<script src="../src/main/js/nyc/locate.js"></script>
 	<script src="../src/main/js/nyc/ctlcontainer.js"></script>
-	<script src="../src/main/js/nyc/zoomsearch.js"></script>
 	<script src="../src/main/js/nyc/ol/ol.js"></script>
+	<script src="../src/main/js/nyc/ol/basemap.js"></script>
+	<script src="../src/main/js/nyc/ol/locate.js"></script>
 	<script src="../src/main/js/nyc/ol/featuretip.js"></script>
-	<script src="../src/main/js/nyc/ol/locator.js"></script>
 	<script src="../src/main/js/nyc/ol/style/style.js"></script>
 	<script src="../src/main/js/nyc/ol/north.js"></script>
 	<script src="../src/main/js/nyc/ol/tracker.js"></script>
@@ -50,6 +50,20 @@
 		 }
 		 .ol-zoom {
 		 	display: block;
+		 	left: 0;
+		 	top: 1px;
+    	}
+		 .ol-zoom button.ui-btn, .ol-zoom button.ui-btn:hover {
+		 	color: #fff;
+		 	font-size: 28px !important;
+		 	width: 35px;
+		 	height: 35px;
+		 	font-weight: bold;
+		 	background-color: rgba(0,0,0,.5);
+		 	border-radius: 3px;
+    	}
+    	.ol-zoom button.ui-btn:hover {
+    		background-color: #000;
     	}
 	</style>
 </head>
@@ -61,6 +75,7 @@
 
 			map = new ol.Map({
 				target: $('#map').get(0),
+				view: new ol.View({zoom: 10, center: nyc.ol.Basemap.CENTER}),
 				layers: [
 					new ol.layer.Tile({
 						source: new ol.source.OSM()

@@ -59,14 +59,18 @@ nyc.ol.Tracker = function(options){
 	this.img = $('<img>').hide();
 	/**
 	 * @private
-	 * @member {nyc.ol.NorthArrow}
-	 */
-	/**
-	 * @private
 	 * @member {number}
 	 */
 	this.animationInterval = undefined;
-
+	/**
+	 * @private
+	 * @member {ol.format.GeoJSON}
+	 */
+	this.jsonWriter = new ol.format.GeoJSON();
+	/**
+	 * @private
+	 * @member {nyc.ol.NorthArrow}
+	 */
 	this.northArrow = new nyc.ol.NorthArrow(this.map);
 	this.showNorth(options.northArrow);
 	
@@ -197,8 +201,32 @@ nyc.ol.Tracker.prototype.addPosition = function(position, accuracy, heading, m, 
 			this.track.setCoordinates(this.track.getCoordinates().slice(-(this.maxPoints)));
 		}
 		this.marker(speed, heading);
+		this.store();
 		this.dispatchEvent({type: nyc.ol.Tracker.EventType.UPDATED, target: this});
 		return true;
+	}
+};
+
+/**
+ * @private
+ * @method
+ */
+nyc.ol.Tracker.prototype.store = function(){
+	if ('localStorage' in window){
+		localStorage.setItem(
+			'nyc.ol.Tracker.track',
+			this.jsonWriter.writeGeometry(
+				this.track,
+				{featureProjection: this.view.getProjection()}
+			)
+		);
+		localStorage.setItem(
+			'nyc.ol.Tracker.positions',
+			this.jsonWriter.writeFeatures(
+				this.positions, 
+				{featureProjection: this.view.getProjection()}
+			)
+		);
 	}
 };
 
@@ -213,15 +241,13 @@ nyc.ol.Tracker.prototype.addPosition = function(position, accuracy, heading, m, 
  */
 nyc.ol.Tracker.prototype.marker = function(speed, heading){
 	if (speed){
-		this.img.attr('src', nyc.ol.Tracker.LOCATION_HEADING_IMG);
-		if (!this.recenter){
-			var rotation = 'rotate(' + heading + 'rad)';
-			this.img.css({
+		var rotation = 'rotate(' + (-heading) + 'rad)';
+		this.img.attr('src', nyc.ol.Tracker.LOCATION_HEADING_IMG)
+			.css({
 				transform: rotation, 
 				'-webkit-transform': rotation,
 				'-ms-transform': rotation
 			});
-		}
 	}else{
 		this.img.attr('src', nyc.ol.Tracker.LOCATION_IMG);
 	}
@@ -235,7 +261,7 @@ nyc.ol.Tracker.prototype.marker = function(speed, heading){
  */
 nyc.ol.Tracker.prototype.getCenterWithHeading = function(position, rotation){
 	var size = this.map.getSize();
-	resolution = this.view.getResolution();
+	var resolution = this.view.getResolution();
 	var height = size[1];
 	return [
 		position[0] - Math.sin(rotation) * height * resolution / 4,

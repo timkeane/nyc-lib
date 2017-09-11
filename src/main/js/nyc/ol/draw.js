@@ -19,6 +19,7 @@ nyc.ol.Draw = function(options){
 	this.source = new ol.source.Vector({features: this.features});
 	this.viewport = $(this.map.getViewport());
 	this.removed = [];
+	this.jsonWriter = new ol.format.GeoJSON();
 	
 	this.layer = new ol.layer.Vector({
 		source: this.source,
@@ -38,7 +39,7 @@ nyc.ol.Draw = function(options){
 	this.viewport.on('contextmenu', $.proxy(this.contextMenu, this));
 
 	this.tracker = new nyc.ol.Tracker({map: this.map});
-	this.tracker.on(nyc.ol.Tracker.EventType.UPDATED, this.updateTrack, this);
+	this.tracker.on(nyc.ol.Tracker.EventType.UPDATED, this.updateTrack, this);	
 };
 
 nyc.ol.Draw.prototype = {
@@ -115,6 +116,11 @@ nyc.ol.Draw.prototype = {
 	 * @private
 	 * @member {JQuery}
 	 */
+	saveBtn: null,
+	/**
+	 * @private
+	 * @member {JQuery}
+	 */
 	btnMnu: null,
 	/**
 	 * @private
@@ -126,6 +132,11 @@ nyc.ol.Draw.prototype = {
 	 * @member {nyc.Dialog}
 	 */
 	dia: null,
+	/**
+	 * @private
+	 * @member {ol.format.GeoJSON}
+	 */
+	jsonWriter: null,
 	/**
 	 * @private
 	 * @member {number}
@@ -246,6 +257,7 @@ nyc.ol.Draw.prototype = {
 	removeFeature: function(feature){
 		this.source.removeFeature(feature);
 		this.removed.push(feature);
+		this.store();
 		this.trigger(nyc.ol.FeatureEventType.REMOVE, feature);
 	},
 	/**
@@ -255,6 +267,7 @@ nyc.ol.Draw.prototype = {
 	 */
 	clear: function(){
 		this.source.clear();
+
 		delete this.gpsTrack;
 		this.removed = [];
 	},
@@ -340,7 +353,7 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @return {ol.style.Style}
+	 * @return {Array<ol.style.Style>}
 	 */
 	defaultStyle: function(feature, resolution){
 		var accuracy = feature.get('accuracy') || 0;
@@ -443,12 +456,21 @@ nyc.ol.Draw.prototype = {
 		viewport.find('.ol-overlaycontainer-stopevent').append(nyc.ol.Draw.BUTTON_MENU_HTML).trigger('create');
 		me.btnMnu = viewport.find('.draw-btn-mnu');
 		me.mnuBtn = viewport.find('.draw-btn');
+		me.saveBtn = viewport.find('.draw-btn.save');
 		me.mnuBtn.click(function(){
 			me.btnMnu.slideToggle();
 		});
+		me.saveBtn.click($.proxy(me.save, me));
 		viewport.find('.draw-mnu-btn').each(function(_, btn){
 			$(btn).click($.proxy(me.choose, me));
 		});
+	},
+	/**
+	 * @private
+	 * @method
+	 */
+	save: function(){
+		caonsole.info('save');
 	},
 	/**
 	 * @private
@@ -579,7 +601,30 @@ nyc.ol.Draw.prototype = {
 	 * @param {nyc.ol.Draw.Type} drawType
 	 */
 	triggerEvent: function(type, feature, polygon){
+		this.store();
 		this.trigger(type, this.geomToPolygon(feature, polygon));
+	},
+	/**
+	 * @private
+	 * @method
+	 */
+	store: function(){
+		var features = this.source.getFeatures();
+		if ('localStorage' in window){
+			if (features.length){
+				localStorage.setItem(
+					'nyc.ol.Draw.features', 
+					this.jsonWriter.writeFeatures(
+						features,
+						{featureProjection: this.view.getProjection()}
+					)
+				);
+				this.saveBtn.show();
+			}else{
+				localStorage.removeItem('nyc.ol.Draw.features');
+				this.saveBtn.hide();
+			}
+		}
 	}
 };
 
@@ -655,6 +700,7 @@ nyc.ol.Draw.CONTEXT_MENU_HTML = '<div class="ctl ol-unselectable draw-ctx-mnu">'
  */
 nyc.ol.Draw.BUTTON_MENU_HTML = '<a class="draw-btn ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext">Draw</a></div>' +
 	'<div class="ol-unselectable ctl draw-btn-mnu">' +
+		'<div class="draw-mnu-btn save" data-draw-type="None"><button class="ctl-btn ui-btn ui-corner-top" title="Savee the current drawing">Save...</button></div>' +
 		'<div class="draw-mnu-btn point" data-draw-type="Point"><button class="ctl-btn ui-btn ui-corner-top" title="Click to draw a point">Point</button></div>' +
 		'<div class="draw-mnu-btn line" data-draw-type="LineString"><button class="ctl-btn ui-btn" title="Click to draw each point of a line">Line</button></div>' +
 		'<div class="draw-mnu-btn polygon" data-draw-type="Polygon"><button class="ctl-btn ui-btn" title="Click to draw each point of a polygon">Polygon</button></div>' +
@@ -782,3 +828,4 @@ nyc.ol.Drag.prototype.handleUpEvent = function(event) {
 	this.setActive(false);
 	return false;
 };
+

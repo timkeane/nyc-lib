@@ -101,3 +101,6 @@
 .draw-mnu-btn.move button:before {
 	background-image: var(--theme-draw-move-bg-img);
 }
+.draw-mnu-btn.save button:before {
+	background-image: var(--theme-draw-save-bg-img);
+}
