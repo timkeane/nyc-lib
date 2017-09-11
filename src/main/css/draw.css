@@ -18,12 +18,12 @@
 	border: none;
 	border-bottom: var(--theme-ctl-border);
 }
-.draw-mnu-btn button.ui-corner-top {
+.draw-mnu-btn button:first-of-type {
 	border-top: var(--theme-ctl-border);
 	border-top-right-radius: var(--theme-border-radius);
 	border-top-left-radius: var(--theme-border-radius);
 }
-.draw-mnu-btn button.ui-corner-bottom {
+.draw-mnu-btn button:last-of-type {
 	border-bottom-right-radius: var(--theme-border-radius);
 	border-bottom-left-radius: var(--theme-border-radius);
 }
@@ -103,4 +103,7 @@
 }
 .draw-mnu-btn.save button:before {
 	background-image: var(--theme-draw-save-bg-img);
+}
+.draw-mnu-btn.save {
+	display: none;
 }
