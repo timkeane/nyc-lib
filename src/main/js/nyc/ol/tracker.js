@@ -244,7 +244,6 @@ nyc.ol.Tracker.prototype.animate = function(){
 		var m = start[3];
 		var mEnd = end[3];
 		var step = (mEnd - m)/5;
-		$('.fld-srch-container input').val(step);
 		me.animationInterval = setInterval(function(){
 			var p = positions.getCoordinateAtM(m, true);
 			if (m >= mEnd){

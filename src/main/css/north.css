@@ -10,4 +10,7 @@ div.north-arrow {
 	background-size: 40px; 
 	margin: 3px;
 	opacity: .5;
+	transform: rotate(0rad);
+	'-webkit-transform': rotate(0rad);
+	'-ms-transform': rotate(0rad);
 }
