@@ -243,7 +243,7 @@ nyc.ol.Tracker.prototype.animate = function(){
 	}else{
 		var m = start[3];
 		var mEnd = end[3];
-		var step = (mEnd - m)/5;
+		var step = (mEnd - m)/10;
 		me.animationInterval = setInterval(function(){
 			var p = positions.getCoordinateAtM(m, true);
 			if (m >= mEnd){
