@@ -254,8 +254,8 @@ nyc.ol.Tracker.prototype.animate = function(){
 			}
 			marker.setPosition(p);
 			m += step;
-		}, step);
-	}	
+		}, 100);
+	}
 };
 
 /**
