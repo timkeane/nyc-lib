@@ -49,6 +49,7 @@ ext {
 		'nyc/date.js', 
 		'nyc/jq.js', 
 		'nyc/util.js', 
+		'nyc/storage.js', 
 		'nyc/basemap.js', 
 		'nyc/ctlcontainer.js', 
 		'nyc/template.js', 

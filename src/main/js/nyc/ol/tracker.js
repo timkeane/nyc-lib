@@ -51,12 +51,12 @@ nyc.ol.Tracker = function(options){
 	 * @private
 	 * @member {ol.geom.LineString}
 	 */
-	this.track = new ol.geom.LineString([], 'XYZM');
+	this.track = null;
 	/**
 	 * @private
 	 * @member {Array<ol.geom.Point>}
 	 */
-	this.positions = [];
+	this.positions = null;
 	/**
 	 * @private
 	 * @member {JQuery}
@@ -92,7 +92,6 @@ nyc.ol.Tracker = function(options){
 	});
 	map.addOverlay(this.markerOverlay);
 	
-	this.on('change', this.updatePosition, this);
 	this.on('error', function(error){
 		console.error(error.message, arguments);
 	});
@@ -219,22 +218,20 @@ nyc.ol.Tracker.prototype.addPosition = function(position, accuracy, heading, m, 
  * @method
  */
 nyc.ol.Tracker.prototype.store = function(){
-	if ('localStorage' in window){
-		localStorage.setItem(
-			'nyc.ol.Tracker.track',
-			this.geoJson.writeGeometry(
-				this.track,
-				{featureProjection: this.view.getProjection()}
-			)
-		);
-		localStorage.setItem(
-			'nyc.ol.Tracker.positions',
-			this.geoJson.writeFeatures(
-				this.positions, 
-				{featureProjection: this.view.getProjection()}
-			)
-		);
-	}
+	nyc.storage.setItem(
+		'nyc.ol.Tracker.track',
+		this.geoJson.writeGeometry(
+			this.track,
+			{featureProjection: this.view.getProjection()}
+		)
+	);
+	nyc.storage.setItem(
+		'nyc.ol.Tracker.positions',
+		this.geoJson.writeFeatures(
+			this.positions, 
+			{featureProjection: this.view.getProjection()}
+		)
+	);
 };
 
 /**
@@ -252,11 +249,9 @@ nyc.ol.Tracker.prototype.reset = function(){
  * @method
  */
 nyc.ol.Tracker.prototype.restore = function(){
-	var me = this, track;
-	if ('localStorage' in window){
-		var positions = localStorage.getItem('nyc.ol.Tracker.positions');
-		track = localStorage.getItem('nyc.ol.Tracker.track');
-	}
+	var me = this;
+	var positions = nyc.storage.getItem('nyc.ol.Tracker.positions');
+	var track = nyc.storage.getItem('nyc.ol.Tracker.track');
 	if (track){
 		var dia = new nyc.Dialog();
 		dia.yesNo({
@@ -272,10 +267,14 @@ nyc.ol.Tracker.prototype.restore = function(){
 				}else{
 					me.reset();
 				}
+				me.on('change', me.updatePosition, me);
+				me.updatePosition();
 			}
 		});			
 	}else{
 		this.reset();
+		me.on('change', me.updatePosition, me);
+		me.updatePosition();
 	}
 };
 

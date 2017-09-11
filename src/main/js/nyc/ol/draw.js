@@ -487,7 +487,7 @@ nyc.ol.Draw.prototype = {
 	 * @method
 	 */
 	save: function(){
-		nyc.util.saveToFile('drawing.json', this.getFromStorage());
+		nyc.storage.saveToFile('drawing.json', this.getGeoJson());
 	},
 	/**
 	 * @private
@@ -635,10 +635,7 @@ nyc.ol.Draw.prototype = {
 	 * @private
 	 * @method
 	 */
-	getFromStorage: function(){
-		if ('localStorage' in window){
-			return localStorage.getItem('nyc.ol.Draw.features');
-		}
+	getGeoJson: function(){
 		return this.geoJson.writeFeatures(
 			this.source.getFeatures(),
 			{featureProjection: this.view.getProjection()}
@@ -650,20 +647,18 @@ nyc.ol.Draw.prototype = {
 	 */
 	store: function(){
 		var features = this.source.getFeatures();
-		if ('localStorage' in window){
-			if (features.length){
-				localStorage.setItem(
-					'nyc.ol.Draw.features', 
-					this.geoJson.writeFeatures(
-						features,
-						{featureProjection: this.view.getProjection()}
-					)
-				);
-				this.saveBtn.show();
-			}else{
-				localStorage.removeItem('nyc.ol.Draw.features');
-				this.saveBtn.hide();
-			}
+		if (features.length){
+			nyc.storage.setItem(
+				'nyc.ol.Draw.features', 
+				this.geoJson.writeFeatures(
+					features,
+					{featureProjection: this.view.getProjection()}
+				)
+			);
+			this.saveBtn.show();
+		}else{
+			nyc.storage.removeItem('nyc.ol.Draw.features');
+			this.saveBtn.hide();
 		}
 	},
 	/**
@@ -671,18 +666,15 @@ nyc.ol.Draw.prototype = {
 	 * @method
 	 */
 	restore: function(){
-		var me = this, features;
-		if ('localStorage' in window){
-			features = localStorage.getItem('nyc.ol.Draw.features');
-			if (features){
-				features = me.geoJson.readFeatures(
-					features, 
-					{
-						dataProjection: 'EPSG:4326',
-						featureProjection: this.view.getProjection()
-					}
-				);
-			}
+		var me = this, features = nyc.storage.getItem('nyc.ol.Draw.features');
+		if (features){
+			features = me.geoJson.readFeatures(
+				features, 
+				{
+					dataProjection: 'EPSG:4326',
+					featureProjection: this.view.getProjection()
+				}
+			);
 		}
 		if (features && features.length){
 			var dia = new nyc.Dialog();
