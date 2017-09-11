@@ -176,7 +176,8 @@ nyc.ol.Draw.prototype = {
 	 */
 	active: function(){
 		if (this.drawer) return this.drawer.getActive();
-		if (this.tracker) return this.tracker.getActive();
+		if (this.tracker) return this.tracker.getTracking();
+		return false;
 	},
 	/**
 	 * @desc Activate to begin adding drawings of the specified type
@@ -299,8 +300,6 @@ nyc.ol.Draw.prototype = {
 			delete this.drawer;
 		}
 		if (this.tracker.getTracking()){
-			this.source.un('addfeature', this.triggerFeatureEvent, this);
-			this.source.un('changefeature', this.triggerFeatureEvent, this);
 			this.closePolygon(nyc.ol.FeatureEventType.CHANGE, this.getGpsTrack());
 			this.tracker.setTracking(false);
 		}
@@ -473,11 +472,15 @@ nyc.ol.Draw.prototype = {
 		viewport.find('.ol-overlaycontainer-stopevent').append(nyc.ol.Draw.BUTTON_MENU_HTML).trigger('create');
 		me.btnMnu = viewport.find('.draw-btn-mnu');
 		me.mnuBtn = viewport.find('.draw-btn');
-		me.saveBtn = viewport.find('.draw-mnu-btn.save');
 		me.mnuBtn.click(function(){
 			me.btnMnu.slideToggle();
 		});
-		me.saveBtn.click($.proxy(me.save, me));
+		if (nyc.storage.canDownload()){
+			me.saveBtn = viewport.find('.draw-mnu-btn.save');
+			me.saveBtn.click($.proxy(me.save, me));
+		}else{
+			me.saveBtn = $();
+		}
 		viewport.find('.draw-mnu-btn').each(function(_, btn){
 			$(btn).click($.proxy(me.choose, me));
 		});
@@ -578,8 +581,6 @@ nyc.ol.Draw.prototype = {
 			feature._changed = true;				
 		}
 		if (this.type == nyc.ol.Draw.Type.FREE && event.type == nyc.ol.FeatureEventType.ADD){
-			this.source.un('addfeature', this.triggerFeatureEvent, this);
-			this.source.un('changefeature', this.triggerFeatureEvent, this);
 			this.closePolygon(event.type, feature);
 		}else{ 	 
 			this.triggerEvent(event.type, feature);
@@ -595,12 +596,19 @@ nyc.ol.Draw.prototype = {
 	 */
 	closePolygon: function(eventType, feature){
 		var me = this;
-		me.dia = me.dia || new nyc.Dialog();
-		me.dia.yesNo({message: 'Create ploygon?', callback: function(yesNo){
-			me.triggerEvent(eventType, feature, yesNo);
+		me.source.un('addfeature', me.triggerFeatureEvent, me);
+		me.source.un('changefeature', me.triggerFeatureEvent, me);
+		if (feature.getGeometry().getCoordinates().length >= 3){
+			me.dia = me.dia || new nyc.Dialog();
+			me.dia.yesNo({message: 'Create ploygon?', callback: function(yesNo){
+				me.triggerEvent(eventType, feature, yesNo);
+				me.source.on('addfeature', me.triggerFeatureEvent, me);
+				me.source.on('changefeature', me.triggerFeatureEvent, me);
+			}});
+		}else{
 			me.source.on('addfeature', me.triggerFeatureEvent, me);
 			me.source.on('changefeature', me.triggerFeatureEvent, me);
-		}});
+		}
 	},
 	/**
 	 * @private

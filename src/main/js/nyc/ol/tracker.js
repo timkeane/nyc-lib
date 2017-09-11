@@ -69,6 +69,16 @@ nyc.ol.Tracker = function(options){
 	this.animationInterval = undefined;
 	/**
 	 * @private
+	 * @member {number}
+	 */
+	this.startingZoomLevel = options.startingZoomLevel === undefined ? 16 : options.startingZoomLevel;
+	/**
+	 * @private
+	 * @member {boolean}
+	 */
+	this.currentZoomLevel = options.currentZoomLevel === undefined ? false : options.currentZoomLevel;
+	/**
+	 * @private
 	 * @member {ol.format.GeoJSON}
 	 */
 	this.geoJson = new ol.format.GeoJSON();
@@ -156,16 +166,18 @@ nyc.ol.Tracker.prototype.createTrackOpts = function(options){
  */
 nyc.ol.Tracker.prototype.updatePosition = function(){
 	var position = this.getPosition();
-	var accuracy =  this.getAccuracy();
-	var heading =  this.getHeading() || 0;
-	var speed =  this.getSpeed() || 0;
-	if (this.addPosition(position, accuracy, heading, Date.now(), speed)){
-		var positions = this.positions;
-		var len = positions.length;
-		if (len >= 2){
-			this.deltaMean = (positions[len - 1][3] - positions[0][3]) / (len - 1);
+	if (position){
+		var accuracy =  this.getAccuracy();
+		var heading =  this.getHeading() || 0;
+		var speed =  this.getSpeed() || 0;
+		if (this.addPosition(position, accuracy, heading, Date.now(), speed)){
+			var positions = this.positions;
+			var len = positions.length;
+			if (len >= 2){
+				this.deltaMean = (positions[len - 1][3] - positions[0][3]) / (len - 1);
+			}
+			this.animate();
 		}
-		this.animate();
 	}
 };
 	
@@ -307,9 +319,9 @@ nyc.ol.Tracker.prototype.marker = function(speed, heading){
  * @param {ol.Coordinate} position
  * @param {number} rotation
  */
-nyc.ol.Tracker.prototype.getCenterWithHeading = function(position, rotation){
+nyc.ol.Tracker.prototype.getCenterWithHeading = function(position, rotation, zoom){
 	var size = this.map.getSize();
-	var resolution = this.view.getResolution();
+	var resolution = zoom ? nyc.ol.TILE_GRID.getResolution(zoom) : this.view.getResolution();
 	var height = size[1];
 	return [
 		position[0] - Math.sin(rotation) * height * resolution / 4,
@@ -360,11 +372,14 @@ nyc.ol.Tracker.prototype.animate = function(){
  * @method
  */
 nyc.ol.Tracker.prototype.updateView = function(position){
-	if (this.recenter && this.positions.length % 2 == 0){
+	var pIdx = this.positions.length - 1;
+	var zoom = !this.currentZoomLevel && pIdx == 0 ? this.startingZoomLevel : undefined;
+	if (this.recenter && pIdx % 2 == 0){
 		this.view.cancelAnimations();
 		this.view.animate({
-			center: this.getCenterWithHeading(position, -position[2]),
-			rotation: -position[2]
+			center: this.getCenterWithHeading(position, -position[2], zoom),
+			rotation: -position[2],
+			zoom: zoom
 		});
 	}
 };
@@ -387,6 +402,8 @@ nyc.ol.Tracker.prototype.mod = function(n){
  * @property {boolean} [recenter=true] Recenter on location change 
  * @property {boolean} [showNorth=true] Show a north arrow on the map
  * @property {number} [maxPoints=0] The maximum number of points to retain in the track (0 = unlimited) 
+ * @property {number} [startingZoomLevel=16] The zoom for the view when tracking begins  
+ * @property {boolean} [currentZoomLevel=false] Use the current zoom level of the view when tracking begins and ignore startingZoomLevel
  * @property {number} [accuracyLimit=0] The maximum accuracy distance for an acceptable position (0 = unlimited)
  */
 nyc.ol.Tracker.Options;

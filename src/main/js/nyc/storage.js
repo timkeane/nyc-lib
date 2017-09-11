@@ -2,6 +2,15 @@ var nyc = nyc || {};
 
 nyc.storage = {
 	/** 
+	 * @desc Check if download is available
+	 * @public 
+	 * @function
+	 * @return {boolean}
+	 */
+	canDownload: function(name, data){
+		return 'download' in $('<a></a>').get(0);
+	},
+	/** 
 	 * @desc Save data to a file prompting the user with a file dialog
 	 * @public 
 	 * @function
@@ -27,6 +36,7 @@ nyc.storage = {
 	 * @param {string} name File name
 	 * @param {string} data Data to write to file
 	 * @param {boolean} [persistent=false] Persistent or only for current session
+	 * @return {boolean} success
 	 */
 	saveFile: function(name, data, persistent){
 		var fs = nyc.util.fsMethod();
