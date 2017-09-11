@@ -255,6 +255,7 @@ nyc.ol.Draw.prototype = {
 	 */
 	clear: function(){
 		this.source.clear();
+		delete this.gpsTrack;
 		this.removed = [];
 	},
 	/**
@@ -407,17 +408,11 @@ nyc.ol.Draw.prototype = {
 	 * @method
 	 */
 	updateTrack: function(){
-		var track = this.tracker.positions,
-			positions = track.getCoordinates(),
-			current = positions.length - 1,
+		var track = this.tracker.track,
+			position = track.positions[track.positions.length - 1],
 			gpsTrack = this.getGpsTrack();
 		gpsTrack.setGeometry(track);
-		this.source.addFeature(new ol.Feature({
-			id: current,
-			geometry: new ol.geom.Point(positions[current]),
-			accuracy: this.tracker.positionAccuracy[current],
-			timestamp: new Date(positions[current][3]).toISOString()
-		}));
+		this.source.addFeature(position);
 	},
 	/**
 	 * @private

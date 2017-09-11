@@ -2,7 +2,7 @@ var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 
 /**
- * @desc A class for tracking geolocation
+ * @desc A class for tracking position from device Geolocation
  * @public
  * @class
  * @extends {ol.Geolocation}
@@ -46,12 +46,12 @@ nyc.ol.Tracker = function(options){
 	 * @private
 	 * @member {ol.geom.LineString}
 	 */
-	this.positions = new ol.geom.LineString([], 'XYZM');
+	this.track = new ol.geom.LineString([], 'XYZM');
 	/**
 	 * @private
-	 * @member {Array<number>}
+	 * @member {Array<ol.geom.Point>}
 	 */
-	this.positionAccuracy = [];
+	this.positions = [];
 	/**
 	 * @private
 	 * @member {JQuery}
@@ -104,8 +104,8 @@ nyc.ol.Tracker.prototype.setTracking = function(tracking){
 	ol.Geolocation.prototype.setTracking.call(this, tracking);
 	if (tracking){
 		if (!wasTracking){
-			this.positions = new ol.geom.LineString([], 'XYZM');
-			this.positionAccuracy = [];		
+			this.track = new ol.geom.LineString([], 'XYZM');
+			this.positions = [];		
 		}
 		this.showNorth(true);
 		this.img.show();
@@ -150,10 +150,10 @@ nyc.ol.Tracker.prototype.updatePosition = function(){
 	var heading =  this.getHeading() || 0;
 	var speed =  this.getSpeed() || 0;
 	if (this.addPosition(position, accuracy, heading, Date.now(), speed)){
-		var coords = this.positions.getCoordinates();
-		var len = coords.length;
+		var positions = this.positions;
+		var len = positions.length;
 		if (len >= 2){
-			this.deltaMean = (coords[len - 1][3] - coords[0][3]) / (len - 1);
+			this.deltaMean = (positions[len - 1][3] - positions[0][3]) / (len - 1);
 		}
 		this.animate();
 	}
@@ -172,12 +172,11 @@ nyc.ol.Tracker.prototype.addPosition = function(position, accuracy, heading, m, 
 	if (!this.accuracyLimit || accuracy <= this.accuracyLimit){
 		var x = position[0];
 		var y = position[1];
-		var fCoords = this.positions.getCoordinates();
+		var fCoords = this.track.getCoordinates();
 		var previous = fCoords[fCoords.length - 1];
 		var prevHeading = previous && previous[2];
 		if (prevHeading){
 			var headingDiff = heading - this.mod(prevHeading);
-
 			// force the rotation change to be less than 180°
 			if (Math.abs(headingDiff) > Math.PI){
 			  var sign = (headingDiff >= 0) ? 1 : -1;
@@ -186,20 +185,45 @@ nyc.ol.Tracker.prototype.addPosition = function(position, accuracy, heading, m, 
 			heading = prevHeading + headingDiff;
 		}
 		
-		this.positionAccuracy.push(accuracy);
-		this.positions.appendCoordinate([x, y, heading, m]);
-
-		this.dispatchEvent({type: nyc.ol.Tracker.EventType.UPDATED, target: this});
-
+		var position = [x, y, heading, m];
+		this.positions.push(new ol.Feature({
+			id: this.positions.length,
+			geometry: new ol.geom.Point(position),
+			accuracy: accuracy,
+			timestamp: m.toISOString()
+		}));
+		this.track.appendCoordinate(position);
 		if (this.maxPoints){
-			this.positions.setCoordinates(this.positions.getCoordinates().slice(-(this.maxPoints)));
+			this.track.setCoordinates(this.track.getCoordinates().slice(-(this.maxPoints)));
 		}
-		if (speed && this.recenter){
-			this.img.attr('src', nyc.ol.Tracker.LOCATION_HEADING_IMG);
-		}else{
-			this.img.attr('src', nyc.ol.Tracker.LOCATION_IMG);
-		}
+		this.marker(speed, heading);
+		this.dispatchEvent({type: nyc.ol.Tracker.EventType.UPDATED, target: this});
 		return true;
+	}
+};
+
+/**
+ * @private
+ * @method
+ * @param {ol.Coordinate} position
+ * @param {number} accuracy
+ * @param {number} heading
+ * @param {number} m
+ * @param {number} speed
+ */
+nyc.ol.Tracker.prototype.marker = function(speed, heading){
+	if (speed){
+		this.img.attr('src', nyc.ol.Tracker.LOCATION_HEADING_IMG);
+		if (!this.recenter){
+			var rotation = 'rotate(' + heading + 'rad)';
+			this.img.css({
+				transform: rotation, 
+				'-webkit-transform': rotation,
+				'-ms-transform': rotation
+			});
+		}
+	}else{
+		this.img.attr('src', nyc.ol.Tracker.LOCATION_IMG);
 	}
 };
 
@@ -214,8 +238,8 @@ nyc.ol.Tracker.prototype.getCenterWithHeading = function(position, rotation){
 	resolution = this.view.getResolution();
 	var height = size[1];
 	return [
-		position[0] - Math.sin(rotation) * height * resolution * 1 / 4,
-		position[1] + Math.cos(rotation) * height * resolution * 1 / 4
+		position[0] - Math.sin(rotation) * height * resolution / 4,
+		position[1] + Math.cos(rotation) * height * resolution / 4
 	];
 };
 
@@ -226,15 +250,14 @@ nyc.ol.Tracker.prototype.getCenterWithHeading = function(position, rotation){
 nyc.ol.Tracker.prototype.animate = function(){
 	var me = this; 
 	var positions = me.positions;
-	var coords = positions.getCoordinates();
-	var end = coords[coords.length - 1];
+	var end = positions[positions.length - 1];
 	
 	if (me.animationInterval){
 		clearInterval(me.animationInterval);
 		me.updateView(end);
 	}
 
-	var start = coords[coords.length - 2];
+	var start = positions[positions.length - 2];
 	var marker = me.markerOverlay;
 	
 	if (!start){
@@ -245,7 +268,7 @@ nyc.ol.Tracker.prototype.animate = function(){
 		var mEnd = end[3];
 		var step = (mEnd - m)/10;
 		me.animationInterval = setInterval(function(){
-			var p = positions.getCoordinateAtM(m, true);
+			var p = me.track.getCoordinateAtM(m, true);
 			if (m >= mEnd){
 				clearInterval(me.animationInterval);
 				delete me.animationInterval;
@@ -263,7 +286,7 @@ nyc.ol.Tracker.prototype.animate = function(){
  * @method
  */
 nyc.ol.Tracker.prototype.updateView = function(position){
-	if (this.recenter && positions.getCoordinates().length % 2 == 0){
+	if (this.recenter && this.positions.length % 2 == 0){
 		this.view.cancelAnimations();
 		this.view.animate({
 			center: this.getCenterWithHeading(position, -position[2]),
