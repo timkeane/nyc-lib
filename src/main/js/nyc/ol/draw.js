@@ -408,10 +408,10 @@ nyc.ol.Draw.prototype = {
 	 * @method
 	 */
 	updateTrack: function(){
-		var track = this.tracker.track,
-			position = track.positions[track.positions.length - 1],
+		var tracker = this.tracker,
+			position = tracker.positions[tracker.positions.length - 1],
 			gpsTrack = this.getGpsTrack();
-		gpsTrack.setGeometry(track);
+		gpsTrack.setGeometry(tracker.track);
 		this.source.addFeature(position);
 	},
 	/**

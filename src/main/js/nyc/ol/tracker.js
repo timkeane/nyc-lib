@@ -190,7 +190,7 @@ nyc.ol.Tracker.prototype.addPosition = function(position, accuracy, heading, m, 
 			id: this.positions.length,
 			geometry: new ol.geom.Point(position),
 			accuracy: accuracy,
-			timestamp: m.toISOString()
+			timestamp: new Date(m).toISOString()
 		}));
 		this.track.appendCoordinate(position);
 		if (this.maxPoints){
@@ -249,7 +249,7 @@ nyc.ol.Tracker.prototype.getCenterWithHeading = function(position, rotation){
  */
 nyc.ol.Tracker.prototype.animate = function(){
 	var me = this; 
-	var positions = me.positions;
+	var positions = me.track.getCoordinates();
 	var end = positions[positions.length - 1];
 	
 	if (me.animationInterval){
