@@ -7,7 +7,8 @@ nyc.ol = nyc.ol || {};
  * @class
  * @extends {nyc.EventHandling}
  * @constructor
- * @param {nyc.ol.Draw.Options} options Constructor options
+ * @param {nyc.ol.Draw.Options}
+ *            options Constructor options
  * @fires nyc.ol.Draw#addfeature
  * @fires nyc.ol.Draw#changefeature
  * @fires nyc.ol.Draw#removefeature
@@ -19,7 +20,9 @@ nyc.ol.Draw = function(options){
 	this.source = new ol.source.Vector({features: this.features});
 	this.viewport = $(this.map.getViewport());
 	this.removed = [];
-	this.jsonWriter = new ol.format.GeoJSON();
+	this.geoJson = new ol.format.GeoJSON();
+	
+	this.restore();
 	
 	this.layer = new ol.layer.Vector({
 		source: this.source,
@@ -136,7 +139,7 @@ nyc.ol.Draw.prototype = {
 	 * @private
 	 * @member {ol.format.GeoJSON}
 	 */
-	jsonWriter: null,
+	geoJson: null,
 	/**
 	 * @private
 	 * @member {number}
@@ -148,10 +151,16 @@ nyc.ol.Draw.prototype = {
 	 */
 	accuracyLimit: 0,
 	/**
+	 * @private
+	 * @member {boolean}
+	 */
+	firstRun: true,
+	/**
 	 * @desc Set the accuracy limit for geolocation capture
 	 * @public
 	 * @method
-	 * @param {number} limit
+	 * @param {number}
+	 *            limit
 	 */
 	setGpsAccuracyLimit: function(limit){
 		this.accuracyLimit = limit;
@@ -173,7 +182,8 @@ nyc.ol.Draw.prototype = {
 	 * @desc Activate to begin adding drawings of the specified type
 	 * @public
 	 * @method
-	 * @param {nyc.ol.Draw.Type} type The drawing type to activate
+	 * @param {nyc.ol.Draw.Type}
+	 *            type The drawing type to activate
 	 */
 	activate: function(type){
 		var me = this;
@@ -239,7 +249,8 @@ nyc.ol.Draw.prototype = {
 	 * @desc Set features on the drawing
 	 * @public
 	 * @method
-	 * @param {Array<nyc.ol.Feature>} The features
+	 * @param {Array
+	 *            <nyc.ol.Feature>} The features
 	 */
 	setFeatures: function(features){
 		var feats = this.features;
@@ -252,7 +263,8 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @public
 	 * @method
-	 * @param {ol.Feature} feature
+	 * @param {ol.Feature}
+	 *            feature
 	 */
 	removeFeature: function(feature){
 		this.source.removeFeature(feature);
@@ -267,9 +279,9 @@ nyc.ol.Draw.prototype = {
 	 */
 	clear: function(){
 		this.source.clear();
-
 		delete this.gpsTrack;
 		this.removed = [];
+		this.store();
 	},
 	/**
 	 * @desc Deactivate to stop drawing
@@ -299,8 +311,10 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {Array<ol.Coordinate>} coordinates
-	 * @param {ol.geom.Polygon=} geometry
+	 * @param {Array
+	 *            <ol.Coordinate>} coordinates
+	 * @param {ol.geom.Polygon=}
+	 *            geometry
 	 * @return {ol.geom.Polygon}
 	 */
 	boxGeometry: function(coordinates, geometry){
@@ -319,7 +333,8 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {ol.MapBrowserEvent} mapEvent
+	 * @param {ol.MapBrowserEvent}
+	 *            mapEvent
 	 * @return {boolean}
 	 */
 	deleteCondition: function(event){
@@ -331,7 +346,8 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {ol.MapBrowserEvent} mapEvent
+	 * @param {ol.MapBrowserEvent}
+	 *            mapEvent
 	 * @return {boolean}
 	 */
 	drawCondition: function(mapEvt){
@@ -344,7 +360,8 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {ol.MapBrowserEvent} mapEvent
+	 * @param {ol.MapBrowserEvent}
+	 *            mapEvent
 	 * @return {boolean}
 	 */
 	freehandCondition: function(mapEvt){
@@ -470,12 +487,13 @@ nyc.ol.Draw.prototype = {
 	 * @method
 	 */
 	save: function(){
-		caonsole.info('save');
+		nyc.util.saveToFile('drawing.json', this.getFromStorage());
 	},
 	/**
 	 * @private
 	 * @method
-	 * @param {JQuery.Event} event
+	 * @param {JQuery.Event}
+	 *            event
 	 */
 	choose: function(event){
 		var me = this, btn = event.target;
@@ -497,7 +515,8 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {JQuery.Event} event
+	 * @param {JQuery.Event}
+	 *            event
 	 */
 	contextMenu: function(event){
 		var me = this, map = me.map;
@@ -517,7 +536,8 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {ol.Feature} feature
+	 * @param {ol.Feature}
+	 *            feature
 	 */
 	showContextMenu: function(event, feature){
 		var me = this, left = event.offsetX, ctxMnu = $('.draw-ctx-mnu');
@@ -547,7 +567,8 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {ol.source.VectorEvent} event
+	 * @param {ol.source.VectorEvent}
+	 *            event
 	 */
 	triggerFeatureEvent: function(event){
 		var feature = event.feature;
@@ -567,8 +588,10 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {nyc.ol.FeatureEventType} eventType
-	 * @param {ol.Feature} feature
+	 * @param {nyc.ol.FeatureEventType}
+	 *            eventType
+	 * @param {ol.Feature}
+	 *            feature
 	 */
 	closePolygon: function(eventType, feature){
 		var me = this;
@@ -582,8 +605,10 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {ol.Feature} feature
-	 * @param {boolean} polygon
+	 * @param {ol.Feature}
+	 *            feature
+	 * @param {boolean}
+	 *            polygon
 	 * @return {ol.Feature}
 	 */
 	geomToPolygon: function(feature, polygon){
@@ -598,11 +623,25 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {nyc.ol.Draw.Type} drawType
+	 * @param {nyc.ol.Draw.Type}
+	 *            drawType
 	 */
 	triggerEvent: function(type, feature, polygon){
 		this.store();
 		this.trigger(type, this.geomToPolygon(feature, polygon));
+	},
+	/**
+	 * @private
+	 * @method
+	 */
+	getFromStorage: function(){
+		if ('localStorage' in window){
+			return localStorage.getItem('nyc.ol.Draw.features');
+		}
+		return this.geoJson.writeFeatures(
+			this.source.getFeatures(),
+			{featureProjection: this.view.getProjection()}
+		);
 	},
 	/**
 	 * @private
@@ -614,7 +653,7 @@ nyc.ol.Draw.prototype = {
 			if (features.length){
 				localStorage.setItem(
 					'nyc.ol.Draw.features', 
-					this.jsonWriter.writeFeatures(
+					this.geoJson.writeFeatures(
 						features,
 						{featureProjection: this.view.getProjection()}
 					)
@@ -624,6 +663,36 @@ nyc.ol.Draw.prototype = {
 				localStorage.removeItem('nyc.ol.Draw.features');
 				this.saveBtn.hide();
 			}
+		}
+	},
+	/**
+	 * @private
+	 * @method
+	 */
+	restore: function(){
+		var me = this, features;
+		if ('localStorage' in window){
+			features = localStorage.getItem('nyc.ol.Draw.features');
+			if (features){
+				features = me.geoJson.readFeatures(
+					features, 
+					{
+						dataProjection: 'EPSG:4326',
+						featureProjection: this.view.getProjection()
+					}
+				);
+			}
+		}
+		if (features && features.length){
+			var dia = new nyc.Dialog();
+			dia.yesNo({
+				message: 'Retore previous drawing data?', 
+				callback: function(yesNo){
+					if (yesNo){
+						me.features.extend(features);
+					}
+				}
+			});			
 		}
 	}
 };
@@ -635,7 +704,8 @@ nyc.inherits(nyc.ol.Draw, nyc.EventHandling);
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The OpenLayers map with which the user will interact
- * @property {ol.style.Style=} style The style to use for features added to the map
+ * @property {ol.style.Style=} style The style to use for features added to the
+ *           map
  */
 nyc.ol.Draw.Options;
 
@@ -720,7 +790,8 @@ nyc.ol.Draw.GPS_ICON = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAlCA
  * @class
  * @extends {ol.interaction.Pointer}
  * @constructor
- * @param {ol.layer.Vector} layer The layer whose features can be moved
+ * @param {ol.layer.Vector}
+ *            layer The layer whose features can be moved
  * @see http://www.openlayers.org/
  */
 nyc.ol.Drag = function(layer){
@@ -757,7 +828,8 @@ ol.inherits(nyc.ol.Drag, ol.interaction.Pointer);
 /**
  * @private
  * @method
- * @param {ol.MapBrowserEvent} event
+ * @param {ol.MapBrowserEvent}
+ *            event
  * @return {boolean}
  */
 nyc.ol.Drag.prototype.handleDownEvent = function(event){
@@ -777,7 +849,8 @@ nyc.ol.Drag.prototype.handleDownEvent = function(event){
 /**
  * @private
  * @method
- * @param {ol.MapBrowserEvent} event
+ * @param {ol.MapBrowserEvent}
+ *            event
  */
 nyc.ol.Drag.prototype.handleDragEvent = function(event){
 	var me = this, map = event.map;
@@ -801,7 +874,8 @@ nyc.ol.Drag.prototype.handleDragEvent = function(event){
 /**
  * @private
  * @method
- * @param {ol.MapBrowserEvent} event
+ * @param {ol.MapBrowserEvent}
+ *            event
  */
 nyc.ol.Drag.prototype.handleMoveEvent = function(event){
 	var me = this, map = event.map;
@@ -818,7 +892,8 @@ nyc.ol.Drag.prototype.handleMoveEvent = function(event){
 /**
  * @private
  * @method
- * @param {ol.MapBrowserEvent} event
+ * @param {ol.MapBrowserEvent}
+ *            event
  * @return {boolean}
  */
 nyc.ol.Drag.prototype.handleUpEvent = function(event) {

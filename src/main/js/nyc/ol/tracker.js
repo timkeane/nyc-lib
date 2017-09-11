@@ -44,6 +44,11 @@ nyc.ol.Tracker = function(options){
 	this.previousM = 0;
 	/**
 	 * @private
+	 * @member {boolean}
+	 */
+	this.firstRun = true;
+	/**
+	 * @private
 	 * @member {ol.geom.LineString}
 	 */
 	this.track = new ol.geom.LineString([], 'XYZM');
@@ -66,7 +71,7 @@ nyc.ol.Tracker = function(options){
 	 * @private
 	 * @member {ol.format.GeoJSON}
 	 */
-	this.jsonWriter = new ol.format.GeoJSON();
+	this.geoJson = new ol.format.GeoJSON();
 	/**
 	 * @private
 	 * @member {nyc.ol.NorthArrow}
@@ -105,11 +110,12 @@ ol.inherits(nyc.ol.Tracker, ol.Geolocation);
  */
 nyc.ol.Tracker.prototype.setTracking = function(tracking){
 	var wasTracking = this.getTracking();
-	ol.Geolocation.prototype.setTracking.call(this, tracking);
 	if (tracking){
-		if (!wasTracking){
-			this.track = new ol.geom.LineString([], 'XYZM');
-			this.positions = [];		
+		if (this.firstRun){
+			this.firstRun = false;
+			this.restore();
+		}else if (!wasTracking){
+			this.reset();
 		}
 		this.showNorth(true);
 		this.img.show();
@@ -117,6 +123,7 @@ nyc.ol.Tracker.prototype.setTracking = function(tracking){
 		this.showNorth(false);
 		this.img.hide();
 	}
+	ol.Geolocation.prototype.setTracking.call(this, tracking);
 };
 
 /**
@@ -215,18 +222,60 @@ nyc.ol.Tracker.prototype.store = function(){
 	if ('localStorage' in window){
 		localStorage.setItem(
 			'nyc.ol.Tracker.track',
-			this.jsonWriter.writeGeometry(
+			this.geoJson.writeGeometry(
 				this.track,
 				{featureProjection: this.view.getProjection()}
 			)
 		);
 		localStorage.setItem(
 			'nyc.ol.Tracker.positions',
-			this.jsonWriter.writeFeatures(
+			this.geoJson.writeFeatures(
 				this.positions, 
 				{featureProjection: this.view.getProjection()}
 			)
 		);
+	}
+};
+
+/**
+ * @private
+ * @method
+ */
+nyc.ol.Tracker.prototype.reset = function(){
+	this.track = new ol.geom.LineString([], 'XYZM');
+	this.positions = [];
+	this.store();
+};
+
+/**
+ * @private
+ * @method
+ */
+nyc.ol.Tracker.prototype.restore = function(){
+	var me = this, track;
+	if ('localStorage' in window){
+		var positions = localStorage.getItem('nyc.ol.Tracker.positions');
+		track = localStorage.getItem('nyc.ol.Tracker.track');
+	}
+	if (track){
+		var dia = new nyc.Dialog();
+		dia.yesNo({
+			message: 'Retore previous tracking data?', 
+			callback: function(yesNo){
+				if (yesNo){
+					var opts = {
+						dataProjection: 'EPSG:4326',
+						featureProjection: me.view.getProjection()
+					};
+					me.track = me.geoJson.readGeometry(track, opts);
+					me.positions = me.geoJson.readFeatures(positions, opts);					
+				}else{
+					me.reset();
+				}
+			}
+		});			
+	}else{
+		this.reset();
 	}
 };
 
