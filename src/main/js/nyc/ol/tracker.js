@@ -88,6 +88,18 @@ nyc.ol.Tracker = function(options){
 	 */
 	this.northArrow = new nyc.ol.NorthArrow(this.map);
 	this.showNorth(options.northArrow);
+
+	var appUrl = document.location.href.replace(document.location.search, '');
+	/**
+	 * @private
+	 * @member {string}
+	 */
+	this.trackStore = appUrl + 'nyc.ol.Tracker.track';
+	/**
+	 * @private
+	 * @member {string}
+	 */
+	this.positionsStore = appUrl + 'nyc.ol.Tracker.positions';
 	
 	ol.Geolocation.call(this, {
 		projection: this.view.getProjection(),
@@ -132,8 +144,8 @@ nyc.ol.Tracker.prototype.setTracking = function(tracking){
 		this.showNorth(false);
 		this.img.hide();
 		if (!this.firstRun){
-			nyc.storage.removeItem('nyc.ol.Tracker.track');
-			nyc.storage.removeItem('nyc.ol.Tracker.positions');
+			nyc.storage.removeItem(this.trackStore);
+			nyc.storage.removeItem(this.positionsStore);
 		}
 	}
 	ol.Geolocation.prototype.setTracking.call(this, tracking);
@@ -238,14 +250,14 @@ nyc.ol.Tracker.prototype.addPosition = function(position, accuracy, heading, m, 
  */
 nyc.ol.Tracker.prototype.store = function(){
 	nyc.storage.setItem(
-		'nyc.ol.Tracker.track',
+		this.trackStore,
 		this.geoJson.writeGeometry(
 			this.track,
 			{featureProjection: this.view.getProjection()}
 		)
 	);
 	nyc.storage.setItem(
-		'nyc.ol.Tracker.positions',
+		this.positionsStore,
 		this.geoJson.writeFeatures(
 			this.positions, 
 			{featureProjection: this.view.getProjection()}
@@ -269,8 +281,8 @@ nyc.ol.Tracker.prototype.reset = function(){
  */
 nyc.ol.Tracker.prototype.restore = function(){
 	var me = this;
-	var positions = nyc.storage.getItem('nyc.ol.Tracker.positions');
-	var track = nyc.storage.getItem('nyc.ol.Tracker.track');
+	var track = nyc.storage.getItem(me.trackStore);
+	var positions = nyc.storage.getItem(me.positionsStore);
 	if (track){
 		var dia = new nyc.Dialog();
 		dia.yesNo({
