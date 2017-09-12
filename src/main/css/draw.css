@@ -34,18 +34,15 @@
 	right: 3px;
 }
 .draw-btn-mnu button, .draw-ctx-mnu button {
-	width: 145px;
+	width: 150px;
 	text-align: left;
 	padding: 7px;
 	cursor: pointer;
 }
-.draw-ctx-mnu button {
-	width: 150px;
-}
-.draw-btn-mnu button {
+.draw-btn-mnu button, .draw-ctx-mnu button {
 	padding-left: 31px;
 }
-.draw-btn-mnu button:before {
+.draw-btn-mnu button:before, .draw-ctx-mnu button:before {
 	content: ' ';
 	background-repeat: no-repeat;
 	background-position: center;
@@ -56,7 +53,7 @@
 	left: 8px;
 }
 .draw-btn.point, .draw-mnu-btn.point:before {
-	background-image: var(--theme-draw-point-bg-img); 
+	background-image: var(--theme-draw-point-bg-img);
 }
 .draw-btn.line, .draw-mnu-btn.line:before {
 	background-image: var(--theme-draw-line-bg-img);
@@ -65,7 +62,7 @@
 	background-image: var(--theme-draw-polygon-bg-img);
 }
 .draw-btn.circle, .draw-mnu-btn.circle:before {
-	background-image: var(--theme-draw-circle-bg-img); 
+	background-image: var(--theme-draw-circle-bg-img);
 }
 .draw-btn.square, .draw-mnu-btn.square:before {
 	background-image: var(--theme-draw-square-bg-img);
@@ -82,7 +79,7 @@
 .draw-mnu-btn.delete:before {
 	background-image: var(--theme-draw-delete-bg-img);
 }
-.draw-btn-mnu .draw-mnu-btn.cancel:before {
+.draw-mnu-btn.cancel:before {
 	background-image: var(--theme-draw-cancel-bg-img);
 }
 .draw-mnu-btn.move:before {
