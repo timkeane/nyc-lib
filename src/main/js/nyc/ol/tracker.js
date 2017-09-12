@@ -405,11 +405,10 @@ nyc.ol.Tracker.prototype.updateView = function(position){
  * @return {ol.style.Style}
  */
 nyc.ol.Tracker.prototype.defaultStyle = function(){
-	var rotation = !this.recenter ? this.get('heading') : undefined;
 	return new ol.style.Style({
 		image: new ol.style.Icon({
 			src: this.get('speed') ? nyc.ol.Tracker.LOCATION_HEADING_IMG : nyc.ol.Tracker.LOCATION_IMG,
-			rotation: rotation
+			rotation: !this.recenter ? this.get('heading') : undefined
 		})
 	});
 };
@@ -417,10 +416,10 @@ nyc.ol.Tracker.prototype.defaultStyle = function(){
 /**
  * @private
  * @method
- * @param {number} n
+ * @param {number} heading
  */
-nyc.ol.Tracker.prototype.mod = function(n){
-	return ((n % (2 * Math.PI)) + (2 * Math.PI)) % (2 * Math.PI);
+nyc.ol.Tracker.prototype.mod = function(heading){
+	return ((heading % (2 * Math.PI)) + (2 * Math.PI)) % (2 * Math.PI);
 };
 
 /**
