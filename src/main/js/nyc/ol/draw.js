@@ -26,9 +26,17 @@ nyc.ol.Draw = function(options){
 	
 	this.layer = new ol.layer.Vector({
 		source: this.source,
-		style: options.style || this.defaultStyle
+		style: options.style || this.defaultStyle,
+		zIndex: 100
 	});
 	this.map.addLayer(this.layer);
+	
+	this.accuaracyLayer = new ol.layer.Vector({
+		source: this.source,
+		style: options.accuracyStyle || this.accuracyStyle,
+		visible: options.showAccuracy === undefined ? true : options.showAccuracy
+	});
+	this.map.addLayer(this.accuaracyLayer);
 	
 	this.modify = new ol.interaction.Modify({
 		features: this.features,
@@ -42,7 +50,8 @@ nyc.ol.Draw = function(options){
 	this.viewport.on('contextmenu', $.proxy(this.contextMenu, this));
 	$(document).keyup($.proxy(this.keyUp, this));
 
-	this.tracker = new nyc.ol.Tracker({map: this.map});
+	this.tracker = new nyc.ol.Tracker({map: this.map, recenter: document.location.search.length > 0});
+	this.tracker.layer.setZIndex(200);
 	this.tracker.on(nyc.ol.Tracker.EventType.UPDATED, this.updateTrack, this);
 };
 
@@ -373,12 +382,33 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
+	 * @return {ol.style.Style}
+	 */
+	accuracyStyle: function(feature, resolution){
+		var accuracy = feature.get('accuracy') || 0;
+		var pixelAccuracy = accuracy/resolution;
+        return new ol.style.Style({
+			image: new ol.style.Circle({
+				radius: pixelAccuracy,
+				fill: new ol.style.Fill({
+					color: 'rgba(255,255,0,.03)'
+				}),
+				stroke: new ol.style.Stroke({
+					color: 'rgba(255,255,0,1)',
+					width: .25
+				})					
+			}),
+			zindex: 100
+		});
+	},
+	/**
+	 * @private
+	 * @method
 	 * @return {Array<ol.style.Style>}
 	 */
 	defaultStyle: function(feature, resolution){
 		var accuracy = feature.get('accuracy') || 0;
 		var radius = accuracy ? 3 : 7;
-		var pixelAccuracy = accuracy/resolution;
 		return [
 	        new ol.style.Style({
 				fill: new ol.style.Fill({
@@ -386,19 +416,6 @@ nyc.ol.Draw.prototype = {
 				}),
 	        	zindex: 0
 	        }),
-	        new ol.style.Style({
-				image: new ol.style.Circle({
-					radius: pixelAccuracy,
-					fill: new ol.style.Fill({
-						color: 'rgba(255,255,0,.03)'
-					}),
-					stroke: new ol.style.Stroke({
-						color: 'rgba(255,255,0,1)',
-						width: .25
-					})					
-				}),
-				zindex: 100
-			}),
 	        new ol.style.Style({
 				stroke: new ol.style.Stroke({
 					color: 'red',
@@ -702,8 +719,9 @@ nyc.inherits(nyc.ol.Draw, nyc.EventHandling);
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The OpenLayers map with which the user will interact
- * @property {ol.style.Style=} style The style to use for features added to the
- *           map
+ * @property {ol.style.Style=} style The style to use for features added to the map
+ * @property {ol.style.Style=} accuracyStyle The style to use for displaying geolocation accuracy values
+ * @property {boolean} [showAccuracy=true] Visibility of the accuracy layer
  */
 nyc.ol.Draw.Options;
 
@@ -788,8 +806,7 @@ nyc.ol.Draw.GPS_ICON = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAlCA
  * @class
  * @extends {ol.interaction.Pointer}
  * @constructor
- * @param {ol.layer.Vector}
- *            layer The layer whose features can be moved
+ * @param {ol.layer.Vector} layer The layer whose features can be moved
  * @see http://www.openlayers.org/
  */
 nyc.ol.Drag = function(layer){
@@ -826,8 +843,7 @@ ol.inherits(nyc.ol.Drag, ol.interaction.Pointer);
 /**
  * @private
  * @method
- * @param {ol.MapBrowserEvent}
- *            event
+ * @param {ol.MapBrowserEvent} event
  * @return {boolean}
  */
 nyc.ol.Drag.prototype.handleDownEvent = function(event){
@@ -847,8 +863,7 @@ nyc.ol.Drag.prototype.handleDownEvent = function(event){
 /**
  * @private
  * @method
- * @param {ol.MapBrowserEvent}
- *            event
+ * @param {ol.MapBrowserEvent} event
  */
 nyc.ol.Drag.prototype.handleDragEvent = function(event){
 	var me = this, map = event.map;
@@ -872,8 +887,7 @@ nyc.ol.Drag.prototype.handleDragEvent = function(event){
 /**
  * @private
  * @method
- * @param {ol.MapBrowserEvent}
- *            event
+ * @param {ol.MapBrowserEvent} event
  */
 nyc.ol.Drag.prototype.handleMoveEvent = function(event){
 	var me = this, map = event.map;
@@ -890,8 +904,7 @@ nyc.ol.Drag.prototype.handleMoveEvent = function(event){
 /**
  * @private
  * @method
- * @param {ol.MapBrowserEvent}
- *            event
+ * @param {ol.MapBrowserEvent} event
  * @return {boolean}
  */
 nyc.ol.Drag.prototype.handleUpEvent = function(event) {
