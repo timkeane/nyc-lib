@@ -131,6 +131,10 @@ nyc.ol.Tracker.prototype.setTracking = function(tracking){
 	}else{
 		this.showNorth(false);
 		this.img.hide();
+		if (!this.firstRun){
+			nyc.storage.removeItem('nyc.ol.Tracker.track');
+			nyc.storage.removeItem('nyc.ol.Tracker.positions');
+		}
 	}
 	ol.Geolocation.prototype.setTracking.call(this, tracking);
 };
@@ -279,6 +283,7 @@ nyc.ol.Tracker.prototype.restore = function(){
 					};
 					me.track = me.geoJson.readGeometry(track, opts);
 					me.positions = me.geoJson.readFeatures(positions, opts);					
+					me.updateView(me.positions[me.positions.length - 1]);
 				}else{
 					me.reset();
 				}
@@ -371,11 +376,16 @@ nyc.ol.Tracker.prototype.animate = function(){
 /**
  * @private
  * @method
- * @param {ol.Coordinate} position
+ * @param {ol.Coordinate|ol.Feature} position
  */
 nyc.ol.Tracker.prototype.updateView = function(position){
-	var pIdx = this.positions.length - 1;
-	var zoom = !this.currentZoomLevel && pIdx == 0 ? this.startingZoomLevel : undefined;
+	var pIdx = this.positions.length - 1, zoom;
+	if ('getGeometry' in position){
+		position = position.getGeometry().getCoordinates();
+		zoom = this.startingZoomLevel;
+	}else if (!this.currentZoomLevel && pIdx == 0){
+		zoom = this.startingZoomLevel;
+	}
 	if (this.recenter && pIdx % 2 == 0){
 		this.view.cancelAnimations();
 		this.view.animate({
