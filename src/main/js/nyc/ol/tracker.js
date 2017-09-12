@@ -99,7 +99,7 @@ nyc.ol.Tracker = function(options){
 	 * @private
 	 * @member {ol.style.Style|Array<ol.style.Style>}
 	 */
-	this.style = options.style === undefined ? this.defaultStyle : options.style;
+	this.style = options.style === undefined ? $.proxy(this.defaultStyle, this) : options.style;
 	/**
 	 * @private
 	 * @member {ol.Feature}
@@ -404,11 +404,11 @@ nyc.ol.Tracker.prototype.updateView = function(position){
  * @method
  * @return {ol.style.Style}
  */
-nyc.ol.Tracker.prototype.defaultStyle = function(){
+nyc.ol.Tracker.prototype.defaultStyle = function(feature){
 	return new ol.style.Style({
 		image: new ol.style.Icon({
-			src: this.get('speed') ? nyc.ol.Tracker.LOCATION_HEADING_IMG : nyc.ol.Tracker.LOCATION_IMG,
-			rotation: !this.recenter ? this.get('heading') : undefined
+			src: feature.get('speed') > 0 ? nyc.ol.Tracker.LOCATION_HEADING_IMG : nyc.ol.Tracker.LOCATION_IMG,
+			rotation: !this.recenter ? feature.get('heading') : undefined
 		})
 	});
 };
