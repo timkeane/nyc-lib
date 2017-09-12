@@ -19,7 +19,7 @@ nyc.storage = {
 	 */
 	saveToFile: function(name, data){
 		var href;
-		if (nyc.util.saveFile(name, data)){
+		if (nyc.storage.saveFile(name, data)){
 			href = 'filesystem:' + document.location.origin + '/temporary/' + name;
 		}else{
 			href = 'data:application/json;charset=utf-8,' + encodeURIComponent(data);
@@ -39,7 +39,7 @@ nyc.storage = {
 	 * @return {boolean} success
 	 */
 	saveFile: function(name, data, persistent){
-		var fs = nyc.util.fsMethod();
+		var fs = nyc.storage.fsMethod();
 		if (fs){
 			fs.scope[fs.fn](persistent ? PERSISTENT : TEMPORARY, 1024 * 1024 * 100, function(fs){
 				fs.root.getFile(name, {create: true}, function(file){
