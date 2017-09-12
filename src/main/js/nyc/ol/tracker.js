@@ -59,11 +59,6 @@ nyc.ol.Tracker = function(options){
 	this.positions = null;
 	/**
 	 * @private
-	 * @member {JQuery}
-	 */
-	this.img = $('<img>').hide();
-	/**
-	 * @private
 	 * @member {number}
 	 */
 	this.animationInterval = undefined;
@@ -100,19 +95,33 @@ nyc.ol.Tracker = function(options){
 	 * @member {string}
 	 */
 	this.positionsStore = appUrl + 'nyc.ol.Tracker.positions';
+	/**
+	 * @private
+	 * @member {ol.style.Style|Array<ol.style.Style>}
+	 */
+	this.style = options.style === undefined ? this.defaultStyle : options.style;
+	/**
+	 * @private
+	 * @member {ol.Feature}
+	 */
+	this.currentPosition = new ol.Feature();
+	/**
+	 * @public
+	 * @member {ol.layer.Vector}
+	 */
+	this.layer = new ol.layer.Vector({visible: false});
+	
+	this.currentPosition.setStyle(this.style);
+	
+	var source = new ol.source.Vector();
+	this.layer.setSource(source);
+	source.addFeature(this.currentPosition);
+	this.map.addLayer(this.layer);
 
 	ol.Geolocation.call(this, {
 		projection: this.view.getProjection(),
 		trackingOptions: this.createTrackOpts(options.trackingOptions)
 	});
-
-	$('body').append(this.img);
-	this.markerOverlay = new ol.Overlay({
-		positioning: 'center-center',
-		element: this.img.get(0),
-		stopEvent: false
-	});
-	map.addOverlay(this.markerOverlay);
 
 	this.on('error', function(error){
 		console.error(error.message, arguments);
@@ -139,10 +148,10 @@ nyc.ol.Tracker.prototype.setTracking = function(tracking){
 			this.reset();
 		}
 		this.showNorth(true);
-		this.img.show();
+		this.layer.setVisible(true);
 	}else{
 		this.showNorth(false);
-		this.img.hide();
+		this.layer.setVisible(false);
 		if (!this.firstRun){
 			nyc.storage.removeItem(this.trackStore);
 			nyc.storage.removeItem(this.positionsStore);
@@ -237,7 +246,10 @@ nyc.ol.Tracker.prototype.addPosition = function(position, accuracy, heading, m, 
 		if (this.maxPoints){
 			this.track.setCoordinates(this.track.getCoordinates().slice(-(this.maxPoints)));
 		}
-		this.marker(speed, heading);
+		
+		this.currentPosition.set('speed', speed);
+		this.currentPosition.set('heading', heading);
+		
 		this.store();
 		this.dispatchEvent({type: nyc.ol.Tracker.EventType.UPDATED, target: this});
 		return true;
@@ -313,27 +325,6 @@ nyc.ol.Tracker.prototype.restore = function(){
 /**
  * @private
  * @method
- * @param {number} heading
- * @param {number} speed
- */
-nyc.ol.Tracker.prototype.marker = function(speed, heading){
-	if (speed){
-		var rotate = this.recenter ? -heading/2 : -heading;
-		var transform = 'rotate(' + rotate + 'rad)';
-		this.img.attr('src', nyc.ol.Tracker.LOCATION_HEADING_IMG)
-			.css({
-				transform: transform,
-				'-webkit-transform': transform,
-				'-ms-transform': transform
-			});
-	}else{
-		this.img.attr('src', nyc.ol.Tracker.LOCATION_IMG);
-	}
-};
-
-/**
- * @private
- * @method
  * @param {ol.Coordinate} position
  * @param {number} rotation
  * @param {number} zoom
@@ -363,10 +354,9 @@ nyc.ol.Tracker.prototype.animate = function(){
 	}
 
 	var start = positions[positions.length - 2];
-	var marker = me.markerOverlay;
 
 	if (!start){
-		marker.setPosition(end);
+		me.currentPosition.setGeometry(new ol.geom.Point(end));
 		me.updateView(end);
 	}else{
 		var m = start[3];
@@ -380,7 +370,7 @@ nyc.ol.Tracker.prototype.animate = function(){
 				p = end;
 				me.updateView(p);
 			}
-			marker.setPosition(p);
+			me.currentPosition.setGeometry(new ol.geom.Point(p));
 			m += step;
 		}, 100);
 	}
@@ -407,6 +397,21 @@ nyc.ol.Tracker.prototype.updateView = function(position){
 			zoom: zoom
 		});
 	}
+};
+
+/**
+ * @private
+ * @method
+ * @return {ol.style.Style}
+ */
+nyc.ol.Tracker.prototype.defaultStyle = function(){
+	var rotation = !this.recenter ? this.get('heading') : undefined;
+	return new ol.style.Style({
+		image: new ol.style.Icon({
+			src: this.get('speed') ? nyc.ol.Tracker.LOCATION_HEADING_IMG : nyc.ol.Tracker.LOCATION_IMG,
+			rotation: rotation
+		})
+	});
 };
 
 /**
