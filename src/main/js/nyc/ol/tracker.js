@@ -151,6 +151,8 @@ nyc.ol.Tracker.prototype.showNorth = function(show){
 /**
  * @private
  * @method
+ * @param {GeolocationPositionOptions=} options
+ * @return {GeolocationPositionOptions}
  */
 nyc.ol.Tracker.prototype.createTrackOpts = function(options){
 	var trackOpts = options || {};	
@@ -189,6 +191,7 @@ nyc.ol.Tracker.prototype.updatePosition = function(){
  * @param {number} heading
  * @param {number} m
  * @param {number} speed
+ * @return {boolean} 
  */
 nyc.ol.Tracker.prototype.addPosition = function(position, accuracy, heading, m, speed){
 	if (!this.accuracyLimit || accuracy <= this.accuracyLimit){
@@ -293,10 +296,7 @@ nyc.ol.Tracker.prototype.restore = function(){
 /**
  * @private
  * @method
- * @param {ol.Coordinate} position
- * @param {number} accuracy
  * @param {number} heading
- * @param {number} m
  * @param {number} speed
  */
 nyc.ol.Tracker.prototype.marker = function(speed, heading){
@@ -318,6 +318,7 @@ nyc.ol.Tracker.prototype.marker = function(speed, heading){
  * @method
  * @param {ol.Coordinate} position
  * @param {number} rotation
+ * @param {number} zoom
  */
 nyc.ol.Tracker.prototype.getCenterWithHeading = function(position, rotation, zoom){
 	var size = this.map.getSize();
@@ -370,6 +371,7 @@ nyc.ol.Tracker.prototype.animate = function(){
 /**
  * @private
  * @method
+ * @param {ol.Coordinate} position
  */
 nyc.ol.Tracker.prototype.updateView = function(position){
 	var pIdx = this.positions.length - 1;

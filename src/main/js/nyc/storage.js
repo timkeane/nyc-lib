@@ -79,7 +79,7 @@ nyc.storage = {
 		}
 	},
 	/** 
-	 * @desc Get data from localStorage if available
+	 * @desc Remove data from localStorage if available
 	 * @public 
 	 * @function
 	 * @param {string} key Storage key

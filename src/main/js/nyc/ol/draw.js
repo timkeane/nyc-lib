@@ -7,8 +7,7 @@ nyc.ol = nyc.ol || {};
  * @class
  * @extends {nyc.EventHandling}
  * @constructor
- * @param {nyc.ol.Draw.Options}
- *            options Constructor options
+ * @param {nyc.ol.Draw.Options} options Constructor options
  * @fires nyc.ol.Draw#addfeature
  * @fires nyc.ol.Draw#changefeature
  * @fires nyc.ol.Draw#removefeature
@@ -160,8 +159,7 @@ nyc.ol.Draw.prototype = {
 	 * @desc Set the accuracy limit for geolocation capture
 	 * @public
 	 * @method
-	 * @param {number}
-	 *            limit
+	 * @param {number} limit The accuracy limit in meters
 	 */
 	setGpsAccuracyLimit: function(limit){
 		this.accuracyLimit = limit;
@@ -184,8 +182,7 @@ nyc.ol.Draw.prototype = {
 	 * @desc Activate to begin adding drawings of the specified type
 	 * @public
 	 * @method
-	 * @param {nyc.ol.Draw.Type}
-	 *            type The drawing type to activate
+	 * @param {nyc.ol.Draw.Type} type The drawing type to activate
 	 */
 	activate: function(type){
 		var me = this;
@@ -224,7 +221,7 @@ nyc.ol.Draw.prototype = {
 		}
 	},
 	/**
-	 * @desc Get the features that have been drawn
+	 * @desc Get the features that are unchanged or have been added, changed, or removed
 	 * @public
 	 * @method
 	 * @return {Object<string, Array<ol.Feature>>} The features
@@ -243,11 +240,10 @@ nyc.ol.Draw.prototype = {
 		return features;
 	},
 	/**
-	 * @desc Set features on the drawing
+	 * @desc Set features on the drawing layer
 	 * @public
 	 * @method
-	 * @param {Array
-	 *            <nyc.ol.Feature>} The features
+	 * @param {Array<nyc.ol.Feature>} The features
 	 */
 	setFeatures: function(features){
 		var feats = this.features;
@@ -258,10 +254,10 @@ nyc.ol.Draw.prototype = {
 		});
 	},
 	/**
+	 * @desc Remove a features from the drawing layer
 	 * @public
 	 * @method
-	 * @param {ol.Feature}
-	 *            feature
+	 * @param {ol.Feature} feature The feature to remove
 	 */
 	removeFeature: function(feature){
 		this.source.removeFeature(feature);
@@ -270,7 +266,7 @@ nyc.ol.Draw.prototype = {
 		this.trigger(nyc.ol.FeatureEventType.REMOVE, feature);
 	},
 	/**
-	 * @desc Remove all drawn features
+	 * @desc Remove all features from the drawing layer
 	 * @public
 	 * @method
 	 */
@@ -306,7 +302,7 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @pram {JQueryEvent} event
+	 * @param {JQueryEvent} event
 	 */
 	keyUp: function(event){
 		if (event.keyCode == 27){
@@ -496,8 +492,7 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {JQuery.Event}
-	 *            event
+	 * @param {JQuery.Event} event
 	 */
 	choose: function(event){
 		var me = this, btn = event.target;
@@ -519,8 +514,7 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {JQuery.Event}
-	 *            event
+	 * @param {JQuery.Event} event
 	 */
 	contextMenu: function(event){
 		var me = this, map = me.map;
@@ -540,8 +534,7 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {ol.Feature}
-	 *            feature
+	 * @param {ol.Feature} feature
 	 */
 	showContextMenu: function(event, feature){
 		var me = this, left = event.offsetX, ctxMnu = $('.draw-ctx-mnu');
@@ -571,8 +564,7 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {ol.source.VectorEvent}
-	 *            event
+	 * @param {ol.source.VectorEvent} event
 	 */
 	triggerFeatureEvent: function(event){
 		var feature = event.feature;
@@ -590,10 +582,8 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {nyc.ol.FeatureEventType}
-	 *            eventType
-	 * @param {ol.Feature}
-	 *            feature
+	 * @param {nyc.ol.FeatureEventType} eventType
+	 * @param {ol.Feature} feature
 	 */
 	closePolygon: function(eventType, feature){
 		var me = this;
@@ -614,10 +604,8 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {ol.Feature}
-	 *            feature
-	 * @param {boolean}
-	 *            polygon
+	 * @param {ol.Feature} feature
+	 * @param {boolean} polygon
 	 * @return {ol.Feature}
 	 */
 	geomToPolygon: function(feature, polygon){
@@ -634,8 +622,7 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {nyc.ol.Draw.Type}
-	 *            drawType
+	 * @param {nyc.ol.Draw.Type} drawType
 	 */
 	triggerEvent: function(type, feature, polygon){
 		this.saveBtn.show();
