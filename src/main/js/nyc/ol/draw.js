@@ -50,7 +50,7 @@ nyc.ol.Draw = function(options){
 	this.viewport.on('contextmenu', $.proxy(this.contextMenu, this));
 	$(document).keyup($.proxy(this.keyUp, this));
 
-	this.tracker = new nyc.ol.Tracker({map: this.map, recenter: document.location.search.length > 0});
+	this.tracker = new nyc.ol.Tracker({map: this.map});
 	this.tracker.layer.setZIndex(200);
 	this.tracker.on(nyc.ol.Tracker.EventType.UPDATED, this.updateTrack, this);
 };
@@ -491,20 +491,20 @@ nyc.ol.Draw.prototype = {
 	buttonMenu: function(){
 		var me = this, viewport = me.viewport;
 		viewport.find('.ol-overlaycontainer-stopevent').append(nyc.ol.Draw.BUTTON_MENU_HTML).trigger('create');
-		me.btnMnu = viewport.find('.draw-btn-mnu');
+		me.btnMnu = viewport.find('.draw-btn-mnu').controlgroup({});
 		me.mnuBtn = viewport.find('.draw-btn');
 		me.mnuBtn.click(function(){
 			me.btnMnu.slideToggle();
+			me.btnMnu.controlgroup('refresh');
 		});
+		$(this.map.getTarget()).click($.proxy(me.btnMnu.slideUp, me.btnMnu));
 		if (nyc.storage.canDownload()){
 			me.saveBtn = viewport.find('.draw-mnu-btn.save');
 			me.saveBtn.click($.proxy(me.save, me));
 		}else{
 			me.saveBtn = $();
 		}
-		viewport.find('.draw-mnu-btn').each(function(_, btn){
-			$(btn).click($.proxy(me.choose, me));
-		});
+		viewport.find('.draw-mnu-btn').click($.proxy(me.choose, me));
 	},
 	/**
 	 * @private
@@ -520,9 +520,6 @@ nyc.ol.Draw.prototype = {
 	 */
 	choose: function(event){
 		var me = this, btn = event.target;
-		if (btn.tagName.toLowerCase() == 'button'){
-			btn = $(btn).parent().get(0);
-		}
 		var type = $(btn).data('draw-type'), css = btn.className.split(' ')[1] || '';
 		if (css == 'delete'){
 			this.clear();
@@ -650,6 +647,7 @@ nyc.ol.Draw.prototype = {
 	 */
 	triggerEvent: function(type, feature, polygon){
 		this.saveBtn.show();
+		this.btnMnu.controlgroup('refresh');
 		this.trigger(type, this.geomToPolygon(feature, polygon));
 	},
 	/**
@@ -677,9 +675,11 @@ nyc.ol.Draw.prototype = {
 				)
 			);
 			this.saveBtn.show();
+			this.btnMnu.controlgroup('refresh');
 		}else{
 			nyc.storage.removeItem(this.storeKey);
 			this.saveBtn.hide();
+			this.btnMnu.controlgroup('refresh');
 		}
 	},
 	/**
@@ -705,6 +705,7 @@ nyc.ol.Draw.prototype = {
 					if (yesNo){
 						me.features.extend(features);
 						me.saveBtn.show();
+						me.btnMnu.controlgroup('refresh');
 					}
 				}
 			});			
@@ -785,19 +786,19 @@ nyc.ol.Draw.CONTEXT_MENU_HTML = '<div class="ctl ol-unselectable draw-ctx-mnu">'
  * @type {string}
  */
 nyc.ol.Draw.BUTTON_MENU_HTML = '<a class="draw-btn ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext">Draw</a></div>' +
-	'<div class="ol-unselectable ctl draw-btn-mnu">' +
-		'<div class="draw-mnu-btn save" data-draw-type="None"><button class="ctl-btn ui-btn" title="Savee the current drawing">Save...</button></div>' +
-		'<div class="draw-mnu-btn point" data-draw-type="Point"><button class="ctl-btn ui-btn" title="Click to draw a point">Point</button></div>' +
-		'<div class="draw-mnu-btn line" data-draw-type="LineString"><button class="ctl-btn ui-btn" title="Click to draw each point of a line">Line</button></div>' +
-		'<div class="draw-mnu-btn polygon" data-draw-type="Polygon"><button class="ctl-btn ui-btn" title="Click to draw each point of a polygon">Polygon</button></div>' +
-		'<div class="draw-mnu-btn circle" data-draw-type="Circle"><button class="ctl-btn ui-btn" title="Click then drag to draw a circle">Circle</button></div>' +
-		'<div class="draw-mnu-btn square" data-draw-type="Square"><button class="ctl-btn ui-btn" title="Click then drag to draw a square">Square</button></div>' +
-		'<div class="draw-mnu-btn box" data-draw-type="Box"><button class="ctl-btn ui-btn" title="Click then drag to draw a box">Box</button></div>' +
-		'<div class="draw-mnu-btn free" data-draw-type="Free"><button class="ctl-btn ui-btn" title="Click and drag to draw a freehand line">Freehand</button></div>' +
-		'<div class="draw-mnu-btn gps" data-draw-type="GPS"><button class="ctl-btn ui-btn" title="Capture coordiantes from device geoloaction">GPS Capture</button></div>' +
-		'<div class="draw-mnu-btn delete" data-draw-type="None"><button class="ctl-btn ui-btn" title="Delete all drawn features">Clear All</button></div>' +
-		'<div class="draw-mnu-btn cancel" data-draw-type="None"><button class="ctl-btn ui-btn" title="Deactivate drawing">Deactivate</button></div>' +
-	'</div>';
+'<div class="ol-unselectable ctl draw-btn-mnu" data-role="controlgroup">' +
+	'<button class="draw-mnu-btn save" data-draw-type="None" data-role="button" title="Save the current drawing">Save...</button>' +
+	'<button class="draw-mnu-btn point" data-draw-type="Point" data-role="button" title="Click to draw a point">Point</button>' +
+	'<button class="draw-mnu-btn line" data-draw-type="LineString" data-role="button" title="Click to draw each point of a line">Line</button>' +
+	'<button class="draw-mnu-btn polygon" data-draw-type="Polygon" data-role="button" title="Click to draw each point of a polygon">Polygon</button>' +
+	'<button class="draw-mnu-btn circle" data-draw-type="Circle" data-role="button" title="Click then drag to draw a circle">Circle</button>' +
+	'<button class="draw-mnu-btn square" data-draw-type="Square" data-role="button" title="Click then drag to draw a square">Square</button>' +
+	'<button class="draw-mnu-btn box" data-draw-type="Box" data-role="button" title="Click then drag to draw a box">Box</button>' +
+	'<button class="draw-mnu-btn free" data-draw-type="Free" data-role="button" title="Click and drag to draw a freehand line">Freehand</button>' +
+	'<button class="draw-mnu-btn gps" data-draw-type="GPS" data-role="button" title="Capture coordiantes from device geoloaction">GPS Capture</button>' +
+	'<button class="draw-mnu-btn delete" data-draw-type="None" data-role="button" title="Delete all drawn features">Clear All</button>' +
+	'<button class="draw-mnu-btn cancel" data-draw-type="None" data-role="button" title="Deactivate drawing">Deactivate</button>' +
+'</div>';
 
 nyc.ol.Draw.GPS_ICON = 'data:image/png;base64,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';
 
