@@ -40,9 +40,10 @@ nyc.ol.Draw = function(options){
 	this.mover.setActive(false);
 	this.map.addInteraction(this.mover);
 	this.viewport.on('contextmenu', $.proxy(this.contextMenu, this));
+	$(document).keyup($.proxy(this.keyUp, this));
 
 	this.tracker = new nyc.ol.Tracker({map: this.map});
-	this.tracker.on(nyc.ol.Tracker.EventType.UPDATED, this.updateTrack, this);	
+	this.tracker.on(nyc.ol.Tracker.EventType.UPDATED, this.updateTrack, this);
 };
 
 nyc.ol.Draw.prototype = {
@@ -219,11 +220,6 @@ nyc.ol.Draw.prototype = {
 				});
 				me.map.addInteraction(me.drawer);
 				me.map.addInteraction(me.modify);
-				$(document).keyup(function(evt){
-					if (evt.keyCode == 27){
-						me.escape();
-					}
-				});
 			}
 		}
 	},
@@ -310,10 +306,18 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {Array
-	 *            <ol.Coordinate>} coordinates
-	 * @param {ol.geom.Polygon=}
-	 *            geometry
+	 * @pram {JQueryEvent} event
+	 */
+	keyUp: function(event){
+		if (event.keyCode == 27){
+			this.escape();
+		}
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {Array<ol.Coordinate>} coordinates
+	 * @param {ol.geom.Polygon=} geometry
 	 * @return {ol.geom.Polygon}
 	 */
 	boxGeometry: function(coordinates, geometry){
@@ -332,8 +336,7 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {ol.MapBrowserEvent}
-	 *            mapEvent
+	 * @param {ol.MapBrowserEvent} mapEvent
 	 * @return {boolean}
 	 */
 	deleteCondition: function(event){
@@ -345,8 +348,7 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {ol.MapBrowserEvent}
-	 *            mapEvent
+	 * @param {ol.MapBrowserEvent} mapEvent
 	 * @return {boolean}
 	 */
 	drawCondition: function(mapEvt){
@@ -359,8 +361,7 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {ol.MapBrowserEvent}
-	 *            mapEvent
+	 * @param {ol.MapBrowserEvent} mapEvent
 	 * @return {boolean}
 	 */
 	freehandCondition: function(mapEvt){
@@ -624,8 +625,10 @@ nyc.ol.Draw.prototype = {
 		if (geom.getType() == 'Circle'){
 			feature.setGeometry(ol.geom.Polygon.fromCircle(geom));
 		}else if (polygon){
+			geom.appendCoordinate(geom.getFirstCoordinate());
 			feature.setGeometry(new ol.geom.Polygon([geom.getCoordinates()]));
 		}
+		this.store();
 		return feature;
 	},
 	/**
@@ -635,7 +638,6 @@ nyc.ol.Draw.prototype = {
 	 *            drawType
 	 */
 	triggerEvent: function(type, feature, polygon){
-		this.store();
 		this.saveBtn.show();
 		this.trigger(type, this.geomToPolygon(feature, polygon));
 	},

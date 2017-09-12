@@ -166,41 +166,6 @@ nyc.util = {
 			}
 		}
 		return '(' + formatted.substr(0, 3) + ') ' + formatted.substr(3, 3) + '-' + formatted.substr(6, 4);
-	},
-	saveToFile: function(name, data){
-		var href;
-		if (nyc.util.saveFile(name, data, TEMPORARY)){
-			var href = 'filesystem:' + document.location.origin + '/temporary/' + name;
-		}else{
-			href = 'data:application/json;charset=utf-8,' + encodeURIComponent(data);
-		}
-		var a = $('<a><img></a>');
-		$('body').append(a);
-		a.attr('href', href).attr('download', name).find('img').trigger('click');
-		a.remove();
-	},
-	fsMethod: function(){
-		if ('requestFileSystem' in navigator){
-			return {scope: navigator, fn: 'requestFileSystem'};
-		}else if ('webkitRequestFileSystem' in window){
-			return {scope: window, fn: 'webkitRequestFileSystem'};
-		}
-	},
-	saveFile: function(name, data, persistent){
-		var fs = nyc.util.fsMethod();
-		if (fs){
-			fs.scope[fs.fn](persistent ? PERSISTENT : TEMPORARY, 1024 * 1024 * 100, function(fs){
-				fs.root.getFile(name, {create: true}, function(file){
-					file.createWriter(function(content){
-						content.write(new Blob([data], {type: 'text/plain'}));
-					});
-				});
-			}, function(){console.error(arguments);});
-			return true;
-		}else{
-			console.error('File system access unavailable');
-			return false;
-		}
 	}
 };
 
