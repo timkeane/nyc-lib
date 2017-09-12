@@ -787,10 +787,6 @@ nyc.ol.Draw.Type  = {
  * @const
  * @type {string}
  */
-//nyc.ol.Draw.CONTEXT_MENU_HTML = '<div class="ctl ol-unselectable draw-ctx-mnu">' +
-//		'<div class="draw-mnu-btn delete"><button class="ctl-btn ui-btn ui-corner-top">Delete feature</button></div>' +
-	//	'<div class="draw-mnu-btn move"><button class="ctl-btn ui-btn ui-corner-bottom">Move feature</button></div>' +
-	//'</div>';
 nyc.ol.Draw.CONTEXT_MENU_HTML =	'<div class="ol-unselectable ctl draw-ctx-mnu" data-role="controlgroup">' +
 	'<button class="draw-mnu-btn delete" data-role="button">Delete feature</button>' +
 	'<button class="draw-mnu-btn move" data-role="button">Move feature</button>' +
