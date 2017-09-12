@@ -100,12 +100,12 @@ nyc.ol.Tracker = function(options){
 	 * @member {string}
 	 */
 	this.positionsStore = appUrl + 'nyc.ol.Tracker.positions';
-	
+
 	ol.Geolocation.call(this, {
 		projection: this.view.getProjection(),
 		trackingOptions: this.createTrackOpts(options.trackingOptions)
 	});
-	
+
 	$('body').append(this.img);
 	this.markerOverlay = new ol.Overlay({
 		positioning: 'center-center',
@@ -113,7 +113,7 @@ nyc.ol.Tracker = function(options){
 		stopEvent: false
 	});
 	map.addOverlay(this.markerOverlay);
-	
+
 	this.on('error', function(error){
 		console.error(error.message, arguments);
 	});
@@ -171,7 +171,7 @@ nyc.ol.Tracker.prototype.showNorth = function(show){
  * @return {GeolocationPositionOptions}
  */
 nyc.ol.Tracker.prototype.createTrackOpts = function(options){
-	var trackOpts = options || {};	
+	var trackOpts = options || {};
 	trackOpts.maximumAge = trackOpts.maximumAge === undefined ? 10000 : trackOpts.maximumAge;
 	trackOpts.enableHighAccuracy = trackOpts.enableHighAccuracy === undefined ? true : trackOpts.enableHighAccuracy;
 	trackOpts.timeout = trackOpts.timeout === undefined ? 600000 : trackOpts.timeout;
@@ -198,7 +198,7 @@ nyc.ol.Tracker.prototype.updatePosition = function(){
 		}
 	}
 };
-	
+
 /**
  * @private
  * @method
@@ -207,7 +207,7 @@ nyc.ol.Tracker.prototype.updatePosition = function(){
  * @param {number} heading
  * @param {number} m
  * @param {number} speed
- * @return {boolean} 
+ * @return {boolean}
  */
 nyc.ol.Tracker.prototype.addPosition = function(position, accuracy, heading, m, speed){
 	if (!this.accuracyLimit || accuracy <= this.accuracyLimit){
@@ -225,7 +225,7 @@ nyc.ol.Tracker.prototype.addPosition = function(position, accuracy, heading, m, 
 			}
 			heading = prevHeading + headingDiff;
 		}
-		
+
 		var position = [x, y, heading, m];
 		this.positions.push(new ol.Feature({
 			id: this.positions.length,
@@ -259,7 +259,7 @@ nyc.ol.Tracker.prototype.store = function(){
 	nyc.storage.setItem(
 		this.positionsStore,
 		this.geoJson.writeFeatures(
-			this.positions, 
+			this.positions,
 			{featureProjection: this.view.getProjection()}
 		)
 	);
@@ -286,7 +286,7 @@ nyc.ol.Tracker.prototype.restore = function(){
 	if (track){
 		var dia = new nyc.Dialog();
 		dia.yesNo({
-			message: 'Retore previous tracking data?', 
+			message: 'Retore previous tracking data?',
 			callback: function(yesNo){
 				if (yesNo){
 					var opts = {
@@ -294,7 +294,7 @@ nyc.ol.Tracker.prototype.restore = function(){
 						featureProjection: me.view.getProjection()
 					};
 					me.track = me.geoJson.readGeometry(track, opts);
-					me.positions = me.geoJson.readFeatures(positions, opts);					
+					me.positions = me.geoJson.readFeatures(positions, opts);
 					me.updateView(me.positions[me.positions.length - 1]);
 				}else{
 					me.reset();
@@ -302,7 +302,7 @@ nyc.ol.Tracker.prototype.restore = function(){
 				me.on('change', me.updatePosition, me);
 				me.updatePosition();
 			}
-		});			
+		});
 	}else{
 		this.reset();
 		me.on('change', me.updatePosition, me);
@@ -318,12 +318,13 @@ nyc.ol.Tracker.prototype.restore = function(){
  */
 nyc.ol.Tracker.prototype.marker = function(speed, heading){
 	if (speed){
-		var rotation = 'rotate(' + (-heading) + 'rad)';
+		var rotate = this.recenter ? -heading/2 : -heading;
+		var transform = 'rotate(' + rotate + 'rad)';
 		this.img.attr('src', nyc.ol.Tracker.LOCATION_HEADING_IMG)
 			.css({
-				transform: rotation, 
-				'-webkit-transform': rotation,
-				'-ms-transform': rotation
+				transform: transform,
+				'-webkit-transform': transform,
+				'-ms-transform': transform
 			});
 	}else{
 		this.img.attr('src', nyc.ol.Tracker.LOCATION_IMG);
@@ -352,10 +353,10 @@ nyc.ol.Tracker.prototype.getCenterWithHeading = function(position, rotation, zoo
  * @method
  */
 nyc.ol.Tracker.prototype.animate = function(){
-	var me = this; 
+	var me = this;
 	var positions = me.track.getCoordinates();
 	var end = positions[positions.length - 1];
-	
+
 	if (me.animationInterval){
 		clearInterval(me.animationInterval);
 		me.updateView(end);
@@ -363,7 +364,7 @@ nyc.ol.Tracker.prototype.animate = function(){
 
 	var start = positions[positions.length - 2];
 	var marker = me.markerOverlay;
-	
+
 	if (!start){
 		marker.setPosition(end);
 		me.updateView(end);
@@ -423,10 +424,10 @@ nyc.ol.Tracker.prototype.mod = function(n){
  * @typedef {Object}
  * @property {ol.Map} map The map on which to track locations
  * @property {GeolocationPositionOptions=} trackingOptions Tracking options @see http://www.w3.org/TR/geolocation-API/#position_options_interface
- * @property {boolean} [recenter=true] Recenter on location change 
+ * @property {boolean} [recenter=true] Recenter on location change
  * @property {boolean} [showNorth=true] Show a north arrow on the map
- * @property {number} [maxPoints=0] The maximum number of points to retain in the track (0 = unlimited) 
- * @property {number} [startingZoomLevel=16] The zoom for the view when tracking begins  
+ * @property {number} [maxPoints=0] The maximum number of points to retain in the track (0 = unlimited)
+ * @property {number} [startingZoomLevel=16] The zoom for the view when tracking begins
  * @property {boolean} [currentZoomLevel=false] Use the current zoom level of the view when tracking begins and ignore startingZoomLevel
  * @property {number} [accuracyLimit=0] The maximum accuracy distance for an acceptable position (0 = unlimited)
  */
