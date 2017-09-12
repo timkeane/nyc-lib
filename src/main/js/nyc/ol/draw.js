@@ -21,28 +21,24 @@ nyc.ol.Draw = function(options){
 	this.removed = [];
 	this.geoJson = new ol.format.GeoJSON();
 	this.storeKey = document.location.href.replace(document.location.search, '') + 'nyc.ol.Draw.features';
-	
+
 	this.restore();
-	
+
 	this.layer = new ol.layer.Vector({
 		source: this.source,
 		style: options.style || this.defaultStyle,
 		zIndex: 100
 	});
 	this.map.addLayer(this.layer);
-	
+
 	this.accuaracyLayer = new ol.layer.Vector({
 		source: this.source,
 		style: options.accuracyStyle || this.accuracyStyle,
 		visible: options.showAccuracy === undefined ? true : options.showAccuracy
 	});
 	this.map.addLayer(this.accuaracyLayer);
-	
-	this.modify = new ol.interaction.Modify({
-		features: this.features,
-		deleteCondition: $.proxy(this.deleteCondition, this)
-	});
 
+	this.createModify();
 	this.buttonMenu();
 	this.mover = new nyc.ol.Drag(this.layer);
 	this.mover.setActive(false);
@@ -56,6 +52,12 @@ nyc.ol.Draw = function(options){
 };
 
 nyc.ol.Draw.prototype = {
+	/**
+	 * @desc The tracker used to draw based on device geolocation 
+	 * @public
+	 * @member {nyc.ol.Tracker}
+	 */
+	tracker: null,
 	/**
 	 * @private
 	 * @member {ol.interaction.Draw}
@@ -219,7 +221,7 @@ nyc.ol.Draw.prototype = {
 				maxPoints = 2;
 				geometryFunction = me.boxGeometry;
 			}
-			
+
 			if (me.type == nyc.ol.Draw.Type.GPS){
 				me.beginGpsCapture();
 			}else{
@@ -311,9 +313,19 @@ nyc.ol.Draw.prototype = {
 			this.closePolygon(nyc.ol.FeatureEventType.CHANGE, this.getGpsTrack());
 			this.tracker.setTracking(false);
 		}
-		if (this.drag){
-			this.drag.setActive(false);
+		if (this.mover){
+			this.mover.setActive(false);
 		}
+	},
+	/**
+	 * @private
+	 * @method
+	 */
+	createModify: function(){
+		this.modify = new ol.interaction.Modify({
+			features: this.features,
+			deleteCondition: $.proxy(this.deleteCondition, this)
+		});
 	},
 	/**
 	 * @private
@@ -396,7 +408,7 @@ nyc.ol.Draw.prototype = {
 				stroke: new ol.style.Stroke({
 					color: 'rgba(255,255,0,1)',
 					width: .25
-				})					
+				})
 			}),
 			zindex: 100
 		});
@@ -560,7 +572,7 @@ nyc.ol.Draw.prototype = {
 	showContextMenu: function(event, feature){
 		var me = this, left = event.offsetX, ctxMnu = $('.draw-ctx-mnu');
 		if (!ctxMnu.length){
-			ctxMnu = $(nyc.ol.Draw.CONTEXT_MENU_HTML);
+			ctxMnu = $(nyc.ol.Draw.CONTEXT_MENU_HTML).trigger('create');
 		}
 		ctxMnu.addClass(me.type.toLowerCase());
 		me.viewport.one('click', function(e){
@@ -572,16 +584,16 @@ nyc.ol.Draw.prototype = {
 			left = left - 125;
 		}
 		ctxMnu.css({left: left + 'px', top: event.offsetY + 'px'});
-    	ctxMnu.slideDown();
-    	ctxMnu.find('.delete').one('click', function(){
-    		me.removeFeature(feature);
-	    	me.closeMenus();
-    	});
-    	ctxMnu.find('.move').one('click', function(){
-    		me.mover.setActive(true);
-	    	me.closeMenus();
-    	});
-    },
+		ctxMnu.slideDown().controlgroup({});
+		ctxMnu.find('.delete').one('click', function(){
+			me.removeFeature(feature);
+			me.closeMenus();
+		});
+		ctxMnu.find('.move').one('click', function(){
+			me.mover.setActive(true);
+			me.closeMenus();
+		});
+	},
 	/**
 	 * @private
 	 * @method
@@ -592,11 +604,11 @@ nyc.ol.Draw.prototype = {
 		if (event.type == nyc.ol.FeatureEventType.ADD){
 			feature._added = true;
 		}else if (event.type == nyc.ol.FeatureEventType.CHANGE){
-			feature._changed = true;				
+			feature._changed = true;
 		}
 		if (this.type == nyc.ol.Draw.Type.FREE && event.type == nyc.ol.FeatureEventType.ADD){
 			this.closePolygon(event.type, feature);
-		}else{ 	 
+		}else{
 			this.triggerEvent(event.type, feature);
 		}
 	},
@@ -668,7 +680,7 @@ nyc.ol.Draw.prototype = {
 		var features = this.source.getFeatures();
 		if (features.length){
 			nyc.storage.setItem(
-				this.storeKey, 
+				this.storeKey,
 				this.geoJson.writeFeatures(
 					features,
 					{featureProjection: this.view.getProjection()}
@@ -690,7 +702,7 @@ nyc.ol.Draw.prototype = {
 		var me = this, features = nyc.storage.getItem(me.storeKey);
 		if (features){
 			features = me.geoJson.readFeatures(
-				features, 
+				features,
 				{
 					dataProjection: 'EPSG:4326',
 					featureProjection: this.view.getProjection()
@@ -700,7 +712,7 @@ nyc.ol.Draw.prototype = {
 		if (features && features.length){
 			var dia = new nyc.Dialog();
 			dia.yesNo({
-				message: 'Retore previous drawing data?', 
+				message: 'Retore previous drawing data?',
 				callback: function(yesNo){
 					if (yesNo){
 						me.features.extend(features);
@@ -708,7 +720,7 @@ nyc.ol.Draw.prototype = {
 						me.btnMnu.controlgroup('refresh');
 					}
 				}
-			});			
+			});
 		}
 	}
 };
@@ -775,9 +787,13 @@ nyc.ol.Draw.Type  = {
  * @const
  * @type {string}
  */
-nyc.ol.Draw.CONTEXT_MENU_HTML = '<div class="ctl ol-unselectable draw-ctx-mnu">' +
-		'<div class="draw-mnu-btn delete"><button class="ctl-btn ui-btn ui-corner-top">Delete feature</button></div>' +
-		'<div class="draw-mnu-btn move"><button class="ctl-btn ui-btn ui-corner-bottom">Move feature</button></div>' +
+//nyc.ol.Draw.CONTEXT_MENU_HTML = '<div class="ctl ol-unselectable draw-ctx-mnu">' +
+//		'<div class="draw-mnu-btn delete"><button class="ctl-btn ui-btn ui-corner-top">Delete feature</button></div>' +
+	//	'<div class="draw-mnu-btn move"><button class="ctl-btn ui-btn ui-corner-bottom">Move feature</button></div>' +
+	//'</div>';
+nyc.ol.Draw.CONTEXT_MENU_HTML =	'<div class="ol-unselectable ctl draw-ctx-mnu" data-role="controlgroup">' +
+	'<button class="draw-mnu-btn delete" data-role="button">Delete feature</button>' +
+	'<button class="draw-mnu-btn move" data-role="button">Move feature</button>' +
 	'</div>';
 
 /**
@@ -913,4 +929,3 @@ nyc.ol.Drag.prototype.handleUpEvent = function(event) {
 	this.setActive(false);
 	return false;
 };
-
