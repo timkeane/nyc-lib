@@ -93,7 +93,7 @@ nyc.ol.Draw.prototype = {
 	view: null,
 	/**
 	 * @private
-	 * @memeber {ol.Feature}
+	 * @member {ol.Feature}
 	 */
 	gpsTrack: null,
 	/**
