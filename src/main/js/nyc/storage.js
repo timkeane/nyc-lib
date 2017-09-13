@@ -1,11 +1,17 @@
 var nyc = nyc || {};
 
-/** 
- * @public 
+/**
+ * @public
  * @namespace
  */
 nyc.storage = {};
 
+/**
+ * @desc Class to provide access to localStorage and filesystem
+ * @public
+ * @class
+ * @constructor
+ */
 nyc.storage.Local = function(){};
 
 nyc.storage.Local.prototype = {
@@ -169,7 +175,7 @@ nyc.storage.Local.prototype = {
 				me.readShp(map, shpBuffer, dbfBuffer, projcs, callback);
 			}
 		};
-		
+
 		shpReader.readAsArrayBuffer(shp);
 		if (dbf) dbfReader.readAsArrayBuffer(dbf);
 	},

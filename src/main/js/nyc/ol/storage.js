@@ -1,12 +1,19 @@
 var nyc = nyc || {};
 nyc.ol = nyc.ol || {};
 
-/** 
- * @public 
+/**
+ * @public
  * @namespace
  */
 nyc.ol.storage = {};
 
+/**
+ * @desc Class to provide access to localStorage and filesystem
+ * @public
+ * @class
+ * @extends {nyc.storage.Local}
+ * @constructor
+ */
 nyc.ol.storage.Local = function(){};
 
 nyc.ol.storage.Local.prototype = {

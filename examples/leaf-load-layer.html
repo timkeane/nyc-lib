@@ -4,30 +4,26 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
-	<title>OpenLayers Example</title>
+	<title>Leaflet Example</title>
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.css">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.3.2/ol.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" rel="stylesheet">
 	<!-- nyc css -->
 	<link rel="stylesheet" href="../src/main/css/nyc-base.css"> 
 	<link rel="stylesheet" href="../src/main/css/control-common.css"> 
 	<link rel="stylesheet" href="../src/main/css/dialog.css"> 
-	<link rel="stylesheet" href="../src/main/css/collapsible.css"> 
-	<link rel="stylesheet" href="../src/main/css/layermgr.css"> 
 	<link rel="stylesheet" href="../src/main/css/zoomsearch.css"> 
-	<link rel="stylesheet" href="../src/main/css/mapmenu.css"> 
 	<!-- nyc css -->
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.3.2/ol-debug.js"></script>
-	<script src="https://unpkg.com/shapefile@0.6"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet-src.js"></script>
 	<!-- nyc js -->
 	<script src="../src/main/js/nyc/nyc.js"></script>
 	<script src="../src/main/js/nyc/util.js"></script>
 	<script src="../src/main/js/nyc/storage.js"></script>
-	<script src="../src/main/js/nyc/ol/storage.js"></script>
+	<script src="../src/main/js/nyc/leaf/storage.js"></script>
 	<script src="../src/main/js/nyc/basemap.js"></script>
 	<script src="../src/main/js/nyc/dialog.js"></script>
 	<script src="../src/main/js/nyc/locate.js"></script>
@@ -35,14 +31,12 @@
 	<script src="../src/main/js/nyc/geocoder.js"></script>
 	<script src="../src/main/js/nyc/ctlcontainer.js"></script>
 	<script src="../src/main/js/nyc/zoomsearch.js"></script>
-	<script src="../src/main/js/nyc/ol/ol.js"></script>
-	<script src="../src/main/js/nyc/ol/basemap.js"></script>
-	<script src="../src/main/js/nyc/ol/locate.js"></script>
-	<script src="../src/main/js/nyc/ol/locator.js"></script>
-	<script src="../src/main/js/nyc/ol/featuretip.js"></script>
-	<script src="../src/main/js/nyc/ol/style/style.js"></script>
-	<script src="../src/main/js/nyc/ol/control/zoomsearch.js"></script>
-	<script src="../src/main/js/nyc/ol/style/pattern.js"></script>
+	<script src="../src/main/js/nyc/leaf/leaf.js"></script>
+	<script src="../src/main/js/nyc/leaf/basemap.js"></script>
+	<script src="../src/main/js/nyc/leaf/locate.js"></script>
+	<script src="../src/main/js/nyc/leaf/locator.js"></script>
+	<script src="../src/main/js/nyc/leaf/zoomsearch.js"></script>
+	<script src="https://unpkg.com/shapefile@0.6"></script>
 	<!-- nyc js -->
 	
 	<style>
@@ -52,6 +46,9 @@
 		 	left: 0;
 		 	bottom: 0;
 		 	right: 0;
+		 }
+		 .leaflet-control-zoom {
+		 	display: none;
 		 }
 		 #add-geojson, #add-shp {
 		 	position: fixed;
@@ -72,22 +69,28 @@
 	<button id="add-geojson" class="ctl-btn" data-role="button" onclick="storage.loadGeoJsonFile(map);">Add GeoJSON</button>
 	<button id="add-shp" class="ctl-btn" data-role="button" onclick="storage.loadShapeFile(map);">Add Shapefile</button>
 	<script>
-		var storage = new nyc.ol.storage.Local(), map;
-	
-		$(document).ready(function(){
+		var storage = new nyc.leaf.storage.Local(), map;
 
-			map = new nyc.ol.Basemap({target: $('#map').get(0)});
-			
+		$(document).ready(function(){
+						
+			map = new nyc.leaf.Basemap('#map');
+						
 			/* See README.md for getting your GeoClient App Id and App Key */
 			var geocoder = new nyc.Geoclient(
-				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
+				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example',
+				'EPSG:4326'
 			);
-
+			
 			var mgr = new nyc.LocationMgr({
-				controls: new nyc.ol.control.ZoomSearch(map),
-				locate: new nyc.ol.Locate(geocoder),
-				locator: new nyc.ol.Locator({map: map})
+				controls: new nyc.leaf.ZoomSearch(map),
+				locate: new nyc.leaf.Locate(map, geocoder),
+				locator: new nyc.leaf.Locator({map: map})
 			});
+
+			mgr.on(nyc.Locate.EventType.GEOCODE, function(result){
+				console.info(result);
+			});
+			
 		});
 	</script>
 </body>
