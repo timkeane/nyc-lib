@@ -9,10 +9,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.css">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" rel="stylesheet">
 	<!-- nyc css -->
-	<link rel="stylesheet" href="../src/main/css/nyc-base.css"> 
-	<link rel="stylesheet" href="../src/main/css/control-common.css"> 
-	<link rel="stylesheet" href="../src/main/css/dialog.css"> 
-	<link rel="stylesheet" href="../src/main/css/zoomsearch.css"> 
+	<link rel="stylesheet" href="../src/main/css/nyc-base.css">
+	<link rel="stylesheet" href="../src/main/css/control-common.css">
+	<link rel="stylesheet" href="../src/main/css/dialog.css">
+	<link rel="stylesheet" href="../src/main/css/zoomsearch.css">
 	<!-- nyc css -->
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
@@ -38,7 +38,7 @@
 	<script src="../src/main/js/nyc/leaf/zoomsearch.js"></script>
 	<script src="https://unpkg.com/shapefile@0.6"></script>
 	<!-- nyc js -->
-	
+
 	<style>
 		 #map {
 		 	position: fixed;
@@ -62,6 +62,11 @@
 		 #add-shp {
 		 	top: 44px;
 		 }
+		 @media only screen and (max-width : 600px) {
+ 			.fld-srch-container {
+ 				right: 156px;
+ 			}
+ 		}
 	</style>
 </head>
 <body>
@@ -72,15 +77,15 @@
 		var storage = new nyc.leaf.storage.Local(), map;
 
 		$(document).ready(function(){
-						
+
 			map = new nyc.leaf.Basemap('#map');
-						
+
 			/* See README.md for getting your GeoClient App Id and App Key */
 			var geocoder = new nyc.Geoclient(
 				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example',
 				'EPSG:4326'
 			);
-			
+
 			var mgr = new nyc.LocationMgr({
 				controls: new nyc.leaf.ZoomSearch(map),
 				locate: new nyc.leaf.Locate(map, geocoder),
@@ -90,7 +95,7 @@
 			mgr.on(nyc.Locate.EventType.GEOCODE, function(result){
 				console.info(result);
 			});
-			
+
 		});
 	</script>
 </body>
