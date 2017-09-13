@@ -191,17 +191,17 @@ nyc.storage.Local.prototype = {
 		var me = this, features = [];
 		shapefile.open(shp, dbf)
 		  .then(source => source.read()
-		  .then(function collect(result){
-				if (result.done){
-					var layer = me.addToMap(map, features, projcs);
-					if (callback) callback(layer);
-					return;
-				}else{
-					features.push(result.value);
-				}
-				return source.read().then(collect);
-			}))
-		  .catch(error => console.error(error.stack));
+			  .then(function collect(result){
+					if (result.done){
+						var layer = me.addToMap(map, features, projcs);
+						if (callback) callback(layer);
+						return;
+					}else{
+						features.push(result.value);
+					}
+					return source.read().then(collect);
+				})
+			).catch(error => console.error(error.stack));
 	},
 	/**
 	 * @public

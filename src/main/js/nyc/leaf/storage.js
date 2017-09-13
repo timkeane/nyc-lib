@@ -50,15 +50,15 @@ nyc.leaf.storage.Local.prototype = {
 			 $.each(features, function(_, feature){
 				 var geom = feature.geometry;
 				 if (geom.type == 'Point'){
-					 geom.coordinates = proj4(dataProjection, 'EPSG:8357', geom.coordinates);
+					 geom.coordinates = proj4(dataProjection, 'EPSG:3857', geom.coordinates);
 				 }else if(geom.type == 'LineString'){
 					 $.each(geom.coordinates, function(i, coord){
-						 geom.coordinates[i] = roj4(dataProjection, 'EPSG:8357', coord);
+						 geom.coordinates[i] = proj4(dataProjection, 'EPSG:3857', coord);
 					 });
 				 }else if(geom.type == 'Ploygon'){
 					 $.each(geom.coordinates, function(_, coordinates){
 						 $.each(coordinates, function(i, coord){
-							 coordinates[i] = roj4(dataProjection, 'EPSG:8357', coord);
+							 coordinates[i] = proj4(dataProjection, 'EPSG:3857', coord);
 						 });
 					 });
 				 }
