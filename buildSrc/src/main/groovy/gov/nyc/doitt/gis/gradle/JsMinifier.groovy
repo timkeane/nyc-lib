@@ -12,6 +12,7 @@ import com.google.javascript.jscomp.SourceMap
 import org.gradle.api.GradleException
 import gov.nyc.doitt.nyc.gis.gradle.util.Util
 
+
 class JsMinifier {
 	public void minify(
 		String libName,
@@ -28,6 +29,8 @@ class JsMinifier {
         CompilerOptions opts = new CompilerOptions()
         File dir = new File(destinationDir);
         dir.mkdirs()
+		opts.setLanguageIn(CompilerOptions.LanguageMode.ECMASCRIPT6)
+		opts.setLanguageOut(CompilerOptions.LanguageMode.ECMASCRIPT3)
         opts.setExtraAnnotationNames(unkownJsDocTags)
         opts.setSourceMapOutputPath("${destinationDir}/${libName}.sourcemap.json")
 		CompilationLevel.valueOf(compilationLevel).setOptionsForCompilationLevel(opts)

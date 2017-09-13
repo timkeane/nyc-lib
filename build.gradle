@@ -323,6 +323,7 @@ task minifyJsOl(type: MiniJsTask) {
 	fileNames = olJsFiles
 	sourceDir = jsSrcDir
 	destinationDir = "${pkgDir}/js"
+	morerOptions = ['--language_in=ECMASCRIPT6']
 }
 minifyJsOl.doLast {
 	if (project.hasProperty('local.tile.host')){
