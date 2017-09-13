@@ -20,6 +20,7 @@ nyc.ol.Draw = function(options){
 	this.viewport = $(this.map.getViewport());
 	this.removed = [];
 	this.geoJson = new ol.format.GeoJSON();
+	this.storage = new nyc.ol.storage.Layer();
 	this.storeKey = document.location.href.replace(document.location.search, '') + 'nyc.ol.Draw.features';
 
 	this.restore();
@@ -162,6 +163,11 @@ nyc.ol.Draw.prototype = {
 	 * @member {number}
 	 */
 	accuracyLimit: 0,
+	/**
+	 * @private
+	 * @member {nyc.ol.storage.Layer}
+	 */
+	storage: null,
 	/**
 	 * @private
 	 * @member {string}
@@ -509,7 +515,7 @@ nyc.ol.Draw.prototype = {
 			me.btnMnu.controlgroup('refresh');
 		});
 		$(this.map.getTarget()).click($.proxy(me.btnMnu.slideUp, me.btnMnu));
-		if (nyc.storage.canDownload()){
+		if (this.storage.canDownload()){
 			me.saveBtn = viewport.find('.draw-mnu-btn.save');
 			me.saveBtn.click($.proxy(me.save, me));
 		}else{
@@ -522,7 +528,7 @@ nyc.ol.Draw.prototype = {
 	 * @method
 	 */
 	save: function(){
-		nyc.storage.saveToFile('drawing.json', this.getGeoJson());
+		this.storage.saveGeoJson('drawing.json', this.getGeoJson());
 	},
 	/**
 	 * @private
@@ -678,7 +684,7 @@ nyc.ol.Draw.prototype = {
 	store: function(){
 		var features = this.source.getFeatures();
 		if (features.length){
-			nyc.storage.setItem(
+			this.storage.setItem(
 				this.storeKey,
 				this.geoJson.writeFeatures(
 					features,
@@ -688,7 +694,7 @@ nyc.ol.Draw.prototype = {
 			this.saveBtn.show();
 			this.btnMnu.controlgroup('refresh');
 		}else{
-			nyc.storage.removeItem(this.storeKey);
+			this.storage.removeItem(this.storeKey);
 			this.saveBtn.hide();
 			this.btnMnu.controlgroup('refresh');
 		}
@@ -698,7 +704,7 @@ nyc.ol.Draw.prototype = {
 	 * @method
 	 */
 	restore: function(){
-		var me = this, features = nyc.storage.getItem(me.storeKey);
+		var me = this, features = me.storage.getItem(me.storeKey);
 		if (features){
 			features = me.geoJson.readFeatures(
 				features,

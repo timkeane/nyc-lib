@@ -1,11 +1,14 @@
 var nyc = nyc || {};
 
-nyc.storage = {
-	/**
-	 * @private
-	 * @member {string}
-	 */
-	EPSG_SERVICE_URL: 'http://prj2epsg.org/search.json?mode=wkt&terms=',
+/** 
+ * @public 
+ * @namespace
+ */
+nyc.storage = {};
+
+nyc.storage.Layer = function(){};
+
+nyc.storage.Layer.prototype = {
 	/**
 	 * @desc Check if download is available
 	 * @public
@@ -22,7 +25,7 @@ nyc.storage = {
 	 * @param {string} name File name
 	 * @param {string} data JSON data to write to file
 	 */
-	saveToFile: function(name, data){
+	saveGeoJson: function(name, data){
 		var href = 'data:application/json;charset=utf-8,' + encodeURIComponent(data);
 		var a = $('<a><img></a>');
 		$('body').append(a);
@@ -70,9 +73,9 @@ nyc.storage = {
 	 * @public
 	 * @function
 	 * @param {function} callback The callback function to receive file content
-	 * @param {string=} file File name
+	 * @param {File=} file File name
 	 */
-	openTextFile: function(callback, file){
+	readTextFile: function(callback, file){
 		var reader = new FileReader();
 		reader.onload = function(){
 			callback(reader.result);
@@ -91,13 +94,14 @@ nyc.storage = {
 	 * @desc Open a GeoJSON file from local disk
 	 * @public
 	 * @function
-	 * @param {ol.Map} map The map in which the data will be displayed
+	 * @param {ol.Map|L.Map} map The map in which the data will be displayed
 	 * @param {function=} callback The callback function to receive the added ol.vector.Layer
 	 * @param {string=} file File name
 	 */
-	openGeoJsonFile: function(map, callback, file){
-		nyc.storage.openTextFile(function(geoJson){
-			var layer = nyc.storage.addToMap(map, geoJson);
+	loadGeoJsonFile: function(map, callback, file){
+		var me = this;
+		me.readTextFile(function(geoJson){
+			var layer = me.addToMap(map, geoJson);
 			if (callback) callback(layer);
 		}, file);
 	},
@@ -105,12 +109,12 @@ nyc.storage = {
 	 * @desc Open a shapefile from local disk
 	 * @public
 	 * @function
-	 * @param {ol.Map} map The map in which the data will be displayed
+	 * @param {ol.Map|L.Map} map The map in which the data will be displayed
 	 * @param {function=} callback The callback function to receive the added ol.vector.Layer
 	 * @see https://github.com/mbostock/shapefile
 	 */
-	openShapeFile: function(map, callback){
-		var input = $('<input type="file" multiple>'), shp, dbf, prj;
+	loadShapeFile: function(map, callback){
+		var me = this, input = $('<input type="file" multiple>'), shp, dbf, prj;
 		input.change(function(event){
 			var files = event.target.files;
 			$.each(files, function(){
@@ -119,9 +123,8 @@ nyc.storage = {
 				else if (ext == '.dbf') dbf = this;
 				else if (ext == '.prj') prj = this;
 			});
-			console.info(shp,dbf,prj);
-			nyc.storage.readPrj(prj, function(epsg){
-				nyc.storage.readShpDbf(shp, dbf, callback);
+			me.readPrj(prj, function(projcs){
+				me.readShpDbf(map, shp, dbf, projcs, callback);
 			});
 		});
 		input.click();
@@ -134,7 +137,7 @@ nyc.storage = {
 	*/
 	readPrj: function(prj, callback){
 		if (prj){
-			callback();
+			this.readTextFile(callback, prj);
 		}else{
 			callback();
 		}
@@ -142,18 +145,20 @@ nyc.storage = {
 	/**
 	 * @private
 	 * @method
+	 * @param {ol.Map|L.Map} map
 	 * @param {File} shp
 	 * @param {File} dbf
+	 * @param {string} projcs
 	 * @param {function} callback
 	*/
-	readShpDbf: function(shp, dbf, callback){
-		var shpBuffer, dbfBuffer;
+	readShpDbf: function(map, shp, dbf, projcs, callback){
+		var me = this, shpBuffer, dbfBuffer;
 
 		var shpReader = new FileReader();
 		shpReader.onload = function(event){
 			shpBuffer = event.target.result;
-			if (dbfBuffer || files.length == 1){
-				nyc.storage.openShp(shpBuffer, dbfBuffer, callback);
+			if (dbfBuffer || !dbf){
+				me.readShp(map, shpBuffer, dbfBuffer, projcs, callback);
 			}
 		};
 
@@ -161,7 +166,7 @@ nyc.storage = {
 		dbfReader.onload = function(event){
 			dbfBuffer = event.target.result;
 			if (shpBuffer){
-				nyc.storage.openShp(shpBuffer, dbfBuffer, callback);
+				me.readShp(map, shpBuffer, dbfBuffer, projcs, callback);
 			}
 		};
 		
@@ -171,17 +176,18 @@ nyc.storage = {
 	/**
 	 * @private
 	 * @method
+	 * @param {ol.Map|L.Map} map
 	 * @param {string|ArrayBuffer} shp
 	 * @param {string|ArrayBuffer} dbf
 	 * @param {function} callback
 	*/
-	openShp: function(shp, dbf, callback){
-		var features = [];
+	readShp: function(map, shp, dbf, projcs, callback){
+		var me = this, features = [];
 		shapefile.open(shp, dbf)
 		  .then(source => source.read()
 		  .then(function collect(result){
 				if (result.done){
-					var layer = nyc.storage.addToMap(map, features);
+					var layer = me.addToMap(map, features, projcs);
 					if (callback) callback(layer);
 					return;
 				}else{
@@ -192,22 +198,27 @@ nyc.storage = {
 		  .catch(error => console.error(error.stack));
 	},
 	/**
+	 * @public
+	 * @abstract
+	 * @method
+	 * @param {ol.Map|L.Map} map
+	 * @param {string|Array<Object>} features
+	 * @param {string} projcs
+	 * @return {Object}
+	*/
+	addToMap: function(map, features, projcs){
+		throw 'Must be implemented';
+	},
+	/**
 	 * @private
 	 * @method
-	 * @param {ol.Map} map
-	 * @param {string|Array<Object>} features
-	  * @return {ol.layer.Vector}
+	 * @param {string} projcs
+	  * @return {string|undefined}
 	*/
-	addToMap: function(map, features){
-		var proj = map.getView().getProjection();
-		if (typeof features == 'object'){
-			features = {type: 'FeatureCollection', features: features};
+	customProj: function(projcs){
+		if (projcs){
+			proj4.defs('shp:prj', projcs);
+			return 'shp:prj';
 		}
-		features = new ol.format.GeoJSON({featureProjection: proj}).readFeatures(features);
-		var source = new ol.source.Vector();
-		var layer = new ol.layer.Vector({source: source});
-		source.addFeatures(features);
-		map.addLayer(layer);
-		return layer;
 	}
 };
