@@ -107,13 +107,28 @@ nyc.storage = {
 	 */
 	openShapeFile: function(map, callback, file) {
 		if (!file){
-			var input = $('<input type="file">');
+			var input = $('<input type="file" multiple>'), shp, dbf;
 			input.change(function(event){
-				var reader = new FileReader();
-				reader.onload = function(){
-					nyc.storage.openShp(callback, reader.result);
-				};
-				reader.readAsArrayBuffer(event.target.files[0]);
+				var files = event.target.files;
+				$.each(files, function(){
+					var reader = new FileReader(), name = this.name
+					if (name.indexOf('.shp') == name.length - 4){
+						reader.onload = function(event){
+							shp = event.target.result;
+							if (dbf || files.length == 1){
+								nyc.storage.openShp(shp, dbf, callback);
+							}
+						};
+					}else if (name.indexOf('.dbf') == name.length - 4){
+						reader.onload = function(event){
+							dbf = event.target.result;
+							if (shp){
+								nyc.storage.openShp(shp, dbf, callback);
+							}
+						};
+					}
+					reader.readAsArrayBuffer(this);
+				});
 			});
 			input.click();
 		}else{
@@ -123,12 +138,13 @@ nyc.storage = {
 	/**
 	 * @private
 	 * @method
+	 * @param {string|ArrayBuffer} shp
+	 * @param {string|ArrayBuffer} dbf
 	 * @param {function} callback
-	 * @param {string} file
 	*/
-	openShp: function(callback, file) {
+	openShp: function(shp, dbf, callback) {
 		var features = [];
-		shapefile.open(file)
+		shapefile.open(shp, dbf)
 		  .then(source => source.read()
 		  .then(function collect(result){
 				if (result.done){
