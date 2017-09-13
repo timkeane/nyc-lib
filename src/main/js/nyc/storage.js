@@ -6,9 +6,9 @@ var nyc = nyc || {};
  */
 nyc.storage = {};
 
-nyc.storage.Layer = function(){};
+nyc.storage.Local = function(){};
 
-nyc.storage.Layer.prototype = {
+nyc.storage.Local.prototype = {
 	/**
 	 * @desc Check if download is available
 	 * @public

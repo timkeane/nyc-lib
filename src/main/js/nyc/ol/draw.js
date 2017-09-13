@@ -20,7 +20,7 @@ nyc.ol.Draw = function(options){
 	this.viewport = $(this.map.getViewport());
 	this.removed = [];
 	this.geoJson = new ol.format.GeoJSON();
-	this.storage = new nyc.ol.storage.Layer();
+	this.storage = new nyc.ol.storage.Local();
 	this.storeKey = document.location.href.replace(document.location.search, '') + 'nyc.ol.Draw.features';
 
 	this.restore();
@@ -165,7 +165,7 @@ nyc.ol.Draw.prototype = {
 	accuracyLimit: 0,
 	/**
 	 * @private
-	 * @member {nyc.ol.storage.Layer}
+	 * @member {nyc.ol.storage.Local}
 	 */
 	storage: null,
 	/**

@@ -7,9 +7,9 @@ nyc.ol = nyc.ol || {};
  */
 nyc.ol.storage = {};
 
-nyc.ol.storage.Layer = function(){};
+nyc.ol.storage.Local = function(){};
 
-nyc.ol.storage.Layer.prototype = {
+nyc.ol.storage.Local.prototype = {
 	/**
 	 * @public
 	 * @abstract
@@ -36,4 +36,4 @@ nyc.ol.storage.Layer.prototype = {
 	}
 };
 
-nyc.inherits(nyc.ol.storage.Layer, nyc.storage.Layer);
+nyc.inherits(nyc.ol.storage.Local, nyc.storage.Local);

@@ -72,12 +72,7 @@
 	<button id="add-geojson" class="ctl-btn" data-role="button" onclick="storage.loadGeoJsonFile(map);">Add GeoJSON</button>
 	<button id="add-shp" class="ctl-btn" data-role="button" onclick="storage.loadShapeFile(map);">Add Shapefile</button>
 	<script>
-	
-	x=(function(){
-	return {"exact":true,"html_terms":"PROJCS[\"NAD83 / New York Long Island (ftUS)\", GEOGCS[\"NAD83\", DATUM[\"North American Datum 1983\", SPHEROID[\"GRS 1980\", 6378137.0, 298.257222101, AUTHORITY[\"EPSG\",\"7019\"]], TOWGS84[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], AUTHORITY[\"EPSG\",\"6269\"]], PRIMEM[\"Greenwich\", 0.0, AUTHORITY[\"EPSG\",\"8901\"]], UNIT[\"degree\", 0.017453292519943295], AXIS[\"Geodetic longitude\", EAST], AXIS[\"Geodetic latitude\", NORTH], AUTHORITY[\"EPSG\",\"4269\"]], PROJECTION[\"Lambert_Conformal_Conic_2SP\", AUTHORITY[\"EPSG\",\"9802\"]], PARAMETER[\"central_meridian\", -74.0], PARAMETER[\"latitude_of_origin\", 40.166666666666664], PARAMETER[\"standard_parallel_1\", 41.03333333333333], PARAMETER[\"false_easting\", 984250.0], PARAMETER[\"false_northing\", 0.0], PARAMETER[\"scale_factor\", 1.0], PARAMETER[\"standard_parallel_2\", 40.666666666666664], UNIT[\"foot_survey_us\", 0.30480060960121924], AXIS[\"Easting\", EAST], AXIS[\"Northing\", NORTH], AUTHORITY[\"EPSG\",\"2263\"]]","codes":[{"name":"NAD83 / New York Long Island (ftUS)","code":"2263","url":"http://prj2epsg.org/epsg/2263.json"}],"html_showResults":true};	
-	})()
-	
-		var storage = new nyc.ol.storage.Layer(), map;
+		var storage = new nyc.ol.storage.Local(), map;
 	
 		$(document).ready(function(){
 
@@ -94,30 +89,6 @@
 				locator: new nyc.ol.Locator({map: map})
 			});
 		});
-		
-		function test(){
-
-// 			$.getScript( 'http://prj2epsg.org/search.json?mode=wkt&terms=PROJCS[%22NAD83%20/%20New%20York%20Long%20Island%20(ftUS)%22,%20GEOGCS[%22NAD83%22,%20DATUM[%22North%20American%20Datum%201983%22,%20SPHEROID[%22GRS%201980%22,%206378137.0,%20298.257222101,%20AUTHORITY[%22EPSG%22,%227019%22]],%20TOWGS84[0.0,%200.0,%200.0,%200.0,%200.0,%200.0,%200.0],%20AUTHORITY[%22EPSG%22,%226269%22]],%20PRIMEM[%22Greenwich%22,%200.0,%20AUTHORITY[%22EPSG%22,%228901%22]],%20UNIT[%22degree%22,%200.017453292519943295],%20AXIS[%22Geodetic%20longitude%22,%20EAST],%20AXIS[%22Geodetic%20latitude%22,%20NORTH],%20AUTHORITY[%22EPSG%22,%224269%22]],%20PROJECTION[%22Lambert_Conformal_Conic_2SP%22,%20AUTHORITY[%22EPSG%22,%229802%22]],%20PARAMETER[%22central_meridian%22,%20-74.0],%20PARAMETER[%22latitude_of_origin%22,%2040.166666666666664],%20PARAMETER[%22standard_parallel_1%22,%2041.03333333333333],%20PARAMETER[%22false_easting%22,%20984250.0],%20PARAMETER[%22false_northing%22,%200.0],%20PARAMETER[%22scale_factor%22,%201.0],%20PARAMETER[%22standard_parallel_2%22,%2040.666666666666664],%20UNIT[%22foot_survey_us%22,%200.30480060960121924],%20AXIS[%22Easting%22,%20EAST],%20AXIS[%22Northing%22,%20NORTH],%20AUTHORITY[%22EPSG%22,%222263%22]]', function( data, textStatus, jqxhr ) {
-// 				  console.log( data ); // Data returned
-// 				  console.log( textStatus ); // Success
-// 				  console.log( jqxhr.status ); // 200
-// 				  console.log( "Load was performed." );
-// 				});   
-			
-			$.ajax({
-				url: 'http://prj2epsg.org/search.json?mode=wkt&terms=PROJCS[%22NAD83%20/%20New%20York%20Long%20Island%20(ftUS)%22,%20GEOGCS[%22NAD83%22,%20DATUM[%22North%20American%20Datum%201983%22,%20SPHEROID[%22GRS%201980%22,%206378137.0,%20298.257222101,%20AUTHORITY[%22EPSG%22,%227019%22]],%20TOWGS84[0.0,%200.0,%200.0,%200.0,%200.0,%200.0,%200.0],%20AUTHORITY[%22EPSG%22,%226269%22]],%20PRIMEM[%22Greenwich%22,%200.0,%20AUTHORITY[%22EPSG%22,%228901%22]],%20UNIT[%22degree%22,%200.017453292519943295],%20AXIS[%22Geodetic%20longitude%22,%20EAST],%20AXIS[%22Geodetic%20latitude%22,%20NORTH],%20AUTHORITY[%22EPSG%22,%224269%22]],%20PROJECTION[%22Lambert_Conformal_Conic_2SP%22,%20AUTHORITY[%22EPSG%22,%229802%22]],%20PARAMETER[%22central_meridian%22,%20-74.0],%20PARAMETER[%22latitude_of_origin%22,%2040.166666666666664],%20PARAMETER[%22standard_parallel_1%22,%2041.03333333333333],%20PARAMETER[%22false_easting%22,%20984250.0],%20PARAMETER[%22false_northing%22,%200.0],%20PARAMETER[%22scale_factor%22,%201.0],%20PARAMETER[%22standard_parallel_2%22,%2040.666666666666664],%20UNIT[%22foot_survey_us%22,%200.30480060960121924],%20AXIS[%22Easting%22,%20EAST],%20AXIS[%22Northing%22,%20NORTH],%20AUTHORITY[%22EPSG%22,%222263%22]]',
-				dataType: 'jsonp',
-// 				converters: {
-					
-// 				},
-// 				success: function(result){
-// 					console.info(arguments);
-// 				},
-				error: function(){
-					console.error(arguments);
-				}
-			});
-		};
 	</script>
 </body>
 </html>
