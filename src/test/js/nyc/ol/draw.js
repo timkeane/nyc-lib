@@ -8,7 +8,7 @@ QUnit.module('nyc.ol.Draw', {
 });
 
 QUnit.test('constructor (defaults)', function(assert){
-	assert.expect(25);
+	assert.expect(24);
 
 	var restore = nyc.ol.Draw.prototype.restore;
 	var createModify = nyc.ol.Draw.prototype.createModify;
@@ -47,7 +47,6 @@ QUnit.test('constructor (defaults)', function(assert){
 	assert.deepEqual(draw.mover.layer, draw.layer)
 	assert.notOk(draw.mover.getActive());
 	assert.deepEqual(draw.tracker.map, this.TEST_OL_MAP);
-	assert.equal(draw.tracker.layer.getZIndex(), 200);
 
 	draw.tracker.dispatchEvent({type: nyc.ol.Tracker.EventType.UPDATED, target: draw.tracker});
 
