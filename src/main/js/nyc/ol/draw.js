@@ -47,7 +47,6 @@ nyc.ol.Draw = function(options){
 	$(document).keyup($.proxy(this.keyUp, this));
 
 	this.tracker = new nyc.ol.Tracker({map: this.map});
-	this.tracker.layer.setZIndex(200);
 	this.tracker.on(nyc.ol.Tracker.EventType.UPDATED, this.updateTrack, this);
 };
 
