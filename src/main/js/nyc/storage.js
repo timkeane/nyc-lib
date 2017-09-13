@@ -153,7 +153,7 @@ nyc.storage = {
 		shpReader.onload = function(event){
 			shpBuffer = event.target.result;
 			if (dbfBuffer || files.length == 1){
-				nyc.storage.openShp(shp, dbfBuffer, callback);
+				nyc.storage.openShp(shpBuffer, dbfBuffer, callback);
 			}
 		};
 
