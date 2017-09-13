@@ -2,6 +2,11 @@ var nyc = nyc || {};
 
 nyc.storage = {
 	/**
+	 * @private
+	 * @member {string}
+	 */
+	EPSG_SERVICE_URL: 'http://prj2epsg.org/search.json?mode=wkt&terms=',
+	/**
 	 * @desc Check if download is available
 	 * @public
 	 * @function
@@ -31,7 +36,7 @@ nyc.storage = {
 	 * @param {string} key Storage key
 	 * @param {string} data Data to store
 	 */
-	setItem: function(key, data) {
+	setItem: function(key, data){
 		if ('localStorage' in window){
 			localStorage.setItem(key, data);
 		}
@@ -43,7 +48,7 @@ nyc.storage = {
 	 * @param {string} key Storage key
 	 * @return {string}
 	 */
-	getItem: function(key) {
+	getItem: function(key){
 		if ('localStorage' in window){
 			return localStorage.getItem(key);
 		}
@@ -55,7 +60,7 @@ nyc.storage = {
 	 * @param {string} key Storage key
 	 * @return {string}
 	 */
-	removeItem: function(key) {
+	removeItem: function(key){
 		if ('localStorage' in window){
 			return localStorage.removeItem(key);
 		}
@@ -67,7 +72,7 @@ nyc.storage = {
 	 * @param {function} callback The callback function to receive file content
 	 * @param {string=} file File name
 	 */
-	openTextFile: function(callback, file) {
+	openTextFile: function(callback, file){
 		var reader = new FileReader();
 		reader.onload = function(){
 			callback(reader.result);
@@ -90,7 +95,7 @@ nyc.storage = {
 	 * @param {function=} callback The callback function to receive the added ol.vector.Layer
 	 * @param {string=} file File name
 	 */
-	openGeoJsonFile: function(map, callback, file) {
+	openGeoJsonFile: function(map, callback, file){
 		nyc.storage.openTextFile(function(geoJson){
 			var layer = nyc.storage.addToMap(map, geoJson);
 			if (callback) callback(layer);
@@ -102,38 +107,66 @@ nyc.storage = {
 	 * @function
 	 * @param {ol.Map} map The map in which the data will be displayed
 	 * @param {function=} callback The callback function to receive the added ol.vector.Layer
-	 * @param {string=} file File name
 	 * @see https://github.com/mbostock/shapefile
 	 */
-	openShapeFile: function(map, callback, file) {
-		if (!file){
-			var input = $('<input type="file" multiple>'), shp, dbf;
-			input.change(function(event){
-				var files = event.target.files;
-				$.each(files, function(){
-					var reader = new FileReader(), name = this.name
-					if (name.indexOf('.shp') == name.length - 4){
-						reader.onload = function(event){
-							shp = event.target.result;
-							if (dbf || files.length == 1){
-								nyc.storage.openShp(shp, dbf, callback);
-							}
-						};
-					}else if (name.indexOf('.dbf') == name.length - 4){
-						reader.onload = function(event){
-							dbf = event.target.result;
-							if (shp){
-								nyc.storage.openShp(shp, dbf, callback);
-							}
-						};
-					}
-					reader.readAsArrayBuffer(this);
-				});
+	openShapeFile: function(map, callback){
+		var input = $('<input type="file" multiple>'), shp, dbf, prj;
+		input.change(function(event){
+			var files = event.target.files;
+			$.each(files, function(){
+				var ext = this.name.substr(name.length - 4);
+				if (ext == '.shp') shp = this;
+				else if (ext == '.dbf') dbf = this;
+				else if (ext == '.prj') prj = this;
 			});
-			input.click();
+			console.info(shp,dbf,prj);
+			nyc.storage.readPrj(prj, function(epsg){
+				nyc.storage.readShpDbf(shp, dbf, callback);
+			});
+		});
+		input.click();
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {File} prj
+	 * @param {function} callback
+	*/
+	readPrj: function(prj, callback){
+		if (prj){
+			callback();
 		}else{
-			nyc.storage.openShp(addToMap, file);
+			callback();
 		}
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {File} shp
+	 * @param {File} dbf
+	 * @param {function} callback
+	*/
+	readShpDbf: function(shp, dbf, callback){
+		var shpBuffer, dbfBuffer;
+
+		var shpReader = new FileReader();
+		shpReader.onload = function(event){
+			shpBuffer = event.target.result;
+			if (dbfBuffer || files.length == 1){
+				nyc.storage.openShp(shp, dbfBuffer, callback);
+			}
+		};
+
+		var dbfReader = new FileReader();
+		dbfReader.onload = function(event){
+			dbfBuffer = event.target.result;
+			if (shpBuffer){
+				nyc.storage.openShp(shpBuffer, dbfBuffer, callback);
+			}
+		};
+		
+		shpReader.readAsArrayBuffer(shp);
+		if (dbf) dbfReader.readAsArrayBuffer(dbf);
 	},
 	/**
 	 * @private
@@ -142,7 +175,7 @@ nyc.storage = {
 	 * @param {string|ArrayBuffer} dbf
 	 * @param {function} callback
 	*/
-	openShp: function(shp, dbf, callback) {
+	openShp: function(shp, dbf, callback){
 		var features = [];
 		shapefile.open(shp, dbf)
 		  .then(source => source.read()
@@ -165,7 +198,7 @@ nyc.storage = {
 	 * @param {string|Array<Object>} features
 	  * @return {ol.layer.Vector}
 	*/
-	addToMap: function(map, features) {
+	addToMap: function(map, features){
 		var proj = map.getView().getProjection();
 		if (typeof features == 'object'){
 			features = {type: 'FeatureCollection', features: features};
