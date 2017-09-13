@@ -74,6 +74,7 @@ ext {
 		'nyc/soda/query.js', 
 		'nyc/info/finder.js', 
 		'nyc/ol/ol.js', 
+		'nyc/ol/storage.js', 
 		'nyc/ol/north.js', 
 		'nyc/ol/tracker.js', 
 		'nyc/ol/style/style.js', 
