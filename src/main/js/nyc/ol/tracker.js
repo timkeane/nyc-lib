@@ -13,6 +13,41 @@ nyc.ol = nyc.ol || {};
  */
 nyc.ol.Tracker = function(options){
 	/**
+	 * @public
+	 * @member {ol.geom.LineString}
+	 */
+	this.track = null;
+	/**
+	 * @public
+	 * @member {Array<ol.Feature>}
+	 */
+	this.positions = null;
+	/**
+	 * @public
+	 * @member {number}
+	 */
+	this.maxPoints = options.maxPoints;
+	/**
+	 * @public
+	 * @member {boolean}
+	 */
+	this.recenter = options.recenter === undefined ? true : options.recenter;
+	/**
+	 * @public
+	 * @member {boolean}
+	 */
+	this.rotate = options.rotate === undefined ? true : options.rotate;
+	/**
+	 * @public
+	 * @member {number}
+	 */
+	this.startingZoomLevel = options.startingZoomLevel === undefined ? 16 : options.startingZoomLevel;
+	/**
+	 * @public
+	 * @member {boolean}
+	 */
+	this.currentZoomLevel = options.currentZoomLevel === undefined ? false : options.currentZoomLevel;
+	/**
 	 * @private
 	 * @member {ol.Map}
 	 */
@@ -22,16 +57,6 @@ nyc.ol.Tracker = function(options){
 	 * @member {ol.View}
 	 */
 	this.view = this.map.getView();
-	/**
-	 * @private
-	 * @member {number}
-	 */
-	this.maxPoints = options.maxPoints;
-	/**
-	 * @private
-	 * @member {boolean}
-	 */
-	this.recenter = options.recenter === undefined ? true : options.recenter;
 	/**
 	 * @private
 	 * @member {number}
@@ -49,29 +74,14 @@ nyc.ol.Tracker = function(options){
 	this.firstRun = true;
 	/**
 	 * @private
-	 * @member {ol.geom.LineString}
+	 * @member {JQuery}
 	 */
-	this.track = null;
-	/**
-	 * @private
-	 * @member {Array<ol.geom.Point>}
-	 */
-	this.positions = null;
+	this.img = $('<img>').hide();
 	/**
 	 * @private
 	 * @member {number}
 	 */
 	this.animationInterval = undefined;
-	/**
-	 * @private
-	 * @member {number}
-	 */
-	this.startingZoomLevel = options.startingZoomLevel === undefined ? 16 : options.startingZoomLevel;
-	/**
-	 * @private
-	 * @member {boolean}
-	 */
-	this.currentZoomLevel = options.currentZoomLevel === undefined ? false : options.currentZoomLevel;
 	/**
 	 * @private
 	 * @member {ol.format.GeoJSON}
@@ -95,33 +105,19 @@ nyc.ol.Tracker = function(options){
 	 * @member {string}
 	 */
 	this.positionsStore = appUrl + 'nyc.ol.Tracker.positions';
-	/**
-	 * @private
-	 * @member {ol.style.Style|Array<ol.style.Style>}
-	 */
-	this.style = options.style === undefined ? $.proxy(this.defaultStyle, this) : options.style;
-	/**
-	 * @private
-	 * @member {ol.Feature}
-	 */
-	this.currentPosition = new ol.Feature();
-	/**
-	 * @public
-	 * @member {ol.layer.Vector}
-	 */
-	this.layer = new ol.layer.Vector({visible: false});
-	
-	this.currentPosition.setStyle(this.style);
-	
-	var source = new ol.source.Vector();
-	this.layer.setSource(source);
-	source.addFeature(this.currentPosition);
-	this.map.addLayer(this.layer);
 
 	ol.Geolocation.call(this, {
 		projection: this.view.getProjection(),
 		trackingOptions: this.createTrackOpts(options.trackingOptions)
 	});
+
+	$('body').append(this.img);
+	this.markerOverlay = new ol.Overlay({
+		positioning: 'center-center',
+		element: this.img.get(0),
+		stopEvent: false
+	});
+	map.addOverlay(this.markerOverlay);
 
 	this.on('error', function(error){
 		console.error(error.message, arguments);
@@ -148,10 +144,10 @@ nyc.ol.Tracker.prototype.setTracking = function(tracking){
 			this.reset();
 		}
 		this.showNorth(true);
-		this.layer.setVisible(true);
+		this.img.show();
 	}else{
 		this.showNorth(false);
-		this.layer.setVisible(false);
+		this.img.hide();
 		if (!this.firstRun){
 			nyc.storage.removeItem(this.trackStore);
 			nyc.storage.removeItem(this.positionsStore);
@@ -198,7 +194,7 @@ nyc.ol.Tracker.prototype.updatePosition = function(){
 		var heading =  this.getHeading() || 0;
 		var speed =  this.getSpeed() || 0;
 		if (this.addPosition(position, accuracy, heading, Date.now(), speed)){
-			var positions = this.positions;
+			var positions = this.track.getCoordinates();
 			var len = positions.length;
 			if (len >= 2){
 				this.deltaMean = (positions[len - 1][3] - positions[0][3]) / (len - 1);
@@ -246,10 +242,7 @@ nyc.ol.Tracker.prototype.addPosition = function(position, accuracy, heading, m, 
 		if (this.maxPoints){
 			this.track.setCoordinates(this.track.getCoordinates().slice(-(this.maxPoints)));
 		}
-		
-		this.currentPosition.set('speed', speed);
-		this.currentPosition.set('heading', heading);
-		
+		this.marker(speed, heading);
 		this.store();
 		this.dispatchEvent({type: nyc.ol.Tracker.EventType.UPDATED, target: this});
 		return true;
@@ -325,6 +318,28 @@ nyc.ol.Tracker.prototype.restore = function(){
 /**
  * @private
  * @method
+ * @param {number} heading
+ * @param {number} speed
+ */
+nyc.ol.Tracker.prototype.marker = function(speed, heading){
+	if (speed){
+		this.img.attr('src', nyc.ol.Tracker.LOCATION_HEADING_IMG);
+		if (!this.rotate){
+			var transform = 'rotate(' + heading + 'rad)';
+			this.img.css({
+				transform: transform,
+				'-webkit-transform': transform,
+				'-ms-transform': transform
+			});
+		}
+	}else{
+		this.img.attr('src', nyc.ol.Tracker.LOCATION_IMG);
+	}
+};
+
+/**
+ * @private
+ * @method
  * @param {ol.Coordinate} position
  * @param {number} rotation
  * @param {number} zoom
@@ -354,9 +369,10 @@ nyc.ol.Tracker.prototype.animate = function(){
 	}
 
 	var start = positions[positions.length - 2];
+	var marker = me.markerOverlay;
 
 	if (!start){
-		me.currentPosition.setGeometry(new ol.geom.Point(end));
+		marker.setPosition(end);
 		me.updateView(end);
 	}else{
 		var m = start[3];
@@ -370,7 +386,7 @@ nyc.ol.Tracker.prototype.animate = function(){
 				p = end;
 				me.updateView(p);
 			}
-			me.currentPosition.setGeometry(new ol.geom.Point(p));
+			marker.setPosition(p);
 			m += step;
 		}, 100);
 	}
@@ -382,44 +398,35 @@ nyc.ol.Tracker.prototype.animate = function(){
  * @param {ol.Coordinate|ol.Feature} position
  */
 nyc.ol.Tracker.prototype.updateView = function(position){
-	var pIdx = this.positions.length - 1, zoom;
-	if ('getGeometry' in position){
-		position = position.getGeometry().getCoordinates();
-		zoom = this.startingZoomLevel;
-	}else if (!this.currentZoomLevel && pIdx == 0){
-		zoom = this.startingZoomLevel;
-	}
-	if (this.recenter && pIdx % 2 == 0){
+	var pIdx = this.positions.length - 1;
+	if (pIdx % 2 == 0){
+		var options;
+		if ('getGeometry' in position){
+			position = position.getGeometry().getCoordinates();
+			options = {zoom: this.startingZoomLevel};
+		}else if (!this.currentZoomLevel && pIdx == 0){
+			options = {zoom: this.startingZoomLevel};
+		}
+		if (this.recenter){
+			options = options || {};
+			options.center = this.getCenterWithHeading(position, -position[2], options.zoom);
+		}
+		if (this.rotate){
+			options = options || {};
+			options.rotation = -position[2];
+		}
 		this.view.cancelAnimations();
-		this.view.animate({
-			center: this.getCenterWithHeading(position, -position[2], zoom),
-			rotation: -position[2],
-			zoom: zoom
-		});
+		this.view.animate(options);
 	}
 };
 
 /**
  * @private
  * @method
- * @return {ol.style.Style}
+ * @param {number} n
  */
-nyc.ol.Tracker.prototype.defaultStyle = function(feature){
-	return new ol.style.Style({
-		image: new ol.style.Icon({
-			src: feature.get('speed') > 0 ? nyc.ol.Tracker.LOCATION_HEADING_IMG : nyc.ol.Tracker.LOCATION_IMG,
-			rotation: !this.recenter ? feature.get('heading') : undefined
-		})
-	});
-};
-
-/**
- * @private
- * @method
- * @param {number} heading
- */
-nyc.ol.Tracker.prototype.mod = function(heading){
-	return ((heading % (2 * Math.PI)) + (2 * Math.PI)) % (2 * Math.PI);
+nyc.ol.Tracker.prototype.mod = function(n){
+	return ((n % (2 * Math.PI)) + (2 * Math.PI)) % (2 * Math.PI);
 };
 
 /**
@@ -428,7 +435,8 @@ nyc.ol.Tracker.prototype.mod = function(heading){
  * @typedef {Object}
  * @property {ol.Map} map The map on which to track locations
  * @property {GeolocationPositionOptions=} trackingOptions Tracking options @see http://www.w3.org/TR/geolocation-API/#position_options_interface
- * @property {boolean} [recenter=true] Recenter on location change
+ * @property {boolean} [recenter=true] Recenter the view on location change
+ * @property {boolean} [rotate=true] Rotate the view on location change
  * @property {boolean} [showNorth=true] Show a north arrow on the map
  * @property {number} [maxPoints=0] The maximum number of points to retain in the track (0 = unlimited)
  * @property {number} [startingZoomLevel=16] The zoom for the view when tracking begins
