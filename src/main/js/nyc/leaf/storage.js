@@ -31,40 +31,19 @@ nyc.leaf.storage.Local.prototype = {
 		if (typeof features == 'string'){
 			features = JSON.parse(features);
 		}
+		features = features.features ? features.features : features;
 
-		this.project(features, dataProjection);
-		features = {type: 'FeatureCollection', features: features};
-
-		var layer = L.geoJSON(features);
+		var layer = L.geoJSON(features, {
+			coordsToLatLng: function(coord){
+	 		 if (dataProjection){
+	 			 coord = proj4(dataProjection, 'EPSG:4326', coord);
+	 		 }
+	 		 return [coord[1], coord[0], coord[2]];
+	 	 }
+		});
 		map.addLayer(layer);
 		return layer;
-	},
-	/**
-	 * @private
-	 * @method
-	 * @param {Array<Object>}
-	 * @param {string} dataProjection
-	 */
-	 project: function(features, dataProjection){
-		 if (dataProjection){
-			 $.each(features, function(_, feature){
-				 var geom = feature.geometry;
-				 if (geom.type == 'Point'){
-					 geom.coordinates = proj4(dataProjection, 'EPSG:3857', geom.coordinates);
-				 }else if(geom.type == 'LineString'){
-					 $.each(geom.coordinates, function(i, coord){
-						 geom.coordinates[i] = proj4(dataProjection, 'EPSG:3857', coord);
-					 });
-				 }else if(geom.type == 'Ploygon'){
-					 $.each(geom.coordinates, function(_, coordinates){
-						 $.each(coordinates, function(i, coord){
-							 coordinates[i] = proj4(dataProjection, 'EPSG:3857', coord);
-						 });
-					 });
-				 }
-			 });
-		 }
-	 }
+	}
 };
 
 nyc.inherits(nyc.leaf.storage.Local, nyc.storage.Local);
