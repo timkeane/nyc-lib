@@ -53,7 +53,7 @@ nyc.ol.Draw = function(options){
 
 nyc.ol.Draw.prototype = {
 	/**
-	 * @desc The tracker used to draw based on device geolocation 
+	 * @desc The tracker used to draw based on device geolocation
 	 * @public
 	 * @member {nyc.ol.Tracker}
 	 */
@@ -186,9 +186,7 @@ nyc.ol.Draw.prototype = {
 	 */
 	setGpsAccuracyLimit: function(limit){
 		this.accuracyLimit = limit;
-		if (this.tracker){
-			this.tracker.accuracyLimit = limit;
-		}
+		this.tracker.accuracyLimit = limit;
 	},
 	/**
 	 * @desc Return the active state

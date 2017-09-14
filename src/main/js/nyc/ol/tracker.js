@@ -29,6 +29,11 @@ nyc.ol.Tracker = function(options){
 	this.maxPoints = options.maxPoints;
 	/**
 	 * @public
+	 * @member {number}
+	 */
+	this.accuracyLimit = options.accuracyLimit === undefined ? 0 : options.accuracyLimit;
+	/**
+	 * @public
 	 * @member {boolean}
 	 */
 	this.recenter = options.recenter === undefined ? true : options.recenter;
@@ -87,6 +92,11 @@ nyc.ol.Tracker = function(options){
 	 * @member {ol.format.GeoJSON}
 	 */
 	this.geoJson = new ol.format.GeoJSON();
+	/**
+	 * @private
+	 * @member {nyc.ol.storage.Local}
+	 */
+	this.storage = new nyc.ol.storage.Local();
 	/**
 	 * @private
 	 * @member {nyc.ol.NorthArrow}
@@ -149,8 +159,8 @@ nyc.ol.Tracker.prototype.setTracking = function(tracking){
 		this.showNorth(false);
 		this.img.hide();
 		if (!this.firstRun){
-			nyc.storage.removeItem(this.trackStore);
-			nyc.storage.removeItem(this.positionsStore);
+			this.storage.removeItem(this.trackStore);
+			this.storage.removeItem(this.positionsStore);
 		}
 	}
 	ol.Geolocation.prototype.setTracking.call(this, tracking);
@@ -254,14 +264,14 @@ nyc.ol.Tracker.prototype.addPosition = function(position, accuracy, heading, m, 
  * @method
  */
 nyc.ol.Tracker.prototype.store = function(){
-	nyc.storage.setItem(
+	this.storage.setItem(
 		this.trackStore,
 		this.geoJson.writeGeometry(
 			this.track,
 			{featureProjection: this.view.getProjection()}
 		)
 	);
-	nyc.storage.setItem(
+	this.storage.setItem(
 		this.positionsStore,
 		this.geoJson.writeFeatures(
 			this.positions,
@@ -286,8 +296,8 @@ nyc.ol.Tracker.prototype.reset = function(){
  */
 nyc.ol.Tracker.prototype.restore = function(){
 	var me = this;
-	var track = nyc.storage.getItem(me.trackStore);
-	var positions = nyc.storage.getItem(me.positionsStore);
+	var track = me.storage.getItem(me.trackStore);
+	var positions = me.storage.getItem(me.positionsStore);
 	if (track){
 		var dia = new nyc.Dialog();
 		dia.yesNo({
