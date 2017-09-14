@@ -117,7 +117,7 @@ nyc.ol.Tracker = function(options){
 		element: this.img.get(0),
 		stopEvent: false
 	});
-	map.addOverlay(this.markerOverlay);
+	this.map.addOverlay(this.markerOverlay);
 
 	this.on('error', function(error){
 		console.error(error.message, arguments);
