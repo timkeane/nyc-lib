@@ -211,7 +211,7 @@ QUnit.test('activate (nyc.ol.Draw.Type.NONE)', function(assert){
 		map: this.TEST_OL_MAP
 	});
 
-	draw.deactivate = function(){assert.ok(true);}
+	draw.deactivate = function(){assert.ok(true);};
 
 	assert.notOk(draw.type);
 
@@ -223,14 +223,20 @@ QUnit.test('activate (nyc.ol.Draw.Type.NONE)', function(assert){
 });
 
 QUnit.test('activate (nyc.ol.Draw.Type.POINT)', function(assert){
-	assert.expect(5);
+	assert.expect(6);
+
+	var actualEvents = [];
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
 	});
 
-	draw.deactivate = function(){assert.ok(true);}
+	draw.deactivate = function(){assert.ok(true);};
+	draw.triggerFeatureEvent = function(event){
+		actualEvents.push(event);
+	};
 
+	assert.notOk(draw.drawer);
 	assert.notOk(draw.type);
 
 	draw.activate(nyc.ol.Draw.Type.POINT);
@@ -241,14 +247,15 @@ QUnit.test('activate (nyc.ol.Draw.Type.POINT)', function(assert){
 });
 
 QUnit.test('activate (nyc.ol.Draw.Type.LINE)', function(assert){
-	assert.expect(5);
+	assert.expect(6);
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
 	});
 
-	draw.deactivate = function(){assert.ok(true);}
+	draw.deactivate = function(){assert.ok(true);};
 
+	assert.notOk(draw.drawer);
 	assert.notOk(draw.type);
 
 	draw.activate(nyc.ol.Draw.Type.LINE);
@@ -259,68 +266,72 @@ QUnit.test('activate (nyc.ol.Draw.Type.LINE)', function(assert){
 });
 
 QUnit.test('activate (nyc.ol.Draw.Type.POLYGON)', function(assert){
-	assert.expect(5);
+	assert.expect(6);
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
 	});
 
-	draw.deactivate = function(){assert.ok(true);}
+	draw.deactivate = function(){assert.ok(true);};
 
-		assert.notOk(draw.type);
+	assert.notOk(draw.drawer);
+	assert.notOk(draw.type);
 
-		draw.activate(nyc.ol.Draw.Type.POLYGON);
-		assert.equal(draw.type, nyc.ol.Draw.Type.POLYGON);
+	draw.activate(nyc.ol.Draw.Type.POLYGON);
+	assert.equal(draw.type, nyc.ol.Draw.Type.POLYGON);
 
-		assert.ok($.inArray(draw.drawer, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
-		assert.ok($.inArray(draw.modify, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
+	assert.ok($.inArray(draw.drawer, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
+	assert.ok($.inArray(draw.modify, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
 });
 
 QUnit.test('activate (nyc.ol.Draw.Type.CIRCLE)', function(assert){
-	assert.expect(5);
+	assert.expect(6);
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
 	});
 
-	draw.deactivate = function(){assert.ok(true);}
+	draw.deactivate = function(){assert.ok(true);};
 
-		assert.notOk(draw.type);
+	assert.notOk(draw.drawer);
+	assert.notOk(draw.type);
 
-		draw.activate(nyc.ol.Draw.Type.CIRCLE);
-		assert.equal(draw.type, nyc.ol.Draw.Type.CIRCLE);
+	draw.activate(nyc.ol.Draw.Type.CIRCLE);
+	assert.equal(draw.type, nyc.ol.Draw.Type.CIRCLE);
 
-		assert.ok($.inArray(draw.drawer, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
-		assert.ok($.inArray(draw.modify, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
+	assert.ok($.inArray(draw.drawer, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
+	assert.ok($.inArray(draw.modify, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
 });
 
 QUnit.test('activate (nyc.ol.Draw.Type.SQUARE)', function(assert){
-	assert.expect(5);
+	assert.expect(6);
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
 	});
 
-	draw.deactivate = function(){assert.ok(true);}
+	draw.deactivate = function(){assert.ok(true);};
 
-		assert.notOk(draw.type);
+	assert.notOk(draw.drawer);
+	assert.notOk(draw.type);
 
-		draw.activate(nyc.ol.Draw.Type.SQUARE);
-		assert.equal(draw.type, nyc.ol.Draw.Type.SQUARE);
+	draw.activate(nyc.ol.Draw.Type.SQUARE);
+	assert.equal(draw.type, nyc.ol.Draw.Type.SQUARE);
 
-		assert.ok($.inArray(draw.drawer, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
-		assert.ok($.inArray(draw.modify, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
+	assert.ok($.inArray(draw.drawer, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
+	assert.ok($.inArray(draw.modify, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
 });
 
 QUnit.test('activate (nyc.ol.Draw.Type.BOX)', function(assert){
-	assert.expect(5);
+	assert.expect(6);
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
 	});
 
-	draw.deactivate = function(){assert.ok(true);}
+	draw.deactivate = function(){assert.ok(true);};
 
+	assert.notOk(draw.drawer);
 	assert.notOk(draw.type);
 
 	draw.activate(nyc.ol.Draw.Type.BOX);
@@ -331,14 +342,15 @@ QUnit.test('activate (nyc.ol.Draw.Type.BOX)', function(assert){
 });
 
 QUnit.test('activate (nyc.ol.Draw.Type.FREE)', function(assert){
-	assert.expect(5);
+	assert.expect(6);
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
 	});
 
-	draw.deactivate = function(){assert.ok(true);}
+	draw.deactivate = function(){assert.ok(true);};
 
+	assert.notOk(draw.drawer);
 	assert.notOk(draw.type);
 
 	draw.activate(nyc.ol.Draw.Type.FREE);
@@ -349,14 +361,15 @@ QUnit.test('activate (nyc.ol.Draw.Type.FREE)', function(assert){
 });
 
 QUnit.test('activate (nyc.ol.Draw.Type.GPS)', function(assert){
-	assert.expect(5);
+	assert.expect(6);
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
 	});
 
-	draw.deactivate = function(){assert.ok(true);}
+	draw.deactivate = function(){assert.ok(true);};
 
+	assert.notOk(draw.drawer);
 	assert.notOk(draw.type);
 
 	draw.activate(nyc.ol.Draw.Type.GPS);

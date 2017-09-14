@@ -211,7 +211,6 @@ nyc.ol.Draw.prototype = {
 		me.type = type;
 		if (type != nyc.ol.Draw.Type.NONE){
 			var geometryFunction, maxPoints;
-			$('draw-ctx-mnu').addClass(type);
 			me.source.on('addfeature', me.triggerFeatureEvent, me);
 			me.source.on('changefeature', me.triggerFeatureEvent, me);
 			if (type == nyc.ol.Draw.Type.GPS || type == nyc.ol.Draw.Type.FREE){
