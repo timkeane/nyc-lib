@@ -324,10 +324,12 @@ nyc.ol.Draw.prototype = {
 	 * @method
 	 */
 	createModify: function(){
-		this.modify = new ol.interaction.Modify({
+		var options = {
 			features: this.features,
 			deleteCondition: $.proxy(this.deleteCondition, this)
-		});
+		};
+		this.modify = new ol.interaction.Modify(options);
+		this.modify.setProperties(options); //for testing to ensure proper args were used
 	},
 	/**
 	 * @private

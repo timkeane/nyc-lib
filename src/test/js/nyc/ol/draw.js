@@ -856,7 +856,7 @@ QUnit.test('deactivate (drawing)', function(assert){
 		assert.notOk(true);
 	};
 
-	draw.active(nyc.ol.Draw.Type.CIRCLE);
+	draw.activate(nyc.ol.Draw.Type.CIRCLE);
 	draw.mnuBtn.addClass('point line polygon circle square box free gps');
 
 	draw.deactivate();
@@ -876,4 +876,313 @@ QUnit.test('deactivate (drawing)', function(assert){
 	//make sure event handler is disconnected
 	draw.source.addFeature(feature);
 	feature.set('changed', true);
+});
+
+QUnit.test('deactivate (tracking)', function(assert){
+	assert.expect(14);
+
+	var feature = new ol.Feature({geometry: new ol.geom.Point([1, 2])});
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.closePolygon = function(eventType, feature){
+		assert.equal(eventType, nyc.ol.FeatureEventType.CHANGE);
+		assert.deepEqual(feature, draw.gpsTrack);
+	};
+
+	draw.activate(nyc.ol.Draw.Type.GPS);
+	draw.mnuBtn.addClass('point line polygon circle square box free gps');
+
+	draw.triggerFeatureEvent = function(event){
+		assert.notOk(true);
+	};
+
+	draw.deactivate();
+
+	assert.notOk(draw.type);
+	assert.notOk(draw.tracker.getTracking());
+	assert.notOk(draw.mnuBtn.hasClass('point'));
+	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('polygon'));
+	assert.notOk(draw.mnuBtn.hasClass('circle'));
+	assert.notOk(draw.mnuBtn.hasClass('square'));
+	assert.notOk(draw.mnuBtn.hasClass('box'));
+	assert.notOk(draw.mnuBtn.hasClass('free'));
+	assert.notOk(draw.mnuBtn.hasClass('gps'));
+	assert.notOk(draw.drawer);
+	assert.notOk($.inArray(draw.modify, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
+
+	//make sure event handler is disconnected
+	draw.source.addFeature(feature);
+	feature.set('changed', true);
+});
+
+QUnit.test('createModify', function(assert){
+	assert.expect(2);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	this.TEST_OL_MAP.removeInteraction(draw.modify);
+	delete draw.modify;
+
+	var deleteCondition = function(){/* mock deleteCondition proxy */};
+	var proxy = $.proxy;
+	$.proxy = function(fn, scope){
+		if (fn === draw.deleteCondition && scope == draw){
+			return deleteCondition;
+		}
+		return proxy(fn, scope);
+	};
+
+	draw.createModify();
+
+	assert.ok(draw.modify.getProperties().features === draw.features);
+	assert.ok(draw.modify.getProperties().deleteCondition === deleteCondition);
+
+	$.proxy = proxy;
+});
+
+QUnit.test('boxGeometry', function(assert){
+	assert.expect(14);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	var box;
+	var start = [0, 1];
+	var end = [1, 2];
+
+	box = draw.boxGeometry([start, end], box);
+	assert.equal(box.getCoordinates().length, 1);
+	assert.equal(box.getCoordinates()[0].length, 5);
+	assert.deepEqual(box.getCoordinates()[0][0], start);
+	assert.deepEqual(box.getCoordinates()[0][1], [start[0], end[1]]);
+	assert.deepEqual(box.getCoordinates()[0][2], end);
+	assert.deepEqual(box.getCoordinates()[0][3], [end[0], start[1]]);
+	assert.deepEqual(box.getCoordinates()[0][4], start);
+
+	start = [10, 20];
+	end = [30, 40];
+
+	box = draw.boxGeometry([start, end], box);
+	assert.equal(box.getCoordinates().length, 1);
+	assert.equal(box.getCoordinates()[0].length, 5);
+	assert.deepEqual(box.getCoordinates()[0][0], start);
+	assert.deepEqual(box.getCoordinates()[0][1], [start[0], end[1]]);
+	assert.deepEqual(box.getCoordinates()[0][2], end);
+	assert.deepEqual(box.getCoordinates()[0][3], [end[0], start[1]]);
+	assert.deepEqual(box.getCoordinates()[0][4], start);
+});
+
+QUnit.test('deleteCondition', function(assert){
+	assert.expect(5);
+
+	var singleClick = ol.events.condition.singleClick;
+	var noModifierKeys = ol.events.condition.noModifierKeys;
+	ol.events.condition.singleClick = function(event){
+		return event.singleClick;
+	};
+	ol.events.condition.noModifierKeys = function(event){
+		return event.noModifierKeys;
+	};
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.escape = function(){
+		assert.ok(true);
+	};
+
+	assert.notOk(draw.deleteCondition({singleClick: false, noModifierKeys: false}));
+	assert.notOk(draw.deleteCondition({singleClick: true, noModifierKeys: false}));
+	assert.ok(draw.deleteCondition({singleClick: true, noModifierKeys: true}));
+	assert.notOk(draw.deleteCondition({singleClick: false, noModifierKeys: true}));
+
+	ol.events.condition.singleClick = singleClick;
+	ol.events.condition.noModifierKeys = noModifierKeys;
+});
+
+QUnit.test('drawCondition', function(assert){
+	assert.expect(20);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	var div = $('<div></div>');
+	var originalEvent = {target: div};
+
+	originalEvent.button = 1;
+	originalEvent.shiftKey = false;
+	div.removeClass('draw-mnu-btn');
+	draw.mover.setActive(false);
+	assert.ok(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 2;
+	originalEvent.shiftKey = false;
+	div.removeClass('draw-mnu-btn');
+	draw.mover.setActive(false);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 2;
+	originalEvent.shiftKey = true;
+	div.removeClass('draw-mnu-btn');
+	draw.mover.setActive(false);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 2;
+	originalEvent.shiftKey = true;
+	div.addClass('draw-mnu-btn');
+	draw.mover.setActive(false);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 2;
+	originalEvent.shiftKey = true;
+	div.addClass('draw-mnu-btn');
+	draw.mover.setActive(true);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 1;
+	originalEvent.shiftKey = true;
+	div.removeClass('draw-mnu-btn');
+	draw.mover.setActive(false);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 1;
+	originalEvent.shiftKey = false;
+	div.addClass('draw-mnu-btn');
+	draw.mover.setActive(false);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 1;
+	originalEvent.shiftKey = false;
+	div.removeClass('draw-mnu-btn');
+	draw.mover.setActive(true);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 1;
+	originalEvent.shiftKey = true;
+	div.removeClass('draw-mnu-btn');
+	draw.mover.setActive(false);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 2;
+	originalEvent.shiftKey = true;
+	div.removeClass('draw-mnu-btn');
+	draw.mover.setActive(false);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 2;
+	originalEvent.shiftKey = true;
+	div.addClass('draw-mnu-btn');
+	draw.mover.setActive(false);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 2;
+	originalEvent.shiftKey = true;
+	div.addClass('draw-mnu-btn');
+	draw.mover.setActive(true);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 1;
+	originalEvent.shiftKey = false;
+	div.addClass('draw-mnu-btn');
+	draw.mover.setActive(false);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 2;
+	originalEvent.shiftKey = false;
+	div.addClass('draw-mnu-btn');
+	draw.mover.setActive(false);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 2;
+	originalEvent.shiftKey = true;
+	div.addClass('draw-mnu-btn');
+	draw.mover.setActive(false);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 2;
+	originalEvent.shiftKey = true;
+	div.addClass('draw-mnu-btn');
+	draw.mover.setActive(true);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 1;
+	originalEvent.shiftKey = false;
+	div.removeClass('draw-mnu-btn');
+	draw.mover.setActive(true);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 1;
+	originalEvent.shiftKey = false;
+	div.addClass('draw-mnu-btn');
+	draw.mover.setActive(true);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 1;
+	originalEvent.shiftKey = true;
+	div.addClass('draw-mnu-btn');
+	draw.mover.setActive(true);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+
+	originalEvent.button = 2;
+	originalEvent.shiftKey = true;
+	div.addClass('draw-mnu-btn');
+	draw.mover.setActive(true);
+	assert.notOk(draw.drawCondition({originalEvent: originalEvent}));
+});
+
+QUnit.test('freehandCondition', function(assert){
+	assert.expect(18);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.drawCondition = function(mapEvt){
+		return mapEvt.condition;
+	};
+
+	draw.type = nyc.ol.Draw.Type.NONE;
+	assert.notOk(draw.freehandCondition({condition: false}));
+	assert.notOk(draw.freehandCondition({condition: true}));
+
+	draw.type = nyc.ol.Draw.Type.POINT;
+	assert.notOk(draw.freehandCondition({condition: false}));
+	assert.notOk(draw.freehandCondition({condition: true}));
+
+	draw.type = nyc.ol.Draw.Type.LINE;
+	assert.notOk(draw.freehandCondition({condition: false}));
+	assert.notOk(draw.freehandCondition({condition: true}));
+
+	draw.type = nyc.ol.Draw.Type.POLYGON;
+	assert.notOk(draw.freehandCondition({condition: false}));
+	assert.notOk(draw.freehandCondition({condition: true}));
+
+	draw.type = nyc.ol.Draw.Type.CIRCLE;
+	assert.notOk(draw.freehandCondition({condition: false}));
+	assert.notOk(draw.freehandCondition({condition: true}));
+
+	draw.type = nyc.ol.Draw.Type.SQUARE;
+	assert.notOk(draw.freehandCondition({condition: false}));
+	assert.notOk(draw.freehandCondition({condition: true}));
+
+	draw.type = nyc.ol.Draw.Type.BOX;
+	assert.notOk(draw.freehandCondition({condition: false}));
+	assert.notOk(draw.freehandCondition({condition: true}));
+
+	draw.type = nyc.ol.Draw.Type.GPS;
+	assert.notOk(draw.freehandCondition({condition: false}));
+	assert.notOk(draw.freehandCondition({condition: true}));
+
+	draw.type = nyc.ol.Draw.Type.FREE;
+	assert.notOk(draw.freehandCondition({condition: false}));
+	assert.ok(draw.freehandCondition({condition: true}));
 });
