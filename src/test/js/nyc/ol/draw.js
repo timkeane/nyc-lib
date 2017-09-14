@@ -223,13 +223,27 @@ QUnit.test('activate (nyc.ol.Draw.Type.NONE)', function(assert){
 });
 
 QUnit.test('activate (nyc.ol.Draw.Type.POINT)', function(assert){
-	assert.expect(6);
+	assert.expect(17);
 
+	var feature = new ol.Feature({geometry: new ol.geom.Point([1, 2])});
 	var actualEvents = [];
+	var drawCondition = function(){/* mock-condition-proxy */};
+	var mockFreehandCondition = function(){/* mock-freehandCondition-proxy */};
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
 	});
+
+	var proxy = $.proxy;
+	$.proxy = function(fn, scope){
+		if (fn === draw.drawCondition && scope == draw){
+			return drawCondition;
+		}
+		if (fn === draw.freehandCondition && scope == draw){
+			return mockFreehandCondition;
+		}
+		return proxy(fn, scope);
+	};
 
 	draw.deactivate = function(){assert.ok(true);};
 	draw.triggerFeatureEvent = function(event){
@@ -241,140 +255,420 @@ QUnit.test('activate (nyc.ol.Draw.Type.POINT)', function(assert){
 
 	draw.activate(nyc.ol.Draw.Type.POINT);
 	assert.equal(draw.type, nyc.ol.Draw.Type.POINT);
+	assert.deepEqual(draw.drawer.getProperties().condition, drawCondition);
+	assert.deepEqual(draw.drawer.getProperties().freehandCondition, mockFreehandCondition);
+	assert.equal(draw.drawer.getProperties().type, nyc.ol.Draw.Type.POINT);
+	assert.notOk(draw.drawer.getProperties().geometryFunction);
+	assert.notOk(draw.drawer.getProperties().maxPoints);
 
 	assert.ok($.inArray(draw.drawer, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
 	assert.ok($.inArray(draw.modify, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
+
+	draw.source.addFeature(feature);
+	assert.equal(actualEvents.length, 1);
+	assert.equal(actualEvents[0].type, 'addfeature');
+	assert.deepEqual(actualEvents[0].feature, feature);
+
+	feature.set('changed', true);
+	assert.equal(actualEvents.length, 2);
+	assert.equal(actualEvents[1].type, 'changefeature');
+	assert.deepEqual(actualEvents[1].feature, feature);
+
+	$.proxy = proxy;
 });
 
 QUnit.test('activate (nyc.ol.Draw.Type.LINE)', function(assert){
-	assert.expect(6);
+	assert.expect(17);
+
+	var feature = new ol.Feature({geometry: new ol.geom.LineString([[1, 2], [3, 4]])});
+	var actualEvents = [];
+	var drawCondition = function(){/* mock-condition-proxy */};
+	var mockFreehandCondition = function(){/* mock-freehandCondition-proxy */};
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
 	});
 
+	var proxy = $.proxy;
+	$.proxy = function(fn, scope){
+		if (fn === draw.drawCondition && scope == draw){
+			return drawCondition;
+		}
+		if (fn === draw.freehandCondition && scope == draw){
+			return mockFreehandCondition;
+		}
+		return proxy(fn, scope);
+	};
+
 	draw.deactivate = function(){assert.ok(true);};
+	draw.triggerFeatureEvent = function(event){
+		actualEvents.push(event);
+	};
 
 	assert.notOk(draw.drawer);
 	assert.notOk(draw.type);
 
 	draw.activate(nyc.ol.Draw.Type.LINE);
 	assert.equal(draw.type, nyc.ol.Draw.Type.LINE);
+	assert.deepEqual(draw.drawer.getProperties().condition, drawCondition);
+	assert.deepEqual(draw.drawer.getProperties().freehandCondition, mockFreehandCondition);
+	assert.equal(draw.drawer.getProperties().type, nyc.ol.Draw.Type.LINE);
+	assert.notOk(draw.drawer.getProperties().geometryFunction);
+	assert.notOk(draw.drawer.getProperties().maxPoints);
 
 	assert.ok($.inArray(draw.drawer, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
 	assert.ok($.inArray(draw.modify, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
+
+	draw.source.addFeature(feature);
+	assert.equal(actualEvents.length, 1);
+	assert.equal(actualEvents[0].type, 'addfeature');
+	assert.deepEqual(actualEvents[0].feature, feature);
+
+	feature.set('changed', true);
+	assert.equal(actualEvents.length, 2);
+	assert.equal(actualEvents[1].type, 'changefeature');
+	assert.deepEqual(actualEvents[1].feature, feature);
+
+	$.proxy = proxy;
 });
 
 QUnit.test('activate (nyc.ol.Draw.Type.POLYGON)', function(assert){
-	assert.expect(6);
+	assert.expect(17);
+
+	var feature = new ol.Feature({geometry: new ol.geom.Polygon([[1, 2], [3, 4], [5, 6], [1, 2]])});
+	var actualEvents = [];
+	var drawCondition = function(){/* mock-condition-proxy */};
+	var mockFreehandCondition = function(){/* mock-freehandCondition-proxy */};
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
 	});
 
+	var proxy = $.proxy;
+	$.proxy = function(fn, scope){
+		if (fn === draw.drawCondition && scope == draw){
+			return drawCondition;
+		}
+		if (fn === draw.freehandCondition && scope == draw){
+			return mockFreehandCondition;
+		}
+		return proxy(fn, scope);
+	};
+
 	draw.deactivate = function(){assert.ok(true);};
+	draw.triggerFeatureEvent = function(event){
+		actualEvents.push(event);
+	};
 
 	assert.notOk(draw.drawer);
 	assert.notOk(draw.type);
 
 	draw.activate(nyc.ol.Draw.Type.POLYGON);
 	assert.equal(draw.type, nyc.ol.Draw.Type.POLYGON);
+	assert.deepEqual(draw.drawer.getProperties().condition, drawCondition);
+	assert.deepEqual(draw.drawer.getProperties().freehandCondition, mockFreehandCondition);
+	assert.equal(draw.drawer.getProperties().type, nyc.ol.Draw.Type.POLYGON);
+	assert.notOk(draw.drawer.getProperties().geometryFunction);
+	assert.notOk(draw.drawer.getProperties().maxPoints);
 
 	assert.ok($.inArray(draw.drawer, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
 	assert.ok($.inArray(draw.modify, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
+
+	draw.source.addFeature(feature);
+	assert.equal(actualEvents.length, 1);
+	assert.equal(actualEvents[0].type, 'addfeature');
+	assert.deepEqual(actualEvents[0].feature, feature);
+
+	feature.set('changed', true);
+	assert.equal(actualEvents.length, 2);
+	assert.equal(actualEvents[1].type, 'changefeature');
+	assert.deepEqual(actualEvents[1].feature, feature);
+
+	$.proxy = proxy;
 });
 
 QUnit.test('activate (nyc.ol.Draw.Type.CIRCLE)', function(assert){
-	assert.expect(6);
+	assert.expect(17);
+
+	var feature = new ol.Feature({geometry: new ol.geom.Circle([1, 2], 1)});
+	var actualEvents = [];
+	var drawCondition = function(){/* mock-condition-proxy */};
+	var mockFreehandCondition = function(){/* mock-freehandCondition-proxy */};
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
 	});
 
+	var proxy = $.proxy;
+	$.proxy = function(fn, scope){
+		if (fn === draw.drawCondition && scope == draw){
+			return drawCondition;
+		}
+		if (fn === draw.freehandCondition && scope == draw){
+			return mockFreehandCondition;
+		}
+		return proxy(fn, scope);
+	};
+
 	draw.deactivate = function(){assert.ok(true);};
+	draw.triggerFeatureEvent = function(event){
+		actualEvents.push(event);
+	};
 
 	assert.notOk(draw.drawer);
 	assert.notOk(draw.type);
 
 	draw.activate(nyc.ol.Draw.Type.CIRCLE);
 	assert.equal(draw.type, nyc.ol.Draw.Type.CIRCLE);
+	assert.deepEqual(draw.drawer.getProperties().condition, drawCondition);
+	assert.deepEqual(draw.drawer.getProperties().freehandCondition, mockFreehandCondition);
+	assert.equal(draw.drawer.getProperties().type, nyc.ol.Draw.Type.CIRCLE);
+	assert.notOk(draw.drawer.getProperties().geometryFunction);
+	assert.notOk(draw.drawer.getProperties().maxPoints);
 
 	assert.ok($.inArray(draw.drawer, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
 	assert.ok($.inArray(draw.modify, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
+
+	draw.source.addFeature(feature);
+	assert.equal(actualEvents.length, 1);
+	assert.equal(actualEvents[0].type, 'addfeature');
+	assert.deepEqual(actualEvents[0].feature, feature);
+
+	feature.set('changed', true);
+	assert.equal(actualEvents.length, 2);
+	assert.equal(actualEvents[1].type, 'changefeature');
+	assert.deepEqual(actualEvents[1].feature, feature);
+
+	$.proxy = proxy;
 });
 
 QUnit.test('activate (nyc.ol.Draw.Type.SQUARE)', function(assert){
-	assert.expect(6);
+	assert.expect(18);
+
+	var feature = new ol.Feature({geometry: new ol.geom.Polygon([[0, 1], [1, 1], [1, 2], [2, 2], [0, 2], [0, 1]])});
+	var actualEvents = [];
+	var drawCondition = function(){/* mock condition proxy */};
+	var mockFreehandCondition = function(){/* mock freehandCondition proxy */};
+	var mockCreateRegularPolygon = function(){/* mock createRegularPolygon */};
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
 	});
 
+	var proxy = $.proxy;
+	$.proxy = function(fn, scope){
+		if (fn === draw.drawCondition && scope == draw){
+			return drawCondition;
+		}
+		if (fn === draw.freehandCondition && scope == draw){
+			return mockFreehandCondition;
+		}
+		return proxy(fn, scope);
+	};
+
+	var createRegularPolygon = ol.interaction.Draw.createRegularPolygon;
+	ol.interaction.Draw.createRegularPolygon = function(maxPoints){
+		assert.equal(maxPoints, 4);
+		return mockCreateRegularPolygon;
+	};
+
 	draw.deactivate = function(){assert.ok(true);};
+	draw.triggerFeatureEvent = function(event){
+		actualEvents.push(event);
+	};
 
 	assert.notOk(draw.drawer);
 	assert.notOk(draw.type);
 
 	draw.activate(nyc.ol.Draw.Type.SQUARE);
 	assert.equal(draw.type, nyc.ol.Draw.Type.SQUARE);
+	assert.deepEqual(draw.drawer.getProperties().condition, drawCondition);
+	assert.deepEqual(draw.drawer.getProperties().freehandCondition, mockFreehandCondition);
+	assert.equal(draw.drawer.getProperties().type, nyc.ol.Draw.Type.CIRCLE);
+	assert.deepEqual(draw.drawer.getProperties().geometryFunction, mockCreateRegularPolygon);
+	assert.notOk(draw.drawer.getProperties().maxPoints);
 
 	assert.ok($.inArray(draw.drawer, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
 	assert.ok($.inArray(draw.modify, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
+
+	draw.source.addFeature(feature);
+	assert.equal(actualEvents.length, 1);
+	assert.equal(actualEvents[0].type, 'addfeature');
+	assert.deepEqual(actualEvents[0].feature, feature);
+
+	feature.set('changed', true);
+	assert.equal(actualEvents.length, 2);
+	assert.equal(actualEvents[1].type, 'changefeature');
+	assert.deepEqual(actualEvents[1].feature, feature);
+
+	$.proxy = proxy;
+	ol.interaction.Draw.createRegularPolygon = createRegularPolygon;
 });
 
 QUnit.test('activate (nyc.ol.Draw.Type.BOX)', function(assert){
-	assert.expect(6);
+	assert.expect(17);
+
+	var feature = new ol.Feature({geometry: new ol.geom.Polygon([[0, 1], [1, 1], [1, 2], [2, 2], [0, 2], [0, 1]])});
+	var actualEvents = [];
+	var drawCondition = function(){/* mock condition proxy */};
+	var mockFreehandCondition = function(){/* mock freehandCondition proxy */};
+	var mockCreateRegularPolygon = function(){/* mock createRegularPolygon */};
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
 	});
 
+	var proxy = $.proxy;
+	$.proxy = function(fn, scope){
+		if (fn === draw.drawCondition && scope == draw){
+			return drawCondition;
+		}
+		if (fn === draw.freehandCondition && scope == draw){
+			return mockFreehandCondition;
+		}
+		return proxy(fn, scope);
+	};
+
 	draw.deactivate = function(){assert.ok(true);};
+	draw.triggerFeatureEvent = function(event){
+		actualEvents.push(event);
+	};
 
 	assert.notOk(draw.drawer);
 	assert.notOk(draw.type);
 
 	draw.activate(nyc.ol.Draw.Type.BOX);
 	assert.equal(draw.type, nyc.ol.Draw.Type.BOX);
+	assert.deepEqual(draw.drawer.getProperties().condition, drawCondition);
+	assert.deepEqual(draw.drawer.getProperties().freehandCondition, mockFreehandCondition);
+	assert.equal(draw.drawer.getProperties().type, nyc.ol.Draw.Type.LINE);
+	assert.deepEqual(draw.drawer.getProperties().geometryFunction, draw.boxGeometry);
+	assert.equal(draw.drawer.getProperties().maxPoints, 2);
 
 	assert.ok($.inArray(draw.drawer, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
 	assert.ok($.inArray(draw.modify, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
+
+	draw.source.addFeature(feature);
+	assert.equal(actualEvents.length, 1);
+	assert.equal(actualEvents[0].type, 'addfeature');
+	assert.deepEqual(actualEvents[0].feature, feature);
+
+	feature.set('changed', true);
+	assert.equal(actualEvents.length, 2);
+	assert.equal(actualEvents[1].type, 'changefeature');
+	assert.deepEqual(actualEvents[1].feature, feature);
+
+	$.proxy = proxy;
 });
 
 QUnit.test('activate (nyc.ol.Draw.Type.FREE)', function(assert){
-	assert.expect(6);
+	assert.expect(17);
+
+	var feature = new ol.Feature({geometry: new ol.geom.Polygon([[0, 1], [1, 1], [1, 2], [2, 2], [0, 2], [0, 1]])});
+	var actualEvents = [];
+	var drawCondition = function(){/* mock condition proxy */};
+	var mockFreehandCondition = function(){/* mock freehandCondition proxy */};
+	var mockCreateRegularPolygon = function(){/* mock createRegularPolygon */};
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
 	});
 
+	var proxy = $.proxy;
+	$.proxy = function(fn, scope){
+		if (fn === draw.drawCondition && scope == draw){
+			return drawCondition;
+		}
+		if (fn === draw.freehandCondition && scope == draw){
+			return mockFreehandCondition;
+		}
+		return proxy(fn, scope);
+	};
+
 	draw.deactivate = function(){assert.ok(true);};
+	draw.triggerFeatureEvent = function(event){
+		actualEvents.push(event);
+	};
 
 	assert.notOk(draw.drawer);
 	assert.notOk(draw.type);
 
 	draw.activate(nyc.ol.Draw.Type.FREE);
 	assert.equal(draw.type, nyc.ol.Draw.Type.FREE);
+	assert.deepEqual(draw.drawer.getProperties().condition, drawCondition);
+	assert.deepEqual(draw.drawer.getProperties().freehandCondition, mockFreehandCondition);
+	assert.equal(draw.drawer.getProperties().type, nyc.ol.Draw.Type.LINE);
+	assert.notOk(draw.drawer.getProperties().geometryFunction);
+	assert.notOk(draw.drawer.getProperties().maxPoints);
 
 	assert.ok($.inArray(draw.drawer, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
 	assert.ok($.inArray(draw.modify, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
+
+	draw.source.addFeature(feature);
+	assert.equal(actualEvents.length, 1);
+	assert.equal(actualEvents[0].type, 'addfeature');
+	assert.deepEqual(actualEvents[0].feature, feature);
+
+	feature.set('changed', true);
+	assert.equal(actualEvents.length, 2);
+	assert.equal(actualEvents[1].type, 'changefeature');
+	assert.deepEqual(actualEvents[1].feature, feature);
+
+	$.proxy = proxy;
 });
 
 QUnit.test('activate (nyc.ol.Draw.Type.GPS)', function(assert){
-	assert.expect(6);
+	assert.expect(14);
+
+	var feature = new ol.Feature({geometry: new ol.geom.Polygon([[0, 1], [1, 1], [1, 2], [2, 2], [0, 2], [0, 1]])});
+	var actualEvents = [];
+	var drawCondition = function(){/* mock condition proxy */};
+	var mockFreehandCondition = function(){/* mock freehandCondition proxy */};
+	var mockCreateRegularPolygon = function(){/* mock createRegularPolygon */};
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
 	});
 
+	draw.beginGpsCapture = function(){
+			assert.ok(true);
+	};
+
+	var proxy = $.proxy;
+	$.proxy = function(fn, scope){
+		if (fn === draw.drawCondition && scope == draw){
+			return drawCondition;
+		}
+		if (fn === draw.freehandCondition && scope == draw){
+			return mockFreehandCondition;
+		}
+		return proxy(fn, scope);
+	};
+
 	draw.deactivate = function(){assert.ok(true);};
+	draw.triggerFeatureEvent = function(event){
+		actualEvents.push(event);
+	};
 
 	assert.notOk(draw.drawer);
 	assert.notOk(draw.type);
 
 	draw.activate(nyc.ol.Draw.Type.GPS);
 	assert.equal(draw.type, nyc.ol.Draw.Type.GPS);
+	assert.notOk(draw.drawer);
 
 	assert.notOk($.inArray(draw.drawer, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
 	assert.notOk($.inArray(draw.modify, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
+
+	draw.source.addFeature(feature);
+	assert.equal(actualEvents.length, 1);
+	assert.equal(actualEvents[0].type, 'addfeature');
+	assert.deepEqual(actualEvents[0].feature, feature);
+
+	feature.set('changed', true);
+	assert.equal(actualEvents.length, 2);
+	assert.equal(actualEvents[1].type, 'changefeature');
+	assert.deepEqual(actualEvents[1].feature, feature);
+
+	$.proxy = proxy;
 });

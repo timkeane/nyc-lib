@@ -227,14 +227,16 @@ nyc.ol.Draw.prototype = {
 			if (me.type == nyc.ol.Draw.Type.GPS){
 				me.beginGpsCapture();
 			}else{
-				me.drawer = new ol.interaction.Draw({
+				var options = {
 					source: me.source,
 					type: type,
 					geometryFunction: geometryFunction,
 					maxPoints: maxPoints,
 					freehandCondition: $.proxy(me.freehandCondition, me),
 					condition: $.proxy(me.drawCondition, me)
-				});
+				};
+				me.drawer = new ol.interaction.Draw(options);
+				me.drawer.setProperties(options); //for testing to ensure proper args were used
 				me.map.addInteraction(me.drawer);
 				me.map.addInteraction(me.modify);
 			}
