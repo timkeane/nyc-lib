@@ -672,3 +672,208 @@ QUnit.test('activate (nyc.ol.Draw.Type.GPS)', function(assert){
 
 	$.proxy = proxy;
 });
+
+QUnit.test('getFeatures', function(assert){
+	assert.expect(16);
+
+	var existingFeature0 = new ol.Feature({geometry: new ol.geom.Point([0, 1])});
+	existingFeature0._changed = true;
+	var existingFeature1 = new ol.Feature({geometry: new ol.geom.Point([1, 2])});
+	var existingFeature2 = new ol.Feature({geometry: new ol.geom.Point([2, 3])});
+	var existingFeature3 = new ol.Feature({geometry: new ol.geom.Point([3, 4])});
+	existingFeature3._changed = true;
+	var existingFeature4 = new ol.Feature({geometry: new ol.geom.Point([-1, 0])});
+
+	var newFeature0 = new ol.Feature({geometry: new ol.geom.Point([4, 5])});
+	newFeature0._added = true;
+	var newFeature1 = new ol.Feature({geometry: new ol.geom.Point([6, 7])});
+	newFeature1._added = true;
+	var newFeature2 = new ol.Feature({geometry: new ol.geom.Point([7, 8])});
+	newFeature2._added = true;
+
+	var testFeatures = [
+		existingFeature0,
+		existingFeature2,
+		existingFeature3,
+		newFeature0,
+		newFeature2
+	];
+
+	var testRemovedFeatures = [
+		existingFeature1,
+		existingFeature4,
+		newFeature1
+	];
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	var features = draw.getFeatures();
+	assert.equal(features.added.length, 0);
+	assert.equal(features.changed.length, 0);
+	assert.equal(features.unchanged.length, 0);
+	assert.equal(features.removed.length, 0);
+
+	draw.setFeatures(testFeatures);
+	draw.removed = testRemovedFeatures;
+
+	features = draw.getFeatures();
+
+	assert.equal(features.added.length, 2);
+	assert.equal(features.changed.length, 2);
+	assert.equal(features.unchanged.length, 1);
+	assert.equal(features.removed.length, 3);
+
+	assert.ok($.inArray(newFeature0, features.added) > -1);
+	assert.ok($.inArray(newFeature2, features.added) > -1);
+
+	assert.ok($.inArray(existingFeature0, features.changed) > -1);
+	assert.ok($.inArray(existingFeature3, features.changed) > -1);
+
+	assert.ok($.inArray(existingFeature2, features.unchanged) > -1);
+
+	assert.ok($.inArray(existingFeature1, features.removed) > -1);
+	assert.ok($.inArray(existingFeature4, features.removed) > -1);
+	assert.ok($.inArray(newFeature1, features.removed) > -1);
+});
+
+QUnit.test('setFeatures', function(assert){
+	assert.expect(6);
+
+	var existingFeature0 = new ol.Feature({geometry: new ol.geom.Point([0, 1])});
+	var existingFeature1 = new ol.Feature({geometry: new ol.geom.Point([1, 2])});
+	var existingFeature2 = new ol.Feature({geometry: new ol.geom.Point([2, 3])});
+	var existingFeature3 = new ol.Feature({geometry: new ol.geom.Point([3, 4])});
+
+	var newFeature0 = new ol.Feature({geometry: new ol.geom.Point([4, 5])});
+	var newFeature1 = new ol.Feature({geometry: new ol.geom.Point([6, 7])});
+	var newFeature2 = new ol.Feature({geometry: new ol.geom.Point([7, 8])});
+
+	var existingFeatures = [
+		existingFeature0,
+		existingFeature1,
+		existingFeature2,
+		existingFeature3
+	];
+
+	var newFeatures = [
+		newFeature0,
+		newFeature1,
+		newFeature2
+	];
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	assert.equal(draw.source.getFeatures().length, 0);
+
+	draw.removed = ['mockFeature0', 'mockFeature1'];
+	draw.source.addFeatures(existingFeatures);
+	draw.setFeatures(newFeatures);
+
+	assert.equal(draw.removed.length, 0);
+	assert.equal(draw.source.getFeatures().length, 3);
+	assert.ok($.inArray(newFeature0, draw.source.getFeatures()) > -1);
+	assert.ok($.inArray(newFeature1, draw.source.getFeatures()) > -1);
+	assert.ok($.inArray(newFeature2, draw.source.getFeatures()) > -1);
+});
+
+QUnit.test('removeFeature', function(assert){
+	assert.expect(6);
+
+	var existingFeature0 = new ol.Feature({geometry: new ol.geom.Point([0, 1])});
+	var existingFeature1 = new ol.Feature({geometry: new ol.geom.Point([1, 2])});
+	var existingFeature2 = new ol.Feature({geometry: new ol.geom.Point([2, 3])});
+	var existingFeature3 = new ol.Feature({geometry: new ol.geom.Point([3, 4])});
+
+	var existingFeatures = [
+		existingFeature0,
+		existingFeature1,
+		existingFeature2,
+		existingFeature3
+	];
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.source.addFeatures(existingFeatures);
+	assert.equal(draw.source.getFeatures().length, 4);
+	assert.equal(draw.removed.length, 0);
+
+	draw.removeFeature(existingFeature2);
+
+	assert.equal(draw.source.getFeatures().length, 3);
+	assert.equal(draw.removed.length, 1);
+	assert.equal(draw.removed[0], existingFeature2);
+	assert.notOk($.inArray(existingFeature2, draw.source.getFeatures()) > -1);
+});
+
+QUnit.test('clear', function(assert){
+	assert.expect(4);
+
+	var existingFeature0 = new ol.Feature({geometry: new ol.geom.Point([0, 1])});
+	var existingFeature1 = new ol.Feature({geometry: new ol.geom.Point([1, 2])});
+	var existingFeature2 = new ol.Feature({geometry: new ol.geom.Point([2, 3])});
+	var existingFeature3 = new ol.Feature({geometry: new ol.geom.Point([3, 4])});
+
+	var existingFeatures = [
+		existingFeature0,
+		existingFeature1,
+		existingFeature2,
+		existingFeature3
+	];
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.store = function(){assert.ok(true);};
+
+	draw.source.addFeatures(existingFeatures);
+	draw.removed = ['mockFeature0', 'mockFeature1'];
+	draw.gpsTrack = 'mockTrack';
+
+	draw.clear();
+
+	assert.equal(draw.source.getFeatures().length, 0);
+	assert.equal(draw.removed.length, 0);
+	assert.notOk(draw.gpsTrack);
+});
+
+QUnit.test('deactivate (drawing)', function(assert){
+	assert.expect(11);
+
+	var feature = new ol.Feature({geometry: new ol.geom.Point([1, 2])});
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.triggerFeatureEvent = function(event){
+		assert.notOk(true);
+	};
+
+	draw.active(nyc.ol.Draw.Type.CIRCLE);
+	draw.mnuBtn.addClass('point line polygon circle square box free gps');
+
+	draw.deactivate();
+
+	assert.notOk(draw.type);
+	assert.notOk(draw.mnuBtn.hasClass('point'));
+	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('polygon'));
+	assert.notOk(draw.mnuBtn.hasClass('circle'));
+	assert.notOk(draw.mnuBtn.hasClass('square'));
+	assert.notOk(draw.mnuBtn.hasClass('box'));
+	assert.notOk(draw.mnuBtn.hasClass('free'));
+	assert.notOk(draw.mnuBtn.hasClass('gps'));
+	assert.notOk(draw.drawer);
+	assert.notOk($.inArray(draw.modify, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
+
+	//make sure event handler is disconnected
+	draw.source.addFeature(feature);
+	feature.set('changed', true);
+});

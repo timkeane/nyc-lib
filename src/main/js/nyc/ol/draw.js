@@ -317,9 +317,7 @@ nyc.ol.Draw.prototype = {
 			this.closePolygon(nyc.ol.FeatureEventType.CHANGE, this.getGpsTrack());
 			this.tracker.setTracking(false);
 		}
-		if (this.mover){
-			this.mover.setActive(false);
-		}
+		this.mover.setActive(false);
 	},
 	/**
 	 * @private
