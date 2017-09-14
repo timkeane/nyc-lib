@@ -1186,3 +1186,105 @@ QUnit.test('freehandCondition', function(assert){
 	assert.notOk(draw.freehandCondition({condition: false}));
 	assert.ok(draw.freehandCondition({condition: true}));
 });
+
+QUnit.test('accuracyStyle', function(assert){
+	assert.expect(10);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	var feature = new ol.Feature({
+		geometry: new ol.geom.Point([1, 2]),
+		accuracy: 100
+	});
+
+	var resolution = nyc.ol.TILE_GRID.getResolutions()[0];
+	var style = draw.accuracyStyle(feature, resolution);
+	assert.equal(style.getImage().getRadius(), 100/resolution);
+	assert.equal(style.getImage().getFill().getColor(), 'rgba(255,255,0,.03)');
+	assert.equal(style.getImage().getStroke().getColor(), 'rgba(255,255,0,1)');
+	assert.equal(style.getImage().getStroke().getWidth(), .25);
+	assert.equal(style.getZIndex(), 100);
+
+	feature.set('accuracy', 20)
+	resolution = nyc.ol.TILE_GRID.getResolutions()[15];
+	style = draw.accuracyStyle(feature, resolution);
+	assert.equal(style.getImage().getRadius(), 20/resolution);
+	assert.equal(style.getImage().getFill().getColor(), 'rgba(255,255,0,.03)');
+	assert.equal(style.getImage().getStroke().getColor(), 'rgba(255,255,0,1)');
+	assert.equal(style.getImage().getStroke().getWidth(), .25);
+	assert.equal(style.getZIndex(), 100);
+});
+
+QUnit.test('defaultStyle', function(assert){
+	assert.expect(18);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	var feature = new ol.Feature({
+		geometry: new ol.geom.Point([1, 2]),
+		accuracy: 100
+	});
+
+	var resolution = nyc.ol.TILE_GRID.getResolutions()[0];
+	var style = draw.defaultStyle(feature, resolution);
+
+	assert.equal(style.length, 3);
+	assert.equal(style[0].getFill().getColor(), 'rgba(255,255,255,.2)');
+	assert.equal(style[0].getZIndex(), 0);
+
+	assert.equal(style[1].getStroke().getColor(), 'red');
+	assert.equal(style[1].getStroke().getWidth(), 3);
+	assert.equal(style[1].getZIndex(), 200);
+
+	assert.equal(style[2].getImage().getRadius(), 3);
+	assert.equal(style[2].getImage().getFill().getColor(), 'red');
+	assert.equal(style[2].getZIndex(), 300);
+
+	feature.set('accuracy', undefined);
+	resolution = nyc.ol.TILE_GRID.getResolutions()[17];
+	style = draw.defaultStyle(feature, resolution);
+
+	assert.equal(style.length, 3);
+	assert.equal(style[0].getFill().getColor(), 'rgba(255,255,255,.2)');
+	assert.equal(style[0].getZIndex(), 0);
+
+	assert.equal(style[1].getStroke().getColor(), 'red');
+	assert.equal(style[1].getStroke().getWidth(), 3);
+	assert.equal(style[1].getZIndex(), 200);
+
+	assert.equal(style[2].getImage().getRadius(), 7);
+	assert.equal(style[2].getImage().getFill().getColor(), 'red');
+	assert.equal(style[2].getZIndex(), 300);
+});
+
+QUnit.test('getGpsTrack', function(assert){
+	assert.expect(12);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	assert.notOk(draw.gpsTrack);
+	assert.notOk($.inArray(draw.gpsTrack, draw.features.getArray()) > -1);
+	var track0 = draw.getGpsTrack();
+
+	assert.notOk(track0.getGeometry().getCoordinates().length);
+	assert.equal(track0.getGeometry().getLayout(), 'XYZM');
+	assert.ok(track0 === draw.gpsTrack);
+
+	draw.source.clear();
+	var track1 = draw.getGpsTrack();
+	assert.notOk(track1.getGeometry().getCoordinates().length);
+	assert.equal(track1.getGeometry().getLayout(), 'XYZM');
+	assert.ok(track1 === draw.gpsTrack);
+
+	var track2 = draw.getGpsTrack();
+	assert.notOk(track1.getGeometry().getCoordinates().length);
+	assert.equal(track1.getGeometry().getLayout(), 'XYZM');
+	assert.ok(track2 === draw.gpsTrack);
+	assert.ok(track2 === track1);
+});

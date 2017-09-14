@@ -403,7 +403,7 @@ nyc.ol.Draw.prototype = {
 	accuracyStyle: function(feature, resolution){
 		var accuracy = feature.get('accuracy') || 0;
 		var pixelAccuracy = accuracy/resolution;
-        return new ol.style.Style({
+		return new ol.style.Style({
 			image: new ol.style.Circle({
 				radius: pixelAccuracy,
 				fill: new ol.style.Fill({
@@ -414,7 +414,7 @@ nyc.ol.Draw.prototype = {
 					width: .25
 				})
 			}),
-			zindex: 100
+			zIndex: 100
 		});
 	},
 	/**
@@ -426,27 +426,27 @@ nyc.ol.Draw.prototype = {
 		var accuracy = feature.get('accuracy') || 0;
 		var radius = accuracy ? 3 : 7;
 		return [
-	        new ol.style.Style({
+			new ol.style.Style({
 				fill: new ol.style.Fill({
 					color: 'rgba(255,255,255,.2)'
 				}),
-	        	zindex: 0
-	        }),
-	        new ol.style.Style({
+				zIndex: 0
+			}),
+			new ol.style.Style({
 				stroke: new ol.style.Stroke({
 					color: 'red',
 					width: 3
 				}),
-				zindex: 200
+				zIndex: 200
 			}),
-	        new ol.style.Style({
-	        	image: new ol.style.Circle({
+			new ol.style.Style({
+				image: new ol.style.Circle({
 					radius: radius,
 					fill: new ol.style.Fill({
 						color: 'red'
 					})
 				}),
-				zindex: 300
+				zIndex: 300
 			})
 		];
 	},
