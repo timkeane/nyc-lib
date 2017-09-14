@@ -35,7 +35,7 @@ ext {
 	localhost = 'http://localhost'
 	tilehost = 'http://localhost'
 	localhostDeployedBuildPath = '/git/nyc-lib/build'
-	
+
 	olJsPlowLayers = ['nyc/ol/style/plow/plow.js', 'nyc/ol/layer/group.js', 'nyc/ol/layer/plow/plow.js']
 	olJsTransitLayers = ['nyc/ol/style/transit/subway.js', 'nyc/ol/layer/group.js', 'nyc/ol/layer/transit/transit.js', 'nyc/ol/layer/transit/subway.js']
 	olJsZoningLayers = ['nyc/ol/style/zoning/district.js', 'nyc/ol/layer/group.js', 'nyc/ol/layer/zoning/zoning.js', 'nyc/ol/layer/zoning/district.js']
@@ -43,55 +43,55 @@ ext {
 	jsInfoTemplates = [ //TODO ????
 		'nyc/info/template/citymap.js'
 	]
-	
+
 	olJsFiles = [
-		'nyc/nyc.js', 
-		'nyc/date.js', 
-		'nyc/jq.js', 
-		'nyc/util.js', 
-		'nyc/storage.js', 
-		'nyc/basemap.js', 
-		'nyc/ctlcontainer.js', 
-		'nyc/template.js', 
-		'nyc/collapsible.js', 
+		'nyc/nyc.js',
+		'nyc/date.js',
+		'nyc/jq.js',
+		'nyc/util.js',
+		'nyc/storage.js',
+		'nyc/basemap.js',
+		'nyc/ctlcontainer.js',
+		'nyc/template.js',
+		'nyc/collapsible.js',
 		'nyc/collapsible-choice.js',
 		'nyc/collapsible-radio.js',
-		'nyc/collapsible-check.js', 
-		'nyc/collapsible-month-range.js', 
-		'nyc/content.js', 
-		'nyc/dialog.js', 
+		'nyc/collapsible-check.js',
+		'nyc/collapsible-month-range.js',
+		'nyc/content.js',
+		'nyc/dialog.js',
 		'nyc/directions.js',
-		'nyc/geocoder.js', 
-		'nyc/lang/lang.js', 
-		'nyc/lang/goog.js', 
-		'nyc/legend.js', 
-		'nyc/locate.js', 
-		'nyc/locationmgr.js', 
-		'nyc/menu.js', 
+		'nyc/geocoder.js',
+		'nyc/lang/lang.js',
+		'nyc/lang/goog.js',
+		'nyc/legend.js',
+		'nyc/locate.js',
+		'nyc/locationmgr.js',
+		'nyc/menu.js',
 		'nyc/share.js',
 		'nyc/listpager.js',
 		'nyc/zoomsearch.js',
-		'nyc/soda/query.js', 
-		'nyc/info/finder.js', 
-		'nyc/ol/ol.js', 
-		'nyc/ol/storage.js', 
-		'nyc/ol/north.js', 
-		'nyc/ol/tracker.js', 
-		'nyc/ol/style/style.js', 
-		'nyc/ol/style/pattern.js', 
-		'nyc/ol/basemap.js', 
-		'nyc/ol/featuretip.js', 
-		'nyc/ol/locate.js', 
-		'nyc/ol/locator.js', 
-		'nyc/ol/popup.js', 
+		'nyc/soda/query.js',
+		'nyc/info/finder.js',
+		'nyc/ol/ol.js',
+		'nyc/ol/storage.js',
+		'nyc/ol/north.js',
+		'nyc/ol/tracker.js',
+		'nyc/ol/style/style.js',
+		'nyc/ol/style/pattern.js',
+		'nyc/ol/basemap.js',
+		'nyc/ol/featuretip.js',
+		'nyc/ol/locate.js',
+		'nyc/ol/locator.js',
+		'nyc/ol/popup.js',
 		'nyc/ol/control/layerpicker.js',
 		'nyc/ol/control/layermgr.js',
 		'nyc/ol/control/layerfade.js',
 		'nyc/ol/control/layerswipe.js',
 		'nyc/ol/control/zoomsearch.js',
-		'nyc/ol/source/arcgiscache.js', 
-		'nyc/ol/source/csv.js', 
-		'nyc/ol/source/decorating.js', 
+		'nyc/ol/source/arcgiscache.js',
+		'nyc/ol/source/csv.js',
+		'nyc/ol/source/decorating.js',
 		'nyc/ol/source/filteringandsorting.js',
 		'nyc/ol/layer/baselayer.js',
 		'nyc/ol/layer/grayscale.js',
@@ -99,70 +99,70 @@ ext {
 		'nyc/jcard/jcard.js'
 	]
 	olRedLineJsFiles = [
-		'nyc/ol/draw.js', 
-		'nyc/ol/geoserver/getfeature.js', 
-		'nyc/ol/geoserver/featuretxn.js',
+		'nyc/ol/draw.js',
+		'nyc/ol/geoserver/getfeature.js',
+		'nyc/ol/geoserver/featuretxn.js'
 	]
 	leafJsFiles = [
-		'nyc/nyc.js', 
-		'nyc/date.js', 
-		'nyc/util.js', 
-		'nyc/basemap.js', 
-		'nyc/ctlcontainer.js', 
-		'nyc/collapsible.js', 
+		'nyc/nyc.js',
+		'nyc/date.js',
+		'nyc/util.js',
+		'nyc/basemap.js',
+		'nyc/ctlcontainer.js',
+		'nyc/collapsible.js',
 		'nyc/collapsible-choice.js',
-		'nyc/collapsible-radio.js', 
-		'nyc/collapsible-check.js', 
-		'nyc/collapsible-month-range.js', 
-		'nyc/content.js', 
-		'nyc/dialog.js', 
+		'nyc/collapsible-radio.js',
+		'nyc/collapsible-check.js',
+		'nyc/collapsible-month-range.js',
+		'nyc/content.js',
+		'nyc/dialog.js',
 		'nyc/directions.js',
-		'nyc/geocoder.js', 
-		'nyc/lang/lang.js', 
-		'nyc/lang/goog.js', 
-		'nyc/legend.js', 
-		'nyc/locate.js', 
-		'nyc/locationmgr.js', 
+		'nyc/geocoder.js',
+		'nyc/lang/lang.js',
+		'nyc/lang/goog.js',
+		'nyc/legend.js',
+		'nyc/locate.js',
+		'nyc/locationmgr.js',
 		'nyc/share.js',
 		'nyc/listpager.js',
 		'nyc/zoomsearch.js',
-		'nyc/soda/query.js', 
-		'nyc/info/finder.js', 
-		'nyc/leaf/leaf.js', 
-		'nyc/leaf/basemap.js', 
-		'nyc/leaf/locate.js', 
-		'nyc/leaf/locator.js', 
+		'nyc/soda/query.js',
+		'nyc/info/finder.js',
+		'nyc/leaf/leaf.js',
+		'nyc/leaf/basemap.js',
+		'nyc/leaf/locate.js',
+		'nyc/leaf/locator.js',
 		'nyc/leaf/zoomsearch.js',
 		'nyc/jcard/jcard.js'
 	]
 	cartoJsFiles = [
-		'nyc/nyc.js', 
-		'nyc/date.js', 
-		'nyc/util.js', 
-		'nyc/basemap.js', 
-		'nyc/ctlcontainer.js', 
-		'nyc/collapsible.js', 
+		'nyc/nyc.js',
+		'nyc/date.js',
+		'nyc/util.js',
+		'nyc/basemap.js',
+		'nyc/ctlcontainer.js',
+		'nyc/collapsible.js',
 		'nyc/collapsible-choice.js',
-		'nyc/collapsible-radio.js', 
-		'nyc/collapsible-check.js', 
-		'nyc/collapsible-month-range.js', 
-		'nyc/content.js', 
-		'nyc/dialog.js', 
+		'nyc/collapsible-radio.js',
+		'nyc/collapsible-check.js',
+		'nyc/collapsible-month-range.js',
+		'nyc/content.js',
+		'nyc/dialog.js',
 		'nyc/directions.js',
-		'nyc/geocoder.js', 
-		'nyc/lang/lang.js', 
-		'nyc/lang/goog.js', 
-		'nyc/legend.js', 
-		'nyc/locate.js', 
-		'nyc/locationmgr.js', 
+		'nyc/geocoder.js',
+		'nyc/lang/lang.js',
+		'nyc/lang/goog.js',
+		'nyc/legend.js',
+		'nyc/locate.js',
+		'nyc/locationmgr.js',
 		'nyc/share.js',
 		'nyc/listpager.js',
 		'nyc/zoomsearch.js',
-		'nyc/info/finder.js', 
-		'nyc/leaf/leaf.js', 
-		'nyc/leaf/basemap.js', 
-		'nyc/leaf/locate.js', 
-		'nyc/leaf/locator.js', 
+		'nyc/info/finder.js',
+		'nyc/leaf/leaf.js',
+		'nyc/leaf/basemap.js',
+		'nyc/leaf/locate.js',
+		'nyc/leaf/locator.js',
 		'nyc/leaf/zoomsearch.js',
 		'nyc/carto/carto.js',
 		'nyc/carto/symbolizer.js',
@@ -175,51 +175,55 @@ ext {
 		'nyc/jcard/jcard.js'
 	]
 	olCssFiles = [
-		'nyc-base.css', 
-		'control-common.css', 
-		'collapsible.css', 
-		'directions.css', 
-		'dialog.css', 
-		'north.css', 
-		'featuretip.css', 
-		'lang.css', 
-		'layermgr.css', 
-		'layerfade.css', 
-		'layerswipe.css', 
-		'legend.css', 
-		'mapmenu.css', 
-		'ol-popup.css', 
-		'share.css', 
-		'zoomsearch.css'
+		'nyc-base.css',
+		'control-common.css',
+		'collapsible.css',
+		'directions.css',
+		'dialog.css',
+		'north.css',
+		'featuretip.css',
+		'lang.css',
+		'layermgr.css',
+		'layerfade.css',
+		'layerswipe.css',
+		'legend.css',
+		'mapmenu.css',
+		'ol-popup.css',
+		'share.css',
+    'zoomsearch.css',
+    'storage.css'
 	]
 	olRedLineCssFiles = [
-		'nyc-base.css', 
+		'nyc-base.css',
 		'draw.css',
-		'getfeature.css'
+		'getfeature.css',
+    'storage.css'
 	]
 	leafCssFiles = [
-		'nyc-base.css', 
-		'control-common.css', 
-		'collapsible.css', 
-		'dialog.css', 
-		'directions.css', 
-		'lang.css', 
-		'legend.css', 
-		'share.css', 
-		'zoomsearch.css'
+		'nyc-base.css',
+		'control-common.css',
+		'collapsible.css',
+		'dialog.css',
+		'directions.css',
+		'lang.css',
+		'legend.css',
+		'share.css',
+		'zoomsearch.css',
+    'storage.css'
 	]
 	cartoCssFiles = [
-		'nyc-base.css', 
-		'control-common.css', 
-		'chart.css', 
-		'collapsible.css', 
-		'dialog.css', 
-		'directions.css', 
-		'lang.css', 
-		'legend.css', 
-		'share.css', 
-		'carto-popup.css', 
-		'zoomsearch.css'
+		'nyc-base.css',
+		'control-common.css',
+		'chart.css',
+		'collapsible.css',
+		'dialog.css',
+		'directions.css',
+		'lang.css',
+		'legend.css',
+		'share.css',
+		'carto-popup.css',
+		'zoomsearch.css',
+    'storage.css'
 	]
 }
 
@@ -234,11 +238,11 @@ task npmPackage(type: NpmPackageTask) {
 	gitHubUrl = 'https://github.com/timkeane/nyc-lib/'
 	keywords = ['ol3', 'OpenLayers', 'Carto', 'LeafletJS', 'ChartJS']
 	dependencies = [
-		OpenLayers: '> 3.11.0', 
-		Carto: '> 3.14', 
+		OpenLayers: '> 3.11.0',
+		Carto: '> 3.14',
 		ChartJS: '> 1.0.1',
-		proj4js: '> 2.3.10', 
-		JQuery: '> 1.11.0', 
+		proj4js: '> 2.3.10',
+		JQuery: '> 1.11.0',
 		JQueryMobile: '> 1.4.5',
 		'jquery-csv': '0.71'
 	]
@@ -282,7 +286,7 @@ task examples() << {
 			}
 			newHtml = (newHtml =~ /YOUR_APP_ID/).replaceFirst(geoid)
 			newHtml = (newHtml =~ /YOUR_APP_KEY/).replaceFirst(geokey)
-			newHtml = (newHtml =~ /\.\.\/src\/main\//).replaceAll("${host}/nyc-lib/${ver}/") //takes care of scripts from this project not bundled into a -lib file  
+			newHtml = (newHtml =~ /\.\.\/src\/main\//).replaceAll("${host}/nyc-lib/${ver}/") //takes care of scripts from this project not bundled into a -lib file
 			file.write(newHtml)
 		}
 	}
@@ -311,7 +315,7 @@ task jsDoc(type: JsDocTask, dependsOn: [npmPackage, examples]) {
 			into "${pkgDir}/doc"
 		}
 		delete 'build/jsdoc'
-		ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
+		ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')
 		ant.replace(file: "${pkgDir}/examples/ol-facility-container-min.html", token: '../doc/', value: "${host}/nyc-lib/${ver}/doc/")
 		ant.replace(file: "${pkgDir}/examples/ol-facility-container.html", token: '../doc/', value: "${host}/nyc-lib/${ver}/doc/")
 	}
@@ -333,7 +337,7 @@ minifyJsOl.doLast {
 		tilehost = project.ext["${env}.tile.host"]
 		if (env == 'stg'){
 			/* change URLs for basemap tiles */
-		    ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
+		    ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')
 			ant.replace(file: "${pkgDir}/js/nyc-ol-lib.js", token: '//maps.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
 			ant.replace(file: "${pkgDir}/js/nyc-ol-lib.js", token: '//maps1.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
 			ant.replace(file: "${pkgDir}/js/nyc-ol-lib.js", token: '//maps2.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
@@ -344,11 +348,11 @@ minifyJsOl.doLast {
 			ant.replace(file: "${pkgDir}/src/js/nyc/ol/layer/baselayer.js", token: '//maps3.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
 		}
 	}
-	
+
 	/* change URLs for basemap tiles */
 	ant.replace(file: "${pkgDir}/js/nyc-ol-lib.js", token: 'https://maps{1-4}.nyc.gov/tms/', value: "${tilehost}/tms/")
 	ant.replace(file: "${pkgDir}/src/js/nyc/ol/basemap.js", token: 'https://maps{1-4}.nyc.gov/tms/', value: "${tilehost}/tms/")
-	
+
 	ant.replace(file: "${pkgDir}/js/nyc-leaf-lib.js", token: 'https://maps{s}.nyc.gov/tms/', value: "${tilehost}/tms/")
 	ant.replace(file: "${pkgDir}/src/js/nyc/leaf/basemap.js", token: 'https://maps{s}.nyc.gov/tms/', value: "${tilehost}/tms/")
 }
@@ -415,7 +419,7 @@ minifyJsOlAllLayers.doFirst {
 				jsFiles.add(f)
 			}
 		}
-	}	
+	}
 	fileNames jsFiles
 }
 
@@ -461,10 +465,10 @@ task minifyCssCarto(type: MiniCssTask) {
 }
 
 task allJs(dependsOn: [
-	minifyJsOl, 
-	minifyJsOlRedLine, 
-	minifyJsLeaf, 
-	minifyJsCarto, 
+	minifyJsOl,
+	minifyJsOlRedLine,
+	minifyJsLeaf,
+	minifyJsCarto,
 	minifyJsOlPlowLayers,
 	minifyJsOlTransitLayers,
 	minifyJsOlZoningLayers,
@@ -532,11 +536,11 @@ task deploy(dependsOn: [archive]) << {
 	def mobileDir = project.ext['mobile.dir']
 	def archiveDir = "${mobileDir}/${appName}/archive"
 	def deployDir = "${mobileDir}/${remoteDir}"
-	
+
 	remotes.deployTarget.host = project.ext["${env}.host"]
-    remotes.deployTarget.user = project.ext["${env}.user"]	
+    remotes.deployTarget.user = project.ext["${env}.user"]
     remotes.deployTarget.identity = file("${System.properties['user.home']}/.ssh/id_rsa")
-	
+
 	ssh.run {
         session(remotes.deployTarget) {
         	execute "mkdir -p ${archiveDir}"
@@ -551,7 +555,7 @@ task deploy(dependsOn: [archive]) << {
             get "${mobileDir}/${appName}/index.html", 'index.list'
 		}
 	}
-	
+
 	def index = file('index.html')
 	index.append '<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="twitter:card" content="summary_large_image"><meta prefix="og: http:/ogp.me/ns#" property="og:title" content="nyc-lib"><meta prefix="og: http:/ogp.me/ns#" property="og:type" content="website"><meta prefix="og: http:/ogp.me/ns#" property="og:url" content="https://maps.nyc.gov/nyc-lib"><meta prefix="og: http:/ogp.me/ns#" property="og:image" content="https://maps.nyc.gov/nyc-lib/archive/og.png"><meta prefix="og: http:/ogp.me/ns#" property="og:image:width" content="1200"><meta prefix="og: http:/ogp.me/ns#" property="og:image:height" content="626"><meta prefix="og: http:/ogp.me/ns#" property="og:description" content="A collection of javascript libraries used in the development New York City mapping applications."><meta prefix="og: http:/ogp.me/ns#" property="og:site_name" content="maps.nyc.gov"><title>nyc-lib</title><style>html{background:url(archive/mtc.png) no-repeat center center fixed;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;}html,body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;}#banner{width:3.2em;background-image:url(archive/nyc.svg);background-repeat:no-repeat;background-size:3em;}#banner span{position:relative;left:0;top:1em;font-size:.44em;font-weight:bold;}h1{display:inline-block;}a,a:visited{color:#800000;text-decoration:none;font-weight:600;}a:hover,a:active{color:red;}.latest-stable{color:green;}</style><script src="https://code.jquery.com/jquery-1.11.3.min.js"></script><script>function toggle(a){$("#older").slideToggle(function(){$(a).html($("#older").css("display") == "block" ? "Hide older versions..." : "Show older versions...");});}</script></head><body><h1 id="banner"><span>maps.nyc.gov</span>&nbsp;</h1><h1>nyc-lib</h1>'
 	def list = file('index.list')
@@ -565,14 +569,14 @@ task deploy(dependsOn: [archive]) << {
 			versions.add(line)
 		}
 	}
-	
+
 	def i = 0
 	def latetestStable = false
 	Collections.sort(versions, Collections.reverseOrder())
 	versions.forEach { aVer ->
 		def name = aVer
 		if (i == 3){
-			index.append '<a href="#" onclick="toggle(this);">Show older versions...</a><div id="older" style="display:none;">'		
+			index.append '<a href="#" onclick="toggle(this);">Show older versions...</a><div id="older" style="display:none;">'
 		}
 		i++
 		if (aVer.indexOf('-X') > -1){
