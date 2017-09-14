@@ -33,7 +33,7 @@ nyc.storage.Local.prototype = {
 	 */
 	saveGeoJson: function(name, data){
 		var href = 'data:application/json;charset=utf-8,' + encodeURIComponent(data);
-		var a = $('<a><img></a>');
+		var a = $('<a class="file-dwn"><img></a>');
 		$('body').append(a);
 		a.attr('href', href).attr('download', name).find('img').trigger('click');
 		a.remove();
@@ -87,8 +87,10 @@ nyc.storage.Local.prototype = {
 			callback(reader.result);
 		};
 		if (!file){
-			var input = $('<input type="file">');
+			var input = $('<input class="file-in" type="file">');
+			$('body').append(input);
 			input.change(function(event){
+				input.remove();
 				reader.readAsText(event.target.files[0]);
 			});
 			input.click();
@@ -120,8 +122,10 @@ nyc.storage.Local.prototype = {
 	 * @see https://github.com/mbostock/shapefile
 	 */
 	loadShapeFile: function(map, callback){
-		var me = this, input = $('<input type="file" multiple>'), shp, dbf, prj;
+		var me = this, input = $('<input class="file-in" type="file" multiple>'), shp, dbf, prj;
+		$('body').append(input);
 		input.change(function(event){
+			input.remove();
 			var files = event.target.files;
 			$.each(files, function(){
 				var ext = this.name.substr(name.length - 4);
