@@ -1148,3 +1148,334 @@ QUnit.test('marker (no speed, has view rotation)', function(assert){
 	assert.notOk(img.style.transform);
 	assert.notOk(img.style['-webkit-transform']);
 });
+
+QUnit.test('getCenterWithHeading (has zoom)', function(assert){
+	assert.expect(2);
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+
+	var result = tracker.getCenterWithHeading([100, 200], 2, 18);
+
+	var resolution = nyc.ol.TILE_GRID.getResolution(18);
+	var height = this.TEST_OL_MAP.getSize()[1];
+
+	assert.equal(result[0], 100 - Math.sin(2) * height * resolution / 4);
+	assert.equal(result[1], 200 + Math.cos(2) * height * resolution / 4);
+});
+
+QUnit.test('getCenterWithHeading (no zoom)', function(assert){
+	assert.expect(2);
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+
+	var result = tracker.getCenterWithHeading([100, 200], 2);
+
+	var resolution = this.TEST_OL_MAP.getView().getResolution();
+	var height = this.TEST_OL_MAP.getSize()[1];
+
+	assert.equal(result[0], 100 - Math.sin(2) * height * resolution / 4);
+	assert.equal(result[1], 200 + Math.cos(2) * height * resolution / 4);
+});
+
+QUnit.test('animate (no running annimation, has enough coordinates)', function(assert){
+	assert.expect(49);
+
+	var done = assert.async();
+
+	var m = Date.now();
+
+	var track = new ol.geom.LineString([[0, 1, 0, m - 1000], [1, 2, 1, m - 500], [2, 3, 2, m]], 'XYZM');
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+
+	tracker.animating = false;
+	tracker.animationStep = 10;
+	tracker.track = track;
+	tracker.markerOverlay.setPosition([0, 1, 0, 100]);
+
+	var markerPositions = [];
+	tracker.markerOverlay.setPosition = function(position){
+		markerPositions.push(position);
+	};
+	tracker.updateView = function(position){
+		assert.equal(position[0], track.getLastCoordinate()[0]);
+		assert.equal(position[1], track.getLastCoordinate()[1]);
+		assert.equal(position[2], track.getLastCoordinate()[2]);
+		assert.equal(position[3], track.getLastCoordinate()[3]);
+	};
+
+	var test = function(animatedPositions){
+		var positions = track.getCoordinates();
+		var end = positions[positions.length - 1];
+		var start = positions[positions.length - 2];
+		var m = start[3];
+		var mEnd = end[3];
+		var step = (mEnd - m) / 10;
+		$.each(animatedPositions, function(){
+			var p = track.getCoordinateAtM(this[3], true);
+			assert.equal(this[0], p[0]);
+			assert.equal(this[1], p[1]);
+			assert.equal(this[2], p[2]);
+			assert.equal(this[3], p[3]);
+		});
+		assert.deepEqual(markerPositions, animatedPositions);
+	};
+
+	tracker.animate();
+
+	var intv = setInterval(function(){
+		if (tracker.animatedPositions.length == 11){
+			test(tracker.animatedPositions);
+			done();
+			clearInterval(intv);
+		}
+	}, 100);
+});
+
+QUnit.test('animate (has running annimation, has enough coordinates)', function(assert){
+	assert.expect(53);
+
+	var done = assert.async();
+
+	var m = Date.now();
+
+	var track = new ol.geom.LineString([[0, 1, 0, m - 1000], [1, 2, 1, m - 500], [2, 3, 2, m]], 'XYZM');
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+
+	tracker.animating = true;
+	tracker.animationStep = 10;
+	tracker.track = track;
+	tracker.markerOverlay.setPosition([0, 1, 0, 100]);
+
+	var markerPositions = [];
+	tracker.markerOverlay.setPosition = function(position){
+		markerPositions.push(position);
+	};
+	tracker.updateView = function(position){
+		assert.equal(position[0], track.getLastCoordinate()[0]);
+		assert.equal(position[1], track.getLastCoordinate()[1]);
+		assert.equal(position[2], track.getLastCoordinate()[2]);
+		assert.equal(position[3], track.getLastCoordinate()[3]);
+	};
+
+	var test = function(animatedPositions){
+		var positions = track.getCoordinates();
+		var end = positions[positions.length - 1];
+		var start = positions[positions.length - 2];
+		var m = start[3];
+		var mEnd = end[3];
+		var step = (mEnd - m) / 10;
+		$.each(animatedPositions, function(){
+			var p = track.getCoordinateAtM(this[3], true);
+			assert.equal(this[0], p[0]);
+			assert.equal(this[1], p[1]);
+			assert.equal(this[2], p[2]);
+			assert.equal(this[3], p[3]);
+		});
+		assert.deepEqual(markerPositions, animatedPositions);
+	};
+
+	tracker.animate();
+
+	var intv = setInterval(function(){
+		if (tracker.animatedPositions.length == 11){
+			test(tracker.animatedPositions);
+			done();
+			clearInterval(intv);
+		}
+	}, 100);
+});
+
+QUnit.test('animate (no running annimation, not enough coordinates)', function(assert){
+	assert.expect(9);
+
+	var m = Date.now();
+
+	var track = new ol.geom.LineString([[0, 1, 0, m]], 'XYZM');
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+
+	tracker.animating = false;
+	tracker.animationStep = 10;
+	tracker.track = track;
+	tracker.markerOverlay.setPosition([0, 1, 0, 100]);
+
+	tracker.markerOverlay.setPosition = function(position){
+		assert.equal(position[0], track.getLastCoordinate()[0]);
+		assert.equal(position[1], track.getLastCoordinate()[1]);
+		assert.equal(position[2], track.getLastCoordinate()[2]);
+		assert.equal(position[3], track.getLastCoordinate()[3]);
+	};
+
+	tracker.updateView = function(position){
+		assert.equal(position[0], track.getLastCoordinate()[0]);
+		assert.equal(position[1], track.getLastCoordinate()[1]);
+		assert.equal(position[2], track.getLastCoordinate()[2]);
+		assert.equal(position[3], track.getLastCoordinate()[3]);
+	};
+
+	tracker.animate();
+
+	assert.equal(tracker.animatedPositions.length, 0);
+});
+
+QUnit.test('animate (has running annimation, not enough coordinates)', function(assert){
+	assert.expect(9);
+
+	var m = Date.now();
+
+	var track = new ol.geom.LineString([[0, 1, 0, m]], 'XYZM');
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+
+	tracker.animating = true;
+	tracker.animationStep = 10;
+	tracker.track = track;
+	tracker.markerOverlay.setPosition([0, 1, 0, 100]);
+
+	tracker.markerOverlay.setPosition = function(position){
+		assert.equal(position[0], track.getLastCoordinate()[0]);
+		assert.equal(position[1], track.getLastCoordinate()[1]);
+		assert.equal(position[2], track.getLastCoordinate()[2]);
+		assert.equal(position[3], track.getLastCoordinate()[3]);
+	};
+
+	tracker.updateView = function(position){
+		assert.equal(position[0], track.getLastCoordinate()[0]);
+		assert.equal(position[1], track.getLastCoordinate()[1]);
+		assert.equal(position[2], track.getLastCoordinate()[2]);
+		assert.equal(position[3], track.getLastCoordinate()[3]);
+	};
+
+	tracker.animate();
+
+	assert.equal(tracker.animatedPositions.length, 0);
+});
+
+QUnit.test('updateView (ol.Coordinate, positions[0], recenter, rotate, not currentZoomLevel)', function(assert){
+	assert.expect(7);
+
+	var position = [0, 1, 2, 1000];
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+	tracker.positions = ['mock-feature0'];
+	tracker.currentZoomLevel = false;
+	tracker.startingZoomLevel = 16;
+
+	tracker.getCenterWithHeading = function(pos, rotation, zoom){
+		assert.ok(pos === position);
+		assert.equal(rotation, -position[2]);
+		assert.equal(zoom, 16);
+		return 'mock-position';
+	};
+	tracker.view.cancelAnimations = function(){
+		assert.ok(true);
+	};
+	tracker.view.animate = function(options){
+		assert.equal(options.center, 'mock-position');
+		assert.equal(options.zoom, 16);
+		assert.equal(options.rotation, -2);
+	};
+
+	tracker.updateView(position);
+});
+
+QUnit.test('updateView (ol.Coordinate, positions[1], recenter, rotate, not currentZoomLevel)', function(assert){
+	assert.expect(0);
+
+	var position = [0, 1, 2, 1000];
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+	tracker.positions = ['mock-feature0', 'mock-feature1'];
+	tracker.currentZoomLevel = false;
+	tracker.startingZoomLevel = 16;
+
+	tracker.getCenterWithHeading = function(pos, rotation, zoom){
+		assert.ok(false);
+	};
+	tracker.view.cancelAnimations = function(){
+		assert.ok(false);
+	};
+	tracker.view.animate = function(options){
+		assert.ok(false);
+	};
+
+	tracker.updateView(position);
+});
+
+QUnit.test('updateView (ol.Coordinate, positions[2], recenter, rotate, not currentZoomLevel)', function(assert){
+	assert.expect(7);
+
+	var position = [0, 1, 2, 1000];
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+	tracker.positions = ['mock-feature0', 'mock-feature1', 'mock-feature2'];
+	tracker.currentZoomLevel = false;
+	tracker.startingZoomLevel = 16;
+
+	tracker.getCenterWithHeading = function(pos, rotation, zoom){
+		assert.ok(pos === position);
+		assert.equal(rotation, -position[2]);
+		assert.notOk(zoom);
+		return 'mock-position';
+	};
+	tracker.view.cancelAnimations = function(){
+		assert.ok(true);
+	};
+	tracker.view.animate = function(options){
+		assert.equal(options.center, 'mock-position');
+		assert.notOk(options.zoom);
+		assert.equal(options.rotation, -2);
+	};
+
+	tracker.updateView(position);
+});
+
+QUnit.test('updateView (ol.Coordinate, positions[2], recenter, rotate, not currentZoomLevel)', function(assert){
+	assert.expect(7);
+
+	var position = [0, 1, 2, 1000];
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+	tracker.positions = ['mock-feature0', 'mock-feature1', 'mock-feature2'];
+	tracker.currentZoomLevel = false;
+	tracker.startingZoomLevel = 16;
+
+	tracker.getCenterWithHeading = function(pos, rotation, zoom){
+		assert.ok(pos === position);
+		assert.equal(rotation, -position[2]);
+		assert.notOk(zoom);
+		return 'mock-position';
+	};
+	tracker.view.cancelAnimations = function(){
+		assert.ok(true);
+	};
+	tracker.view.animate = function(options){
+		assert.equal(options.center, 'mock-position');
+		assert.notOk(options.zoom);
+		assert.equal(options.rotation, -2);
+	};
+
+	tracker.updateView(position);
+});

@@ -86,7 +86,24 @@ nyc.ol.Tracker = function(options){
 	 * @private
 	 * @member {number}
 	 */
-	this.animationInterval = undefined;
+	this.animationInterval;
+	/**
+	 * @dec For testing only
+	 * @private
+	 * @member {number}
+	 */
+	this.animationStep;
+	/**
+	 * @dec For testing only
+	 * @private
+	 * @member {Array<ol.Coordinate>}
+	 */
+	this.animatedPositions = [];
+	/**
+	 * @private
+	 * @member {boolean}
+	 */
+	this.animating = false;
 	/**
 	 * @private
 	 * @member {ol.format.GeoJSON}
@@ -395,33 +412,36 @@ nyc.ol.Tracker.prototype.animate = function(){
 	var me = this;
 	var positions = me.track.getCoordinates();
 	var end = positions[positions.length - 1];
-
-	if (me.animationInterval){
-		clearInterval(me.animationInterval);
-		me.updateView(end);
-	}
-
 	var start = positions[positions.length - 2];
 	var marker = me.markerOverlay;
 
-	if (!start){
-		marker.setPosition(end);
-		me.updateView(end);
-	}else{
+	me.animatedPositions = [];
+
+	if (start){
+		if (me.animating){
+			me.animating = false;
+			clearInterval(me.animationInterval);
+			me.updateView(end);
+		}
 		var m = start[3];
 		var mEnd = end[3];
 		var step = (mEnd - m)/10;
+		me.animating = true;
 		me.animationInterval = setInterval(function(){
 			var p = me.track.getCoordinateAtM(m, true);
 			if (m >= mEnd){
+				me.animating = false;
 				clearInterval(me.animationInterval);
-				delete me.animationInterval;
 				p = end;
 				me.updateView(p);
 			}
+			me.animatedPositions.push(p);
 			marker.setPosition(p);
 			m += step;
-		}, 100);
+		}, me.animationStep || 100);
+	}else{
+		marker.setPosition(end);
+		me.updateView(end);
 	}
 };
 
