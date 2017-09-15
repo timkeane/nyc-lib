@@ -468,8 +468,10 @@ nyc.ol.Tracker.prototype.updateView = function(position){
 			options = options || {};
 			options.rotation = -position[2];
 		}
-		this.view.cancelAnimations();
-		this.view.animate(options);
+		if (options){
+			this.view.cancelAnimations();
+			this.view.animate(options);
+		}
 	}
 };
 

@@ -1374,12 +1374,46 @@ QUnit.test('updateView (ol.Coordinate, positions[0], recenter, rotate, not curre
 		map: this.TEST_OL_MAP
 	});
 	tracker.positions = ['mock-feature0'];
+	tracker.recenter = true;
+	tracker.rotate = true;
 	tracker.currentZoomLevel = false;
 	tracker.startingZoomLevel = 16;
 
 	tracker.getCenterWithHeading = function(pos, rotation, zoom){
 		assert.ok(pos === position);
 		assert.equal(rotation, -position[2]);
+		assert.equal(zoom, 16);
+		return 'mock-position';
+	};
+	tracker.view.cancelAnimations = function(){
+		assert.ok(true);
+	};
+	tracker.view.animate = function(options){
+		assert.equal(options.center, 'mock-position');
+		assert.equal(options.zoom, 16);
+		assert.equal(options.rotation, -2);
+	};
+
+	tracker.updateView(position);
+});
+
+QUnit.test('updateView (ol.Feature, positions[0], recenter, rotate, not currentZoomLevel)', function(assert){
+	assert.expect(7);
+
+	var position = new ol.Feature({geometry: new ol.geom.Point([0, 1, 2, 1000])});
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+	tracker.positions = ['mock-feature0'];
+	tracker.recenter = true;
+	tracker.rotate = true;
+	tracker.currentZoomLevel = false;
+	tracker.startingZoomLevel = 16;
+
+	tracker.getCenterWithHeading = function(pos, rotation, zoom){
+		assert.deepEqual(pos, position.getGeometry().getCoordinates());
+		assert.equal(rotation, -position.getGeometry().getCoordinates()[2]);
 		assert.equal(zoom, 16);
 		return 'mock-position';
 	};
@@ -1404,6 +1438,8 @@ QUnit.test('updateView (ol.Coordinate, positions[1], recenter, rotate, not curre
 		map: this.TEST_OL_MAP
 	});
 	tracker.positions = ['mock-feature0', 'mock-feature1'];
+	tracker.recenter = true;
+	tracker.rotate = true;
 	tracker.currentZoomLevel = false;
 	tracker.startingZoomLevel = 16;
 
@@ -1429,6 +1465,8 @@ QUnit.test('updateView (ol.Coordinate, positions[2], recenter, rotate, not curre
 		map: this.TEST_OL_MAP
 	});
 	tracker.positions = ['mock-feature0', 'mock-feature1', 'mock-feature2'];
+	tracker.recenter = true;
+	tracker.rotate = true;
 	tracker.currentZoomLevel = false;
 	tracker.startingZoomLevel = 16;
 
@@ -1459,6 +1497,8 @@ QUnit.test('updateView (ol.Coordinate, positions[2], recenter, rotate, not curre
 		map: this.TEST_OL_MAP
 	});
 	tracker.positions = ['mock-feature0', 'mock-feature1', 'mock-feature2'];
+	tracker.recenter = true;
+	tracker.rotate = true;
 	tracker.currentZoomLevel = false;
 	tracker.startingZoomLevel = 16;
 
@@ -1475,6 +1515,94 @@ QUnit.test('updateView (ol.Coordinate, positions[2], recenter, rotate, not curre
 		assert.equal(options.center, 'mock-position');
 		assert.notOk(options.zoom);
 		assert.equal(options.rotation, -2);
+	};
+
+	tracker.updateView(position);
+});
+
+QUnit.test('updateView (ol.Coordinate, positions[2], not recenter, not rotate, currentZoomLevel)', function(assert){
+	assert.expect(0);
+
+	var position = [0, 1, 2, 1000];
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+	tracker.positions = ['mock-feature0', 'mock-feature1', 'mock-feature2'];
+	tracker.recenter = false;
+	tracker.rotate = false;
+	tracker.currentZoomLevel = true;
+	tracker.startingZoomLevel = -1;
+
+	tracker.getCenterWithHeading = function(pos, rotation, zoom){
+		assert.ok(false);
+	};
+	tracker.view.cancelAnimations = function(){
+		assert.ok(false);
+	};
+	tracker.view.animate = function(options){
+		assert.ok(false);
+	};
+
+	tracker.updateView(position);
+});
+
+QUnit.test('updateView (ol.Coordinate, positions[2], recenter, not rotate, currentZoomLevel)', function(assert){
+	assert.expect(7);
+
+	var position = [0, 1, 2, 1000];
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+	tracker.positions = ['mock-feature0', 'mock-feature1', 'mock-feature2'];
+	tracker.recenter = true;
+	tracker.rotate = false;
+	tracker.currentZoomLevel = true;
+	tracker.startingZoomLevel = -1;
+
+	tracker.getCenterWithHeading = function(pos, rotation, zoom){
+		assert.ok(pos === position);
+		assert.equal(rotation, -position[2]);
+		assert.notOk(zoom);
+		return 'mock-position';
+	};
+	tracker.view.cancelAnimations = function(){
+		assert.ok(true);
+	};
+	tracker.view.animate = function(options){
+		assert.equal(options.center, 'mock-position');
+		assert.notOk(options.zoom);
+		assert.notOk(options.rotation);
+	};
+
+	tracker.updateView(position);
+});
+
+QUnit.test('updateView (ol.Coordinate, positions[2], not recenter, rotate, not currentZoomLevel)', function(assert){
+	assert.expect(4);
+
+	var position = [0, 1, 2, 1000];
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+	tracker.positions = ['mock-feature0', 'mock-feature1', 'mock-feature2'];
+	tracker.recenter = false;
+	tracker.rotate = true;
+	tracker.currentZoomLevel = false;
+	tracker.startingZoomLevel = -1;
+
+	tracker.getCenterWithHeading = function(pos, rotation, zoom){
+		assert.ok(false);
+	};
+	tracker.view.cancelAnimations = function(){
+		assert.ok(true);
+	};
+	tracker.view.animate = function(options){
+		assert.notOk();
+		assert.notOk(options.zoom);
+		assert.equal(options.rotation, -position[2]);
 	};
 
 	tracker.updateView(position);
