@@ -679,7 +679,7 @@ nyc.ol.Draw.prototype = {
 	 * @method
 	 */
 	store: function(){
-		if (this.features.length){
+		if (this.source.getFeatures().length){
 			this.storage.setItem(this.storeKey, this.getGeoJson());
 			this.saveBtn.show();
 			this.btnMnu.controlgroup('refresh');
@@ -872,22 +872,14 @@ nyc.ol.Drag.prototype.handleDownEvent = function(event){
  * @param {ol.MapBrowserEvent} event
  */
 nyc.ol.Drag.prototype.handleDragEvent = function(event){
-	var me = this, map = event.map;
+	var deltaX = event.coordinate[0] - this.coords[0];
+	var deltaY = event.coordinate[1] - this.coords[1];
 
-	var feature = map.forEachFeatureAtPixel(event.pixel, function(feature, layer){
-		if (layer === me.layer){
-			return feature;
-		}
-	});
-
-	var deltaX = event.coordinate[0] - me.coords[0];
-	var deltaY = event.coordinate[1] - me.coords[1];
-
-	var geometry = me.feature.getGeometry();
+	var geometry = this.feature.getGeometry();
 	geometry.translate(deltaX, deltaY);
 
-	me.coords[0] = event.coordinate[0];
-	me.coords[1] = event.coordinate[1];
+	this.coords[0] = event.coordinate[0];
+	this.coords[1] = event.coordinate[1];
 };
 
 /**

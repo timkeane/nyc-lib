@@ -2422,7 +2422,9 @@ QUnit.test('store (has features)', function(assert){
 
 	draw.saveBtn.hide();
 
-	draw.features = ['mock-feature'];
+	draw.source.getFeatures = function(){
+		return ['mock-feature'];
+	};
 
 	draw.storage.setItem = function(key, item){
 		assert.equal(key, draw.storeKey);
@@ -2451,7 +2453,9 @@ QUnit.test('store (no features)', function(assert){
 
 	draw.saveBtn.show();
 
-	draw.features = [];
+	draw.source.getFeatures = function(){
+		return [];
+	};
 
 	draw.storage.setItem = function(key, item){
 		assert.ok(false);
