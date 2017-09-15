@@ -229,37 +229,59 @@ nyc.ol.Tracker.prototype.updatePosition = function(){
  */
 nyc.ol.Tracker.prototype.addPosition = function(position, accuracy, heading, m, speed){
 	if (!this.accuracyLimit || accuracy <= this.accuracyLimit){
-		var x = position[0];
-		var y = position[1];
-		var fCoords = this.track.getCoordinates();
-		var previous = fCoords[fCoords.length - 1];
-		var prevHeading = previous && previous[2];
-		if (prevHeading){
-			var headingDiff = heading - this.mod(prevHeading);
-			// force the rotation change to be less than 180°
-			if (Math.abs(headingDiff) > Math.PI){
-			  var sign = (headingDiff >= 0) ? 1 : -1;
-			  headingDiff = -sign * (2 * Math.PI - Math.abs(headingDiff));
-			}
-			heading = prevHeading + headingDiff;
-		}
-
-		var position = [x, y, heading, m];
-		this.positions.push(new ol.Feature({
-			id: this.positions.length,
-			geometry: new ol.geom.Point(position),
-			accuracy: accuracy,
-			timestamp: new Date(m).toISOString()
-		}));
-		this.track.appendCoordinate(position);
-		if (this.maxPoints){
-			this.track.setCoordinates(this.track.getCoordinates().slice(-(this.maxPoints)));
-		}
+		heading = this.determineHeading(position, heading);
+		this.updateGeometries(position, accuracy, heading, m);
 		this.marker(speed, heading);
-		this.store();
 		this.dispatchEvent({type: nyc.ol.Tracker.EventType.UPDATED, target: this});
 		return true;
 	}
+};
+
+/**
+ * @private
+ * @method
+ * @param {ol.Coordinate} position
+ * @param {number} accuracy
+ * @param {number} m
+ */
+nyc.ol.Tracker.prototype.updateGeometries = function(position, accuracy, heading, m){
+	position = [position[0], position[1], heading, m];
+	this.positions.push(new ol.Feature({
+		id: this.positions.length,
+		geometry: new ol.geom.Point(position),
+		accuracy: accuracy,
+		timestamp: new Date(m).toISOString()
+	}));
+	this.track.appendCoordinate(position);
+	if (this.maxPoints){
+		this.track.setCoordinates(this.track.getCoordinates().slice(-(this.maxPoints)));
+	}
+	this.store();
+};
+
+/**
+ * @private
+ * @method
+ * @param {ol.Coordinate} position
+ * @param {number} heading
+ * @return {number}
+ */
+nyc.ol.Tracker.prototype.determineHeading = function(position, heading){
+	var x = position[0];
+	var y = position[1];
+	var coords = this.track.getCoordinates();
+	var previous = coords[coords.length - 1];
+	var prevHeading = previous && previous[2];
+	if (prevHeading){
+		var headingDiff = heading - this.mod(prevHeading);
+		// force the rotation change to be less than 180°
+		if (Math.abs(headingDiff) > Math.PI){
+			var sign = (headingDiff >= 0) ? 1 : -1;
+			headingDiff = -sign * (2 * Math.PI - Math.abs(headingDiff));
+		}
+		heading = prevHeading + headingDiff;
+	}
+	return heading;
 };
 
 /**
