@@ -726,3 +726,425 @@ QUnit.test('addPosition (over accuracy limit)', function(assert){
 
 	assert.notOk(tracker.addPosition(position, 50, Math.PI, 1000, 20));
 });
+
+QUnit.test('updateGeometries (no maxPoints)', function(assert){
+	assert.expect(13);
+
+	var track = new ol.geom.LineString([[0, 1, 0, 100], [1, 2, 1, 200], [2, 3, 2, 300]], 'XYZM');
+	var feature0 = new ol.Feature({
+		id: 0,
+		geometry: new ol.geom.Point([0, 1, 0, 100]),
+		accuracy: 50,
+		timestamp: 'mock-timestamp-0'
+	});
+	var feature1 = new ol.Feature({
+		id: 1,
+		geometry: new ol.geom.Point([1, 2, 1, 200]),
+		accuracy: 100,
+		timestamp: 'mock-timestamp-0'
+	});
+	var feature2 = new ol.Feature({
+		id: 2,
+		geometry: new ol.geom.Point([2, 3, 2, 300]),
+		accuracy: 30,
+		timestamp: 'mock-timestamp-0'
+	});
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+
+	tracker.store = function(){
+		assert.ok(true);
+	};
+	tracker.track = track;
+	tracker.positions = [feature0, feature1, feature2];
+
+	var now = Date.now();
+
+	tracker.updateGeometries([3, 2], 40, 3, now);
+
+	assert.equal(tracker.track.getCoordinates().length, 4);
+	assert.deepEqual(tracker.track.getCoordinates()[0], [0, 1, 0, 100]);
+	assert.deepEqual(tracker.track.getCoordinates()[1], [1, 2, 1, 200]);
+	assert.deepEqual(tracker.track.getCoordinates()[2], [2, 3, 2, 300]);
+	assert.deepEqual(tracker.track.getCoordinates()[3], [3, 2, 3, now]);
+
+	assert.equal(tracker.positions.length, 4);
+	assert.deepEqual(tracker.positions[0], feature0);
+	assert.deepEqual(tracker.positions[1], feature1);
+	assert.deepEqual(tracker.positions[2], feature2);
+	assert.deepEqual(tracker.positions[3].getGeometry().getCoordinates(), [3, 2, 3, now]);
+	assert.equal(tracker.positions[3].get('accuracy'), 40);
+	assert.equal(tracker.positions[3].get('timestamp'), new Date(now).toISOString());
+});
+
+QUnit.test('updateGeometries (has maxPoints)', function(assert){
+	assert.expect(11);
+
+	var track = new ol.geom.LineString([[0, 1, 0, 100], [1, 2, 1, 200], [2, 3, 2, 300]], 'XYZM');
+	var feature0 = new ol.Feature({
+		id: 0,
+		geometry: new ol.geom.Point([0, 1, 0, 100]),
+		accuracy: 50,
+		timestamp: 'mock-timestamp-0'
+	});
+	var feature1 = new ol.Feature({
+		id: 1,
+		geometry: new ol.geom.Point([1, 2, 1, 200]),
+		accuracy: 100,
+		timestamp: 'mock-timestamp-0'
+	});
+	var feature2 = new ol.Feature({
+		id: 2,
+		geometry: new ol.geom.Point([2, 3, 2, 300]),
+		accuracy: 30,
+		timestamp: 'mock-timestamp-0'
+	});
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+
+	tracker.maxPoints = 3;
+
+	tracker.store = function(){
+		assert.ok(true);
+	};
+	tracker.track = track;
+	tracker.positions = [feature0, feature1, feature2];
+
+	var now = Date.now();
+
+	tracker.updateGeometries([3, 2], 40, 3, now);
+
+	assert.equal(tracker.track.getCoordinates().length, 3);
+	assert.deepEqual(tracker.track.getCoordinates()[0], [1, 2, 1, 200]);
+	assert.deepEqual(tracker.track.getCoordinates()[1], [2, 3, 2, 300]);
+	assert.deepEqual(tracker.track.getCoordinates()[2], [3, 2, 3, now]);
+
+	assert.equal(tracker.positions.length, 3);
+	assert.deepEqual(tracker.positions[0], feature1);
+	assert.deepEqual(tracker.positions[1], feature2);
+	assert.deepEqual(tracker.positions[2].getGeometry().getCoordinates(), [3, 2, 3, now]);
+	assert.equal(tracker.positions[2].get('accuracy'), 40);
+	assert.equal(tracker.positions[2].get('timestamp'), new Date(now).toISOString());
+});
+
+QUnit.test('determineHeading (has previous heading)', function(assert){
+	assert.expect(3);
+
+	var track = new ol.geom.LineString([[0, 1, 0, 100], [1, 2, 1, 200], [2, 3, 2, 300]], 'XYZM');
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+
+	tracker.track = track;
+
+	assert.equal(tracker.determineHeading([3, 4], 2), 2);
+	assert.equal(tracker.determineHeading([3, 4], 3), 3);
+	assert.equal(tracker.determineHeading([3, 4], -3), (2 * Math.PI - 3));
+});
+
+QUnit.test('determineHeading (no previous heading)', function(assert){
+	assert.expect(3);
+
+	var track = new ol.geom.LineString([[0, 1, 0, 100], [1, 2, 1, 200], [2, 3, NaN, 300]], 'XYZM');
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+
+	tracker.track = track;
+
+	assert.equal(tracker.determineHeading([3, 4], 2), 2);
+	assert.equal(tracker.determineHeading([3, 4], 3), 3);
+	assert.equal(tracker.determineHeading([3, 4], -3), -3);
+});
+
+QUnit.test('store', function(assert){
+	assert.expect(10);
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+	tracker.track = 'mock-track';
+	tracker.positions = 'mock-positions';
+
+	var written = [];
+	var write = function(obj, options){
+		written.push([obj, options]);
+		return obj + '-json';
+	};
+	tracker.geoJson.writeGeometry = write;
+	tracker.geoJson.writeFeatures = write;
+
+	var stored = [];
+	tracker.storage.setItem = function(key, item){
+		stored.push([key, item]);
+	};
+
+	tracker.store();
+
+	assert.equal(written.length, 2);
+	assert.equal(written[0][0], 'mock-track');
+	assert.equal(written[0][1].featureProjection.getCode(), tracker.view.getProjection().getCode());
+	assert.equal(written[1][0], 'mock-positions');
+	assert.equal(written[1][1].featureProjection.getCode(), tracker.view.getProjection().getCode());
+
+	assert.equal(stored.length, 2);
+	assert.equal(stored[0][0], tracker.trackStore);
+	assert.equal(stored[0][1], 'mock-track-json');
+	assert.equal(stored[1][0], tracker.positionsStore);
+	assert.equal(stored[1][1], 'mock-positions-json');
+});
+
+QUnit.test('reset', function(assert){
+	assert.expect(6);
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+	tracker.track = 'mock-track';
+	tracker.positions = 'mock-positions';
+
+	tracker.store = function(){
+		assert.ok(true);
+	};
+
+	tracker.reset();
+
+	assert.equal(tracker.track.getType(), 'LineString');
+	assert.equal(tracker.track.getCoordinates().length, 0);
+	assert.equal(tracker.track.getLayout(), 'XYZM');
+	assert.ok($.isArray(tracker.positions));
+	assert.equal(tracker.positions.length, 0);
+});
+
+QUnit.test('restore (has storage, yes)', function(assert){
+	assert.expect(15);
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+
+	var gotten = [];
+	tracker.storage.getItem = function(key){
+		gotten.push(key);
+		if (key == tracker.trackStore){
+			return 'track-json';
+		}
+		return 'positions-json';
+	};
+
+	var yesNo = nyc.Dialog.prototype.yesNo;
+	nyc.Dialog.prototype.yesNo = function(args){
+		assert.equal(args.message, 'Retore previous tracking data?');
+		args.callback(true);
+	};
+
+	var restoredPositions = ['mock-feature0', 'mock-feature1'];
+	tracker.geoJson.readFeatures = function(obj, options){
+		assert.equal(obj, 'positions-json');
+		assert.equal(options.dataProjection, 'EPSG:4326');
+		assert.equal(options.featureProjection.getCode(), tracker.view.getProjection().getCode());
+		return restoredPositions;
+	};
+	tracker.geoJson.readGeometry = function(obj, options){
+		assert.equal(obj, 'track-json');
+		assert.equal(options.dataProjection, 'EPSG:4326');
+		assert.equal(options.featureProjection.getCode(), tracker.view.getProjection().getCode());
+		return 'mock-track';
+	};
+	tracker.updatePosition = function(){
+		// called once by restore and again when triggering change at end of test
+		assert.ok(true);
+	};
+	tracker.updateView = function(position){
+		assert.equal(position, 'mock-feature1');
+	};
+	tracker.reset = function(){
+		assert.ok(false);
+	};
+
+	tracker.restore();
+
+	assert.equal(tracker.track, 'mock-track');
+	assert.ok(tracker.positions == restoredPositions);
+
+	assert.equal(gotten.length, 2);
+	assert.equal(gotten[0], tracker.trackStore);
+	assert.equal(gotten[1], tracker.positionsStore);
+
+	tracker.dispatchEvent('change');
+
+	nyc.Dialog.prototype.yesNo = yesNo;
+});
+
+QUnit.test('restore (has storage, no)', function(assert){
+	assert.expect(9);
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+
+	var gotten = [];
+	tracker.storage.getItem = function(key){
+		gotten.push(key);
+		if (key == tracker.trackStore){
+			return 'track-json';
+		}
+		return 'positions-json';
+	};
+
+	var yesNo = nyc.Dialog.prototype.yesNo;
+	nyc.Dialog.prototype.yesNo = function(args){
+		assert.equal(args.message, 'Retore previous tracking data?');
+		args.callback(false);
+	};
+
+	tracker.geoJson.readFeatures = function(obj, options){
+		assert.ok(false);
+	};
+	tracker.geoJson.readGeometry = function(obj, options){
+		assert.ok(false);
+	};
+	tracker.updatePosition = function(){
+		// called once by restore and again when triggering change at end of test
+		assert.ok(true);
+	};
+	tracker.updateView = function(position){
+		assert.ok(false);
+	};
+	tracker.reset = function(){
+		assert.ok(true);
+	};
+
+	tracker.restore();
+
+	assert.notOk(tracker.track);
+	assert.notOk(tracker.positions);
+
+	assert.equal(gotten.length, 2);
+	assert.equal(gotten[0], tracker.trackStore);
+	assert.equal(gotten[1], tracker.positionsStore);
+
+	tracker.dispatchEvent('change');
+
+	nyc.Dialog.prototype.yesNo = yesNo;
+});
+
+QUnit.test('restore (no storage)', function(assert){
+	assert.expect(8);
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+
+	var gotten = [];
+	tracker.storage.getItem = function(key){
+		gotten.push(key);
+	};
+
+	var yesNo = nyc.Dialog.prototype.yesNo;
+	nyc.Dialog.prototype.yesNo = function(args){
+		assert.ok(false);
+	};
+
+	tracker.geoJson.readFeatures = function(obj, options){
+		assert.ok(false);
+	};
+	tracker.geoJson.readGeometry = function(obj, options){
+		assert.ok(false);
+	};
+	tracker.updatePosition = function(){
+		// called once by restore and again when triggering change at end of test
+		assert.ok(true);
+	};
+	tracker.updateView = function(position){
+		assert.ok(false);
+	};
+	tracker.reset = function(){
+		assert.ok(true);
+	};
+
+	tracker.restore();
+
+	assert.notOk(tracker.track);
+	assert.notOk(tracker.positions);
+
+	assert.equal(gotten.length, 2);
+	assert.equal(gotten[0], tracker.trackStore);
+	assert.equal(gotten[1], tracker.positionsStore);
+
+	tracker.dispatchEvent('change');
+
+	nyc.Dialog.prototype.yesNo = yesNo;
+});
+
+QUnit.test('marker (has speed, no view rotation)', function(assert){
+	assert.expect(3);
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+	tracker.rotate = false;
+
+	tracker.marker(10, 1);
+
+	var img = tracker.img.get(0);
+
+	assert.equal(img.src, nyc.ol.Tracker.LOCATION_HEADING_IMG);
+	assert.equal(img.style.transform, 'rotate(1rad)');
+	assert.equal(img.style['-webkit-transform'], 'rotate(1rad)');
+});
+
+QUnit.test('marker (has speed, has view rotation)', function(assert){
+	assert.expect(3);
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+	tracker.rotate = true;
+
+	tracker.marker(10, 1);
+
+	var img = tracker.img.get(0);
+
+	assert.equal(img.src, nyc.ol.Tracker.LOCATION_HEADING_IMG);
+	assert.notOk(img.style.transform);
+	assert.notOk(img.style['-webkit-transform']);
+});
+
+QUnit.test('marker (no speed, no view rotation)', function(assert){
+	assert.expect(3);
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+	tracker.rotate = false;
+
+	tracker.marker(0, 1);
+
+	var img = tracker.img.get(0);
+
+	assert.equal(img.src, nyc.ol.Tracker.LOCATION_IMG);
+	assert.notOk(img.style.transform);
+	assert.notOk(img.style['-webkit-transform']);
+});
+
+QUnit.test('marker (no speed, has view rotation)', function(assert){
+	assert.expect(3);
+
+	var tracker = new nyc.ol.Tracker({
+		map: this.TEST_OL_MAP
+	});
+	tracker.rotate = true;
+
+	tracker.marker(0, 1);
+
+	var img = tracker.img.get(0);
+
+	assert.equal(img.src, nyc.ol.Tracker.LOCATION_IMG);
+	assert.notOk(img.style.transform);
+	assert.notOk(img.style['-webkit-transform']);
+});

@@ -254,7 +254,8 @@ nyc.ol.Tracker.prototype.updateGeometries = function(position, accuracy, heading
 	}));
 	this.track.appendCoordinate(position);
 	if (this.maxPoints){
-		this.track.setCoordinates(this.track.getCoordinates().slice(-(this.maxPoints)));
+		this.track.setCoordinates(this.track.getCoordinates().slice(-this.maxPoints));
+		this.positions = this.positions.slice(-this.maxPoints);
 	}
 	this.store();
 };
@@ -267,8 +268,6 @@ nyc.ol.Tracker.prototype.updateGeometries = function(position, accuracy, heading
  * @return {number}
  */
 nyc.ol.Tracker.prototype.determineHeading = function(position, heading){
-	var x = position[0];
-	var y = position[1];
 	var coords = this.track.getCoordinates();
 	var previous = coords[coords.length - 1];
 	var prevHeading = previous && previous[2];
@@ -339,15 +338,13 @@ nyc.ol.Tracker.prototype.restore = function(){
 				}else{
 					me.reset();
 				}
-				me.on('change', me.updatePosition, me);
-				me.updatePosition();
 			}
 		});
 	}else{
 		this.reset();
-		me.on('change', me.updatePosition, me);
-		me.updatePosition();
 	}
+	me.on('change', me.updatePosition, me);
+	me.updatePosition();
 };
 
 /**
@@ -360,6 +357,7 @@ nyc.ol.Tracker.prototype.marker = function(speed, heading){
 	if (speed){
 		this.img.attr('src', nyc.ol.Tracker.LOCATION_HEADING_IMG);
 		if (!this.rotate){
+			// not rotating view so let's rotate marker
 			var transform = 'rotate(' + heading + 'rad)';
 			this.img.css({
 				transform: transform,
