@@ -122,11 +122,14 @@ nyc.ol.Tracker = function(options){
 	});
 
 	$('body').append(this.img);
-	this.markerOverlay = new ol.Overlay({
+
+	var overlayOpts = {
 		positioning: 'center-center',
 		element: this.img.get(0),
 		stopEvent: false
-	});
+	};
+	this.markerOverlay = new ol.Overlay(overlayOpts);
+	this.markerOverlay.setProperties(overlayOpts); // for testing to ensure proper args were used
 	this.map.addOverlay(this.markerOverlay);
 
 	this.on('error', function(error){
@@ -145,8 +148,8 @@ ol.inherits(nyc.ol.Tracker, ol.Geolocation);
  * @param {boolean} tracking Whether or not to track position
  */
 nyc.ol.Tracker.prototype.setTracking = function(tracking){
-	var wasTracking = this.getTracking();
 	if (tracking){
+		var wasTracking = this.getTracking();
 		if (this.firstRun){
 			this.firstRun = false;
 			this.restore();

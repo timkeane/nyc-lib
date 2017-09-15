@@ -235,7 +235,7 @@ nyc.ol.Draw.prototype = {
 					condition: $.proxy(me.drawCondition, me)
 				};
 				me.drawer = new ol.interaction.Draw(options);
-				me.drawer.setProperties(options); //for testing to ensure proper args were used
+				me.drawer.setProperties(options); // for testing to ensure proper args were used
 				me.map.addInteraction(me.drawer);
 				me.map.addInteraction(me.modify);
 			}
