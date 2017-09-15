@@ -195,9 +195,8 @@ nyc.ol.Draw.prototype = {
 	 * @return {boolean} The active state
 	 */
 	active: function(){
-		if (this.drawer) return this.drawer.getActive();
-		if (this.tracker) return this.tracker.getTracking();
-		return false;
+		if (this.drawer && this.drawer.getActive()) return true;
+		return this.tracker.getTracking();
 	},
 	/**
 	 * @desc Activate to begin adding drawings of the specified type
@@ -510,8 +509,7 @@ nyc.ol.Draw.prototype = {
 		me.btnMnu = viewport.find('.draw-btn-mnu').controlgroup({});
 		me.mnuBtn = viewport.find('.draw-btn');
 		me.mnuBtn.click(function(){
-			me.btnMnu.slideToggle();
-			me.btnMnu.controlgroup('refresh');
+			me.btnMnu.slideToggle().controlgroup('refresh');
 		});
 		$(this.map.getTarget()).click($.proxy(me.btnMnu.slideUp, me.btnMnu));
 		if (this.storage.canDownload()){
@@ -520,7 +518,8 @@ nyc.ol.Draw.prototype = {
 		}else{
 			me.saveBtn = $();
 		}
-		viewport.find('.draw-mnu-btn').click($.proxy(me.choose, me));
+		viewport.find('.draw-mnu-btn').not('.save')
+			.click($.proxy(me.choose, me));
 	},
 	/**
 	 * @private
@@ -553,21 +552,21 @@ nyc.ol.Draw.prototype = {
 	 * @method
 	 * @param {JQuery.Event} event
 	 */
-	contextMenu: function(event){
-		var me = this, map = me.map;
-		if (me.active()){
-			var feature = map.forEachFeatureAtPixel(
-				map.getEventPixel(event), function(feature){
-		    		if ($.inArray(feature, me.features.getArray()) > -1){
-		    			return feature;
-		    		}
-		        });
-		    if (feature){
-				me.showContextMenu(event, feature);
-		    }
-		}
-	    return false;
-	},
+	 contextMenu: function(event){
+		 var me = this;
+		 if (me.active()){
+			 var map = me.map, feature;
+			 feature = map.forEachFeatureAtPixel(
+				 map.getEventPixel(event), function(feature, layer){
+					 if (layer === me.layer) return feature;
+				 }
+			 );
+			 if (feature){
+				 me.showContextMenu(event, feature);
+			 }
+		 }
+		 return false;
+		},
 	/**
 	 * @private
 	 * @method

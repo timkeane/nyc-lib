@@ -4,7 +4,9 @@ QUnit.module('nyc.ol.Draw', {
 	},
 	afterEach: function(assert){
 		teardown(assert, this);
+		$('.draw-btn, .draw-btn-mnu, .draw-ctx-mnu').remove();
 	}
+
 });
 
 QUnit.test('constructor (defaults)', function(assert){
@@ -56,6 +58,7 @@ QUnit.test('constructor (defaults)', function(assert){
 	nyc.ol.Draw.prototype.restore = restore;
 	nyc.ol.Draw.prototype.createModify = createModify;
 	nyc.ol.Draw.prototype.buttonMenu = buttonMenu;
+	nyc.ol.Draw.prototype.updateTrack = updateTrack;
 });
 
 QUnit.test('constructor (showAccuracy=false)', function(assert){
@@ -108,13 +111,18 @@ QUnit.test('constructor (showAccuracy=false)', function(assert){
 	nyc.ol.Draw.prototype.restore = restore;
 	nyc.ol.Draw.prototype.createModify = createModify;
 	nyc.ol.Draw.prototype.buttonMenu = buttonMenu;
+	nyc.ol.Draw.prototype.updateTrack = updateTrack;
 });
 
 QUnit.test('constructor (custom styles)', function(assert){
 	assert.expect(27);
 
-	var style = function(){/* mock style */};
-	var accuracyStyle = function(){/* mock accuracyStyle */};
+	var style = function(){
+		//mock style
+	};
+	var accuracyStyle = function(){
+		// mock accuracyStyle
+	};
 
 	var restore = nyc.ol.Draw.prototype.restore;
 	var createModify = nyc.ol.Draw.prototype.createModify;
@@ -164,7 +172,9 @@ QUnit.test('constructor (custom styles)', function(assert){
 	nyc.ol.Draw.prototype.restore = restore;
 	nyc.ol.Draw.prototype.createModify = createModify;
 	nyc.ol.Draw.prototype.buttonMenu = buttonMenu;
+	nyc.ol.Draw.prototype.updateTrack = updateTrack;
 });
+
 
 QUnit.test('setGpsAccuracyLimit', function(assert){
 	assert.expect(4);
@@ -183,25 +193,30 @@ QUnit.test('setGpsAccuracyLimit', function(assert){
 });
 
 QUnit.test('active', function(assert){
-	assert.expect(5);
+	assert.expect(6);
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
 	});
 
+	delete draw.drawer;
 	assert.notOk(draw.active());
 
 	draw.drawer = {getActive: function(){return true;}};
 	assert.ok(draw.active());
 
-	delete draw.drawer;
+	draw.drawer = {getActive: function(){return false;}};
 	assert.notOk(draw.active());
 
 	draw.tracker = {getTracking: function(){return true;}};
 	assert.ok(draw.active());
 
-	delete draw.tracker;
+	delete draw.drawer;
+	draw.tracker = {getTracking: function(){return false;}};
 	assert.notOk(draw.active());
+
+	draw.tracker = {getTracking: function(){return true;}};
+	assert.ok(draw.active());
 });
 
 QUnit.test('activate (nyc.ol.Draw.Type.NONE)', function(assert){
@@ -227,8 +242,12 @@ QUnit.test('activate (nyc.ol.Draw.Type.POINT)', function(assert){
 
 	var feature = new ol.Feature({geometry: new ol.geom.Point([1, 2])});
 	var actualEvents = [];
-	var drawCondition = function(){/* mock-condition-proxy */};
-	var mockFreehandCondition = function(){/* mock-freehandCondition-proxy */};
+	var drawCondition = function(){
+		// mock condition proxy
+	};
+	var mockFreehandCondition = function(){
+		// mock freehandCondition proxy
+	};
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
@@ -282,8 +301,12 @@ QUnit.test('activate (nyc.ol.Draw.Type.LINE)', function(assert){
 
 	var feature = new ol.Feature({geometry: new ol.geom.LineString([[1, 2], [3, 4]])});
 	var actualEvents = [];
-	var drawCondition = function(){/* mock-condition-proxy */};
-	var mockFreehandCondition = function(){/* mock-freehandCondition-proxy */};
+	var drawCondition = function(){
+		// mock condition proxy
+	};
+	var mockFreehandCondition = function(){
+		// mock-freehandCondition-proxy
+	};
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
@@ -337,8 +360,12 @@ QUnit.test('activate (nyc.ol.Draw.Type.POLYGON)', function(assert){
 
 	var feature = new ol.Feature({geometry: new ol.geom.Polygon([[1, 2], [3, 4], [5, 6], [1, 2]])});
 	var actualEvents = [];
-	var drawCondition = function(){/* mock-condition-proxy */};
-	var mockFreehandCondition = function(){/* mock-freehandCondition-proxy */};
+	var drawCondition = function(){
+		// mock condition proxy
+	};
+	var mockFreehandCondition = function(){
+		// mock freehandCondition proxy
+	};
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
@@ -392,8 +419,12 @@ QUnit.test('activate (nyc.ol.Draw.Type.CIRCLE)', function(assert){
 
 	var feature = new ol.Feature({geometry: new ol.geom.Circle([1, 2], 1)});
 	var actualEvents = [];
-	var drawCondition = function(){/* mock-condition-proxy */};
-	var mockFreehandCondition = function(){/* mock-freehandCondition-proxy */};
+	var drawCondition = function(){
+		// mock condition proxy
+	};
+	var mockFreehandCondition = function(){
+		// mock freehandCondition proxy
+	};
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
@@ -447,9 +478,15 @@ QUnit.test('activate (nyc.ol.Draw.Type.SQUARE)', function(assert){
 
 	var feature = new ol.Feature({geometry: new ol.geom.Polygon([[0, 1], [1, 1], [1, 2], [2, 2], [0, 2], [0, 1]])});
 	var actualEvents = [];
-	var drawCondition = function(){/* mock condition proxy */};
-	var mockFreehandCondition = function(){/* mock freehandCondition proxy */};
-	var mockCreateRegularPolygon = function(){/* mock createRegularPolygon */};
+	var drawCondition = function(){
+		// mock condition proxy
+	};
+	var mockFreehandCondition = function(){
+		// mock freehandCondition proxy
+	};
+	var mockCreateRegularPolygon = function(){
+		// mock createRegularPolygon
+	};
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
@@ -510,9 +547,15 @@ QUnit.test('activate (nyc.ol.Draw.Type.BOX)', function(assert){
 
 	var feature = new ol.Feature({geometry: new ol.geom.Polygon([[0, 1], [1, 1], [1, 2], [2, 2], [0, 2], [0, 1]])});
 	var actualEvents = [];
-	var drawCondition = function(){/* mock condition proxy */};
-	var mockFreehandCondition = function(){/* mock freehandCondition proxy */};
-	var mockCreateRegularPolygon = function(){/* mock createRegularPolygon */};
+	var drawCondition = function(){
+		// mock condition proxy
+	};
+	var mockFreehandCondition = function(){
+		// mock freehandCondition proxy
+	};
+	var mockCreateRegularPolygon = function(){
+		// mock createRegularPolygon
+	};
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
@@ -566,9 +609,15 @@ QUnit.test('activate (nyc.ol.Draw.Type.FREE)', function(assert){
 
 	var feature = new ol.Feature({geometry: new ol.geom.Polygon([[0, 1], [1, 1], [1, 2], [2, 2], [0, 2], [0, 1]])});
 	var actualEvents = [];
-	var drawCondition = function(){/* mock condition proxy */};
-	var mockFreehandCondition = function(){/* mock freehandCondition proxy */};
-	var mockCreateRegularPolygon = function(){/* mock createRegularPolygon */};
+	var drawCondition = function(){
+		// mock condition proxy
+	};
+	var mockFreehandCondition = function(){
+		// mock freehandCondition proxy
+	};
+	var mockCreateRegularPolygon = function(){
+		// mock createRegularPolygon
+	};
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
@@ -622,9 +671,15 @@ QUnit.test('activate (nyc.ol.Draw.Type.GPS)', function(assert){
 
 	var feature = new ol.Feature({geometry: new ol.geom.Polygon([[0, 1], [1, 1], [1, 2], [2, 2], [0, 2], [0, 1]])});
 	var actualEvents = [];
-	var drawCondition = function(){/* mock condition proxy */};
-	var mockFreehandCondition = function(){/* mock freehandCondition proxy */};
-	var mockCreateRegularPolygon = function(){/* mock createRegularPolygon */};
+	var drawCondition = function(){
+		// mock condition proxy
+	};
+	var mockFreehandCondition = function(){
+		// mock freehandCondition proxy
+	};
+	var mockCreateRegularPolygon = function(){
+		// mock createRegularPolygon
+	};
 
 	var draw = new nyc.ol.Draw({
 		map: this.TEST_OL_MAP
@@ -929,7 +984,9 @@ QUnit.test('createModify', function(assert){
 	this.TEST_OL_MAP.removeInteraction(draw.modify);
 	delete draw.modify;
 
-	var deleteCondition = function(){/* mock deleteCondition proxy */};
+	var deleteCondition = function(){
+		// mock deleteCondition proxy
+	};
 	var proxy = $.proxy;
 	$.proxy = function(fn, scope){
 		if (fn === draw.deleteCondition && scope == draw){
@@ -1287,4 +1344,834 @@ QUnit.test('getGpsTrack', function(assert){
 	assert.equal(track1.getGeometry().getLayout(), 'XYZM');
 	assert.ok(track2 === draw.gpsTrack);
 	assert.ok(track2 === track1);
+});
+
+QUnit.test('beginGpsCapture', function(assert){
+	assert.expect(4);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	assert.equal(draw.tracker.accuracyLimit, 0);
+	assert.notOk(draw.tracker.getTracking());
+
+	draw.setGpsAccuracyLimit(50);
+
+	draw.beginGpsCapture();
+	assert.equal(draw.tracker.accuracyLimit, 50);
+	assert.ok(draw.tracker.getTracking());
+});
+
+QUnit.test('updateTrack', function(assert){
+	assert.expect(9);
+
+	var positions = [
+		new ol.Feature({geometry: new ol.geom.Point([0, 1])}),
+		new ol.Feature({geometry: new ol.geom.Point([1, 2])}),
+		new ol.Feature({geometry: new ol.geom.Point([2, 3])}),
+	];
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	assert.equal(draw.source.getFeatures().length, 0);
+
+	var track = draw.getGpsTrack();
+	assert.equal(draw.source.getFeatures().length, 1);
+	assert.ok(draw.source.getFeatures()[0] === track);
+	assert.equal(track.getGeometry().getCoordinates().length, 0);
+
+	draw.tracker.track = new ol.geom.LineString([[0, 1], [1, 2], [2, 3]], 'XYZM');
+	draw.tracker.positions = positions;
+
+	draw.tracker.dispatchEvent(nyc.ol.Tracker.EventType.UPDATED, draw.tracker);
+
+	assert.ok(draw.getGpsTrack() === track);
+	assert.ok(draw.getGpsTrack().getGeometry() === draw.tracker.track);
+	assert.equal(draw.source.getFeatures().length, 2);
+	assert.ok(draw.source.getFeatures()[0] === track);
+	assert.ok(draw.source.getFeatures()[1] === positions[2]);
+});
+
+QUnit.test('escape', function(assert){
+	assert.expect(3);
+
+	var setActiveCalls = [];
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.escape();
+
+	draw.drawer = {
+		isActive: false,
+		getActive: function(){
+			return this.isActive;
+		},
+		setActive: function(active){
+			setActiveCalls.push(active);
+		}
+	};
+
+	draw.drawer.isActive = false;
+	draw.escape();
+
+	draw.drawer.isActive = true;
+	draw.escape();
+
+	assert.equal(setActiveCalls.length, 2);
+	assert.notOk(setActiveCalls[0]);
+	assert.ok(setActiveCalls[1]);
+});
+
+QUnit.test('closeMenus', function(assert){
+	assert.expect(2);
+
+	var done = assert.async();
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	$('body').append($('<div class="draw-ctx-mnu"></div>'));
+	$('.draw-btn-mnu').show();
+
+	draw.closeMenus();
+
+	setTimeout(function(){
+		assert.notOk($('.draw-btn-mnu:visible').length);
+		assert.notOk($('.draw-ctx-mnu').length);
+		done();
+	}, 600);
+});
+
+QUnit.test('buttonMenu (called by constructor, canDownload=true)', function(assert){
+	assert.expect(18);
+
+	var done = assert.async();
+
+	var canDownload = nyc.storage.Local.prototype.canDownload;
+	var choose = nyc.ol.Draw.prototype.choose;
+
+	nyc.ol.storage.Local.prototype.canDownload = function(){
+		return true;
+	};
+	nyc.ol.Draw.prototype.choose = function(event){
+		assert.ok(true);
+	};
+
+	var save = nyc.ol.Draw.prototype.save;
+	nyc.ol.Draw.prototype.save = function(event){
+		assert.ok(true);
+	};
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	assert.equal(draw.btnMnu.length, 1);
+	assert.ok(draw.btnMnu.get(0) === draw.viewport.find('.draw-btn-mnu').get(0));
+	assert.ok(draw.mnuBtn.get(0) === draw.viewport.find('.draw-btn').get(0));
+	assert.ok(draw.saveBtn.get(0) === draw.viewport.find('.draw-mnu-btn.save').get(0));
+
+	draw.saveBtn.trigger('click');
+
+	$(this.TEST_OL_MAP.getTarget()).trigger('click');
+
+	draw.btnMnu.show();
+
+	$.each(draw.viewport.find('.draw-mnu-btn').not('.save'), function(){
+			$(this).trigger('click');
+	});
+
+	setTimeout(function(){
+		assert.notOk(draw.btnMnu.is(':visible'));
+		draw.mnuBtn.trigger('click');
+		setTimeout(function(){
+			assert.ok(draw.btnMnu.is(':visible'));
+			draw.mnuBtn.trigger('click'); // should only take 500ms but...
+			var itv = setInterval(function(){
+				if (!draw.btnMnu.is(':visible')){
+					assert.notOk(draw.btnMnu.is(':visible'));
+					clearInterval(itv);
+					done();
+				}
+			}, 600);
+		}, 600);
+	}, 600);
+
+	nyc.ol.storage.Local.prototype.canDownload = canDownload;
+	nyc.ol.Draw.prototype.save = save;
+	nyc.ol.Draw.prototype.choose = choose;
+});
+
+QUnit.test('buttonMenu (called by constructor, canDownload=false)', function(assert){
+	assert.expect(17);
+
+	var done = assert.async();
+
+	var canDownload = nyc.storage.Local.prototype.canDownload;
+	var choose = nyc.ol.Draw.prototype.choose;
+
+	nyc.ol.storage.Local.prototype.canDownload = function(){
+		return false;
+	};
+	nyc.ol.Draw.prototype.choose = function(event){
+		assert.ok(true);
+	};
+
+	var save = nyc.ol.Draw.prototype.save;
+	nyc.ol.Draw.prototype.save = function(event){
+		assert.ok(true);
+	};
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	assert.equal(draw.btnMnu.length, 1);
+	assert.ok(draw.btnMnu.get(0) === draw.viewport.find('.draw-btn-mnu').get(0));
+	assert.ok(draw.mnuBtn.get(0) === draw.viewport.find('.draw-btn').get(0));
+	assert.equal(draw.saveBtn.length, 0);
+
+	draw.saveBtn.trigger('click');
+
+	$(this.TEST_OL_MAP.getTarget()).trigger('click');
+
+	draw.btnMnu.show();
+
+	$.each(draw.viewport.find('.draw-mnu-btn').not('.save'), function(){
+			$(this).trigger('click');
+	});
+
+	setTimeout(function(){
+		assert.notOk(draw.btnMnu.is(':visible'));
+		draw.mnuBtn.trigger('click');
+		setTimeout(function(){
+			assert.ok(draw.btnMnu.is(':visible'));
+			draw.mnuBtn.trigger('click'); // should only take 500ms but...
+			var itv = setInterval(function(){
+				if (!draw.btnMnu.is(':visible')){
+					assert.notOk(draw.btnMnu.is(':visible'));
+					clearInterval(itv);
+					done();
+				}
+			}, 600);
+		}, 600);
+	}, 600);
+
+	nyc.ol.storage.Local.prototype.canDownload = canDownload;
+	nyc.ol.Draw.prototype.save = save;
+	nyc.ol.Draw.prototype.choose = choose;
+});
+
+QUnit.test('save', function(assert){
+	assert.expect(2);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.getGeoJson = function(){
+		return 'mock-geoJson';
+	};
+
+	draw.storage.saveGeoJson = function(file, geoJson){
+		assert.equal(file, 'drawing.json');
+		assert.equal(geoJson, 'mock-geoJson');
+	};
+
+	draw.save();
+});
+
+QUnit.test('choose (nyc.ol.Draw.Type.POINT)', function(assert){
+	assert.expect(10);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.closeMenus = function(){
+		assert.ok(true);
+	};
+	draw.clear = function(){
+		assert.ok(false);
+	};
+	draw.deactivate = function(){
+		assert.ok(false);
+	};
+	draw.activate = function(type){
+		assert.equal(type, nyc.ol.Draw.Type.POINT);
+	};
+
+	$('.draw-mnu-btn.point').trigger('click');
+
+	assert.ok(draw.mnuBtn.hasClass('point'));
+	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('polygon'));
+	assert.notOk(draw.mnuBtn.hasClass('circle'));
+	assert.notOk(draw.mnuBtn.hasClass('square'));
+	assert.notOk(draw.mnuBtn.hasClass('box'));
+	assert.notOk(draw.mnuBtn.hasClass('free'));
+	assert.notOk(draw.mnuBtn.hasClass('gps'));
+});
+
+QUnit.test('choose (nyc.ol.Draw.Type.LINE)', function(assert){
+	assert.expect(10);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.closeMenus = function(){
+		assert.ok(true);
+	};
+	draw.clear = function(){
+		assert.ok(false);
+	};
+	draw.deactivate = function(){
+		assert.ok(false);
+	};
+	draw.activate = function(type){
+		assert.equal(type, nyc.ol.Draw.Type.LINE);
+	};
+
+	$('.draw-mnu-btn.line').trigger('click');
+
+	assert.notOk(draw.mnuBtn.hasClass('point'));
+	assert.ok(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('polygon'));
+	assert.notOk(draw.mnuBtn.hasClass('circle'));
+	assert.notOk(draw.mnuBtn.hasClass('square'));
+	assert.notOk(draw.mnuBtn.hasClass('box'));
+	assert.notOk(draw.mnuBtn.hasClass('free'));
+	assert.notOk(draw.mnuBtn.hasClass('gps'));
+});
+
+QUnit.test('choose (nyc.ol.Draw.Type.POLYGON)', function(assert){
+	assert.expect(10);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.closeMenus = function(){
+		assert.ok(true);
+	};
+	draw.clear = function(){
+		assert.ok(false);
+	};
+	draw.deactivate = function(){
+		assert.ok(false);
+	};
+	draw.activate = function(type){
+		assert.equal(type, nyc.ol.Draw.Type.POLYGON);
+	};
+
+	$('.draw-mnu-btn.polygon').trigger('click');
+
+	assert.notOk(draw.mnuBtn.hasClass('point'));
+	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.ok(draw.mnuBtn.hasClass('polygon'));
+	assert.notOk(draw.mnuBtn.hasClass('circle'));
+	assert.notOk(draw.mnuBtn.hasClass('square'));
+	assert.notOk(draw.mnuBtn.hasClass('box'));
+	assert.notOk(draw.mnuBtn.hasClass('free'));
+	assert.notOk(draw.mnuBtn.hasClass('gps'));
+});
+
+QUnit.test('choose (nyc.ol.Draw.Type.CIRCLE)', function(assert){
+	assert.expect(10);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.closeMenus = function(){
+		assert.ok(true);
+	};
+	draw.clear = function(){
+		assert.ok(false);
+	};
+	draw.deactivate = function(){
+		assert.ok(false);
+	};
+	draw.activate = function(type){
+		assert.equal(type, nyc.ol.Draw.Type.CIRCLE);
+	};
+
+	$('.draw-mnu-btn.circle').trigger('click');
+
+	assert.notOk(draw.mnuBtn.hasClass('point'));
+	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('polygon'));
+	assert.ok(draw.mnuBtn.hasClass('circle'));
+	assert.notOk(draw.mnuBtn.hasClass('square'));
+	assert.notOk(draw.mnuBtn.hasClass('box'));
+	assert.notOk(draw.mnuBtn.hasClass('free'));
+	assert.notOk(draw.mnuBtn.hasClass('gps'));
+});
+
+QUnit.test('choose (nyc.ol.Draw.Type.SQUARE)', function(assert){
+	assert.expect(10);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.closeMenus = function(){
+		assert.ok(true);
+	};
+	draw.clear = function(){
+		assert.ok(false);
+	};
+	draw.deactivate = function(){
+		assert.ok(false);
+	};
+	draw.activate = function(type){
+		assert.equal(type, nyc.ol.Draw.Type.SQUARE);
+	};
+
+	$('.draw-mnu-btn.square').trigger('click');
+
+	assert.notOk(draw.mnuBtn.hasClass('point'));
+	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('polygon'));
+	assert.notOk(draw.mnuBtn.hasClass('circle'));
+	assert.ok(draw.mnuBtn.hasClass('square'));
+	assert.notOk(draw.mnuBtn.hasClass('box'));
+	assert.notOk(draw.mnuBtn.hasClass('free'));
+	assert.notOk(draw.mnuBtn.hasClass('gps'));
+});
+
+QUnit.test('choose (nyc.ol.Draw.Type.BOX)', function(assert){
+	assert.expect(10);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.closeMenus = function(){
+		assert.ok(true);
+	};
+	draw.clear = function(){
+		assert.ok(false);
+	};
+	draw.deactivate = function(){
+		assert.ok(false);
+	};
+	draw.activate = function(type){
+		assert.equal(type, nyc.ol.Draw.Type.BOX);
+	};
+
+	$('.draw-mnu-btn.box').trigger('click');
+
+	assert.notOk(draw.mnuBtn.hasClass('point'));
+	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('polygon'));
+	assert.notOk(draw.mnuBtn.hasClass('circle'));
+	assert.notOk(draw.mnuBtn.hasClass('square'));
+	assert.ok(draw.mnuBtn.hasClass('box'));
+	assert.notOk(draw.mnuBtn.hasClass('free'));
+	assert.notOk(draw.mnuBtn.hasClass('gps'));
+});
+
+QUnit.test('choose (nyc.ol.Draw.Type.FREE)', function(assert){
+	assert.expect(10);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.closeMenus = function(){
+		assert.ok(true);
+	};
+	draw.clear = function(){
+		assert.ok(false);
+	};
+	draw.deactivate = function(){
+		assert.ok(false);
+	};
+	draw.activate = function(type){
+		assert.equal(type, nyc.ol.Draw.Type.FREE);
+	};
+
+	$('.draw-mnu-btn.free').trigger('click');
+
+	assert.notOk(draw.mnuBtn.hasClass('point'));
+	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('polygon'));
+	assert.notOk(draw.mnuBtn.hasClass('circle'));
+	assert.notOk(draw.mnuBtn.hasClass('square'));
+	assert.notOk(draw.mnuBtn.hasClass('box'));
+	assert.ok(draw.mnuBtn.hasClass('free'));
+	assert.notOk(draw.mnuBtn.hasClass('gps'));
+});
+
+QUnit.test('choose (nyc.ol.Draw.Type.GPS)', function(assert){
+	assert.expect(10);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.closeMenus = function(){
+		assert.ok(true);
+	};
+	draw.clear = function(){
+		assert.ok(false);
+	};
+	draw.deactivate = function(){
+		assert.ok(false);
+	};
+	draw.activate = function(type){
+		assert.equal(type, nyc.ol.Draw.Type.GPS);
+	};
+
+	$('.draw-mnu-btn.gps').trigger('click');
+
+	assert.notOk(draw.mnuBtn.hasClass('point'));
+	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('polygon'));
+	assert.notOk(draw.mnuBtn.hasClass('circle'));
+	assert.notOk(draw.mnuBtn.hasClass('square'));
+	assert.notOk(draw.mnuBtn.hasClass('box'));
+	assert.notOk(draw.mnuBtn.hasClass('free'));
+	assert.ok(draw.mnuBtn.hasClass('gps'));
+});
+
+QUnit.test('choose (nyc.ol.Draw.Type.DELETE)', function(assert){
+	assert.expect(10);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.closeMenus = function(){
+		assert.ok(true);
+	};
+	draw.clear = function(){
+		assert.ok(true);
+	};
+	draw.deactivate = function(){
+		assert.ok(false);
+	};
+	draw.activate = function(type){
+		assert.ok(false);
+	};
+
+	$('.draw-mnu-btn.delete').trigger('click');
+
+	assert.notOk(draw.mnuBtn.hasClass('point'));
+	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('polygon'));
+	assert.notOk(draw.mnuBtn.hasClass('circle'));
+	assert.notOk(draw.mnuBtn.hasClass('square'));
+	assert.notOk(draw.mnuBtn.hasClass('box'));
+	assert.notOk(draw.mnuBtn.hasClass('free'));
+	assert.notOk(draw.mnuBtn.hasClass('gps'));
+});
+
+QUnit.test('choose (nyc.ol.Draw.Type.CANCEL)', function(assert){
+	assert.expect(10);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.closeMenus = function(){
+		assert.ok(true);
+	};
+	draw.clear = function(){
+		assert.ok(false);
+	};
+	draw.deactivate = function(){
+		assert.ok(true);
+	};
+	draw.activate = function(type){
+		assert.ok(false);
+	};
+
+	$('.draw-mnu-btn.cancel').trigger('click');
+
+	assert.notOk(draw.mnuBtn.hasClass('point'));
+	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('polygon'));
+	assert.notOk(draw.mnuBtn.hasClass('circle'));
+	assert.notOk(draw.mnuBtn.hasClass('square'));
+	assert.notOk(draw.mnuBtn.hasClass('box'));
+	assert.notOk(draw.mnuBtn.hasClass('free'));
+	assert.notOk(draw.mnuBtn.hasClass('gps'));
+});
+
+QUnit.test('contextMenu (not active)', function(assert){
+	assert.expect(1);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.active = function(){return false;};
+
+	draw.showContextMenu = function(event, feature){
+		assert.ok(false);
+	};
+
+	this.TEST_OL_MAP.getEventPixel = function(event){
+		assert.ok(false);
+	};
+	this.TEST_OL_MAP.forEachFeatureAtPixel = function(pix, fn){
+		assert.ok(false);
+	};
+
+	assert.notOk(draw.contextMenu('mock-event'));
+});
+
+QUnit.test('contextMenu (is draw layer)', function(assert){
+	assert.expect(5);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.active = function(){return true;};
+
+	draw.showContextMenu = function(event, feature){
+		assert.equal(event, 'mock-event');
+		assert.equal(feature, 'mock-feature');
+	};
+
+	this.TEST_OL_MAP.getEventPixel = function(event){
+		assert.equal(event, 'mock-event');
+		return 'mock-pixel';
+	};
+	this.TEST_OL_MAP.forEachFeatureAtPixel = function(pix, fn){
+		assert.equal(pix, 'mock-pixel');
+		return fn('mock-feature', draw.layer);
+	};
+
+	assert.notOk(draw.contextMenu('mock-event'));
+});
+
+QUnit.test('contextMenu (not draw layer)', function(assert){
+	assert.expect(3);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.active = function(){return true;};
+
+	draw.showContextMenu = function(event, feature){
+		assert.ok(false);
+	};
+
+	this.TEST_OL_MAP.getEventPixel = function(event){
+		assert.equal(event, 'mock-event');
+		return 'mock-pixel';
+	};
+	this.TEST_OL_MAP.forEachFeatureAtPixel = function(pix, fn){
+		assert.equal(pix, 'mock-pixel');
+		return fn('mock-feature', 'mock-layer');
+	};
+
+	assert.notOk(draw.contextMenu('mock-event'));
+});
+
+QUnit.test('showContextMenu (not on edge)', function(assert){
+	assert.expect(12);
+
+	var done = assert.async();
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.type = nyc.ol.Draw.Type.POINT;
+	draw.escape = function(){
+			assert.ok(true);
+	};
+	draw.closeMenus = function(){
+			assert.ok(true);
+	};
+	draw.removeFeature = function(feature){
+			assert.equal(feature, 'mock-feature');
+	};
+	draw.mover.setActive = function(active){
+		assert.ok(active);
+	};
+
+	assert.equal($('.draw-ctx-mnu').length, 0);
+
+	draw.showContextMenu({offsetX: 100, offsetY: 200}, 'mock-feature');
+
+	assert.equal($('.draw-ctx-mnu').length, 1);
+	assert.ok($('.draw-ctx-mnu').get(0) ===
+		draw.viewport.find('.ol-overlaycontainer-stopevent .draw-ctx-mnu').get(0));
+	assert.equal($('.draw-ctx-mnu').css('left'), '100px');
+	assert.equal($('.draw-ctx-mnu').css('top'), '200px');
+
+	setTimeout(function(){
+		assert.ok($('.draw-ctx-mnu').is(':visible'));
+		$('.draw-ctx-mnu').find('.delete').trigger('click');
+		$('.draw-ctx-mnu').find('.delete').trigger('click');
+		$('.draw-ctx-mnu').find('.move').trigger('click');
+		$('.draw-ctx-mnu').find('.move').trigger('click');
+		done();
+	}, 600);
+});
+
+QUnit.test('showContextMenu (is on edge)', function(assert){
+	assert.expect(8);
+
+	var done = assert.async();
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.type = nyc.ol.Draw.Type.POINT;
+	draw.escape = function(){
+			assert.ok(true);
+	};
+	draw.closeMenus = function(){
+			assert.ok(true);
+	};
+	draw.removeFeature = function(feature){
+			assert.ok(false);
+	};
+	draw.mover.setActive = function(active){
+		assert.ok(false);
+	};
+
+	assert.equal($('.draw-ctx-mnu').length, 0);
+
+	draw.showContextMenu({offsetX: $(draw.viewport).width() - 100, offsetY: 200}, 'mock-feature');
+
+	assert.equal($('.draw-ctx-mnu').length, 1);
+	assert.ok($('.draw-ctx-mnu').get(0) ===
+		draw.viewport.find('.ol-overlaycontainer-stopevent .draw-ctx-mnu').get(0));
+	assert.equal($('.draw-ctx-mnu').css('left'), $(draw.viewport).width() - 225 + 'px');
+	assert.equal($('.draw-ctx-mnu').css('top'), '200px');
+
+	setTimeout(function(){
+		assert.ok($('.draw-ctx-mnu').is(':visible'));
+		draw.viewport.trigger('click');
+		draw.viewport.trigger('click');
+		done();
+	}, 600);
+});
+
+QUnit.test('triggerFeatureEvent (nyc.ol.FeatureEventType.ADD not nyc.ol.Draw.Type.FREE)', function(assert){
+	assert.expect(4);
+
+	var mockFeature = {};
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.type = nyc.ol.Draw.Type.POINT;
+
+	draw.triggerEvent = function(type, feature){
+		assert.equal(type, nyc.ol.FeatureEventType.ADD);
+		assert.ok(feature == mockFeature);
+		assert.ok(feature._added);
+		assert.notOk(feature._changed);
+	};
+
+	draw.closePolygon = function(type, feature){
+		assert.ok(false);
+	};
+
+	draw.triggerFeatureEvent({
+		type: nyc.ol.FeatureEventType.ADD,
+		feature: mockFeature
+	});
+});
+
+QUnit.test('triggerFeatureEvent (nyc.ol.FeatureEventType.ADD is nyc.ol.Draw.Type.FREE)', function(assert){
+	assert.expect(4);
+
+	var mockFeature = {};
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.type = nyc.ol.Draw.Type.FREE;
+
+	draw.triggerEvent = function(type, feature){
+		assert.ok(false);
+	};
+
+	draw.closePolygon = function(type, feature){
+		assert.equal(type, nyc.ol.FeatureEventType.ADD);
+		assert.ok(feature == mockFeature);
+		assert.ok(feature._added);
+		assert.notOk(feature._changed);
+	};
+
+	draw.triggerFeatureEvent({
+		type: nyc.ol.FeatureEventType.ADD,
+		feature: mockFeature
+	});
+});
+
+QUnit.test('triggerFeatureEvent (nyc.ol.FeatureEventType.CHANGE not nyc.ol.Draw.Type.FREE)', function(assert){
+	assert.expect(4);
+
+	var mockFeature = {};
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.type = nyc.ol.Draw.Type.POINT;
+
+	draw.triggerEvent = function(type, feature){
+		assert.equal(type, nyc.ol.FeatureEventType.CHANGE);
+		assert.ok(feature == mockFeature);
+		assert.notOk(feature._added);
+		assert.ok(feature._changed);
+	};
+
+	draw.closePolygon = function(type, feature){
+		assert.ok(false);
+	};
+
+	draw.triggerFeatureEvent({
+		type: nyc.ol.FeatureEventType.CHANGE,
+		feature: mockFeature
+	});
+});
+
+QUnit.test('triggerFeatureEvent (nyc.ol.FeatureEventType.CHANGE is nyc.ol.Draw.Type.FREE)', function(assert){
+	assert.expect(4);
+
+	var mockFeature = {};
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.type = nyc.ol.Draw.Type.FREE;
+
+	draw.triggerEvent = function(type, feature){
+		assert.equal(type, nyc.ol.FeatureEventType.CHANGE);
+		assert.ok(feature == mockFeature);
+		assert.notOk(feature._added);
+		assert.ok(feature._changed);
+	};
+
+	draw.closePolygon = function(type, feature){
+		assert.ok(false);
+	};
+
+	draw.triggerFeatureEvent({
+		type: nyc.ol.FeatureEventType.CHANGE,
+		feature: mockFeature
+	});
 });
