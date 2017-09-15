@@ -2175,3 +2175,413 @@ QUnit.test('triggerFeatureEvent (nyc.ol.FeatureEventType.CHANGE is nyc.ol.Draw.T
 		feature: mockFeature
 	});
 });
+
+QUnit.test('closePolygon (enough coordiantes, yes)', function(assert){
+	assert.expect(18);
+
+	var geometry = new ol.geom.LineString([[0, 1], [1, 2], [2, 3]]);
+	var feature = new ol.Feature({geometry: geometry});
+	var onCalls = [];
+	var unCalls = [];
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	var yesNo = nyc.Dialog.prototype.yesNo;
+	nyc.Dialog.prototype.yesNo = function(args){
+		assert.equal(args.message, 'Create ploygon?');
+		args.callback(true);
+	};
+
+	draw.source.on = function(event, fn, scope){
+		onCalls.push([event, fn, scope]);
+	};
+	draw.source.un = function(event, fn, scope){
+		unCalls.push([event, fn, scope]);
+	};
+
+	draw.triggerEvent = function(eventType, feat, yesNo){
+		assert.equal(eventType, 'mock-event-type');
+		assert.ok(feat === feature);
+		assert.ok(yesNo);
+	};
+
+	draw.closePolygon('mock-event-type', feature);
+
+	assert.equal(unCalls.length, 2);
+	assert.equal(unCalls[0][0], 'addfeature');
+	assert.ok(unCalls[0][1] === draw.triggerFeatureEvent);
+	assert.ok(unCalls[0][2] === draw);
+	assert.equal(unCalls[1][0], 'changefeature');
+	assert.ok(unCalls[1][1] === draw.triggerFeatureEvent);
+	assert.ok(unCalls[1][2] === draw);
+
+	assert.equal(onCalls.length, 2);
+	assert.equal(onCalls[0][0], 'addfeature');
+	assert.ok(onCalls[0][1] === draw.triggerFeatureEvent);
+	assert.ok(onCalls[0][2] === draw);
+	assert.equal(onCalls[1][0], 'changefeature');
+	assert.ok(onCalls[1][1] === draw.triggerFeatureEvent);
+	assert.ok(onCalls[1][2] === draw);
+
+	nyc.Dialog.prototype.yesNo = yesNo;
+});
+
+QUnit.test('closePolygon (enough coordiantes, no)', function(assert){
+	assert.expect(18);
+
+	var geometry = new ol.geom.LineString([[0, 1], [1, 2], [2, 3]]);
+	var feature = new ol.Feature({geometry: geometry});
+	var onCalls = [];
+	var unCalls = [];
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	var yesNo = nyc.Dialog.prototype.yesNo;
+	nyc.Dialog.prototype.yesNo = function(args){
+		assert.equal(args.message, 'Create ploygon?');
+		args.callback(false);
+	};
+
+	draw.source.on = function(event, fn, scope){
+		onCalls.push([event, fn, scope]);
+	};
+	draw.source.un = function(event, fn, scope){
+		unCalls.push([event, fn, scope]);
+	};
+
+	draw.triggerEvent = function(eventType, feat, yesNo){
+		assert.equal(eventType, 'mock-event-type');
+		assert.ok(feat === feature);
+		assert.notOk(yesNo);
+	};
+
+	draw.closePolygon('mock-event-type', feature);
+
+	assert.equal(unCalls.length, 2);
+	assert.equal(unCalls[0][0], 'addfeature');
+	assert.ok(unCalls[0][1] === draw.triggerFeatureEvent);
+	assert.ok(unCalls[0][2] === draw);
+	assert.equal(unCalls[1][0], 'changefeature');
+	assert.ok(unCalls[1][1] === draw.triggerFeatureEvent);
+	assert.ok(unCalls[1][2] === draw);
+
+	assert.equal(onCalls.length, 2);
+	assert.equal(onCalls[0][0], 'addfeature');
+	assert.ok(onCalls[0][1] === draw.triggerFeatureEvent);
+	assert.ok(onCalls[0][2] === draw);
+	assert.equal(onCalls[1][0], 'changefeature');
+	assert.ok(onCalls[1][1] === draw.triggerFeatureEvent);
+	assert.ok(onCalls[1][2] === draw);
+
+	nyc.Dialog.prototype.yesNo = yesNo;
+});
+
+QUnit.test('closePolygon (not enough coordiantes)', function(assert){
+	assert.expect(0);
+
+	var geometry = new ol.geom.LineString([[0, 1], [1, 2]]);
+	var feature = new ol.Feature({geometry: geometry});
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	var yesNo = nyc.Dialog.prototype.yesNo;
+	nyc.Dialog.prototype.yesNo = function(args){
+		assert.ok(false);
+	};
+
+	draw.source.on = function(event, fn, scope){
+		assert.ok(false);
+	};
+	draw.source.un = function(event, fn, scope){
+		assert.ok(false);
+	};
+
+	draw.triggerEvent = function(eventType, feat, yesNo){
+		assert.ok(false);
+	};
+
+	draw.closePolygon('mock-event-type', feature);
+
+	nyc.Dialog.prototype.yesNo = yesNo;
+});
+
+QUnit.test('geomToPolygon (LineString, no)', function(assert){
+	assert.expect(3);
+
+	var geometry = new ol.geom.LineString([[0, 1], [1, 2], [2, 3]]);
+	var feature = new ol.Feature({geometry: geometry});
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.store = function(){
+		assert.ok(true);
+	};
+
+	var result = draw.geomToPolygon(feature, false);
+	assert.ok(result === feature);
+	assert.ok(result.getGeometry() === geometry);
+});
+
+QUnit.test('geomToPolygon (LineString, yes)', function(assert){
+	assert.expect(5);
+
+	var geometry = new ol.geom.LineString([[0, 1], [1, 2], [2, 3]]);
+	var feature = new ol.Feature({geometry: geometry});
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.store = function(){
+		assert.ok(true);
+	};
+
+	var result = draw.geomToPolygon(feature, true);
+	assert.ok(result === feature);
+	assert.notOk(result.getGeometry() === geometry);
+	assert.deepEqual(result.getGeometry().getType(), 'Polygon');
+	assert.deepEqual(result.getGeometry().getCoordinates(),
+		[[[0, 1], [1, 2], [2, 3], [0, 1]]]);
+});
+
+QUnit.test('geomToPolygon (Circle)', function(assert){
+	assert.expect(4);
+
+	var geometry = new ol.geom.Circle([0, 0], 10);
+	var feature = new ol.Feature({geometry: geometry});
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.store = function(){
+		assert.ok(true);
+	};
+
+	var result = draw.geomToPolygon(feature);
+	assert.ok(result === feature);
+	assert.notOk(result.getGeometry() === geometry);
+	assert.deepEqual(result.getGeometry().getType(), 'Polygon');
+});
+
+QUnit.test('triggerEvent', function(assert){
+	assert.expect(5);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.saveBtn.hide();
+	draw.geomToPolygon = function(feature, polygon){
+		assert.equal(feature, 'mock-feature');
+		assert.equal(polygon, 'mock-boolean');
+		return 'mock-polygon-feature';
+	};
+	draw.trigger = function(event, data){
+		assert.equal(event, 'mock-draw-type');
+		assert.equal(data, 'mock-polygon-feature');
+	};
+
+	draw.triggerEvent('mock-draw-type', 'mock-feature', 'mock-boolean');
+
+	assert.ok(draw.saveBtn.is(':visible'));
+});
+
+QUnit.test('getGeoJson', function(assert){
+	assert.expect(3);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.source.getFeatures = function(){
+		return 'mock-features';
+	};
+	draw.geoJson.writeFeatures = function(features, options){
+		assert.equal(features, 'mock-features');
+		assert.deepEqual(options, {featureProjection: draw.view.getProjection()});
+		return 'mock-geoJson';
+	};
+
+	assert.equal(draw.getGeoJson(), 'mock-geoJson');
+});
+
+QUnit.test('store (has features)', function(assert){
+	assert.expect(3);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.saveBtn.hide();
+
+	draw.features = ['mock-feature'];
+
+	draw.storage.setItem = function(key, item){
+		assert.equal(key, draw.storeKey);
+		assert.equal(item, 'mock-geoJson');
+	};
+
+	draw.storage.removeItem = function(key){
+		assert.ok(false);
+	};
+
+	draw.getGeoJson = function(){
+		return 'mock-geoJson';
+	};
+
+	draw.store();
+
+	assert.ok(draw.saveBtn.is(':visible'));
+});
+
+QUnit.test('store (no features)', function(assert){
+	assert.expect(2);
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.saveBtn.show();
+
+	draw.features = [];
+
+	draw.storage.setItem = function(key, item){
+		assert.ok(false);
+	};
+
+	draw.storage.removeItem = function(key){
+		assert.equal(key, draw.storeKey);
+	};
+
+	draw.getGeoJson = function(){
+		assert.ok(false);
+	};
+
+	draw.store();
+
+	assert.notOk(draw.saveBtn.is(':visible'));
+});
+
+QUnit.test('restore (has storage, yes)', function(assert){
+	assert.expect(7);
+
+	var yesNo = nyc.Dialog.prototype.yesNo;
+	nyc.Dialog.prototype.yesNo = function(){};
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.saveBtn.hide();
+
+	draw.features.extend = function(features){
+		assert.deepEqual(features, ['mock-features']);
+	};
+
+	nyc.Dialog.prototype.yesNo = function(args){
+		assert.equal(args.message, 'Retore previous drawing data?');
+		args.callback(true);
+	};
+
+	draw.storage.getItem = function(key){
+		assert.equal(key, draw.storeKey);
+		return 'mock-geoJson';
+	};
+
+	draw.geoJson.readFeatures = function(json, options){
+		assert.equal(json, 'mock-geoJson');
+		assert.equal(options.dataProjection, 'EPSG:4326');
+		assert.equal(options.featureProjection, draw.view.getProjection());
+		return ['mock-features'];
+	};
+
+	draw.restore();
+
+	assert.ok(draw.saveBtn.is(':visible'));
+
+	nyc.Dialog.prototype.yesNo = yesNo;
+});
+
+QUnit.test('restore (has storage, no)', function(assert){
+	assert.expect(6);
+
+	var yesNo = nyc.Dialog.prototype.yesNo;
+	nyc.Dialog.prototype.yesNo = function(){};
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.saveBtn.hide();
+
+	draw.features.extend = function(features){
+		assert.ok(false);
+	};
+
+	nyc.Dialog.prototype.yesNo = function(args){
+		assert.equal(args.message, 'Retore previous drawing data?');
+		args.callback(false);
+	};
+
+	draw.storage.getItem = function(key){
+		assert.equal(key, draw.storeKey);
+		return 'mock-geoJson';
+	};
+
+	draw.geoJson.readFeatures = function(json, options){
+		assert.equal(json, 'mock-geoJson');
+		assert.equal(options.dataProjection, 'EPSG:4326');
+		assert.equal(options.featureProjection, draw.view.getProjection());
+		return ['mock-features'];
+	};
+
+	draw.restore();
+
+	assert.notOk(draw.saveBtn.is(':visible'));
+
+	nyc.Dialog.prototype.yesNo = yesNo;
+});
+
+QUnit.test('restore (no storage)', function(assert){
+	assert.expect(2);
+
+	var yesNo = nyc.Dialog.prototype.yesNo;
+	nyc.Dialog.prototype.yesNo = function(){};
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.saveBtn.hide();
+
+	draw.features.extend = function(features){
+		assert.ok(false);
+	};
+
+	nyc.Dialog.prototype.yesNo = function(args){
+		assert.ok(false);
+	};
+
+	draw.storage.getItem = function(key){
+		assert.equal(key, draw.storeKey);
+	};
+
+	draw.geoJson.readFeatures = function(json, options){
+		assert.ok(false);
+	};
+
+	draw.restore();
+
+	assert.notOk(draw.saveBtn.is(':visible'));
+
+	nyc.Dialog.prototype.yesNo = yesNo;
+});

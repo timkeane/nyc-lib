@@ -623,18 +623,15 @@ nyc.ol.Draw.prototype = {
 	 */
 	closePolygon: function(eventType, feature){
 		var me = this;
-		me.source.un('addfeature', me.triggerFeatureEvent, me);
-		me.source.un('changefeature', me.triggerFeatureEvent, me);
 		if (feature.getGeometry().getCoordinates().length >= 3){
+			me.source.un('addfeature', me.triggerFeatureEvent, me);
+			me.source.un('changefeature', me.triggerFeatureEvent, me);
 			me.dia = me.dia || new nyc.Dialog();
 			me.dia.yesNo({message: 'Create ploygon?', callback: function(yesNo){
 				me.triggerEvent(eventType, feature, yesNo);
 				me.source.on('addfeature', me.triggerFeatureEvent, me);
 				me.source.on('changefeature', me.triggerFeatureEvent, me);
 			}});
-		}else{
-			me.source.on('addfeature', me.triggerFeatureEvent, me);
-			me.source.on('changefeature', me.triggerFeatureEvent, me);
 		}
 	},
 	/**
@@ -658,7 +655,9 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {nyc.ol.Draw.Type} drawType
+	 * @param {nyc.ol.Draw.Type} type
+	 * @param {ol.Feature} feature
+	 * @param {boolean} polygon
 	 */
 	triggerEvent: function(type, feature, polygon){
 		this.saveBtn.show();
@@ -680,15 +679,8 @@ nyc.ol.Draw.prototype = {
 	 * @method
 	 */
 	store: function(){
-		var features = this.source.getFeatures();
-		if (features.length){
-			this.storage.setItem(
-				this.storeKey,
-				this.geoJson.writeFeatures(
-					features,
-					{featureProjection: this.view.getProjection()}
-				)
-			);
+		if (this.features.length){
+			this.storage.setItem(this.storeKey, this.getGeoJson());
 			this.saveBtn.show();
 			this.btnMnu.controlgroup('refresh');
 		}else{
@@ -713,8 +705,8 @@ nyc.ol.Draw.prototype = {
 			);
 		}
 		if (features && features.length){
-			var dia = new nyc.Dialog();
-			dia.yesNo({
+			this.dia = this.dia || new nyc.Dialog();
+			this.dia.yesNo({
 				message: 'Retore previous drawing data?',
 				callback: function(yesNo){
 					if (yesNo){
