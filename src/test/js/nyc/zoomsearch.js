@@ -1,7 +1,7 @@
 QUnit.module('nyc.ZoomSearch', {
 	beforeEach: function(assert){
 		setup(assert, this);
-		
+
 		this.AMBIGUOUS = {
 			input: '2 broadway',
 			possible: [{
@@ -18,7 +18,7 @@ QUnit.module('nyc.ZoomSearch', {
 				accuracy: nyc.Geocoder.Accuracy.HIGH,
 				name: '2 Broadway, Queens, NY 11414',
 				geometry: null,
-				data: 'data'			
+				data: 'data'
 			},
 			{
 				type: nyc.Locate.ResultType.GEOCODE,
@@ -26,16 +26,16 @@ QUnit.module('nyc.ZoomSearch', {
 				accuracy: nyc.Geocoder.Accuracy.MEDIUM,
 				name: '2 Broadway, Staten Is, NY 10310',
 				geometry: null,
-				data: 'data'			
+				data: 'data'
 			}]
 		};
-		
+
 		$('body').append($('<div id="test-container"></div>'));
 		this.TEST_CONTROL = function(useSearchTypeMenu){
 			nyc.ZoomSearch.apply(this, [useSearchTypeMenu]);
 		};
 		this.TEST_CONTROL.prototype.getContainer = function(){
-			return $('#test-container'); 
+			return $('#test-container');
 		}
 		nyc.inherits(this.TEST_CONTROL, nyc.ZoomSearch);
 	},
@@ -49,14 +49,14 @@ QUnit.module('nyc.ZoomSearch', {
 
 QUnit.test('render (useSearchTypeMenu = false)', function(assert){
 	assert.expect(10);
-	
+
 	var control = new this.TEST_CONTROL();
 	assert.equal(control.getElem('.btn-z-in').length, 1);
 	assert.equal(control.getElem('.btn-z-out').length, 1);
 	assert.equal(control.getElem('.fld-srch-container input').length, 1);
 	assert.equal(control.getElem('.fld-srch').length, 1);
 	assert.equal(control.getElem('.fld-srch-retention').length, 1);
-	
+
 	assert.equal(control.getElem('.btn-geo').length, 1);
 	assert.notOk(control.getElem('.btn-srch-typ').length);
 	assert.notOk(control.getElem('.mnu-srch-typ').length);
@@ -66,7 +66,7 @@ QUnit.test('render (useSearchTypeMenu = false)', function(assert){
 
 QUnit.test('geolocate (useSearchTypeMenu = false)', function(assert){
 	assert.expect(1);
-	
+
 	var control = new this.TEST_CONTROL();
 	control.on(nyc.ZoomSearch.EventType.GEOLOCATE, function(){
 		assert.ok(true);
@@ -77,7 +77,7 @@ QUnit.test('geolocate (useSearchTypeMenu = false)', function(assert){
 
 QUnit.test('geolocate (useSearchTypeMenu = true)', function(assert){
 	assert.expect(1);
-	
+
 	var control = new this.TEST_CONTROL(true);
 	control.on(nyc.ZoomSearch.EventType.GEOLOCATE, function(){
 		assert.ok(true);
@@ -88,47 +88,19 @@ QUnit.test('geolocate (useSearchTypeMenu = true)', function(assert){
 
 QUnit.test('render (useSearchTypeMenu = false)', function(assert){
 	assert.expect(10);
-	
+
 	var control = new this.TEST_CONTROL();
 	assert.equal(control.getElem('.btn-z-in').length, 1);
 	assert.equal(control.getElem('.btn-z-out').length, 1);
 	assert.equal(control.getElem('.fld-srch-container input').length, 1);
 	assert.equal(control.getElem('.fld-srch').length, 1);
 	assert.equal(control.getElem('.fld-srch-retention').length, 1);
-	
+
 	assert.equal(control.getElem('.btn-geo').length, 1);
 	assert.notOk(control.getElem('.btn-srch-typ').length);
 	assert.notOk(control.getElem('.mnu-srch-typ').length);
 	assert.notOk(control.getElem('.srch-type-geo').length);
 	assert.notOk(control.getElem('.srch-type-addr').length);
-});
-
-QUnit.test('key (keyCode = 13)', function(assert){
-	assert.expect(1);
-
-	var control = new this.TEST_CONTROL();
-	control.one(nyc.ZoomSearch.EventType.SEARCH, function(data){
-		assert.equal(data, 'my address');
-	}); 
-	control.getElem('.fld-srch-container input').val(' my address ');
-	 var evt = $.Event('keyup');
-	 evt.keyCode = 13;
-	 control.getElem('.fld-srch-container input').trigger(evt);
-});
-
-QUnit.test('key (keyCode != 13)', function(assert){
-	assert.expect(1);
-
-	var control = new this.TEST_CONTROL();
-	var handled = false;
-	control.one(nyc.ZoomSearch.EventType.SEARCH, function(data){
-		handled = true;
-	}); 
-	control.getElem('.fld-srch-container input').val(' my address ');
-	 var evt = $.Event('keyup');
-	 evt.keyCode = 0;
-	 control.getElem('.fld-srch-container input').trigger(evt);
-	 assert.notOk(handled);
 });
 
 QUnit.test('triggerSearch (input = "my address")', function(assert){
@@ -140,7 +112,7 @@ QUnit.test('triggerSearch (input = "my address")', function(assert){
 	};
 	control.one(nyc.ZoomSearch.EventType.SEARCH, function(data){
 		assert.equal(data, 'my address');
-	}); 
+	});
 	control.getElem('.fld-srch-container input').val(' my address ');
 	control.triggerSearch();
 });
@@ -154,14 +126,14 @@ QUnit.test('triggerSearch (no input)', function(assert){
 	};
 	var handled = false;
 	var handler = function(){handled = true;};
-	control.on(nyc.ZoomSearch.EventType.SEARCH, handler); 
+	control.on(nyc.ZoomSearch.EventType.SEARCH, handler);
 	control.getElem('.ld-srch-container input').val('');
 	control.triggerSearch();
 	assert.notOk(handled);
 	control.getElem('.fld-srch-container input').val(' ');
 	control.triggerSearch();
 	assert.notOk(handled);
-	control.off(nyc.ZoomSearch.EventType.SEARCH, handler); 
+	control.off(nyc.ZoomSearch.EventType.SEARCH, handler);
 });
 
 QUnit.test('val', function(assert){
@@ -180,7 +152,7 @@ QUnit.test('val', function(assert){
 
 QUnit.test('disambiguate', function(assert){
 	assert.expect(9);
-	
+
 	var names = ['2 Broadway, Manhattan, NY 10004', '2 Broadway, Queens, NY 11414', '2 Broadway, Staten Is, NY 10310'];
 	var control = new this.TEST_CONTROL();
 	assert.equal(control.list.height(), 0);
@@ -196,7 +168,7 @@ QUnit.test('disambiguate', function(assert){
 QUnit.test('disambiguated', function(assert){
 	assert.expect(8);
 	var ambiguous = this.AMBIGUOUS;
-	
+
 	var control = new this.TEST_CONTROL();
 
 	assert.equal(control.list.height(), 0);
@@ -205,21 +177,21 @@ QUnit.test('disambiguated', function(assert){
 	assert.equal(control.list.children().length, 3);
 	control.one(nyc.ZoomSearch.EventType.DISAMBIGUATED, function(data){
 		assert.deepEqual(data, ambiguous.possible[0]);
-	}); 
+	});
 	$(control.list.children()[0]).trigger('click');
-	
+
 	control.disambiguate(ambiguous);
 	assert.equal(control.list.children().length, 3);
 	control.one(nyc.ZoomSearch.EventType.DISAMBIGUATED, function(data){
 		assert.deepEqual(data, ambiguous.possible[1]);
-	}); 
+	});
 	$(control.list.children()[1]).trigger('click');
-	
+
 	control.disambiguate(ambiguous);
 	assert.equal(control.list.children().length, 3);
 	control.one(nyc.ZoomSearch.EventType.DISAMBIGUATED, function(data){
 		assert.deepEqual(data, ambiguous.possible[2]);
-	}); 
+	});
 	$(control.list.children()[2]).trigger('click');
 });
 
@@ -228,10 +200,10 @@ QUnit.test('searching', function(assert){
 
 	var control = new this.TEST_CONTROL();
 	assert.notOk(control.getElem('.fld-srch-container a.ui-input-clear').hasClass('searching'));
-	
+
 	control.searching(true);
 	assert.ok(control.getElem('.fld-srch-container a.ui-input-clear').hasClass('searching'));
-	
+
 	control.searching(false);
 	assert.notOk(control.getElem('.fld-srch-container a.ui-input-clear').hasClass('searching'));
 });
@@ -254,7 +226,7 @@ QUnit.test('listItem', function(assert){
 		assert.deepEqual(data, location);
 	});
 	li.trigger('click');
-	
+
 	assert.deepEqual(li.data('location'), location);
 	assert.equal(li.html(), location.name);
 	assert.ok(li.hasClass('srch-type-test'));
@@ -265,17 +237,17 @@ QUnit.test('listItem', function(assert){
 QUnit.test('searchType', function(assert){
 	assert.expect(3);
 	var done = assert.async();
-	
+
 	var control = new this.TEST_CONTROL(true);
 	control.flipIcon = function(){
 		assert.ok(true);
 	};
-	
+
 	control.list.show();
 	control.getElem('.mnu-srch-typ').hide();
-	
+
 	control.searchType()
-	
+
 	assert.equal(control.list.css('display'), 'none');
 	setTimeout(function(){
 		assert.equal(control.getElem('.mnu-srch-typ').css('display'), 'block');
@@ -285,19 +257,19 @@ QUnit.test('searchType', function(assert){
 
 QUnit.test('flipIcon', function(assert){
 	assert.expect(6);
-	
+
 	var control = new this.TEST_CONTROL(true);
-	
+
 	assert.ok(control.typBtn.hasClass('ui-icon-carat-d'));
 	assert.notOk(control.typBtn.hasClass('ui-icon-carat-u'));
-	
+
 	control.flipIcon();
-	
+
 	assert.notOk(control.typBtn.hasClass('ui-icon-carat-d'));
 	assert.ok(control.typBtn.hasClass('ui-icon-carat-u'));
 
 	control.flipIcon();
-	
+
 	assert.ok(control.typBtn.hasClass('ui-icon-carat-d'));
 	assert.notOk(control.typBtn.hasClass('ui-icon-carat-u'));
 });
@@ -317,30 +289,30 @@ QUnit.test('choices (srch-type = addr)', function(assert){
 	control.val('before');
 	control.getElem('.mnu-srch-typ').show();
 	control.input.attr('placeholder', 'placeholder');
-	
+
 	var liAddr = $('<li></li><li></li><li></li>').addClass('srch-type-addr');
 	var liOther = $('<li>1</li><li></li><li></li>').addClass('srch-type-other');
 	control.getElem('.fld-srch-retention').append(liAddr);
 	control.getElem('.fld-srch-retention').append(liOther);
-	
+
 	assert.notOk(control.isAddrSrch);
 	assert.ok(control.val());
 	assert.notOk(control.input.get(0) === document.activeElement);
 	assert.notOk(control.getElem('.fld-srch li.srch-type-addr').length);
 	assert.notOk(control.getElem('.fld-srch li.srch-type-other').length);
-	
+
 	control.choices({target: liAddr.get(1)});
-	
+
 	assert.ok(control.isAddrSrch);
 	assert.notOk(control.val());
 	assert.ok(control.input.get(0) == document.activeElement);
 	assert.ok(control.input.get(0) === document.activeElement);
-	
+
 	assert.equal(control.input.attr('placeholder'), 'Search for an address...');
-	
+
 	assert.equal(control.getElem('.fld-srch li.srch-type-addr').length, 3);
 	assert.notOk(control.getElem('.fld-srch li.srch-type-other').length);
-	
+
 	setTimeout(function(){
 		assert.equal(control.getElem('.mnu-srch-typ').css('display'), 'none');
 		done();
@@ -362,30 +334,30 @@ QUnit.test('choices (srch-type = other)', function(assert){
 	control.val('before');
 	control.getElem('.mnu-srch-typ').show();
 	control.input.attr('placeholder', 'placeholder');
-	
+
 	var liAddr = $('<li></li><li></li><li></li>').addClass('srch-type-addr');
 	var liOther = $('<li>1</li><li></li><li></li>').addClass('srch-type-other').data('srch-type', 'other').data('placeholder', 'Search Other...');
 	control.getElem('.fld-srch-retention').append(liAddr);
 	control.getElem('.fld-srch-retention').append(liOther);
-	
+
 	assert.notOk(control.isAddrSrch);
 	assert.ok(control.val());
 	assert.notOk(control.input.get(0) === document.activeElement);
 	assert.notOk(control.getElem('.fld-srch li.srch-type-addr').length);
 	assert.notOk(control.getElem('.fld-srch li.srch-type-other').length);
-	
+
 	control.choices({target: liOther.get(1)});
-	
+
 	assert.notOk(control.isAddrSrch);
 	assert.notOk(control.val());
 	assert.ok(control.input.get(0) == document.activeElement);
 	assert.ok(control.input.get(0) === document.activeElement);
-	
+
 	assert.equal(control.input.attr('placeholder'), 'Search Other...');
-	
+
 	assert.equal(control.getElem('.fld-srch li.srch-type-other').length, 3);
 	assert.notOk(control.getElem('.fld-srch li.srch-type-addr').length);
-	
+
 	setTimeout(function(){
 		assert.equal(control.getElem('.mnu-srch-typ').css('display'), 'none');
 		done();
@@ -398,13 +370,12 @@ QUnit.test('emptyList', function(assert){
 	var control = new this.TEST_CONTROL();
 	var liAddr = $('<li></li><li></li><li></li>').addClass('srch-type-addr');
 	control.getElem('.fld-srch').append(liAddr);
-	
+
 	assert.equal(control.getElem('.fld-srch-retention').length, 1);
 	assert.notOk(control.getElem('.fld-srch-retention li.srch-type-addr').length);
 
 	control.emptyList();
-	
+
 	assert.notOk(control.getElem('.fld-srch li.srch-type-addr').length);
 	assert.equal(control.getElem('.fld-srch-retention li.srch-type-addr').length, 3);
 });
-

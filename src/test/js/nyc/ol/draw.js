@@ -6,7 +6,6 @@ QUnit.module('nyc.ol.Draw', {
 		teardown(assert, this);
 		$('.draw-btn, .draw-btn-mnu, .draw-ctx-mnu').remove();
 	}
-
 });
 
 QUnit.test('constructor (defaults)', function(assert){
