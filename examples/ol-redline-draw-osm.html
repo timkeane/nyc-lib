@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.css">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.3.2/ol.css" rel="stylesheet">
 	<!-- nyc css -->
-	<link rel="stylesheet" href="../src/main/css/nyc-base.css"> 
+	<link rel="stylesheet" href="../src/main/css/nyc-base.css">
 	<link rel="stylesheet" href="../src/main/css/control-common.css">
 	<link rel="stylesheet" href="../src/main/css/dialog.css">
 	<link rel="stylesheet" href="../src/main/css/zoomsearch.css">
@@ -31,6 +31,7 @@
 	<script src="../src/main/js/nyc/ctlcontainer.js"></script>
 	<script src="../src/main/js/nyc/ol/ol.js"></script>
 	<script src="../src/main/js/nyc/ol/basemap.js"></script>
+	<script src="../src/main/js/nyc/ol/storage.js"></script>
 	<script src="../src/main/js/nyc/ol/locate.js"></script>
 	<script src="../src/main/js/nyc/ol/featuretip.js"></script>
 	<script src="../src/main/js/nyc/ol/style/style.js"></script>
@@ -50,22 +51,35 @@
 		 	right: 0;
 		 }
 		 .ol-zoom {
-		 	display: block;
-		 	left: 0;
-		 	top: 1px;
+			 	display: block;
+			 	left: 0;
+			 	top: 1px;
     	}
-		 .ol-zoom button.ui-btn, .ol-zoom button.ui-btn:hover {
+			.ol-zoom, .ol-zoom:hover {
+				background-color: transparent;
+			}
+			.ol-zoom button.ui-btn, .ol-zoom button.ui-btn:hover,
+			a.draw-btn.ui-btn, .draw-mnu-btn.ui-btn {
+				background-color: transparent;
+		}
+		.ol-zoom button.ui-btn, .ol-zoom button.ui-btn:hover {
 		 	color: #fff;
 		 	font-size: 28px !important;
 		 	width: 35px;
 		 	height: 35px;
 		 	font-weight: bold;
-		 	background-color: rgba(0,0,0,.5);
+			border: 1px solid #ddd;
 		 	border-radius: 3px;
-    	}
-    	.ol-zoom button.ui-btn:hover {
-    		background-color: #000;
-    	}
+			padding-bottom: 6px;
+    	margin-bottom: 4px;
+  	}
+		.ol-zoom button.ui-btn:hover, a.draw-btn.ui-btn:hover,
+		.draw-mnu-btn.ui-btn:hover, .north-arrow {
+  		background-color: rgba(255,255,255,.3);
+  	}
+		.north-arrow {
+			border-radius: 50%;
+		}
 	</style>
 </head>
 <body>
@@ -79,13 +93,15 @@
 				view: new ol.View({zoom: 10, center: nyc.ol.Basemap.CENTER}),
 				layers: [
 					new ol.layer.Tile({
-						source: new ol.source.OSM()
+						source: new ol.source.OSM({
+							url: 'https://cartodb-basemaps-{1-4}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png'
+						})
 					})
 				]
 			});
 
 			draw = new nyc.ol.Draw({map: map});
-			
+
 			draw.on(nyc.ol.FeatureEventType.ADD, function(feature){
 				console.info("Feature added:", feature);
 			});
@@ -102,4 +118,3 @@
 	</script>
 </body>
 </html>
-
