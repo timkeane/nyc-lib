@@ -63,8 +63,7 @@
 				background-color: transparent;
 		}
 		.ol-zoom button.ui-btn, .ol-zoom button.ui-btn:hover {
-		 	color: #fff;
-		 	font-size: 28px !important;
+		 	color: transparent;
 		 	width: 35px;
 		 	height: 35px;
 		 	font-weight: bold;
@@ -72,7 +71,16 @@
 		 	border-radius: 3px;
 			padding-bottom: 6px;
     	margin-bottom: 4px;
+			background-size: 18px;
+			background-position: center;
+			background-repeat: no-repeat;
   	}
+		.ol-zoom button.ol-zoom-in {
+			background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20width%3D%2214px%22%20height%3D%2214px%22%3E%3Cpolygon%20fill%3D%22%23FFF%22%20points%3D%2214%2C5%209%2C5%209%2C0%205%2C0%205%2C5%200%2C5%200%2C9%205%2C9%205%2C14%209%2C14%209%2C9%2014%2C9%22%2F%3E%3C%2Fsvg%3E");
+		}
+		.ol-zoom button.ol-zoom-out {
+			background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20width%3D%2214px%22%20height%3D%2214px%22%3E%3Crect%20y%3D%225%22%20style%3D%22fill%3A%23fff%3B%22%20width%3D%2214%22%20height%3D%224%22%2F%3E%3C%2Fsvg%3E");
+		}
 		.ol-zoom button.ui-btn:hover, a.draw-btn.ui-btn:hover,
 		.draw-mnu-btn.ui-btn:hover, .north-arrow {
   		background-color: rgba(255,255,255,.3);
