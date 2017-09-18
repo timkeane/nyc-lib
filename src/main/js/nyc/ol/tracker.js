@@ -158,6 +158,39 @@ nyc.ol.Tracker = function(options){
 ol.inherits(nyc.ol.Tracker, ol.Geolocation);
 
 /**
+ * @desc Restore previous tracking data if available
+ * @public
+ * @method
+ */
+nyc.ol.Tracker.prototype.restore = function(){
+	var me = this;
+	var track = me.storage.getItem(me.trackStore);
+	var positions = me.storage.getItem(me.positionsStore);
+	if (track){
+		var dia = new nyc.Dialog();
+		dia.yesNo({
+			message: 'Retore previous tracking data?',
+			callback: function(yesNo){
+				if (yesNo){
+					var opts = {
+						dataProjection: 'EPSG:4326',
+						featureProjection: me.view.getProjection()
+					};
+					me.track = me.geoJson.readGeometry(track, opts);
+					me.positions = me.geoJson.readFeatures(positions, opts);
+					me.updateView(me.positions[me.positions.length - 1]);
+				}else{
+					me.reset();
+				}
+			}
+		});
+	}else{
+		this.reset();
+	}
+	me.updatePosition();
+};
+
+/**
  * @desc Enable or disable tracking
  * @public
  * @override
@@ -185,6 +218,37 @@ nyc.ol.Tracker.prototype.setTracking = function(tracking){
 		}
 	}
 	ol.Geolocation.prototype.setTracking.call(this, tracking);
+};
+
+/**
+ * @desc Orient the view to the current position
+ * @public
+ * @method
+ * @param {ol.Coordinate|ol.Feature} position
+ */
+nyc.ol.Tracker.prototype.updateView = function(position){
+	var pIdx = this.positions.length - 1;
+	if (pIdx % 2 == 0){
+		var options;
+		if ('getGeometry' in position){
+			position = position.getGeometry().getCoordinates();
+			options = {zoom: this.startingZoomLevel};
+		}else if (!this.currentZoomLevel && pIdx == 0){
+			options = {zoom: this.startingZoomLevel};
+		}
+		if (this.recenter){
+			options = options || {};
+			options.center = this.getCenterWithHeading(position, -position[2], options.zoom);
+		}
+		if (this.rotate){
+			options = options || {};
+			options.rotation = -position[2];
+		}
+		if (options){
+			this.view.cancelAnimations();
+			this.view.animate(options);
+		}
+	}
 };
 
 /**
@@ -335,38 +399,6 @@ nyc.ol.Tracker.prototype.reset = function(){
 /**
  * @private
  * @method
- */
-nyc.ol.Tracker.prototype.restore = function(){
-	var me = this;
-	var track = me.storage.getItem(me.trackStore);
-	var positions = me.storage.getItem(me.positionsStore);
-	if (track){
-		var dia = new nyc.Dialog();
-		dia.yesNo({
-			message: 'Retore previous tracking data?',
-			callback: function(yesNo){
-				if (yesNo){
-					var opts = {
-						dataProjection: 'EPSG:4326',
-						featureProjection: me.view.getProjection()
-					};
-					me.track = me.geoJson.readGeometry(track, opts);
-					me.positions = me.geoJson.readFeatures(positions, opts);
-					me.updateView(me.positions[me.positions.length - 1]);
-				}else{
-					me.reset();
-				}
-			}
-		});
-	}else{
-		this.reset();
-	}
-	me.updatePosition();
-};
-
-/**
- * @private
- * @method
  * @param {number} heading
  * @param {number} speed
  */
@@ -442,36 +474,6 @@ nyc.ol.Tracker.prototype.animate = function(){
 	}else{
 		marker.setPosition(end);
 		me.updateView(end);
-	}
-};
-
-/**
- * @private
- * @method
- * @param {ol.Coordinate|ol.Feature} position
- */
-nyc.ol.Tracker.prototype.updateView = function(position){
-	var pIdx = this.positions.length - 1;
-	if (pIdx % 2 == 0){
-		var options;
-		if ('getGeometry' in position){
-			position = position.getGeometry().getCoordinates();
-			options = {zoom: this.startingZoomLevel};
-		}else if (!this.currentZoomLevel && pIdx == 0){
-			options = {zoom: this.startingZoomLevel};
-		}
-		if (this.recenter){
-			options = options || {};
-			options.center = this.getCenterWithHeading(position, -position[2], options.zoom);
-		}
-		if (this.rotate){
-			options = options || {};
-			options.rotation = -position[2];
-		}
-		if (options){
-			this.view.cancelAnimations();
-			this.view.animate(options);
-		}
 	}
 };
 
