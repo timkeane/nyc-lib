@@ -9,12 +9,13 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.css">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.3.2/ol.css" rel="stylesheet">
 	<!-- nyc css -->
-	<link rel="stylesheet" href="../src/main/css/nyc-base.css"> 
+	<link rel="stylesheet" href="../src/main/css/nyc-base.css">
 	<link rel="stylesheet" href="../src/main/css/control-common.css">
 	<link rel="stylesheet" href="../src/main/css/dialog.css">
 	<link rel="stylesheet" href="../src/main/css/zoomsearch.css">
 	<link rel="stylesheet" href="../src/main/css/draw.css">
 	<link rel="stylesheet" href="../src/main/css/north.css">
+	<link rel="stylesheet" href="../src/main/css/tracker.css">
 	<!-- nyc css -->
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
@@ -59,7 +60,7 @@
 			.fld-srch-container {
 				right: 44px;
 			}
-		}		 
+		}
 	</style>
 </head>
 <body>
@@ -80,7 +81,7 @@
 			});
 
 			draw = new nyc.ol.Draw({map: map});
-			
+
 			draw.on(nyc.ol.FeatureEventType.ADD, function(feature){
 				console.info("Feature added:", feature);
 			});
@@ -97,4 +98,3 @@
 	</script>
 </body>
 </html>
-
