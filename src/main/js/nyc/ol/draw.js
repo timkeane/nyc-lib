@@ -23,7 +23,9 @@ nyc.ol.Draw = function(options){
 	this.storage = new nyc.ol.storage.Local();
 	this.storeKey = document.location.href.replace(document.location.search, '') + 'nyc.ol.Draw.features';
 
-	this.restore();
+	if (options.restore === undefined || options.restore){
+		this.restore();
+	}
 
 	this.layer = new ol.layer.Vector({
 		source: this.source,
@@ -32,12 +34,15 @@ nyc.ol.Draw = function(options){
 	});
 	this.map.addLayer(this.layer);
 
-	this.accuaracyLayer = new ol.layer.Vector({
-		source: this.source,
-		style: options.accuracyStyle || this.accuracyStyle,
-		visible: options.showAccuracy === undefined ? true : options.showAccuracy
-	});
-	this.map.addLayer(this.accuaracyLayer);
+	if (options.showAccuracy === undefined || options.showAccuracy === true){
+		this.accuaracyLayer = new ol.layer.Vector({
+			source: this.source,
+			style: options.accuracyStyle || this.accuracyStyle
+		});
+		this.map.addLayer(this.accuaracyLayer);
+	}
+
+	this.showEveryTrackPositon === undefined ? true : options.showEveryTrackPositon;
 
 	this.createModify();
 	this.buttonMenu();
@@ -179,6 +184,11 @@ nyc.ol.Draw.prototype = {
 	 */
 	firstRun: true,
 	/**
+	 * @private
+	 * @member {boolean}
+	 */
+	showEveryTrackPositon: true,
+	/**
 	 * @desc Set the accuracy limit for geolocation capture
 	 * @public
 	 * @method
@@ -264,15 +274,24 @@ nyc.ol.Draw.prototype = {
 	 * @desc Set features on the drawing layer
 	 * @public
 	 * @method
-	 * @param {Array<nyc.ol.Feature>} The features
+	 * @param {Array<nyc.ol.Feature>} features The features
 	 */
-	setFeatures: function(features){
+	addFeatures: function(features){
 		var feats = this.features;
-		feats.clear();
-		this.removed = [];
 		$.each(features, function(){
 			feats.push(this);
 		});
+	},
+	/**
+	 * @desc Add features to the drawing layer
+	 * @public
+	 * @method
+	 * @param {Array<nyc.ol.Feature>} features The features
+	 */
+	setFeatures: function(features){
+		this.features.clear();
+		this.removed = [];
+		this.addFeatures(features);
 	},
 	/**
 	 * @desc Remove a features from the drawing layer
@@ -477,7 +496,9 @@ nyc.ol.Draw.prototype = {
 			position = tracker.positions[tracker.positions.length - 1],
 			gpsTrack = this.getGpsTrack();
 		gpsTrack.setGeometry(tracker.track);
-		this.source.addFeature(position);
+		if (this.showEveryTrackPositon){
+			this.source.addFeature(position);
+		}
 	},
 	/**
 	 * @private
@@ -729,7 +750,9 @@ nyc.inherits(nyc.ol.Draw, nyc.EventHandling);
  * @property {ol.Map} map The OpenLayers map with which the user will interact
  * @property {ol.style.Style=} style The style to use for features added to the map
  * @property {ol.style.Style=} accuracyStyle The style to use for displaying geolocation accuracy values
+ * @property {boolean} [restore=true] Prompt for restore
  * @property {boolean} [showAccuracy=true] Visibility of the accuracy layer
+ * @property {boolean} [showEveryTrackPositon=true] Include all positons along GPS teack
  */
 nyc.ol.Draw.Options;
 
