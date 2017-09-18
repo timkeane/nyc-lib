@@ -16,12 +16,12 @@ nyc.ol.Tracker = function(options){
 	 * @public
 	 * @member {ol.geom.LineString}
 	 */
-	this.track = null;
+	 this.track = new ol.geom.LineString([], 'XYZM');
 	/**
 	 * @public
 	 * @member {Array<ol.Feature>}
 	 */
-	this.positions = null;
+	 this.positions = [];
 	/**
 	 * @public
 	 * @member {number}
@@ -149,6 +149,7 @@ nyc.ol.Tracker = function(options){
 	this.markerOverlay.setProperties(overlayOpts); // for testing to ensure proper args were used
 	this.map.addOverlay(this.markerOverlay);
 
+	this.on('change', this.updatePosition, this);
 	this.on('error', function(error){
 		console.error(error.message, arguments);
 	});
@@ -360,7 +361,6 @@ nyc.ol.Tracker.prototype.restore = function(){
 	}else{
 		this.reset();
 	}
-	me.on('change', me.updatePosition, me);
 	me.updatePosition();
 };
 
