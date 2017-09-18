@@ -4,10 +4,10 @@ div.north-arrow {
 	bottom: 0;
 	width: 40px;
 	height: 40px;
-	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3Asvg%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%22%20height%3D%22100%22%3E%3Cpath%20style%3D%22fill%3A%23000%3Bstroke-width%3A5%3Bstroke%3A%23fff%22%20d%3D%22M50%2010%20L%2070%2090%20L%2030%2090%20L%2050%2010%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2240%22%20stroke%3D%22black%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-width%3A20%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2240%22%20stroke%3D%22black%22%20style%3D%22fill%3Anone%3Bstroke%3A%23000%3Bstroke-width%3A10%22%2F%3E%3C%2Fsvg%3E");
+	background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3Asvg%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%22%20height%3D%22100%22%3E%3Cpath%20style%3D%22fill%3A%23000%3Bstroke-width%3A5%3Bstroke%3A%23fff%22%20d%3D%22M50%2010%20L%2070%2090%20L%2030%2090%20L%2050%2010%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2240%22%20style%3D%22fill%3Anone%3Bstroke%3A%23fff%3Bstroke-width%3A20%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2240%22%20style%3D%22fill%3Anone%3Bstroke%3A%23000%3Bstroke-width%3A10%22%2F%3E%3C%2Fsvg%3E");
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: 40px; 
+	background-size: 40px;
 	margin: 3px;
 	opacity: .5;
 	transform: rotate(0rad);
