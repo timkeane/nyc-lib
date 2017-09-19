@@ -218,6 +218,7 @@ nyc.ol.Draw.prototype = {
 	activate: function(type){
 		var me = this;
 		me.deactivate(true);
+		me.mnuBtn.addClass(type.toLowerCase().replace(/none/, ''));
 		me.type = type;
 		if (type != nyc.ol.Draw.Type.NONE){
 			var geometryFunction, maxPoints;
@@ -277,9 +278,19 @@ nyc.ol.Draw.prototype = {
 	 * @public
 	 * @method
 	 * @param {Array<nyc.ol.Feature>} features The features
+	 * @param {boolean} silent Do not trigger events
+	 *
 	 */
-	addFeatures: function(features){
+	addFeatures: function(features, silent){
+		if (silent){
+			this.source.un('addfeature', this.triggerFeatureEvent, this);
+			this.source.un('changefeature', this.changed, this);
+		}
 		this.source.addFeatures(features);
+		if (silent){
+			this.source.on('addfeature', this.triggerFeatureEvent, this);
+			this.source.on('changefeature', this.changed, this);			
+		}
 	},
 	/**
 	 * @desc Add features to the drawing layer
@@ -592,18 +603,16 @@ nyc.ol.Draw.prototype = {
 	 * @param {JQuery.Event} event
 	 */
 	choose: function(event){
-		var me = this, btn = event.target;
-		var type = $(btn).data('draw-type'), css = btn.className.split(' ')[1] || '';
-		if (css == 'delete'){
+		var btn = $(event.target);
+		var type = btn.data('draw-type');
+		if (btn.hasClass('delete')){
 			this.clear();
-		}else if(css == 'cancel'){
-			me.deactivate();
+		}else if (btn.hasClass('cancel')){
+			this.deactivate();
 		}else{
-			me.activate(type);
-			me.mnuBtn.removeClass('point line polygon circle square box free gps');
-			me.mnuBtn.addClass(css);
+			this.activate(type);
 		}
-		me.closeMenus();
+		this.closeMenus();
 	},
 	/**
 	 * @private
