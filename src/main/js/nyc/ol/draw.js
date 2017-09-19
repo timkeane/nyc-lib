@@ -11,6 +11,7 @@ nyc.ol = nyc.ol || {};
  * @fires nyc.ol.Draw#addfeature
  * @fires nyc.ol.Draw#changefeature
  * @fires nyc.ol.Draw#removefeature
+ * @fires nyc.ol.Draw#activechanged
  */
 nyc.ol.Draw = function(options){
 	this.features = new ol.Collection();
@@ -216,7 +217,7 @@ nyc.ol.Draw.prototype = {
 	 */
 	activate: function(type){
 		var me = this;
-		me.deactivate();
+		me.deactivate(true);
 		me.type = type;
 		if (type != nyc.ol.Draw.Type.NONE){
 			var geometryFunction, maxPoints;
@@ -250,6 +251,7 @@ nyc.ol.Draw.prototype = {
 				me.map.addInteraction(me.modify);
 			}
 		}
+		this.trigger(nyc.ol.Draw.EventType.ACTIVE_CHANGED, true);
 	},
 	/**
 	 * @desc Get the features that are unchanged or have been added, changed, or removed
@@ -320,8 +322,9 @@ nyc.ol.Draw.prototype = {
 	 * @desc Deactivate to stop drawing
 	 * @public
 	 * @method
+	 * @param {boolean} silent
 	 */
-	deactivate: function(){
+	deactivate: function(silent){
 		this.type = null;
 		this.mnuBtn.removeClass('point line polygon circle square box free gps');
 		this.map.removeInteraction(this.modify);
@@ -336,6 +339,9 @@ nyc.ol.Draw.prototype = {
 			this.tracker.setTracking(false);
 		}
 		this.mover.setActive(false);
+		if (!silent){
+			this.trigger(nyc.ol.Draw.EventType.ACTIVE_CHANGED, false);
+		}
 	},
 	/**
 	 * @private
@@ -800,6 +806,23 @@ nyc.ol.Draw.Type  = {
 	NONE: 'None'
 };
 
+/**
+ * @desc The active changed event
+ * @event nyc.ol.Draw#activechanged
+ * @type {ol.events.Event}
+ */
+
+/**
+ * @desc Enumeration for tracker event types
+ * @public
+ * @enum {string}
+ */
+nyc.ol.Draw.EventType = {
+	/**
+	 * @desc The active changed event type
+	 */
+	ACTIVE_CHANGED: 'activechanged'
+};
 /**
  * @private
  * @const
