@@ -169,7 +169,7 @@ nyc.ol.Tracker.prototype.restore = function(){
 	if (track){
 		var dia = new nyc.Dialog();
 		dia.yesNo({
-			message: 'Retore previous tracking data?',
+			message: 'Restore previous tracking data?',
 			callback: function(yesNo){
 				if (yesNo){
 					var opts = {

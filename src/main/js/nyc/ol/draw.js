@@ -14,10 +14,9 @@ nyc.ol = nyc.ol || {};
  * @fires nyc.ol.Draw#activechanged
  */
 nyc.ol.Draw = function(options){
-	this.features = new ol.Collection();
 	this.map = options.map;
 	this.view = this.map.getView();
-	this.source = new ol.source.Vector({features: this.features});
+	this.source = new ol.source.Vector();
 	this.viewport = $(this.map.getViewport());
 	this.removed = [];
 	this.geoJson = new ol.format.GeoJSON();
@@ -48,6 +47,7 @@ nyc.ol.Draw = function(options){
 	this.createModify();
 	this.buttonMenu();
 	this.mover = new nyc.ol.Drag(this.layer);
+	this.mover.on('moveend', this.modified, this);
 	this.mover.setActive(false);
 	this.map.addInteraction(this.mover);
 	this.viewport.on('contextmenu', $.proxy(this.contextMenu, this));
@@ -222,7 +222,7 @@ nyc.ol.Draw.prototype = {
 		if (type != nyc.ol.Draw.Type.NONE){
 			var geometryFunction, maxPoints;
 			me.source.on('addfeature', me.triggerFeatureEvent, me);
-			me.source.on('changefeature', me.triggerFeatureEvent, me);
+			me.source.on('changefeature', me.changed, me);
 			if (type == nyc.ol.Draw.Type.GPS || type == nyc.ol.Draw.Type.FREE){
 				type = nyc.ol.Draw.Type.LINE;
 			}else if (type == nyc.ol.Draw.Type.SQUARE){
@@ -261,7 +261,7 @@ nyc.ol.Draw.prototype = {
 	 */
 	getFeatures: function(){
 		var features = {added: [], changed: [], unchanged: [], removed: this.removed};
-		this.features.forEach(function(feature){
+		this.source.getFeaturesCollection().forEach(function(feature){
 			if (feature._added){
 				features.added.push(feature);
 			}else if (feature._changed){
@@ -279,10 +279,7 @@ nyc.ol.Draw.prototype = {
 	 * @param {Array<nyc.ol.Feature>} features The features
 	 */
 	addFeatures: function(features){
-		var feats = this.features;
-		$.each(features, function(){
-			feats.push(this);
-		});
+		this.source.addFeatures(features);
 	},
 	/**
 	 * @desc Add features to the drawing layer
@@ -291,7 +288,7 @@ nyc.ol.Draw.prototype = {
 	 * @param {Array<nyc.ol.Feature>} features The features
 	 */
 	setFeatures: function(features){
-		this.features.clear();
+		this.source.clear();
 		this.removed = [];
 		this.addFeatures(features);
 	},
@@ -331,7 +328,7 @@ nyc.ol.Draw.prototype = {
 		if (this.drawer){
 			this.map.removeInteraction(this.drawer);
 			this.source.un('addfeature', this.triggerFeatureEvent, this);
-			this.source.un('changefeature', this.triggerFeatureEvent, this);
+			this.source.un('changefeature', this.changed, this);
 			delete this.drawer;
 		}
 		if (this.tracker.getTracking()){
@@ -349,11 +346,28 @@ nyc.ol.Draw.prototype = {
 	 */
 	createModify: function(){
 		var options = {
-			features: this.features,
+			source: this.source,
+			condition: $.proxy(this.modifyCondition, this),
 			deleteCondition: $.proxy(this.deleteCondition, this)
 		};
 		this.modify = new ol.interaction.Modify(options);
+		this.modify.on('modifyend', this.modified, this);
 		this.modify.setProperties(options); //for testing to ensure proper args were used
+	},
+	changed:  function(event){
+		if (!this.modify._feature){
+			this.triggerFeatureEvent(event);
+		}
+	},
+	modified: function(event){
+		var feature = event.feature || this.modify._feature;
+		if (feature){
+			this.triggerFeatureEvent({
+				type: nyc.ol.FeatureEventType.CHANGE,
+				feature: feature
+			});
+			this.modify._feature = null;
+		}
 	},
 	/**
 	 * @private
@@ -384,6 +398,23 @@ nyc.ol.Draw.prototype = {
             ]);
 		}
 		return geometry;
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {ol.MapBrowserEvent} mapEvent
+	 * @return {boolean}
+	 */
+	modifyCondition: function(event){
+		var me = this, map = me.map;
+		me.modify._feature = map.forEachFeatureAtPixel(
+			event.pixel, function(feature, layer){
+				if (layer === me.layer){
+					return feature;
+				}
+			}
+		);
+		return ol.events.condition.primaryAction(event);
 	},
 	/**
 	 * @private
@@ -479,9 +510,9 @@ nyc.ol.Draw.prototype = {
 	 * @method
 	 */
 	getGpsTrack: function(){
-		if (!this.gpsTrack || $.inArray(this.gpsTrack, this.features.getArray()) == -1){
+		if (!this.gpsTrack || $.inArray(this.gpsTrack, this.source.getFeatures()) == -1){
 			this.gpsTrack = new ol.Feature({geometry: new ol.geom.LineString([], 'XYZM')});
-			this.features.push(this.gpsTrack);
+			this.source.addFeature(this.gpsTrack);
 		}
 		return this.gpsTrack;
 	},
@@ -652,12 +683,12 @@ nyc.ol.Draw.prototype = {
 		var me = this;
 		if (feature.getGeometry().getCoordinates().length >= 3){
 			me.source.un('addfeature', me.triggerFeatureEvent, me);
-			me.source.un('changefeature', me.triggerFeatureEvent, me);
+			me.source.un('changefeature', me.changed, me);
 			me.dia = me.dia || new nyc.Dialog();
 			me.dia.yesNo({message: 'Create ploygon?', callback: function(yesNo){
 				me.triggerEvent(eventType, feature, yesNo);
 				me.source.on('addfeature', me.triggerFeatureEvent, me);
-				me.source.on('changefeature', me.triggerFeatureEvent, me);
+				me.source.on('changefeature', me.changed, me);
 			}});
 		}
 	},
@@ -687,9 +718,9 @@ nyc.ol.Draw.prototype = {
 	 * @param {boolean} polygon
 	 */
 	triggerEvent: function(type, feature, polygon){
-		this.saveBtn.show();
-		this.btnMnu.controlgroup('refresh');
-		this.trigger(type, this.geomToPolygon(feature, polygon));
+			this.saveBtn.show();
+			this.btnMnu.controlgroup('refresh');
+			this.trigger(type, this.geomToPolygon(feature, polygon));
 	},
 	/**
 	 * @private
@@ -734,10 +765,10 @@ nyc.ol.Draw.prototype = {
 		if (features && features.length){
 			this.dia = this.dia || new nyc.Dialog();
 			this.dia.yesNo({
-				message: 'Retore previous drawing data?',
+				message: 'Restore previous drawing data?',
 				callback: function(yesNo){
 					if (yesNo){
-						me.features.extend(features);
+						me.source.addFeatures(features);
 						me.saveBtn.show();
 						me.btnMnu.controlgroup('refresh');
 					}
@@ -883,11 +914,6 @@ nyc.ol.Drag = function(layer){
 	 * @member {ol.Feature}
 	 */
 	this.feature = null;
-	/**
-	 * @private
-	 * @member {string}
-	 */
-	this.prevCursor = null;
 };
 
 ol.inherits(nyc.ol.Drag, ol.interaction.Pointer);
@@ -951,7 +977,10 @@ nyc.ol.Drag.prototype.handleMoveEvent = function(event){
  * @param {ol.MapBrowserEvent} event
  * @return {boolean}
  */
-nyc.ol.Drag.prototype.handleUpEvent = function(event) {
+nyc.ol.Drag.prototype.handleUpEvent = function(event){
+	if (this.feature){
+		this.dispatchEvent({type: 'moveend', feature: this.feature});
+	}
 	this.coords = null;
 	this.feature = null;
 	$(event.map.getViewport()).css('cursor', 'inherit');
