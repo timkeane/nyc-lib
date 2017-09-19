@@ -1,8 +1,8 @@
 var nyc = nyc || {};
 
-/** 
+/**
  * @desc Class for alert, yes/no and input dialogs
- * @public 
+ * @public
  * @class
  * @extends {nyc.EventHandling}
  * @constructor
@@ -20,16 +20,16 @@ nyc.Dialog = function(){
 	this.inputElems = this.container.find('input.dia-input').parent();
 	this.inputElems = this.inputElems.add(this.container.find('.btn-submit, .btn-cancel'));
 	this.inputElem = this.container.find('input.dia-input');
-	
+
 	this.loginElems = this.container.find('input.dia-user').parent();
 	this.loginElems = this.loginElems.add(this.container.find('input.dia-pw').parent());
 	this.loginElems = this.loginElems.add(this.container.find('.btn-ok, .btn-cancel'));
 	this.userElem = this.container.find('input.dia-user');
 	this.pwElem = this.container.find('input.dia-pw');
-	
+
 	this.msgElem = this.container.find('.dia-msg');
 	$('.btn-ok').click($.proxy(this.hndlOk, this));
-	$('.btn-ok').click($.proxy(this.hndlLogin, this));	
+	$('.btn-ok').click($.proxy(this.hndlLogin, this));
 	$('.btn-yes, .btn-no').click($.proxy(this.hndlYesNo, this));
 	$('.btn-submit, .btn-no, .btn-cancel').click($.proxy(this.hndlInput, this));
 	$(document).keyup($.proxy(this.hndlKey, this));
@@ -178,7 +178,7 @@ nyc.Dialog.prototype = {
 	 */
 	show: function(type, options){
 		this.currentType = type;
-		this.container.removeClass('dia-3-btns');	
+		this.container.removeClass('dia-3-btns');
 		this.container.find('.ui-link').removeClass('ui-link');
 		this.loginElems.css('display', 'none');
 		this.inputElems.css('display', type == nyc.Dialog.Type.INPUT ? 'inline-block' : 'none');
@@ -189,8 +189,8 @@ nyc.Dialog.prototype = {
 		}
 		if (type == nyc.Dialog.Type.YES_NO_CANCEL){
 			this.yesNoElems.css('display', 'inline-block');
-			this.container.find('.btn-cancel').css('display', 'inline-block');	
-			this.container.addClass('dia-3-btns');	
+			this.container.find('.btn-cancel').css('display', 'inline-block');
+			this.container.addClass('dia-3-btns');
 		}
 		this.msgElem.html(options.message || '');
 		this.container.fadeIn();
@@ -213,8 +213,8 @@ nyc.Dialog.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {nyc.Dialog.EventType} type 
-	 * @param {(boolean|string|Object)} result 
+	 * @param {nyc.Dialog.EventType} type
+	 * @param {(boolean|string|Object)} result
 	 */
 	hndlAny: function(type, result){
 		var me = this;
@@ -223,7 +223,7 @@ nyc.Dialog.prototype = {
 				me.callback(result);
 				me.callback = null;
 			}
-			me.trigger(type, result);			
+			me.trigger(type, result);
 		});
 	},
 	/**
@@ -260,8 +260,9 @@ nyc.Dialog.prototype = {
 	 * @param {JQuery.Event} event
 	 */
 	hndlInput: function(event){
-		if (!this.cancel(event) && this.currentType == nyc.Dialog.Type.INPUT){
-			this.hndlAny(nyc.Dialog.EventType.INPUT, this.inputElem.val());
+		if (this.currentType == nyc.Dialog.Type.INPUT){
+			var value = this.cancel(event) ? '' : this.inputElem.val();
+			this.hndlAny(nyc.Dialog.EventType.INPUT, value);
 		}
 	},
 	/**
@@ -400,7 +401,7 @@ nyc.Dialog.HTML = '<div class="ui-page-theme-a dia-container">' +
 		'<a class="btn-ok" data-role="button">OK</a>' +
 		'<a class="btn-yes" data-role="button">Yes</a>' +
 		'<a class="btn-no" data-role="button">No</a>' +
-		'<a class="btn-submit" data-role="button">OK</a>' +		
+		'<a class="btn-submit" data-role="button">OK</a>' +
 		'<a class="btn-cancel" data-role="button">Cancel</a>' +
 		'</div>' +
 	'</div>' +
