@@ -14,7 +14,9 @@ nyc.ol.storage = {};
  * @extends {nyc.storage.Local}
  * @constructor
  */
-nyc.ol.storage.Local = function(){};
+nyc.ol.storage.Local = function(){
+	nyc.storage.Local.call(this);
+};
 
 nyc.ol.storage.Local.prototype = {
 	/**

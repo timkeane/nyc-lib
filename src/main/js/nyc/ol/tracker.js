@@ -46,6 +46,11 @@ nyc.ol.Tracker = function(options){
 	 * @public
 	 * @member {number}
 	 */
+	this.skipViewUpdate = false;
+	/**
+	 * @public
+	 * @member {number}
+	 */
 	this.startingZoomLevel = options.startingZoomLevel === undefined ? 16 : options.startingZoomLevel;
 	/**
 	 * @public
@@ -227,26 +232,28 @@ nyc.ol.Tracker.prototype.setTracking = function(tracking){
  * @param {ol.Coordinate|ol.Feature} position
  */
 nyc.ol.Tracker.prototype.updateView = function(position){
-	var pIdx = this.positions.length - 1;
-	if (pIdx % 2 == 0){
-		var options;
-		if ('getGeometry' in position){
-			position = position.getGeometry().getCoordinates();
-			options = {zoom: this.startingZoomLevel};
-		}else if (!this.currentZoomLevel && pIdx == 0){
-			options = {zoom: this.startingZoomLevel};
-		}
-		if (this.recenter){
-			options = options || {};
-			options.center = this.getCenterWithHeading(position, -position[2], options.zoom);
-		}
-		if (this.rotate){
-			options = options || {};
-			options.rotation = -position[2];
-		}
-		if (options){
-			this.view.cancelAnimations();
-			this.view.animate(options);
+	if (!this.skipViewUpdate){
+		var pIdx = this.positions.length - 1;
+		if (pIdx % 2 == 0){
+			var options;
+			if ('getGeometry' in position){
+				position = position.getGeometry().getCoordinates();
+				options = {zoom: this.startingZoomLevel};
+			}else if (!this.currentZoomLevel && pIdx == 0){
+				options = {zoom: this.startingZoomLevel};
+			}
+			if (this.recenter){
+				options = options || {};
+				options.center = this.getCenterWithHeading(position, -position[2], options.zoom);
+			}
+			if (this.rotate){
+				options = options || {};
+				options.rotation = -position[2];
+			}
+			if (options){
+				this.view.cancelAnimations();
+				this.view.animate(options);
+			}
 		}
 	}
 };
@@ -405,15 +412,17 @@ nyc.ol.Tracker.prototype.reset = function(){
 nyc.ol.Tracker.prototype.marker = function(speed, heading){
 	if (speed){
 		this.img.attr('src', nyc.ol.Tracker.LOCATION_HEADING_IMG);
-		if (!this.rotate){
+		var transform = 'rotate(0rad)';
+		if (!this.rotate || this.skipViewUpdate){
 			// not rotating view so let's rotate marker
-			var transform = 'rotate(' + heading + 'rad)';
-			this.img.css({
-				transform: transform,
-				'-webkit-transform': transform,
-				'-ms-transform': transform
-			});
+			heading += this.view.getRotation();
+			transform = 'rotate(' + heading + 'rad)';
 		}
+		this.img.css({
+			transform: transform,
+			'-webkit-transform': transform,
+			'-ms-transform': transform
+		});
 	}else{
 		this.img.attr('src', nyc.ol.Tracker.LOCATION_IMG);
 	}
