@@ -93,7 +93,7 @@ nyc.storage.Local.prototype = {
 				input.remove();
 				reader.readAsText(event.target.files[0]);
 			});
-			input.click();
+			input.trigger('click');
 		}else{
 			reader.readAsText(file);
 		}
@@ -137,7 +137,7 @@ nyc.storage.Local.prototype = {
 				me.readShpDbf(map, shp, dbf, projcs, callback);
 			});
 		});
-		input.click();
+		input.trigger('click');
 	},
 	/**
 	 * @private
