@@ -79,7 +79,7 @@ nyc.storage.Local.prototype = {
 	 * @public
 	 * @function
 	 * @param {function} callback The callback function to receive file content
-	 * @param {File=} file File name
+	 * @param {string|File=} file File
 	 */
 	readTextFile: function(callback, file){
 		var reader = new FileReader();
@@ -95,6 +95,9 @@ nyc.storage.Local.prototype = {
 			});
 			input.click();
 		}else{
+			if (typeof file == 'string'){
+				file = File.createFromFileName(file);
+			}
 			reader.readAsText(file);
 		}
 	},
