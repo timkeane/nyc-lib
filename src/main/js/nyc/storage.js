@@ -79,7 +79,7 @@ nyc.storage.Local.prototype = {
 	 * @public
 	 * @function
 	 * @param {function} callback The callback function to receive file content
-	 * @param {string|File=} file File
+	 * @param {File=} file File
 	 */
 	readTextFile: function(callback, file){
 		var reader = new FileReader();
@@ -95,9 +95,6 @@ nyc.storage.Local.prototype = {
 			});
 			input.click();
 		}else{
-			if (typeof file == 'string'){
-				file = File.createFromFileName(file);
-			}
 			reader.readAsText(file);
 		}
 	},
@@ -107,7 +104,7 @@ nyc.storage.Local.prototype = {
 	 * @function
 	 * @param {ol.Map|L.Map} map The map in which the data will be displayed
 	 * @param {function=} callback The callback function to receive the added ol.vector.Layer
-	 * @param {string=} file File name
+	 * @param {string|File=} file File
 	 */
 	loadGeoJsonFile: function(map, callback, file){
 		var me = this;
