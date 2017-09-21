@@ -104,7 +104,7 @@ nyc.storage.Local.prototype = {
 	 * @function
 	 * @param {ol.Map|L.Map} map The map in which the data will be displayed
 	 * @param {function=} callback The callback function to receive the added ol.vector.Layer
-	 * @param {string|File=} file File
+	 * @param {File=} file File
 	 */
 	loadGeoJsonFile: function(map, callback, file){
 		var me = this;
@@ -119,25 +119,45 @@ nyc.storage.Local.prototype = {
 	 * @function
 	 * @param {ol.Map|L.Map} map The map in which the data will be displayed
 	 * @param {function=} callback The callback function to receive the added ol.vector.Layer
+	 * @param {FileList=} files Files (.shp, .dbf, .prj)
 	 * @see https://github.com/mbostock/shapefile
 	 */
-	loadShapeFile: function(map, callback){
-		var me = this, input = $('<input class="file-in" type="file" multiple>'), shp, dbf, prj;
-		$('body').append(input);
-		input.change(function(event){
-			input.remove();
-			var files = event.target.files;
-			$.each(files, function(){
-				var ext = this.name.substr(name.length - 4);
-				if (ext == '.shp') shp = this;
-				else if (ext == '.dbf') dbf = this;
-				else if (ext == '.prj') prj = this;
+	loadShapeFile: function(map, callback, files){
+		var me = this;
+		if (!files){
+			var input = $('<input class="file-in" type="file" multiple>');
+			$('body').append(input);
+			input.change(function(event){
+				me.getShpDbfPrj(map, event.target.files, callback);
+				input.remove();
 			});
+			input.trigger('click');
+		}else{
+			me.getShpDbfPrj(map, files, callback);
+		}
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {ol.Map|L.Map} map
+	 * @param {FileList} file
+	 * @param {function} callback
+	*/
+	getShpDbfPrj: function(map, files, callback){
+		var me = this, shp, dbf, prj;
+		$.each(files, function(){
+			var ext = this.name.substr(name.length - 4);
+			if (ext == '.shp') shp = this;
+			else if (ext == '.dbf') dbf = this;
+			else if (ext == '.prj') prj = this;
+		});
+		if (shp){
 			me.readPrj(prj, function(projcs){
 				me.readShpDbf(map, shp, dbf, projcs, callback);
 			});
-		});
-		input.trigger('click');
+		}else if (callback){
+			callback();
+		}
 	},
 	/**
 	 * @private
