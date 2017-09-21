@@ -9,8 +9,8 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.css">
 	<link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css">
 	<!-- nyc css -->
-	<link rel="stylesheet" href="../src/main/css/nyc-base.css"> 
-	<link rel="stylesheet" href="../src/main/css/carto-popup.css"> 
+	<link rel="stylesheet" href="../src/main/css/nyc-base.css">
+	<link rel="stylesheet" href="../src/main/css/carto-popup.css">
 	<!-- nyc css -->
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
@@ -26,8 +26,13 @@
 	<script src="../src/main/js/nyc/carto/carto.js"></script>
 	<script src="../src/main/js/nyc/carto/popup.js"></script>
 	<!-- nyc js -->
-	
+
 	<style>
+		html, body, #map {
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+		}
 		 #map {
 		 	position: fixed;
 		 	top: 0;
@@ -69,15 +74,15 @@
 	</div>
 	<script>
 		var popup;
-		
+
 		$(document).ready(function(){
-			
+
 			var map = L.map('map');
 			map.addLayer(
 				L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png')
 			);
 			map.setView(nyc.leaf.Basemap.CENTER, 11);
-			
+
 			cartodb.createLayer(map, {
 				user_name: 'nycmap',
 				type: 'cartodb',
@@ -88,7 +93,7 @@
 			}, {https: true}).addTo(map).done(function(layers){
 				var layer = layers.getSubLayer(0);
 				popup = new nyc.carto.Popup({
-					map: map, 
+					map: map,
 					layer: layer,
 	 				interactivity: ['cartodb_id', 'pop', 'name', 'pct', 'type', 'crime_count', 'per1000'],
 					template: $('#info-pct').html(),
@@ -105,7 +110,7 @@
 									$(n).html(num);
 								}
 								$(n).removeClass('fmt-num');
-							});					
+							});
 						}
 					},
 					onHidePopup: function(popup){
@@ -114,8 +119,8 @@
 				});
 			});
 
-			
-						
+
+
 		});
 	</script>
 </body>

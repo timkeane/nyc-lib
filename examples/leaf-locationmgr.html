@@ -9,10 +9,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.css">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.css" rel="stylesheet">
 	<!-- nyc css -->
-	<link rel="stylesheet" href="../src/main/css/nyc-base.css"> 
-	<link rel="stylesheet" href="../src/main/css/control-common.css"> 
-	<link rel="stylesheet" href="../src/main/css/dialog.css"> 
-	<link rel="stylesheet" href="../src/main/css/zoomsearch.css"> 
+	<link rel="stylesheet" href="../src/main/css/nyc-base.css">
+	<link rel="stylesheet" href="../src/main/css/control-common.css">
+	<link rel="stylesheet" href="../src/main/css/dialog.css">
+	<link rel="stylesheet" href="../src/main/css/zoomsearch.css">
 	<!-- nyc css -->
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
@@ -32,8 +32,13 @@
 	<script src="../src/main/js/nyc/leaf/locator.js"></script>
 	<script src="../src/main/js/nyc/leaf/zoomsearch.js"></script>
 	<!-- nyc js -->
-	
+
 	<style>
+		html, body, #map {
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+		}
 		 #map {
 		 	position: fixed;
 		 	top: 0;
@@ -50,19 +55,19 @@
 	<div id="map"></div>
 	<script>
 		$(document).ready(function(){
-			
+
 			var map = L.map('map');
 			map.addLayer(
 				L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png')
 			);
 			map.setView(nyc.leaf.CENTER, 11);
-						
+
 			/* See README.md for getting your GeoClient App Id and App Key */
 			var geocoder = new nyc.Geoclient(
 				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example',
 				'EPSG:4326'
 			);
-			
+
 			var mgr = new nyc.LocationMgr({
 				controls: new nyc.leaf.ZoomSearch(map),
 				locate: new nyc.leaf.Locate(map, geocoder),
@@ -72,7 +77,7 @@
 			mgr.on(nyc.Locate.EventType.GEOCODE, function(result){
 				console.info(result);
 			});
-			
+
 		});
 	</script>
 </body>
