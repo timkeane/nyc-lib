@@ -110,6 +110,7 @@ nyc.leaf.Basemap.prototype = {
 	/**
 	 * @desc Show photo layer
 	 * @public
+	 * @override
 	 * @method
 	 * @param layer {number} The photo year to show
 	 */
@@ -122,6 +123,7 @@ nyc.leaf.Basemap.prototype = {
 	/**
 	 * @desc Show photo layer
 	 * @public
+	 * @override
 	 * @method
 	 * @param labelType {nyc.Basemap.LabelType} The label type to show
 	 */
@@ -132,6 +134,7 @@ nyc.leaf.Basemap.prototype = {
 	/**
 	 * @desc Hide photo layer
 	 * @public
+	 * @override
 	 * @method
 	 */
 	hidePhoto: function(){
@@ -145,6 +148,7 @@ nyc.leaf.Basemap.prototype = {
 	/**
 	 * @desc Returns the base layers
 	 * @public
+	 * @override
 	 * @method
 	 * @return {nyc.Basemap.BaseLayers}
 	 */

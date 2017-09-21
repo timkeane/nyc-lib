@@ -124,6 +124,7 @@ nyc.ol.Basemap.prototype.getStorage = function(year){
 /**
  * @desc Show photo layer
  * @public
+ * @override
  * @method
  * @param layer {number} The photo year to show
  */
@@ -137,6 +138,7 @@ nyc.ol.Basemap.prototype.showPhoto = function(year){
 /**
  * @desc Show the specified label layer
  * @public
+ * @override
  * @method
  * @param labelType {nyc.Basemap.BaseLayers} The label type to show
  */
@@ -148,6 +150,7 @@ nyc.ol.Basemap.prototype.showLabels = function(labelType){
 /**
  * @desc Hide photo layer
  * @public
+ * @override
  * @method
  */
 nyc.ol.Basemap.prototype.hidePhoto = function(){
@@ -161,6 +164,7 @@ nyc.ol.Basemap.prototype.hidePhoto = function(){
 /**
  * @desc Returns the base layers
  * @public
+ * @override
  * @method
  * @return {nyc.Basemap.BaseLayers}
  */
