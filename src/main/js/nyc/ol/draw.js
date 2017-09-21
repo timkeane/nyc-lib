@@ -22,6 +22,7 @@ nyc.ol.Draw = function(options){
 	this.geoJson = new ol.format.GeoJSON();
 	this.storage = new nyc.ol.storage.Local();
 	this.storeKey = document.location.href.replace(document.location.search, '') + 'nyc.ol.Draw.features';
+	this.dia = new nyc.Dialog();
 
 	if (options.restore === undefined || options.restore){
 		this.restore();
@@ -693,7 +694,6 @@ nyc.ol.Draw.prototype = {
 		if (feature.getGeometry().getCoordinates().length >= 3){
 			me.source.un('addfeature', me.triggerFeatureEvent, me);
 			me.source.un('changefeature', me.changed, me);
-			me.dia = me.dia || new nyc.Dialog();
 			me.dia.yesNo({message: 'Create ploygon?', callback: function(yesNo){
 				me.triggerEvent(eventType, feature, yesNo);
 				me.source.on('addfeature', me.triggerFeatureEvent, me);
@@ -772,7 +772,6 @@ nyc.ol.Draw.prototype = {
 			);
 		}
 		if (features && features.length){
-			this.dia = this.dia || new nyc.Dialog();
 			this.dia.yesNo({
 				message: 'Restore previous drawing data?',
 				callback: function(yesNo){

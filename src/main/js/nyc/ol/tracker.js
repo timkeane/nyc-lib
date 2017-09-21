@@ -69,6 +69,11 @@ nyc.ol.Tracker = function(options){
 	this.view = this.map.getView();
 	/**
 	 * @private
+	 * @member {nyc.Dialog}
+	 */
+	this.dia = new nyc.Dialog();
+	/**
+	 * @private
 	 * @member {number}
 	 */
 	this.deltaMean = 500;
@@ -172,8 +177,7 @@ nyc.ol.Tracker.prototype.restore = function(){
 	var track = me.storage.getItem(me.trackStore);
 	var positions = me.storage.getItem(me.positionsStore);
 	if (track){
-		var dia = new nyc.Dialog();
-		dia.yesNo({
+		me.dia.yesNo({
 			message: 'Restore previous tracking data?',
 			callback: function(yesNo){
 				if (yesNo){
