@@ -8,18 +8,26 @@ nyc.ol = nyc.ol || {};
  * @extends {ol.Map}
  * @mixes nyc.Basemap
  * @constructor
- * @param {Object} options Constructor options 
- * @param {number} [preload=0] Preload option for base layer 
+ * @param {Object} options Constructor options
+ * @param {number} [preload=0] Preload option for base layer
  * @see http://openlayers.org/en/latest/apidoc/ol.Map.html
  */
 nyc.ol.Basemap = function(options, preload){
 	var me = this, layers = [], viewProvided = options.view;
-	
+
+	nyc.Basemap.call(this, options);
+
 	/**
 	 * @private
 	 * @member {number}
 	 */
 	me.latestPhoto = 0;
+
+	/**
+	 * @private
+	 * @member {nyc.ol.storage.Local}
+	 */
+	me.storage = new nyc.ol.storage.Local();
 
 	/**
 	 * @private
@@ -43,10 +51,10 @@ nyc.ol.Basemap = function(options, preload){
 			source: new ol.source.XYZ({url: nyc.ol.Basemap.LABEL_URLS[labelType]}),
 			zIndex: 1000,
 			visible: labelType == 'base'
-		});		
+		});
 		layers.push(me.labels[labelType]);
 	}
-	
+
 	/**
 	 * @private
 	 * @member {Object<string, ol.layer.Tile>}
@@ -57,7 +65,7 @@ nyc.ol.Basemap = function(options, preload){
 			extent: nyc.ol.Basemap.PHOTO_EXTENT,
 			source: new ol.source.XYZ({url: nyc.ol.Basemap.PHOTO_URLS[year]}),
 			visible: false
-		});		
+		});
 		if ((year * 1) > me.latestPhoto){
 			me.latestPhoto = year;
 		}
@@ -66,7 +74,7 @@ nyc.ol.Basemap = function(options, preload){
 		photo.on('change:visible', $.proxy(me.photoChange, me));
 		me.photos[year] = photo;
 	}
-	
+
 	options.view = options.view || new ol.View({
 		center: nyc.ol.Basemap.CENTER,
 		minZoom: 8,
@@ -75,25 +83,25 @@ nyc.ol.Basemap = function(options, preload){
 		constrainRotation: 1
 	});
 	options.layers = layers.concat(options.layers || []);
-	
+
 	ol.Map.call(me, options);
-	
+
 	if (!viewProvided){
-		me.getView().fit(nyc.ol.Basemap.EXTENT, me.getSize());		
+		me.getView().fit(nyc.ol.Basemap.EXTENT, me.getSize());
 	}
-	
-	//hack fix for misbehaving iphone 
+
+	//hack fix for misbehaving iphone
 	if (nyc.util.isIos()){
 		$(window).resize(function(){
 			setInterval(function(){
 				me.updateSize();
 			}, 400);
-		});		
+		});
 	}
 
 	if ('matchMedia' in window){
 		window.matchMedia('print').addListener(function(media){
-			me.updateSize(); 
+			me.updateSize();
 			me.renderSync();
 		});
 	}
@@ -102,10 +110,21 @@ nyc.ol.Basemap = function(options, preload){
 ol.inherits(nyc.ol.Basemap, ol.Map);
 nyc.inherits(nyc.ol.Basemap, nyc.Basemap);
 
-/** 
+/**
+ * @desc Get the storage used for laoding and saving data
+ * @public
+ * @override
+ * @method
+ * @return {nyc.ol.storage.Local} srorage
+ */
+nyc.ol.Basemap.prototype.getStorage = function(year){
+	return this.storage;
+};
+
+/**
  * @desc Show photo layer
  * @public
- * @method	
+ * @method
  * @param layer {number} The photo year to show
  */
 nyc.ol.Basemap.prototype.showPhoto = function(year){
@@ -115,10 +134,10 @@ nyc.ol.Basemap.prototype.showPhoto = function(year){
 	this.showLabels('photo');
 };
 
-/** 
+/**
  * @desc Show the specified label layer
  * @public
- * @method	
+ * @method
  * @param labelType {nyc.Basemap.BaseLayers} The label type to show
  */
 nyc.ol.Basemap.prototype.showLabels = function(labelType){
@@ -126,10 +145,10 @@ nyc.ol.Basemap.prototype.showLabels = function(labelType){
 	this.labels.photo.setVisible(labelType == nyc.Basemap.LabelType.PHOTO);
 };
 
-/** 
+/**
  * @desc Hide photo layer
  * @public
- * @method	
+ * @method
  */
 nyc.ol.Basemap.prototype.hidePhoto = function(){
 	this.base.setVisible(true);
@@ -139,7 +158,7 @@ nyc.ol.Basemap.prototype.hidePhoto = function(){
 	}
 };
 
-/** 
+/**
  * @desc Returns the base layers
  * @public
  * @method
@@ -153,7 +172,7 @@ nyc.ol.Basemap.prototype.getBaseLayers = function(){
 	};
 };
 
-/** 
+/**
  * @private
  * @method
  */
@@ -168,7 +187,7 @@ nyc.ol.Basemap.prototype.photoChange = function(){
 };
 
 /**
- * @desc The URL of the New York City base map tiles 
+ * @desc The URL of the New York City base map tiles
  * @private
  * @const
  * @type {string}
@@ -176,7 +195,7 @@ nyc.ol.Basemap.prototype.photoChange = function(){
 nyc.ol.Basemap.BASE_URL = 'https://maps{1-4}.nyc.gov/tms/1.0.0/carto/basemap/{z}/{x}/{-y}.jpg';
 
 /**
- * @desc The URLs of the New York City aerial imagery map tiles 
+ * @desc The URLs of the New York City aerial imagery map tiles
  * @private
  * @const
  * @type {Object<string, string>}
@@ -196,7 +215,7 @@ nyc.ol.Basemap.PHOTO_URLS = {
 };
 
 /**
- * @desc The URLs of the New York City base map label tiles 
+ * @desc The URLs of the New York City base map label tiles
  * @private
  * @const
  * @type {Object<string, string>}
@@ -215,7 +234,7 @@ nyc.ol.Basemap.UNIVERSE_EXTENT = [-8453323, 4774561, -7983695, 5165920];
 
 /**
  * @desc The bounds of New York City
- * @public 
+ * @public
  * @const
  * @type {ol.Extent}
  */
@@ -223,7 +242,7 @@ nyc.ol.Basemap.EXTENT = [-8266522, 4937867, -8203781, 5000276];
 
 /**
  * @desc The center of New York City
- * @public 
+ * @public
  * @const
  * @type {ol.Coordinate}
  */
@@ -242,4 +261,3 @@ nyc.ol.Basemap.LABEL_EXTENT = [-8268000, 4870900, -8005000, 5055500];
  * @type {ol.Extent}
  */
 nyc.ol.Basemap.PHOTO_EXTENT = [-8268357, 4937238, -8203099, 5001716];
-

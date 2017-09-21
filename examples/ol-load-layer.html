@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,25 +48,33 @@
 	<!-- nyc js -->
 
 	<style>
-		 #map {
-		 	position: fixed;
-		 	top: 0;
-		 	left: 0;
-		 	bottom: 0;
-		 	right: 0;
-		 }
-		 #add-geojson, #add-shp {
-		 	position: fixed;
-		 	top: 3px;
-		 	margin: 0;
-		 	right: 3px;
-		 	width: 150px;
-		 	color: #fff;
-		 	padding: 8px;
-		 }
-		 #add-shp {
-		 	top: 44px;
-		 }
+		#map, #add-geojson, #add-shp, #drag {
+			position: fixed;
+		}
+		#map {
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+		}
+		#add-geojson, #add-shp {
+			top: 3px;
+			margin: 0;
+			right: 3px;
+			width: 150px;
+			color: #fff;
+			padding: 8px;
+		}
+		#add-shp {
+		top: 44px;
+		}
+		#drag {
+			bottom: 5px;
+			width: 100%;
+			font-size: 24px;
+			font-weight: bold;
+			text-align: center;
+		}
 		 @media only screen and (max-width : 600px) {
  			.fld-srch-container {
  				right: 156px;
@@ -77,6 +86,7 @@
 	<div id="map"></div>
 	<button id="add-geojson" class="ctl-btn" data-role="button" onclick="storage.loadGeoJsonFile(map);">Add GeoJSON</button>
 	<button id="add-shp" class="ctl-btn" data-role="button" onclick="storage.loadShapeFile(map);">Add Shapefile</button>
+	<div id="drag">You can also just drag files onto the map</div>
 	<script>
 		var storage = new nyc.ol.storage.Local(), map;
 
@@ -94,6 +104,7 @@
 				locate: new nyc.ol.Locate(geocoder),
 				locator: new nyc.ol.Locator({map: map})
 			});
+
 		});
 	</script>
 </body>

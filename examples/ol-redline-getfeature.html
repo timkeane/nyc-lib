@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.css">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.3.2/ol.css" rel="stylesheet">
 	<!-- nyc css -->
-	<link rel="stylesheet" href="../src/main/css/nyc-base.css"> 
+	<link rel="stylesheet" href="../src/main/css/nyc-base.css">
 	<link rel="stylesheet" href="../src/main/css/control-common.css">
 	<link rel="stylesheet" href="../src/main/css/dialog.css">
 	<link rel="stylesheet" href="../src/main/css/zoomsearch.css">
@@ -23,6 +23,8 @@
 	<!-- nyc js -->
 	<script src="../src/main/js/nyc/nyc.js"></script>
 	<script src="../src/main/js/nyc/util.js"></script>
+	<script src="../src/main/js/nyc/storage.js"></script>
+	<script src="../src/main/js/nyc/ol/storage.js"></script>
 	<script src="../src/main/js/nyc/basemap.js"></script>
 	<script src="../src/main/js/nyc/dialog.js"></script>
 	<script src="../src/main/js/nyc/locate.js"></script>
@@ -57,7 +59,7 @@
 	<div id="map"></div>
 	<script>
 		var map, getFeature;
-		
+
 		$(document).ready(function(){
 
 			map = new nyc.ol.Basemap({target: $('#map').get(0)});
@@ -80,7 +82,7 @@
 				geomColumn: 'SHAPE',
 				propertyNames: ['STREET']
 			});
-			
+
 			getFeature.on(nyc.ol.FeatureEventType.ADD, function(feature){
 				console.info("Feature added:", feature);
 			});
@@ -93,4 +95,3 @@
 	</script>
 </body>
 </html>
-

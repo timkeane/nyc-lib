@@ -9,10 +9,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.css">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.3.2/ol.css" rel="stylesheet">
 	<!-- nyc css -->
-	<link rel="stylesheet" href="../src/main/css/nyc-base.css"> 
-	<link rel="stylesheet" href="../src/main/css/control-common.css"> 
-	<link rel="stylesheet" href="../src/main/css/dialog.css"> 
-	<link rel="stylesheet" href="../src/main/css/zoomsearch.css"> 
+	<link rel="stylesheet" href="../src/main/css/nyc-base.css">
+	<link rel="stylesheet" href="../src/main/css/control-common.css">
+	<link rel="stylesheet" href="../src/main/css/dialog.css">
+	<link rel="stylesheet" href="../src/main/css/zoomsearch.css">
 	<!-- nyc css -->
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
@@ -23,6 +23,8 @@
 	<!-- nyc js -->
 	<script src="../src/main/js/nyc/nyc.js"></script>
 	<script src="../src/main/js/nyc/util.js"></script>
+	<script src="../src/main/js/nyc/storage.js"></script>
+	<script src="../src/main/js/nyc/ol/storage.js"></script>
 	<script src="../src/main/js/nyc/basemap.js"></script>
 	<script src="../src/main/js/nyc/dialog.js"></script>
 	<script src="../src/main/js/nyc/locate.js"></script>
@@ -43,7 +45,7 @@
 	<script src="../src/main/js/nyc/ol/style/style.js"></script>
 	<script src="../src/main/js/nyc/ol/style/pattern.js"></script>
 	<!-- nyc js -->
-	
+
 	<style>
 		#map, label[for="choices"], #choices-button, #sorted {
 			position: fixed;
@@ -63,9 +65,9 @@
 			map, csvSrc, csvLyr;
 
 		$(document).ready(function(){
-			
+
 			map = new nyc.ol.Basemap({target: $('#map').get(0)});
-			
+
 			csvSrc = new nyc.ol.source.FilteringAndSorting({
 				loader: new nyc.ol.source.CsvPointFeatureLoader({
 					url: openDataUrl,
@@ -75,9 +77,9 @@
 			}, []);
 
 			csvLyr = new ol.layer.Vector({source: csvSrc});
-			
+
 			map.addLayer(csvLyr);
-			
+
 			/* See README.md for getting your GeoClient App Id and App Key */
 			var geocoder = new nyc.Geoclient('https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example');
 

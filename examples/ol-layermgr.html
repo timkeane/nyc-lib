@@ -8,27 +8,29 @@
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.css">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.3.2/ol.css" rel="stylesheet">
-	
+
 	<!-- nyc css -->
-	<link rel="stylesheet" href="../src/main/css/nyc-base.css"> 
-	<link rel="stylesheet" href="../src/main/css/control-common.css"> 
-	<link rel="stylesheet" href="../src/main/css/dialog.css"> 
-	<link rel="stylesheet" href="../src/main/css/collapsible.css"> 
-	<link rel="stylesheet" href="../src/main/css/layermgr.css"> 
-	<link rel="stylesheet" href="../src/main/css/zoomsearch.css"> 
-	<link rel="stylesheet" href="../src/main/css/mapmenu.css"> 
+	<link rel="stylesheet" href="../src/main/css/nyc-base.css">
+	<link rel="stylesheet" href="../src/main/css/control-common.css">
+	<link rel="stylesheet" href="../src/main/css/dialog.css">
+	<link rel="stylesheet" href="../src/main/css/collapsible.css">
+	<link rel="stylesheet" href="../src/main/css/layermgr.css">
+	<link rel="stylesheet" href="../src/main/css/zoomsearch.css">
+	<link rel="stylesheet" href="../src/main/css/mapmenu.css">
 	<!-- nyc css -->
 
-	<link rel="stylesheet" href="../src/main/css/layer/transit.css"> 
+	<link rel="stylesheet" href="../src/main/css/layer/transit.css">
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.21.0-beta.2/ol-debug.js"></script>
-	
+
 	<!-- nyc js -->
 	<script src="../src/main/js/nyc/nyc.js"></script>
 	<script src="../src/main/js/nyc/util.js"></script>
+	<script src="../src/main/js/nyc/storage.js"></script>
+	<script src="../src/main/js/nyc/ol/storage.js"></script>
 	<script src="../src/main/js/nyc/basemap.js"></script>
 	<script src="../src/main/js/nyc/content.js"></script>
 	<script src="../src/main/js/nyc/dialog.js"></script>
@@ -58,7 +60,7 @@
 	<script src="../src/main/js/nyc/ol/layer/transit/transit.js"></script>
 	<script src="../src/main/js/nyc/ol/layer/transit/subway.js"></script>
 	<script src="../src/main/js/nyc/ol/style/transit/subway.js"></script>
-	
+
 	<style>
 		 #map {
 		 	position: fixed;
@@ -77,7 +79,7 @@
 		$(document).ready(function(){
 
 			map = new nyc.ol.Basemap({target: $('#map').get(0)});
-			
+
 			/* See README.md for getting your GeoClient App Id and App Key */
 			var geocoder = new nyc.Geoclient(
 				'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
@@ -101,7 +103,7 @@
 				},{
 					name: 'PlowNYC',
 					layers: {
-						groupLayerClass: 'nyc.ol.layer.plow.Group', 
+						groupLayerClass: 'nyc.ol.layer.plow.Group',
 						url: '../src/js/nyc-ol-layer-plow.js'
 					}
 				}]
