@@ -16,7 +16,7 @@ nyc.ol = nyc.ol || {};
 nyc.ol.Draw = function(options){
 	this.map = options.map;
 	this.view = this.map.getView();
-	this.source = new ol.source.Vector();
+	this.source = options.source || new ol.source.Vector();
 	this.viewport = $(this.map.getViewport());
 	this.removed = [];
 	this.geoJson = new ol.format.GeoJSON();
@@ -289,7 +289,7 @@ nyc.ol.Draw.prototype = {
 		this.source.addFeatures(features);
 		if (silent){
 			this.source.on('addfeature', this.triggerFeatureEvent, this);
-			this.source.on('changefeature', this.changed, this);			
+			this.source.on('changefeature', this.changed, this);
 		}
 	},
 	/**
@@ -794,6 +794,7 @@ nyc.inherits(nyc.ol.Draw, nyc.EventHandling);
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The OpenLayers map with which the user will interact
+ * @property {ol.source.Vector} source The source on which to draw
  * @property {ol.style.Style=} style The style to use for features added to the map
  * @property {ol.style.Style=} accuracyStyle The style to use for displaying geolocation accuracy values
  * @property {boolean} [restore=true] Prompt for restore
