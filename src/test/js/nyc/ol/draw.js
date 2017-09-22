@@ -9,7 +9,7 @@ QUnit.module('nyc.ol.Draw', {
 });
 
 QUnit.test('constructor (defaults)', function(assert){
-	assert.expect(27);
+	assert.expect(25);
 
 	var restore = nyc.ol.Draw.prototype.restore;
 	var createModify = nyc.ol.Draw.prototype.createModify;
@@ -30,9 +30,7 @@ QUnit.test('constructor (defaults)', function(assert){
 
 	assert.deepEqual(draw.map, this.TEST_OL_MAP);
 	assert.deepEqual(draw.view, this.TEST_OL_MAP.getView());
-	assert.equal(draw.features.getLength(), 0);
 	assert.equal(draw.source.getFeatures().length, 0);
-	assert.deepEqual(draw.source.getFeatures(), draw.features.getArray());
 	assert.deepEqual(draw.viewport.get(0), this.TEST_OL_MAP.getViewport());
 	assert.deepEqual(draw.removed, []);
 	assert.deepEqual(draw.geoJson, new ol.format.GeoJSON());
@@ -61,7 +59,7 @@ QUnit.test('constructor (defaults)', function(assert){
 });
 
 QUnit.test('constructor (showAccuracy=false)', function(assert){
-	assert.expect(27);
+	assert.expect(21);
 
 	var restore = nyc.ol.Draw.prototype.restore;
 	var createModify = nyc.ol.Draw.prototype.createModify;
@@ -83,9 +81,7 @@ QUnit.test('constructor (showAccuracy=false)', function(assert){
 
 	assert.deepEqual(draw.map, this.TEST_OL_MAP);
 	assert.deepEqual(draw.view, this.TEST_OL_MAP.getView());
-	assert.equal(draw.features.getLength(), 0);
 	assert.equal(draw.source.getFeatures().length, 0);
-	assert.deepEqual(draw.source.getFeatures(), draw.features.getArray());
 	assert.deepEqual(draw.viewport.get(0), this.TEST_OL_MAP.getViewport());
 	assert.deepEqual(draw.removed, []);
 	assert.deepEqual(draw.geoJson, new ol.format.GeoJSON());
@@ -95,11 +91,7 @@ QUnit.test('constructor (showAccuracy=false)', function(assert){
 	assert.deepEqual(draw.layer.getStyle(), draw.defaultStyle);
 	assert.equal(draw.layer.getZIndex(), 100);
 	assert.ok($.inArray(draw.layer, this.TEST_OL_MAP.getLayers().getArray()) > -1);
-	assert.deepEqual(draw.accuaracyLayer.getSource(), draw.source);
-	assert.deepEqual(draw.accuaracyLayer.getStyle(), draw.accuracyStyle);
-	assert.equal(draw.accuaracyLayer.getZIndex(), 0);
-	assert.notOk(draw.accuaracyLayer.getVisible());
-	assert.ok($.inArray(draw.accuaracyLayer, this.TEST_OL_MAP.getLayers().getArray()) > -1);
+	assert.notOk(draw.accuaracyLayer);
 	assert.deepEqual(draw.mover.layer, draw.layer)
 	assert.notOk(draw.mover.getActive());
 	assert.ok($.inArray(draw.mover, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
@@ -114,7 +106,7 @@ QUnit.test('constructor (showAccuracy=false)', function(assert){
 });
 
 QUnit.test('constructor (custom styles)', function(assert){
-	assert.expect(27);
+	assert.expect(25);
 
 	var style = function(){
 		//mock style
@@ -144,9 +136,7 @@ QUnit.test('constructor (custom styles)', function(assert){
 
 	assert.deepEqual(draw.map, this.TEST_OL_MAP);
 	assert.deepEqual(draw.view, this.TEST_OL_MAP.getView());
-	assert.equal(draw.features.getLength(), 0);
 	assert.equal(draw.source.getFeatures().length, 0);
-	assert.deepEqual(draw.source.getFeatures(), draw.features.getArray());
 	assert.deepEqual(draw.viewport.get(0), this.TEST_OL_MAP.getViewport());
 	assert.deepEqual(draw.removed, []);
 	assert.deepEqual(draw.geoJson, new ol.format.GeoJSON());
@@ -898,6 +888,45 @@ QUnit.test('clear', function(assert){
 });
 
 QUnit.test('deactivate (drawing)', function(assert){
+	assert.expect(12);
+
+	var feature = new ol.Feature({geometry: new ol.geom.Point([1, 2])});
+
+	var draw = new nyc.ol.Draw({
+		map: this.TEST_OL_MAP
+	});
+
+	draw.triggerFeatureEvent = function(event){
+		assert.notOk(true);
+	};
+
+	draw.activate(nyc.ol.Draw.Type.CIRCLE);
+	draw.mnuBtn.addClass('point linestring polygon circle square box free gps');
+
+	draw.on(nyc.ol.Draw.EventType.ACTIVE_CHANGED, function(active){
+		assert.notOk(active);
+	});
+
+	draw.deactivate();
+
+	assert.notOk(draw.type);
+	assert.notOk(draw.mnuBtn.hasClass('point'));
+	assert.notOk(draw.mnuBtn.hasClass('linestring'));
+	assert.notOk(draw.mnuBtn.hasClass('polygon'));
+	assert.notOk(draw.mnuBtn.hasClass('circle'));
+	assert.notOk(draw.mnuBtn.hasClass('square'));
+	assert.notOk(draw.mnuBtn.hasClass('box'));
+	assert.notOk(draw.mnuBtn.hasClass('free'));
+	assert.notOk(draw.mnuBtn.hasClass('gps'));
+	assert.notOk(draw.drawer);
+	assert.notOk($.inArray(draw.modify, this.TEST_OL_MAP.getInteractions().getArray()) > -1);
+
+	//make sure event handler is disconnected
+	draw.source.addFeature(feature);
+	feature.set('changed', true);
+});
+
+QUnit.test('deactivate (silent)', function(assert){
 	assert.expect(11);
 
 	var feature = new ol.Feature({geometry: new ol.geom.Point([1, 2])});
@@ -911,13 +940,17 @@ QUnit.test('deactivate (drawing)', function(assert){
 	};
 
 	draw.activate(nyc.ol.Draw.Type.CIRCLE);
-	draw.mnuBtn.addClass('point line polygon circle square box free gps');
+	draw.mnuBtn.addClass('point linestring polygon circle square box free gps');
 
-	draw.deactivate();
+	draw.on(nyc.ol.Draw.EventType.ACTIVE_CHANGED, function(active){
+		assert.notOk(true);
+	});
+
+	draw.deactivate(true);
 
 	assert.notOk(draw.type);
 	assert.notOk(draw.mnuBtn.hasClass('point'));
-	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('linestring'));
 	assert.notOk(draw.mnuBtn.hasClass('polygon'));
 	assert.notOk(draw.mnuBtn.hasClass('circle'));
 	assert.notOk(draw.mnuBtn.hasClass('square'));
@@ -933,7 +966,7 @@ QUnit.test('deactivate (drawing)', function(assert){
 });
 
 QUnit.test('deactivate (tracking)', function(assert){
-	assert.expect(14);
+	assert.expect(15);
 
 	var feature = new ol.Feature({geometry: new ol.geom.Point([1, 2])});
 
@@ -947,18 +980,22 @@ QUnit.test('deactivate (tracking)', function(assert){
 	};
 
 	draw.activate(nyc.ol.Draw.Type.GPS);
-	draw.mnuBtn.addClass('point line polygon circle square box free gps');
+	draw.mnuBtn.addClass('point linestring polygon circle square box free gps');
 
 	draw.triggerFeatureEvent = function(event){
 		assert.notOk(true);
 	};
+
+	draw.on(nyc.ol.Draw.EventType.ACTIVE_CHANGED, function(active){
+		assert.notOk(active);
+	});
 
 	draw.deactivate();
 
 	assert.notOk(draw.type);
 	assert.notOk(draw.tracker.getTracking());
 	assert.notOk(draw.mnuBtn.hasClass('point'));
-	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('linestring'));
 	assert.notOk(draw.mnuBtn.hasClass('polygon'));
 	assert.notOk(draw.mnuBtn.hasClass('circle'));
 	assert.notOk(draw.mnuBtn.hasClass('square'));
@@ -996,7 +1033,7 @@ QUnit.test('createModify', function(assert){
 
 	draw.createModify();
 
-	assert.ok(draw.modify.getProperties().features === draw.features);
+	assert.ok(draw.modify.getProperties().source === draw.source);
 	assert.ok(draw.modify.getProperties().deleteCondition === deleteCondition);
 
 	$.proxy = proxy;
@@ -1325,7 +1362,7 @@ QUnit.test('getGpsTrack', function(assert){
 	});
 
 	assert.notOk(draw.gpsTrack);
-	assert.notOk($.inArray(draw.gpsTrack, draw.features.getArray()) > -1);
+	assert.notOk($.inArray(draw.gpsTrack, draw.getFeatures()) > -1);
 	var track0 = draw.getGpsTrack();
 
 	assert.notOk(track0.getGeometry().getCoordinates().length);
@@ -1608,7 +1645,7 @@ QUnit.test('choose (nyc.ol.Draw.Type.POINT)', function(assert){
 	$('.draw-mnu-btn.point').trigger('click');
 
 	assert.ok(draw.mnuBtn.hasClass('point'));
-	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('linestring'));
 	assert.notOk(draw.mnuBtn.hasClass('polygon'));
 	assert.notOk(draw.mnuBtn.hasClass('circle'));
 	assert.notOk(draw.mnuBtn.hasClass('square'));
@@ -1637,10 +1674,10 @@ QUnit.test('choose (nyc.ol.Draw.Type.LINE)', function(assert){
 		assert.equal(type, nyc.ol.Draw.Type.LINE);
 	};
 
-	$('.draw-mnu-btn.line').trigger('click');
+	$('.draw-mnu-btn.linestring').trigger('click');
 
 	assert.notOk(draw.mnuBtn.hasClass('point'));
-	assert.ok(draw.mnuBtn.hasClass('line'));
+	assert.ok(draw.mnuBtn.hasClass('linestring'));
 	assert.notOk(draw.mnuBtn.hasClass('polygon'));
 	assert.notOk(draw.mnuBtn.hasClass('circle'));
 	assert.notOk(draw.mnuBtn.hasClass('square'));
@@ -1672,7 +1709,7 @@ QUnit.test('choose (nyc.ol.Draw.Type.POLYGON)', function(assert){
 	$('.draw-mnu-btn.polygon').trigger('click');
 
 	assert.notOk(draw.mnuBtn.hasClass('point'));
-	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('linestring'));
 	assert.ok(draw.mnuBtn.hasClass('polygon'));
 	assert.notOk(draw.mnuBtn.hasClass('circle'));
 	assert.notOk(draw.mnuBtn.hasClass('square'));
@@ -1704,7 +1741,7 @@ QUnit.test('choose (nyc.ol.Draw.Type.CIRCLE)', function(assert){
 	$('.draw-mnu-btn.circle').trigger('click');
 
 	assert.notOk(draw.mnuBtn.hasClass('point'));
-	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('linestring'));
 	assert.notOk(draw.mnuBtn.hasClass('polygon'));
 	assert.ok(draw.mnuBtn.hasClass('circle'));
 	assert.notOk(draw.mnuBtn.hasClass('square'));
@@ -1736,7 +1773,7 @@ QUnit.test('choose (nyc.ol.Draw.Type.SQUARE)', function(assert){
 	$('.draw-mnu-btn.square').trigger('click');
 
 	assert.notOk(draw.mnuBtn.hasClass('point'));
-	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('linestring'));
 	assert.notOk(draw.mnuBtn.hasClass('polygon'));
 	assert.notOk(draw.mnuBtn.hasClass('circle'));
 	assert.ok(draw.mnuBtn.hasClass('square'));
@@ -1768,7 +1805,7 @@ QUnit.test('choose (nyc.ol.Draw.Type.BOX)', function(assert){
 	$('.draw-mnu-btn.box').trigger('click');
 
 	assert.notOk(draw.mnuBtn.hasClass('point'));
-	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('linestring'));
 	assert.notOk(draw.mnuBtn.hasClass('polygon'));
 	assert.notOk(draw.mnuBtn.hasClass('circle'));
 	assert.notOk(draw.mnuBtn.hasClass('square'));
@@ -1800,7 +1837,7 @@ QUnit.test('choose (nyc.ol.Draw.Type.FREE)', function(assert){
 	$('.draw-mnu-btn.free').trigger('click');
 
 	assert.notOk(draw.mnuBtn.hasClass('point'));
-	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('linestring'));
 	assert.notOk(draw.mnuBtn.hasClass('polygon'));
 	assert.notOk(draw.mnuBtn.hasClass('circle'));
 	assert.notOk(draw.mnuBtn.hasClass('square'));
@@ -1832,7 +1869,7 @@ QUnit.test('choose (nyc.ol.Draw.Type.GPS)', function(assert){
 	$('.draw-mnu-btn.gps').trigger('click');
 
 	assert.notOk(draw.mnuBtn.hasClass('point'));
-	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('linestring'));
 	assert.notOk(draw.mnuBtn.hasClass('polygon'));
 	assert.notOk(draw.mnuBtn.hasClass('circle'));
 	assert.notOk(draw.mnuBtn.hasClass('square'));
@@ -1864,7 +1901,7 @@ QUnit.test('choose (nyc.ol.Draw.Type.DELETE)', function(assert){
 	$('.draw-mnu-btn.delete').trigger('click');
 
 	assert.notOk(draw.mnuBtn.hasClass('point'));
-	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('linestring'));
 	assert.notOk(draw.mnuBtn.hasClass('polygon'));
 	assert.notOk(draw.mnuBtn.hasClass('circle'));
 	assert.notOk(draw.mnuBtn.hasClass('square'));
@@ -1896,7 +1933,7 @@ QUnit.test('choose (nyc.ol.Draw.Type.CANCEL)', function(assert){
 	$('.draw-mnu-btn.cancel').trigger('click');
 
 	assert.notOk(draw.mnuBtn.hasClass('point'));
-	assert.notOk(draw.mnuBtn.hasClass('line'));
+	assert.notOk(draw.mnuBtn.hasClass('linestring'));
 	assert.notOk(draw.mnuBtn.hasClass('polygon'));
 	assert.notOk(draw.mnuBtn.hasClass('circle'));
 	assert.notOk(draw.mnuBtn.hasClass('square'));
@@ -2213,7 +2250,7 @@ QUnit.test('closePolygon (enough coordiantes, yes)', function(assert){
 	assert.ok(unCalls[0][1] === draw.triggerFeatureEvent);
 	assert.ok(unCalls[0][2] === draw);
 	assert.equal(unCalls[1][0], 'changefeature');
-	assert.ok(unCalls[1][1] === draw.triggerFeatureEvent);
+	assert.ok(unCalls[1][1] === draw.changed);
 	assert.ok(unCalls[1][2] === draw);
 
 	assert.equal(onCalls.length, 2);
@@ -2221,7 +2258,7 @@ QUnit.test('closePolygon (enough coordiantes, yes)', function(assert){
 	assert.ok(onCalls[0][1] === draw.triggerFeatureEvent);
 	assert.ok(onCalls[0][2] === draw);
 	assert.equal(onCalls[1][0], 'changefeature');
-	assert.ok(onCalls[1][1] === draw.triggerFeatureEvent);
+	assert.ok(onCalls[1][1] === draw.changed);
 	assert.ok(onCalls[1][2] === draw);
 
 	nyc.Dialog.prototype.yesNo = yesNo;
@@ -2265,7 +2302,7 @@ QUnit.test('closePolygon (enough coordiantes, no)', function(assert){
 	assert.ok(unCalls[0][1] === draw.triggerFeatureEvent);
 	assert.ok(unCalls[0][2] === draw);
 	assert.equal(unCalls[1][0], 'changefeature');
-	assert.ok(unCalls[1][1] === draw.triggerFeatureEvent);
+	assert.ok(unCalls[1][1] === draw.changed);
 	assert.ok(unCalls[1][2] === draw);
 
 	assert.equal(onCalls.length, 2);
@@ -2273,7 +2310,7 @@ QUnit.test('closePolygon (enough coordiantes, no)', function(assert){
 	assert.ok(onCalls[0][1] === draw.triggerFeatureEvent);
 	assert.ok(onCalls[0][2] === draw);
 	assert.equal(onCalls[1][0], 'changefeature');
-	assert.ok(onCalls[1][1] === draw.triggerFeatureEvent);
+	assert.ok(onCalls[1][1] === draw.changed);
 	assert.ok(onCalls[1][2] === draw);
 
 	nyc.Dialog.prototype.yesNo = yesNo;
@@ -2486,12 +2523,12 @@ QUnit.test('restore (has storage, yes)', function(assert){
 
 	draw.saveBtn.hide();
 
-	draw.features.extend = function(features){
+	draw.source.addFeatures = function(features){
 		assert.deepEqual(features, ['mock-features']);
 	};
 
 	nyc.Dialog.prototype.yesNo = function(args){
-		assert.equal(args.message, 'Retore previous drawing data?');
+		assert.equal(args.message, 'Restore previous drawing data?');
 		args.callback(true);
 	};
 
@@ -2526,12 +2563,12 @@ QUnit.test('restore (has storage, no)', function(assert){
 
 	draw.saveBtn.hide();
 
-	draw.features.extend = function(features){
+	draw.source.addFeatures = function(features){
 		assert.ok(false);
 	};
 
 	nyc.Dialog.prototype.yesNo = function(args){
-		assert.equal(args.message, 'Retore previous drawing data?');
+		assert.equal(args.message, 'Restore previous drawing data?');
 		args.callback(false);
 	};
 
@@ -2566,7 +2603,7 @@ QUnit.test('restore (no storage)', function(assert){
 
 	draw.saveBtn.hide();
 
-	draw.features.extend = function(features){
+	draw.source.addFeatures = function(features){
 		assert.ok(false);
 	};
 

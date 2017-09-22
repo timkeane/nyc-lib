@@ -55,7 +55,7 @@
 .draw-btn.point, .draw-mnu-btn.point:before {
 	background-image: var(--theme-draw-point-bg-img);
 }
-.draw-btn.line, .draw-mnu-btn.line:before {
+.draw-btn.linestring, .draw-mnu-btn.linestring:before {
 	background-image: var(--theme-draw-line-bg-img);
 }
 .draw-btn.polygon, .draw-mnu-btn.polygon:before {

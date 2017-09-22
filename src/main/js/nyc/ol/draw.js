@@ -219,7 +219,6 @@ nyc.ol.Draw.prototype = {
 	activate: function(type){
 		var me = this;
 		me.deactivate(true);
-		me.mnuBtn.addClass(type.toLowerCase().replace(/none/, ''));
 		me.type = type;
 		if (type != nyc.ol.Draw.Type.NONE){
 			var geometryFunction, maxPoints;
@@ -263,13 +262,13 @@ nyc.ol.Draw.prototype = {
 	 */
 	getFeatures: function(){
 		var features = {added: [], changed: [], unchanged: [], removed: this.removed};
-		this.source.getFeaturesCollection().forEach(function(feature){
-			if (feature._added){
-				features.added.push(feature);
-			}else if (feature._changed){
-				features.changed.push(feature);
+		$.each(this.source.getFeatures(), function(){
+			if (this._added){
+				features.added.push(this);
+			}else if (this._changed){
+				features.changed.push(this);
 			}else{
-				features.unchanged.push(feature);
+				features.unchanged.push(this);
 			}
 		});
 		return features;
@@ -335,12 +334,12 @@ nyc.ol.Draw.prototype = {
 	 */
 	deactivate: function(silent){
 		this.type = null;
-		this.mnuBtn.removeClass('point line polygon circle square box free gps');
+		this.mnuBtn.removeClass('point linestring polygon circle square box free gps');
 		this.map.removeInteraction(this.modify);
+		this.source.un('addfeature', this.triggerFeatureEvent, this);
+		this.source.un('changefeature', this.changed, this);
 		if (this.drawer){
 			this.map.removeInteraction(this.drawer);
-			this.source.un('addfeature', this.triggerFeatureEvent, this);
-			this.source.un('changefeature', this.changed, this);
 			delete this.drawer;
 		}
 		if (this.tracker.getTracking()){
@@ -606,6 +605,8 @@ nyc.ol.Draw.prototype = {
 	choose: function(event){
 		var btn = $(event.target);
 		var type = btn.data('draw-type');
+		this.mnuBtn.removeClass('point linestring polygon circle square box free gps');
+		this.mnuBtn.addClass(type.toLowerCase().replace(/none/, ''));
 		if (btn.hasClass('delete')){
 			this.clear();
 		}else if (btn.hasClass('cancel')){
@@ -882,7 +883,7 @@ nyc.ol.Draw.BUTTON_MENU_HTML = '<a class="draw-btn ctl ctl-btn" data-role="butto
 '<div class="ol-unselectable ctl draw-btn-mnu" data-role="controlgroup">' +
 	'<button class="draw-mnu-btn save" data-draw-type="None" data-role="button" title="Save the current drawing">Save...</button>' +
 	'<button class="draw-mnu-btn point" data-draw-type="Point" data-role="button" title="Click to draw a point">Point</button>' +
-	'<button class="draw-mnu-btn line" data-draw-type="LineString" data-role="button" title="Click to draw each point of a line">Line</button>' +
+	'<button class="draw-mnu-btn linestring" data-draw-type="LineString" data-role="button" title="Click to draw each point of a line">Line</button>' +
 	'<button class="draw-mnu-btn polygon" data-draw-type="Polygon" data-role="button" title="Click to draw each point of a polygon">Polygon</button>' +
 	'<button class="draw-mnu-btn circle" data-draw-type="Circle" data-role="button" title="Click then drag to draw a circle">Circle</button>' +
 	'<button class="draw-mnu-btn square" data-draw-type="Square" data-role="button" title="Click then drag to draw a square">Square</button>' +
