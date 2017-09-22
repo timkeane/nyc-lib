@@ -16,9 +16,9 @@ QUnit.module('nyc.ol.control.LayerFade', {
 
 QUnit.test('constructor', function(assert){
 	assert.expect(10);
-	
+
 	var done = assert.async();
-	
+
 	var options = {
 		map: this.TEST_OL_MAP,
 		layers: this.LAYERS,
@@ -28,7 +28,7 @@ QUnit.test('constructor', function(assert){
 			done();
 		}
 	};
-		
+
 	var showChoices = nyc.ol.control.LayerFade.prototype.showChoices;
 	var buttonClick = nyc.ol.control.LayerFade.prototype.buttonClick;
 	nyc.ol.control.LayerFade.prototype.showChoices = function(){
@@ -37,9 +37,9 @@ QUnit.test('constructor', function(assert){
 	nyc.ol.control.LayerFade.prototype.buttonClick = function(){
 		assert.ok(true, 'buttonClick should be called 1 time');
 	};
-	
+
 	var fade = new nyc.ol.control.LayerFade(options);
-	
+
 	assert.deepEqual(fade.layers, this.LAYERS);
 	assert.equal(fade.autoFadeInterval, 2000);
 	assert.equal($(this.TEST_OL_MAP.getTarget()).find('.btn-fade').length, 1);
@@ -50,36 +50,36 @@ QUnit.test('constructor', function(assert){
 	$(fade.menu).find('a').each(function(){
 		$(this).trigger('click');
 	});
-	
+
 	nyc.ol.control.LayerFade.prototype.showChoices = showChoices;
 	nyc.ol.control.LayerFade.prototype.buttonClick = buttonClick;
 });
 
 QUnit.test('setupFade', function(assert){
 	assert.expect(24);
-		
+
 	var options = {
 		map: this.TEST_OL_MAP,
 		layers: this.LAYERS
 	};
-	
+
 	var layers = [this.LAYERS[0], this.LAYERS[2], this.LAYERS[3]];
 	$.each(layers, function(_, layer){
 		layer.setOpacity(1);
 		layer.setVisible(false);
 	});
-	
+
 	var fade = new nyc.ol.control.LayerFade(options);
-	
+
 	fade.setupFade(layers);
-	
+
 	$.each(layers, function(_, layer){
 		assert.ok(layer.getVisible());
 		assert.equal(layer.get('autoFadeInterval'), fade.autoFadeInterval/100);
 		assert.deepEqual(layer.fadeOut, nyc.ol.control.LayerFade.fadeOut);
 		assert.deepEqual(layer.fadeIn, nyc.ol.control.LayerFade.fadeIn);
 	});
-	
+
 	assert.equal(layers[0].getOpacity(), 1);
 	assert.equal(layers[1].getOpacity(), 0);
 	assert.equal(layers[2].getOpacity(), 0);
@@ -94,35 +94,35 @@ QUnit.test('setupFade', function(assert){
 
 	assert.equal(layers[0].get('nextFadeLayer'), layers[1]);
 	assert.equal(layers[1].get('nextFadeLayer'), layers[2]);
-	assert.notOk(layers[2].get('nextFadeLayer'));	
+	assert.notOk(layers[2].get('nextFadeLayer'));
 });
 
 QUnit.test('cancel', function(assert){
 	assert.expect(11);
-	
+
 	var done = assert.async();
-	
+
 	var options = {
 		map: this.TEST_OL_MAP,
 		layers: this.LAYERS
 	};
-	
+
 	$.each(this.LAYERS, function(_, layer){
 		layer.setOpacity(0);
 		layer.setVisible(true);
 	});
-	
+
 	var fade = new nyc.ol.control.LayerFade(options);
-	
+
 	$('.fade-status, .fade-progress, .fade-slider').show();
-	
+
 	fade.cancel();
-	
+
 	$.each(this.LAYERS, function(_, layer){
 		assert.notOk(layer.getVisible());
 		assert.equal(layer.getOpacity(), 1);
 	});
-	
+
 	setTimeout(function(){
 		$('.fade-status, .fade-progress, .fade-slider').each(function(){
 			assert.equal($(this).css('display'), 'none');
@@ -133,14 +133,14 @@ QUnit.test('cancel', function(assert){
 
 QUnit.test('showChoices', function(assert){
 	assert.expect(14);
-		
+
 	var layers = this.LAYERS;
-	
+
 	var options = {
 		map: this.TEST_OL_MAP,
 		layers: layers
 	};
-	
+
 	var fade = new nyc.ol.control.LayerFade(options);
 
 	fade.cancel = function(){
@@ -149,51 +149,51 @@ QUnit.test('showChoices', function(assert){
 	fade.toggleMenu = function(){
 		assert.ok(true);
 	};
-	
+
 	assert.equal($(this.TEST_OL_MAP.getTarget()).find('.mnu-fade ul li').length, 0);
-	
+
 	fade.showChoices();
-	
+
 	assert.equal($(this.TEST_OL_MAP.getTarget()).find('.mnu-fade ul li').length, 4);
-	
+
 	$.each($(this.TEST_OL_MAP.getTarget()).find('.mnu-fade ul li'), function(i, li){
 		assert.equal($(li).html(), layers[i].get('name') + '<span></span>');
 	});
-	
+
 	assert.equal($(this.TEST_OL_MAP.getTarget()).find('.fade-choices').sortable('option', 'connectWith').length, 2);
 	assert.deepEqual($(this.TEST_OL_MAP.getTarget()).find('.fade-choices').sortable('option', 'connectWith').get(0), $(this.TEST_OL_MAP.getTarget()).find('.mnu-fade ul').get(0));
 	assert.deepEqual($(this.TEST_OL_MAP.getTarget()).find('.fade-choices').sortable('option', 'connectWith').get(1), $(this.TEST_OL_MAP.getTarget()).find('.mnu-fade ol').get(0));
 
 	/* 2nd call only results in function calls - adds no more list items */
 	fade.showChoices();
-	
+
 	assert.equal($(this.TEST_OL_MAP.getTarget()).find('.mnu-fade ul li').length, 4);
 });
 
 QUnit.test('swap', function(assert){
 	assert.expect(20);
-	
+
 	//var done = assert.async();
-	
+
 	var layers = this.LAYERS;
-	
+
 	var options = {
 		map: this.TEST_OL_MAP,
 		layers: layers
 	};
-	
+
 	var fade = new nyc.ol.control.LayerFade(options);
 
 	assert.equal(fade.getElem('.mnu-fade ul li').length, 0);
 	assert.equal(fade.getElem('.mnu-fade ol li').length, 1);
 	assert.equal(fade.getElem('.mnu-fade ol li').not('.fade-msg').length, 0);
-	
+
 	fade.showChoices();
 
 	assert.equal(fade.getElem('.mnu-fade ul li').length, 4);
 	assert.equal(fade.getElem('.mnu-fade ol li').length, 1);
 	assert.equal(fade.getElem('.mnu-fade ol li').not('.fade-msg').length, 0);
-	
+
 	var li0 = $(fade.getElem('.mnu-fade ul li').get(0));
 	var li1 = $(fade.getElem('.mnu-fade ul li').get(1));
 	var li2 = $(fade.getElem('.mnu-fade ul li').get(2));
@@ -214,7 +214,7 @@ QUnit.test('swap', function(assert){
 	assert.equal($(fade.getElem('.mnu-fade ol li').get(1)).data('fade-layer'), 'layer1');
 
 	li1.trigger('click');
-	
+
 	assert.equal(fade.getElem('.mnu-fade ul li').length, 3);
 	assert.equal($(fade.getElem('.mnu-fade ul li').get(0)).data('fade-layer'), 'layerA');
 	assert.equal($(fade.getElem('.mnu-fade ul li').get(1)).data('fade-layer'), 'layerB');
@@ -225,20 +225,20 @@ QUnit.test('swap', function(assert){
 
 QUnit.test('makeChoices (no choices)', function(assert){
 	assert.expect(0);
-			
+
 	var options = {
 		map: this.TEST_OL_MAP,
 		layers: this.LAYERS
 	};
-	
+
 	var fadeOut = nyc.ol.control.LayerFade.fadeOut;
-	
+
 	nyc.ol.control.LayerFade.fadeOut = function(){
 		assert.ok(false);
 	};
-	
+
 	var fade = new nyc.ol.control.LayerFade(options);
-	
+
 	fade.setupFade = function(){
 		assert.ok(false);
 	};
@@ -251,22 +251,22 @@ QUnit.test('makeChoices (no choices)', function(assert){
 	fade.slider = function(){
 		assert.ok(false);
 	};
-	
+
 	fade.makeChoices();
-	
+
 	nyc.ol.control.LayerFade.fadeOut = fadeOut;
 });
 
 QUnit.test('makeChoices (auto)', function(assert){
 	assert.expect(4);
-	
+
 	var layers = this.LAYERS;
-	
+
 	var options = {
 		map: this.TEST_OL_MAP,
 		layers: layers
 	};
-	
+
 	layers[3].fadeOut = function(){
 		assert.ok(true);
 	};
@@ -276,16 +276,16 @@ QUnit.test('makeChoices (auto)', function(assert){
 	layers[2].fadeOut = function(){
 		assert.ok(false);
 	};
-	
+
 	var fade = new nyc.ol.control.LayerFade(options);
-	
+
 	$('li.fade-msg').remove();
 	$.each([layers[3], layers[0], layers[2]], function(){
 		var li = $('<li></li>');
 		li.data('fade-layer', this.get('name'));
 		$('ol.fade-choices').append(li);
 	});
-	
+
 	fade.setupFade = function(lyrs){
 		assert.deepEqual(lyrs, [layers[3], layers[0], layers[2]]);
 	};
@@ -298,20 +298,20 @@ QUnit.test('makeChoices (auto)', function(assert){
 	fade.slider = function(){
 		assert.ok(false);
 	};
-	
+
 	fade.makeChoices(true);
 });
 
 QUnit.test('makeChoices (manual)', function(assert){
 	assert.expect(3);
-	
+
 	var layers = this.LAYERS;
-	
+
 	var options = {
 		map: this.TEST_OL_MAP,
 		layers: layers
 	};
-	
+
 	layers[3].fadeOut = function(){
 		assert.ok(false);
 	};
@@ -321,16 +321,16 @@ QUnit.test('makeChoices (manual)', function(assert){
 	layers[2].fadeOut = function(){
 		assert.ok(false);
 	};
-	
+
 	var fade = new nyc.ol.control.LayerFade(options);
-	
+
 	$('li.fade-msg').remove();
 	$.each([layers[3], layers[0], layers[2]], function(){
 		var li = $('<li></li>');
 		li.data('fade-layer', this.get('name'));
 		$('ol.fade-choices').append(li);
 	});
-	
+
 	fade.setupFade = function(lyrs){
 		assert.deepEqual(lyrs, [layers[3], layers[0], layers[2]]);
 	};
@@ -343,28 +343,28 @@ QUnit.test('makeChoices (manual)', function(assert){
 	fade.slider = function(){
 		assert.ok(true);
 	};
-	
+
 	fade.makeChoices();
 });
 
 QUnit.test('status', function(assert){
 	assert.expect(11);
-	
+
 	var done = assert.async();
-	
+
 	var options = {
 		map: this.TEST_OL_MAP,
 		layers: this.LAYERS
 	};
-	
+
 	var fade = new nyc.ol.control.LayerFade(options);
-	
+
 	$(options.map.getTarget()).find('.fade-status').html('whatev').hide();
-	
+
 	var layers = [this.LAYERS[0], this.LAYERS[2], this.LAYERS[3]];
 
 	fade.status(layers);
-	
+
 	setTimeout(function(){
 		assert.equal($(options.map.getTarget()).find('.fade-status').css('display'), 'block');
 		assert.equal($(options.map.getTarget()).find('.fade-status div').length, layers.length)
@@ -388,9 +388,9 @@ QUnit.test('progress', function(assert){
 		layers: this.LAYERS,
 		autoFadeInterval: 1000
 	};
-	
+
 	var fade = new nyc.ol.control.LayerFade(options);
-		
+
 	var layers = [this.LAYERS[0], this.LAYERS[2], this.LAYERS[3]];
 
 	var progress = $(options.map.getTarget()).find('.fade-progress').width(1000000000000);
@@ -414,7 +414,7 @@ QUnit.test('manualFade (first layer)', function(assert){
 		map: this.TEST_OL_MAP,
 		layers: this.LAYERS
 	};
-		
+
 	var fade = new nyc.ol.control.LayerFade(options);
 
 	var layers = [this.LAYERS[0], this.LAYERS[1], this.LAYERS[2]];
@@ -427,19 +427,19 @@ QUnit.test('manualFade (first layer)', function(assert){
 	layers[0].setOpacity(0);
 	layers[1].setOpacity(0);
 	layers[2].setOpacity(0);
-	
+
 	var progress = $(options.map.getTarget()).find('.fade-progress').width(1000000000000);
 	var interval = 300;
 	var value = 100;
 
 	fade.manualFade(layers, interval, value);
-	
+
 	assert.equal(progress.width(), value);
-	
+
 	$.each(layers, function(){
-		assert.notOk(this.getVisible());		
+		assert.notOk(this.getVisible());
 	});
-	
+
 	assert.equal(layers[0].getOpacity(), 0);
 	assert.equal(layers[1].getOpacity(), 0);
 	assert.equal(layers[2].getOpacity(), 0);
@@ -452,7 +452,7 @@ QUnit.test('manualFade (second layer)', function(assert){
 		map: this.TEST_OL_MAP,
 		layers: this.LAYERS
 	};
-		
+
 	var fade = new nyc.ol.control.LayerFade(options);
 
 	var layers = [this.LAYERS[0], this.LAYERS[1], this.LAYERS[2]];
@@ -465,7 +465,7 @@ QUnit.test('manualFade (second layer)', function(assert){
 	layers[0].setOpacity(0);
 	layers[1].setOpacity(0);
 	layers[2].setOpacity(0);
-	
+
 	var progress = $(options.map.getTarget()).find('.fade-progress').width(1000000000000);
 	var interval = 300;
 	var value = 400;
@@ -473,13 +473,13 @@ QUnit.test('manualFade (second layer)', function(assert){
 	var start = end - interval;
 
 	fade.manualFade(layers, interval, value);
-	
+
 	assert.equal(progress.width(), value);
-	
+
 	$.each(layers, function(){
-		assert.ok(this.getVisible());		
+		assert.ok(this.getVisible());
 	});
-	
+
 	assert.equal(layers[0].getOpacity(), 1 - (value - start - interval/2)/interval);
 	assert.equal(layers[1].getOpacity(), (value - start - interval/2)/interval);
 	assert.equal(layers[2].getOpacity(), 0);
@@ -492,7 +492,7 @@ QUnit.test('manualFade (last layer)', function(assert){
 		map: this.TEST_OL_MAP,
 		layers: this.LAYERS
 	};
-		
+
 	var fade = new nyc.ol.control.LayerFade(options);
 
 	var layers = [this.LAYERS[0], this.LAYERS[1], this.LAYERS[2]];
@@ -505,7 +505,7 @@ QUnit.test('manualFade (last layer)', function(assert){
 	layers[0].setOpacity(0);
 	layers[1].setOpacity(0);
 	layers[2].setOpacity(0);
-	
+
 	var progress = $(options.map.getTarget()).find('.fade-progress').width(1000000000000);
 	var interval = 300;
 	var value = 700;
@@ -513,13 +513,13 @@ QUnit.test('manualFade (last layer)', function(assert){
 	var start = end - interval;
 
 	fade.manualFade(layers, interval, value);
-	
+
 	assert.equal(progress.width(), value);
-	
+
 	$.each(layers, function(){
-		assert.ok(this.getVisible());		
+		assert.ok(this.getVisible());
 	});
-	
+
 	assert.equal(layers[0].getOpacity(), 0);
 	assert.equal(layers[1].getOpacity(), 1 - (value - start - interval/2)/interval);
 	assert.equal(layers[2].getOpacity(), (value - start - interval/2)/interval);
@@ -532,24 +532,24 @@ QUnit.test('slider', function(assert){
 		map: this.TEST_OL_MAP,
 		layers: this.LAYERS
 	};
-	
+
 	var fade = new nyc.ol.control.LayerFade(options);
-	
+
 	var layers = [this.LAYERS[0], this.LAYERS[1], this.LAYERS[2]];
 	var max = $(this.TEST_OL_MAP.getTarget()).width();
 	var interval = max/layers.length;
-	
+
 	fade.manualFade = function(lyrs, ivl, value){
 		assert.deepEqual(lyrs, layers);
 		assert.equal(ivl, interval);
 		assert.equal(value, 100);
 	};
-	
+
 	var slider = $(options.map.getTarget()).find('.fade-slider');
 	slider.hide();
-	
+
 	fade.slider(layers);
-	
+
 	assert.equal(slider.css('display'), 'block');
 	assert.equal(slider.slider('option', 'min'), 0);
 	assert.equal(slider.slider('option', 'max'), max);
@@ -565,9 +565,9 @@ QUnit.test('buttonClick (Cancel)', function(assert){
 		map: this.TEST_OL_MAP,
 		layers: this.LAYERS
 	};
-	
+
 	var fade = new nyc.ol.control.LayerFade(options);
-	
+
 	fade.toggleMenu = function(){
 		assert.ok(true);
 	};
@@ -578,7 +578,7 @@ QUnit.test('buttonClick (Cancel)', function(assert){
 	$(options.map.getTarget()).find('.fade-progress').width(1000);
 
 	fade.buttonClick({currentTarget: $(fade.menu).find('a.btn-cancel')});
-	
+
 	assert.equal($(options.map.getTarget()).find('.fade-progress').width(), 0);
 });
 
@@ -589,9 +589,9 @@ QUnit.test('buttonClick (Manual)', function(assert){
 		map: this.TEST_OL_MAP,
 		layers: this.LAYERS
 	};
-	
+
 	var fade = new nyc.ol.control.LayerFade(options);
-	
+
 	fade.toggleMenu = function(){
 		assert.ok(true);
 	};
@@ -602,7 +602,7 @@ QUnit.test('buttonClick (Manual)', function(assert){
 	$(options.map.getTarget()).find('.fade-progress').width(1000);
 
 	fade.buttonClick({currentTarget: $(fade.menu).find('a.btn-manual')});
-	
+
 	assert.equal($(options.map.getTarget()).find('.fade-progress').width(), 0);
 });
 
@@ -613,9 +613,9 @@ QUnit.test('buttonClick (Auto)', function(assert){
 		map: this.TEST_OL_MAP,
 		layers: this.LAYERS
 	};
-	
+
 	var fade = new nyc.ol.control.LayerFade(options);
-	
+
 	fade.toggleMenu = function(){
 		assert.ok(true);
 	};
@@ -626,7 +626,7 @@ QUnit.test('buttonClick (Auto)', function(assert){
 	$(options.map.getTarget()).find('.fade-progress').width(1000);
 
 	fade.buttonClick({currentTarget: $(fade.menu).find('a.btn-auto')});
-	
+
 	assert.equal($(options.map.getTarget()).find('.fade-progress').width(), 0);
 });
 
@@ -634,19 +634,19 @@ QUnit.test('getLayersFromMap', function(assert){
 	assert.expect(2);
 
 	this.LAYERS[0].set('name', null);
-	
+
 	var map = this.TEST_OL_MAP;
 	var layers = map.sortedPhotos();
-	
+
 	$.each(this.LAYERS, function(){
 		map.addLayer(this);
 		if (this.get('name')){
 			layers.push(this);
 		}
 	});
-		
+
 	var fade = new nyc.ol.control.LayerFade({map: map});
-	
+
 	assert.deepEqual(fade.getLayersFromMap(map), layers);
 	assert.deepEqual(fade.layers, layers);
 });
@@ -658,9 +658,9 @@ QUnit.test('getLayersByName', function(assert){
 		map: this.TEST_OL_MAP,
 		layers: this.LAYERS
 	};
-		
+
 	var fade = new nyc.ol.control.LayerFade(options);
-	
+
 	assert.deepEqual(fade.getLayersByName(), {
 		layer1: this.LAYERS[0],
 		layer2: this.LAYERS[1],
@@ -670,10 +670,10 @@ QUnit.test('getLayersByName', function(assert){
 });
 
 QUnit.test('fadeIn (not lastFadeLayer)', function(assert){
-	assert.expect(12);
+	assert.expect(14);
 
 	var done = assert.async();
-	
+
 	var layer = this.LAYERS[0];
 	var autoFadeInterval = 10000;
 	layer.setOpacity(0);
@@ -684,7 +684,7 @@ QUnit.test('fadeIn (not lastFadeLayer)', function(assert){
 		assert.ok(true);
 	};
 	layer.fadeIn = nyc.ol.control.LayerFade.fadeIn;
-	
+
 	var lastOpacity = 0;
 	var interval = setInterval(function(){
 		if (layer.getOpacity() >= 1){
@@ -695,9 +695,9 @@ QUnit.test('fadeIn (not lastFadeLayer)', function(assert){
 			lastOpacity = layer.getOpacity();
 		}
 	}, 2 + autoFadeInterval/10);
-	
+
 	layer.fadeIn();
-	
+
 	assert.ok(layer.getVisible());
 });
 
@@ -705,7 +705,7 @@ QUnit.test('fadeIn (lastFadeLayer)', function(assert){
 	assert.expect(11);
 
 	var done = assert.async();
-	
+
 	var layer = this.LAYERS[0];
 	var autoFadeInterval = 10000;
 	layer.setOpacity(0);
@@ -717,7 +717,7 @@ QUnit.test('fadeIn (lastFadeLayer)', function(assert){
 		assert.notOk(true);
 	};
 	layer.fadeIn = nyc.ol.control.LayerFade.fadeIn;
-	
+
 	var lastOpacity = 0;
 	var interval = setInterval(function(){
 		if (layer.getOpacity() >= 1){
@@ -728,7 +728,7 @@ QUnit.test('fadeIn (lastFadeLayer)', function(assert){
 			lastOpacity = layer.getOpacity();
 		}
 	}, 2 + autoFadeInterval/10);
-	
+
 	layer.fadeIn();
 	assert.ok(layer.getVisible());
 });
@@ -737,7 +737,7 @@ QUnit.test('fadeOut (not lastFadeLayer)', function(assert){
 	assert.expect(12);
 
 	var done = assert.async();
-	
+
 	var layer = this.LAYERS[0];
 	var autoFadeInterval = 10000;
 	layer.setOpacity(1);
@@ -749,7 +749,7 @@ QUnit.test('fadeOut (not lastFadeLayer)', function(assert){
 		assert.ok(true);
 	};
 	layer.fadeOut = nyc.ol.control.LayerFade.fadeOut;
-	
+
 	var lastOpacity = 1;
 	var interval = setInterval(function(){
 		if (layer.getOpacity() <= 0){
@@ -760,7 +760,7 @@ QUnit.test('fadeOut (not lastFadeLayer)', function(assert){
 			lastOpacity = layer.getOpacity();
 		}
 	}, 2 + autoFadeInterval/10);
-	
+
 	layer.fadeOut();
 	assert.ok(layer.getVisible());
 });
@@ -769,7 +769,7 @@ QUnit.test('fadeOut (lastFadeLayer)', function(assert){
 	assert.expect(11);
 
 	var done = assert.async();
-	
+
 	var layer = this.LAYERS[0];
 	var autoFadeInterval = 10000;
 	layer.setOpacity(1);
@@ -778,7 +778,7 @@ QUnit.test('fadeOut (lastFadeLayer)', function(assert){
 	layer.set('fadeStep', 100);
 	layer.set('lastFadeLayer', true);
 	layer.fadeOut = nyc.ol.control.LayerFade.fadeOut;
-	
+
 	var lastOpacity = 1;
 	var interval = setInterval(function(){
 		if (layer.getOpacity() <= 0){
@@ -789,7 +789,7 @@ QUnit.test('fadeOut (lastFadeLayer)', function(assert){
 			lastOpacity = layer.getOpacity();
 		}
 	}, 2 + autoFadeInterval/10);
-	
+
 	layer.fadeOut();
 	assert.ok(layer.getVisible());
 });

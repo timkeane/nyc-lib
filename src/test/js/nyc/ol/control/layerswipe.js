@@ -534,7 +534,7 @@ QUnit.test('label', function(assert){
 	assert.equal(label.get(0).rows[0].cells[0].innerHTML, this.LAYER_1.get('name'));
 	assert.equal(label.get(0).rows[0].cells[1].innerHTML, this.LAYER_2.get('name'));
 	assert.equal(label.css('left'), 100 - label.width()/2 + 'px');
-	assert.equal(label.css('top'), '174px');
+	assert.equal(label.css('top'), 200 - label.height() + 'px');
 	setTimeout(function(){
 		assert.equal(label.css('display'), 'none');
 		done();
