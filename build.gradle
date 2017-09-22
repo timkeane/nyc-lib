@@ -89,11 +89,9 @@ ext {
 		'nyc/ol/control/layerfade.js',
 		'nyc/ol/control/layerswipe.js',
 		'nyc/ol/control/zoomsearch.js',
-		'nyc/ol/source/arcgiscache.js',
 		'nyc/ol/source/csv.js',
 		'nyc/ol/source/decorating.js',
 		'nyc/ol/source/filteringandsorting.js',
-		'nyc/ol/layer/baselayer.js',
 		'nyc/ol/layer/grayscale.js',
 		'nyc/ol/layer/colorswap.js',
 		'nyc/jcard/jcard.js'
@@ -343,10 +341,6 @@ minifyJsOl.doLast {
 			ant.replace(file: "${pkgDir}/js/nyc-ol-lib.js", token: '//maps1.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
 			ant.replace(file: "${pkgDir}/js/nyc-ol-lib.js", token: '//maps2.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
 			ant.replace(file: "${pkgDir}/js/nyc-ol-lib.js", token: '//maps3.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
-			ant.replace(file: "${pkgDir}/src/js/nyc/ol/layer/baselayer.js", token: '//maps.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
-			ant.replace(file: "${pkgDir}/src/js/nyc/ol/layer/baselayer.js", token: '//maps1.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
-			ant.replace(file: "${pkgDir}/src/js/nyc/ol/layer/baselayer.js", token: '//maps2.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
-			ant.replace(file: "${pkgDir}/src/js/nyc/ol/layer/baselayer.js", token: '//maps3.nyc.gov/gis/data/tiles/', value: '/gis/data/tiles/')
 		}
 	}
 
