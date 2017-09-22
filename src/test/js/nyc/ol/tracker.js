@@ -921,7 +921,7 @@ QUnit.test('reset', function(assert){
 });
 
 QUnit.test('restore (has storage, yes)', function(assert){
-	assert.expect(15);
+	assert.expect(14);
 
 	var tracker = new nyc.ol.Tracker({
 		map: this.TEST_OL_MAP
@@ -938,7 +938,7 @@ QUnit.test('restore (has storage, yes)', function(assert){
 
 	var yesNo = nyc.Dialog.prototype.yesNo;
 	nyc.Dialog.prototype.yesNo = function(args){
-		assert.equal(args.message, 'Retore previous tracking data?');
+		assert.equal(args.message, 'Restore previous tracking data?');
 		args.callback(true);
 	};
 
@@ -975,13 +975,11 @@ QUnit.test('restore (has storage, yes)', function(assert){
 	assert.equal(gotten[0], tracker.trackStore);
 	assert.equal(gotten[1], tracker.positionsStore);
 
-	tracker.dispatchEvent('change');
-
 	nyc.Dialog.prototype.yesNo = yesNo;
 });
 
 QUnit.test('restore (has storage, no)', function(assert){
-	assert.expect(9);
+	assert.expect(8);
 
 	var tracker = new nyc.ol.Tracker({
 		map: this.TEST_OL_MAP
@@ -998,7 +996,7 @@ QUnit.test('restore (has storage, no)', function(assert){
 
 	var yesNo = nyc.Dialog.prototype.yesNo;
 	nyc.Dialog.prototype.yesNo = function(args){
-		assert.equal(args.message, 'Retore previous tracking data?');
+		assert.equal(args.message, 'Restore previous tracking data?');
 		args.callback(false);
 	};
 
@@ -1009,7 +1007,6 @@ QUnit.test('restore (has storage, no)', function(assert){
 		assert.ok(false);
 	};
 	tracker.updatePosition = function(){
-		// called once by restore and again when triggering change at end of test
 		assert.ok(true);
 	};
 	tracker.updateView = function(position){
@@ -1021,20 +1018,18 @@ QUnit.test('restore (has storage, no)', function(assert){
 
 	tracker.restore();
 
-	assert.notOk(tracker.track);
-	assert.notOk(tracker.positions);
+	assert.equal(tracker.track.getCoordinates().length, 0);
+	assert.equal(tracker.positions.length, 0);
 
 	assert.equal(gotten.length, 2);
 	assert.equal(gotten[0], tracker.trackStore);
 	assert.equal(gotten[1], tracker.positionsStore);
 
-	tracker.dispatchEvent('change');
-
 	nyc.Dialog.prototype.yesNo = yesNo;
 });
 
 QUnit.test('restore (no storage)', function(assert){
-	assert.expect(8);
+	assert.expect(7);
 
 	var tracker = new nyc.ol.Tracker({
 		map: this.TEST_OL_MAP
@@ -1057,7 +1052,6 @@ QUnit.test('restore (no storage)', function(assert){
 		assert.ok(false);
 	};
 	tracker.updatePosition = function(){
-		// called once by restore and again when triggering change at end of test
 		assert.ok(true);
 	};
 	tracker.updateView = function(position){
@@ -1069,14 +1063,12 @@ QUnit.test('restore (no storage)', function(assert){
 
 	tracker.restore();
 
-	assert.notOk(tracker.track);
-	assert.notOk(tracker.positions);
+	assert.equal(tracker.track.getCoordinates().length, 0);
+	assert.equal(tracker.positions.length, 0);
 
 	assert.equal(gotten.length, 2);
 	assert.equal(gotten[0], tracker.trackStore);
 	assert.equal(gotten[1], tracker.positionsStore);
-
-	tracker.dispatchEvent('change');
 
 	nyc.Dialog.prototype.yesNo = yesNo;
 });
@@ -1111,8 +1103,8 @@ QUnit.test('marker (has speed, has view rotation)', function(assert){
 	var img = tracker.img.get(0);
 
 	assert.equal(img.src, nyc.ol.Tracker.LOCATION_HEADING_IMG);
-	assert.notOk(img.style.transform);
-	assert.notOk(img.style['-webkit-transform']);
+	assert.equal(img.style.transform, 'rotate(0rad)');
+	assert.equal(img.style['-webkit-transform'], 'rotate(0rad)');
 });
 
 QUnit.test('marker (no speed, no view rotation)', function(assert){
