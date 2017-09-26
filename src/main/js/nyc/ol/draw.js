@@ -383,7 +383,7 @@ nyc.ol.Draw.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {JQueryEvent} event
+	 * @param {JQuery.Event} event
 	 */
 	keyUp: function(event){
 		if (event.keyCode == 27){

@@ -194,7 +194,7 @@ nyc.ol.control.LayerPicker.prototype = {
 	/**
 	 * @private
 	 * @method
-	 * @param {JQueryEvent} event
+	 * @param {JQuery.Event} event
 	 */
 	getGroup: function(event){
 		var target = $(event.delegateTarget);
