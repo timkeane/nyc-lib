@@ -23,9 +23,9 @@
 }
 #dir-content {
 	margin: 5px;
-}	
+}
 #directions {
-	margin: 5px 0 0 5px;	
+	margin: 5px 0 0 5px;
 	overflow: auto;
 }
 .fld-lbl {
@@ -42,7 +42,7 @@
 	height: 50px;
 }
 #dir-mode td {
-	padding: 0 13px;	
+	padding: 0 13px;
 }
 .ui-btn.dir-mode-btn {
 	width: 38px;
@@ -55,7 +55,7 @@
 #mode-car {
 	background-image: var(--theme-dir-car-bg-img);
 }
-#mode-transit {	
+#mode-transit {
 	background-image: var(--theme-dir-transit-bg-img);
 }
 #mode-bike {
@@ -67,11 +67,11 @@
 #dir-toggle {
 	display: none;
 }
-.dir-mode-btn, .dir-mode-btn:visited {
-	background-color: var(--theme-ctl-bg-color); 	
+.dir-mode-btn.ui-btn, .dir-mode-btn.ui-btn:visited {
+	background-color: var(--theme-ctl-bg-color);
 }
-.dir-mode-btn.active-mode, .dir-mode-btn:hover {
-	background-color: var(--theme-ctl-bg-color-hover); 
+.dir-mode-btn.active-mode, .dir-mode-btn.ui-btn:hover {
+	background-color: var(--theme-ctl-bg-color-hover);
 }
 .adp-agencies {
     font-size: 100%;
