@@ -72,7 +72,7 @@ nyc.Basemap.prototype = {
 	 * @method
 	 * @return {nyc.Basemap.BaseLayers}
 	 */
-	 loadLayer(event){
+	 loadLayer: function(event){
 		 var transfer = event.originalEvent.dataTransfer;
 		 event.preventDefault();
 		 event.stopPropagation();
