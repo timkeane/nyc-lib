@@ -101,6 +101,9 @@ ext {
 		'nyc/ol/geoserver/getfeature.js',
 		'nyc/ol/geoserver/featuretxn.js'
 	]
+	finderJsFiles = [
+		'nyc/finder.js'
+	]
 	leafJsFiles = [
 		'nyc/nyc.js',
 		'nyc/date.js',
@@ -197,6 +200,9 @@ ext {
 		'draw.css',
 		'getfeature.css',
     'storage.css'
+	]
+  finderCssFiles = [
+		'finder.css'
 	]
 	leafCssFiles = [
 		'nyc-base.css',
@@ -360,6 +366,14 @@ task minifyJsOlRedLine(type: MiniJsTask) {
 	destinationDir = "${pkgDir}/js"
 }
 
+task minifyJsFinder(type: MiniJsTask) {
+	version = ver
+	libName = 'nyc-finder'
+	fileNames = finderJsFiles
+	sourceDir = jsSrcDir
+	destinationDir = "${pkgDir}/js"
+}
+
 task minifyJsLeaf(type: MiniJsTask) {
 	version = ver
 	libName = 'nyc-leaf-lib'
@@ -418,8 +432,6 @@ minifyJsOlAllLayers.doFirst {
 	fileNames jsFiles
 }
 
-
-
 task minifyCssOl(type: MiniCssTask) {
 	libName = 'nyc-ol-lib'
 	themeFile = 'theme.css'
@@ -443,6 +455,14 @@ task minifyCssOlRedLine(type: MiniCssTask) {
 	destinationDir = "${pkgDir}/css"
 }
 
+task minifyCssFinder(type: MiniCssTask) {
+	libName = 'nyc-finder'
+	themeFile = 'theme.css'
+	fileNames = finderCssFiles
+	sourceDir = cssSrcDir
+	destinationDir = "${pkgDir}/css"
+}
+
 task minifyCssLeaf(type: MiniCssTask) {
 	libName = 'nyc-leaf-lib'
 	themeFile = 'theme.css'
@@ -461,7 +481,8 @@ task minifyCssCarto(type: MiniCssTask) {
 
 task allJs(dependsOn: [
 	minifyJsOl,
-	minifyJsOlRedLine,
+  minifyJsOlRedLine,
+  minifyJsFinder,
 	minifyJsLeaf,
 	minifyJsCarto,
 	minifyJsOlPlowLayers,
@@ -493,7 +514,7 @@ allJs.doLast {
 	}
 }
 
-task allCss(dependsOn: [minifyCssOl, minifyCssOlRedLine, minifyCssLeaf, minifyCssCarto]) << {}
+task allCss(dependsOn: [minifyCssOl, minifyCssOlRedLine, minifyCssFinder, minifyCssLeaf, minifyCssCarto]) << {}
 allCss.doLast {
 	copy {
 		from srcDir

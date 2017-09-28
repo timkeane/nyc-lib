@@ -1,0 +1,166 @@
+html, body, h1, #map {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+#map {
+  top: 45px;
+  right: 320px;
+}
+.ui-mobile-viewport h1.banner {
+  bottom: calc(100% - 45px);
+  margin: 0;
+  padding: 8px 0 0 83px;
+  z-index: 1;
+  background-image: url(../img/nyc.svg);
+  background-position: 3px 12px;
+  background-size: 71px 24px;
+  background-repeat: no-repeat;
+}
+.ui-mobile-viewport h1.banner, h1.banner span {
+  background-color: #000;
+  color: #fff;
+  font-size: 24px;
+}
+#map-page {
+	position: fixed;
+}
+#map-page .ui-content, #dir-page .ui-content {
+	overflow: hidden;
+	position: fixed;
+	top: 45px;
+	bottom: 0;
+	width: 100%;
+}
+#panel, #dir-panel {
+  position: fixed;
+  width: 320px;
+  top: 45px;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  padding: 0;
+  border-left: 1px solid rgba(51,136,204,.2);
+}
+#panel-content {
+  height: 100%;
+}
+#tabs {
+  padding: 0;
+  height: 100%;
+}
+#tabs .ui-navbar a, #tabs .ui-navbar a span {
+  height: 22px;
+  padding: 13px 0 9px;
+  text-shadow: none;
+  border: none;
+}
+#tabs .ui-navbar li {
+  width: 50%;
+}
+li#map-tab-btn {
+  display: none;
+}
+#tabs div.ui-tabs-panel {
+  height: calc(100% - 45px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+#filter-tab, #facility-list {
+  background-color: #fff;
+}
+#facility-list div.info {
+  padding: 10px 5px;
+}
+.name {
+  font-weight: bold;
+}
+.info .icon {
+  width: 21px;
+  height: 21px;
+  float: left;
+  margin: -3px 5px -10px 0;
+}
+.hours {
+  margin-top: 10px;
+  font-size: 14px !important;
+  font-weight: bold;
+}
+#facility-list .info .ui-btn {
+  display: inline-block;
+  margin: 5px 5px 0;
+  width: 100px;
+}
+.popup .info .map.ui-btn {
+  display: none;
+}
+#facility-list .info.even-row, #btn-more a {
+  background-color: rgba(0,0,0,.1);
+}
+#btn-more {
+  margin: 0 5px;
+}
+.ctl-btn.ui-btn,
+a.popup-closer,
+.fld-srch-container .ui-input-clear:after,
+.ctl-btn.ui-btn:visited,
+.ui-page-theme-a .dir-mode-btn,
+.ui-page-theme-a .dir-mode-btn:visited,
+#back-to-map:after,
+#lang-hint-arrow a:after {
+  /* background-color: rgba(0,0,0,.5) */;
+}
+.ctl-btn.ui-btn:hover,
+a.popup-closer:hover,
+.fld-srch-container .ui-input-clear:hover:after,
+.ui-page-theme-a .dir-mode-btn:hover,
+.ui-page-theme-a .dir-mode-btn.active-mode,
+#back-to-map:hover:after,
+#lang-hint-arrow a:hover:after {
+  /* background-color: #000; */;
+}
+#back-to-map {
+  padding-left: 28px;
+  top: 3px;
+  right: 3px;
+  margin: 0;
+  z-index: 2000;
+}
+#back-to-map:after {
+  left: 3px;
+}
+#filter-tab {
+  padding: 0 5px;
+}
+#filter-tab label img {
+  width: 22px;
+  height: 22px;
+  margin: 3px 5px -5px -3px;
+}
+#lang {
+  position: fixed;
+  bottom: 80px;
+  left: 3px;
+  z-index: 2000;
+}
+@media only screen and (max-width : 495px), screen and (max-device-height: 350px) {
+	#map-page .ui-content {
+    top: 87px;
+		z-index: 1000;
+    overflow: visible;
+	}
+  #panel, #map {
+		width: 100%;
+	}
+	#tabs .ui-navbar li {
+		width: 33.33%;
+	}
+	li#map-tab-btn {
+		display: block;
+	}
+	#map {
+		top: 87px;
+	}
+}
