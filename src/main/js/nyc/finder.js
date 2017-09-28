@@ -116,7 +116,7 @@ nyc.FinderApp.prototype = {
         facility: decodeURIComponent(name)
       });
     }
-    $('body').pagecontainer('change', $('#dir-page'), {transition: 'slideup'});
+    $('body').pagecontainer('change', '#dir-page', {transition: 'slideup'});
   },
   /**
    * @desc Method to handle map click and show popup if appropriate
@@ -308,17 +308,20 @@ nyc.FinderApp.prototype = {
    * @private
    * @method
    */
-  ready: function(){
-    if (this.finderSource.get('featuresloaded')){
-      this.listFacilities();
-      $('#facility-tab-btn a').trigger('click');
-      $('body').pagecontainer()
-        .pagecontainer('change', $('#map-page'), {transition: 'slideup'})
-        .append($('h1.banner'));
-    }else{
-      setTimeout($.proxy(this.ready, this), 200);
-    }
-	}
+   ready: function(){
+     if (this.finderSource.get('featuresloaded')){
+       this.listFacilities();
+       $('#facility-tab-btn a').trigger('click');
+       $('body').pagecontainer({
+         change: function(){
+          $('body').append($('h1.banner'));
+        }
+      })
+      .pagecontainer('change', '#map-page', {transition: 'slideup'});
+     }else{
+       setTimeout($.proxy(this.ready, this), 200);
+     }
+   }
 };
 
 /**

@@ -94,7 +94,8 @@ ext {
 		'nyc/ol/source/filteringandsorting.js',
 		'nyc/ol/layer/grayscale.js',
 		'nyc/ol/layer/colorswap.js',
-		'nyc/jcard/jcard.js'
+    'nyc/jcard/jcard.js',
+    'nyc/loading.js'
 	]
 	olRedLineJsFiles = [
 		'nyc/ol/draw.js',
@@ -193,7 +194,8 @@ ext {
 		'ol-popup.css',
 		'share.css',
     'zoomsearch.css',
-    'storage.css'
+    'storage.css',
+    'loading.css'
 	]
 	olRedLineCssFiles = [
 		'nyc-base.css',
