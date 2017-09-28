@@ -603,6 +603,33 @@ QUnit.test('initDirections (called from constructor)', function(assert){
 	nyc.Directions = directions;
 });
 
+QUnit.test('connectFilterControls (no filters, called from constructor)', function(assert){
+  assert.expect(4);
+
+	this.TEST_SRC.set('featuresloaded', true);
+
+  var finder = new nyc.FinderApp({
+    map: this.TEST_MAP,
+    finderSource: this.TEST_SRC,
+    locationMgr: this.TEST_LOC_MGR,
+    directionsUrl: 'directions-url'
+	});
+
+	assert.notOk(finder.filterControls);
+	assert.ok($('body').hasClass('finder-no-filter'));
+
+	finder = new nyc.FinderApp({
+    map: this.TEST_MAP,
+    finderSource: this.TEST_SRC,
+    locationMgr: this.TEST_LOC_MGR,
+		filterControls: [],
+    directionsUrl: 'directions-url'
+	});
+
+	assert.equal(finder.filterControls.length, 0);
+	assert.ok($('body').hasClass('finder-no-filter'));
+});
+
 QUnit.test('connectFilterControls (called from constructor)', function(assert){
   assert.expect(7);
 

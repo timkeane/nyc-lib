@@ -60,7 +60,10 @@ html, body, h1, #map {
 #tabs .ui-navbar li {
   width: 50%;
 }
-li#map-tab-btn {
+.finder-no-filter #tabs .ui-navbar li {
+  width: 100%;
+}
+li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
   display: none;
 }
 #tabs div.ui-tabs-panel {

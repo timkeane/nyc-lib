@@ -264,6 +264,8 @@ nyc.FinderApp.prototype = {
         tab.append(this.container);
         this.on('change', me.filter, me);
       });
+    }else{
+      $('body').addClass('finder-no-filter');
     }
 	},
   /**
