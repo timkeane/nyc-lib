@@ -151,7 +151,7 @@ a.popup-closer:hover,
 		z-index: 1000;
     overflow: visible;
 	}
-  #panel, #map {
+  #map, #panel, #dir-panel {
 		width: 100%;
 	}
 	#tabs .ui-navbar li {
