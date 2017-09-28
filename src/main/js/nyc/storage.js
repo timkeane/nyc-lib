@@ -214,8 +214,9 @@ nyc.storage.Local.prototype = {
 	readShp: function(map, shp, dbf, projcs, callback){
 		var me = this, features = [];
 		shapefile.open(shp, dbf)
-		  .then(source => source.read()
-			  .then(function collect(result){
+		  .then(function(source){
+				source.read()
+				.then(function collect(result){
 					if (result.done){
 						var layer = me.addToMap(map, features, projcs);
 						if (callback) callback(layer);
@@ -225,7 +226,9 @@ nyc.storage.Local.prototype = {
 					}
 					return source.read().then(collect);
 				})
-			).catch(error => console.error(error.stack));
+			}).catch(function(error){
+				console.error(error.stack);
+			});
 	},
 	/**
 	 * @public
