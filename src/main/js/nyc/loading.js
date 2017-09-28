@@ -1,7 +1,6 @@
-var nyc = window.nyc || {};
 
 /**
- * @desc Create a loading page 
+ * @desc Create a loading page
  * @public
  * @class
  * @constructor
