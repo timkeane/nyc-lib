@@ -61,7 +61,7 @@ html, body, h1, #map {
   width: 50%;
 }
 .finder-no-filter #tabs .ui-navbar li {
-  width: 100%;
+  display: none;
 }
 li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
   display: none;
@@ -70,6 +70,9 @@ li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
   height: calc(100% - 45px);
   overflow-x: hidden;
   overflow-y: auto;
+}
+.finder-no-filter #tabs div.ui-tabs-panel {
+  height: 100%;
 }
 #filter-tab, #facility-list {
   background-color: #fff;
@@ -91,6 +94,9 @@ li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
   font-size: 14px !important;
   font-weight: bold;
 }
+#facility-tab {
+    background-color: #fff;
+}
 #facility-list .info .ui-btn {
   display: inline-block;
   margin: 5px 5px 0;
@@ -99,7 +105,7 @@ li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
 .popup .info .map.ui-btn {
   display: none;
 }
-#facility-list .info.even-row, #btn-more a {
+#facility-list .info.even-row {
   background-color: rgba(0,0,0,.1);
 }
 #btn-more {
@@ -163,6 +169,14 @@ a.popup-closer:hover,
 	li#map-tab-btn {
 		display: block;
 	}
+	.finder-no-filter #tabs .ui-navbar li#map-tab-btn,
+	.finder-no-filter #tabs .ui-navbar li#facility-tab-btn {
+        display: block;
+        width: 50%;
+    }
+    .finder-no-filter #tabs div.ui-tabs-panel {
+      height: calc(100% - 45px);
+    }
 	#map {
 		top: 87px;
 	}
