@@ -96,6 +96,9 @@ nyc.FinderApp.prototype = {
     me.map.once('moveend', function(){
       me.showPopup(feature);
     });
+    if ($('#panel').width() == $(window).width()){
+      $('#map-tab-btn a').trigger('click');
+    }
   },
   /**
    * @desc Method to get directions from user location to facility location on directions button click
