@@ -215,9 +215,10 @@ nyc.FinderApp.prototype = {
    * @method
    * @return {string}
    */
-   hideBannerText: function(){
+  hideBannerText: function(){
     var hide = $('#dir-panel').width() == $(window).width() && $('body').pagecontainer('getActivePage').attr('id') == 'dir-page';
-    $('h1.banner span')[hide ? 'hide' : 'show']();
+    $('body').append($('h1.banner'));
+    $('h1.banner span')[hide ? 'hide' : 'fadeIn']();
   },
   /**
    * @desc Method to get window size
@@ -317,12 +318,7 @@ nyc.FinderApp.prototype = {
      if (this.finderSource.get('featuresloaded')){
        this.listFacilities();
        $('#facility-tab-btn a').trigger('click');
-       $('body').pagecontainer({
-         change: function(){
-          $('body').append($('h1.banner'));
-        }
-      })
-      .pagecontainer('change', '#map-page', {transition: 'slideup'});
+       $('body').pagecontainer().pagecontainer('change', '#map-page', {transition: 'slideup'});
      }else{
        setTimeout($.proxy(this.ready, this), 200);
      }
