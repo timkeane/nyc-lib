@@ -10,7 +10,7 @@ nyc.ol.source = nyc.ol.source || {};
  * @constructor
  * @param {Object} options Vector source options
  * @param {Array<Object>}  decorationMixins An array of objects whose members will be added to all features created by this source
- * @param {nyc.ol.source.Decorating.AutoLoad=} autoLoad Object including auto loading properties 
+ * @param {nyc.ol.source.Decorating.AutoLoad=} autoLoad Object including auto loading properties
  * @fires nyc.ol.source.Decorating#change:featuresloaded
  * @fires nyc.ol.source.Decorating#change:featureloaderror
  * @see http://www.openlayers.org/
@@ -43,7 +43,11 @@ nyc.ol.source.Decorating = function(options, decorationMixins, autoLoad){
 	 * @member {boolean}
 	 */
 	this._xhrFeaturesLoaded = false;
-		
+
+	var proj = autoLoad ? autoLoad.projection : '';
+	if (proj){
+		options.strategy = function(){return []};
+	}
 	ol.source.Vector.call(this, options);
 	this.on('addfeature', function(e){
 		var feature = e.feature;
@@ -56,10 +60,9 @@ nyc.ol.source.Decorating = function(options, decorationMixins, autoLoad){
 			feature[nyc.ol.source.Decorating.AUTO_EXEC]();
 		}
 	});
-	
-	var proj = autoLoad ? autoLoad.projection : '';
+
 	if (proj){
-		proj = proj.getCode ? proj : new ol.proj.Projection({code: proj}); 
+		proj = proj.getCode ? proj : new ol.proj.Projection({code: proj});
 		options.loader.call(this, null, null, proj);
 	}
 };
@@ -81,14 +84,14 @@ nyc.ol.source.Decorating.xhrLoader = function(extent, resolution, projection){
 			success: function(data){
 				me.addFeatures(me._format.readFeatures(data, {featureProjection: projection}));
 				me._xhrFeaturesLoaded = true;
-			    me.featuresloaded = true;  
-			    me.set('featuresloaded', true);  
+			    me.featuresloaded = true;
+			    me.set('featuresloaded', true);
 			},
 			error: function(){
-			    me.featureloaderror = true;  
-			    me.set('featureloaderror', true);  
+			    me.featureloaderror = true;
+			    me.set('featureloaderror', true);
 			}
-		});		
+		});
 	}
 };
 
@@ -102,7 +105,7 @@ nyc.ol.source.Decorating.xhrLoader = function(extent, resolution, projection){
 nyc.ol.source.Decorating.AutoLoad;
 
 /**
- * @desc Mixin function name to execute immediately after decorating the feature  
+ * @desc Mixin function name to execute immediately after decorating the feature
  * @constant
  * @type {string}
  */
@@ -115,7 +118,7 @@ nyc.ol.source.Decorating.AUTO_EXEC = 'extendFeature';
  * @return {boolean} The value indicating if the XHR request has successfully loaded the geoJSON data
  */
 nyc.ol.source.Decorating.prototype.isXhrFeaturesLoaded = function(){
-    return this._xhrFeaturesLoaded;    
+    return this._xhrFeaturesLoaded;
 };
 
 /**
@@ -145,4 +148,3 @@ nyc.ol.source.Decorating.LoaderEventType = {
  * @event nyc.ol.source.Decorating#change:featureloaderror
  * @type {boolean}
  */
-
