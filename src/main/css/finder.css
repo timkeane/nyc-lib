@@ -23,6 +23,8 @@ html, body, h1, #map {
   background-color: #000;
   color: #fff;
   font-size: 24px;
+  line-height: 35px;
+  overflow: hidden;
 }
 #map-page {
 	position: fixed;
@@ -78,7 +80,7 @@ li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
   background-color: #fff;
 }
 #facility-list div.info {
-  padding: 10px 5px;
+  padding: 10px 5px 5px;
 }
 .name {
   font-weight: bold;
@@ -97,10 +99,42 @@ li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
 #facility-tab {
     background-color: #fff;
 }
-#facility-list .info .ui-btn {
-  display: inline-block;
-  margin: 5px 5px 0;
-  width: 100px;
+.info .ui-btn {
+  margin: 3px;
+}
+.info .ui-btn {
+  background-repeat: no-repeat;
+}
+.info .phone.ui-btn {
+  background-image: var(--theme-finder-phone-bg-img);
+  background-size: 22px;
+  background-position: 15px 8px;
+}
+.info .web.ui-btn {
+  background-image: var(--theme-finder-web-bg-img);
+  background-size: 30px;
+  background-position: 10px 4px;
+  padding: 8px 0 8px 45px;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+.info .map.ui-btn, .info .directions.ui-btn {
+	display: inline-block;
+	padding-left: 20px;
+  background-size: 22px;
+  width: calc(50% - 35px);
+}
+.info .map.ui-btn {
+	margin-right: 0;
+  background-position: 15px 8px;
+  background-image: var(--theme-finder-map-bg-img);
+}
+.info .directions.ui-btn {
+	margin-left: 0;
+  background-position: 10px 8px;
+	float: right;
+	padding-left: 28px;
+  background-image: var(--theme-finder-direct-bg-img);
 }
 .popup .info .map.ui-btn {
   display: none;
