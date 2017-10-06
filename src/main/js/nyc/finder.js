@@ -11,6 +11,7 @@ nyc.FinderApp = function(options){
   nyc.finder = this;
   $('body').append(nyc.FinderApp.TEMPLATE_HTML).trigger('create');
   this.map = options.map;
+  this.zoomLevel = options.zoomLevel || nyc.ol.Locate.ZOOM_LEVEL;
   $('#main').append(this.map.getTarget());
   this.view = this.map.getView();
   this.finderSource = options.finderSource;
@@ -68,6 +69,11 @@ nyc.FinderApp.prototype = {
   location: null,
   /**
   * @private
+  * @member {number}
+  */
+  zoomLevel: null,
+  /**
+  * @private
   * @member {string}
   */
   lastDir: null,
@@ -90,7 +96,7 @@ nyc.FinderApp.prototype = {
   zoomTo: function(event){
     var me = this, feature = $(event.target).data('feature');
     me.view.animate({
-      zoom: 15,
+      zoom: me.zoomLevel,
       center: feature.getGeometry().getCoordinates()
     });
     me.map.once('moveend', function(){
@@ -130,11 +136,12 @@ nyc.FinderApp.prototype = {
   mapClick: function(event){
     var feature;
     this.map.forEachFeatureAtPixel(event.pixel, function(f){
-      feature = f;
+      if (typeof f.html == 'function' && f.html()){
+        feature = f;
+      }
     });
     if (feature){
       this.showPopup(feature);
-
     }
   },
   /**
@@ -329,11 +336,12 @@ nyc.FinderApp.prototype = {
  * @desc Object type to hold constructor options for {@link nyc.FinderApp}
  * @public
  * @typedef {Object}
- * @property {ol.Map} map
- * @property {nyc.ol.source.FilteringAndSorting} finderSource
- * @property {nyc.LocationMgr} locationMgr
- * @property {Array<nyc.Choice>} filterControls
- * @property {string} directionsUrl
+ * @property {ol.Map} map The map for the finder app
+ * @property {nyc.ol.source.FilteringAndSorting} finderSource The source of the finder facilities
+ * @property {nyc.LocationMgr} locationMgr The location manager
+ * @property {Array<nyc.Choice>=} filterControls Filter controls for filtering the facilities DATA
+ * @property {string=} directionsUrl The Google directions API URL with appropriate API key
+ * @property {number} [zoomLevel={nyc.ol.Locate.ZOOM_LEVEL}] The zoom level to zoom to when finding a facility
  */
 nyc.FinderApp.Options;
 
