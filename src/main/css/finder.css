@@ -91,11 +91,6 @@ li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
   float: left;
   margin: -3px 5px -10px 0;
 }
-.hours {
-  margin-top: 10px;
-  font-size: 14px !important;
-  font-weight: bold;
-}
 #facility-tab {
     background-color: #fff;
 }
