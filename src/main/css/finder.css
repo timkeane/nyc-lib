@@ -8,6 +8,7 @@ html, body, h1, #map {
 #map {
   top: 45px;
   right: 320px;
+  background-color: #E8E8E8;
 }
 .ui-mobile-viewport h1.banner {
   bottom: calc(100% - 45px);
