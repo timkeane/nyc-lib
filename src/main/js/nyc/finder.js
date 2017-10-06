@@ -262,7 +262,7 @@ nyc.FinderApp.prototype = {
     }
   },
   /**
-   * @dec Method to connected filter controls change event
+   * @desc Method to connected filter controls change event
 	 * @private
 	 * @method
    * @param {Array<nyc.Choice>} filterControls
@@ -339,9 +339,9 @@ nyc.FinderApp.prototype = {
  * @property {ol.Map} map The map for the finder app
  * @property {nyc.ol.source.FilteringAndSorting} finderSource The source of the finder facilities
  * @property {nyc.LocationMgr} locationMgr The location manager
- * @property {Array<nyc.Choice>=} filterControls Filter controls for filtering the facilities DATA
+ * @property {Array<nyc.Choice>=} filterControls Filter controls for filtering the facilities features
  * @property {string=} directionsUrl The Google directions API URL with appropriate API key
- * @property {number} [zoomLevel={nyc.ol.Locate.ZOOM_LEVEL}] The zoom level to zoom to when finding a facility
+ * @property {number} [zoomLevel={@link nyc.ol.Locate.ZOOM_LEVEL}] The zoom level to zoom to when finding a facility
  */
 nyc.FinderApp.Options;
 
