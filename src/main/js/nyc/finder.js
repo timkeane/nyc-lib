@@ -303,7 +303,7 @@ nyc.FinderApp.prototype = {
 		$.each(me.filterControls, function(_, control){
 			$.each(control.val(), function(__, choice){
 				var filter = namedFilters[choice.name] || [];
-				filter = filter.concat(('' + choice.value).split(','));
+				filter = filter.concat(('' + choice.value).split('|'));
 				namedFilters[choice.name] = filter;
 			});
 		});
