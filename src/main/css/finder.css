@@ -28,6 +28,7 @@ html, body, h1, #map {
 }
 #map-page {
 	position: fixed;
+	background-color: transparent;
 }
 #map-page .ui-content, #dir-page .ui-content {
 	overflow: hidden;
