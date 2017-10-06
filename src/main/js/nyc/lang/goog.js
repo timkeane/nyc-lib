@@ -1,33 +1,33 @@
 var nyc = nyc || {};
 nyc.lang = nyc.lang || {};
 
-/** 
- * @external google.translate.TranslateElement 
+/**
+ * @external google.translate.TranslateElement
  */
 
-/** 
+/**
  * @desc Class for language translation using the Google Translate Gadget
- * @public 
+ * @public
  * @class
  * @extends {nyc.lang.Translate}
  * @constructor
  * @param {nyc.lang.Goog.Options} options Constructor options
  */
 nyc.lang.Goog = function(options){
-	nyc.lang.Translate.call(this, options);	
+	nyc.lang.Translate.call(this, options);
 	$.getScript('https://translate.google.com/translate_a/element.js?cb=nyc.lang.translate.init');
 };
 
 nyc.lang.Goog.prototype = {
-	/** 
-	 * @private 
+	/**
+	 * @private
 	 * @member {google.translate.TranslateElement}
 	 */
 	goog: null,
-	/** 
+	/**
 	 * @desc Callback to set up Google Translate
 	 * @public
-	 * @method 
+	 * @method
 	 */
 	init: function(){
 		nyc.lang.goog = new google.translate.TranslateElement({
@@ -39,9 +39,9 @@ nyc.lang.Goog.prototype = {
 		nyc.lang.translate.hack();
 		nyc.lang.translate.trigger(nyc.lang.Translate.EventType.READY, true);
 	},
-	/** 
+	/**
 	 * @private
-	 * @method 
+	 * @method
 	 */
 	showOriginalText: function(){
 		var googBar = $('iframe.goog-te-banner-frame:first');
@@ -55,10 +55,10 @@ nyc.lang.Goog.prototype = {
 			}
 		});
 	},
-	/** 
+	/**
 	 * @desc Sets the chosen language and initiates Google Translation
 	 * @public
-	 * @method 
+	 * @method
 	 */
    translate: function(event){
 		var choices = $('iframe.goog-te-menu-frame:first').contents().find('.goog-te-menu2-item span.text');
@@ -72,7 +72,7 @@ nyc.lang.Goog.prototype = {
 						$(this).click();
 						return false;
 					}
-				});					
+				});
 			}
 			if (!this.isButton){
 				$('#lang-choice-button span').show();
@@ -85,9 +85,9 @@ nyc.lang.Goog.prototype = {
 			setTimeout(function(){me.translate(event);}, 200);
 		}
 	},
-	/** 
+	/**
 	 * @private
-	 * @method 
+	 * @method
 	 */
 	hack: function(){
 		/*
@@ -101,7 +101,12 @@ nyc.lang.Goog.prototype = {
 			if (!next.hasClass('lang-placeholder')){
 				$(this).after('<span class="lang-placeholder">' + $(this).attr('placeholder') + '</span>');
 			}else{
-				$(this).attr('placeholder', next.html().replace(/<font>/g, '').replace(/<\/font>/g, ''));
+				var fonts = next.find('font');
+				var text = next.html();
+				$.each(next.find('font'), function(){
+					text = $(this).html();
+				});
+				$(this).attr('placeholder', text);
 			}
 		});
 		/*
@@ -123,9 +128,9 @@ nyc.lang.Goog.prototype = {
 		$('#goog-gt-tt').remove();
 		setTimeout($.proxy(this.hack, this), 200);
 	},
-	/** 
-	 * @private 
-	 * @method 
+	/**
+	 * @private
+	 * @method
 	 * @return {string}
 	 */
 	getCookie: function(){
@@ -138,11 +143,11 @@ nyc.lang.Goog.prototype = {
 	        }
 	    }
 	},
-	/** 
+	/**
 	 * @desc Gets the google translate cookie value
 	 * @public
 	 * @override
-	 * @method 
+	 * @method
 	 * @return {string}
 	 */
 	getCookieValue: function(){
