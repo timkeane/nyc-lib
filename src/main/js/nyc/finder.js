@@ -81,7 +81,7 @@ nyc.FinderApp.prototype = {
   * @desc Method to handle {@link nyc.Locate} events
   * @public
   * @method
-  * @param {nyc.Locate.Result} location
+  * @param {nyc.Locate.Result} location The location
   */
   located: function(location){
     this.location = location;
@@ -91,7 +91,7 @@ nyc.FinderApp.prototype = {
    * @desc Method to zoom to facility location on map button click
    * @public
    * @method
-   * @param {JQuery.Event} event
+   * @param {JQuery.Event} event The button click event
    */
   zoomTo: function(event){
     var me = this, feature = $(event.target).data('feature');
@@ -100,7 +100,7 @@ nyc.FinderApp.prototype = {
       center: feature.getGeometry().getCoordinates()
     });
     me.map.once('moveend', function(){
-      me.showPopup(feature);
+      me.showPopup([feature]);
     });
     if ($('#panel').width() == $(window).width()){
       $('#map-tab-btn a').trigger('click');
@@ -110,7 +110,7 @@ nyc.FinderApp.prototype = {
    * @desc Method to get directions from user location to facility location on directions button click
    * @public
    * @method
-   * @param {JQuery.Event} event
+   * @param {JQuery.Event} event The button click event
    */
   directionsTo: function(event){
     var feature = $(event.target).data('feature'),
@@ -131,36 +131,54 @@ nyc.FinderApp.prototype = {
    * @desc Method to handle map click and show popup if appropriate
    * @public
    * @method
-   * @param {ol.MapBrowserEvent} event
+   * @param {ol.MapBrowserEvent} event The map click event
    */
   mapClick: function(event){
-    var feature;
-    this.map.forEachFeatureAtPixel(event.pixel, function(f){
-      if (typeof f.html == 'function' && f.html()){
-        feature = f;
+    var features = [];
+    this.map.forEachFeatureAtPixel(event.pixel, function(feature){
+      if (typeof feature.html == 'function' && feature.html()){
+        features.push(feature);
       }
     });
-    if (feature){
-      this.showPopup(feature);
+    if (features.length){
+      this.showPopup(features);
     }
   },
   /**
    * @desc Method to show popup on a facility feature
    * @public
    * @method
-   * @param {ol.MapBrowserEvent} event
+   * @param {Array<ol.Feature>} features The features to show in the popup
    */
-  showPopup: function(feature){
-      this.popup.show({
-        html: feature.html(),
-        coordinates: feature.getGeometry().getCoordinates()
+  showPopup: function(features){
+    var popup =this.popup, html = features[0].html();
+    if (features.length > 1){
+      var pager = $(nyc.FinderApp.PAGING_POPUP_HTML);
+      pager.find('.popup-page').html(features[0].html());
+      pager.find('.current').html(1);
+      pager.find('.total').html(features.length);
+      pager.find('button').click(function(event){
+        var next = $(event.target).data('next') - 0;
+        var current = pager.find('.current');
+        var idx = current.html() - 1 + next;
+        if (idx >= 0 && idx < features.length){
+          current.html(current.html() - 0 + next);
+          pager.find('.popup-page').html(features[idx].html()).trigger('create');
+          popup.pan();
+        }
       });
+      html = pager;
+    }
+    popup.show({
+      html: html,
+      coordinates: features[0].getGeometry().getCoordinates()
+    });
+
   },
   /**
    * @desc Method to list facilities
    * @public
    * @method
-   * @param {ol.MapBrowserEvent} event
    */
   listFacilities: function(){
     var features = this.finderSource.sort(this.location.coordinates);
@@ -173,7 +191,6 @@ nyc.FinderApp.prototype = {
    * @desc Method to page through facilities
    * @public
    * @method
-   * @param {ol.MapBrowserEvent} event
    */
   listNextPage: function(){
 		var container = $('#facility-list');
@@ -416,5 +433,20 @@ nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page">' +
       '<a class="toggle-map capitalize" data-role="button">Map</a>' +
       '<a class="ui-btn-active capitalize" data-role="button">Directions</a>' +
     '</div>' +
+  '</div>' +
+'</div>';
+
+/**
+ * @desc
+ * @public
+ * @const
+ * @type {string}
+ */
+nyc.FinderApp.PAGING_POPUP_HTML = '<div class="paging-popup">' +
+  '<div class="popup-page"></div>' +
+  '<div class="popup-pager">' +
+    '<button class="prev" data-role="button" data-icon="carat-l" data-iconpos="notext" data-next="-1">Previous</button>' +
+    '<span class="current"></span> of <span class="total"></span>' +
+    '<button class="next" data-role="button" data-icon="carat-r" data-iconpos="notext" data-next="1">Next</button>' +
   '</div>' +
 '</div>';

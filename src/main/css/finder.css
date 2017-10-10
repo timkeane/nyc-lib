@@ -189,6 +189,25 @@ a.popup-closer:hover,
   left: 3px;
   z-index: 2000;
 }
+div.popup-pager {
+	text-align: center;
+	padding: 20px 3px 0;
+}
+div.popup-pager button {
+	margin-top: -10px;
+}
+div.popup-pager button:after {
+  background-color: var(--theme-ctl-bg-color);
+}
+div.popup-pager button:hover:after {
+  background-color: var(--theme-ctl-bg-color-hover);
+}
+div.popup-pager .next {
+  float: right;
+}
+div.popup-pager .prev {
+  float: left;
+}
 @media only screen and (max-width : 495px), screen and (max-device-height: 350px) {
 	#map-page .ui-content {
     top: 87px;
