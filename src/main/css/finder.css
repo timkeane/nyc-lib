@@ -28,19 +28,19 @@ html, body, h1, #map {
   overflow: hidden;
 }
 #map-page {
-	position: fixed;
-	background-color: transparent;
+  position: fixed;
+  background-color: transparent;
 }
 #map-page .ui-content, #dir-page .ui-content {
-	overflow: hidden;
-	position: fixed;
-	top: 45px;
-	bottom: 0;
-	width: 100%;
+  overflow: hidden;
+  position: fixed;
+  top: 45px;
+  bottom: 0;
+  width: 100%;
 }
 #panel, #dir-panel {
   position: fixed;
-  width: 320px;
+  width: 400px;
   top: 45px;
   right: 0;
   bottom: 0;
@@ -84,6 +84,9 @@ li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
 #facility-list div.info {
   padding: 10px 5px 5px;
 }
+#facility-tab {
+    background-color: #fff;
+}
 .name {
   font-weight: bold;
 }
@@ -93,48 +96,41 @@ li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
   float: left;
   margin: -3px 5px -10px 0;
 }
-#facility-tab {
-    background-color: #fff;
-}
 .info .ui-btn {
-  margin: 3px;
-}
-.info .ui-btn {
+  margin: 0 3px;
+  padding-left: 30px;
+  padding-right: 30px;
   background-repeat: no-repeat;
+  background-position: 5px 8px;
+  background-size: 22px;
+  display: inline-block;
+  width: calc(50% - 68px);
+}
+.info .detail {
+  margin-top: 0;
+}
+.info .detail .ui-btn, .popup .directions.ui-btn {
+  display: block;
+  width: auto;
+  text-align: center;
+}
+.popup .directions.ui-btn {
+  margin-bottom: 5px;
 }
 .info .phone.ui-btn {
   background-image: var(--theme-finder-phone-bg-img);
-  background-size: 22px;
-  background-position: 15px 8px;
+  padding-right: 0;
+  width: calc(50% - 38px);
 }
 .info .web.ui-btn {
   background-image: var(--theme-finder-web-bg-img);
-  background-size: 30px;
-  background-position: 10px 4px;
-  padding: 8px 0 8px 45px;
-  text-overflow: ellipsis;
+  background-size: 32px;
+  background-position-y: 3px;
 }
-.info .map.ui-btn, .info .directions.ui-btn {
-	padding-left: 20px;
-  background-size: 22px;
-}
-#facility-list .info .map.ui-btn, #facility-list .info .directions.ui-btn {
-	margin-top: 0;
-	display: inline-block;
-  width: calc(50% - 35px);
-}
-#facility-list .info .map.ui-btn {
-	margin-right: 0;
-  background-position: 15px 8px;
-  background-image: var(--theme-finder-map-bg-img);
-}
-#facility-list .info .directions.ui-btn {
-	margin-left: 0;
-	float: right;
+.info .map.ui-btn {
+	background-image: var(--theme-finder-map-bg-img);
 }
 .info .directions.ui-btn {
-	background-position: 10px 8px;
-	padding-left: 28px;
 	background-image: var(--theme-finder-direct-bg-img);
 }
 .popup .info .map.ui-btn {
@@ -209,29 +205,36 @@ div.popup-pager .prev {
   float: left;
 }
 @media only screen and (max-width : 495px), screen and (max-device-height: 350px) {
-	#map-page .ui-content {
+  #map-page .ui-content {
     top: 87px;
-		z-index: 1000;
+    z-index: 1000;
     overflow: visible;
-	}
+  }
   #map, #panel, #dir-panel {
-		width: 100%;
-	}
-	#tabs .ui-navbar li {
-		width: 33.33%;
-	}
-	li#map-tab-btn {
-		display: block;
-	}
-	.finder-no-filter #tabs .ui-navbar li#map-tab-btn,
-	.finder-no-filter #tabs .ui-navbar li#facility-tab-btn {
-        display: block;
-        width: 50%;
-    }
-    .finder-no-filter #tabs div.ui-tabs-panel {
-      height: calc(100% - 45px);
-    }
-	#map {
-		top: 87px;
+    width: 100%;
+  }
+  #tabs .ui-navbar li {
+    width: 33.33%;
+  }
+  li#map-tab-btn {
+    display: block;
+  }
+  .finder-no-filter #tabs .ui-navbar li#map-tab-btn,
+  .finder-no-filter #tabs .ui-navbar li#facility-tab-btn {
+    display: block;
+    width: 50%;
+  }
+  .finder-no-filter #tabs div.ui-tabs-panel {
+    height: calc(100% - 45px);
+  }
+  #map {
+    top: 87px;
+  }
+}
+@media only screen and (max-width : 320px) {
+	.popup .phone.ui-btn, .popup .web.ui-btn {
+    background-image: none;
+    padding: 8px;
+    width: calc(50% - 24px);
 	}
 }

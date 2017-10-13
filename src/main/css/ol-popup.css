@@ -1,5 +1,5 @@
 div.popup {
-	max-width: 300px;
+	max-width: 350px;
 	background-color: var(--theme-pop-bg-color);
 	border-radius: var(--theme-border-radius);
 	border: var(--theme-pop-border);
@@ -44,7 +44,7 @@ div.popup {
 }
 .popup-content {
 	margin: 5px 25px 10px 10px;
-	width: 265px;
+	width: 320px;
 }
 a.popup-closer, a.popup-closer:visited {
 	position: absolute;
@@ -82,5 +82,13 @@ a.popup-closer:hover {
 	}
 	.popup-content {
 		max-height: 280px;
+	}
+}
+@media only screen and (max-width : 320px) {
+	.popup {
+		max-width: 300px;
+	}
+	.popup-content {
+		max-width: 265px;
 	}
 }
