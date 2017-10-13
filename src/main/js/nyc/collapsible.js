@@ -51,6 +51,7 @@ nyc.inherits(nyc.Collapsible, nyc.EventHandling);
  * @typedef {Object}
  * @property {Element|JQuery|string} target The target DOM node for creating the collapsible control
  * @property {string} title The title to display
+ * @property {Element|JQuery|string=} content Content for the collapsible control
  * @property {boolean} [expanded=false] The intial state of the collapsible control
  */
 nyc.Collapsible.Options;
