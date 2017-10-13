@@ -51,13 +51,16 @@ nyc.ol.source.Decorating = function(options, decorationMixins, autoLoad){
 	ol.source.Vector.call(this, options);
 	this.on('addfeature', function(e){
 		var feature = e.feature;
-		$.each(decorationMixins, function(_, mixin){
-			for (var memb in mixin){
-				feature[memb] = mixin[memb];
+		if (!feature._decorated){
+			$.each(decorationMixins, function(_, mixin){
+				for (var memb in mixin){
+					feature[memb] = mixin[memb];
+				}
+			});
+			if (feature[nyc.ol.source.Decorating.AUTO_EXEC]){
+				feature[nyc.ol.source.Decorating.AUTO_EXEC]();
 			}
-		});
-		if (feature[nyc.ol.source.Decorating.AUTO_EXEC]){
-			feature[nyc.ol.source.Decorating.AUTO_EXEC]();
+			feature._decorated = true;
 		}
 	});
 
