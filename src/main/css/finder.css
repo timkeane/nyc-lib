@@ -46,7 +46,7 @@ html, body, h1, #map {
   bottom: 0;
   z-index: 1000;
   padding: 0;
-  border-left: 1px solid rgba(51,136,204,.2);
+  border-left: 1px solid var(--theme-pop-border-color);
 }
 #panel-content {
   height: 100%;
@@ -115,13 +115,13 @@ li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
   text-align: center;
 }
 .detail .ui-collapsible-content {
-  background-color: rgba(0,0,0,.1);;
+  background-color: var(--theme-pop-border-color);
 }
 .even-row .detail .ui-collapsible-content {
   background-color: #fff;
 }
 .detail .ui-btn:after {
-  background-color: rgba(0,0,0,.5);
+  background-color: var(--theme-ctl-bg-color);
   left: 5px;
 }
 .detail .ui-collapsible-content {
@@ -151,7 +151,7 @@ li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
   display: none;
 }
 #facility-list .info.even-row {
-  background-color: rgba(0,0,0,.1);
+  background-color: var(--theme-pop-border-color);
 }
 #btn-more {
   margin: 0 8px;
