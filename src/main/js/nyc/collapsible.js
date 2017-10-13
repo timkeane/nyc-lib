@@ -1,7 +1,7 @@
 var nyc = nyc || {};
 
 /**
- * @desc Abstract collapsible control
+ * @desc Collapsible control
  * @public
  * @class
  * @extends {nyc.EventHandling}
@@ -11,20 +11,21 @@ var nyc = nyc || {};
 nyc.Collapsible = function(options){
 	var heading = $('<h3></h3>');
 
-	this.container = $(options.target);
+	this.container = $(options.target).append(options.content);
 	this.currentVal = $('<span class="current-value"></span>');
-	
+
 	heading.html(options.title || '')
 		.append(this.currentVal);
-	
+
+
 	$(options.target).prepend(heading)
 		.collapsible()
 		.collapsible('option', {
-			collapsed: !options.expanded, 
-			collapsedIcon: 'carat-d', 
+			collapsed: !options.expanded,
+			collapsedIcon: 'carat-d',
 			expandedIcon: 'carat-u'
 		}).addClass('ctl-collapse');
-	
+
 };
 
 nyc.Collapsible.prototype = {
