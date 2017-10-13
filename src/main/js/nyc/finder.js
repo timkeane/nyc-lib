@@ -16,6 +16,7 @@ nyc.FinderApp = function(options){
   this.view = this.map.getView();
   this.finderSource = options.finderSource;
   this.locationMgr = options.locationMgr;
+  this.mapClickOptions = options.mapClickOptions;
   this.popup = new nyc.ol.Popup(this.map);
   this.pager = new nyc.ListPager();
   this.location = {};
@@ -139,7 +140,7 @@ nyc.FinderApp.prototype = {
       if (typeof feature.html == 'function' && feature.html()){
         features.push(feature);
       }
-    });
+    }, this.mapClickOptions);
     if (features.length){
       this.showPopup(features);
     }
@@ -359,6 +360,7 @@ nyc.FinderApp.prototype = {
  * @property {Array<nyc.Choice>=} filterControls Filter controls for filtering the facilities features
  * @property {string=} directionsUrl The Google directions API URL with appropriate API key
  * @property {number} [zoomLevel={@link nyc.ol.Locate.ZOOM_LEVEL}] The zoom level to zoom to when finding a facility
+ * @property {Object=} mapClickOptions Options to modify map click behavior {@see http://openlayers.org/en/latest/apidoc/ol.Map.html#forEachFeatureAtPixel}
  */
 nyc.FinderApp.Options;
 
