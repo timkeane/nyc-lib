@@ -114,6 +114,20 @@ li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
   width: auto;
   text-align: center;
 }
+.detail .ui-collapsible-content {
+  background-color: rgba(0,0,0,.1);;
+}
+.even-row .detail .ui-collapsible-content {
+  background-color: #fff;
+}
+.detail .ui-btn:after {
+  background-color: rgba(0,0,0,.5);
+  left: 5px;
+}
+.detail .ui-collapsible-content {
+  padding: 10px;
+  margin: 0 3px;
+}
 .popup .directions.ui-btn {
   margin-bottom: 5px;
 }
