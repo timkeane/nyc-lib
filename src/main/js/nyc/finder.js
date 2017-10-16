@@ -31,6 +31,7 @@ nyc.FinderApp = function(options){
   $(window).resize($.proxy(this.resize, this));
   this.fullscreen = $(nyc.FinderApp.FULL_SCREEN_INFO_HTML);
   $('#map-page').append(this.fullscreen);
+  $('#btn-more').click($.proxy(this.listNextPage, this));
   this.ready();
 };
 
