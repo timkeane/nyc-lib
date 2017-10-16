@@ -7,7 +7,7 @@ html, body, h1, #map {
 }
 #map {
   top: 45px;
-  right: 320px;
+  right: 400px;
   background-color: #E8E8E8;
 }
 .ui-mobile-viewport h1.banner {
@@ -218,7 +218,7 @@ div.popup-pager .next {
 div.popup-pager .prev {
   float: left;
 }
-@media only screen and (max-width : 495px), screen and (max-device-height: 350px) {
+@media only screen and (max-width : 750px), screen and (max-device-height: 350px) {
   #map-page .ui-content {
     top: 87px;
     z-index: 1000;

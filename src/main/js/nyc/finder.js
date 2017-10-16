@@ -89,6 +89,17 @@ nyc.FinderApp.prototype = {
     this.listFacilities();
   },
   /**
+  * @desc Method to handle expanded facility detail
+  * @public
+  * @method
+  * @param {JQuery.Event} event The expand event
+  */
+  detail: function(event){
+    if ($.contains(this.popup.getElement(), event.target)){
+      this.popup.pan();
+    }
+  },
+  /**
    * @desc Method to zoom to facility location on map button click
    * @public
    * @method

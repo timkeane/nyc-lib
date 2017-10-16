@@ -23,7 +23,8 @@ nyc.Collapsible = function(options){
 		.collapsible('option', {
 			collapsed: !options.expanded,
 			collapsedIcon: 'carat-d',
-			expandedIcon: 'carat-u'
+			expandedIcon: 'carat-u',
+			expand: $.proxy(this.expanded, this)
 		}).addClass('ctl-collapse');
 
 };
@@ -40,7 +41,15 @@ nyc.Collapsible.prototype = {
 	 * @public
 	 * @member {JQuery}
 	 */
-	currentVal: null
+	currentVal: null,
+	/**
+	 * @desc Proxy the expand event
+	 * @public
+	 * @member {JQuery.Event}
+	 */
+	expanded: function(event){
+		this.trigger('expand', event);
+	}
 };
 
 nyc.inherits(nyc.Collapsible, nyc.EventHandling);
