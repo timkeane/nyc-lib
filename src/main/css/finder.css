@@ -1,4 +1,4 @@
-html, body, h1, #map {
+html, body, h1, #map, .inf-full-screen {
   position: fixed;
   top: 0;
   left: 0;
@@ -9,6 +9,32 @@ html, body, h1, #map {
   top: 45px;
   right: 400px;
   background-color: #E8E8E8;
+}
+.inf-full-screen {
+  top: 45px;
+  right: 0;
+  background-color: #fff;
+  display: none;
+  padding: 10px;
+  overflow: auto;
+  z-index: 1000;
+}
+.inf-full-screen .popup-content {
+  width: auto;
+}
+.pager-btns {
+  display: block;
+  z-index: 1000;
+  position: fixed;
+  bottom: 0;
+  width: calc(100% - 24px);
+  background-color: #fff;
+  padding: 15px 12px 0 12px;
+}
+.popup .pager-btns {
+  position: relative;
+  padding: 7px 3px 0;
+  width: calc(100% - 6px);
 }
 .ui-mobile-viewport h1.banner {
   bottom: calc(100% - 45px);
@@ -199,23 +225,22 @@ a.popup-closer:hover,
   left: 3px;
   z-index: 2000;
 }
-div.popup-pager {
+div.pager-btns {
 	text-align: center;
-	padding: 20px 3px 0;
 }
-div.popup-pager button {
+div.pager-btns button {
 	margin-top: -10px;
 }
-div.popup-pager button:after {
+div.pager-btns button:after {
   background-color: var(--theme-ctl-bg-color);
 }
-div.popup-pager button:hover:after {
+div.pager-btns button:hover:after {
   background-color: var(--theme-ctl-bg-color-hover);
 }
-div.popup-pager .next {
+div.pager-btns .next {
   float: right;
 }
-div.popup-pager .prev {
+div.pager-btns .prev {
   float: left;
 }
 @media only screen and (max-width : 750px), screen and (max-device-height: 350px) {

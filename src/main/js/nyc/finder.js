@@ -29,6 +29,8 @@ nyc.FinderApp = function(options){
   $('#tabs li a').click($.proxy(this.tabs, this));
   $('body').pagecontainer({change: $.proxy(this.hideBannerText, this)});
   $(window).resize($.proxy(this.resize, this));
+  this.fullscreen = $(nyc.FinderApp.FULL_SCREEN_INFO_HTML);
+  $('#map-page').append(this.fullscreen);
   this.ready();
 };
 
@@ -98,6 +100,7 @@ nyc.FinderApp.prototype = {
     if ($.contains(this.popup.getElement(), event.target)){
       this.popup.pan();
     }
+    this.showFullScreenDetail();
   },
   /**
    * @desc Method to zoom to facility location on map button click
@@ -107,6 +110,7 @@ nyc.FinderApp.prototype = {
    */
   zoomTo: function(event){
     var me = this, feature = $(event.target).data('feature');
+    me.hideFullScreenDetail();
     me.view.animate({
       zoom: me.zoomLevel,
       center: feature.getGeometry().getCoordinates()
@@ -114,7 +118,7 @@ nyc.FinderApp.prototype = {
     me.map.once('moveend', function(){
       me.showPopup([feature]);
     });
-    if ($('#panel').width() == $(window).width()){
+    if (Math.abs($('#panel').width() - $(window).width()) < 2){
       $('#map-tab-btn a').trigger('click');
     }
   },
@@ -129,6 +133,7 @@ nyc.FinderApp.prototype = {
       to = feature.getAddress(),
       name = feature.getName(),
       from = this.origin();
+    me.hideFullScreenDetail();
     if (this.lastDir != from + '|' + to){
       this.lastDir = from + '|' + to;
       this.directions.directions({
@@ -163,26 +168,26 @@ nyc.FinderApp.prototype = {
    * @param {Array<ol.Feature>} features The features to show in the popup
    */
   showPopup: function(features){
-    var popup =this.popup, html = features[0].html();
-    if (features.length > 1){
-      var pager = $(nyc.FinderApp.PAGING_POPUP_HTML);
-      pager.find('.popup-page').html(features[0].html());
+      var popup = this.popup,
+        pager = $(nyc.FinderApp.INFO_PAGER_HTML),
+        current = pager.find('.current'),
+        page = pager.find('.info-page');
+      popup.features = features;
+      pager.find('.info-page').html(features[0].html());
       pager.find('.current').html(1);
       pager.find('.total').html(features.length);
+      pager.find('.pager-btns')[features.length > 1 ? 'show' : 'hide']();
       pager.find('button').click(function(event){
         var next = $(event.target).data('next') - 0;
-        var current = pager.find('.current');
         var idx = current.html() - 1 + next;
         if (idx >= 0 && idx < features.length){
           current.html(current.html() - 0 + next);
-          pager.find('.popup-page').html(features[idx].html()).trigger('create');
+          page.html(features[idx].html()).trigger('create');
           popup.pan();
         }
       });
-      html = pager;
-    }
     popup.show({
-      html: html,
+      html: pager,
       coordinates: features[0].getGeometry().getCoordinates()
     });
 
@@ -358,7 +363,38 @@ nyc.FinderApp.prototype = {
      }else{
        setTimeout($.proxy(this.ready, this), 200);
      }
-   }
+   },
+   /**
+    * @desc Hide full screen detail if open
+    * @private
+    * @method
+    */
+   hideFullScreenDetail: function(){
+     if ($('.inf-full-screen').is(':visible')){
+       $('.inf-full-screen').fadeOut();
+     }
+   },
+   /**
+    * @desc Show full screen detail if popup is bigger than map
+ 	  * @private
+ 	  * @method
+ 	  */
+ 	showFullScreenDetail: function(){
+    var me = this, pop = $(me.popup.getElement());
+    if (pop.height() > $(me.map.getTarget()).height()){
+      me.popup.hide();
+      me.fullscreen.find('.popup-closer').one('click', function(){
+        $('#map-page').find('.pager-btns').remove();
+        me.showPopup(me.popup.features);
+        me.fullscreen.fadeOut();
+      });
+      $('#map-page').append(pop.find('.pager-btns'));
+   		me.fullscreen.find('.content')
+        .html(pop.find('.info-pager'))
+        .trigger('create');
+      me.fullscreen.fadeIn();
+    }
+ 	}
 };
 
 /**
@@ -455,11 +491,22 @@ nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page">' +
  * @const
  * @type {string}
  */
-nyc.FinderApp.PAGING_POPUP_HTML = '<div class="paging-popup">' +
-  '<div class="popup-page"></div>' +
-  '<div class="popup-pager">' +
+nyc.FinderApp.INFO_PAGER_HTML = '<div class="info-pager">' +
+  '<div class="info-page"></div>' +
+  '<div class="pager-btns">' +
     '<button class="prev" data-role="button" data-icon="carat-l" data-iconpos="notext" data-next="-1">Previous</button>' +
     '<span class="current"></span> of <span class="total"></span>' +
     '<button class="next" data-role="button" data-icon="carat-r" data-iconpos="notext" data-next="1">Next</button>' +
   '</div>' +
+'</div>';
+
+/**
+ * @desc
+ * @public
+ * @const
+ * @type {string}
+ */
+nyc.FinderApp.FULL_SCREEN_INFO_HTML = '<div class="inf-full-screen">' +
+  '<a class="popup-closer"><span class="noshow"></span></a>' +
+  '<div class="content"></div>' +
 '</div>';
