@@ -96,7 +96,7 @@ nyc.FinderApp.prototype = {
   * @method
   * @param {JQuery.Event} event The expand event
   */
-  detail: function(event){
+  detailExpanded: function(event){
     if ($.contains(this.popup.getElement(), event.target)){
       this.popup.pan();
     }
