@@ -33,7 +33,7 @@ html, body, h1, #map, .inf-full-screen {
 }
 .popup .pager-btns {
   position: relative;
-  padding: 7px 3px 0;
+  padding: 10px 3px 0;
   width: calc(100% - 6px);
 }
 .ui-mobile-viewport h1.banner {

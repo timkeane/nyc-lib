@@ -134,7 +134,7 @@ nyc.FinderApp.prototype = {
       to = feature.getAddress(),
       name = feature.getName(),
       from = this.origin();
-    me.hideFullScreenDetail();
+    this.hideFullScreenDetail();
     if (this.lastDir != from + '|' + to){
       this.lastDir = from + '|' + to;
       this.directions.directions({
