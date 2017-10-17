@@ -67,7 +67,7 @@ QUnit.module('nyc.FinderApp', {
 });
 
 QUnit.test('constructor', function(assert){
-  assert.expect(25);
+  assert.expect(27);
 
   this.TEST_SRC.set('featuresloaded', true);
 
@@ -80,7 +80,8 @@ QUnit.test('constructor', function(assert){
   var ready = nyc.FinderApp.prototype.ready;
   var tabs = nyc.FinderApp.prototype.tabs;
   var located = nyc.FinderApp.prototype.located;
-  var resize = nyc.FinderApp.prototype.resize;
+	var resize = nyc.FinderApp.prototype.resize;
+	var listNextPage = nyc.FinderApp.prototype.listNextPage;
   var share = nyc.Share;
   nyc.FinderApp.prototype.connectFilterControls = function(ctls){
     assert.ok(ctls === filterControls);
@@ -104,6 +105,9 @@ QUnit.test('constructor', function(assert){
     locatedCalls.push(location);
   };
   nyc.FinderApp.prototype.resize = function(){
+    assert.ok(true);
+  };
+	nyc.FinderApp.prototype.listNextPage = function(){
     assert.ok(true);
   };
   nyc.Share = function(target){
@@ -148,7 +152,10 @@ QUnit.test('constructor', function(assert){
   assert.ok(tabsCalls[1] === $('#facility-tab-btn a').get(0));
   assert.ok(tabsCalls[2] === $('#filter-tab-btn a').get(0));
 
+	assert.ok($.contains($('#map-page').get(0), finder.fullscreen.get(0)));
+
   $(window).trigger('resize');
+	$('#btn-more').trigger('click');
 
   nyc.FinderApp.prototype.connectFilterControls = connectFilterControls;
   nyc.FinderApp.prototype.initDirections = initDirections;
@@ -156,7 +163,8 @@ QUnit.test('constructor', function(assert){
   nyc.FinderApp.prototype.ready = ready;
   nyc.FinderApp.prototype.tabs = tabs;
   nyc.FinderApp.prototype.located = located;
-  nyc.FinderApp.prototype.resize = resize;
+	nyc.FinderApp.prototype.resize = resize;
+	nyc.FinderApp.prototype.listNextPage = listNextPage;
   nyc.Share = share;
 });
 
@@ -183,8 +191,8 @@ QUnit.test('located', function(assert){
   assert.equal(finder.location, 'mock-geolocation');
 });
 
-QUnit.test('zoomTo', function(assert){
-  assert.expect(3);
+QUnit.test('zoomTo (default zoom)', function(assert){
+  assert.expect(4);
 
   var done = assert.async();
 
@@ -203,13 +211,55 @@ QUnit.test('zoomTo', function(assert){
     directionsUrl: 'directions-url'
   });
 
+	finder.hideFullScreenDetail = function(){
+		assert.ok(true);
+	};
+
   view.animate = function(options){
-    assert.equal(options.zoom, 15);
+    assert.equal(options.zoom, nyc.ol.Locate.ZOOM_LEVEL);
     assert.deepEqual(options.center, [1, 1]);
     map.dispatchEvent({type: 'moveend'});
   };
-  finder.showPopup = function(feat){
-    assert.ok(feat === feature);
+	finder.showPopup = function(features){
+    assert.ok(features[0] === feature);
+    done();
+  };
+
+  finder.zoomTo({target: btn});
+});
+
+QUnit.test('zoomTo (custom zoom)', function(assert){
+  assert.expect(4);
+
+  var done = assert.async();
+
+  var map = this.TEST_MAP;
+  var view = map.getView();
+  var feature = this.TEST_SRC.getFeatures()[1];
+  var btn = $('<a></a>').data('feature', feature);
+
+  this.TEST_SRC.set('featuresloaded', true);
+
+  var finder = new nyc.FinderApp({
+    map: map,
+    finderSource: this.TEST_SRC,
+    locationMgr: this.TEST_LOC_MGR,
+    filterControls: this.TEST_FILTER_CTLS,
+    directionsUrl: 'directions-url',
+		zoomLevel: 11
+  });
+
+	finder.hideFullScreenDetail = function(){
+		assert.ok(true);
+	};
+
+  view.animate = function(options){
+    assert.equal(options.zoom, 11);
+    assert.deepEqual(options.center, [1, 1]);
+    map.dispatchEvent({type: 'moveend'});
+  };
+  finder.showPopup = function(features){
+    assert.ok(features[0] === feature);
     done();
   };
 
@@ -265,7 +315,7 @@ QUnit.test('directionsTo', function(assert){
 });
 
 QUnit.test('mapClick', function(assert){
-  assert.expect(3);
+  assert.expect(5);
 
   this.TEST_SRC.set('featuresloaded', true);
 
@@ -277,21 +327,30 @@ QUnit.test('mapClick', function(assert){
     directionsUrl: 'directions-url'
   });
 
-  var mockPixel, mockFeature;
+  var mockPixel, mockFeatures;
   this.TEST_MAP.forEachFeatureAtPixel = function(pix, fn){
     assert.equal(pix, mockPixel);
-    fn(mockFeature);
+		$.each(mockFeatures, function(){
+			fn(this);
+		});
   };
 
   mockPixel = 'mock-pixel-0';
-  mockFeature = 'mock-feature';
-  finder.showPopup = function(feature){
-    assert.equal(feature, 'mock-feature');
+  mockFeatures = [
+		{id: 0, html: function(){return 'html-0';}},
+		{id: 1},
+		{id: 2, html: function(){return 'html-2';}},
+		{id: 3, html: function(){}}
+	];
+  finder.showPopup = function(features){
+		assert.equal(features.length, 2);
+		assert.equal(features[0], mockFeatures[0]);
+    assert.equal(features[1], mockFeatures[2]);
   };
   this.TEST_MAP.dispatchEvent({type: 'click', pixel: mockPixel});
 
   mockPixel = 'mock-pixel-1';
-  mockFeature = undefined;
+  mockFeatures = undefined;
   finder.showPopup = function(feature){
     assert.ok(false);
   };
@@ -299,7 +358,7 @@ QUnit.test('mapClick', function(assert){
 });
 
 QUnit.test('showPopup', function(assert){
-  assert.expect(4);
+  assert.expect(24);
 
   this.TEST_SRC.set('featuresloaded', true);
 
@@ -311,17 +370,41 @@ QUnit.test('showPopup', function(assert){
     directionsUrl: 'directions-url'
   });
 
-  var feature;
+	finder.popup.pan = function(){
+		assert.ok(true);
+	};
+
+  var features;
   finder.popup.show = function(options){
-    assert.equal(options.html.html(), feature.html().html());
-    assert.ok(options.coordinates, feature.getGeometry().getCoordinates());
+		var pager = options.html;
+		assert.ok(this.features === features);
+		assert.equal(pager.find('.info-page').children().length, 1);
+		assert.equal(pager.find('.info-page').children().first().html(), features[0].html().html());
+		assert.equal(pager.find('.current').html(), '1');
+		assert.equal(pager.find('.total').html(), features.length);
+		assert.ok(options.coordinates, features[0].getGeometry().getCoordinates());
+		if (features.length > 1){
+			assert.equal(pager.find('.pager-btns').css('display'), 'block');
+			$(pager.find('button').get(1)).trigger('click');
+			assert.equal(pager.find('.info-page').children().length, 1);
+			assert.equal(pager.find('.info-page').children().first().html(), features[1].html().html());
+			assert.equal(pager.find('.current').html(), '2');
+			assert.equal(pager.find('.total').html(), features.length);
+			$(pager.find('button').get(0)).trigger('click');
+			assert.equal(pager.find('.info-page').children().length, 1);
+			assert.equal(pager.find('.info-page').children().first().html(), features[0].html().html());
+			assert.equal(pager.find('.current').html(), '1');
+			assert.equal(pager.find('.total').html(), features.length);
+		}else{
+			assert.equal(pager.find('.pager-btns').css('display'), 'none');
+		}
   };
 
-  feature = this.TEST_SRC.getFeatures()[0];
-  finder.showPopup(feature);
+  features = [this.TEST_SRC.getFeatures()[0], this.TEST_SRC.getFeatures()[2]];
+  finder.showPopup(features);
 
-  feature = this.TEST_SRC.getFeatures()[3];
-  finder.showPopup(feature);
+  features = [this.TEST_SRC.getFeatures()[3]];
+  finder.showPopup(features);
 });
 
 QUnit.test('listFacilities', function(assert){
@@ -760,4 +843,120 @@ QUnit.test('ready (called from constructor)', function(assert){
 		nyc.FinderApp.prototype.listFacilities = listFacilities;
 		done();
 	}, 500);
+});
+
+QUnit.test('hideFullScreenDetail', function(assert){
+  assert.expect(1);
+
+	var done = assert.async();
+
+  var finder = new nyc.FinderApp({
+    map: this.TEST_MAP,
+    finderSource: this.TEST_SRC,
+    locationMgr: this.TEST_LOC_MGR,
+    filterControls: this.TEST_FILTER_CTLS,
+    directionsUrl: 'directions-url'
+	});
+
+	finder.fullscreen.show();
+
+	finder.hideFullScreenDetail();
+
+	setTimeout(function(){
+		assert.notOk(finder.fullscreen.is(':visible'));
+		done();
+	}, 600);
+});
+
+QUnit.test('showFullScreenDetail', function(assert){
+  assert.expect(7);
+
+	var done = assert.async();
+
+  var finder = new nyc.FinderApp({
+    map: this.TEST_MAP,
+    finderSource: this.TEST_SRC,
+    locationMgr: this.TEST_LOC_MGR,
+    filterControls: this.TEST_FILTER_CTLS,
+    directionsUrl: 'directions-url'
+	});
+
+	features = [this.TEST_SRC.getFeatures()[0], this.TEST_SRC.getFeatures()[2]];
+  finder.popup.pan = function(){};
+	finder.showPopup(features);
+	var pager = $(finder.popup.getElement()).find('.info-pager');
+	var pageBtns = pager.find('.pager-btns');
+
+	finder.showPopup = function(feats){
+		assert.ok(feats === features);
+	};
+
+	finder.showFullScreenDetail();
+
+	setTimeout(function(){
+		assert.ok(finder.fullscreen.is(':visible'));
+		assert.notOk($(finder.popup.getElement()).is(':visible'));
+		assert.equal(finder.fullscreen.find('.content').children().length, 1);
+		assert.ok(finder.fullscreen.find('.content').children().first().get(0) === pager.get(0));
+		assert.ok($('#map-page').children().last().get(0) === pageBtns.get(0));
+		finder.fullscreen.find('.popup-closer').trigger('click');
+		setTimeout(function(){
+			assert.notOk(finder.fullscreen.is(':visible'));
+			done();
+		}, 600);
+	}, 600);
+});
+
+QUnit.test('detailExpanded', function(assert){
+  assert.expect(2);
+
+  var finder = new nyc.FinderApp({
+    map: this.TEST_MAP,
+    finderSource: this.TEST_SRC,
+    locationMgr: this.TEST_LOC_MGR,
+    filterControls: this.TEST_FILTER_CTLS,
+    directionsUrl: 'directions-url'
+	});
+
+	finder.showFullScreenDetail = function(){
+			assert.ok(true);
+	};
+
+	features = [this.TEST_SRC.getFeatures()[0]];
+  finder.popup.pan = function(){};
+	finder.showPopup(features);
+
+	finder.showFullScreenDetail = function(){
+			assert.ok(true);
+	};
+	finder.popup.pan = function(){
+		assert.ok(false);
+	};
+	$(finder.popup.getElement()).height(2 * $(this.TEST_MAP.getTarget()).height());
+	finder.detailExpanded({target: $(finder.popup.getElement()).children().first().get(0)});
+
+	finder.showFullScreenDetail = function(){
+			assert.ok(false);
+	};
+	finder.popup.pan = function(){
+		assert.ok(false);
+	};
+	finder.detailExpanded({target: $('body').children().first().get(0)});
+
+	finder.showFullScreenDetail = function(){
+			assert.ok(false);
+	};
+	finder.popup.pan = function(){
+		assert.ok(true);
+	};
+	$(finder.popup.getElement()).height(.5 * $(this.TEST_MAP.getTarget()).height());
+	finder.detailExpanded({target: $(finder.popup.getElement()).children().first().get(0)});
+
+	finder.showFullScreenDetail = function(){
+			assert.ok(false);
+	};
+	finder.popup.pan = function(){
+		assert.ok(false);
+	};
+	finder.detailExpanded({target: $('body').children().first().get(0)});
 });

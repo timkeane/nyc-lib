@@ -98,10 +98,14 @@ nyc.FinderApp.prototype = {
   * @param {JQuery.Event} event The expand event
   */
   detailExpanded: function(event){
-    if ($.contains(this.popup.getElement(), event.target)){
-      this.popup.pan();
+    var pop = this.popup.getElement();
+    if ($.contains(pop, event.target)){
+      if ($(pop).height() > $(this.map.getTarget()).height()){
+        this.showFullScreenDetail();
+      }else{
+        this.popup.pan();
+      }
     }
-    this.showFullScreenDetail();
   },
   /**
    * @desc Method to zoom to facility location on map button click
@@ -174,8 +178,8 @@ nyc.FinderApp.prototype = {
         current = pager.find('.current'),
         page = pager.find('.info-page');
       popup.features = features;
-      pager.find('.info-page').html(features[0].html());
-      pager.find('.current').html(1);
+      page.html(features[0].html());
+      current.html(1);
       pager.find('.total').html(features.length);
       pager.find('.pager-btns')[features.length > 1 ? 'show' : 'hide']();
       pager.find('button').click(function(event){
@@ -191,7 +195,6 @@ nyc.FinderApp.prototype = {
       html: pager,
       coordinates: features[0].getGeometry().getCoordinates()
     });
-
   },
   /**
    * @desc Method to list facilities
@@ -381,21 +384,22 @@ nyc.FinderApp.prototype = {
  	  * @method
  	  */
  	showFullScreenDetail: function(){
-    var me = this, pop = $(me.popup.getElement());
-    if (pop.height() > $(me.map.getTarget()).height()){
-      me.popup.hide();
-      me.fullscreen.find('.popup-closer').one('click', function(){
-        $('#map-page').find('.pager-btns').remove();
-        me.showPopup(me.popup.features);
-        me.fullscreen.fadeOut();
-      });
-      $('#map-page').append(pop.find('.pager-btns'));
-   		me.fullscreen.find('.content')
-        .html(pop.find('.info-pager'))
-        .trigger('create');
-      me.fullscreen.fadeIn();
-    }
- 	}
+    var me = this,
+      popup = me.popup,
+      pop = $(popup.getElement()),
+      fullscreen = me.fullscreen,
+      content = fullscreen.find('.content');
+    content.empty();
+    content.append(pop.find('.info-pager'));
+    $('#map-page').append(content.find('.pager-btns'));
+    popup.hide();
+    fullscreen.fadeIn();
+    fullscreen.find('.popup-closer').one('click', function(){
+      $('#map-page').find('.pager-btns').remove();
+      me.showPopup(popup.features);
+      fullscreen.fadeOut();
+    });
+  }
 };
 
 /**
