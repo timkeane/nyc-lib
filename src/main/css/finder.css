@@ -13,6 +13,7 @@ html, body, h1, #map, .inf-full-screen {
 .inf-full-screen {
   top: 45px;
   right: 0;
+  bottom: 43px;
   background-color: #fff;
   display: none;
   padding: 10px;
