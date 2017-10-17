@@ -123,13 +123,16 @@ li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
   float: left;
   margin: -3px 5px -10px 0;
 }
-.info .ui-btn {
+.info .ui-btn,
+.detail.ctl-collapse a.ui-collapsible-heading-toggle {
   margin: 0 3px;
   padding-left: 30px;
   padding-right: 30px;
   background-repeat: no-repeat;
   background-position: 5px 8px;
   background-size: 22px;
+}
+.info .ui-btn {
   display: inline-block;
   width: calc(50% - 68px);
 }
