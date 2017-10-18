@@ -32,6 +32,7 @@ nyc.FinderApp = function(options){
   this.fullscreen = $(nyc.FinderApp.FULL_SCREEN_INFO_HTML);
   $('#map-page').append(this.fullscreen);
   $('#btn-more').click($.proxy(this.listNextPage, this));
+  $('h1.banner').click($.proxy(this.reload, this));
   this.ready();
 };
 
@@ -399,6 +400,17 @@ nyc.FinderApp.prototype = {
       me.showPopup(popup.features);
       fullscreen.fadeOut();
     });
+  },
+  /**
+   * @desc Reload the page
+   * @private
+   * @method
+   * @param {JQuery.Event} event
+   */
+  reload: function(event){
+    if (event.pageX < $(window).width() / 4){
+      document.location = './';
+    }
   }
 };
 
