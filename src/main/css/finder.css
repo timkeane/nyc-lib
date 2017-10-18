@@ -118,11 +118,11 @@ li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
 .name {
   font-weight: bold;
 }
-.info .icon {
+.info .icon, .nyc-choice .icon {
   width: 21px;
   height: 21px;
   float: left;
-  margin: -3px 5px -10px 0;
+  margin: -2px 5px -10px 0;
 }
 .info .ui-btn,
 .detail.ctl-collapse a.ui-collapsible-heading-toggle {
