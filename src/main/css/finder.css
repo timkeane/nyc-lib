@@ -88,6 +88,7 @@ html, body, h1, #map, .inf-full-screen {
   padding: 13px 0 9px;
   text-shadow: none;
   border: none;
+  text-transform: capitalize;
 }
 #tabs .ui-navbar li {
   width: 50%;
@@ -136,6 +137,7 @@ li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
 .info .ui-btn {
   display: inline-block;
   width: calc(50% - 68px);
+  text-transform: capitalize;  
 }
 .info .detail {
   margin-top: 0;

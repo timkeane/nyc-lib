@@ -442,13 +442,13 @@ nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page">' +
         '<div data-role="navbar">' +
           '<ul>' +
             '<li id="map-tab-btn">' +
-              '<a href="#map-tab">Map</a>' +
+              '<a href="#map-tab">map</a>' +
             '</li>' +
             '<li id="facility-tab-btn">' +
-              '<a class="ui-btn-active" href="#facility-tab">Locations</a>' +
+              '<a class="ui-btn-active" href="#facility-tab">locations</a>' +
             '</li>' +
             '<li id="filter-tab-btn">' +
-              '<a href="#filter-tab">Filter</a>' +
+              '<a href="#filter-tab">filter</a>' +
             '</li>' +
           '</ul>' +
         '</div>' +
@@ -476,16 +476,16 @@ nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page">' +
         '<table id="dir-mode">' +
           '<tbody><tr>' +
             '<td><a id="mode-transit" class="dir-mode-btn active-mode" data-role="button" data-mode="TRANSIT" title="Get transit directions">' +
-              '<span class="noshow">Get transit directions</span>' +
+              '<span class="noshow">get transit directions</span>' +
             '</a></td>' +
             '<td><a id="mode-bike" class="dir-mode-btn" data-role="button" data-mode="BICYCLING" title="Get bicycling directions">' +
-              '<span class="noshow">Get bicycling directions</span>' +
+              '<span class="noshow">get bicycling directions</span>' +
             '</a></td>' +
             '<td><a id="mode-walk" class="dir-mode-btn" data-role="button" data-mode="WALKING" title="Get walking directions">' +
-              '<span class="noshow">Get walking directions</span>' +
+              '<span class="noshow">get walking directions</span>' +
             '</a></td>' +
             '<td><a id="mode-car" class="dir-mode-btn" data-role="button" data-mode="DRIVING" title="Get driving directions">' +
-              '<span class="noshow">Get driving directions</span>' +
+              '<span class="noshow">get driving directions</span>' +
             '</a></td>' +
           '</tr></tbody>' +
         '</table>' +
@@ -496,8 +496,8 @@ nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page">' +
       '<div id="dir-map"></div>' +
     '</div>' +
     '<div id="dir-toggle" data-role="controlgroup" data-type="horizontal">' +
-      '<a class="toggle-map capitalize" data-role="button">Map</a>' +
-      '<a class="ui-btn-active capitalize" data-role="button">Directions</a>' +
+      '<a class="toggle-map capitalize" data-role="button">map</a>' +
+      '<a class="ui-btn-active capitalize" data-role="button">directions</a>' +
     '</div>' +
   '</div>' +
 '</div>';
@@ -511,9 +511,9 @@ nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page">' +
 nyc.FinderApp.INFO_PAGER_HTML = '<div class="info-pager">' +
   '<div class="info-page"></div>' +
   '<div class="pager-btns">' +
-    '<button class="prev" data-role="button" data-icon="carat-l" data-iconpos="notext" data-next="-1">Previous</button>' +
+    '<button class="prev" data-role="button" data-icon="carat-l" data-iconpos="notext" data-next="-1">previous</button>' +
     '<span class="current"></span> of <span class="total"></span>' +
-    '<button class="next" data-role="button" data-icon="carat-r" data-iconpos="notext" data-next="1">Next</button>' +
+    '<button class="next" data-role="button" data-icon="carat-r" data-iconpos="notext" data-next="1">next</button>' +
   '</div>' +
 '</div>';
 
@@ -524,6 +524,6 @@ nyc.FinderApp.INFO_PAGER_HTML = '<div class="info-pager">' +
  * @type {string}
  */
 nyc.FinderApp.FULL_SCREEN_INFO_HTML = '<div class="inf-full-screen">' +
-  '<a class="popup-closer"><span class="noshow"></span></a>' +
+  '<a class="popup-closer"><span class="noshow">close</span></a>' +
   '<div class="content"></div>' +
 '</div>';
