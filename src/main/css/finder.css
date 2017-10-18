@@ -47,11 +47,12 @@ html, body, h1, #map, .inf-full-screen {
   background-size: 71px 24px;
   background-repeat: no-repeat;
 }
-.ui-mobile-viewport h1.banner, h1.banner span {
+.ui-mobile-viewport h1.banner, h1.banner * {
   background-color: #000;
   color: #fff;
   font-size: 24px;
   line-height: 35px;
+  text-transform: capitalize;
   overflow: hidden;
 }
 #map-page {
