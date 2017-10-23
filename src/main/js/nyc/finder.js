@@ -1,7 +1,7 @@
 var nyc = nyc || {};
 
 /**
- * @desc An class for creating basic facility finder apps
+ * @desc A class for creating basic facility finder apps
  * @public
  * @class
  * @constructor

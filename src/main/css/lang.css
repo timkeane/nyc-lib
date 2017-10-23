@@ -23,7 +23,9 @@
 	display: none;
 }
 .lang-placeholder {
-	display: none;
+	visibility: hidden;
+	position: fixed;
+	left: -10000px;
 }
 #lang-choice-button span {
 	display: none;
