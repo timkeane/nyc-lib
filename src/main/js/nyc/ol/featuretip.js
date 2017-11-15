@@ -22,22 +22,22 @@ nyc.ol.FeatureTip = function(map, tipDefs){
 };
 
 nyc.ol.FeatureTip.prototype = {
-	/** 
+	/**
 	 * @private
 	 * @member {ol.Map}
 	 */
 	map: null,
-	/** 
+	/**
 	 * @private
 	 * @member {Element}
 	 */
 	mapDiv: null,
-	/** 
+	/**
 	 * @private
 	 * @member {JQuery}
 	 */
 	tip: null,
-	/** 
+	/**
 	 * @private
 	 * @member {JQuery}
 	 */
@@ -59,7 +59,7 @@ nyc.ol.FeatureTip.prototype = {
 	addtipDefs: function(tipDefs){
 		$.each(tipDefs, function(_, def){
 			def.layer.nycTip = def.labelFunction;
-		});		
+		});
 	},
 	/**
 	 * @private
@@ -67,13 +67,14 @@ nyc.ol.FeatureTip.prototype = {
 	 * @param {ol.source.VectorEvent} event
 	 */
 	label: function(event){
-			var px = this.map.getEventPixel(event.originalEvent),
-				lbl = this.map.forEachFeatureAtPixel(px, function(f, lyr){
-					return f && lyr && lyr.nycTip ? lyr.nycTip.call(f) : null;
-				});
+		var px = this.map.getEventPixel(event.originalEvent),
+		lbl = this.map.forEachFeatureAtPixel(px, function(f, lyr){
+			return f && lyr && lyr.getVisible() && lyr.nycTip ? lyr.nycTip.call(f) : null;
+		});
 		if (lbl){
+			var offset = $(this.mapDiv).offset();
 			this.tip.html(lbl.text)
-				.css({left: (px[0] + 10) + 'px', top: (px[1] + 10) + 'px'})
+				.css({left: (px[0] + 10 + offset.left) + 'px', top: (px[1] + 10 + offset.top) + 'px'})
 				.show();
 			this.tip[0].className = 'feature-tip ' + (lbl.cssClass || '');
 			this.flip(lbl, px);
@@ -84,22 +85,22 @@ nyc.ol.FeatureTip.prototype = {
 	/**
 	 * @private
 	 * @param {nyc.ol.FeatureLabel} lbl
-	 * @param {ol.Pixel} px 
+	 * @param {ol.Pixel} px
 	 */
 	flip: function(lbl, px){
 		var width = this.helper.html(this.tip.html()).width(), height = this.helper.height();
 		this.helper[0].className = 'feature-tip-helper ' + (lbl.cssClass || '');
 		if ((this.tip.position().left + width) > $(this.mapDiv).width()){
 			this.tip.css('left', px[0] - width - 10 + 'px');
-		}		
+		}
 		if ((this.tip.position().top + height) > $(this.mapDiv).height()){
 			this.tip.css('top', px[1] - height - 10 + 'px');
-		}		
-	}	
+		}
+	}
 };
 
 /**
- * @desc Object with configuration options for feature tips 
+ * @desc Object with configuration options for feature tips
  * @public
  * @typedef {Object}
  * @property {ol.layer.Vector} layer The layer whose features will have tips
@@ -119,8 +120,6 @@ nyc.ol.FeatureTip.LabelFunction;
  * @public
  * @typedef {Object}
  * @property {string} text The tip text
- * @property {string=} cssClass A CSS class to apply to the tip 
+ * @property {string=} cssClass A CSS class to apply to the tip
  */
 nyc.ol.FeatureTip.Label;
-
-
