@@ -109,6 +109,7 @@ ext {
 		'nyc/nyc.js',
 		'nyc/date.js',
 		'nyc/util.js',
+    'nyc/storage.js',
 		'nyc/basemap.js',
 		'nyc/ctlcontainer.js',
 		'nyc/collapsible.js',
@@ -356,6 +357,8 @@ minifyJsOl.doLast {
 	/* change URLs for basemap tiles */
 	ant.replace(file: "${pkgDir}/js/nyc-ol-lib.js", token: 'https://maps{1-4}.nyc.gov/tms/', value: "${tilehost}/tms/")
 	ant.replace(file: "${pkgDir}/src/js/nyc/ol/basemap.js", token: 'https://maps{1-4}.nyc.gov/tms/', value: "${tilehost}/tms/")
+
+  tilehost = tilehost.replaceAll(/1\-4/, 's')
 
 	ant.replace(file: "${pkgDir}/js/nyc-leaf-lib.js", token: 'https://maps{s}.nyc.gov/tms/', value: "${tilehost}/tms/")
 	ant.replace(file: "${pkgDir}/src/js/nyc/leaf/basemap.js", token: 'https://maps{s}.nyc.gov/tms/', value: "${tilehost}/tms/")
