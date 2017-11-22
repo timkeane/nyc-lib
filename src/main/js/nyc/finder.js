@@ -177,18 +177,22 @@ nyc.FinderApp.prototype = {
       var popup = this.popup,
         pager = $(nyc.FinderApp.INFO_PAGER_HTML),
         current = pager.find('.current'),
-        page = pager.find('.info-page');
+        page = pager.find('.info-page'),
+        html = features[0].html();
+      html.find('a.map').remove();
       popup.features = features;
-      page.html(features[0].html());
-      current.html(1);
+      page.html(html);
+      current.data('current', 0).html(1);
       pager.find('.total').html(features.length);
       pager.find('.pager-btns')[features.length > 1 ? 'show' : 'hide']();
-      pager.find('button').click(function(event){
-        var next = $(event.target).data('next') - 0;
-        var idx = current.html() - 1 + next;
+      pager.find('.next, .prev').click(function(event){
+        var incr = $(event.target).data('incr') - 0;
+        var idx = (current.data('current') - 0) + incr;
         if (idx >= 0 && idx < features.length){
-          current.html(current.html() - 0 + next);
-          page.html(features[idx].html()).trigger('create');
+          var html = features[idx].html();
+          html.find('a.map').remove();
+          current.data('current', idx).html(idx + 1);
+          page.html(html).trigger('create');
           popup.pan();
         }
       });
@@ -511,9 +515,9 @@ nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page">' +
 nyc.FinderApp.INFO_PAGER_HTML = '<div class="info-pager">' +
   '<div class="info-page"></div>' +
   '<div class="pager-btns">' +
-    '<button class="prev" data-role="button" data-icon="carat-l" data-iconpos="notext" data-next="-1">previous</button>' +
+    '<button class="prev" data-role="button" data-icon="carat-l" data-iconpos="notext" data-incr="-1">previous</button>' +
     '<span class="current"></span> of <span class="total"></span>' +
-    '<button class="next" data-role="button" data-icon="carat-r" data-iconpos="notext" data-next="1">next</button>' +
+    '<button class="next" data-role="button" data-icon="carat-r" data-iconpos="notext" data-incr="1">next</button>' +
   '</div>' +
 '</div>';
 

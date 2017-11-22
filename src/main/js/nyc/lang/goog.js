@@ -114,12 +114,14 @@ nyc.lang.Goog.prototype = {
 		 */
 		$('font').each(function(){
 			if ($(this).data('lang-hack') != 'hacked'){
-				var parent = $(this).parent();
+				var btn = $(this).parent();
 				$(this).data('lang-hack', 'hacked');
-				if (parent.length && parent[0].tagName.toUpperCase() != 'FONT' && parent.data('role') == 'button'){
+				while (btn.length && !btn.hasClass('ui-btn')) {
+					btn = $(btn).parent();
+				}
+				if (btn.hasClass('ui-btn')) {
 					$(this).click(function(event){
-						event.stopImmediatePropagation();
-						parent.trigger('click');
+						btn.trigger('click');
 					});
 				}
 			}
