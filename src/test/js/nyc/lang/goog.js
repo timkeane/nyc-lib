@@ -954,7 +954,7 @@ QUnit.test('lang', function(assert){
 });
 
 QUnit.test('hack', function(assert){
-	assert.expect(18);
+	assert.expect(16);
 	var done = assert.async();
 
 	var testLang;

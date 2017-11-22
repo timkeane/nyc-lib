@@ -22,7 +22,7 @@ QUnit.test('accuracyDistance', function(assert){
 
 	var geocoder = new nyc.Geoclient();
 	assert.equal(geocoder.accuracyDistance(nyc.Geocoder.Accuracy.MEDIUM), 30);
-	
+
 	geocoder = new nyc.Geoclient(null, 'EPSG:2263');
 	assert.equal(Math.round(geocoder.accuracyDistance(nyc.Geocoder.Accuracy.MEDIUM)), 98);
 });
@@ -64,7 +64,7 @@ QUnit.test('parse (intersection)', function(assert){
 			coordinates:  proj4('EPSG:2263','EPSG:3857', [0986427, 215839]),
 			accuracy: nyc.Geocoder.Accuracy.MEDIUM,
 			name: '9 Avenue And West 43 Street, Manhattan, NY 10036',
-			data: this.GEOCLIENT_OK_INTERSECTION_RESPONSE.results[0].response	
+			data: this.GEOCLIENT_OK_INTERSECTION_RESPONSE.results[0].response
 		}
 	);
 });
@@ -80,7 +80,7 @@ QUnit.test('parse (blockface)', function(assert){
 			coordinates:  proj4('EPSG:2263','EPSG:3857', [986033.5, 216057]),
 			accuracy: nyc.Geocoder.Accuracy.LOW,
 			name: 'West 43 Street Btwn 9 Avenue & 10 Avenue, Manhattan, NY 10036',
-			data: this.GEOCLIENT_OK_BLOCKFACE_RESPONSE.results[0].response				
+			data: this.GEOCLIENT_OK_BLOCKFACE_RESPONSE.results[0].response
 		}
 	);
 });
@@ -117,9 +117,9 @@ QUnit.test('possible', function(assert){
 
 QUnit.test('geoclient (geocoded)', function(assert){
 	assert.expect(1);
-	
+
 	var response = this.GEOCLIENT_OK_ADDRESS_RESPONSE;
-	
+
 	var geocoder = new nyc.Geoclient();
 	geocoder.on(nyc.Locate.EventType.GEOCODE, function(data){
 		assert.deepEqual(
@@ -129,7 +129,7 @@ QUnit.test('geoclient (geocoded)', function(assert){
 				coordinates:  proj4('EPSG:2263','EPSG:3857', [982037, 197460]),
 				accuracy: nyc.Geocoder.Accuracy.HIGH,
 				name: '59 Maiden Lane, Manhattan, NY 10038',
-				data: response.results[0].response			
+				data: response.results[0].response
 			}
 		);
 	});
@@ -205,9 +205,9 @@ QUnit.test('search (zip code)', function(assert){
 QUnit.test('search (address)', function(assert){
 	assert.expect(1);
 	if (this.GEOCLIENT_URL.indexOf('YOUR_APP_KEY') == -1){
-		
+
 		var done = assert.async();
-		
+
 		var test = function(data){
 			assert.deepEqual(
 				data,
@@ -217,7 +217,7 @@ QUnit.test('search (address)', function(assert){
 					accuracy: nyc.Geocoder.Accuracy.HIGH,
 					name: '59 Maiden Lane, Manhattan, NY 10038',
 					/* the geocode from geoclient is appended as data prop */
-					data:{assemblyDistrict:'65',bbl:'1000670001',bblBoroughCode:'1',bblTaxBlock:'00067',bblTaxLot:'0001',boardOfElectionsPreferredLgc:'1',boePreferredStreetName:'MAIDEN LANE',boePreferredstreetCode:'12563001',boroughCode1In:'1',buildingIdentificationNumber:'1079043',businessImprovementDistrict:'113140',censusBlock2000:'2008',censusBlock2010:'1006',censusTract1990:'  1502',censusTract2000:'  1502',censusTract2010:'  1502',cityCouncilDistrict:'01',civilCourtDistrict:'01',coincidentSegmentCount:'1',communityDistrict:'101',communityDistrictBoroughCode:'1',communityDistrictNumber:'01',communitySchoolDistrict:'02',condominiumBillingBbl:'0000000000',congressionalDistrict:'10',cooperativeIdNumber:'0000',cornerCode:'CR',crossStreetNamesFlagIn:'E',dcpCommercialStudyArea:'11004',dcpPreferredLgc:'01',dotStreetLightContractorArea:'1',dynamicBlock:'206',electionDistrict:'010',fireBattalion:'01',fireCompanyNumber:'004',fireCompanyType:'E',fireDivision:'01',firstBoroughName:'MANHATTAN',firstStreetCode:'12563001010',firstStreetNameNormalized:'MAIDEN LANE',fromLionNodeId:'0015262',fromPreferredLgcsFirstSetOf5:'01',genericId:'0000631',geosupportFunctionCode:'1B',geosupportReturnCode:'00',geosupportReturnCode2:'00',gi5DigitStreetCode1:'25630',gi5DigitStreetCode2:'45440',gi5DigitStreetCode3:'45440',gi5DigitStreetCode4:'24050',giBoroughCode1:'1',giBoroughCode2:'1',giBoroughCode3:'1',giBoroughCode4:'1',giBuildingIdentificationNumber1:'1079043',giBuildingIdentificationNumber2:'1079043',giBuildingIdentificationNumber3:'1079043',giBuildingIdentificationNumber4:'1079043',giDcpPreferredLgc1:'01',giDcpPreferredLgc2:'01',giDcpPreferredLgc3:'01',giDcpPreferredLgc4:'01',giHighHouseNumber1:'65',giHighHouseNumber2:'99',giHighHouseNumber3:'105',giHighHouseNumber4:'68',giLowHouseNumber1:'41',giLowHouseNumber2:'85',giLowHouseNumber3:'101',giLowHouseNumber4:'50',giSideOfStreetIndicator1:'L',giSideOfStreetIndicator2:'L',giSideOfStreetIndicator3:'L',giSideOfStreetIndicator4:'R',giStreetCode1:'12563001',giStreetCode2:'14544001',giStreetCode3:'14544001',giStreetCode4:'12405001',giStreetName1:'MAIDEN LANE',giStreetName2:'WILLIAM STREET',giStreetName3:'WILLIAM STREET',giStreetName4:'JOHN STREET',healthArea:'7700',healthCenterDistrict:'15',highBblOfThisBuildingsCondominiumUnits:'1000670001',highCrossStreetB5SC1:'145440',highCrossStreetCode1:'14544001',highCrossStreetName1:'WILLIAM STREET',highHouseNumberOfBlockfaceSortFormat:'000065000AA',houseNumber:'59',houseNumberIn:'59',houseNumberSortFormat:'000059000AA',hurricaneEvacuationZone:'5',instructionalRegion:'MS',interimAssistanceEligibilityIndicator:'I',internalLabelXCoordinate:'0982037',internalLabelYCoordinate:'0197460',latitude:40.708266006244315,latitudeInternalLabel:40.7086585249236,legacySegmentId:'0023213',lionBoroughCode:'1',lionBoroughCodeForVanityAddress:'1',lionFaceCode:'3140',lionFaceCodeForVanityAddress:'3140',lionKey:'1314000030',lionKeyForVanityAddress:'1314000030',lionSequenceNumber:'00030',lionSequenceNumberForVanityAddress:'00030',listOf4Lgcs:'01',longitude:-74.0082309440472,longitudeInternalLabel:-74.00798211500157,lowBblOfThisBuildingsCondominiumUnits:'1000670001',lowCrossStreetB5SC1:'127100',lowCrossStreetCode1:'12710001',lowCrossStreetName1:'NASSAU STREET',lowHouseNumberOfBlockfaceSortFormat:'000029000AA',lowHouseNumberOfDefiningAddressRange:'000041000AA',nta:'MN25',ntaName:'Battery Park City-Lower Manhattan',numberOfCrossStreetB5SCsHighAddressEnd:'1',numberOfCrossStreetB5SCsLowAddressEnd:'1',numberOfCrossStreetsHighAddressEnd:'1',numberOfCrossStreetsLowAddressEnd:'1',numberOfEntriesInListOfGeographicIdentifiers:'0004',numberOfExistingStructuresOnLot:'0001',numberOfStreetFrontagesOfLot:'03',physicalId:'0000753',policePatrolBoroughCommand:'1',policePrecinct:'001',returnCode1a:'00',returnCode1e:'00',roadwayType:'1',rpadBuildingClassificationCode:'O4',rpadSelfCheckCodeForBbl:'7',sanbornBoroughCode:'1',sanbornPageNumber:'011',sanbornVolumeNumber:'01',sanbornVolumeNumberSuffix:'S',sanitationDistrict:'101',sanitationSnowPriorityCode:'C',segmentAzimuth:'302',segmentIdentifier:'0023213',segmentLengthInFeet:'00460',segmentOrientation:'4',segmentTypeCode:'U',sideOfStreetIndicator:'L',sideOfStreetOfVanityAddress:'L',splitLowHouseNumber:'000029000AA',stateSenatorialDistrict:'26',streetName1In:'MAIDEN',streetStatus:'2',streetWidth:'22',taxMapNumberSectionAndVolume:'10102',toLionNodeId:'0015337',toPreferredLgcsFirstSetOf5:'01',trafficDirection:'A',underlyingStreetCode:'12563001',uspsPreferredCityName:'NEW YORK',workAreaFormatIndicatorIn:'C',xCoordinate:'0981968',xCoordinateHighAddressEnd:'0982031',xCoordinateLowAddressEnd:'0981785',xCoordinateOfCenterofCurvature:'0000000',yCoordinate:'0197317',yCoordinateHighAddressEnd:'0197212',yCoordinateLowAddressEnd:'0197601',yCoordinateOfCenterofCurvature:'0000000',zipCode:'10038'}
+					"data": {"assemblyDistrict": "65","bbl": "1000670001","bblBoroughCode": "1","bblTaxBlock": "00067","bblTaxLot": "0001","boardOfElectionsPreferredLgc": "1","boePreferredStreetName": "MAIDEN LANE","boePreferredstreetCode": "12563001","boroughCode1In": "1","buildingIdentificationNumber": "1079043","businessImprovementDistrict": "113140","censusBlock2000": "2008","censusBlock2010": "1006","censusTract1990": "  1502","censusTract2000": "  1502","censusTract2010": "  1502","cityCouncilDistrict": "01","civilCourtDistrict": "01","coincidentSegmentCount": "1","communityDistrict": "101","communityDistrictBoroughCode": "1","communityDistrictNumber": "01","communitySchoolDistrict": "02","condominiumBillingBbl": "0000000000","congressionalDistrict": "10","cooperativeIdNumber": "0000","cornerCode": "CR","crossStreetNamesFlagIn": "E","dcpCommercialStudyArea": "11004","dcpPreferredLgc": "01","dotStreetLightContractorArea": "1","dynamicBlock": "206","electionDistrict": "010","fireBattalion": "01","fireCompanyNumber": "004","fireCompanyType": "E","fireDivision": "01","firstBoroughName": "MANHATTAN","firstStreetCode": "12563001010","firstStreetNameNormalized": "MAIDEN LANE","fromLionNodeId": "0015262","fromPreferredLgcsFirstSetOf5": "01","genericId": "0000631","geosupportFunctionCode": "1B","geosupportReturnCode": "00","geosupportReturnCode2": "00","gi5DigitStreetCode1": "25630","gi5DigitStreetCode2": "45440","gi5DigitStreetCode3": "45440","gi5DigitStreetCode4": "24050","giBoroughCode1": "1","giBoroughCode2": "1","giBoroughCode3": "1","giBoroughCode4": "1","giBuildingIdentificationNumber1": "1079043","giBuildingIdentificationNumber2": "1079043","giBuildingIdentificationNumber3": "1079043","giBuildingIdentificationNumber4": "1079043","giDcpPreferredLgc1": "01","giDcpPreferredLgc2": "01","giDcpPreferredLgc3": "01","giDcpPreferredLgc4": "01","giHighHouseNumber1": "65","giHighHouseNumber2": "99","giHighHouseNumber3": "105","giHighHouseNumber4": "68","giLowHouseNumber1": "41","giLowHouseNumber2": "85","giLowHouseNumber3": "101","giLowHouseNumber4": "50","giSideOfStreetIndicator1": "L","giSideOfStreetIndicator2": "L","giSideOfStreetIndicator3": "L","giSideOfStreetIndicator4": "R","giStreetCode1": "12563001","giStreetCode2": "14544001","giStreetCode3": "14544001","giStreetCode4": "12405001","giStreetName1": "MAIDEN LANE","giStreetName2": "WILLIAM STREET","giStreetName3": "WILLIAM STREET","giStreetName4": "JOHN STREET","healthArea": "7700","healthCenterDistrict": "15","highBblOfThisBuildingsCondominiumUnits": "1000670001","highCrossStreetB5SC1": "145440","highCrossStreetCode1": "14544001","highCrossStreetName1": "WILLIAM STREET","highHouseNumberOfBlockfaceSortFormat": "000065000AA","houseNumber": "59","houseNumberIn": "59","houseNumberSortFormat": "000059000AA","hurricaneEvacuationZone": "5","instructionalRegion": "MS","interimAssistanceEligibilityIndicator": "I","internalLabelXCoordinate": "0982037","internalLabelYCoordinate": "0197460","latitude": 40.708266006244315,"latitudeInternalLabel": 40.7086585249236,"legacySegmentId": "0023213","lionBoroughCode": "1","lionBoroughCodeForVanityAddress": "1","lionFaceCode": "3140","lionFaceCodeForVanityAddress": "3140","lionKey": "1314000030","lionKeyForVanityAddress": "1314000030","lionSequenceNumber": "00030","lionSequenceNumberForVanityAddress": "00030","listOf4Lgcs": "01","longitude": -74.0082309440472,"longitudeInternalLabel": -74.00798211500157,"lowBblOfThisBuildingsCondominiumUnits": "1000670001","lowCrossStreetB5SC1": "127100","lowCrossStreetCode1": "12710001","lowCrossStreetName1": "NASSAU STREET","lowHouseNumberOfBlockfaceSortFormat": "000029000AA","lowHouseNumberOfDefiningAddressRange": "000041000AA","nta": "MN25","ntaName": "Battery Park City-Lower Manhattan","numberOfCrossStreetB5SCsHighAddressEnd": "1","numberOfCrossStreetB5SCsLowAddressEnd": "1","numberOfCrossStreetsHighAddressEnd": "1","numberOfCrossStreetsLowAddressEnd": "1","numberOfEntriesInListOfGeographicIdentifiers": "0004","numberOfExistingStructuresOnLot": "0001","numberOfStreetFrontagesOfLot": "03","physicalId": "0000753","policePatrolBoroughCommand": "1","policePrecinct": "001","returnCode1a": "00","returnCode1e": "00","roadwayType": "1","rpadBuildingClassificationCode": "O4","rpadSelfCheckCodeForBbl": "7","sanbornBoroughCode": "1","sanbornPageNumber": "011","sanbornVolumeNumber": "01","sanbornVolumeNumberSuffix": "S","sanitationCollectionSchedulingSectionAndSubsection": "1B","sanitationDistrict": "101","sanitationRecyclingCollectionSchedule": "ETH","sanitationRegularCollectionSchedule": "TTHS","sanitationSnowPriorityCode": "C","segmentAzimuth": "302","segmentIdentifier": "0023213","segmentLengthInFeet": "00460","segmentOrientation": "4","segmentTypeCode": "U","sideOfStreetIndicator": "L","sideOfStreetOfVanityAddress": "L","splitLowHouseNumber": "000029000AA","stateSenatorialDistrict": "26","streetName1In": "MAIDEN","streetStatus": "2","streetWidth": "22","taxMapNumberSectionAndVolume": "10102","toLionNodeId": "0015337","toPreferredLgcsFirstSetOf5": "01","trafficDirection": "A","underlyingStreetCode": "12563001","uspsPreferredCityName": "NEW YORK","workAreaFormatIndicatorIn": "C","xCoordinate": "0981968","xCoordinateHighAddressEnd": "0982031","xCoordinateLowAddressEnd": "0981785","xCoordinateOfCenterofCurvature": "0000000","yCoordinate": "0197317","yCoordinateHighAddressEnd": "0197212","yCoordinateLowAddressEnd": "0197601","yCoordinateOfCenterofCurvature": "0000000","zipCode": "10038"}
 				}
 			);
 			done();
@@ -226,7 +226,7 @@ QUnit.test('search (address)', function(assert){
 		var geocoder = new nyc.Geoclient(this.GEOCLIENT_URL);
 		geocoder.one(nyc.Locate.EventType.GEOCODE, test);
 		geocoder.search('59 maiden mn');
-		
+
 	}else{
 		assert.ok(false, 'Valid geoclient appKey and appId required to run this test. See README.md for configuration details.')
 	}
@@ -235,7 +235,7 @@ QUnit.test('search (address)', function(assert){
 QUnit.test('search (error)', function(assert){
 	assert.expect(1);
 	var done = assert.async();
-	
+
 	var test = function(data){
 		assert.ok(true);
 		done();
