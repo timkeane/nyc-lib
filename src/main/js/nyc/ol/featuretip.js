@@ -72,9 +72,8 @@ nyc.ol.FeatureTip.prototype = {
 			return f && lyr && lyr.getVisible() && lyr.nycTip ? lyr.nycTip.call(f) : null;
 		});
 		if (lbl){
-			var offset = $(this.mapDiv).offset();
 			this.tip.html(lbl.text)
-				.css({left: (px[0] + 10 + offset.left) + 'px', top: (px[1] + 10 + offset.top) + 'px'})
+				.css({left: (px[0] + 10) + 'px', top: (px[1] + 10) + 'px'})
 				.show();
 			this.tip[0].className = 'feature-tip ' + (lbl.cssClass || '');
 			this.flip(lbl, px);
