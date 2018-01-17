@@ -102,10 +102,10 @@ nyc.ZoomSearch.prototype = {
 			this.input.blur();
 			this.searching(true);
 			this.trigger(nyc.ZoomSearch.EventType.SEARCH, input);
-		}			
+		}
 	},
 	/**
-	 * @desc Set or get the value of the search field 
+	 * @desc Set or get the value of the search field
 	 * @public
 	 * @method
 	 * @param {string=} val The value for the search field
@@ -119,7 +119,7 @@ nyc.ZoomSearch.prototype = {
 		return 	this.input.val();
 	},
 	/**
-	 * @desc Displays possible address matches 
+	 * @desc Displays possible address matches
 	 * @public
 	 * @method
 	 * @param {nyc.Locate.Ambiguous} ambiguous Possible locations resulting from a geocoder search to display to the user
@@ -154,7 +154,7 @@ nyc.ZoomSearch.prototype = {
 	 */
 	setFeatures: function(options){
 		var me = this,
-			li = $('<li></li>'), 
+			li = $('<li></li>'),
 			span = $('<span class="ui-btn-icon-left"></span>');
 		if (!me.useSearchTypeMenu){
 			me.input.attr('placeholder', 'Search...');
@@ -164,7 +164,7 @@ nyc.ZoomSearch.prototype = {
 		li.addClass('srch-type-' + options.featureTypeName);
 		li.data('srch-type', options.featureTypeName);
 		li.data('placeholder', options.placeholder);
-		span.addClass('srch-icon-' + options.featureTypeName);		
+		span.addClass('srch-icon-' + options.featureTypeName);
 		li.append(span);
 		li.append(options.featureTypeTitle);
 		me.getElem('.mnu-srch-typ').append(li).listview('refresh');
@@ -223,8 +223,8 @@ nyc.ZoomSearch.prototype = {
 		if (this.typBtn.hasClass('ui-icon-carat-d')){
 			this.typBtn.removeClass('ui-icon-carat-d').addClass('ui-icon-carat-u');
 		}else{
-			this.typBtn.removeClass('ui-icon-carat-u').addClass('ui-icon-carat-d');			
-		}		
+			this.typBtn.removeClass('ui-icon-carat-u').addClass('ui-icon-carat-d');
+		}
 	},
 	/**
 	 * @private
@@ -265,13 +265,17 @@ nyc.ZoomSearch.prototype = {
 	 * @param {jQuery.Event} e
 	 */
 	disambiguated: function(e){
-		var li = $(e.target), data = li.data('location');
+		var li = $(e.target);
+		if (li.get(0).tagName != 'LI'){
+			li = li.parent();
+		}
+		var data = li.data('location');
 		this.val(li.html());
 		data.isFeature = li.hasClass('srch-type-feature');
 		this.trigger(nyc.ZoomSearch.EventType.DISAMBIGUATED, data);
 		li.parent().slideUp();
 		this.emptyList();
-	}		
+	}
 };
 
 nyc.inherits(nyc.ZoomSearch, nyc.EventHandling);
@@ -281,7 +285,7 @@ nyc.inherits(nyc.ZoomSearch, nyc.CtlContainer);
  * @desc Object type to hold data about possible locations resulting from a geocoder search
  * @public
  * @typedef {Object}
- * @property {Array<Object|ol.Feature>} features The features to be searched 
+ * @property {Array<Object|ol.Feature>} features The features to be searched
  * @property {string} featureTypeName The name of the layer or feature type the features are from
  * @property {string} [nameField="name"] The name attribute field of the feature
  * @property {string=} labelField The attribute field to use as the label value for the generated list item
@@ -332,7 +336,7 @@ nyc.ZoomSearch.EventType = {
  * @const
  * @type {string}
  */
-nyc.ZoomSearch.BASIC_HTML = 
+nyc.ZoomSearch.BASIC_HTML =
 	'<div class="z-srch ol-unselectable">' +
 	'<div class="fld-srch-container ctl">' +
 		'<ul class="fld-srch ui-corner-all" data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search for an address..."></ul>' +
@@ -354,11 +358,11 @@ nyc.ZoomSearch.BASIC_HTML =
  * @const
  * @type {string}
  */
-nyc.ZoomSearch.SEARCH_TYPES_HTML = 
+nyc.ZoomSearch.SEARCH_TYPES_HTML =
 	'<div class="z-srch srch-types ol-unselectable">' +
 	'<div class="fld-srch-container ctl">' +
 		'<ul class="fld-srch ui-corner-all" data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search for an address..."></ul>' +
-		'<ul class="mnu-srch-typ ctl ui-corner-all" data-role="listview">' + 
+		'<ul class="mnu-srch-typ ctl ui-corner-all" data-role="listview">' +
 			'<li class="srch-by">Search by...</li>' +
 			'<li class="srch-type-geo"><span class="ui-btn-icon-left srch-icon-geo"></span>My current location</li>' +
 			'<li class="srch-type-addr"><span class="ui-btn-icon-left ui-icon-home"></span>Address, intersection, ZIP Code, etc.</li>' +
