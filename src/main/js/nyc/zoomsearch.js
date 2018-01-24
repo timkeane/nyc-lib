@@ -169,11 +169,30 @@ nyc.ZoomSearch.prototype = {
 		li.append(options.featureTypeTitle);
 		me.getElem('.mnu-srch-typ').append(li).listview('refresh');
 		li.click($.proxy(me.choices, me));
-		$.each(options.features, function(_, feature){
-			var location = me.featureAsLocation(feature, options);
+		$.each(this.sortAlphapetically(options), function(){
+			var location = me.featureAsLocation(this, options);
 			me.getElem('.fld-srch-retention').append(me.listItem(options.featureTypeName, location));
 		});
 		me.emptyList();
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {nyc.ZoomSearch.FeatureSearchOptions} options The options for creating a feature search
+	 * @return {Array<Object>} features
+	 */
+	sortAlphapetically: function(options) {
+		var cloned = [];
+		$.each(options.features, function(){
+			cloned.push($.extend({}, this));
+		});
+		cloned.sort(function(a, b){
+			var labelField = options.labelField;
+			if (a.get(labelField) < b.get(labelField)) return -1;
+			if (a.get(labelField) > b.get(labelField)) return 1;
+			return 0;
+		});
+		return cloned;
 	},
 	/**
 	 * @desc Remove searchable features
