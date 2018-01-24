@@ -212,6 +212,7 @@ nyc.FinderApp.prototype = {
     this.pager.reset(features);
     $('#facility-list').empty();
     this.listNextPage();
+    $('#facility-tab').scrollTop(0);
   },
   /**
    * @desc Method to page through facilities
