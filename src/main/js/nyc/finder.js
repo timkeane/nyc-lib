@@ -400,7 +400,7 @@ nyc.FinderApp.prototype = {
     $('#map-page').append(content.find('.pager-btns'));
     popup.hide();
     fullscreen.fadeIn();
-    fullscreen.find('.popup-closer').one('click', function(){
+    fullscreen.find('.popup-closer').one('click tap', function(){
       $('#map-page').find('.pager-btns').remove();
       me.showPopup(popup.features);
       fullscreen.fadeOut();
