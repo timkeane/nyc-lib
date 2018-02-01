@@ -33,6 +33,9 @@ nyc.FinderApp = function(options){
   $('#map-page').append(this.fullscreen);
   $('#btn-more').click($.proxy(this.listNextPage, this));
   $('h1.banner').click($.proxy(this.reload, this));
+
+  this.mtaHack = new nyc.MtaTripPlannerHack('#mta-trip');
+  $('#mta-btn').click($.proxy(this.mtaHack, this));
   this.ready();
 };
 
@@ -82,6 +85,11 @@ nyc.FinderApp.prototype = {
   * @member {string}
   */
   lastDir: null,
+  /**
+  * @private
+  * @member {nyc.MtaTripPlannerHack}
+  */
+  mtaHack: null,
   /**
   * @desc Method to handle {@link nyc.Locate} events
   * @public
@@ -468,6 +476,7 @@ nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page">' +
   '</div>' +
 '</div>' +
 '<div id="dir-page" data-role="page">' +
+  '<iframe id="mta-trip"></iframe>' +
   '<a id="back-to-map" data-role="button" data-icon="arrow-l" class="hdr-btn back-btn ui-btn-right" href="#map-page" data-transition="slidedown">' +
     'Back to finder' +
   '</a>' +
@@ -492,6 +501,9 @@ nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page">' +
             '<td><a id="mode-car" class="dir-mode-btn" data-role="button" data-mode="DRIVING" title="Get driving directions">' +
               '<span class="noshow">get driving directions</span>' +
             '</a></td>' +
+            '<td>' +
+              '<a id="mta-btn" data-role="button">MTA TripPlanner</a>' +
+            '</td>' +
           '</tr></tbody>' +
         '</table>' +
       '</div>' +

@@ -1,23 +1,25 @@
 var nyc = nyc || {};
 
-nyc.MtaTripPlannerHack = function(){};
+nyc.MtaTripPlannerHack = function(target){
+  this.iframe = $('<iframe id="mta-trip"></iframe');
+  $(target).append(this.iframe);
+};
 
 nyc.MtaTripPlannerHack.prototype = {
   uri: null,
   requestUrl: null,
   directions: function(request) {
     var tripArgs = this.insanifyRequest(request);
-    var url = nyc.MtaTripPlannerHack.REQUEST_URL + JSON.stringify(tripArgs) + this.randomParamCopedFromMtaCode();
-    $.ajax({
-      url: url,
-      dataType: 'jsonp',
-      success: function(response){
-        window.open(nyc.MtaTripPlannerHack.RESPONSE_URL + response.responseText);
-      },
-      error: function(){
-        console.error(arguments);
-      }
-    });
+    tripArgs = JSON.stringify(tripArgs);
+    tripArgs = encodeURIComponent(tripArgs);
+    var url = nyc.MtaTripPlannerHack.REQUEST_URL + tripArgs + this.randomParamCopedFromMtaCode();
+    var iframe = this.iframe.get(0);
+    iframe.onload = function(){
+      iframe.onload = undefined;
+      iframe.src = nyc.MtaTripPlannerHack.RESPONSE_URL;
+      $(iframe).fadeIn();
+    };
+    iframe.src = url;
   },
   randomParamCopedFromMtaCode: function(){
     return '&rand=' + Math.floor(Math.random() * 11);
@@ -45,31 +47,31 @@ nyc.MtaTripPlannerHack.prototype = {
     var projection = request.projection;
     var date = this.now();
     return {
-      startAddr: origin.name,
-      endAddr: destination.name,
+      RequestDevicename: 'DESKTOP',
+      OriginInput: origin.name,
+      DestinationInput: destination.name,
       Arrdep:	'D',
-      hour:	date.hour,
-      minute:	date.minute,
-      ampm:	date.ampm,
-      selectedDate: date.date,
-      minimize: 'X',
-      walkdistance: '0.50',
-      mode:	'FRBC12',
-      lineStart: '',
-      lineEnd: '',
-      AccessibleTrip: request.accessible ? 'Y' : 'N',
-      originCoors: this.insanifyLocation(origin, projection),
-      destinationCoors: this.insanifyLocation(destination, projection),
-      startServiceType: 'train',
-      startTrainType: 'subway',
-      startBorough: this.borough(origin.data),
-      endServiceType: 'train',
-      endTrainType: 'subway',
-      endBorough: this.borough(destination.data),
-      walkincrease: '',
-      maxinitialwait: '',
-      maxtriptime: '',
-      maxtransfers: ''
+      Hour:	date.hour,
+      Minute:	date.minute,
+      Ampm:	date.ampm,
+      InputDate: date.date,
+      Minimize: 'X',
+      Walkdist: '0.50',
+      Mode:	'FRBC12',
+      LineStart: '',
+      LineEnd: '',
+      Accessible: request.accessible ? 'Y' : 'N',
+      OriginCoordinates: this.insanifyLocation(origin, projection),
+      DestinationCoordinates: this.insanifyLocation(destination, projection),
+      LocationType: '',
+      StartServiceType: 'train',
+      StartTrainType: 'subway',
+      StartBorough: this.borough(origin.data),
+      EndBorough: this.borough(destination.data),
+      Walkincrease: '',
+      Maxinitialwait: '',
+      Maxtriptime: '',
+      Maxtransfers: ''
     }
   }
 };
@@ -79,7 +81,7 @@ nyc.MtaTripPlannerHack.prototype = {
  * @private
  * @const {string}
  */
-nyc.MtaTripPlannerHack.RESPONSE_URL = 'http://tripplanner.mta.info/MyTrip/ui_web/customplanner/';
+nyc.MtaTripPlannerHack.RESPONSE_URL = 'http://tripplanner.mta.info/MyTrip/ui_web/customplanner/results.aspx';
 
 /**
  * @desc The MTA TripPlanner request URL
@@ -102,30 +104,30 @@ nyc.MtaTripPlannerHack.SaneRequest;
 /**
  * @desc Object type to pass to MTA TripPlanner
  * @private
- * @property {string} startAddr
- * @property {string} endAddr
+ * @property {string} RequestDevicename
+ * @property {string} OriginInput
+ * @property {string} DestinationInput
  * @property {string} Arrdep
- * @property {string} hour
- * @property {string} minute
- * @property {string} ampm
- * @property {string} selectedDate
- * @property {string} minimize
- * @property {string} walkdistance
- * @property {string} mode
- * @property {string} lineStart
- * @property {string} lineEnd
- * @property {string} AccessibleTrip
- * @property {string} originCoors
- * @property {string} destinationCoors
- * @property {string} startServiceType
- * @property {string} startTrainType
- * @property {string} startBorough
- * @property {string} endServiceType
- * @property {string} endTrainType
- * @property {string} endBorough
- * @property {string} walkincrease
- * @property {string} maxinitialwait
- * @property {string} maxtriptime
- * @property {string} maxtransfers
+ * @property {string} Hour
+ * @property {string} Minute
+ * @property {string} Ampm
+ * @property {string} InputDate
+ * @property {string} Minimize
+ * @property {string} Walkdist
+ * @property {string} Mode
+ * @property {string} LineStart
+ * @property {string} LineEnd
+ * @property {string} Accessible
+ * @property {string} OriginCoordinates
+ * @property {string} DestinationCoordinates
+ * @property {string} LocationType
+ * @property {string} StartServiceType
+ * @property {string} StartTrainType
+ * @property {string} StartBorough
+ * @property {string} EndBorough
+ * @property {string} Walkincrease
+ * @property {string} Maxinitialwait
+ * @property {string} Maxtriptime
+ * @property {string} Maxtransfers
 */
 nyc.MtaTripPlannerHack.InsaneRequest;
