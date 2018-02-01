@@ -35,7 +35,7 @@ nyc.MtaTripPlannerHack.prototype = {
     };
   },
   borough: function(data){
-    return {1: 'MN', 2: 'BX', 3: 'BK', 4: 'QN', 5: 'SI'}[data.boroughCode1In] || 'MN';
+    return {1: 'MN', 2: 'BX', 3: 'BK', 4: 'QN', 5: 'SI'}[data.boroughCode1In] || '';
   },
   insanifyLocation: function(location, projection){
     var coord = proj4(projection || 'EPSG:3857', 'EPSG:4326', location.coordinates);

@@ -34,8 +34,8 @@ nyc.FinderApp = function(options){
   $('#btn-more').click($.proxy(this.listNextPage, this));
   $('h1.banner').click($.proxy(this.reload, this));
 
-  this.mtaHack = new nyc.MtaTripPlannerHack('#mta-trip');
-  $('#mta-btn').click($.proxy(this.mtaHack, this));
+  this.mtaHack = new nyc.MtaTripPlannerHack('#dir-content');
+  $('#mta-btn').click($.proxy(this.hackMta, this));
   this.ready();
 };
 
@@ -147,6 +147,11 @@ nyc.FinderApp.prototype = {
       to = feature.getAddress(),
       name = feature.getName(),
       from = this.origin();
+    this.destination = {
+      name: feature.getName() + ' - ' + feature.getAddress(),
+      coordinates: feature.getGeometry().getCoordinates(),
+      data: {}
+    };
     this.hideFullScreenDetail();
     if (this.lastDir != from + '|' + to){
       this.lastDir = from + '|' + to;
@@ -424,6 +429,19 @@ nyc.FinderApp.prototype = {
     if (event.pageX < $(window).width() / 4){
       document.location = './';
     }
+  },
+  /**
+   * @desc Show MTA TripPlanner
+   * @private
+   * @method
+   * @param {JQuery.Event} event
+   */
+  hackMta: function(event){
+    this.mtaHack.directions({
+      accessible: true,
+      origin: this.location,
+      destination: this.destination
+    });
   }
 };
 
@@ -476,7 +494,6 @@ nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page">' +
   '</div>' +
 '</div>' +
 '<div id="dir-page" data-role="page">' +
-  '<iframe id="mta-trip"></iframe>' +
   '<a id="back-to-map" data-role="button" data-icon="arrow-l" class="hdr-btn back-btn ui-btn-right" href="#map-page" data-transition="slidedown">' +
     'Back to finder' +
   '</a>' +
