@@ -41,6 +41,9 @@
 	border-collapse: collapse;
 	height: 50px;
 }
+#dir-mode td {
+  padding: 0 7px;
+}
 .ui-btn.dir-mode-btn {
 	width: 38px;
 	height: 38px;

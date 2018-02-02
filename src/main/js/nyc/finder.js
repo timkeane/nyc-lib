@@ -34,7 +34,7 @@ nyc.FinderApp = function(options){
   $('#btn-more').click($.proxy(this.listNextPage, this));
   $('h1.banner').click($.proxy(this.reload, this));
 
-  this.mtaHack = new nyc.MtaTripPlannerHack('#dir-content');
+  this.mtaHack = new nyc.MtaTripPlannerHack();
   $('#mta-btn').click($.proxy(this.hackMta, this));
   this.ready();
 };
@@ -161,6 +161,8 @@ nyc.FinderApp.prototype = {
         facility: decodeURIComponent(name)
       });
     }
+    $('#dir-toggle').show();
+    $('#mta-trip').hide();
     $('body').pagecontainer('change', '#dir-page', {transition: 'slideup'});
   },
   /**
@@ -442,6 +444,7 @@ nyc.FinderApp.prototype = {
       origin: this.location,
       destination: this.destination
     });
+    $('#dir-toggle').fadeOut();
   }
 };
 
@@ -519,7 +522,7 @@ nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page">' +
               '<span class="noshow">get driving directions</span>' +
             '</a></td>' +
             '<td>' +
-              '<a id="mta-btn" data-role="button">MTA TripPlanner</a>' +
+              '<a id="mta-btn" class="dir-mode-btn" data-role="button"><span class="noshow">MTA </span>TripPlanner</a>' +
             '</td>' +
           '</tr></tbody>' +
         '</table>' +
