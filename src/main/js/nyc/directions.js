@@ -52,27 +52,27 @@ nyc.Directions = function(mapTarget, routeTarget, url){
 };
 
 nyc.Directions.prototype = {
-	/** 
-	 * @private 
+	/**
+	 * @private
 	 * @member {google.maps.Map}
 	 */
 	map: null,
-	/** 
-	 * @private 
+	/**
+	 * @private
 	 * @member {google.maps.DirectionsService}
 	 */
 	service: null,
-	/** 
-	 * @private 
+	/**
+	 * @private
 	 * @member {google.maps.DirectionsRenderer}
 	 */
 	renderer: null,
-	/** 
-	 * @private 
+	/**
+	 * @private
 	 * @member {nyc.Directions.Request}
 	 */
 	args: null,
-	/** 
+	/**
 	 * @private
 	 * @member {string}
 	 */
@@ -128,9 +128,9 @@ nyc.Directions.prototype = {
 			);
 		}
 	},
-	/** 
-	 * @desc Initializes the class on callback from the Google Maps 
-	 * @public 
+	/**
+	 * @desc Initializes the class on callback from the Google Maps
+	 * @public
 	 * @method
 	 */
 	init: function(){
@@ -208,10 +208,28 @@ nyc.Directions.prototype = {
 		});
 		this.service = new google.maps.DirectionsService();
 		this.renderer = new google.maps.DirectionsRenderer();
+		this.zoomBtns();
 		this.directions(this.args);
 	},
-	/** 
-	 * @private 
+	/**
+	 * @private
+	 * @method
+	 */
+	zoomBtns: function(){
+		$(this.mapTarget).append(nyc.Directions.BUTTONS_HTML).trigger('create');
+		$(this.mapTarget).find('.ui-btn').click($.proxy(this.zoom, this));
+	},
+	/**
+	 * @private
+	 * @method
+	 * @param {JQuery.Event} event
+	 */
+	zoom: function(event){
+		var z = this.map.getZoom() || 0;
+		this.map.setZoom(z + ($(event.target).data('zoom-incr') * 1));
+	},
+	/**
+	 * @private
 	 * @method
 	 * @param {JQuery.Event} event
 	 */
@@ -221,8 +239,8 @@ nyc.Directions.prototype = {
 		this.args.mode = $(this.modeBtn).data('mode');
 		this.directions(this.args);
 	},
-	/** 
-	 * @private 
+	/**
+	 * @private
 	 * @method
 	 */
 	height: function(){
@@ -232,8 +250,8 @@ nyc.Directions.prototype = {
 			this.heightAdj();
 		}
 	},
-	/** 
-	 * @private 
+	/**
+	 * @private
 	 * @method
 	 */
 	heightAdj: function(){
@@ -242,17 +260,17 @@ nyc.Directions.prototype = {
 			banner = $('.banner').height() || 0,
 			content = $('#dir-content').height() || 0,
 			copy = $('#copyright').height() || 0;
-		$('#directions').height(panel - toggle - banner - content - copy - 10);			
+		$('#directions').height(panel - toggle - banner - content - copy - 10);
 	},
-	/** 
-	 * @private 
+	/**
+	 * @private
 	 * @method
 	 */
 	heightAdjIos: function(){
 		var me = this;
 		setInterval(function(){
 			try{
-				me.heightAdj();				
+				me.heightAdj();
 				google.maps.event.trigger(me.map, 'resize');
 			}catch(ignore){}
 		}, 400);
@@ -274,7 +292,7 @@ nyc.Directions.EventType = {
 		NO_DIRECTIONS: 'no-directions'
 };
 
-/** 
+/**
  * @desc The default URL for loading Google APIs
  * @public
  * @const
@@ -307,3 +325,15 @@ nyc.Directions.Response;
  * @event nyc.Directions#changed
  * @type {nyc.Directions.Response}
  */
+
+ /**
+  * @private
+  * @const
+  * @type {string}
+  */
+ nyc.Directions.BUTTONS_HTML = '<a class="btn-z-in ctl ctl-btn" data-role="button" data-icon="plus" data-iconpos="notext" data-zoom-incr="1" title="Zoom in">' +
+	 '<span class="noshow">Zoom in</span>' +
+ '</a>' +
+ '<a class="btn-z-out ctl ctl-btn" data-role="button" data-icon="minus" data-iconpos="notext" data-zoom-incr="-1" title="Zoom out">' +
+	 'Zoom out' +
+ '</a>';
