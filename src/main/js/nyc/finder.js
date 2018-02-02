@@ -148,7 +148,7 @@ nyc.FinderApp.prototype = {
       name = feature.getName(),
       from = this.origin();
     this.destination = {
-      name: feature.getName() + ' - ' + feature.getAddress(),
+      name: name + ' - ' + to,
       coordinates: feature.getGeometry().getCoordinates(),
       data: {}
     };
@@ -161,8 +161,6 @@ nyc.FinderApp.prototype = {
         facility: decodeURIComponent(name)
       });
     }
-    $('#dir-toggle').show();
-    $('#mta-trip').hide();
     $('body').pagecontainer('change', '#dir-page', {transition: 'slideup'});
   },
   /**
@@ -444,7 +442,6 @@ nyc.FinderApp.prototype = {
       origin: this.location,
       destination: this.destination
     });
-    $('#dir-toggle').fadeOut();
   }
 };
 

@@ -155,5 +155,5 @@ nyc.MtaTripPlannerHack.InsaneRequest;
 '<iframe style="visibility:hidden" src="${request}" onload="document.location=\'' + nyc.MtaTripPlannerHack.RESPONSE_URL + '\';"></iframe>' +
 '<script>setInterval(function(){' +
 'var msg = document.getElementById("msg");' +
-'msg.innerHTML = msg.innerHTML + ".";' +
+'msg.innerHTML = msg.innerHTML + "&bull;";' +
 '}, 300);</script></body></html>';
