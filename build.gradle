@@ -95,7 +95,6 @@ ext {
 		'nyc/ol/layer/grayscale.js',
 		'nyc/ol/layer/colorswap.js',
     'nyc/jcard/jcard.js',
-    'nyc/mtaTripPlannerHack.js',
     'nyc/loading.js'
 	]
 	olRedLineJsFiles = [
@@ -138,7 +137,6 @@ ext {
 		'nyc/leaf/locate.js',
 		'nyc/leaf/locator.js',
 		'nyc/leaf/zoomsearch.js',
-    'nyc/mtaTripPlannerHack.js',
 		'nyc/jcard/jcard.js'
 	]
 	cartoJsFiles = [
@@ -178,7 +176,6 @@ ext {
 		'nyc/carto/view.js',
 		'nyc/carto/sqlview.js',
 		'nyc/carto/popup.js',
-    'nyc/mtaTripPlannerHack.js',
 		'nyc/jcard/jcard.js'
 	]
 	olCssFiles = [

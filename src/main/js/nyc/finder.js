@@ -519,7 +519,7 @@ nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page">' +
               '<span class="noshow">get driving directions</span>' +
             '</a></td>' +
             '<td>' +
-              '<a id="mta-btn" class="dir-mode-btn" data-role="button"><span class="noshow">MTA </span>TripPlanner</a>' +
+              '<a id="mta-btn" class="dir-mode-btn" data-role="button"><span class="noshow">Accessible directions via MTA </span>TripPlanner<span class="icon"></span></a>' +
             '</td>' +
           '</tr></tbody>' +
         '</table>' +
