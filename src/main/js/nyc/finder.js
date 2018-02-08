@@ -27,7 +27,7 @@ nyc.FinderApp = function(options){
   this.locationMgr.on(nyc.Locate.EventType.GEOLOCATION, this.located, this);
   new nyc.Share(this.map.getTarget());
   $('#tabs li a').click($.proxy(this.tabs, this));
-  $('body').pagecontainer({change: $.proxy(this.hideBannerText, this)});
+  $('body').pagecontainer({change: $.proxy(this.bannerClass, this)});
   $(window).resize($.proxy(this.resize, this));
   this.fullscreen = $(nyc.FinderApp.FULL_SCREEN_INFO_HTML);
   $('#map-page').append(this.fullscreen);
@@ -274,15 +274,14 @@ nyc.FinderApp.prototype = {
     return $('body').pagecontainer().pagecontainer('getActivePage').attr('id');
   },
   /**
-   * @desc Get the id of the active page of pagecontainer
+   * @desc add/remove direction class to banner
    * @private
    * @method
-   * @return {string}
    */
-  hideBannerText: function(){
-    var hide = $('#dir-panel').width() == $(window).width() && $('body').pagecontainer('getActivePage').attr('id') == 'dir-page';
+  bannerClass: function(){
+    var add = $('body').pagecontainer('getActivePage').attr('id') == 'dir-page';
     $('body').append($('h1.banner'));
-    $('h1.banner span')[hide ? 'hide' : 'fadeIn']();
+    $('h1.banner')[add ? 'addClass' : 'removeClass']('directions');
   },
   /**
    * @desc Method to get window size
@@ -381,8 +380,13 @@ nyc.FinderApp.prototype = {
    ready: function(){
      if (this.finderSource.get('featuresloaded')){
        this.listFacilities();
-       $('#facility-tab-btn a').trigger('click');
        $('body').pagecontainer().pagecontainer('change', '#map-page', {transition: 'slideup'});
+       if ($(window).width() > 750){
+         $('#map-tab-btn a').removeClass('ui-btn-active');
+         $('#facility-tab-btn a').trigger('click');
+       }else{
+         $('#facility-tab-btn a').removeClass('ui-btn-active');
+       }
      }else{
        setTimeout($.proxy(this.ready, this), 200);
      }
@@ -473,7 +477,7 @@ nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page">' +
         '<div data-role="navbar">' +
           '<ul>' +
             '<li id="map-tab-btn">' +
-              '<a href="#map-tab">map</a>' +
+              '<a class="ui-btn-active" href="#map-tab">map</a>' +
             '</li>' +
             '<li id="facility-tab-btn">' +
               '<a class="ui-btn-active" href="#facility-tab">locations</a>' +

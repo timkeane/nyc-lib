@@ -25,7 +25,7 @@
 	margin: 5px;
 }
 #directions {
-	margin: 5px 0 0 5px;
+	margin: 5px 5px 0 5px;
 	overflow: auto;
 }
 .fld-lbl {
@@ -66,6 +66,7 @@
 }
 #dir-toggle {
 	display: none;
+	text-transform: capitalize;
 }
 .dir-mode-btn.ui-btn, .dir-mode-btn.ui-btn:visited {
 	background-color: var(--theme-ctl-bg-color);
