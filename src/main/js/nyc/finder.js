@@ -9,7 +9,10 @@ var nyc = nyc || {};
  */
 nyc.FinderApp = function(options){
   nyc.finder = this;
+  this.loading = options.loading;
+  this.readyCallback = options.ready || function(){};
   $('body').append(nyc.FinderApp.TEMPLATE_HTML).trigger('create');
+  $('#splash, #splash .content button').click($.proxy(this.splashClose, this));
   this.map = options.map;
   this.zoomLevel = options.zoomLevel || nyc.ol.Locate.ZOOM_LEVEL;
   $('#main').append(this.map.getTarget());
@@ -36,6 +39,7 @@ nyc.FinderApp = function(options){
 
   this.mtaHack = new nyc.MtaTripPlannerHack();
   $('#mta-btn').click($.proxy(this.hackMta, this));
+
   this.ready();
 };
 
@@ -226,6 +230,7 @@ nyc.FinderApp.prototype = {
     $('#facility-list').empty();
     this.listNextPage();
     $('#facility-tab').scrollTop(0);
+    $('#facility-tab h2').attr('tabindex', 0).focus();
   },
   /**
    * @desc Method to page through facilities
@@ -280,7 +285,11 @@ nyc.FinderApp.prototype = {
    */
   bannerClass: function(){
     var add = $('body').pagecontainer('getActivePage').attr('id') == 'dir-page';
-    $('body').append($('h1.banner'));
+    $('body').prepend($('h1.banner'));
+    if (this.readyCallback){
+      this.readyCallback(this);
+      delete this.readyCallback;
+    }
     $('h1.banner')[add ? 'addClass' : 'removeClass']('directions');
   },
   /**
@@ -372,6 +381,11 @@ nyc.FinderApp.prototype = {
 			me.listFacilities();
 		}, 100);
 	},
+  splashClose: function(){
+    $('#splash').fadeOut();
+    $('div[data-role="page"]').attr('aria-hidden', false);
+    $('.fld-srch-container input').attr('tabindex', 0).focus();
+  },
   /**
    * @desc Wait for features to load then list them
    * @private
@@ -379,6 +393,10 @@ nyc.FinderApp.prototype = {
    */
    ready: function(){
      if (this.finderSource.get('featuresloaded')){
+       setTimeout(function(){
+         $('#splash .msg').attr('tabindex', 0).focus();
+       }, 1000);
+       $('body').attr('aria-hidden', false);
        this.listFacilities();
        $('body').pagecontainer().pagecontainer('change', '#map-page', {transition: 'slideup'});
        if ($(window).width() > 750){
@@ -387,6 +405,9 @@ nyc.FinderApp.prototype = {
        }else{
          $('#facility-tab-btn a').removeClass('ui-btn-active');
        }
+       if (this.loading){
+         this.loading.loaded();
+      }
      }else{
        setTimeout($.proxy(this.ready, this), 200);
      }
@@ -460,7 +481,8 @@ nyc.FinderApp.prototype = {
  * @property {string=} directionsUrl The Google directions API URL with appropriate API key
  * @property {number} [zoomLevel={@link nyc.ol.Locate.ZOOM_LEVEL}] The zoom level to zoom to when finding a facility
  * @property {Object=} mapClickOptions Options to modify map click behavior {@see http://openlayers.org/en/latest/apidoc/ol.Map.html#forEachFeatureAtPixel}
- */
+ * @property {nyc.Loading=} loading Loading splash
+ * @property {callback} ready Ready callback
 nyc.FinderApp.Options;
 
 /**
@@ -469,7 +491,7 @@ nyc.FinderApp.Options;
  * @const
  * @type {string}
  */
-nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page">' +
+nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page" aria-hidden="true">' +
   '<div id="main" data-role="main" class="ui-content"></div>' +
   '<div id="panel">' +
     '<div id="panel-content">' +
@@ -489,7 +511,8 @@ nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page">' +
         '</div>' +
         '<div id="map-tab"></div>' +
         '<div id="facility-tab">' +
-          '<div id="facility-list"></div>' +
+        '<h2 class="screen-reader-only">Results</h2>' +
+          '<div id="facility-list" role="list"></div>' +
           '<div id="btn-more"><a data-role="button">More...</a></div>' +
         '</div>' +
         '<div id="filter-tab"></div>' +
@@ -497,7 +520,7 @@ nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page">' +
     '</div>' +
   '</div>' +
 '</div>' +
-'<div id="dir-page" data-role="page">' +
+'<div id="dir-page" data-role="page" aria-hidden="true">' +
   '<a id="back-to-map" data-role="button" data-icon="arrow-l" class="hdr-btn back-btn ui-btn-right" href="#map-page" data-transition="slidedown">' +
     'Back to finder' +
   '</a>' +
@@ -511,16 +534,16 @@ nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page">' +
         '<table id="dir-mode">' +
           '<tbody><tr>' +
             '<td><a id="mode-transit" class="dir-mode-btn active-mode" data-role="button" data-mode="TRANSIT" title="Get transit directions">' +
-              '<span class="noshow">get transit directions</span>' +
+              '<span class="screen-reader-only">get transit directions</span>' +
             '</a></td>' +
             '<td><a id="mode-bike" class="dir-mode-btn" data-role="button" data-mode="BICYCLING" title="Get bicycling directions">' +
-              '<span class="noshow">get bicycling directions</span>' +
+              '<span class="screen-reader-only">get bicycling directions</span>' +
             '</a></td>' +
             '<td><a id="mode-walk" class="dir-mode-btn" data-role="button" data-mode="WALKING" title="Get walking directions">' +
-              '<span class="noshow">get walking directions</span>' +
+              '<span class="screen-reader-only">get walking directions</span>' +
             '</a></td>' +
             '<td><a id="mode-car" class="dir-mode-btn" data-role="button" data-mode="DRIVING" title="Get driving directions">' +
-              '<span class="noshow">get driving directions</span>' +
+              '<span class="screen-reader-only">get driving directions</span>' +
             '</a></td>' +
             '<td>' +
               '<a id="mta-btn" class="dir-mode-btn" data-role="button">TripPlanner' +
@@ -563,6 +586,6 @@ nyc.FinderApp.INFO_PAGER_HTML = '<div class="info-pager">' +
  * @type {string}
  */
 nyc.FinderApp.FULL_SCREEN_INFO_HTML = '<div class="inf-full-screen">' +
-  '<a class="popup-closer"><span class="noshow">close</span></a>' +
+  '<a class="popup-closer"><span class="screen-reader-only">close</span></a>' +
   '<div class="content"></div>' +
 '</div>';

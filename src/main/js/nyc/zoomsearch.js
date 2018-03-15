@@ -134,7 +134,9 @@ nyc.ZoomSearch.prototype = {
 			});
 			me.list.children().first().addClass('ui-first-child');
 			me.list.children().last().addClass('ui-last-child');
-			me.list.slideDown();
+			me.list.slideDown(function(){
+				me.list.children().first().attr('tabindex', 0).focus();
+			});
 		}
 	},
 	/**
@@ -361,7 +363,7 @@ nyc.ZoomSearch.BASIC_HTML =
 		'<ul class="fld-srch ui-corner-all" data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search for an address..."></ul>' +
 	'</div>' +
 	'<a class="btn-z-in ctl ctl-btn" data-role="button" data-icon="plus" data-iconpos="notext" data-zoom-incr="1" title="Zoom in">' +
-		'<span class="noshow">Zoom in</span>' +
+		'<span class="screen-reader-only">Zoom in</span>' +
 	'</a>' +
 	'<a class="btn-z-out ctl ctl-btn" data-role="button" data-icon="minus" data-iconpos="notext" data-zoom-incr="-1" title="Zoom out">' +
 		'Zoom out' +
@@ -389,7 +391,7 @@ nyc.ZoomSearch.SEARCH_TYPES_HTML =
 		'<a class="btn-srch-typ ui-btn ui-icon-carat-d ui-btn-icon-notext" title="Search Type">Search Type</a>' +
 	'</div>' +
 	'<a class="btn-z-in ctl ctl-btn" data-role="button" data-icon="plus" data-iconpos="notext" data-zoom-incr="1" title="Zoom in">' +
-		'<span class="noshow">Zoom in</span>' +
+		'<span class="screen-reader-only">Zoom in</span>' +
 	'</a>' +
 	'<a class="btn-z-out ctl ctl-btn" data-role="button" data-icon="minus" data-iconpos="notext" data-zoom-incr="-1" title="Zoom out">' +
 		'Zoom out' +

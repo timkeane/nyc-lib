@@ -17,7 +17,7 @@ nyc.ol.Popup = function(map, options){
 	this.options = options;
 	me.container = $('<div></div>');
 	me.container.addClass('popup');
-	me.closer = $('<a><span class="noshow">Close</span></a>');
+	me.closer = $('<a><span class="screen-reader-only">Close</span></a>');
 	me.closer.addClass('popup-closer');
 	me.container.append(me.closer);
 	me.closer.click(function(){me.container.fadeOut();});

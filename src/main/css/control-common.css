@@ -1,7 +1,7 @@
 .ctl {
 	position: absolute;
 	z-index: 100;
-} 
+}
 a.ctl-btn.ui-btn {
 	width: 35px;
 	height: 35px;
@@ -17,9 +17,6 @@ a.ctl-btn.ui-btn {
 .ctl-btn.ui-btn:after, .ctl-btn.ui-btn:hover:after {
 	background-color: transparent;
 	background-size: 20px;
-}
-.noshow {
-	display: none;
 }
 a.ui-btn {
 	padding: 8px 3px;

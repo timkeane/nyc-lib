@@ -14,3 +14,14 @@ body.ui-mobile-viewport, body.ui-mobile-viewport *,
 .ui-corner-all, .ui-btn.ui-corner-all {
 	border-radius: var(--theme-border-radius);
 }
+*.screen-reader-only {
+	position: absolute !important;
+	left:-1000px !important;
+	top: auto !important;
+	width: 1px !important;
+	height: 1px !important;
+	overflow: hidden !important;
+	border: none !important;
+	color: transparent !important;
+	background-color: transparent !important;
+}

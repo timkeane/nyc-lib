@@ -332,7 +332,7 @@ nyc.Directions.Response;
   * @type {string}
   */
  nyc.Directions.BUTTONS_HTML = '<a class="btn-z-in ctl ctl-btn" data-role="button" data-icon="plus" data-iconpos="notext" data-zoom-incr="1" title="Zoom in">' +
-	 '<span class="noshow">Zoom in</span>' +
+	 '<span class="screen-reader-only">Zoom in</span>' +
  '</a>' +
  '<a class="btn-z-out ctl ctl-btn" data-role="button" data-icon="minus" data-iconpos="notext" data-zoom-incr="-1" title="Zoom out">' +
 	 'Zoom out' +
