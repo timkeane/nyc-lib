@@ -230,7 +230,16 @@ nyc.FinderApp.prototype = {
     $('#facility-list').empty();
     this.listNextPage();
     $('#facility-tab').scrollTop(0);
-    $('#facility-tab h2').attr('tabindex', 0).focus();
+    $('#facility-tab h2').html(
+      this.resultsMsg(features.length)
+    ).attr('tabindex', 0).focus();
+  },
+  resultsMsg: function(count){
+    var name = this.location.name, msg = count + ' results';
+    if (name){
+      msg += (' sorted by distance from ' + name);
+    }
+    return msg;
   },
   /**
    * @desc Method to page through facilities
@@ -340,6 +349,9 @@ nyc.FinderApp.prototype = {
         tab.append(this.container);
         this.on('change', me.filter, me);
       });
+      var btn = $('<button class="screen-reader-only">Apply filter</button>');
+      btn.click($.proxy(this.listFacilities, this));
+      tab.append(btn);
     }else{
       $('body').addClass('finder-no-filter');
     }
@@ -511,7 +523,7 @@ nyc.FinderApp.TEMPLATE_HTML = '<div id="map-page" data-role="page" aria-hidden="
         '</div>' +
         '<div id="map-tab"></div>' +
         '<div id="facility-tab">' +
-        '<h2 class="screen-reader-only">Results</h2>' +
+          '<h2 class="screen-reader-only">Results</h2>' +
           '<div id="facility-list" role="list"></div>' +
           '<div id="btn-more"><a data-role="button">More...</a></div>' +
         '</div>' +
