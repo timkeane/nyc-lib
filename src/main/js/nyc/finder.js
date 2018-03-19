@@ -253,6 +253,10 @@ nyc.FinderApp.prototype = {
 			if (i % 2 == 0) $(div).addClass('even-row');
 			$('#facility-list').append(div).trigger('create');
 		});
+    var infos = $('#facility-list div.info');
+    if (infos.length > 10){
+      $(infos.get(infos.length - 10)).find('h3').attr('tabindex', 0).focus();
+    }
 		$('#btn-more')[$('#facility-list').children().length == this.finderSource.getFeatures().length ? 'fadeOut' : 'fadeIn']();
 	},
   /**
