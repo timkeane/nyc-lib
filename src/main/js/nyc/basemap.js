@@ -10,6 +10,9 @@ var nyc = nyc || {};
  */
 nyc.Basemap = function(options){
 	var target = $(options.target);
+	if (!target.length){
+		target = $('#' + options.target);
+	}
 	target.on('drop', $.proxy(this.loadLayer, this));
 	target.on('dragover', function(event){
 		event.preventDefault();
