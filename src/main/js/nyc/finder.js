@@ -37,9 +37,10 @@ nyc.FinderApp = function(options){
   $('#btn-more').click($.proxy(this.listNextPage, this));
   $('h1.banner').click($.proxy(this.reload, this));
 
-  this.mtaHack = new nyc.MtaTripPlannerHack();
-  $('#mta-btn').click($.proxy(this.hackMta, this));
-
+  try{
+    this.mtaHack = new nyc.MtaTripPlannerHack();
+    $('#mta-btn').click($.proxy(this.hackMta, this));
+  }catch(ignore){}
   this.ready();
 };
 
