@@ -34,8 +34,11 @@ nyc.ol.Basemap = function(options, preload){
 	 * @member {ol.layer.Tile}
 	 */
 	me.base = new ol.layer.Tile({
-		extent: nyc.ol.Basemap.UNIVERSE_EXTENT,
-		source: new ol.source.XYZ({url: nyc.ol.Basemap.BASE_URL}),
+		extent: me.layerExtent(nyc.ol.Basemap.UNIVERSE_EXTENT, options.view),
+		source: new ol.source.XYZ({
+			url: nyc.ol.Basemap.BASE_URL,
+			projection: 'EPSG:3857'
+		}),
 		preload: preload || 0
 	});
 	layers.push(me.base);
@@ -47,8 +50,11 @@ nyc.ol.Basemap = function(options, preload){
 	me.labels = {};
 	for (var labelType in nyc.ol.Basemap.LABEL_URLS) {
 		me.labels[labelType] = new ol.layer.Tile({
-			extent: nyc.ol.Basemap.LABEL_EXTENT,
-			source: new ol.source.XYZ({url: nyc.ol.Basemap.LABEL_URLS[labelType]}),
+			extent: me.layerExtent(nyc.ol.Basemap.LABEL_EXTENT, options.view),
+			source: new ol.source.XYZ({
+				url: nyc.ol.Basemap.LABEL_URLS[labelType],
+				projection: 'EPSG:3857'
+			}),
 			zIndex: 1000,
 			visible: labelType == 'base'
 		});
@@ -62,8 +68,11 @@ nyc.ol.Basemap = function(options, preload){
 	me.photos = {};
 	for (var year in nyc.ol.Basemap.PHOTO_URLS) {
 		var photo = new ol.layer.Tile({
-			extent: nyc.ol.Basemap.PHOTO_EXTENT,
-			source: new ol.source.XYZ({url: nyc.ol.Basemap.PHOTO_URLS[year]}),
+			extent: me.layerExtent(nyc.ol.Basemap.PHOTO_EXTENT, options.view),
+			source: new ol.source.XYZ({
+				url: nyc.ol.Basemap.PHOTO_URLS[year],
+				projection: 'EPSG:3857'
+			}),
 			visible: false
 		});
 		if ((year * 1) > me.latestPhoto){
@@ -188,6 +197,21 @@ nyc.ol.Basemap.prototype.photoChange = function(){
 		}
 	}
 	this.showLabels(nyc.Basemap.LabelType.BASE);
+};
+
+/**
+ * @private
+ * @method
+ * @param extent {ol.Extent} extent
+ * @param view {ol.View|undefined} extent
+ */
+nyc.ol.Basemap.prototype.layerExtent = function(extent, view){
+	if (view){
+		var result = ol.geom.Polygon.fromExtent(extent);
+		result.transform('EPSG:3857', view.getProjection());
+		return result.getExtent();
+	}
+	return extent;
 };
 
 /**
