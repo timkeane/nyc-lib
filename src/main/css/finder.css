@@ -119,6 +119,9 @@ li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
 .name {
   font-weight: bold;
 }
+h3.name {
+  margin: 0;
+}
 .info .icon, .nyc-choice .icon {
   width: 21px;
   height: 21px;
@@ -137,7 +140,7 @@ li#map-tab-btn, .finder-no-filter  li#filter-tab-btn {
 .info .ui-btn {
   display: inline-block;
   width: calc(50% - 68px);
-  text-transform: capitalize;  
+  text-transform: capitalize;
 }
 .info .detail {
   margin-top: 0;

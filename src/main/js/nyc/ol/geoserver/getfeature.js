@@ -248,7 +248,7 @@ nyc.inherits(nyc.ol.geoserver.GetFeature, nyc.EventHandling);
  * @type {string}
  */
 nyc.ol.geoserver.GetFeature.HTML = 	'<a id="btn-get-feat" class="ctl ctl-btn" data-role="button" data-icon="arrow-d" data-iconpos="notext" data-zoom-incr="1" title="Get feature (Click the map to retrieve a feature. Hold the shift-key and click a feature to remove.)">' +
-		'<span class="noshow">Get feature</span>' +
+		'<span class="screen-reader-only">Get feature</span>' +
 	'</a>';
 
 /**

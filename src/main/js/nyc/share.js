@@ -46,25 +46,25 @@ nyc.Share.prototype = {
  */
 nyc.Share.HTML = 
 	'<a id="share-btn" class="ctl ctl-btn" data-role="button" title="Share...">' +
-		'<span class="noshow">Share...</span>' +
+		'<span class="screen-reader-only">Share...</span>' +
 	'</a>' +
 	'<div id="share-btns" class="ctl">' +
 		'<a id="facebook-btn" class="ctl-btn" data-role="button" href="https://www.facebook.com/sharer/sharer.php?u=${url}" target="_blank" rel="noopener noreferrer" title="Facebook">' +
-			'<span class="noshow">Facebook</span>' +
+			'<span class="screen-reader-only">Facebook</span>' +
 		'</a>' +
 		'<a id="twitter-btn" class="ctl-btn" data-role="button" href="https://twitter.com/intent/tweet?text=${url} @nycgov&source=webclient" target="_blank" rel="noopener noreferrer" title="Twitter">' +
-			'<span class="noshow">Twitter</span>' +
+			'<span class="screen-reader-only">Twitter</span>' +
 		'</a>' +
 		'<a id="google-btn" class="ctl-btn" data-role="button" href="https://plus.google.com/share?url=${url}" target="_blank" rel="noopener noreferrer" title="Google+">' +
-			'<span class="noshow">Google+</span>' +
+			'<span class="screen-reader-only">Google+</span>' +
 		'</a>' +
 		'<a id="linkedin-btn" class="ctl-btn" data-role="button" href="http://www.linkedin.com/shareArticle?mini=true&url=${url}" target="_blank" rel="noopener noreferrer" title="LinkedIn">' +
-			'<span class="noshow">LinkedIn</span>' +
+			'<span class="screen-reader-only">LinkedIn</span>' +
 		'</a>' +
 		'<a id="tumblr-btn" class="ctl-btn" data-role="button" href="http://www.tumblr.com/share/link?url=${url}&name=${title}&description=via%20NYC.gov" target="_blank" rel="noopener noreferrer" title="Tumblr">' +
-			'<span class="noshow">Tumblr</span>' +
+			'<span class="screen-reader-only">Tumblr</span>' +
 		'</a>' +
 		'<a id="email-btn" class="ctl-btn" data-role="button" href="mailto:?subject=${title}&body=${description}%0A%0A${url}" title="email">' +
-			'<span class="noshow">Email</span>' +
+			'<span class="screen-reader-only">Email</span>' +
 		'</a>' +
 	'</div>';
