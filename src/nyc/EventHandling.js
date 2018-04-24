@@ -1,21 +1,22 @@
 /**
- * @module nyc/ReplaceTokens
+ * @module nyc/EventHandling
  */
 
+ import $ from 'jQuery'
 /**
  * @desc Class to provide event handling functionality
  * @public
  * @class
  * @constructor
  */
-EventHandling = function(){};
-
-EventHandling.prototype = {
-	/**
-	* @private
-	* @type {Object<string, Array<EventHandling.Handler>>}
-	*/
-	evtHdlrs: null,
+class EventHandling {
+	constructor() {
+		/**
+		* @private
+		* @type {Object<string, Array<EventHandling.Handler>>}
+		*/
+		this.evtHdlrs = {}
+	}
 	/**
 	* @desc Connect a function to an event
 	* @public
@@ -24,9 +25,9 @@ EventHandling.prototype = {
 	* @param {function(Object)} evtHdlr The event handler function
 	* @param {Object=} hdlrScope The scope in which to invoke the event handler
 	*/
-	on: function(eventName, evtHdlr, hdlrScope) {
-		this.addHdlr(eventName, evtHdlr, hdlrScope);
-	},
+	on(eventName, evtHdlr, hdlrScope) {
+		this.addHdlr(eventName, evtHdlr, hdlrScope)
+	}
 	/**
 	* @desc Connect a function to an event for a single invocation
 	* @public
@@ -35,9 +36,9 @@ EventHandling.prototype = {
 	* @param {function(Object)} evtHdlr The event handler function
 	* @param {Object=} hdlrScope The scope in which to invoke the event handler
 	*/
-	one: function(eventName, evtHdlr, hdlrScope) {
-		this.addHdlr(eventName, evtHdlr, hdlrScope, true);
-	},
+	one(eventName, evtHdlr, hdlrScope) {
+		this.addHdlr(eventName, evtHdlr, hdlrScope, true)
+	}
 	/**
 	* @desc Trigger a named event with event data
 	* @public
@@ -45,26 +46,25 @@ EventHandling.prototype = {
 	* @param {string} eventName The name of the event to trigger
 	* @param {Object=} data The event data
 	*/
-	trigger: function(eventName, data) {
-		this.evtHdlrs = this.evtHdlrs || {};
-		const handlers = this.evtHdlrs[eventName];
-		const remove = [];
+	trigger(eventName, data) {
+		const handlers = this.evtHdlrs[eventName]
+		const remove = []
 		if (handlers){
-			handlers.forEach(function(index, hdlr){
+			handlers.forEach(hdlr => {
 				if (hdlr.scope) {
-					hdlr.handler.call(hdlr.scope, data);
+					hdlr.handler.call(hdlr.scope, data)
 				} else {
-					hdlr.handler(data);
+					hdlr.handler(data)
 				}
 				if (hdlr.remove){
-					remove.push(hdlr);
+					remove.push(hdlr)
 				}
-			});
-			remove.forEach(function(_, hdlr) {
-				handlers.splice($.inArray(hdlr, handlers), 1);
-			});
+			})
+			remove.forEach(hdlr => {
+				handlers.splice($.inArray(hdlr, handlers), 1)
+			})
 		}
-	},
+	}
 	/**
 	* @desc Remove a previously connected event handler
 	* @public
@@ -73,16 +73,15 @@ EventHandling.prototype = {
 	* @param {function(Object)} evtHdlr The event handler function
 	* @param {Object=} hdlrScope The scope in which to invoke the event handler
 	*/
-	off: function(eventName, evtHdlr, hdlrScope) {
-		this.evtHdlrs = this.evtHdlrs || {};
-		const handlers = this.evtHdlrs[eventName];
-		handlers,forEach(function(index, hdlr) {
+	off(eventName, evtHdlr, hdlrScope) {
+		const handlers = this.evtHdlrs[eventName]
+		handlers.forEach((hdlr, index) => {
 			if (hdlr.handler === evtHdlr && hdlr.scope === hdlrScope){
-				handlers.splice(index, 1);
-				return false;
+				handlers.splice(index, 1)
+				return false
 			}
-		});
-	},
+		})
+	}	
 	/**
 	* @private
 	* @method
@@ -91,12 +90,11 @@ EventHandling.prototype = {
 	* @param {Object} hdlrScope
 	* @param {boolean} one
 	*/
-	addHdlr: function(eventName, evtHdlr, hdlrScope, one) {
-		this.evtHdlrs = this.evtHdlrs || {};
-		this.evtHdlrs[eventName] = this.evtHdlrs[eventName] || [];
-		this.evtHdlrs[eventName].push({handler: evtHdlr, scope: hdlrScope, remove: one});
+	addHdlr(eventName, evtHdlr, hdlrScope, one) {
+		this.evtHdlrs[eventName] = this.evtHdlrs[eventName] || []
+		this.evtHdlrs[eventName].push({handler: evtHdlr, scope: hdlrScope, remove: one})
 	}
-};
+}
 
 /**
  * @desc Object type to hold event handlers
@@ -106,4 +104,6 @@ EventHandling.prototype = {
  * @property {Object} scope The event handler scope
  * @property {boolean} [remove=false] Remove after one execution
  */
-EventHandling.Handler;
+EventHandling.Handler
+
+export default EventHandling

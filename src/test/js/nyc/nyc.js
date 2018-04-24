@@ -33,11 +33,11 @@ QUnit.module('nyc.EventHandling');
 
 QUnit.test('on', function(assert){
 	assert.expect(10);
-	
+
 	var aHandler = function(){};
 	var anotherHandler = function(data){};
 	var anObj = {
-		name: 'anObj',	
+		name: 'anObj',
 		handler: function(){}
 	};
 	var anotherObj = {
@@ -72,11 +72,11 @@ QUnit.test('on', function(assert){
 
 QUnit.test('one', function(assert){
 	assert.expect(10);
-	
+
 	var aHandler = function(){};
 	var anotherHandler = function(data){};
 	var anObj = {
-		name: 'anObj',	
+		name: 'anObj',
 		handler: function(){}
 	};
 	var anotherObj = {
@@ -119,7 +119,7 @@ QUnit.test('trigger', function(assert){
 		assert.equal(data, 'data2');
 	};
 	var anObj = {
-		name: 'anObj',	
+		name: 'anObj',
 		handler: function(data){
 			assert.equal(data, 'data1');
 		}
@@ -143,18 +143,18 @@ QUnit.test('trigger', function(assert){
 
 	assert.equal(handling.evtHdlrs['event1'].length, 1);
 	assert.deepEqual(handling.evtHdlrs['event1'][0], {handler: aHandler, scope: undefined, remove: undefined});
-	
+
 	assert.equal(handling.evtHdlrs['event2'].length, 1);
 	assert.deepEqual(handling.evtHdlrs['event2'][0], {handler: anotherObj.handler, scope: anotherObj, remove: undefined});
 });
 
 QUnit.test('off', function(assert){
 	assert.expect(6);
-	
+
 	var aHandler = function(){};
 	var anotherHandler = function(data){};
 	var anObj = {
-		name: 'anObj',	
+		name: 'anObj',
 		handler: function(){}
 	};
 	var anotherObj = {
@@ -177,7 +177,7 @@ QUnit.test('off', function(assert){
 	assert.deepEqual(handling.evtHdlrs['event1'][0], {handler: anObj.handler, scope: anObj, remove: true});
 
 	handling.off('event1', anObj.handler, anObj);
-	
+
 	assert.equal(handling.evtHdlrs['event1'].length, 0);
 
 });
@@ -187,27 +187,27 @@ QUnit.module('nyc');
 QUnit.test('inherits', function(assert){
 	assert.expect(12);
 	var aFunc = function(arg){this.arg = arg;};
-	
+
 	var parent = function(){};
 	parent.prototype.number = 1;
 	parent.prototype.string = 'string';
 	parent.prototype.array = ['array'];
 	parent.prototype.func = aFunc;
 	parent.prototype.obj = {name:'object'};
-	
+
 	var child = function(){};
 	child.prototype.member = 'member';
 	child.prototype.number = 2;
-	
+
 	nyc.inherits(child, parent);
-	
+
 	assert.equal(child.prototype.member, 'member');
 	assert.equal(child.prototype.number, 2);
 	assert.equal(child.prototype.string, parent.prototype.string);
 	assert.deepEqual(child.prototype.array, parent.prototype.array);
 	assert.deepEqual(child.prototype.func, parent.prototype.func);
 	assert.deepEqual(child.prototype.obj, parent.prototype.obj);
-	
+
 	assert.notOk('member' in parent.prototype);
 	assert.equal(parent.prototype.number, 1);
 	assert.equal(parent.prototype.string, 'string');
@@ -215,4 +215,3 @@ QUnit.test('inherits', function(assert){
 	assert.deepEqual(parent.prototype.func, aFunc);
 	assert.deepEqual(parent.prototype.obj, {name:'object'});
 });
-
