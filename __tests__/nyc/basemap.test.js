@@ -66,13 +66,13 @@ test('constructor pass target as jQuery selector', () => {
 })
 
 test('constructor pass target as jQuery selector that returns nothing', () => {
-    const test = jest.fn(e => {
-      expect(e).toBe('target #fred does not exist')
+    const test = jest.fn(error => {
+      expect(error).toBe('target #fred does not exist')
     })
     try {
       const basemap = new Basemap({target: '#fred'})
-    } catch (e) {
-      test(e)
+    } catch (error) {
+      test(error)
     }
     expect(test).toHaveBeenCalledTimes(1)
 })
@@ -96,13 +96,13 @@ test('constructor pass target id only', () => {
 })
 
 test('constructor pass target as target id that returns nothing', () => {
-    const test = jest.fn(e => {
-      expect(e).toBe('target fred does not exist')
+    const test = jest.fn(error => {
+      expect(error).toBe('target fred does not exist')
     })
     try {
       const basemap = new Basemap({target: 'fred'})
-    } catch (e) {
-      test(e)
+    } catch (error) {
+      test(error)
     }
     expect(test).toHaveBeenCalledTimes(1)
 })
