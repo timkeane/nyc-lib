@@ -1,0 +1,47 @@
+{
+  "name": "@timkeane/nyc-lib",
+  "version": "0.6.0",
+  "description": "A set of common libraries used to develop NYC mapping applications",
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest",
+    "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timkeane/nyc-lib.git"
+  },
+  "keywords": [
+    "mapping",
+    "openlayers",
+    "leaflet",
+    "nyc",
+    "New York"
+  ],
+  "author": "Tim Keane <t.d.keane@gmail.com> (https://timkeane.github.io/)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/timkeane/nyc-lib/issues"
+  },
+  "homepage": "https://github.com/timkeane/nyc-lib#readme",
+  "engines": {
+    "node": ">=4.2.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "jest": "^22.4.3"
+  },
+  "dependencies": {
+    "jquery": "^2.2.4",
+    "jquery-csv": "^0.8.9",
+    "jquery-mobile": "^1.5.0-alpha.1",
+    "leaflet": "^1.3.1",
+    "proj4": "^2.4.4",
+    "strict-mode": "^1.1.2"
+  }
+}
