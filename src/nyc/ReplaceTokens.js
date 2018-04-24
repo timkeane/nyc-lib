@@ -1,14 +1,14 @@
 /**
  * @module nyc/ReplaceTokens
  */
-console.log('wtf')
-/**
+
+ /**
  * @desc Class to provide string replacement functionality
  * @public
  * @class
  * @constructor
  */
-class ReplaceTokens {
+export default class ReplaceTokens {
 	/**
 	 * @desc Replace tokens in a string with values from a provided object
 	 * @public
@@ -24,5 +24,3 @@ class ReplaceTokens {
 		return str
 	}
 }
-console.log(ReplaceTokens.prototype)
-module.exports = ReplaceTokens
