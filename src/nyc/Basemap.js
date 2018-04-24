@@ -3,7 +3,7 @@
  */
 
 import $ from 'jQuery'
- 
+
 /**
  * @desc An abstract class for creating and manipulating the NYC basemap
  * @public
@@ -19,8 +19,13 @@ export default class Basemap {
      */
     constructor(options) {
         let target = $(options.target)
-        if (!target.length) {
-            target = $('#' + options.target)
+        if (target.length === 0) {
+            try {
+              target = $('#' + options.target)
+            } catch (ignore) { }
+        }
+        if (target.length === 0) {
+          throw `target ${options.target} does not exist`
         }
         target.on('drop', $.proxy(this.loadLayer, this))
         target.on('dragover', function(event){
