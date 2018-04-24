@@ -94,13 +94,12 @@ export default class Basemap {
 		 if (transfer && transfer.files.length){
 			 const storage = this.getStorage()
 			 const files = transfer.files
-			 files.forEach(file => {
-				 const ext = file.name.split('.').pop().toLowerCase()
-				 if (ext === 'json'){
-					 storage.loadGeoJsonFile(map, null, file)
-				 }
-			 })
-			 storage.loadShapeFile(map, null, files)
+			 const ext = files[0].name.split('.').pop().toLowerCase()
+			 if (ext === 'json'){
+				 storage.loadGeoJsonFile(this, null, files[0])
+			 } else {
+         storage.loadShapeFile(this, null, files)
+       }
 		 }
 	 }
 	/**

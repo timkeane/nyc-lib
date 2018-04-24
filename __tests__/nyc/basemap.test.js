@@ -12,6 +12,7 @@ afterEach(() => {
 })
 
 test('constructor pass target as DOM node', () => {
+    const loadLayer = Basemap.prototype.loadLayer
     Basemap.prototype.loadLayer = jest.fn(event => {
         expect(event.target).toBe(target.get(0))
     })
@@ -27,9 +28,12 @@ test('constructor pass target as DOM node', () => {
     target.on('dragover', dragHandler)
     target.trigger('dragover')
     expect(dragHandler).toHaveBeenCalledTimes(1)
+
+    Basemap.prototype.loadLayer = loadLayer
 })
 
 test('constructor pass target as jQuery', () => {
+    const loadLayer = Basemap.prototype.loadLayer
     Basemap.prototype.loadLayer = jest.fn(event => {
         expect(event.target).toBe(target.get(0))
     })
@@ -45,9 +49,12 @@ test('constructor pass target as jQuery', () => {
     target.on('dragover', dragHandler)
     target.trigger('dragover')
     expect(dragHandler).toHaveBeenCalledTimes(1)
+
+    Basemap.prototype.loadLayer = loadLayer
 })
 
 test('constructor pass target as jQuery selector', () => {
+    const loadLayer = Basemap.prototype.loadLayer
     Basemap.prototype.loadLayer = jest.fn(event => {
         expect(event.target).toBe(target.get(0))
     })
@@ -63,6 +70,8 @@ test('constructor pass target as jQuery selector', () => {
     target.on('dragover', dragHandler)
     target.trigger('dragover')
     expect(dragHandler).toHaveBeenCalledTimes(1)
+
+    Basemap.prototype.loadLayer = loadLayer
 })
 
 test('constructor pass target as jQuery selector that returns nothing', () => {
@@ -78,6 +87,7 @@ test('constructor pass target as jQuery selector that returns nothing', () => {
 })
 
 test('constructor pass target id only', () => {
+    const loadLayer = Basemap.prototype.loadLayer
     Basemap.prototype.loadLayer = jest.fn(event => {
         expect(event.target).toBe(target.get(0))
     })
@@ -93,6 +103,8 @@ test('constructor pass target id only', () => {
     target.on('dragover', dragHandler)
     target.trigger('dragover')
     expect(dragHandler).toHaveBeenCalledTimes(1)
+
+    Basemap.prototype.loadLayer = loadLayer
 })
 
 test('constructor pass target as target id that returns nothing', () => {
@@ -105,4 +117,58 @@ test('constructor pass target as target id that returns nothing', () => {
       test(error)
     }
     expect(test).toHaveBeenCalledTimes(1)
+})
+
+test('loadLayer', () => {
+  let basemap
+  const mockJsonEvent = {
+    originalEvent: {
+      dataTransfer: {
+        files: [{name: 'layer.json'}]
+      }
+    },
+    preventDefault: jest.fn(),
+    stopPropagation: jest.fn()
+  }
+  const mockShpEvent = {
+    originalEvent: {
+      dataTransfer: {
+        files: [
+          {name: 'layer.shp'},
+          {name: 'layer.dbf'},
+          {name: 'layer.shx'},
+          {name: 'layer.prj'}
+        ]
+      }
+    },
+    preventDefault: jest.fn(),
+    stopPropagation: jest.fn()
+  }
+  const mockStorage = {
+    loadGeoJsonFile: jest.fn((map, callback, file) => {
+      expect(map).toBe(basemap)
+      expect(callback).toBeNull()
+      expect(file).toBe(mockJsonEvent.originalEvent.dataTransfer.files[0])
+    }),
+    loadShapeFile: jest.fn((map, callback, files) => {
+      expect(map).toBe(basemap)
+      expect(callback).toBeNull()
+      expect(files).toBe(mockShpEvent.originalEvent.dataTransfer.files)
+    })
+  }
+  Basemap.prototype.getStorage = function() {
+    return mockStorage
+  }
+
+  basemap = new Basemap({target})
+
+  basemap.loadLayer(mockJsonEvent)
+  expect(mockStorage.loadGeoJsonFile).toHaveBeenCalledTimes(1)
+  expect(mockJsonEvent.preventDefault).toHaveBeenCalledTimes(1)
+  expect(mockJsonEvent.stopPropagation).toHaveBeenCalledTimes(1)
+
+  basemap.loadLayer(mockShpEvent)
+  expect(mockStorage.loadShapeFile).toHaveBeenCalledTimes(1)
+  expect(mockShpEvent.preventDefault).toHaveBeenCalledTimes(1)
+  expect(mockShpEvent.stopPropagation).toHaveBeenCalledTimes(1)
 })
