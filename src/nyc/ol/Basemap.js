@@ -66,66 +66,6 @@ class Basemap extends OlMap {
     this.hookupEvents(this.getTargetElement())
   }
   /**
-   * @private
-   * @method
-   * @param {boolean} viewProvided
-   */
-  defaultExtent(viewProvided) {
-    if (!viewProvided) {
-      this.getView().fit(Basemap.EXTENT, {
-        size: this.getSize(), duration: 500
-      })
-    }
-  }
-  /**
-   * @private
-   * @method
-   * @param {Object} options
-   * @param {number} [preload=0]
-   */
-  setupLayers(options, preload) {
-    this.base = new OlLayerTile({
-      extent: this.layerExtent(Basemap.UNIVERSE_EXTENT, options.view),
-      source: new OlSourceXYZ({
-        url: Basemap.BASE_URL,
-        projection: 'EPSG:3857'
-      }),
-      preload: preload || 0
-    })
-    this.addLayer(this.base)
-
-    Object.entries(Basemap.LABEL_URLS).forEach(([labelType, url]) => {
-      this.labels[labelType] = new OlLayerTile({
-        extent: this.layerExtent(Basemap.LABEL_EXTENT, options.view),
-        source: new OlSourceXYZ({
-          url: url,
-          projection: 'EPSG:3857'
-        }),
-        zIndex: 1000,
-        visible: labelType == 'base'
-      })
-      this.addLayer(this.labels[labelType])
-    })
-
-    Object.entries(Basemap.PHOTO_URLS).forEach(([year, url]) => {
-      const photo = new OlLayerTile({
-        extent: this.layerExtent(Basemap.PHOTO_EXTENT, options.view),
-        source: new OlSourceXYZ({
-          url: url,
-          projection: 'EPSG:3857'
-        }),
-        visible: false
-      })
-      if ((year.split('-')[0] * 1) > this.latestPhoto) {
-        this.latestPhoto = year
-      }
-      photo.set('name', year)
-      this.addLayer(photo)
-      photo.on('change:visible', $.proxy(this.photoChange, this))
-      this.photos[year] = photo
-    })
-  }
-  /**
    * @desc Show photo layer
    * @public
    * @override
@@ -184,6 +124,66 @@ class Basemap extends OlMap {
    */
   getStorage(year) {
   	return this.storage
+  }
+  /**
+   * @private
+   * @method
+   * @param {boolean} viewProvided
+   */
+  defaultExtent(viewProvided) {
+    if (!viewProvided) {
+      this.getView().fit(Basemap.EXTENT, {
+        size: this.getSize(), duration: 500
+      })
+    }
+  }
+  /**
+   * @private
+   * @method
+   * @param {Object} options
+   * @param {number} [preload=0]
+   */
+  setupLayers(options, preload) {
+    this.base = new OlLayerTile({
+      extent: this.layerExtent(Basemap.UNIVERSE_EXTENT, options.view),
+      source: new OlSourceXYZ({
+        url: Basemap.BASE_URL,
+        projection: 'EPSG:3857'
+      }),
+      preload: preload || 0
+    })
+    this.addLayer(this.base)
+
+    Object.entries(Basemap.LABEL_URLS).forEach(([labelType, url]) => {
+      this.labels[labelType] = new OlLayerTile({
+        extent: this.layerExtent(Basemap.LABEL_EXTENT, options.view),
+        source: new OlSourceXYZ({
+          url: url,
+          projection: 'EPSG:3857'
+        }),
+        zIndex: 1000,
+        visible: labelType == 'base'
+      })
+      this.addLayer(this.labels[labelType])
+    })
+
+    Object.entries(Basemap.PHOTO_URLS).forEach(([year, url]) => {
+      const photo = new OlLayerTile({
+        extent: this.layerExtent(Basemap.PHOTO_EXTENT, options.view),
+        source: new OlSourceXYZ({
+          url: url,
+          projection: 'EPSG:3857'
+        }),
+        visible: false
+      })
+      if ((year.split('-')[0] * 1) > this.latestPhoto) {
+        this.latestPhoto = year
+      }
+      photo.set('name', year)
+      this.addLayer(photo)
+      photo.on('change:visible', $.proxy(this.photoChange, this))
+      this.photos[year] = photo
+    })
   }
   /**
    * @private

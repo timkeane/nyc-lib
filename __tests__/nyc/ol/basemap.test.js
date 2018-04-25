@@ -101,3 +101,57 @@ test('constructor has view in options', () => {
   Basemap.prototype.defaultExtent = defaultExtent
   nyc.mixin = mixin
 })
+
+test('showPhoto no year', () => {
+  const basemap = new Basemap({target: 'map'})
+
+  expect(Object.entries(basemap.photos).length).toBe(11)
+  Object.entries(basemap.photos).forEach(([year, layer]) => {
+    expect(layer.getVisible()).toBe(false)
+  })
+  expect(basemap.labels.base.getVisible()).toBe(true)
+  expect(basemap.labels.photo.getVisible()).toBe(false)
+
+  basemap.showPhoto()
+
+  Object.entries(basemap.photos).forEach(([year, layer]) => {
+    expect(layer.getVisible()).toBe(year === basemap.latestPhoto)
+  })
+  expect(basemap.labels.base.getVisible()).toBe(false)
+  expect(basemap.labels.photo.getVisible()).toBe(true)
+})
+
+test('showPhoto 1996', () => {
+  const basemap = new Basemap({target: 'map'})
+
+  expect(Object.entries(basemap.photos).length).toBe(11)
+  Object.entries(basemap.photos).forEach(([year, layer]) => {
+    expect(layer.getVisible()).toBe(false)
+  })
+  expect(basemap.labels.base.getVisible()).toBe(true)
+  expect(basemap.labels.photo.getVisible()).toBe(false)
+
+  basemap.showPhoto(1996)
+
+  Object.entries(basemap.photos).forEach(([year, layer]) => {
+    expect(layer.getVisible()).toBe(year === '1996')
+  })
+  expect(basemap.labels.base.getVisible()).toBe(false)
+  expect(basemap.labels.photo.getVisible()).toBe(true)
+})
+
+test('showLabels', () => {
+  const basemap = new Basemap({target: 'map'})
+
+  expect(basemap.labels.base.getVisible()).toBe(true)
+  expect(basemap.labels.photo.getVisible()).toBe(false)
+
+  basemap.showLabels(BasemapHelper.LabelType.PHOTO)
+
+  expect(basemap.labels.base.getVisible()).toBe(false)
+  expect(basemap.labels.photo.getVisible()).toBe(true)
+
+  basemap.showLabels(BasemapHelper.LabelType.BASE)
+  expect(basemap.labels.base.getVisible()).toBe(true)
+  expect(basemap.labels.photo.getVisible()).toBe(false)
+})
