@@ -5,6 +5,7 @@
 import $ from 'jQuery'
 
 import nyc from '../nyc'
+import IBasemap from '../Basemap'
 import BasemapHelper from '../BasemapHelper'
 
 import ol from 'ol'
@@ -18,6 +19,7 @@ import OlSourceXYZ from 'ol/source/XYZ'
  * @desc Class that provides an ol.Map with base layers, labels, and drag-and-drop
  * @public
  * @class
+ * @implements nyc/Basemap
  * @extends ol.Map
  * @mixes nyc/Basemap
  */
@@ -32,7 +34,7 @@ export default class Basemap extends OlMap {
    */
   constructor(options, preload) {
     const viewProvided = options.view
-    Basemap.setupView(options)
+    IBasemap.setupView(options)
     super(options)
     nyc.mixin(this, [BasemapHelper])
     /**
@@ -63,7 +65,7 @@ export default class Basemap extends OlMap {
     this.setupLayers(options, preload)
     this.hookupEvents(this.getTarget())
     if (!viewProvided){
-      this.getView().fit(Basemap.EXTENT, {
+      this.getView().fit(IBasemap.EXTENT, {
         size: this.getSize(), duration: 500
       })
     }
@@ -76,18 +78,18 @@ export default class Basemap extends OlMap {
    */
   setupLayers(options, preload) {
     this.base = new OlLayerTile({
-      extent: this.layerExtent(Basemap.UNIVERSE_EXTENT, options.view),
+      extent: this.layerExtent(IBasemap.UNIVERSE_EXTENT, options.view),
       source: new OlSourceXYZ({
-        url: Basemap.BASE_URL,
+        url: IBasemap.BASE_URL,
         projection: 'EPSG:3857'
       }),
       preload: preload || 0
     })
     this.addLayer(this.base)
 
-    Object.entries(Basemap.LABEL_URLS).forEach((labelType, url) => {
+    Object.entries(IBasemap.LABEL_URLS).forEach((labelType, url) => {
       this.labels[labelType] = new OlLayerTile({
-        extent: this.layerExtent(Basemap.LABEL_EXTENT, options.view),
+        extent: this.layerExtent(IBasemap.LABEL_EXTENT, options.view),
         source: new OlSourceXYZ({
           url: url,
           projection: 'EPSG:3857'
@@ -98,9 +100,9 @@ export default class Basemap extends OlMap {
       this.addLayer(this.labels[labelType])
     })
 
-    Object.entries(Basemap.PHOTO_URLS).forEach((year, url) => {
+    Object.entries(IBasemap.PHOTO_URLS).forEach((year, url) => {
       var photo = new OlLayerTile({
-        extent: this.layerExtent(Basemap.PHOTO_EXTENT, options.view),
+        extent: this.layerExtent(IBasemap.PHOTO_EXTENT, options.view),
         source: new OlSourceXYZ({
           url: url,
           projection: 'EPSG:3857'
@@ -137,8 +139,8 @@ export default class Basemap extends OlMap {
    * @param labelType {nyc.Basemap.BaseLayers} The label type to show
    */
   showLabels(labelType) {
-  	this.labels.base.setVisible(labelType == BasemapHelper.LabelType.BASE)
-  	this.labels.photo.setVisible(labelType == BasemapHelper.LabelType.PHOTO)
+  	this.labels.base.setVisible(labelType == IBasemap.LabelType.BASE)
+  	this.labels.photo.setVisible(labelType == IBasemap.LabelType.PHOTO)
   }
   /**
    * @desc Hide photo layer
@@ -148,7 +150,7 @@ export default class Basemap extends OlMap {
    */
   hidePhoto() {
   	this.base.setVisible(true)
-  	this.showLabels(BasemapHelper.LabelType.BASE)
+  	this.showLabels(IBasemap.LabelType.BASE)
     Object.entries(this.photos).forEach((year, layer) => {
       layer.setVisible(false)
     })
@@ -198,11 +200,11 @@ export default class Basemap extends OlMap {
   photoChange() {
     Object.entries(this.photos).some((year, layer) => {
   		if (layer.getVisible()) {
-  			this.showLabels(BasemapHelper.LabelType.PHOTO)
+  			this.showLabels(IBasemap.LabelType.PHOTO)
   			return true
   		}
   	})
-  	this.showLabels(BasemapHelper.LabelType.BASE)
+  	this.showLabels(IBasemap.LabelType.BASE)
   }
 }
 
@@ -212,10 +214,10 @@ export default class Basemap extends OlMap {
  * @method
  * @param {Object} options
  */
-Basemap.setupView = function(options) {
+IBasemap.setupView = function(options) {
   if (options.view === undefined){
     options.view = new OlView({
-      center: Basemap.CENTER,
+      center: IBasemap.CENTER,
       minZoom: 8,
       maxZoom: 21,
       zoom: 8,
@@ -230,7 +232,7 @@ Basemap.setupView = function(options) {
  * @const
  * @type {string}
  */
-Basemap.BASE_URL = 'https://maps{1-4}.nyc.gov/tms/1.0.0/carto/basemap/{z}/{x}/{-y}.jpg';
+IBasemap.BASE_URL = 'https://maps{1-4}.nyc.gov/tms/1.0.0/carto/basemap/{z}/{x}/{-y}.jpg';
 
 /**
  * @desc The URLs of the New York City aerial imagery map tiles
@@ -238,7 +240,7 @@ Basemap.BASE_URL = 'https://maps{1-4}.nyc.gov/tms/1.0.0/carto/basemap/{z}/{x}/{-
  * @const
  * @type {Object<string, string>}
  */
-Basemap.PHOTO_URLS = {
+IBasemap.PHOTO_URLS = {
 	'1924': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/1924/{z}/{x}/{-y}.png8',
 	'1951': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/1951/{z}/{x}/{-y}.png8',
 	'1996': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/1996/{z}/{x}/{-y}.png8',
@@ -258,7 +260,7 @@ Basemap.PHOTO_URLS = {
  * @const
  * @type {Object<string, string>}
  */
-Basemap.LABEL_URLS = {
+IBasemap.LABEL_URLS = {
 	base: 'https://maps{1-4}.nyc.gov/tms/1.0.0/carto/label/{z}/{x}/{-y}.png8',
 	photo: 'https://maps{1-4}.nyc.gov/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8'
 };
@@ -268,7 +270,7 @@ Basemap.LABEL_URLS = {
  * @const
  * @type {ol.Extent}
  */
-Basemap.UNIVERSE_EXTENT = [-8453323, 4774561, -7983695, 5165920];
+IBasemap.UNIVERSE_EXTENT = [-8453323, 4774561, -7983695, 5165920];
 
 /**
  * @desc The bounds of New York City
@@ -276,7 +278,7 @@ Basemap.UNIVERSE_EXTENT = [-8453323, 4774561, -7983695, 5165920];
  * @const
  * @type {ol.Extent}
  */
-Basemap.EXTENT = [-8266522, 4937867, -8203781, 5000276];
+IBasemap.EXTENT = [-8266522, 4937867, -8203781, 5000276];
 
 /**
  * @desc The center of New York City
@@ -284,18 +286,18 @@ Basemap.EXTENT = [-8266522, 4937867, -8203781, 5000276];
  * @const
  * @type {ol.Coordinate}
  */
-Basemap.CENTER = [-8235252, 4969073];
+IBasemap.CENTER = [-8235252, 4969073];
 
 /**
  * @private
  * @const
  * @type {ol.Extent}
  */
-Basemap.LABEL_EXTENT = [-8268000, 4870900, -8005000, 5055500];
+IBasemap.LABEL_EXTENT = [-8268000, 4870900, -8005000, 5055500];
 
 /**
  * @private
  * @const
  * @type {ol.Extent}
  */
-Basemap.PHOTO_EXTENT = [-8268357, 4937238, -8203099, 5001716];
+IBasemap.PHOTO_EXTENT = [-8268357, 4937238, -8203099, 5001716];
