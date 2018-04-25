@@ -32,7 +32,7 @@ class Basemap extends OlMap {
    * @see http://openlayers.org/en/latest/apidoc/ol.Map.html
    */
   constructor(options, preload) {
-    const viewProvided = options.view
+    const viewProvided = options.view instanceof OlView
     Basemap.setupView(options)
     super(options)
     nyc.mixin(this, [BasemapHelper])
