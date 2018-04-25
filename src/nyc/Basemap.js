@@ -10,7 +10,7 @@ import $ from 'jQuery'
  * @abstract
  * @class
  */
-export default class Basemap {
+class Basemap {
     /**
      * @desc Constructs an instance of Basemap
      * @public
@@ -20,16 +20,16 @@ export default class Basemap {
     constructor(options) {
         let target = $(options.target)
         if (target.length === 0) {
-            try {
-              target = $('#' + options.target)
-            } catch (ignore) { }
+          try {
+            target = $('#' + options.target)
+          } catch (ignore) { }
         }
         if (target.length === 0) {
           throw `target ${options.target} does not exist`
         }
         target.on('drop', $.proxy(this.loadLayer, this))
         target.on('dragover', function(event){
-            event.preventDefault()
+          event.preventDefault()
         })
     }
     /**
@@ -110,13 +110,13 @@ export default class Basemap {
 	 */
 	sortedPhotos() {
 		const sorted = []
-		for (const photo in this.photos){
-			sorted.push(this.photos[photo])
-		}
+    Object.keys(this.photos).forEach(photo => {
+      sorted.push(this.photos[photo])
+    })
 		/* sort descending on the first 4 digits - puts 2001-2 in the proper place */
-		return sorted.sort(function(a, b){
-            const aName = a.name || a.get('name')
-            const bName = b.name || b.get('name')
+		return sorted.sort(function(a, b) {
+      const aName = a.name || a.get('name')
+      const bName = b.name || b.get('name')
 			return bName.substr(0, 4) - aName.substr(0, 4)
 		})
 	}
@@ -155,3 +155,5 @@ Basemap.LabelType = {
  * @property {Object<string, ol.layer.Base|L.Layer>} photos The photo layers
  */
 Basemap.BaseLayers
+
+export default Basemap
