@@ -8,7 +8,7 @@ window.nyc.BasemapHelper = _nyc_BasemapHelper
 window.nyc.EventHandling = _nyc_EventHandling
 window.nyc.ReplaceTokens = _nyc_ReplaceTokens
 
-import _ol from './nyc/ol'
+import _ol from './nyc/ol/ol'
 import _ol_Basemap from './nyc/ol/Basemap'
 
 window.nyc.ol = _ol

@@ -2,6 +2,8 @@
  * @module nyc/ol
  */
 
+import olTilegrid from 'ol/tilegrid'
+
  /**
   * @desc Namespace for NYC mapping functionality for OpenLayers
   * @public
@@ -49,6 +51,6 @@ ol.FeatureEventType = {
  * @public
  * @type {ol.tilegrid.TileGrid}
  */
-ol.TILE_GRID = ol.tilegrid.createXYZ({minZoom: 8, maxZoom: 21})
+ol.TILE_GRID = olTilegrid.createXYZ({minZoom: 8, maxZoom: 21})
 
 export default ol

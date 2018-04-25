@@ -8,6 +8,9 @@
     "test": "test"
   },
   "scripts": {
+    "prebuild": "rm -rf ./dist && npm test",
+    "build": "webpack",
+    "postbuild": "cp -r ./examples/new ./dist/examples",
     "test": "jest",
     "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*"
   },
