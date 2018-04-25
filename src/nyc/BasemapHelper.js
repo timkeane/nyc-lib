@@ -61,23 +61,22 @@ const BasemapHelper = {
       const bName = b.name || b.get('name')
 			return bName.substr(0, 4) - aName.substr(0, 4)
 		})
-	}
-}
-
-/**
- * @desc Enumerator for label types
- * @public
- * @enum {string}
- */
-BasemapHelper.LabelType = {
-  /**
-   * @desc Label type for base layer
-   */
-  BASE: 'base',
-  /**
-   * @desc Label type for photo layer
-   */
-  PHOTO: 'photo'
+	},
+	/**
+	 * @desc Enumerator for label types
+	 * @public
+	 * @enum {string}
+	 */
+	LabelType: {
+		/**
+		 * @desc Label type for base layer
+		 */
+		BASE: 'base',
+		/**
+		 * @desc Label type for photo layer
+		 */
+		PHOTO: 'photo'
+	}	
 }
 
 /**

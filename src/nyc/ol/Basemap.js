@@ -32,9 +32,6 @@ class Basemap extends OlMap {
    * @see http://openlayers.org/en/latest/apidoc/ol.Map.html
    */
   constructor(options, preload) {
-    console.info('==================================')
-    console.info(BasemapHelper)
-
     const viewProvided = options.view
     Basemap.setupView(options)
     super(options)
@@ -89,7 +86,7 @@ class Basemap extends OlMap {
     })
     this.addLayer(this.base)
 
-    Object.entries(Basemap.LABEL_URLS).forEach((labelType, url) => {
+    Object.entries(Basemap.LABEL_URLS).forEach(([labelType, url]) => {
       this.labels[labelType] = new OlLayerTile({
         extent: this.layerExtent(Basemap.LABEL_EXTENT, options.view),
         source: new OlSourceXYZ({
@@ -102,8 +99,8 @@ class Basemap extends OlMap {
       this.addLayer(this.labels[labelType])
     })
 
-    Object.entries(Basemap.PHOTO_URLS).forEach((year, url) => {
-      var photo = new OlLayerTile({
+    Object.entries(Basemap.PHOTO_URLS).forEach(([year, url]) => {
+      const photo = new OlLayerTile({
         extent: this.layerExtent(Basemap.PHOTO_EXTENT, options.view),
         source: new OlSourceXYZ({
           url: url,
@@ -111,7 +108,7 @@ class Basemap extends OlMap {
         }),
         visible: false
       })
-      if ((year * 1) > this.latestPhoto) {
+      if ((year.split('-')[0] * 1) > this.latestPhoto) {
         this.latestPhoto = year
       }
       photo.set('name', year)
@@ -128,9 +125,8 @@ class Basemap extends OlMap {
    * @param layer {number} The photo year to show
    */
   showPhoto(year) {
-  	year = year || this.latestPhoto
   	this.hidePhoto()
-  	this.photos[year + ''].setVisible(true)
+    this.photos[(year || this.latestPhoto) + ''].setVisible(true)
   	this.showLabels('photo')
   }
   /**
@@ -141,8 +137,8 @@ class Basemap extends OlMap {
    * @param labelType {nyc.Basemap.BaseLayers} The label type to show
    */
   showLabels(labelType) {
-  	this.labels.base.setVisible(labelType == BasemapHelper.LabelType.BASE)
-  	this.labels.photo.setVisible(labelType == BasemapHelper.LabelType.PHOTO)
+  	this.labels.base.setVisible(labelType === BasemapHelper.LabelType.BASE)
+  	this.labels.photo.setVisible(labelType === BasemapHelper.LabelType.PHOTO)
   }
   /**
    * @desc Hide photo layer
@@ -151,9 +147,9 @@ class Basemap extends OlMap {
    * @method
    */
   hidePhoto() {
-  	this.base.setVisible(true)
+    this.base.setVisible(true)
   	this.showLabels(BasemapHelper.LabelType.BASE)
-    Object.entries(this.photos).forEach((year, layer) => {
+    Object.entries(this.photos).forEach(([year, layer]) => {
       layer.setVisible(false)
     })
   }
@@ -200,7 +196,7 @@ class Basemap extends OlMap {
    * @method
    */
   photoChange() {
-    Object.entries(this.photos).some((year, layer) => {
+    Object.entries(this.photos).some(([year, layer]) => {
   		if (layer.getVisible()) {
   			this.showLabels(BasemapHelper.LabelType.PHOTO)
   			return true
