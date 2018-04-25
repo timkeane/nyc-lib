@@ -1,5 +1,5 @@
 import OlMap from 'ol/map'
-import Basemap from '../../../src/nyc/ol/Basemap'
+import Basemap from 'nyc/ol/Basemap'
 import $ from 'jQuery'
 
 let target

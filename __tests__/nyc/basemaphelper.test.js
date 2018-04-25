@@ -1,4 +1,4 @@
-import BasemapHelper from '../../src/nyc/BasemapHelper'
+import BasemapHelper from 'nyc/BasemapHelper'
 import $ from 'jquery'
 
 let target

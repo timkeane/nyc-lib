@@ -1,4 +1,4 @@
-import nyc from '../../src/nyc/nyc'
+import nyc from 'nyc/nyc'
 
 test('inherits', () => {
   const parentCtor = function(){}

@@ -1,4 +1,4 @@
-import EventHandling from '../../src/nyc/EventHandling'
+import EventHandling from 'nyc/EventHandling'
 
 test('constructor', () => {
     const handling = new EventHandling()
