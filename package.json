@@ -21,7 +21,10 @@
     "collectCoverage": true,
     "transformIgnorePatterns": [
       "node_modules/(?!(ol)/)"
-    ]
+    ],
+    "moduleNameMapper": {
+      "^nyc(.*)$": "<rootDir>/src/nyc/$1"
+    }
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,4 @@
-import ReplaceTokens from '../../src/nyc/ReplaceTokens';
+import ReplaceTokens from 'nyc/ReplaceTokens';
 
 test('replace', () => {
     const replace = new ReplaceTokens()
