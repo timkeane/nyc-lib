@@ -11,34 +11,13 @@ import $ from 'jQuery'
  * @class
  */
 class Basemap {
-    /**
-     * @desc Constructs an instance of Basemap
-     * @public
-     * @constructor
-     * @param {Basemap.Options} options Constructor options
-     */
-    constructor(options) {
-        let target = $(options.target)
-        if (target.length === 0) {
-          try {
-            target = $('#' + options.target)
-          } catch (ignore) { }
-        }
-        if (target.length === 0) {
-          throw `target ${options.target} does not exist`
-        }
-        target.on('drop', $.proxy(this.loadLayer, this))
-        target.on('dragover', function(event){
-          event.preventDefault()
-        })
-    }
-    /**
-	 * @desc Get the storage used for laoding and saving data
-	 * @public
-	 * @abstract
-	 * @method
-	 * @return {storage.Local} srorage
-	 */
+  /**
+   * @desc Get the storage used for laoding and saving data
+	 * @access protected
+   * @abstract
+   * @method
+   * @return {storage.Local} srorage
+   */
 	getStorage(year) {
 		throw 'Not Implemented'
 	}
@@ -81,9 +60,21 @@ class Basemap {
 	getBaseLayers() {
 		throw 'Not Implemented'
 	}
+  /**
+ 	 * @desc Hook up events
+   * @access protected
+ 	 * @method
+   * @param {Element} target The DOM node for the map
+   */
+  hookupEvents(node) {
+    $(node).on('drop', $.proxy(this.loadLayer, this))
+    $(node).on('dragover', function(event){
+      event.preventDefault()
+    })
+  }
 	/**
 	 * @desc Returns the base layers
-	 * @public
+   * @access protected
 	 * @method
 	 * @return {Basemap.BaseLayers}
 	 */
@@ -121,14 +112,6 @@ class Basemap {
 		})
 	}
 }
-
-/**
- * @desc Object type to hold constructor options for {@link Basemap}
- * @public
- * @typedef {Object}
- * @property {Element|JQuery|string} target The target DOM node for creating the map
- */
-Basemap.Options
 
 /**
  * @desc Enumerator for label types

@@ -13,7 +13,7 @@ proj4.defs(
 )
 
  /**
-  * @desc Top level namespace for nyc mapping
+  * @desc Top level namespace for NYC mapping
   * @public
   * @namespace
   */
