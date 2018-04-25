@@ -4,8 +4,8 @@
 
 import $ from 'jquery'
 
-import nyc from '../nyc'
-import BasemapHelper from '../BasemapHelper'
+import nyc from 'nyc/nyc'
+import BasemapHelper from 'nyc/BasemapHelper'
 
 import ol from 'ol'
 import OlMap from 'ol/map'
@@ -62,8 +62,16 @@ class Basemap extends OlMap {
   	 */
     //this.storage = new storage.Local()
     this.setupLayers(options, preload)
+    this.defaultExtent(viewProvided)
     this.hookupEvents(this.getTargetElement())
-    if (!viewProvided){
+  }
+  /**
+   * @private
+   * @method
+   * @param {boolean} viewProvided
+   */
+  defaultExtent(viewProvided) {
+    if (!viewProvided) {
       this.getView().fit(Basemap.EXTENT, {
         size: this.getSize(), duration: 500
       })

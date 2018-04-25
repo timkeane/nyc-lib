@@ -33,6 +33,7 @@ test('hookupEvents', () => {
 })
 
 test('loadLayer', () => {
+  const getStorage = BasemapHelper.getStorage
   BasemapHelper.getStorage = function() {
     return mockStorage
   }
@@ -84,6 +85,7 @@ test('loadLayer', () => {
   expect(mockStorage.loadShapeFile).toHaveBeenCalledTimes(1)
   expect(mockShpEvent.preventDefault).toHaveBeenCalledTimes(1)
   expect(mockShpEvent.stopPropagation).toHaveBeenCalledTimes(1)
+  BasemapHelper.getStorage = getStorage
 })
 
 test('sortedPhotos', () => {
