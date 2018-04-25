@@ -8,11 +8,13 @@
     "test": "test"
   },
   "scripts": {
-    "prebuild": "rm -rf ./dist && npm test",
+    "clean": "rm -rf ./dist",
+    "prebuild": "yarn clean && yarn test",
     "build": "webpack",
-    "postbuild": "cp -r ./examples/new ./dist/examples",
-    "test": "jest",
-    "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*"
+    "postbuild": "yarn replace-hosts && yarn copy-examples",
+    "copy-examples": "cp -r ./examples/new ./dist/examples",
+    "replace-hosts": "bash -c 'if [ -f replace-hosts.sh ]; then ./replace-hosts.sh; fi'",
+    "test": "jest"
   },
   "jest": {
     "verbose": true,
