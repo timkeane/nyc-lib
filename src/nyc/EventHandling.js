@@ -2,7 +2,8 @@
  * @module nyc/EventHandling
  */
 
- import $ from 'jQuery'
+ import $ from 'jquery'
+ 
 /**
  * @desc Class to provide event handling functionality
  * @public
@@ -81,7 +82,7 @@ class EventHandling {
 				return false
 			}
 		})
-	}	
+	}
 	/**
 	* @private
 	* @method

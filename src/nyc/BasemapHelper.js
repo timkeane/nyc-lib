@@ -2,8 +2,7 @@
  * @module nyc/BasemapHelper
  */
 
-import $ from 'jQuery'
-import IBasemap from './Basemap'
+import $ from 'jquery'
 
 /**
  * @desc A helper object for creating and manipulating the NYC basemap
@@ -64,5 +63,31 @@ const BasemapHelper = {
 		})
 	}
 }
+
+/**
+ * @desc Enumerator for label types
+ * @public
+ * @enum {string}
+ */
+BasemapHelper.LabelType = {
+  /**
+   * @desc Label type for base layer
+   */
+  BASE: 'base',
+  /**
+   * @desc Label type for photo layer
+   */
+  PHOTO: 'photo'
+}
+
+/**
+ * @desc Object type to hold base layers
+ * @public
+ * @typedef {Object}
+ * @property {Object} base The base layer
+ * @property {Object<string, ol.layer.Base|L.Layer>} labels The label layers
+ * @property {Object<string, ol.layer.Base|L.Layer>} photos The photo layers
+ */
+BasemapHelper.BaseLayers
 
 export default BasemapHelper

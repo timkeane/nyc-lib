@@ -1,5 +1,5 @@
 import BasemapHelper from '../../src/nyc/BasemapHelper'
-import $ from 'jQuery'
+import $ from 'jquery'
 
 let target
 beforeEach(() => {
