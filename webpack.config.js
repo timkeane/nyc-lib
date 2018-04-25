@@ -14,11 +14,11 @@ module.exports = {
       query: {
         presets: ['es2015']
       }
-    }],
-    resolve: {
-      alias: {
-        nyc: path.resolve(__dirname, '..', 'src', 'nyc')
-      }
+    }]
+  },
+  resolve: {
+    alias: {
+      nyc: path.resolve(__dirname, '..', 'src', 'nyc')
     }
-  }
+  }  
 }
