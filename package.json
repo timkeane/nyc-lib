@@ -43,6 +43,7 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
+    "canvas-prebuilt": "^1.6.5-prerelease.1",
     "coveralls": "^3.0.0",
     "eslint": "^4.19.1",
     "eslint-loader": "^2.0.0",
@@ -55,7 +56,6 @@
     "webpack-cli": "^2.0.14"
   },
   "dependencies": {
-    "canvas": "^1.6.10",
     "jquery": "^2.2.4",
     "jquery-csv": "^0.8.9",
     "jquery-mobile": "^1.5.0-alpha.1",
