@@ -5,7 +5,7 @@
 import $ from 'jQuery'
 
 import nyc from '../nyc'
-import AbstractBasemap from '../Basemap'
+import BasemapHelper from '../BasemapHelper'
 
 import ol from 'ol'
 import OlMap from 'ol/map'
@@ -13,6 +13,7 @@ import OlView from 'ol/view'
 import OlLayerTile from 'ol/layer/Tile'
 import OlGeomPolygon from 'ol/geom/Polygon'
 import OlSourceXYZ from 'ol/source/XYZ'
+
 /**
  * @desc Class that provides an ol.Map with base layers, labels, and drag-and-drop
  * @public
@@ -33,6 +34,7 @@ export default class Basemap extends OlMap {
     const viewProvided = options.view
     Basemap.setupView(options)
     super(options)
+    nyc.mixin(this, [BasemapHelper])
     /**
   	 * @private
   	 * @thismber {number}
@@ -135,8 +137,8 @@ export default class Basemap extends OlMap {
    * @param labelType {nyc.Basemap.BaseLayers} The label type to show
    */
   showLabels(labelType) {
-  	this.labels.base.setVisible(labelType == AbstractBasemap.LabelType.BASE)
-  	this.labels.photo.setVisible(labelType == AbstractBasemap.LabelType.PHOTO)
+  	this.labels.base.setVisible(labelType == BasemapHelper.LabelType.BASE)
+  	this.labels.photo.setVisible(labelType == BasemapHelper.LabelType.PHOTO)
   }
   /**
    * @desc Hide photo layer
@@ -146,7 +148,7 @@ export default class Basemap extends OlMap {
    */
   hidePhoto() {
   	this.base.setVisible(true)
-  	this.showLabels(AbstractBasemap.LabelType.BASE)
+  	this.showLabels(BasemapHelper.LabelType.BASE)
     Object.entries(this.photos).forEach((year, layer) => {
       layer.setVisible(false)
     })
@@ -196,15 +198,13 @@ export default class Basemap extends OlMap {
   photoChange() {
     Object.entries(this.photos).some((year, layer) => {
   		if (layer.getVisible()) {
-  			this.showLabels(AbstractBasemap.LabelType.PHOTO)
+  			this.showLabels(BasemapHelper.LabelType.PHOTO)
   			return true
   		}
   	})
-  	this.showLabels(AbstractBasemap.LabelType.BASE)
+  	this.showLabels(BasemapHelper.LabelType.BASE)
   }
 }
-
-nyc.inherits(Basemap, AbstractBasemap)
 
 /**
  * @private

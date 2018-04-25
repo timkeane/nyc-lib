@@ -1,16 +1,16 @@
 /**
- * @module nyc/Basemap
+ * @module nyc/BasemapHelper
  */
 
 import $ from 'jQuery'
 
 /**
- * @desc An abstract class for creating and manipulating the NYC basemap
+ * @desc A helper object for creating and manipulating the NYC basemap
  * @public
  * @abstract
  * @class
  */
-class Basemap {
+const BasemapHelper = {
   /**
    * @desc Get the storage used for laoding and saving data
 	 * @access protected
@@ -18,9 +18,9 @@ class Basemap {
    * @method
    * @return {storage.Local} srorage
    */
-	getStorage(year) {
+	getStorage: function(year) {
 		throw 'Not Implemented'
-	}
+	},
 	/**
 	 * @desc Show photo layer
 	 * @public
@@ -28,57 +28,57 @@ class Basemap {
 	 * @method
 	 * @param {number} layer The photo year to show
 	 */
-	showPhoto(year) {
+	showPhoto: function(year) {
 		throw 'Not Implemented'
-	}
+	},
 	/**
 	 * @desc Show the specified label layer
 	 * @public
 	 * @abstract
 	 * @method
-	 * @param labelType {Basemap.LabelType} The label type to show
+	 * @param labelType {BasemapHelper.LabelType} The label type to show
 	 */
-	showLabels(labelType) {
+	showLabels: function(labelType) {
 		throw 'Not Implemented'
-	}
+	},
 	/**
 	 * @desc Hide photo layer
 	 * @public
 	 * @abstract
 	 * @method
 	 */
-	hidePhoto() {
+	hidePhoto: function() {
 		throw 'Not Implemented'
-	}
+	},
 	/**
 	 * @desc Returns the base layers
 	 * @public
 	 * @abstract
 	 * @method
-	 * @return {Basemap.BaseLayers}
+	 * @return {BasemapHelper.BaseLayers}
 	 */
-	getBaseLayers() {
+	getBaseLayers: function() {
 		throw 'Not Implemented'
-	}
+	},
   /**
  	 * @desc Hook up events
    * @access protected
  	 * @method
    * @param {Element} target The DOM node for the map
    */
-  hookupEvents(node) {
+  hookupEvents: function(node) {
     $(node).on('drop', $.proxy(this.loadLayer, this))
     $(node).on('dragover', function(event){
       event.preventDefault()
     })
-  }
+  },
 	/**
 	 * @desc Returns the base layers
    * @access protected
 	 * @method
-	 * @return {Basemap.BaseLayers}
+	 * @return {BasemapHelper.BaseLayers}
 	 */
-	 loadLayer(event) {
+	 loadLayer: function(event) {
 		 const transfer = event.originalEvent.dataTransfer
 		 event.preventDefault()
 		 event.stopPropagation()
@@ -92,14 +92,14 @@ class Basemap {
          storage.loadShapeFile(this, null, files)
        }
 		 }
-	 }
+	 },
 	/**
 	 * @desc Returns the base layers
 	 * @access protected
 	 * @method
-	 * @return {Basemap.BaseLayers}
+	 * @return {BasemapHelper.BaseLayers}
 	 */
-	sortedPhotos() {
+	sortedPhotos: function() {
 		const sorted = []
     Object.keys(this.photos).forEach(photo => {
       sorted.push(this.photos[photo])
@@ -118,7 +118,7 @@ class Basemap {
  * @public
  * @enum {string}
  */
-Basemap.LabelType = {
+BasemapHelper.LabelType = {
 	/**
 	 * @desc Label type for base layer
 	 */
@@ -137,6 +137,6 @@ Basemap.LabelType = {
  * @property {Object<string, ol.layer.Base|L.Layer>} labels The label layers
  * @property {Object<string, ol.layer.Base|L.Layer>} photos The photo layers
  */
-Basemap.BaseLayers
+BasemapHelper.BaseLayers
 
-export default Basemap
+export default BasemapHelper
