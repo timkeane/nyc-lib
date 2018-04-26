@@ -139,9 +139,7 @@ class Basemap extends OlMap {
    */
   defaultExtent(viewProvided) {
     if (!viewProvided) {
-      this.getView().fit(Basemap.EXTENT, {
-        size: this.getSize(), duration: 500
-      })
+      this.getView().fit(Basemap.EXTENT, this.getSize())
     }
   }
   /**

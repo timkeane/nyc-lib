@@ -217,17 +217,13 @@ test('defaultExtent view not provided', () => {
 
   const fit = jest.fn()
   basemap.getView = function() {
-    return {
-      fit: fit
-    }
+    return {fit: fit}
   }
   basemap.defaultExtent(false)
 
   expect(fit).toHaveBeenCalledTimes(1)
   expect(fit.mock.calls[0][0]).toBe(Basemap.EXTENT)
-  expect(fit.mock.calls[0][1]).toEqual({
-    size: basemap.getSize(), duration: 500
-  })
+  expect(fit.mock.calls[0][1]).toBe(basemap.getSize())
 })
 
 test('defaultExtent view is provided', () => {
@@ -235,9 +231,7 @@ test('defaultExtent view is provided', () => {
 
   const fit = jest.fn()
   basemap.getView = function() {
-    return {
-      fit: fit
-    }
+    return {fit: fit}
   }
   basemap.defaultExtent(true)
 
