@@ -148,3 +148,16 @@ test('accuracyDistance', () => {
   geoclient = new Geoclient(URL, 'EPSG:2263')
   expect(geoclient.accuracyDistance(100).toFixed(1)).toBe('328.1')
 })
+
+test('project', () => {
+  const coordinate = [990203, 196492]
+
+  let geoclient = new Geoclient(URL)
+  let result = geoclient.project(coordinate)
+  expect(result[0].toFixed(0)).toBe('-8235252')
+  expect(result[1].toFixed(0)).toBe('4969073')
+
+  geoclient = new Geoclient(URL, 'EPSG:2263')
+  result = geoclient.project(coordinate)
+  expect(result).toEqual(coordinate)
+})
