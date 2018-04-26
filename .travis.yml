@@ -4,7 +4,7 @@ node_js:
   - "v8.11.1"
 
 install:
-  - yarn install --ignore-engines
+  - yarn install
 
 script:
   - yarn test
