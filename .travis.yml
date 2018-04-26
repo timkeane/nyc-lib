@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - stable
+  - "v8.11.1"
 
 install:
   - yarn install --ignore-engines
