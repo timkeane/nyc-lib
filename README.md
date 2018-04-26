@@ -1,5 +1,7 @@
 # nyc-lib
 
+[![Build Status](https://travis-ci.org/timkeane/nyc-lib.svg?branch=master)](https://travis-ci.org/timkeane/nyc-lib)
+
 A set of common libraries used to develop NYC mapping applications
 
 ### Geocoding
@@ -18,7 +20,7 @@ A set of common libraries used to develop NYC mapping applications
 ## Build
 * ```gradlew buildLibs```
 	* builds libraries ```nyc-ol-lib.js```, ```nyc-ol-redline-lib.js```, ```nyc-leaf-lib.js```, ```nyc.carto-lib.js```
-* ```gradlew jsDoc``` 
+* ```gradlew jsDoc```
 	* builds [JsDoc](http://usejsdoc.org/)
-* ```gradlew archive``` 
+* ```gradlew archive```
 	* builds and zips libraries ```nyc-ol-lib.js```, ```nyc-ol-redline-lib.js```, ```nyc-leaf-lib.js```, ```nyc.carto-lib.js``` with [JsDoc](http://usejsdoc.org/)
