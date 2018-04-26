@@ -1,4 +1,5 @@
 const path = require('path')
+const CleanWebpackPlugin = require('clean-webpack-plugin') //installed via npm
 
 module.exports = {
   entry: './src/index.js',
@@ -20,5 +21,8 @@ module.exports = {
     alias: {
       nyc: path.resolve(__dirname, '..', 'src', 'nyc')
     }
-  }  
+  },
+  plugins: [
+    new CleanWebpackPlugin(['dist'])
+  ]  
 }

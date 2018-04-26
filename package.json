@@ -8,8 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "clean": "rm -rf ./dist",
-    "prebuild": "yarn clean && yarn test",
+    "prebuild": "yarn test",
     "build": "webpack",
     "postbuild": "yarn replace-hosts && yarn copy-examples",
     "copy-examples": "cp -r ./examples/new ./dist/examples",
@@ -53,6 +52,7 @@
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
     "canvas-prebuilt": "^1.6.5-prerelease.1",
+    "clean-webpack-plugin": "^0.1.19",
     "coveralls": "^3.0.0",
     "eslint": "^4.19.1",
     "eslint-loader": "^2.0.0",
