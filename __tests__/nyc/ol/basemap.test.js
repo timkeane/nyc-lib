@@ -1,4 +1,4 @@
-import $ from 'jquery'
+import $ from 'jquery' 
 
 import proj4 from 'proj4'
 

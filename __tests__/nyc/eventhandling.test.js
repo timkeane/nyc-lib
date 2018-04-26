@@ -1,6 +1,6 @@
 import EventHandling from 'nyc/EventHandling'
 
-test('constructor', () => {
+test('constructor', () => { 
     const handling = new EventHandling()
     expect(handling.evtHdlrs).toEqual({})
 })

@@ -4,7 +4,7 @@ import $ from 'jquery'
 let target
 beforeEach(() => {
   target = $('<div id="map"></div>')
-  $('body').append(target)
+  $('body').append(target) 
 })
 
 afterEach(() => {
