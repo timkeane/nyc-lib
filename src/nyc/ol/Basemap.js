@@ -4,8 +4,14 @@
 
 import $ from 'jquery'
 
-import nyc from 'nyc/nyc'
-import BasemapHelper from 'nyc/BasemapHelper'
+import proj4 from 'proj4'
+
+//why do these resolve for jest but not webpack
+//import nyc from 'nyc/nyc'
+//import BasemapHelper from 'nyc/BasemapHelper'
+
+import nyc from '../nyc'
+import BasemapHelper from '../BasemapHelper'
 
 import ol from 'ol'
 import OlMap from 'ol/map'
@@ -193,10 +199,12 @@ class Basemap extends OlMap {
    * @param view {ol.View|undefined} extent
    */
   layerExtent(extent, view) {
-  	if (view) {
-  		var result = OlGeomPolygon.fromExtent(extent)
-  		result.transform('EPSG:3857', view.getProjection())
-  		return result.getExtent()
+  	if (view && view.getProjection().getCode() !== 'EPSG:3857') {
+      const fr = 'EPSG:3857'
+      const to = 'EPSG:2263'
+      const bl = proj4(fr, to, [extent[0], extent[1]])
+      const tr = proj4(fr, to, [extent[2], extent[3]])
+      return [bl[0], bl[1], tr[0], tr[1]]
   	}
   	return extent
   }
@@ -239,7 +247,7 @@ Basemap.setupView = function(options) {
  * @const
  * @type {string}
  */
-Basemap.BASE_URL = 'https://maps{1-4}.nyc.gov/tms/1.0.0/carto/basemap/{z}/{x}/{-y}.jpg';
+Basemap.BASE_URL = 'https://maps{1-4}.nyc.gov/tms/1.0.0/carto/basemap/{z}/{x}/{-y}.jpg'
 
 /**
  * @desc The URLs of the New York City aerial imagery map tiles
@@ -259,7 +267,7 @@ Basemap.PHOTO_URLS = {
 	'2012': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/2012/{z}/{x}/{-y}.png8',
 	'2014': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/2014/{z}/{x}/{-y}.png8',
 	'2016': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/2016/{z}/{x}/{-y}.png8'
-};
+}
 
 /**
  * @desc The URLs of the New York City base map label tiles
@@ -270,14 +278,14 @@ Basemap.PHOTO_URLS = {
 Basemap.LABEL_URLS = {
 	base: 'https://maps{1-4}.nyc.gov/tms/1.0.0/carto/label/{z}/{x}/{-y}.png8',
 	photo: 'https://maps{1-4}.nyc.gov/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8'
-};
+}
 
 /**
  * @private
  * @const
  * @type {ol.Extent}
  */
-Basemap.UNIVERSE_EXTENT = [-8453323, 4774561, -7983695, 5165920];
+Basemap.UNIVERSE_EXTENT = [-8453323, 4774561, -7983695, 5165920]
 
 /**
  * @desc The bounds of New York City
@@ -285,7 +293,7 @@ Basemap.UNIVERSE_EXTENT = [-8453323, 4774561, -7983695, 5165920];
  * @const
  * @type {ol.Extent}
  */
-Basemap.EXTENT = [-8266522, 4937867, -8203781, 5000276];
+Basemap.EXTENT = [-8266522, 4937867, -8203781, 5000276]
 
 /**
  * @desc The center of New York City
@@ -293,20 +301,20 @@ Basemap.EXTENT = [-8266522, 4937867, -8203781, 5000276];
  * @const
  * @type {ol.Coordinate}
  */
-Basemap.CENTER = [-8235252, 4969073];
+Basemap.CENTER = [-8235252, 4969073]
 
 /**
  * @private
  * @const
  * @type {ol.Extent}
  */
-Basemap.LABEL_EXTENT = [-8268000, 4870900, -8005000, 5055500];
+Basemap.LABEL_EXTENT = [-8268000, 4870900, -8005000, 5055500]
 
 /**
  * @private
  * @const
  * @type {ol.Extent}
  */
-Basemap.PHOTO_EXTENT = [-8268357, 4937238, -8203099, 5001716];
+Basemap.PHOTO_EXTENT = [-8268357, 4937238, -8203099, 5001716]
 
 export default Basemap

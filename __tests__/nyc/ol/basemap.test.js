@@ -1,5 +1,7 @@
 import $ from 'jquery'
 
+import proj4 from 'proj4'
+
 import nyc from 'nyc/nyc'
 import Basemap from 'nyc/ol/Basemap'
 import BasemapHelper from 'nyc/BasemapHelper'
@@ -8,6 +10,7 @@ import OlMap from 'ol/map'
 import OlView from 'ol/view'
 import OlLayerTile from 'ol/layer/Tile'
 import OlSourceXYZ from 'ol/source/XYZ'
+import OlProjection from 'ol/proj/Projection'
 
 let target
 beforeEach(() => {
@@ -303,4 +306,23 @@ test('setupLayers as called by constructor', () => {
     i++
   })
   expect(i).toBe(14)
+})
+
+test('layerExtent', () => {
+  const basemap = new Basemap({target: 'map'})
+
+  const extent0 = Basemap.EXTENT
+  const epsg0 = 'EPSG:3857'
+  const epsg1 = 'EPSG:2263'
+  const bl = proj4(epsg0, epsg1, [extent0[0], extent0[1]])
+  const tr = proj4(epsg0, epsg1, [extent0[2], extent0[3]])
+  const extent1 = [bl[0], bl[1], tr[0], tr[1]]
+  const view = {
+    getProjection: function() {
+      return new OlProjection({code: epsg1})
+    }
+  }
+
+  expect(basemap.layerExtent(extent0, undefined)).toBe(extent0)
+  expect(basemap.layerExtent(extent0, view)).toEqual(extent1)
 })
