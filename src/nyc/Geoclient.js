@@ -3,7 +3,7 @@
  */
 
 import $ from 'jquery'
- 
+
 import proj4 from 'proj4'
 
 import nyc from 'nyc/nyc'
@@ -43,7 +43,6 @@ class Geoclient extends Locator {
 	search(input) {
 		input = input.trim()
 		if (input.length === 5 && !isNaN(input)) {
-			console.warn(input)
 			var p = this.project(Geoclient.ZIP_CODE_POINTS[input])
 			this.trigger(
 				p ? Locator.EventType.GEOCODE : Locator.EventType.AMBIGUOUS,
@@ -52,7 +51,7 @@ class Geoclient extends Locator {
 		} else if (input.length) {
 			input = input.replace(/"/g, '').replace(/'/g, '').replace(/&/g, ' and ')
 			$.ajax({
-				url: `${this.url}input`,
+				url: `${this.url}${input}`,
 				dataType: 'jsonp',
 				success: $.proxy(this.geoclient, this),
 				error: $.proxy(this.error, this)
@@ -67,12 +66,10 @@ class Geoclient extends Locator {
 	 * @return {number} The accurcy in map units
 	 */
 	accuracyDistance(accuracy) {
-		if (this.projection) {
-			var prj = new ol.proj.Projection({code: this.projection})
-			return accuracy / prj.getMetersPerUnit()
-		} else {
-			return accuracy
-		}
+    if (this.projection === 'EPSG:3857') {
+      return accuracy
+    }
+    return accuracy / proj4.defs[this.projection].to_meter
 	}
 	/**
 	 * @private
@@ -166,7 +163,8 @@ class Geoclient extends Locator {
 			coordinates: this.project(p),
 			data: r,
 			accuracy: a, /* approximation */
-			name: nyc.capitalize(`${ln1.replace(/  /, ' ').replace(/  /, ' ')}, ${r.firstBoroughName}, NY ${(r.zipCode || r.leftSegmentZipCode || '')}`)
+			name: nyc.capitalize(`${ln1.replace(/  /, ' ').replace(/  /, ' ')}, ${r.firstBoroughName}`) +
+        `, NY ${(r.zipCode || r.leftSegmentZipCode || '')}`
 		}
 	}
   /**

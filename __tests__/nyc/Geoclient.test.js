@@ -2,10 +2,11 @@ import $ from 'jquery'
 
 import proj4 from 'proj4'
 
+import nyc from 'nyc/nyc'
 import Locator from 'nyc/Locator'
 import Geoclient from 'nyc/Geoclient'
 
-const URL = 'http://geoclient.URL.gov/'
+const URL = 'http://geoclient.url.gov/'
 
 const GEOCLIENT_OK_ADDRESS_RESPONSE = {"status":"OK","input":"59 maiden ln, manhattan","results":[{"level":"0","status":"EXACT_MATCH","request":"address [houseNumber=59, street=maiden ln, borough=MANHATTAN, zip=null]","response":{"assemblyDistrict":"65","bbl":"1000670001","bblBoroughCode":"1","bblTaxBlock":"00067","bblTaxLot":"0001","boardOfElectionsPreferredLgc":"1","boePreferredStreetName":"MAIDEN LANE","boePreferredstreetCode":"12563001","boroughCode1In":"1","buildingIdentificationNumber":"1079043","businessImprovementDistrict":"113140","censusBlock2000":"2008","censusBlock2010":"1006","censusTract1990":"  1502","censusTract2000":"  1502","censusTract2010":"  1502","cityCouncilDistrict":"01","civilCourtDistrict":"01","coincidentSegmentCount":"1","communityDistrict":"101","communityDistrictBoroughCode":"1","communityDistrictNumber":"01","communitySchoolDistrict":"02","condominiumBillingBbl":"0000000000","congressionalDistrict":"10","cooperativeIdNumber":"0000","cornerCode":"CR","crossStreetNamesFlagIn":"E","dcpCommercialStudyArea":"11004","dcpPreferredLgc":"01","dotStreetLightContractorArea":"1","dynamicBlock":"206","electionDistrict":"010","fireBattalion":"01","fireCompanyNumber":"004","fireCompanyType":"E","fireDivision":"01","firstBoroughName":"MANHATTAN","firstStreetCode":"12563001010","firstStreetNameNormalized":"MAIDEN LANE","fromLionNodeId":"0015262","fromPreferredLgcsFirstSetOf5":"01","genericId":"0000631","geosupportFunctionCode":"1B","geosupportReturnCode":"00","geosupportReturnCode2":"00","gi5DigitStreetCode1":"25630","gi5DigitStreetCode2":"45440","gi5DigitStreetCode3":"45440","gi5DigitStreetCode4":"24050","giBoroughCode1":"1","giBoroughCode2":"1","giBoroughCode3":"1","giBoroughCode4":"1","giBuildingIdentificationNumber1":"1079043","giBuildingIdentificationNumber2":"1079043","giBuildingIdentificationNumber3":"1079043","giBuildingIdentificationNumber4":"1079043","giDcpPreferredLgc1":"01","giDcpPreferredLgc2":"01","giDcpPreferredLgc3":"01","giDcpPreferredLgc4":"01","giHighHouseNumber1":"65","giHighHouseNumber2":"99","giHighHouseNumber3":"105","giHighHouseNumber4":"68","giLowHouseNumber1":"41","giLowHouseNumber2":"85","giLowHouseNumber3":"101","giLowHouseNumber4":"50","giSideOfStreetIndicator1":"L","giSideOfStreetIndicator2":"L","giSideOfStreetIndicator3":"L","giSideOfStreetIndicator4":"R","giStreetCode1":"12563001","giStreetCode2":"14544001","giStreetCode3":"14544001","giStreetCode4":"12405001","giStreetName1":"MAIDEN LANE","giStreetName2":"WILLIAM STREET","giStreetName3":"WILLIAM STREET","giStreetName4":"JOHN STREET","healthArea":"7700","healthCenterDistrict":"15","highBblOfThisBuildingsCondominiumUnits":"1000670001","highCrossStreetB5SC1":"145440","highCrossStreetCode1":"14544001","highCrossStreetName1":"WILLIAM STREET","highHouseNumberOfBlockfaceSortFormat":"000065000AA","houseNumber":"59","houseNumberIn":"59","houseNumberSortFormat":"000059000AA","hurricaneEvacuationZone":"5","instructionalRegion":"MS","interimAssistanceEligibilityIndicator":"I","internalLabelXCoordinate":"0982037","internalLabelYCoordinate":"0197460","latitude":40.708266006244315,"latitudeInternalLabel":40.7086585249236,"legacySegmentId":"0023213","lionBoroughCode":"1","lionBoroughCodeForVanityAddress":"1","lionFaceCode":"3140","lionFaceCodeForVanityAddress":"3140","lionKey":"1314000030","lionKeyForVanityAddress":"1314000030","lionSequenceNumber":"00030","lionSequenceNumberForVanityAddress":"00030","listOf4Lgcs":"01","longitude":-74.0082309440472,"longitudeInternalLabel":-74.00798211500157,"lowBblOfThisBuildingsCondominiumUnits":"1000670001","lowCrossStreetB5SC1":"127100","lowCrossStreetCode1":"12710001","lowCrossStreetName1":"NASSAU STREET","lowHouseNumberOfBlockfaceSortFormat":"000029000AA","lowHouseNumberOfDefiningAddressRange":"000041000AA","nta":"MN25","ntaName":"Battery Park City-Lower Manhattan","numberOfCrossStreetB5SCsHighAddressEnd":"1","numberOfCrossStreetB5SCsLowAddressEnd":"1","numberOfCrossStreetsHighAddressEnd":"1","numberOfCrossStreetsLowAddressEnd":"1","numberOfEntriesInListOfGeographicIdentifiers":"0004","numberOfExistingStructuresOnLot":"0001","numberOfStreetFrontagesOfLot":"03","physicalId":"0000753","policePatrolBoroughCommand":"1","policePrecinct":"001","returnCode1a":"00","returnCode1e":"00","roadwayType":"1","rpadBuildingClassificationCode":"O3","rpadSelfCheckCodeForBbl":"7","sanbornBoroughCode":"1","sanbornPageNumber":"011","sanbornVolumeNumber":"01","sanbornVolumeNumberSuffix":"S","sanitationDistrict":"101","sanitationSnowPriorityCode":"P","segmentAzimuth":"302","segmentIdentifier":"0023213","segmentLengthInFeet":"00460","segmentOrientation":"4","segmentTypeCode":"U","sideOfStreetIndicator":"L","sideOfStreetOfVanityAddress":"L","splitLowHouseNumber":"000029000AA","stateSenatorialDistrict":"26","streetName1In":"MAIDEN LN","streetStatus":"2","taxMapNumberSectionAndVolume":"10102","toLionNodeId":"0015337","toPreferredLgcsFirstSetOf5":"01","trafficDirection":"A","underlyingStreetCode":"12563001","uspsPreferredCityName":"NEW YORK","workAreaFormatIndicatorIn":"C","xCoordinate":"0981968","xCoordinateHighAddressEnd":"0982031","xCoordinateLowAddressEnd":"0981785","xCoordinateOfCenterofCurvature":"0000000","yCoordinate":"0197317","yCoordinateHighAddressEnd":"0197212","yCoordinateLowAddressEnd":"0197601","yCoordinateOfCenterofCurvature":"0000000","zipCode":"10038"}}],"parseTree":null,"policy":null}
 const GEOCLIENT_OK_INTERSECTION_RESPONSE = {"status":"OK","input":"w43 st and 9 ave mn","results":[{"level":"0","status":"EXACT_MATCH","request":"intersection [crossStreetOne=w43 st, crossStreetTwo=9 ave, borough=MANHATTAN, compassDirection=null]","response":{"assemblyDistrict":"75","boroughCode1In":"1","censusTract1990":" 121  ","censusTract2000":" 121  ","censusTract2010":" 121  ","cityCouncilDistrict":"03","civilCourtDistrict":"03","communityDistrict":"104","communityDistrictBoroughCode":"1","communityDistrictNumber":"04","communitySchoolDistrict":"02","congressionalDistrict":"10","crossStreetNamesFlagIn":"E","dcpPreferredLgcForStreet1":"01","dcpPreferredLgcForStreet2":"01","dotStreetLightContractorArea":"1","fireBattalion":"09","fireCompanyNumber":"054","fireCompanyType":"E","fireDivision":"03","firstBoroughName":"MANHATTAN","firstStreetCode":"13463001010","firstStreetNameNormalized":"WEST   43 STREET","geosupportFunctionCode":"2","geosupportReturnCode":"00","healthArea":"4500","healthCenterDistrict":"15","instructionalRegion":"MS","interimAssistanceEligibilityIndicator":"E","intersectingStreet1":"110910","intersectingStreet2":"134630","latitude":40.759104364276126,"lionNodeNumber":"0021355","listOfPairsOfLevelCodes":"MMMM","longitude":-73.992141787218,"numberOfIntersectingStreets":"2","numberOfStreetCodesAndNamesInList":"02","policePatrolBoroughCommand":"1","policePrecinct":"014","sanbornBoroughCode1":"1","sanbornBoroughCode2":"1","sanbornPageNumber1":"041","sanbornPageNumber2":"043","sanbornVolumeNumber1":"05","sanbornVolumeNumber2":"05","sanbornVolumeNumberSuffix1":"N","sanbornVolumeNumberSuffix2":"N","sanitationCollectionSchedulingSectionAndSubsection":"3A","sanitationDistrict":"104","secondStreetCode":"11091001010","secondStreetNameNormalized":"9 AVENUE","stateSenatorialDistrict":"27","streetCode1":"11091001","streetCode2":"13463001","streetName1":"9 AVENUE","streetName1In":"W43 ST","streetName2":"WEST   43 STREET","streetName2In":"9 AVE","workAreaFormatIndicatorIn":"C","xCoordinate":"0986427","yCoordinate":"0215839","zipCode":"10036"}}],"parseTree":null,"policy":null}
@@ -18,8 +19,8 @@ test('constructor no projection', () => {
 
   expect(geoclient instanceof Locator).toBe(true)
   expect(geoclient instanceof Geoclient).toBe(true)
-  
-  expect(geoclient.URL).toBe(`${URL}&input=`)
+
+  expect(geoclient.url).toBe(`${URL}&input=`)
   expect(geoclient.projection).toBe('EPSG:3857')
 })
 
@@ -28,8 +29,8 @@ test('constructor has projection', () => {
 
   expect(geoclient instanceof Locator).toBe(true)
   expect(geoclient instanceof Geoclient).toBe(true)
-  
-  expect(geoclient.URL).toBe(`${URL}&input=`)
+
+  expect(geoclient.url).toBe(`${URL}&input=`)
   expect(geoclient.projection).toBe('EPSG:2263')
 })
 
@@ -52,14 +53,19 @@ test('search for ZIP', () => {
 })
 
 test('search for address', () => {
-  const jqueryAjax = $.ajax
-  $.ajax = jest.fn()
-  $.ajax.mockReturnValueOnce(GEOCLIENT_OK_ADDRESS_RESPONSE)
+  const jqueryProxy = $.jqueryProxy
+  const proxyCalls = []
+  $.proxy = function(fn, scope) {
+    proxyCalls.push([fn, scope])
+    return [fn, scope]
+  }
 
-  const jqueryProxy = $.proxy
-  $.ajax = jest.fn()
-  $.ajax.mockReturnValueOnce('geoclient.geoclient')
-  $.ajax.mockReturnValueOnce('geoclient.error')
+  const jqueryAjax = $.ajax
+  const ajaxCalls = []
+  $.ajax = function(args){
+    ajaxCalls.push(args)
+    args.success[0].call(args.success[1], GEOCLIENT_OK_ADDRESS_RESPONSE)
+  }
 
   const geoclient = new Geoclient(URL)
 
@@ -68,23 +74,77 @@ test('search for address', () => {
 
   geoclient.search('59 maiden mn')
 
-  expect($.ajax).toHaveBeenCalledTimes(1)
-  expect($.ajax.mock.calls[0][0]).toEqual({
-    url: `${geoclient.url}input`,
-    dataType: 'jsonp',
-    success: 'geoclient.geoclient',
-    error: 'geoclient.error'
-  })
+  expect(ajaxCalls.length).toBe(1)
+  expect(ajaxCalls[0].url).toBe(`${geoclient.url}59 maiden mn`)
+  expect(ajaxCalls[0].dataType).toBe('jsonp')
+  expect(ajaxCalls[0].success[0]).toBe(geoclient.geoclient)
+  expect(ajaxCalls[0].success[1]).toBe(geoclient)
+  expect(ajaxCalls[0].error[0]).toBe(geoclient.error)
+  expect(ajaxCalls[0].error[1]).toBe(geoclient)
+
+  expect(proxyCalls.length).toBe(2)
+  expect(proxyCalls[0][0]).toEqual(geoclient.geoclient)
+  expect(proxyCalls[0][1]).toEqual(geoclient)
+  expect(proxyCalls[1][0]).toEqual(geoclient.error)
+  expect(proxyCalls[1][1]).toEqual(geoclient)
 
   expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0]).toEqual({
-    type: Locate.ResultType.GEOCODE,
-    coordinates:  proj4('EPSG:2263', 'EPSG:3857', [982037, 197460]),
-    accuracy: Locate.Accuracy.HIGH,
-    name: '59 Maiden Lane, Manhattan, NY 10038',
-    data: GEOCLIENT_OK_ADDRESS_RESPONSE.results[0].response
-  })
+  expect(handler.mock.calls[0][0].type).toBe(Locator.ResultType.GEOCODE)
+  expect(handler.mock.calls[0][0].coordinates).toEqual(proj4('EPSG:2263', 'EPSG:3857', [982037, 197460]))
+  expect(handler.mock.calls[0][0].accuracy).toBe(Locator.Accuracy.HIGH)
+  expect(handler.mock.calls[0][0].name).toBe('59 Maiden Lane, Manhattan, NY 10038')
+  expect(handler.mock.calls[0][0].data).toBe(GEOCLIENT_OK_ADDRESS_RESPONSE.results[0].response)
 
   $.ajax = jqueryAjax
   $.proxy = jqueryProxy
+})
+
+test('search error', () => {
+  const jqueryProxy = $.jqueryProxy
+  const proxyCalls = []
+  $.proxy = function(fn, scope) {
+    proxyCalls.push([fn, scope])
+    return [fn, scope]
+  }
+
+  const jqueryAjax = $.ajax
+  const ajaxCalls = []
+  $.ajax = function(args){
+    ajaxCalls.push(args)
+    args.error[0].call(args.error[1], 'ajax-error-arguments')
+  }
+
+  const geoclient = new Geoclient(URL)
+
+  geoclient.error = jest.fn()
+
+  geoclient.search('59 maiden mn')
+
+  expect(ajaxCalls.length).toBe(1)
+  expect(ajaxCalls[0].url).toBe(`${geoclient.url}59 maiden mn`)
+  expect(ajaxCalls[0].dataType).toBe('jsonp')
+  expect(ajaxCalls[0].success[0]).toBe(geoclient.geoclient)
+  expect(ajaxCalls[0].success[1]).toBe(geoclient)
+  expect(ajaxCalls[0].error[0]).toBe(geoclient.error)
+  expect(ajaxCalls[0].error[1]).toBe(geoclient)
+
+  expect(proxyCalls.length).toBe(2)
+  expect(proxyCalls[0][0]).toEqual(geoclient.geoclient)
+  expect(proxyCalls[0][1]).toEqual(geoclient)
+  expect(proxyCalls[1][0]).toEqual(geoclient.error)
+  expect(proxyCalls[1][1]).toEqual(geoclient)
+
+  expect(geoclient.error).toHaveBeenCalledTimes(1)
+  expect(geoclient.error.mock.calls[0][0]).toEqual('ajax-error-arguments')
+
+  $.ajax = jqueryAjax
+  $.proxy = jqueryProxy
+})
+
+test('accuracyDistance', () => {
+  let geoclient = new Geoclient(URL)
+  expect(geoclient.accuracyDistance(100)).toBe(100)
+
+  geoclient = new Geoclient(URL, 'EPSG:2263')
+  expect(geoclient.accuracyDistance(100).toFixed(1)).toBe('328.1')
 })
