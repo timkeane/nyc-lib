@@ -1,0 +1,12 @@
+language: node_js
+
+node_js:
+  - stable
+
+install:
+  - yarn install
+
+script:
+  - yarn test
+
+after_script: "echo 'SENDING COVERALLS DATA' && cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js"
