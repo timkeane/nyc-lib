@@ -4,9 +4,9 @@ node_js:
   - stable
 
 install:
-  - yarn install --ignore-engines
+  - yarn install
 
 script:
   - yarn test
 
-after_script: "echo 'SENDING COVERALLS DATA' && cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js"
+after_script: "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
