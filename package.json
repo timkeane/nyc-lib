@@ -65,7 +65,6 @@
     "webpack-cli": "^2.0.14"
   },
   "dependencies": {
-    "@types/ol": "^4.6.1",
     "jquery": "^2.2.4",
     "jquery-csv": "^0.8.9",
     "jquery-mobile": "^1.5.0-alpha.1",
