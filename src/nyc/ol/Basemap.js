@@ -211,13 +211,17 @@ class Basemap extends OlMap {
    * @method
    */
   photoChange() {
+    let isPhoto = false
     Object.entries(this.photos).some(([year, layer]) => {
-  		if (layer.getVisible()) {
+      isPhoto = layer.getVisible()
+      if (isPhoto) {
   			this.showLabels(BasemapHelper.LabelType.PHOTO)
   			return true
   		}
   	})
-  	this.showLabels(BasemapHelper.LabelType.BASE)
+    if (!isPhoto) {
+      this.showLabels(BasemapHelper.LabelType.BASE)
+    }
   }
 }
 
@@ -228,9 +232,9 @@ class Basemap extends OlMap {
  * @param {Object} options
  */
 Basemap.setupView = function(options) {
-  if (options.view === undefined){
+  if (!(options.view instanceof OlView)) {
     options.view = new OlView({
-      center: BasemapHelper.CENTER,
+      center: Basemap.CENTER,
       minZoom: 8,
       maxZoom: 21,
       zoom: 8,

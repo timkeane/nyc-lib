@@ -320,3 +320,36 @@ test('layerExtent', () => {
   expect(basemap.layerExtent(extent0, undefined)).toBe(extent0)
   expect(basemap.layerExtent(extent0, view)).toEqual(extent1)
 })
+
+test('photoChange triggered by visible change', () => {
+  const basemap = new Basemap({target: 'map'})
+
+  expect(Object.entries(basemap.photos).length).toBe(11)
+  Object.entries(basemap.photos).forEach(([year, layer]) => {
+    expect(layer.getVisible()).toBe(false)
+  })
+
+  expect(basemap.labels.base.getVisible()).toBe(true)
+  expect(basemap.labels.photo.getVisible()).toBe(false)
+
+  Object.entries(basemap.photos).forEach(([year, layer]) => {
+    layer.setVisible(true)
+    expect(basemap.labels.base.getVisible()).toBe(false)
+    expect(basemap.labels.photo.getVisible()).toBe(true)
+    layer.setVisible(false)
+    expect(basemap.labels.base.getVisible()).toBe(true)
+    expect(basemap.labels.photo.getVisible()).toBe(false)
+  })
+})
+
+test('setupView no view in options', () => {
+  const options = {}
+
+  Basemap.setupView(options)
+
+  expect(options.view instanceof OlView).toBe(true)
+  expect(options.view.getCenter()).toEqual(Basemap.CENTER)
+  expect(options.view.getMinZoom()).toBe(8)
+  expect(options.view.getMaxZoom()).toBe(21)
+  expect(options.view.getZoom()).toBe(8)
+})
