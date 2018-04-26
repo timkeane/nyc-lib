@@ -2,8 +2,11 @@
  * @module nyc/Geoclient
  */
 
+import $ from 'jquery'
+ 
 import proj4 from 'proj4'
 
+import nyc from 'nyc/nyc'
 import Locator from 'nyc/Locator'
 
 /**
@@ -40,10 +43,11 @@ class Geoclient extends Locator {
 	search(input) {
 		input = input.trim()
 		if (input.length === 5 && !isNaN(input)) {
+			console.warn(input)
 			var p = this.project(Geoclient.ZIP_CODE_POINTS[input])
 			this.trigger(
 				p ? Locator.EventType.GEOCODE : Locator.EventType.AMBIGUOUS,
-				p ? {coordinates: p, accuracy: Geocoder.Accuracy.ZIP_CODE, type: Locator.ResultType.GEOCODE, zip: true, name: input} : {input: input, possible: []}
+				p ? {coordinates: p, accuracy: Locator.Accuracy.ZIP_CODE, type: Locator.ResultType.GEOCODE, zip: true, name: input} : {input: input, possible: []}
 			)
 		} else if (input.length) {
 			input = input.replace(/"/g, '').replace(/'/g, '').replace(/&/g, ' and ')
@@ -59,7 +63,7 @@ class Geoclient extends Locator {
 	 * @desc Get a distance for an accuracy enumerator based on the projections
 	 * @public
 	 * @method
-	 * @param {Geocoder.Accuracy} accuracy
+	 * @param {Locator.Accuracy} accuracy
 	 * @return {number} The accurcy in map units
 	 */
 	accuracyDistance(accuracy) {
@@ -145,17 +149,17 @@ class Geoclient extends Locator {
 		if (typ === 'intersection') {
 			ln1 = `${r.streetName1} and ${r.streetName2}`
 			p = [r.xCoordinate * 1, r.yCoordinate * 1]
-			a = Geocoder.Accuracy.MEDIUM
+			a = Locator.Accuracy.MEDIUM
 		} else if (typ === 'blockface') {
 			ln1 = r.firstStreetNameNormalized + ' btwn ' + r.secondStreetNameNormalized + ' & ' + r.thirdStreetNameNormalized
 			p = [((r.fromXCoordinate * 1) + (r.toXCoordinate * 1)) / 2, ((r.fromYCoordinate * 1) + (r.toYCoordinate * 1)) / 2]
-			a = Geocoder.Accuracy.LOW
+			a = Locator.Accuracy.LOW
 		} else { /* address, bbl, bin, place */
 			const x = r.internalLabelXCoordinate
       const y = r.internalLabelYCoordinate
 			ln1 = (r.houseNumber ? (r.houseNumber + ' ') : '') + (r.firstStreetNameNormalized || r.giStreetName1 || '')
 			p = [(x && y ? x : r.xCoordinate) * 1, (x && y ? y : r.yCoordinate) * 1]
-			a = x && y ? Geocoder.Accuracy.HIGH : Geocoder.Accuracy.MEDIUM
+			a = x && y ? Locator.Accuracy.HIGH : Locator.Accuracy.MEDIUM
 		}
 		return {
 			type: Locator.ResultType.GEOCODE,
