@@ -1,6 +1,7 @@
 /**
  * @module nyc
  */
+
 import proj4 from 'proj4'
 
 proj4.defs(
@@ -84,7 +85,25 @@ const nyc = {
 		  childObj[member] = parentObj[member]
 		}
 	  })
+	},
+  /**
+	 * @public
+   * @static
+	 * @function
+	 * @param {string} s A string
+	 * @return {string} Input string with the first letter of each word capitalized
+	 */
+	capitalize(s) {
+		const words = s.split(' ')
+    let result = ''
+		words.forEach(w => {
+			const word = w.toLowerCase()
+			result += word.substr(0, 1).toUpperCase()
+			result += word.substr(1).toLowerCase()
+			result += ' '
+		})
+		return result.trim()
 	}
-  }
+}
 
 export default nyc

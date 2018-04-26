@@ -191,3 +191,10 @@ test('copyFromParentKeys', () => {
   expect(childObj.getWtf()).toBe('wtf!')
 
 })
+
+test('capitalize', () => {
+  let words = 'the quick brown fox jumped over the lazy dog'
+  expect(nyc.capitalize(words)).toBe('The Quick Brown Fox Jumped Over The Lazy Dog')
+  words = 'THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG'
+  expect(nyc.capitalize(words)).toBe('The Quick Brown Fox Jumped Over The Lazy Dog')
+})
