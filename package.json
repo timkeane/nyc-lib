@@ -19,6 +19,7 @@
   "jest": {
     "verbose": true,
     "collectCoverage": true,
+    "coverageDirectory": "./coverage/",
     "transformIgnorePatterns": [
       "node_modules/(?!(ol)/)"
     ],
