@@ -13,21 +13,20 @@ afterEach(() => {
 
 test('hookupEvents', () => {
   const loadLayer = BasemapHelper.loadLayer
-  BasemapHelper.loadLayer = jest.fn(event => {
-    expect(event.target).toBe(target.get(0))
-  })
+  BasemapHelper.loadLayer = jest.fn()
 
   BasemapHelper.hookupEvents(target.get(0))
 
   target.trigger('drop')
   expect(BasemapHelper.loadLayer).toHaveBeenCalledTimes(1)
+  expect(BasemapHelper.loadLayer.mock.calls[0][0].target).toBe(target.get(0))
 
-  const dragHandler = jest.fn(event => {
-    expect(event.isDefaultPrevented()).toBe(true)
-  })
+  const dragHandler = jest.fn()
+  
   target.on('dragover', dragHandler)
   target.trigger('dragover')
   expect(dragHandler).toHaveBeenCalledTimes(1)
+  expect(dragHandler.mock.calls[0][0].isDefaultPrevented()).toBe(true)
 
   BasemapHelper.loadLayer = loadLayer
 })
