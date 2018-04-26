@@ -32,7 +32,7 @@ test('hookupEvents', () => {
   BasemapHelper.loadLayer = loadLayer
 })
 
-test('loadLayer', () => {
+test('loadLayer event has dataTransfer', () => {
   const getStorage = BasemapHelper.getStorage
   BasemapHelper.getStorage = function() {
     return mockStorage
@@ -85,6 +85,52 @@ test('loadLayer', () => {
   expect(mockStorage.loadShapeFile).toHaveBeenCalledTimes(1)
   expect(mockShpEvent.preventDefault).toHaveBeenCalledTimes(1)
   expect(mockShpEvent.stopPropagation).toHaveBeenCalledTimes(1)
+  BasemapHelper.getStorage = getStorage
+})
+
+test('loadLayer event has no dataTransfer', () => {
+  const getStorage = BasemapHelper.getStorage
+  BasemapHelper.getStorage = jest.fn()
+
+  const mockEvent = {
+    originalEvent: {},
+    preventDefault: jest.fn(),
+    stopPropagation: jest.fn()
+  }
+
+  BasemapHelper.hookupEvents(target.get(0))
+
+  BasemapHelper.loadLayer(mockEvent)
+
+  expect(mockEvent.preventDefault).toHaveBeenCalledTimes(1)
+  expect(mockEvent.stopPropagation).toHaveBeenCalledTimes(1)
+  expect(BasemapHelper.getStorage).toHaveBeenCalledTimes(0)
+
+  BasemapHelper.getStorage = getStorage
+})
+
+test('loadLayer dataTransfer has no files', () => {
+  const getStorage = BasemapHelper.getStorage
+  BasemapHelper.getStorage = jest.fn()
+
+  BasemapHelper.hookupEvents(target.get(0))
+
+  const mockEvent = {
+    originalEvent: {
+      dataTransfer: {files: []}
+    },
+    preventDefault: jest.fn(),
+    stopPropagation: jest.fn()
+  }
+
+  BasemapHelper.hookupEvents(target.get(0))
+
+  BasemapHelper.loadLayer(mockEvent)
+
+  expect(mockEvent.preventDefault).toHaveBeenCalledTimes(1)
+  expect(mockEvent.stopPropagation).toHaveBeenCalledTimes(1)
+  expect(BasemapHelper.getStorage).toHaveBeenCalledTimes(0)
+
   BasemapHelper.getStorage = getStorage
 })
 

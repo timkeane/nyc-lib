@@ -33,7 +33,7 @@ const BasemapHelper = {
 		 const transfer = event.originalEvent.dataTransfer
 		 event.preventDefault()
 		 event.stopPropagation()
-		 if (transfer && transfer.files.length){
+		 if (transfer && transfer.files.length) {
 			 const storage = this.getStorage()
 			 const files = transfer.files
 			 const ext = files[0].name.split('.').pop().toLowerCase()
@@ -76,7 +76,7 @@ const BasemapHelper = {
 		 * @desc Label type for photo layer
 		 */
 		PHOTO: 'photo'
-	}	
+	}
 }
 
 /**
