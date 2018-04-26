@@ -8,9 +8,9 @@ import BasemapHelper from 'nyc/BasemapHelper'
 
 import OlMap from 'ol/map'
 import OlView from 'ol/view'
-import OlLayerTile from 'ol/layer/Tile'
-import OlSourceXYZ from 'ol/source/XYZ'
-import OlProjection from 'ol/proj/Projection'
+import OlLayerTile from 'ol/layer/tile'
+import OlSourceXYZ from 'ol/source/xyz'
+import OlProjection from 'ol/proj/projection'
 
 let target
 beforeEach(() => {

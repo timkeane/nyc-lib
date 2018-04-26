@@ -7,8 +7,8 @@ import $ from 'jquery'
 import proj4 from 'proj4'
 
 //why do these resolve for jest but not webpack
-//import nyc from 'nyc/nyc'
-//import BasemapHelper from 'nyc/BasemapHelper'
+// import nyc from 'nyc/nyc'
+// import BasemapHelper from 'nyc/BasemapHelper'
 
 import nyc from '../nyc'
 import BasemapHelper from '../BasemapHelper'
@@ -16,9 +16,9 @@ import BasemapHelper from '../BasemapHelper'
 import ol from 'ol'
 import OlMap from 'ol/map'
 import OlView from 'ol/view'
-import OlLayerTile from 'ol/layer/Tile'
-import OlGeomPolygon from 'ol/geom/Polygon'
-import OlSourceXYZ from 'ol/source/XYZ'
+import OlSourceXYZ from 'ol/source/xyz'
+import OlLayerTile from 'ol/layer/tile'
+import OlGeomPolygon from 'ol/geom/polygon'
 
 /**
  * @desc Class that provides an ol.Map with base layers, labels, and drag-and-drop
