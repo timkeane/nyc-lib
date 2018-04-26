@@ -38,29 +38,29 @@ class Basemap extends OlMap {
     nyc.mixin(this, [BasemapHelper])
     /**
   	 * @private
-  	 * @thismber {number}
+  	 * @member {number}
   	 */
   	this.latestPhoto = 0
     /**
   	 * @private
-  	 * @thismber {OlLayerTile}
+  	 * @member {OlLayerTile}
   	 */
   	this.base
     /**
   	 * @private
-  	 * @thismber {Object<string, OlLayerTile>}
+  	 * @member {Object<string, OlLayerTile>}
   	 */
   	this.labels = {}
     /**
   	 * @private
-  	 * @thismber {Object<string, OlLayerTile>}
+  	 * @member {Object<string, OlLayerTile>}
   	 */
   	this.photos = {}
     /**
   	 * @private
-  	 * @thismber {storage.Local}
+  	 * @member {storage.Local}
   	 */
-    //this.storage = new storage.Local()
+    this.storage = null
     this.setupLayers(options, preload)
     this.defaultExtent(viewProvided)
     this.hookupEvents(this.getTargetElement())
@@ -78,17 +78,6 @@ class Basemap extends OlMap {
   	this.showLabels('photo')
   }
   /**
-   * @desc Show the specified label layer
-   * @public
-   * @override
-   * @method
-   * @param labelType {nyc.Basemap.BaseLayers} The label type to show
-   */
-  showLabels(labelType) {
-  	this.labels.base.setVisible(labelType === BasemapHelper.LabelType.BASE)
-  	this.labels.photo.setVisible(labelType === BasemapHelper.LabelType.PHOTO)
-  }
-  /**
    * @desc Hide photo layer
    * @public
    * @override
@@ -100,6 +89,17 @@ class Basemap extends OlMap {
     Object.entries(this.photos).forEach(([year, layer]) => {
       layer.setVisible(false)
     })
+  }
+  /**
+   * @desc Show the specified label layer
+   * @public
+   * @override
+   * @method
+   * @param labelType {nyc.Basemap.BaseLayers} The label type to show
+   */
+  showLabels(labelType) {
+  	this.labels.base.setVisible(labelType === BasemapHelper.LabelType.BASE)
+  	this.labels.photo.setVisible(labelType === BasemapHelper.LabelType.PHOTO)
   }
   /**
    * @desc Returns the base layers
@@ -122,7 +122,8 @@ class Basemap extends OlMap {
    * @method
    * @return {nyc.ol.storage.Local} srorage
    */
-  getStorage(year) {
+  getStorage() {
+    console.warn('!!!!!!!!!! getStorage !!!!!!!!!!')
   	return this.storage
   }
   /**
