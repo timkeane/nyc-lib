@@ -4,7 +4,7 @@
 
 import proj4 from 'proj4'
 
-import Geocoder from 'nyc/Locator'
+import Locator from 'nyc/Locator'
 
 /**
  * @desc A class for geocoding using the New York City Geoclient API
@@ -42,8 +42,8 @@ class Geoclient extends Locator {
 		if (input.length === 5 && !isNaN(input)) {
 			var p = this.project(Geoclient.ZIP_CODE_POINTS[input])
 			this.trigger(
-				p ? Locate.EventType.GEOCODE : Locate.EventType.AMBIGUOUS,
-				p ? {coordinates: p, accuracy: Geocoder.Accuracy.ZIP_CODE, type: Locate.ResultType.GEOCODE, zip: true, name: input} : {input: input, possible: []}
+				p ? Locator.EventType.GEOCODE : Locator.EventType.AMBIGUOUS,
+				p ? {coordinates: p, accuracy: Geocoder.Accuracy.ZIP_CODE, type: Locator.ResultType.GEOCODE, zip: true, name: input} : {input: input, possible: []}
 			)
 		} else if (input.length) {
 			input = input.replace(/"/g, '').replace(/'/g, '').replace(/&/g, ' and ')
@@ -95,22 +95,22 @@ class Geoclient extends Locator {
 				if (result.status === 'EXACT_MATCH' || result.status === 'POSSIBLE_MATCH') {
 					const location = this.parse(result)
 					if (location.coordinates[0]) {
-						this.trigger(Locate.EventType.GEOCODE, location)
+						this.trigger(Locator.EventType.GEOCODE, location)
 					} else {
-						this.trigger(Locate.EventType.AMBIGUOUS, {
+						this.trigger(Locator.EventType.AMBIGUOUS, {
               input: response.input,
               possible: []
             })
 					}
 				}
 			} else {
-				this.trigger(Locate.EventType.AMBIGUOUS, {
+				this.trigger(Locator.EventType.AMBIGUOUS, {
           input: response.input,
           possible: this.possible(results)
         })
 			}
 		} else {
-			this.trigger(Locate.EventType.AMBIGUOUS, {
+			this.trigger(Locator.EventType.AMBIGUOUS, {
         input: response.input,
         possible: []
       })
@@ -119,7 +119,7 @@ class Geoclient extends Locator {
 	/**
 	 * @private
 	 * @method
-	 * @param {Array<Locate.Ambiguous>} response
+	 * @param {Array<Locator.Ambiguous>} response
 	 */
 	possible(results) {
 		const possible = []
@@ -137,7 +137,7 @@ class Geoclient extends Locator {
 	 * @private
 	 * @method
 	 * @param {Object} result
-	 * @return {Locate.Result}
+	 * @return {Locator.Result}
 	 */
 	parse(result) {
 		const typ = result.request.split(' ')[0], r = result.response
@@ -158,7 +158,7 @@ class Geoclient extends Locator {
 			a = x && y ? Geocoder.Accuracy.HIGH : Geocoder.Accuracy.MEDIUM
 		}
 		return {
-			type: Locate.ResultType.GEOCODE,
+			type: Locator.ResultType.GEOCODE,
 			coordinates: this.project(p),
 			data: r,
 			accuracy: a, /* approximation */
@@ -171,7 +171,7 @@ class Geoclient extends Locator {
    */
    error() {
      console.error('Geoclient error', arguments)
-     this.trigger(Locate.EventType.ERROR, arguments)
+     this.trigger(Locator.EventType.ERROR, arguments)
    }
 }
 
