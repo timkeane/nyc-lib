@@ -2,6 +2,8 @@
  * @module nyc/ol/Locator
  */
 
+import $ from 'jquery'
+
 import Geoclient from 'nyc/Geoclient'
 
 import OlGeolocation from 'ol/geolocation'
@@ -110,7 +112,8 @@ class Locator extends Geoclient {
  * @typedef {Object}
  * @property {string} url The URL for accessing the Geoclient API
  * @property {string} [projection=EPSG:3857] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
- * @property {number} [maxZoom =17] The zoom level to use when centering a map on a the result of a call to a {Locator} method
  * @property {ol.Extent=} extentLimit Geolocation coordinates outside of this bounding box are ignored
  */
 Locator.Options
+
+export default Locator
