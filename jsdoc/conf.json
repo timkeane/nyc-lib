@@ -1,0 +1,40 @@
+{
+  "source": {
+    "include": ["./src/nyc"]
+  },
+  "sourceType": "module",
+  "opts": {
+    "destination": "./dist/doc",
+    "readme": "./README.md",
+    "template": "./jsdoc/template",
+    "encoding": "utf8",
+    "recurse": true,
+    "verbose": true
+  },
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "plugins": ["plugins/markdown"],
+  "templates": {
+    "systemName": "",
+    "logoFile": "",
+    "theme": "darkly",
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "dateFormat": "ddd MMM Do YYYY",
+    "outputSourceFiles": true,
+    "outputSourcePath": true,
+    "footer": "",
+    "copyright": "",
+    "navType": "vertical",
+    "linenums": true,
+    "collapseSymbols": false,
+    "inverseNav": true,
+    "protocol": "html://",
+    "methodHeadingReturns": false
+  },
+  "markdown": {
+    "parser": "gfm",
+    "hardwrap": true
+  }
+}
