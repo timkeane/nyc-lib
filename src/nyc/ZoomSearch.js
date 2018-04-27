@@ -2,7 +2,9 @@
  * @module nyc/ReplaceTokens
  */
 
-import CtlContainer from 'nyc/CtlContainer'
+import $ from 'jquery'
+
+import CtlContainer from './CtlContainer'
 
 /**
  * @desc  Abstract class for zoom and search controls
@@ -61,23 +63,27 @@ class ZoomSearch extends CtlContainer {
 	/**
 	 * @private
 	 * @method
-	 * @param {boolean} useSearchTypeMenu
 	 */
-	render: function() {
-		this.getContainer().append(ZoomSearch.HTML).trigger('create')
+	render() {
+		$('#map').append(ZoomSearch.HTML).trigger('create')
+		//this.getContainer().append(ZoomSearch.HTML).trigger('create')
 		this.input = this.getElem('.fld-srch-container input')
 		this.list = this.getElem('.fld-srch')
 		this.hookupEvents(this.input, this.list)
 	}
-	hookupEvents(input) {
+	/**
+	 * @param {JQuery} input 
+	 * @param {JQuery} list 
+	 */
+	hookupEvents(input, list) {
 		input.on('keydown change', $.proxy(this.key, this))
-		input.on('keyup', function(event) {
+		input.on('keyup', (event) => {
 			if (event.keyCode === 13 && !$.ui.keyCode.ENTER) {
 				$.ui.keyCode.ENTER = 13
 			}
 		})
-		input.focus(function() {input.select()})
-		this.getElem('.fld-srch-container .ui-input-clear').click(function() {
+		input.focus(() => {input.select()})
+		this.getElem('.fld-srch-container .ui-input-clear').click(() => {
 			list.slideUp()
 		})
 		this.getElem('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))
@@ -141,7 +147,7 @@ class ZoomSearch extends CtlContainer {
 	disambiguate(ambiguous) {
 		const possible = ambiguous.possible
 		const list = this.list
-		me.searching(false)
+		this.searching(false)
 		if (possible.length) {
 			this.emptyList(true)
 			possible.forEach(locateResult => {
@@ -149,7 +155,7 @@ class ZoomSearch extends CtlContainer {
 			})
 			list.children().first().addClass('ui-first-child')
 			list.children().last().addClass('ui-last-child')
-			list.slideDown(() {
+			list.slideDown(() => {
 				list.children().first().attr('tabindex', 0).focus()
 			})
 		}
@@ -200,7 +206,7 @@ class ZoomSearch extends CtlContainer {
 		options.features.forEach(feature => {
 			features.push($.extend({}, feature))
 		})
-		features.sort(function(a, b) {
+		features.sort((a, b) => {
 			const labelField = options.labelField
 			if (a.get(labelField) < b.get(labelField)) return -1
 			if (a.get(labelField) > b.get(labelField)) return 1
@@ -278,8 +284,8 @@ class ZoomSearch extends CtlContainer {
 	 * @param {jQuery.Event} event
 	 */
 	disambiguated(event) {
-		const li = $(event.target)
-		if (li.get(0).tagName != 'LI') {
+		let li = $(event.target)
+		if (li.get(0).tagName.toUpperCase() !== 'LI') {
 			li = li.parent()
 		}
 		const data = li.data('location')
@@ -361,3 +367,5 @@ ZoomSearch.HTML = '<div class="z-srch ol-unselectable">' +
 	'</a>' +
 	'<ul class="fld-srch-retention"></ul>' +
 '</div>'
+
+export default ZoomSearch

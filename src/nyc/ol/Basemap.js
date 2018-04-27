@@ -6,12 +6,8 @@ import $ from 'jquery'
 
 import proj4 from 'proj4'
 
-//why do these resolve for jest but not webpack
-// import nyc from 'nyc/nyc'
-// import BasemapHelper from 'nyc/BasemapHelper'
-
-import nyc from '../nyc'
-import BasemapHelper from '../BasemapHelper'
+import nyc from 'nyc/nyc'
+import BasemapHelper from 'nyc/BasemapHelper'
 
 import ol from 'ol'
 import OlMap from 'ol/map'

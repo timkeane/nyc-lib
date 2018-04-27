@@ -19,7 +19,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      nyc: path.resolve(__dirname, '..', 'src', 'nyc')
+      nyc: path.resolve(__dirname, './src/nyc')
     }
   },
   plugins: [
