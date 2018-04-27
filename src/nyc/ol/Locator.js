@@ -2,7 +2,7 @@
  * @module nyc/ol/Locator
  */
 
-import AbstractLocator from 'nyc/Locator'
+import Geoclient from 'nyc/Geoclient'
 
 import OlGeolocation from 'ol/geolocation'
 import olCoordinate from 'ol/coordinate'
@@ -16,7 +16,7 @@ import olExtent from 'ol/extent'
  * @constructor
  * @param {nyc/ol/Locator/Options} options Constructor options
  */
-class Locator extends AbstractLocator {
+class Locator extends Geoclient {
   constructor(options) {
     super(options)
     /**
@@ -40,8 +40,8 @@ class Locator extends AbstractLocator {
   			timeout: 600000
   		}
   	})
-    this.geolocation.on('change', $.proxy(this.changeHndlr, this))
-  	this.geolocation.on('error', $.proxy(this.errorHndlr, this))
+    this.geolocation.on('change', $.proxy(this.geolocationChange, this))
+  	this.geolocation.on('error', $.proxy(this.geolocationError, this))
   }
   /**
 	 * @desc Locate once using device geolocation
@@ -68,14 +68,14 @@ class Locator extends AbstractLocator {
    * @method
    * @param {Object} error
    */
-  errorHndlr(error) {
+  geolocationError(error) {
     console.error(error.message, error);
   }
   /**
    * @private
    * @method
    */
-  changeHndlr() {
+  geolocationChange() {
     const geo = this.geolocation
     const p = this.project(geo.getPosition())
     const name = olCoordinate.toStringHDMS(p)

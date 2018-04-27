@@ -24,27 +24,49 @@ class Locator extends EventHandling {
    * @access protected
    * @param {nyc/Locator/Options} options Construction options
    */
-   constructor(options) {
-     super()
-     options = options || {}
-     /**
-   	 * @desc The epsg code
-   	 * @public
-   	 * @member {string}
-   	 */
-   	this.projection = options.projection || 'EPSG:3857'
-   }
-   /**
- 	 * @desc Geocode an input string representing a location
- 	 * @public
- 	 * @abstract
- 	 * @method
- 	 * @param {string} input The value to geocode
- 	 */
- 	search(input) {
+  constructor(options) {
+    super()
+    options = options || {}
+    /**
+     * @desc The epsg code
+     * @public
+     * @member {string}
+     */
+    this.projection = options.projection || 'EPSG:3857'
+  }
+  /**
+   * @desc Get a distance for an accuracy enumerator based on the projections
+   * @public
+   * @method
+   * @return {number} The meters per map unit
+   */
+  metersPerUnit() {
+    return proj4.defs[this.projection].to_meter
+ 	}
+  /**
+   * @desc Get a distance for an accuracy enumerator based on the projections
+   * @access protected
+   * @method
+   * @param {nyc/Locator/Accuracy} accuracy
+   * @return {number} The accurcy in map units
+   */
+  accuracyDistance(accuracy) {
+    if (this.projection === 'EPSG:3857') {
+      return accuracy
+    }
+    return accuracy / this.metersPerUnit()
+  }
+  /**
+   * @desc Geocode an input string representing a location
+   * @public
+   * @abstract
+   * @method
+   * @param {string} input The value to geocode
+   */
+  search(input) {
     throw 'Not implemented'
  	}
-   /**
+  /**
  	 * @desc Locator once using device geolocation
  	 * @public
  	 * @abstract
@@ -53,7 +75,7 @@ class Locator extends EventHandling {
  	locate() {
  		throw 'Not implemented'
  	}
-   /**
+  /**
  	 * @desc Track using device geolocation
  	 * @public
  	 * @abstract
@@ -63,28 +85,6 @@ class Locator extends EventHandling {
  	track() {
  		throw 'Not implemented'
  	}
-  /**
-	 * @desc Get a distance for an accuracy enumerator based on the projections
-	 * @public
-	 * @method
-	 * @param {nyc/Locator/Accuracy} accuracy
-	 * @return {number} The accurcy in map units
-	 */
-	accuracyDistance(accuracy) {
-    if (this.projection === 'EPSG:3857') {
-      return accuracy
-    }
-    return accuracy / this.metersPerUnit()
-	}
-  /**
-	 * @desc Get a distance for an accuracy enumerator based on the projections
-	 * @public
-	 * @method
-	 * @return {number} The meters per map unit
-	 */
-	metersPerUnit(){
-		return proj4.defs[this.projection].to_meter
-	}
 }
 
 /**
