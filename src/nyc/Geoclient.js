@@ -46,7 +46,7 @@ class Geoclient extends Locator {
 			var p = this.project(Geoclient.ZIP_CODE_POINTS[input])
 			this.trigger(
 				p ? Locator.EventType.GEOCODE : Locator.EventType.AMBIGUOUS,
-				p ? {coordinates: p, accuracy: Locator.Accuracy.ZIP_CODE, type: Locator.ResultType.GEOCODE, zip: true, name: input} : {input: input, possible: []}
+				p ? {coordinate: p, accuracy: Locator.Accuracy.ZIP_CODE, type: Locator.ResultType.GEOCODE, zip: true, name: input} : {input: input, possible: []}
 			)
 		} else if (input.length) {
 			input = input.replace(/"/g, '').replace(/'/g, '').replace(/&/g, ' and ')
@@ -74,14 +74,14 @@ class Geoclient extends Locator {
 	/**
 	 * @private
 	 * @method
-	 * @param {ol.Coordinate} coordinates
+	 * @param {ol.Coordinate} coordinate
 	 * return {ol.Coordinate}
 	 */
-	project(coordinates) {
-		if (coordinates && this.projection != 'EPSG:2263') {
-			return proj4('EPSG:2263', this.projection, coordinates)
+	project(coordinate) {
+    if (this.projection !== 'EPSG:2263') {
+      return proj4('EPSG:2263', this.projection, coordinate)
 		}
-		return coordinates
+		return coordinate
 	}
 	/**
 	 * @private
@@ -92,10 +92,10 @@ class Geoclient extends Locator {
 		const results = response.results
 		if (response.status === 'OK') {
 			if (results.length === 1) {
-				const result = results[0]
+        const result = results[0]
 				if (result.status === 'EXACT_MATCH' || result.status === 'POSSIBLE_MATCH') {
 					const location = this.parse(result)
-					if (location.coordinates[0]) {
+					if (location) {
 						this.trigger(Locator.EventType.GEOCODE, location)
 					} else {
 						this.trigger(Locator.EventType.AMBIGUOUS, {
@@ -125,9 +125,9 @@ class Geoclient extends Locator {
 	possible(results) {
 		const possible = []
 		results.forEach(result => {
-			if (result.status = 'POSSIBLE_MATCH') {
+			if (result.status === 'POSSIBLE_MATCH') {
 				const location = this.parse(result)
-				if (location.coordinates[0]) {
+				if (location) {
 					possible.push(location)
 				}
 			}
@@ -158,14 +158,16 @@ class Geoclient extends Locator {
 			p = [(x && y ? x : r.xCoordinate) * 1, (x && y ? y : r.yCoordinate) * 1]
 			a = x && y ? Locator.Accuracy.HIGH : Locator.Accuracy.MEDIUM
 		}
-		return {
-			type: Locator.ResultType.GEOCODE,
-			coordinates: this.project(p),
-			data: r,
-			accuracy: a, /* approximation */
-			name: nyc.capitalize(`${ln1.replace(/  /, ' ').replace(/  /, ' ')}, ${r.firstBoroughName}`) +
-        `, NY ${(r.zipCode || r.leftSegmentZipCode || '')}`
-		}
+    try {
+      return {
+  			type: Locator.ResultType.GEOCODE,
+  			coordinate: this.project(p),
+  			data: r,
+  			accuracy: a, /* approximation */
+  			name: nyc.capitalize(`${ln1.replace(/  /, ' ').replace(/  /, ' ')}, ${r.firstBoroughName}`) +
+          `, NY ${(r.zipCode || r.leftSegmentZipCode || '')}`
+  		}
+    } catch (badCoord) { }
 	}
   /**
    * @private
