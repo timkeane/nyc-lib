@@ -7,6 +7,7 @@
 /**
  * @desc Class to provide event handling functionality
  * @public
+ * @abstract
  * @class
  * @constructor
  */

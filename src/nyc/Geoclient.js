@@ -16,7 +16,7 @@ import Locator from 'nyc/Locator'
  * @extends nyc/Locator
  * @constructor
  * @param {string} url The URL for accessing the Geoclient API
- * @param {string} [projection='EPSG:3857'] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
+ * @param {string} [projection=EPSG:3857] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
  * @see https://developer.cityofnewyork.us/api/geoclient-api
  */
 class Geoclient extends Locator {

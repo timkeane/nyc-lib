@@ -5,6 +5,7 @@
  /**
  * @desc Class to provide string replacement functionality
  * @public
+ * @abstract
  * @class
  * @constructor
  */

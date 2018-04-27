@@ -24,7 +24,6 @@ import OlGeomPolygon from 'ol/geom/polygon'
  * @desc Class that provides an ol.Map with base layers, labels, and drag-and-drop
  * @public
  * @class
- * @implements nyc/Basemap
  * @extends ol.Map
  * @mixes nyc/Basemap
  */

@@ -7,8 +7,7 @@ import $ from 'jquery'
 /**
  * @desc A helper object for creating and manipulating the NYC basemap
  * @public
- * @abstract
- * @class
+ * @mixin
  */
 const BasemapHelper = {
   /**
