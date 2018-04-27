@@ -1,4 +1,4 @@
-import $ from 'jquery' 
+import $ from 'jquery'
 
 import proj4 from 'proj4'
 
@@ -352,4 +352,13 @@ test('setupView no view in options', () => {
   expect(options.view.getMinZoom()).toBe(8)
   expect(options.view.getMaxZoom()).toBe(21)
   expect(options.view.getZoom()).toBe(8)
+})
+
+test('setupView has view in options', () => {
+  const view = new OlView({})
+  const options = {view: view}
+
+  Basemap.setupView(options)
+
+  expect(options.view).toBe(view)
 })

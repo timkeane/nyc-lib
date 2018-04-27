@@ -1,6 +1,6 @@
 import EventHandling from 'nyc/EventHandling'
 
-test('constructor', () => { 
+test('constructor', () => {
     const handling = new EventHandling()
     expect(handling.evtHdlrs).toEqual({})
 })
@@ -11,7 +11,7 @@ test('on', () => {
 	const aHandler = function(){}
 	const anotherHandler = function(data){}
 	const anObj = {
-		name: 'anObj',	
+		name: 'anObj',
 		handler: function(){}
 	}
 	const anotherObj = {
@@ -61,7 +61,7 @@ test('one', () => {
 	const aHandler = function(){}
 	const anotherHandler = function(data){}
 	const anObj = {
-		name: 'anObj',	
+		name: 'anObj',
 		handler: function(){}
 	}
 	const anotherObj = {
@@ -101,7 +101,7 @@ test('one', () => {
 	})
 	expect(handling.evtHdlrs['event2'][1]).toEqual({
 		handler: anotherObj.handler, scope: anotherObj, remove: true
-	})	
+	})
 })
 
 test('trigger a single stand alone function for a single event', () => {
@@ -166,6 +166,19 @@ test('trigger function within scope', () => {
 
 	handling.trigger('event1', 'data1')
 	expect(scope.handler).toHaveBeenCalledTimes(1)
+})
+
+test('trigger non-event', () => {
+	const handling = new EventHandling()
+
+	const scope = {
+		handler: jest.fn(data => {
+			expect(data).toBe('data1')
+		})
+	}
+
+	handling.trigger('event1', 'data1')
+	expect(scope.handler).toHaveBeenCalledTimes(0)
 })
 
 test('off single handler', () => {

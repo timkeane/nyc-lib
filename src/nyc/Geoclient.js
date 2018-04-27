@@ -167,7 +167,9 @@ class Geoclient extends Locator {
   			name: nyc.capitalize(`${ln1.replace(/  /, ' ').replace(/  /, ' ')}, ${r.firstBoroughName}`) +
           `, NY ${(r.zipCode || r.leftSegmentZipCode || '')}`
   		}
-    } catch (badCoord) { }
+    } catch (badCoord) {
+      console.warn('No coordinate', result)
+    }
 	}
   /**
    * @private

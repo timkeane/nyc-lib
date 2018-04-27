@@ -3,7 +3,7 @@
  */
 
  import $ from 'jquery'
- 
+
 /**
  * @desc Class to provide event handling functionality
  * @public
@@ -50,7 +50,7 @@ class EventHandling {
 	trigger(eventName, data) {
 		const handlers = this.evtHdlrs[eventName]
 		const remove = []
-		if (handlers){
+		if (handlers) {
 			handlers.forEach(hdlr => {
 				if (hdlr.scope) {
 					hdlr.handler.call(hdlr.scope, data)
