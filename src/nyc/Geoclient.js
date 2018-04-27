@@ -8,18 +8,19 @@ import proj4 from 'proj4'
 
 import nyc from 'nyc/nyc'
 import Locator from 'nyc/Locator'
+import Geocoder from 'nyc/Geocoder'
 
 /**
  * @desc A class for geocoding using the New York City Geoclient API
  * @public
  * @abstract
  * @class
- * @extends nyc/Locator
+ * @extends nyc/Geocoder
  * @constructor
  * @param {nyc/Geoclient/Options} options Constructor options
  * @see https://developer.cityofnewyork.us/api/geoclient-api
  */
-class Geoclient extends Locator {
+class Geoclient extends Geocoder {
   constructor(options) {
     super(options)
     /**
@@ -27,6 +28,12 @@ class Geoclient extends Locator {
   	 * @member {string}
   	 */
   	this.url = `${options.url}&input=`
+    /**
+     * @desc The epsg code
+     * @public
+     * @member {string}
+     */
+    this.projection = options.projection || 'EPSG:3857'
   }
 	/**
 	 * @desc Geocode an input string representing a location

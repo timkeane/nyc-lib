@@ -4,8 +4,9 @@
 
 import $ from 'jquery'
 
+import proj4 from 'proj4'
+
 import NycLocator from 'nyc/Locator'
-import Geoclient from 'nyc/Geoclient'
 
 import OlGeolocation from 'ol/geolocation'
 import olCoordinate from 'ol/coordinate'
@@ -19,7 +20,7 @@ import olExtent from 'ol/extent'
  * @constructor
  * @param {nyc/ol/Locator/Options} options Constructor options
  */
-class Locator extends Geoclient {
+class Locator extends NycLocator {
   constructor(options) {
     super(options)
     /**
@@ -82,7 +83,7 @@ class Locator extends Geoclient {
     const geo = this.geolocation
     let p = geo.getPosition()
 		const name = olCoordinate.toStringHDMS(p)
-		p = this.project(geo.getPosition())
+		p = proj4('EPSG:4326', this.projection, p)
     if (this.withinLimit(p)) {
       if (this.locating) {
         this.track(false)
@@ -112,7 +113,7 @@ class Locator extends Geoclient {
  * @desc constructor options for {nyc/ol/Locator}
  * @public
  * @typedef {Object}
- * @property {string} url The URL for accessing the Geoclient API
+ * @property {nyc/Geocoder} geocoder A geocoder
  * @property {string} [projection=EPSG:3857] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
  * @property {ol.Extent=} extentLimit Geolocation coordinates outside of this bounding box are ignored
  */

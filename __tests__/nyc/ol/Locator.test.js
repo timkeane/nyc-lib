@@ -1,10 +1,9 @@
+import proj4 from 'proj4'
+
 import NycLocator from 'nyc/Locator'
 import Locator from 'nyc/ol/Locator'
-import Geoclient from 'nyc/Geoclient'
 
 import OlGeolocation from 'ol/geolocation'
-
-const URL = 'http://geoclient.url.gov/'
 
 function mockGeolocationEventHandlers() {
   const geolocationChange = Locator.prototype.geolocationChange
@@ -43,11 +42,10 @@ function geolocationExpectations(locator) {
 test('constructor no extent limit and default projection', () => {
   const originalHandlers = mockGeolocationEventHandlers()
 
-  const locator = new Locator({url: URL})
+  const locator = new Locator({})
 
-  expect(locator instanceof Geoclient).toBe(true)
+  expect(locator instanceof NycLocator).toBe(true)
   expect(locator instanceof Locator).toBe(true)
-  expect(locator.url).toBe(`${URL}&input=`)
   expect(locator.projection).toBe('EPSG:3857')
   expect(locator.extentLimit).toBe(undefined)
 
@@ -58,11 +56,10 @@ test('constructor no extent limit and default projection', () => {
 test('constructor no extent limit and projection provided', () => {
   const originalHandlers = mockGeolocationEventHandlers()
 
-  const locator = new Locator({url: URL, projection: 'EPSG:2263'})
+  const locator = new Locator({projection: 'EPSG:2263'})
 
-  expect(locator instanceof Geoclient).toBe(true)
+  expect(locator instanceof NycLocator).toBe(true)
   expect(locator instanceof Locator).toBe(true)
-  expect(locator.url).toBe(`${URL}&input=`)
   expect(locator.projection).toBe('EPSG:2263')
   expect(locator.extentLimit).toBe(undefined)
 
@@ -74,11 +71,10 @@ test('constructor has extent limit and default projection', () => {
   const originalHandlers = mockGeolocationEventHandlers()
 
   const limit = [1, 2, 3, 4]
-  const locator = new Locator({url: URL, extentLimit: limit})
+  const locator = new Locator({extentLimit: limit})
 
-  expect(locator instanceof Geoclient).toBe(true)
+  expect(locator instanceof NycLocator).toBe(true)
   expect(locator instanceof Locator).toBe(true)
-  expect(locator.url).toBe(`${URL}&input=`)
   expect(locator.projection).toBe('EPSG:3857')
   expect(locator.extentLimit).toBe(limit)
 
@@ -87,7 +83,7 @@ test('constructor has extent limit and default projection', () => {
 })
 
 test('locate', () => {
-  const locator = new Locator({url: URL})
+  const locator = new Locator({})
 
   locator.geolocation.setTracking = jest.fn()
 
@@ -99,7 +95,7 @@ test('locate', () => {
 })
 
 test('track', () => {
-  const locator = new Locator({url: URL})
+  const locator = new Locator({})
 
   locator.geolocation.setTracking = jest.fn()
 
@@ -115,7 +111,7 @@ test('track', () => {
 })
 
 test('geolocationError', () => {
-  const locator = new Locator({url: URL})
+  const locator = new Locator({})
 
   const error = console.error
   console.error = jest.fn()
@@ -131,7 +127,7 @@ test('geolocationError', () => {
 })
 
 test('geolocationChange not currently locating, no limit', () => {
-  const locator = new Locator({url: URL, projection: 'EPSG:2263'})
+  const locator = new Locator({projection: 'EPSG:2263'})
   locator.track = jest.fn()
 
   const handler = jest.fn()
@@ -148,7 +144,7 @@ test('geolocationChange not currently locating, no limit', () => {
   expect(locator.track).toHaveBeenCalledTimes(0)
 
   expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0].coordinate).toEqual([0, 0])
+  expect(handler.mock.calls[0][0].coordinate).toEqual(proj4('EPSG:4326', locator.projection, [0, 0]))
   expect(handler.mock.calls[0][0].heading).toBe(90)
   expect(handler.mock.calls[0][0].accuracy).toBe(500 / locator.metersPerUnit())
   expect(handler.mock.calls[0][0].type).toBe(NycLocator.EventType.GEOLOCATION)
@@ -158,8 +154,7 @@ test('geolocationChange not currently locating, no limit', () => {
 test('geolocationChange not currently locating, within limit', () => {
   const limit = [-1, -1, 1, 1]
   const locator = new Locator({
-    url: URL,
-    projection: 'EPSG:2263',
+    projection: 'EPSG:4326',
     extentLimit: limit
   })
   locator.track = jest.fn()
@@ -178,7 +173,7 @@ test('geolocationChange not currently locating, within limit', () => {
   expect(locator.track).toHaveBeenCalledTimes(0)
 
   expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0].coordinate).toEqual([0, 0])
+  expect(handler.mock.calls[0][0].coordinate).toEqual(proj4('EPSG:4326', locator.projection, [0, 0]))
   expect(handler.mock.calls[0][0].heading).toBe(90)
   expect(handler.mock.calls[0][0].accuracy).toBe(500 / locator.metersPerUnit())
   expect(handler.mock.calls[0][0].type).toBe(NycLocator.EventType.GEOLOCATION)
@@ -188,7 +183,6 @@ test('geolocationChange not currently locating, within limit', () => {
 test('geolocationChange not currently locating, not within limit', () => {
   const limit = [-2, -2, -1, -1]
   const locator = new Locator({
-    url: URL,
     projection: 'EPSG:2263',
     extentLimit: limit
   })
@@ -211,7 +205,6 @@ test('geolocationChange not currently locating, not within limit', () => {
 test('geolocationChange is currently locating, not within limit', () => {
   const limit = [-2, -2, -1, -1]
   const locator = new Locator({
-    url: URL,
     projection: 'EPSG:2263',
     extentLimit: limit
   })
@@ -232,11 +225,10 @@ test('geolocationChange is currently locating, not within limit', () => {
   expect(handler).toHaveBeenCalledTimes(0)
 })
 
-test('geolocationChange not currently locating, within limit', () => {
+test('geolocationChange IS currently locating, within limit', () => {
   const limit = [-1, -1, 1, 1]
   const locator = new Locator({
-    url: URL,
-    projection: 'EPSG:2263',
+    projection: 'EPSG:4326',
     extentLimit: limit
   })
   locator.track = jest.fn()
@@ -256,7 +248,7 @@ test('geolocationChange not currently locating, within limit', () => {
   expect(locator.track).toHaveBeenCalledTimes(1)
 
   expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0].coordinate).toEqual([0, 0])
+  expect(handler.mock.calls[0][0].coordinate).toEqual(proj4('EPSG:4326', locator.projection, [0, 0]))
   expect(handler.mock.calls[0][0].heading).toBe(90)
   expect(handler.mock.calls[0][0].accuracy).toBe(500 / locator.metersPerUnit())
   expect(handler.mock.calls[0][0].type).toBe(NycLocator.EventType.GEOLOCATION)

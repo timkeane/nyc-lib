@@ -4,6 +4,7 @@ import proj4 from 'proj4'
 
 import nyc from 'nyc/nyc'
 import Locator from 'nyc/Locator'
+import Geocoder from 'nyc/Geocoder'
 import Geoclient from 'nyc/Geoclient'
 
 const URL = 'http://geoclient.url.gov/'
@@ -19,7 +20,7 @@ const GEOCLIENT_NON_ADDRESSABLE_RESPONSE = {"id":"msplva-gisapp01-1670-152479078
 test('constructor no projection', () => {
   const geoclient = new Geoclient({url: URL})
 
-  expect(geoclient instanceof Locator).toBe(true)
+  expect(geoclient instanceof Geocoder).toBe(true)
   expect(geoclient instanceof Geoclient).toBe(true)
 
   expect(geoclient.url).toBe(`${URL}&input=`)
@@ -29,7 +30,7 @@ test('constructor no projection', () => {
 test('constructor has projection', () => {
   const geoclient = new Geoclient({url: URL, projection: 'EPSG:2263'})
 
-  expect(geoclient instanceof Locator).toBe(true)
+  expect(geoclient instanceof Geocoder).toBe(true)
   expect(geoclient instanceof Geoclient).toBe(true)
 
   expect(geoclient.url).toBe(`${URL}&input=`)

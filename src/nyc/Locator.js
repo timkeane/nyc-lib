@@ -26,7 +26,12 @@ class Locator extends EventHandling {
    */
   constructor(options) {
     super()
-    options = options || {}
+    /**
+     * @desc The geocder
+     * @public
+     * @member {nyc/Geocoder}
+     */
+    this.geocoder = options.geocoder
     /**
      * @desc The epsg code
      * @public
@@ -64,8 +69,8 @@ class Locator extends EventHandling {
    * @param {string} input The value to geocode
    */
   search(input) {
-    throw 'Not implemented'
- 	}
+    this.geocoder.search(input)
+  }
   /**
  	 * @desc Locator once using device geolocation
  	 * @public
@@ -91,6 +96,7 @@ class Locator extends EventHandling {
  * @desc constructor options for {nyc/Locator}
  * @public
  * @typedef {Object}
+ * @property {nyc/Geocoder} geocoder A geocoder
  * @property {string} [projection=EPSG:3857] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
  */
 Locator.Options
