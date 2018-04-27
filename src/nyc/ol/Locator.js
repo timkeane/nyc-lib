@@ -4,6 +4,7 @@
 
 import $ from 'jquery'
 
+import NycLocator from 'nyc/Locator'
 import Geoclient from 'nyc/Geoclient'
 
 import OlGeolocation from 'ol/geolocation'
@@ -52,8 +53,8 @@ class Locator extends Geoclient {
 	 * @method
 	 */
 	locate(){
-		this.locating = true;
-		this.geolocation.setTracking(true);
+		this.locating = true
+		this.geolocation.setTracking(true)
 	}
 	/**
 	 * @desc Track using device geolocation
@@ -63,7 +64,7 @@ class Locator extends Geoclient {
 	 * @param {boolean} track Track or not
 	 */
 	track(track){
-		this.geolocation.setTracking(track);
+		this.geolocation.setTracking(track)
 	}
   /**
    * @private
@@ -71,7 +72,7 @@ class Locator extends Geoclient {
    * @param {Object} error
    */
   geolocationError(error) {
-    console.error(error.message, error);
+    console.error(error.message, error)
   }
   /**
    * @private
@@ -82,17 +83,17 @@ class Locator extends Geoclient {
     const p = this.project(geo.getPosition())
     const name = olCoordinate.toStringHDMS(p)
     if (this.locating) {
-      this.track(false);
-      this.locating = false;
+      this.track(false)
+      this.locating = false
     }
-    if (this.withinLimit(p)){
+    if (this.withinLimit(p)) {
       this.trigger(NycLocator.EventType.GEOLOCATION, {
         coordinates: p,
         heading: geo.getHeading(),
         accuracy: geo.getAccuracy() / this.metersPerUnit(),
         type: NycLocator.ResultType.GEOLOCATION,
         name: name
-      });
+      })
     }
   }
   /**
@@ -102,7 +103,7 @@ class Locator extends Geoclient {
 	 * @return {boolean}
 	 */
 	withinLimit(coordinates){
-		return this.extentLimit ? olExtent.containsCoordinate(this.extentLimit, coordinates) : true;
+		return this.extentLimit ? olExtent.containsCoordinate(this.extentLimit, coordinates) : true
 	}
 }
 
