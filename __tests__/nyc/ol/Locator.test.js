@@ -1,10 +1,10 @@
+import NycLocator from 'nyc/Locator'
 import Locator from 'nyc/ol/Locator'
 import Geoclient from 'nyc/Geoclient'
 
 import OlGeolocation from 'ol/geolocation'
 
 const URL = 'http://geoclient.url.gov/'
-
 
 function mockGeolocationEventHandlers() {
   const geolocationChange = Locator.prototype.geolocationChange
@@ -13,7 +13,7 @@ function mockGeolocationEventHandlers() {
   Locator.prototype.geolocationError = jest.fn()
   return {
     geolocationChange: geolocationChange,
-    geolocationError: geolocationChange
+    geolocationError: geolocationError
   }
 }
 
@@ -86,3 +86,70 @@ test('constructor has extent limit and default projection', () => {
   restoreGeolocationEventHandlers(originalHandlers)
 })
 
+test('locate', () => {
+  const locator = new Locator({url: URL})
+
+  locator.geolocation.setTracking = jest.fn()
+
+  locator.locate()
+
+  expect(locator.locating).toBe(true)
+  expect(locator.geolocation.setTracking).toHaveBeenCalledTimes(1)
+  expect(locator.geolocation.setTracking.mock.calls[0][0]).toBe(true)
+})
+
+test('track', () => {
+  const locator = new Locator({url: URL})
+
+  locator.geolocation.setTracking = jest.fn()
+
+  locator.track(true)
+
+  expect(locator.geolocation.setTracking).toHaveBeenCalledTimes(1)
+  expect(locator.geolocation.setTracking.mock.calls[0][0]).toBe(true)
+
+  locator.track(false)
+
+  expect(locator.geolocation.setTracking).toHaveBeenCalledTimes(2)
+  expect(locator.geolocation.setTracking.mock.calls[1][0]).toBe(false)
+})
+
+test('geolocationError', () => {
+  const locator = new Locator({url: URL})
+
+  const error = console.error
+  console.error = jest.fn()
+
+  const mockEvent = {message: 'mock-error'}
+  locator.geolocationError(mockEvent)
+
+  expect(console.error).toHaveBeenCalledTimes(1)
+  expect(console.error.mock.calls[0][0]).toBe('mock-error')
+  expect(console.error.mock.calls[0][1]).toBe(mockEvent)
+
+  console.error = error
+})
+/*
+test('geolocationChange not currently locating, no limit', () => {
+  const locator = new Locator({url: URL, projection: 'EPSG:2263'})
+  locator.track = jest.fn()
+
+  const handler = jest.fn()
+  locator.on(NycLocator.EventType.GEOLOCATION, handler)
+
+  locator.geolocation.getPosition = function() { return [0, 0] }
+  locator.geolocation.getHeading = function() { return 90 }
+  locator.geolocation.getAccuracy = function() { return 500 }
+
+  locator.geolocationChange()
+  
+  expect(locator.track).toHaveBeenCalledTimes(1)
+
+  expect(handler).toHaveBeenCalledTimes(1)
+  expect(handler.mock.calls[0][0].coordinate).toEqual([0, 0])
+  expect(handler.mock.calls[0][0].heading).toBe(90)
+  expect(handler.mock.calls[0][0].heading).toBe(500 / locator.metersPerUnit())
+  expect(handler.mock.calls[0][0].type).toBe(NycLocator.EventType.GEOLOCATION)
+  expect(handler.mock.calls[0][0].name).toBe('')
+})
+*/

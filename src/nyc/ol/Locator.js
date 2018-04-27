@@ -52,7 +52,7 @@ class Locator extends Geoclient {
    * @override
 	 * @method
 	 */
-	locate(){
+	locate() {
 		this.locating = true
 		this.geolocation.setTracking(true)
 	}
@@ -63,7 +63,7 @@ class Locator extends Geoclient {
 	 * @method
 	 * @param {boolean} track Track or not
 	 */
-	track(track){
+	track(track) {
 		this.geolocation.setTracking(track)
 	}
   /**
@@ -80,8 +80,9 @@ class Locator extends Geoclient {
    */
   geolocationChange() {
     const geo = this.geolocation
-    const p = this.project(geo.getPosition())
-    const name = olCoordinate.toStringHDMS(p)
+    let p = geo.getPosition()
+		const name = olCoordinate.toStringHDMS(p)
+		p = this.project(geo.getPosition())
     if (this.locating) {
       this.track(false)
       this.locating = false
