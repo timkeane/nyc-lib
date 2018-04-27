@@ -78,7 +78,7 @@ class Geoclient extends Locator {
 	 * return {ol.Coordinate}
 	 */
 	project(coordinate) {
-    if (this.projection !== 'EPSG:2263') {
+    if (coordinate && this.projection !== 'EPSG:2263') {
       return proj4('EPSG:2263', this.projection, coordinate)
 		}
 		return coordinate
@@ -93,16 +93,14 @@ class Geoclient extends Locator {
 		if (response.status === 'OK') {
 			if (results.length === 1) {
         const result = results[0]
-				if (result.status === 'EXACT_MATCH' || result.status === 'POSSIBLE_MATCH') {
-					const location = this.parse(result)
-					if (location) {
-						this.trigger(Locator.EventType.GEOCODE, location)
-					} else {
-						this.trigger(Locator.EventType.AMBIGUOUS, {
-              input: response.input,
-              possible: []
-            })
-					}
+        const location = this.parse(result)
+				if (location) {
+					this.trigger(Locator.EventType.GEOCODE, location)
+				} else {
+					this.trigger(Locator.EventType.AMBIGUOUS, {
+            input: response.input,
+            possible: []
+          })
 				}
 			} else {
 				this.trigger(Locator.EventType.AMBIGUOUS, {
@@ -125,11 +123,9 @@ class Geoclient extends Locator {
 	possible(results) {
 		const possible = []
 		results.forEach(result => {
-			if (result.status === 'POSSIBLE_MATCH') {
-				const location = this.parse(result)
-				if (location) {
-					possible.push(location)
-				}
+			const location = this.parse(result)
+			if (location) {
+				possible.push(location)
 			}
 		})
 		return possible
@@ -154,7 +150,7 @@ class Geoclient extends Locator {
 		} else { /* address, bbl, bin, place */
 			const x = r.internalLabelXCoordinate
       const y = r.internalLabelYCoordinate
-			ln1 = (r.houseNumber ? (r.houseNumber + ' ') : '') + (r.firstStreetNameNormalized || r.giStreetName1 || '')
+			ln1 = (r.houseNumber ? (r.houseNumber + ' ') : '') + (r.firstStreetNameNormalized || r.giStreetName1)
 			p = [(x && y ? x : r.xCoordinate) * 1, (x && y ? y : r.yCoordinate) * 1]
 			a = x && y ? Locator.Accuracy.HIGH : Locator.Accuracy.MEDIUM
 		}

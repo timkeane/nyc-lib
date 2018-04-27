@@ -208,8 +208,7 @@ test('getBaseLayers', () => {
 
 test('getStorage', () => {
   const basemap = new Basemap({target: 'map'})
-
-  console.warn('!!!!!!!!!! getStorage !!!!!!!!!!')
+  expect(basemap.getStorage()).toBeNull()
 })
 
 test('defaultExtent view not provided', () => {

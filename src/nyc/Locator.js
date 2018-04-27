@@ -30,19 +30,7 @@ class Locator extends EventHandling {
  	 * @param {string} input The value to geocode
  	 */
  	search(input) {
- 		throw 'Not Implemented'
- 	}
- 	/**
- 	 * @desc Get a distance for an accuracy enumerator based on the projections
- 	 * @public
- 	 * @abstract
- 	 * @method
- 	 * @param {Geocoder.Accuracy} accuracy
- 	 * @return {number}
- 	 *
- 	 */
- 	accuracyDistance(accuracy) {
- 		throw 'Not Implemented'
+    throw 'Not implemented'
  	}
    /**
  	 * @desc Locate once using device geolocation
@@ -51,7 +39,7 @@ class Locator extends EventHandling {
  	 * @method
  	 */
  	locate() {
- 		throw 'Must be implemented'
+ 		throw 'Not implemented'
  	}
    /**
  	 * @desc Track using device geolocation
@@ -61,17 +49,19 @@ class Locator extends EventHandling {
  	 * @param {boolean} track Track or not
  	 */
  	track() {
- 		throw 'Must be implemented'
+ 		throw 'Not implemented'
  	}
-   /**
- 	 * @desc Geocode an input string representing a location
+  /**
+ 	 * @desc Get a distance for an accuracy enumerator based on the projections
  	 * @public
  	 * @abstract
  	 * @method
- 	 * @param {string} input The value to geocode
+ 	 * @param {Geocoder.Accuracy} accuracy
+ 	 * @return {number}
+ 	 *
  	 */
- 	search(input) {
- 		throw 'Must be implemented'
+ 	accuracyDistance(accuracy) {
+    throw 'Not implemented'
  	}
 }
 
