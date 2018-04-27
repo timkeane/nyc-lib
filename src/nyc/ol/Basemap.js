@@ -9,7 +9,6 @@ import proj4 from 'proj4'
 import nyc from 'nyc/nyc'
 import BasemapHelper from 'nyc/BasemapHelper'
 
-import ol from 'ol'
 import OlMap from 'ol/map'
 import OlView from 'ol/view'
 import OlSourceXYZ from 'ol/source/xyz'

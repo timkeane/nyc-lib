@@ -60,20 +60,22 @@ class ZoomSearch extends CtlContainer {
 	featureAsLocation(feature, options) {
 		throw 'Not implemented'
 	}
+	getContainer() {
+		return $('#map')
+	}
 	/**
 	 * @private
 	 * @method
 	 */
 	render() {
-		$('#map').append(ZoomSearch.HTML).trigger('create')
-		//this.getContainer().append(ZoomSearch.HTML).trigger('create')
+		this.getContainer().append(ZoomSearch.HTML).trigger('create')
 		this.input = this.getElem('.fld-srch-container input')
 		this.list = this.getElem('.fld-srch')
 		this.hookupEvents(this.input, this.list)
 	}
 	/**
-	 * @param {JQuery} input 
-	 * @param {JQuery} list 
+	 * @param {JQuery} input
+	 * @param {JQuery} list
 	 */
 	hookupEvents(input, list) {
 		input.on('keydown change', $.proxy(this.key, this))

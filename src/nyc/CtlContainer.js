@@ -2,6 +2,8 @@
  * @module nyc/CtlContainer
  */
 
+import EventHandling from 'nyc/EventHandling'
+
  /**
   * @desc  An abstract class for accessing a control container and elements within it
   * @public

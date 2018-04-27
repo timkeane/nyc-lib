@@ -15,6 +15,10 @@ module.exports = {
       query: {
         presets: ['es2015']
       }
+    },
+    {
+      test: /jquery[\\\/]src[\\\/]selector\.js$/,
+      loader: 'amd-define-factory-patcher-loader'
     }]
   },
   resolve: {
@@ -24,5 +28,5 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(['dist'])
-  ]  
+  ]
 }
