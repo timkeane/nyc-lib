@@ -1,0 +1,116 @@
+/**
+ * @module nyc/ol/Locator
+ */
+
+import AbstractLocator from 'nyc/Locator'
+
+import OlGeolocation from 'ol/geolocation'
+import olCoordinate from 'ol/coordinate'
+import olExtent from 'ol/extent'
+
+/**
+ * @desc A class for geocoding and geolocating
+ * @public
+ * @class
+ * @extends {nyc/Locator}
+ * @constructor
+ * @param {nyc/ol/Locator/Options} options Constructor options
+ */
+class Locator extends AbstractLocator {
+  constructor(options) {
+    super(options)
+    /**
+  	 * @private
+  	 * @member {boolean}
+  	 */
+  	this.locating = false
+  	/**
+  	 * @private
+  	 * @member {ol.Extent}
+  	 */
+    this.extentLimit = options.extentLimit
+    /**
+  	 * @private
+  	 * @member {ol.Geolocation}
+  	 */
+    this.geolocation = new OlGeolocation({
+  		trackingOptions: {
+  			maximumAge: 10000,
+  			enableHighAccuracy: true,
+  			timeout: 600000
+  		}
+  	})
+    this.geolocation.on('change', $.proxy(this.changeHndlr, this))
+  	this.geolocation.on('error', $.proxy(this.errorHndlr, this))
+  }
+  /**
+	 * @desc Locate once using device geolocation
+	 * @public
+   * @override
+	 * @method
+	 */
+	locate(){
+		this.locating = true;
+		this.geolocation.setTracking(true);
+	}
+	/**
+	 * @desc Track using device geolocation
+	 * @public
+   * @override
+	 * @method
+	 * @param {boolean} track Track or not
+	 */
+	track(track){
+		this.geolocation.setTracking(track);
+	}
+  /**
+   * @private
+   * @method
+   * @param {Object} error
+   */
+  errorHndlr(error) {
+    console.error(error.message, error);
+  }
+  /**
+   * @private
+   * @method
+   */
+  changeHndlr() {
+    const geo = this.geolocation
+    const p = this.project(geo.getPosition())
+    const name = olCoordinate.toStringHDMS(p)
+    if (this.locating) {
+      this.track(false);
+      this.locating = false;
+    }
+    if (this.withinLimit(p)){
+      this.trigger(NycLocator.EventType.GEOLOCATION, {
+        coordinates: p,
+        heading: geo.getHeading(),
+        accuracy: geo.getAccuracy() / this.metersPerUnit(),
+        type: NycLocator.ResultType.GEOLOCATION,
+        name: name
+      });
+    }
+  }
+  /**
+	 * @private
+	 * @method
+	 * @param {ol.Coordinate} coordinates
+	 * @return {boolean}
+	 */
+	withinLimit(coordinates){
+		return this.extentLimit ? olExtent.containsCoordinate(this.extentLimit, coordinates) : true;
+	}
+}
+
+/**
+ * @desc constructor options for {nyc/ol/Locator}
+ * @public
+ * @typedef {Object}
+ * @property {string} url The URL for accessing the Geoclient API
+ * @property {string} [projection=EPSG:3857] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
+ * @property {number} [maxZoom =17] The zoom level to use when centering a map on a the result of a call to a {Locator} method
+ * @property {ol.Extent=} extentLimit Geolocation coordinates outside of this bounding box are ignored
+ */
+Locator.Options

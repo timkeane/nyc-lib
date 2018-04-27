@@ -12,31 +12,26 @@ import Locator from 'nyc/Locator'
 /**
  * @desc A class for geocoding using the New York City Geoclient API
  * @public
+ * @abstract
  * @class
  * @extends nyc/Locator
  * @constructor
- * @param {string} url The URL for accessing the Geoclient API
- * @param {string} [projection=EPSG:3857] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
+ * @param {nyc/Geoclient/Options} options Constructor options
  * @see https://developer.cityofnewyork.us/api/geoclient-api
  */
 class Geoclient extends Locator {
-  constructor(url, projection) {
-    super()
+  constructor(options) {
+    super(options)
     /**
   	 * @private
   	 * @member {string}
   	 */
-  	this.url = `${url}&input=`
-    /**
-  	 * @desc The epsg code
-  	 * @public
-  	 * @member {string}
-  	 */
-  	this.projection = projection || 'EPSG:3857'
+  	this.url = `${options.url}&input=`
   }
 	/**
 	 * @desc Geocode an input string representing a location
 	 * @public
+   * @override
 	 * @method
 	 * @param {string} input The value to geocode
 	 */
@@ -57,19 +52,6 @@ class Geoclient extends Locator {
 				error: $.proxy(this.error, this)
 			})
 		}
-	}
-	/**
-	 * @desc Get a distance for an accuracy enumerator based on the projections
-	 * @public
-	 * @method
-	 * @param {Locator.Accuracy} accuracy
-	 * @return {number} The accurcy in map units
-	 */
-	accuracyDistance(accuracy) {
-    if (this.projection === 'EPSG:3857') {
-      return accuracy
-    }
-    return accuracy / proj4.defs[this.projection].to_meter
 	}
 	/**
 	 * @private
@@ -176,6 +158,15 @@ class Geoclient extends Locator {
      this.trigger(Locator.EventType.ERROR, arguments)
    }
 }
+
+/**
+ * @desc constructor options for {nyc/Geoclient}
+ * @public
+ * @typedef {Object}
+ * @property {string} url The URL for accessing the Geoclient API
+ * @property {string} [projection=EPSG:3857] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
+ */
+Geoclient.Options
 
 /**
  * @private

@@ -17,7 +17,7 @@ const GEOCLIENT_REJECTED_RESPONSE = {"id":"msplva-gisapp01-1667-1524790190384","
 const GEOCLIENT_NON_ADDRESSABLE_RESPONSE = {"id":"msplva-gisapp01-1670-1524790780231","status":"OK","input":"METRO NORTH  125 STREET, mn","results":[{"level":"0","status":"EXACT_MATCH","request":"place [name=METRO NORTH 125 STREET, borough=MANHATTAN, zip=null]","response":{"bbl":"1270010091","bblBoroughCode":"1","bblTaxBlock":"27001","bblTaxLot":"0091","boroughCode1In":"1","buildingIdentificationNumber":"1798091","crossStreetNamesFlagIn":"E","firstBoroughName":"MANHATTAN","firstStreetCode":"10089601020","firstStreetNameNormalized":"METRO NORTH  125 STREET","geosupportFunctionCode":"1B","geosupportReturnCode":"58","geosupportReturnCode2":"00","gi5DigitStreetCode1":"00896","gi5DigitStreetCode2":"14590","gi5DigitStreetCode3":"14590","gi5DigitStreetCode4":"14590","giBoroughCode1":"1","giBoroughCode2":"1","giBoroughCode3":"1","giBoroughCode4":"1","giBuildingIdentificationNumber1":"1798091","giBuildingIdentificationNumber2":"1090030","giBuildingIdentificationNumber3":"1090031","giBuildingIdentificationNumber4":"1090032","giDcpPreferredLgc1":"01","giDcpPreferredLgc2":"01","giDcpPreferredLgc3":"01","giDcpPreferredLgc4":"01","giGeographicIdentifier1":"U","giGeographicIdentifier2":"B","giGeographicIdentifier3":"B","giGeographicIdentifier4":"B","giStreetCode1":"10089601","giStreetCode2":"11459001","giStreetCode3":"11459001","giStreetCode4":"11459001","giStreetName1":"METRO NORTH-HARLEM-125 STREET","giStreetName2":"CENTRE STREET","giStreetName3":"CENTRE STREET","giStreetName4":"CENTRE STREET","highBblOfThisBuildingsCondominiumUnits":"1270010091","lowBblOfThisBuildingsCondominiumUnits":"1270010091","lowHouseNumberOfDefiningAddressRange":"000001000AA","message":"NON-ADDRESSABLE PLACE NAME, BRIDGE, TUNNEL OR MISC STRUCTURE NOT FOUND","numberOfEntriesInListOfGeographicIdentifiers":"0004","numberOfExistingStructuresOnLot":"0004","numberOfStreetFrontagesOfLot":"02","returnCode1a":"00","returnCode1e":"58","sanbornBoroughCode":"1","streetName1In":"METRO NORTH 125 STREET","taxMapNumberSectionAndVolume":"1","workAreaFormatIndicatorIn":"C"}}],"parseTree":null,"policy":null}
 
 test('constructor no projection', () => {
-  const geoclient = new Geoclient(URL)
+  const geoclient = new Geoclient({url: URL})
 
   expect(geoclient instanceof Locator).toBe(true)
   expect(geoclient instanceof Geoclient).toBe(true)
@@ -27,7 +27,7 @@ test('constructor no projection', () => {
 })
 
 test('constructor has projection', () => {
-  const geoclient = new Geoclient(URL, 'EPSG:2263')
+  const geoclient = new Geoclient({url: URL, projection: 'EPSG:2263'})
 
   expect(geoclient instanceof Locator).toBe(true)
   expect(geoclient instanceof Geoclient).toBe(true)
@@ -37,7 +37,7 @@ test('constructor has projection', () => {
 })
 
 test('search for nothing', () => {
-  const geoclient = new Geoclient(URL)
+  const geoclient = new Geoclient({url: URL})
 
   const handler = jest.fn()
   geoclient.one(Locator.EventType.GEOCODE, handler)
@@ -49,7 +49,7 @@ test('search for nothing', () => {
 })
 
 test('search for good ZIP', () => {
-  const geoclient = new Geoclient(URL)
+  const geoclient = new Geoclient({url: URL})
 
   const handler = jest.fn()
   geoclient.one(Locator.EventType.GEOCODE, handler)
@@ -67,7 +67,7 @@ test('search for good ZIP', () => {
 })
 
 test('search for bad ZIP', () => {
-  const geoclient = new Geoclient(URL)
+  const geoclient = new Geoclient({url: URL})
 
   const handler = jest.fn()
   geoclient.one(Locator.EventType.AMBIGUOUS, handler)
@@ -93,7 +93,7 @@ test('search for address', () => {
     args.success[0].call(args.success[1], GEOCLIENT_OK_ADDRESS_RESPONSE)
   }
 
-  const geoclient = new Geoclient(URL)
+  const geoclient = new Geoclient({url: URL})
 
   const handler = jest.fn()
   geoclient.one(Locator.EventType.GEOCODE, handler)
@@ -143,7 +143,7 @@ test('search error', () => {
   const error = console.error
   console.error = jest.fn()
 
-  const geoclient = new Geoclient(URL)
+  const geoclient = new Geoclient({url: URL})
 
   const handler = jest.fn()
   geoclient.one(Locator.EventType.ERROR, handler)
@@ -179,23 +179,15 @@ test('search error', () => {
   console.error = error
 })
 
-test('accuracyDistance', () => {
-  let geoclient = new Geoclient(URL)
-  expect(geoclient.accuracyDistance(100)).toBe(100)
-
-  geoclient = new Geoclient(URL, 'EPSG:2263')
-  expect(geoclient.accuracyDistance(100).toFixed(1)).toBe('328.1')
-})
-
 test('project', () => {
   const coordinate = [990203, 196492]
 
-  let geoclient = new Geoclient(URL)
+  let geoclient = new Geoclient({url: URL})
   let result = geoclient.project(coordinate)
   expect(result[0].toFixed(0)).toBe('-8235252')
   expect(result[1].toFixed(0)).toBe('4969073')
 
-  geoclient = new Geoclient(URL, 'EPSG:2263')
+  geoclient = new Geoclient({url: URL, projection: 'EPSG:2263'})
   result = geoclient.project(coordinate)
   expect(result).toEqual(coordinate)
 })
@@ -205,7 +197,7 @@ test('geoclient GEOCLIENT_OK_ADDRESS_RESPONSE', () => {
 
   const handler = jest.fn()
 
-  const geoclient = new Geoclient(URL)
+  const geoclient = new Geoclient({url: URL})
 
   geoclient.on(Locator.EventType.GEOCODE, handler)
 
@@ -224,7 +216,7 @@ test('geoclient GEOCLIENT_OK_PLACE_RESPONSE', () => {
 
   const handler = jest.fn()
 
-  const geoclient = new Geoclient(URL)
+  const geoclient = new Geoclient({url: URL})
 
   geoclient.on(Locator.EventType.GEOCODE, handler)
 
@@ -247,7 +239,7 @@ test('geoclient GEOCLIENT_AMBIGUOUS_RESPONSE', () => {
 
   const handler = jest.fn()
 
-  const geoclient = new Geoclient(URL)
+  const geoclient = new Geoclient({url: URL})
 
   geoclient.on(Locator.EventType.AMBIGUOUS, handler)
 
@@ -287,7 +279,7 @@ test('geoclient GEOCLIENT_OK_BLOCKFACE_RESPONSE', () => {
 
   const handler = jest.fn()
 
-  const geoclient = new Geoclient(URL)
+  const geoclient = new Geoclient({url: URL})
 
   geoclient.on(Locator.EventType.GEOCODE, handler)
 
@@ -306,7 +298,7 @@ test('geoclient GEOCLIENT_OK_INTERSECTION_RESPONSE', () => {
 
   const handler = jest.fn()
 
-  const geoclient = new Geoclient(URL)
+  const geoclient = new Geoclient({url: URL})
 
   geoclient.on(Locator.EventType.GEOCODE, handler)
 
@@ -325,7 +317,7 @@ test('geoclient GEOCLIENT_REJECTED_RESPONSE', () => {
 
   const handler = jest.fn()
 
-  const geoclient = new Geoclient(URL)
+  const geoclient = new Geoclient({url: URL})
 
   geoclient.on(Locator.EventType.AMBIGUOUS, handler)
 
@@ -345,7 +337,7 @@ test('geoclient GEOCLIENT_NON_ADDRESSABLE_RESPONSE', () => {
 
   const handler = jest.fn()
 
-  const geoclient = new Geoclient(URL)
+  const geoclient = new Geoclient({url: URL})
 
   geoclient.on(Locator.EventType.AMBIGUOUS, handler)
 

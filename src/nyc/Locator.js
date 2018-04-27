@@ -2,6 +2,9 @@
  * @module nyc/Locator
  */
 
+import proj4 from 'proj4'
+
+import nyc from 'nyc/nyc'
 import EventHandling from 'nyc/EventHandling'
 
 /**
@@ -10,17 +13,26 @@ import EventHandling from 'nyc/EventHandling'
  * @abstract
  * @class
  * @extends nyc/EventHandling
- * @fires Locate#geocode
- * @fires Locate#ambiguous
- * @fires Locate#error
+ * @fires Locator#geocode
+ * @fires Locator#ambiguous
+ * @fires Locator#geolocation
+ * @fires Locator#error
  */
 class Locator extends EventHandling {
   /**
    * @desc Creates an instance of Locator
    * @access protected
+   * @param {nyc/Locator/Options} options Construction options
    */
-   constructor() {
+   constructor(options) {
      super()
+     options = options || {}
+     /**
+   	 * @desc The epsg code
+   	 * @public
+   	 * @member {string}
+   	 */
+   	this.projection = options.projection || 'EPSG:3857'
    }
    /**
  	 * @desc Geocode an input string representing a location
@@ -33,7 +45,7 @@ class Locator extends EventHandling {
     throw 'Not implemented'
  	}
    /**
- 	 * @desc Locate once using device geolocation
+ 	 * @desc Locator once using device geolocation
  	 * @public
  	 * @abstract
  	 * @method
@@ -52,18 +64,36 @@ class Locator extends EventHandling {
  		throw 'Not implemented'
  	}
   /**
- 	 * @desc Get a distance for an accuracy enumerator based on the projections
- 	 * @public
- 	 * @abstract
- 	 * @method
- 	 * @param {Geocoder.Accuracy} accuracy
- 	 * @return {number}
- 	 *
- 	 */
- 	accuracyDistance(accuracy) {
-    throw 'Not implemented'
- 	}
+	 * @desc Get a distance for an accuracy enumerator based on the projections
+	 * @public
+	 * @method
+	 * @param {nyc/Locator/Accuracy} accuracy
+	 * @return {number} The accurcy in map units
+	 */
+	accuracyDistance(accuracy) {
+    if (this.projection === 'EPSG:3857') {
+      return accuracy
+    }
+    return accuracy / this.metersPerUnit()
+	}
+  /**
+	 * @desc Get a distance for an accuracy enumerator based on the projections
+	 * @public
+	 * @method
+	 * @return {number} The meters per map unit
+	 */
+	metersPerUnit(){
+		return proj4.defs[this.projection].to_meter
+	}
 }
+
+/**
+ * @desc constructor options for {nyc/Locator}
+ * @public
+ * @typedef {Object}
+ * @property {string} [projection=EPSG:3857] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
+ */
+Locator.Options
 
 /**
  * @desc Enumeration for locate event type
@@ -136,7 +166,7 @@ Locator.Accuracy = {
  * @property {string} name The formatted name of the geocoded location
  * @property {(Array<number>|undefined)} coordinate The geocoded location coordinate
  * @property {number} accuracy The accuracy of the geocoded location in meters or units of a specified projection
- * @property {nyc.Locate.ResultType} type They type of result
+ * @property {Locator.ResultType} type They type of result
  * @property {boolean=} zip Is this the geocoded location a ZIP Code center point
  * @property {Object=} geometry A geoJSON representation of the geocoded location coordinates
  * @property {Object=} data Additional properties provided by the geocoder
@@ -148,31 +178,31 @@ Locator.Result
  * @public
  * @typedef {Object}
  * @property {string} input The input string on which the geocoding attempt was made
- * @property {Array<nyc.Locate.Result>} possible An array of possible results to the request
+ * @property {Array<Locator.Result>} possible An array of possible results to the request
  */
 Locator.Ambiguous
 
 /**
  * @desc The result of a search request
- * @event nyc.Locate#geocode
- * @type {nyc.Locate.ResultType}
+ * @event Locator#geocode
+ * @type {Locator.ResultType}
  */
 
 /**
  * @desc The result of a locate request
- * @event nyc.Locate#geolocation
- * @type {nyc.Locate.ResultType}
+ * @event Locator#geolocation
+ * @type {Locator.ResultType}
  */
 
 /**
  * @desc The result of an inconclusive search request
- * @event nyc.Locate#ambiguous
- * @type {nyc.Locate.Ambiguous}
+ * @event Locator#ambiguous
+ * @type {Locator.Ambiguous}
  */
 
 /**
  * @desc The error object from a locate request error
- * @event nyc.Locate#error
+ * @event Locator#error
  * @type {Object}
  */
 
