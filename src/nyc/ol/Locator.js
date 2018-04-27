@@ -83,13 +83,13 @@ class Locator extends Geoclient {
     let p = geo.getPosition()
 		const name = olCoordinate.toStringHDMS(p)
 		p = this.project(geo.getPosition())
-    if (this.locating) {
-      this.track(false)
-      this.locating = false
-    }
     if (this.withinLimit(p)) {
+      if (this.locating) {
+        this.track(false)
+        this.locating = false
+      }
       this.trigger(NycLocator.EventType.GEOLOCATION, {
-        coordinates: p,
+        coordinate: p,
         heading: geo.getHeading(),
         accuracy: geo.getAccuracy() / this.metersPerUnit(),
         type: NycLocator.ResultType.GEOLOCATION,
