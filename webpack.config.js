@@ -1,9 +1,10 @@
 const path = require('path')
-const CleanWebpackPlugin = require('clean-webpack-plugin') //installed via npm
+const CleanWebpackPlugin = require('clean-webpack-plugin'
 
 module.exports = {
   entry: './src/index.js',
-  devtool: "source-map",
+  mode: 'production',
+  //devtool: "source-map",
   output: {
      path: path.resolve(__dirname, 'dist/js'),
      filename: 'nyc-lib.js'
@@ -15,10 +16,6 @@ module.exports = {
       query: {
         presets: ['es2015']
       }
-    },
-    {
-      test: /jquery[\\\/]src[\\\/]selector\.js$/,
-      loader: 'amd-define-factory-patcher-loader'
     }]
   },
   resolve: {
