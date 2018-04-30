@@ -87,8 +87,6 @@ test('search for address', () => {
     return [fn, scope]
   }
 
-  console.warn('============================')
-  console.warn($.ajax);
   const jqueryAjax = $.ajax
   const ajaxCalls = []
   $.ajax = function(args){
