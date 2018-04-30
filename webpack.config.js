@@ -3,8 +3,9 @@ console.warn(`process.env.NODE_ENV=${process.env.NODE_ENV}`)
 const isProd = process.env.NODE_ENV === 'production'
 const webpack = require('webpack');
 const path = require('path')
-const MinifyPlugin = require('babel-minify-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const MinifyPlugin = require('babel-minify-webpack-plugin')
+// const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const plugins = [
@@ -15,6 +16,7 @@ const plugins = [
 
 if (isProd) {
   plugins.push(new MinifyPlugin())
+  // new UglifyJSPlugin({parallel: true})
 }
 
 module.exports = {
@@ -27,6 +29,7 @@ module.exports = {
   module: {
     rules: [{
       test: /\.js$/,
+      exclude: /node_modules/,
       loader: 'babel-loader',
       query: {
         presets: ['es2015']
