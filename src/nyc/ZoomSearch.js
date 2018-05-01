@@ -237,9 +237,7 @@ class ZoomSearch extends Container {
 	 * @param {string} featureTypeName The featureTypeName used when the features were set
 	 */
 	removeFeatures(featureTypeName) {
-		$('li.srch-type-' + featureTypeName).remove()
-		this.getElem('.mnu-srch-typ').listview('refresh')
-		this.emptyList()
+		this.getElem('li.' + featureTypeName).remove()
 	}
 	/**
 	 * @private
@@ -250,16 +248,15 @@ class ZoomSearch extends Container {
 	 */
 	listItem(typeName, data) {
 		const li = $('<li></li>')
-		li.addClass('srch-type-' + typeName)
+		li.addClass(typeName)
 		if (typeName !== 'addr') {
-			li.addClass('srch-type-feature')
+			li.addClass('feature')
 		}
-		li.addClass('notranslate')
-		li.attr('translate', 'no')
-		li.html(data.data.featureLabel || data.name)
-		li.data('location', data)
-		li.click($.proxy(this.disambiguated, this))
-		return li
+		return li.addClass('notranslate')
+			.attr('translate', 'no')
+			.html(data.data.featureLabel || data.name)
+			.data('location', data)
+			.click($.proxy(this.disambiguated, this))
 	}
 	/**
 	 * @private
@@ -283,7 +280,7 @@ class ZoomSearch extends Container {
 		this.getElem('.retention').append(this.getElem('.srch li'))
 		this.list.empty()
 		if (!disambiguating) {
-			this.list.append(this.getElem('.retention li.srch-type-feature'))
+			this.list.append(this.getElem('.retention li.feature'))
 		}
 	}
 	/**

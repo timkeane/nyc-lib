@@ -329,7 +329,7 @@ test('disambiguate has possible', () => {
 test('searching', () => {
 })
 
-test('setFeatures/sortAlphapetically geoJSON', () => {
+test('setFeatures/sortAlphapetically', () => {
   const options = {
     layerName: 'a-layer',
     placeholder: 'a placeholder...',
@@ -365,4 +365,67 @@ test('setFeatures/sortAlphapetically geoJSON', () => {
   expect($(container.find('.retention').children().get(2)).html()).toBe('feature 3')
 
   expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
+})
+
+test('removeFeatures', () => {
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.list.html('<li class="a-layer"></li><li class="b-layer"></li><li class="a-layer"></li>')
+  container.find('.retention').html('<li class="a-layer"></li><li class="a-layer"></li><li class="b-layer"></li>')
+
+  zoomSearch.removeFeatures('a-layer')
+
+  expect(zoomSearch.list.children().length).toBe(1)
+  expect($(zoomSearch.list.children().get(0)).hasClass('a-layer')).toBe(false)
+  expect(container.find('.retention').children().length).toBe(1)
+  expect($(container.find('.retention').children().get(0)).hasClass('a-layer')).toBe(false)
+})
+
+test('listItem addr no featureLabel', () => {
+  const data = {name: 'a name', data: {}}
+
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.disambiguated = jest.fn()
+
+  const li = zoomSearch.listItem('addr', data)
+
+  expect(li.length).toBe(1)
+  expect(li.get(0).tagName.toUpperCase()).toBe('LI')
+  expect(li.hasClass('addr')).toBe(true)
+  expect(li.hasClass('feature')).toBe(false)
+  expect(li.hasClass('notranslate')).toBe(true)
+  expect(li.attr('translate')).toBe('no')
+  expect(li.html()).toBe('a name')
+  expect(li.data('location')).toBe(data)
+
+  li.trigger('click')
+  expect(zoomSearch.disambiguated).toHaveBeenCalledTimes(1)
+  expect(zoomSearch.disambiguated.mock.calls[0][0].type).toBe('click')
+  expect(zoomSearch.disambiguated.mock.calls[0][0].target).toBe(li.get(0))
+})
+
+test('listItem not addr has featureLabel', () => {
+  const data = {name: 'a name', data: {featureLabel: 'a feature'}}
+
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.disambiguated = jest.fn()
+
+  const li = zoomSearch.listItem('a-layer', data)
+
+  expect(li.length).toBe(1)
+  expect(li.get(0).tagName.toUpperCase()).toBe('LI')
+  expect(li.hasClass('addr')).toBe(false)
+  expect(li.hasClass('a-layer')).toBe(true)
+  expect(li.hasClass('feature')).toBe(true)
+  expect(li.hasClass('notranslate')).toBe(true)
+  expect(li.attr('translate')).toBe('no')
+  expect(li.html()).toBe('a feature')
+  expect(li.data('location')).toBe(data)
+
+  li.trigger('click')
+  expect(zoomSearch.disambiguated).toHaveBeenCalledTimes(1)
+  expect(zoomSearch.disambiguated.mock.calls[0][0].type).toBe('click')
+  expect(zoomSearch.disambiguated.mock.calls[0][0].target).toBe(li.get(0))
 })
