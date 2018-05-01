@@ -5,6 +5,7 @@
 import $ from 'jquery'
 
 import OlGeoJSON from 'ol/format/geojson'
+import olExtent from 'ol/extent'
 
 import NycZoomSearch from 'nyc/ZoomSearch'
 import NycLocator from 'nyc/Locator'
@@ -39,7 +40,9 @@ class ZoomSearch extends NycZoomSearch {
   	 * @member {ol.format.GeoJSON}
   	 */
   	this.geoJson = new OlGeoJSON()
-  	this.getElem('.z-srch').on('click dblclick mouseover mousemove', function(){$('.feature-tip').hide()})
+  	this.getElem('.z-srch').on('click dblclick mouseover mousemove', () => {
+      $('.feature-tip').hide()
+    })
   }
 	/**
 	 * @public
@@ -50,13 +53,12 @@ class ZoomSearch extends NycZoomSearch {
 	 * @return {NycLocator.Result}
 	 */
 	featureAsLocation(feature, options) {
-		var geom = feature.getGeometry(), type = geom.getType(), data = feature.getProperties()
-		data.__feature_label = feature.get(options.labelField || options.nameField)
+		const geom = feature.getGeometry()
 		return {
 			name: feature.get(options.nameField),
-			coordinates: type == 'Point' ? geom.getCoordinates() : undefined,
+			coordinate: olExtent.getCenter(geom.getExtent()),
 			geometry: JSON.parse(this.geoJson.writeGeometry(geom)),
-			data: data,
+			data: feature.getProperties(),
 			type: NycLocator.ResultType.GEOCODE,
 			accuracy: NycGeocoder.Accuracy.HIGH
 		}
