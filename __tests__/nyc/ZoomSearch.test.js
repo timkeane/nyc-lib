@@ -50,7 +50,7 @@ test('render and hookupEvents called from constructor', () => {
 
   const zoomSearch = new ZoomSearch(container)
 
-  expect(container.html()).toBe(ZoomSearch.HTML)
+  expect(container.html()).toBe($('<div></div>').append(ZoomSearch.HTML).html())
 
   expect(zoomSearch.input.length).toBe(1)
   expect(zoomSearch.input.get(0)).toBe(container.find('.srch input').get(0))
@@ -315,6 +315,13 @@ test('disambiguate has possible', () => {
       }, 500)
     })
   }
+  expect(zoomSearch.list.children().length).toBe(2)
+  expect(zoomSearch.list.children().get(0).tagName.toUpperCase()).toBe('LI')
+  expect($(zoomSearch.list.children().get(0)).html()).toBe('possible 1')
+  expect($(zoomSearch.list.children().get(0)).hasClass('srch-type-addr')).toBe(true)
+  expect(zoomSearch.list.children().get(1).tagName.toUpperCase()).toBe('LI')
+  expect($(zoomSearch.list.children().get(1)).html()).toBe('possible 2')
+  expect($(zoomSearch.list.children().get(1)).hasClass('srch-type-addr')).toBe(true)
 
   return test().then(visible => expect(visible).toBe('block'))
 })

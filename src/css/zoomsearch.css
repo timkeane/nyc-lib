@@ -37,7 +37,19 @@
 	width: calc(100% - 6px);
 	opacity: 0.7;
 	margin: 0;
-	padding: 0 3px;
+	padding: 0 3px 0 23px;
+}
+.srch:before {
+	content: " ";
+	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2214px%22%20height%3D%2214px%22%3E%3Cpath%20d%3D%22M10.171%2C8.766c0.617-0.888%2C0.979-1.964%2C0.979-3.126c0-3.037-2.463-5.5-5.5-5.5s-5.5%2C2.463-5.5%2C5.5s2.463%2C5.5%2C5.5%2C5.5%20c1.152%2C0%2C2.223-0.355%2C3.104-0.962l3.684%2C3.683l1.414-1.414L10.171%2C8.766z%20M5.649%2C9.14c-1.933%2C0-3.5-1.567-3.5-3.5%20c0-1.933%2C1.567-3.5%2C3.5-3.5c1.933%2C0%2C3.5%2C1.567%2C3.5%2C3.5C9.149%2C7.572%2C7.582%2C9.14%2C5.649%2C9.14z%22%2F%3E%3C%2Fsvg%3E");
+	background-size: 14px;
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 11px;
+	left: 5px;
+	width: 15px;
+	height: 15px;
+
 }
 .srch input:focus {
 	opacity: 1;
