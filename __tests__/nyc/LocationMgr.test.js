@@ -165,7 +165,7 @@ test('locateFromQueryString', () => {
     expect(options.locator.locate).toHaveBeenCalledTimes(1)
 })
 
-test('located', () => {
+test('located GEOCODE', () => {
   const handler = jest.fn()
 
   options.mapLocator.zoomLocation = (data, callback) => {
@@ -176,13 +176,37 @@ test('located', () => {
 
   const data = {
     type: Locator.ResultType.GEOCODE,
-    foo: 'bar'
+    name: 'a name'
   }
 
   locationMgr.on(Locator.ResultType.GEOCODE, handler)
 
   locationMgr.located(data)
-  
+
+  expect(locationMgr.controls.val()).toBe('a name')
+  expect(handler).toHaveBeenCalledTimes(1)
+  expect(handler.mock.calls[0][0]).toBe(data)
+})
+
+test('located GEOLOCATION', () => {
+  const handler = jest.fn()
+
+  options.mapLocator.zoomLocation = (data, callback) => {
+    callback()
+  }
+
+  const locationMgr = new LocationMgr(options)
+
+  const data = {
+    type: Locator.ResultType.GEOLOCATION,
+    name: 'a name'
+  }
+
+  locationMgr.on(Locator.ResultType.GEOLOCATION, handler)
+
+  locationMgr.located(data)
+
+  expect(locationMgr.controls.val()).toBe('')
   expect(handler).toHaveBeenCalledTimes(1)
   expect(handler.mock.calls[0][0]).toBe(data)
 })
@@ -195,7 +219,7 @@ test('ambiguous no possible', () => {
   const locationMgr = new LocationMgr(options)
 
   locationMgr.ambiguous(data)
-  
+
   expect(options.controls.searching).toHaveBeenCalledTimes(1)
   expect(options.controls.searching.mock.calls[0][0]).toBe(false)
   expect(options.controls.disambiguate).toHaveBeenCalledTimes(0)
@@ -209,7 +233,7 @@ test('ambiguous has possible', () => {
   const locationMgr = new LocationMgr(options)
 
   locationMgr.ambiguous(data)
-  
+
   expect(options.controls.searching).toHaveBeenCalledTimes(1)
   expect(options.controls.searching.mock.calls[0][0]).toBe(false)
   expect(options.controls.disambiguate).toHaveBeenCalledTimes(1)
@@ -218,11 +242,11 @@ test('ambiguous has possible', () => {
 
 test('error', () => {
   options.controls.searching = jest.fn()
-  
+
   const locationMgr = new LocationMgr(options)
 
   locationMgr.error()
-  
+
   expect(options.controls.searching).toHaveBeenCalledTimes(1)
   expect(options.controls.searching.mock.calls[0][0]).toBe(false)
 })
