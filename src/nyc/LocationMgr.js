@@ -95,7 +95,7 @@ class LocationMgr extends EventHandling {
 	 */
 	located(data) {
 		this.controls.val(data.type === Locator.EventType.GEOLOCATION ? '' : data.name)
-		this.mapLocator.zoomLocation(data => {
+		this.mapLocator.zoomLocation(data, () => {
 			this.trigger(data.type, data)
 		})
 	}
