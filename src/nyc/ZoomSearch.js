@@ -192,21 +192,13 @@ class ZoomSearch extends Container {
 	 * @param {ZoomSearch.FeatureSearchOptions} options The options for creating a feature search
 	 */
 	setFeatures(options) {
-		const li = $('<li></li>')
-		const span = $('<span class="ui-btn-icon-left"></span>')
 		options.nameField = options.nameField || 'name'
-		li.addClass('srch-type-feature')
-		li.addClass('srch-type-' + options.featureTypeName)
-		li.data('srch-type', options.featureTypeName)
-		li.data('placeholder', options.placeholder)
-		span.addClass('srch-icon-' + options.featureTypeName)
-		li.append(span)
-		li.append(options.featureTypeTitle)
-		this.getElem('.mnu-srch-typ').append(li).listview('refresh')
-		li.click($.proxy(this.choices, this))
+		if (options.placeholder) {
+			this.input.attr('placeholder', options.placeholder)
+		}
 		this.sortAlphapetically(options).forEach(feature => {
 			const location = this.featureAsLocation(feature, options)
-			const li = this.listItem(options.featureTypeName, location)
+			const li = this.listItem(options.layerName, location)
 			this.getElem('.retention').append(li)
 		})
 		this.emptyList()
@@ -220,12 +212,20 @@ class ZoomSearch extends Container {
 	sortAlphapetically(options) {
 		const features = []
 		options.features.forEach(feature => {
-			features.push($.extend({}, feature))
+			if (feature.get) {
+				features.push($.extend({}, feature))
+			} else {
+				features.push($.extend({
+					get: function(prop){
+						return this.properties[prop]
+					}
+				}, feature))
+			}
 		})
 		features.sort((a, b) => {
-			const labelField = options.labelField
-			if (a.get(labelField) < b.get(labelField)) return -1
-			if (a.get(labelField) > b.get(labelField)) return 1
+			const nameField = options.nameField
+			if (a.get(nameField) < b.get(nameField)) return -1
+			if (a.get(nameField) > b.get(nameField)) return 1
 			return 0
 		})
 		return features
@@ -268,13 +268,10 @@ class ZoomSearch extends Container {
 	 */
 	choices(event) {
 		const featureTypeName = $(event.target).data('srch-type') || 'addr'
-		const placeholder = $(event.target).data('placeholder') || 'Search for an address...'
 		this.isAddrSrch = featureTypeName === 'addr'
 		this.val('')
 		this.input.focus()
-		this.flipIcon()
 		this.emptyList()
-		this.input.attr('placeholder', placeholder)
 		this.list.append(this.getElem('.retention li.srch-type-' + featureTypeName))
 	}
 	/**
@@ -313,10 +310,8 @@ class ZoomSearch extends Container {
  * @public
  * @typedef {Object}
  * @property {Array<Object|ol.Feature>} features The features to be searched
- * @property {string} featureTypeName The name of the layer or feature type the features are from
+ * @property {string} layerName The name of the layer or feature type the features are from
  * @property {string} [nameField="name"] The name attribute field of the feature
- * @property {string=} labelField The attribute field to use as the label value for the generated list item
- * @property {string=} featureTypeTitle A title for the search type menu
  * @property {string=} placeholder A placeholder for the search field
  */
 ZoomSearch.FeatureSearchOptions

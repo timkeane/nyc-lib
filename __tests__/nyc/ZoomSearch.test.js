@@ -294,7 +294,7 @@ test('disambiguate has possible', () => {
 
   zoomSearch.listItem = function(typeName, data) {
     return $('<li></li>')
-		  .addClass('srch-type-' + typeName)
+		  .addClass(typeName)
       .html(data.name)
   }
   zoomSearch.searching = jest.fn()
@@ -318,10 +318,51 @@ test('disambiguate has possible', () => {
   expect(zoomSearch.list.children().length).toBe(2)
   expect(zoomSearch.list.children().get(0).tagName.toUpperCase()).toBe('LI')
   expect($(zoomSearch.list.children().get(0)).html()).toBe('possible 1')
-  expect($(zoomSearch.list.children().get(0)).hasClass('srch-type-addr')).toBe(true)
+  expect($(zoomSearch.list.children().get(0)).hasClass('addr')).toBe(true)
   expect(zoomSearch.list.children().get(1).tagName.toUpperCase()).toBe('LI')
   expect($(zoomSearch.list.children().get(1)).html()).toBe('possible 2')
-  expect($(zoomSearch.list.children().get(1)).hasClass('srch-type-addr')).toBe(true)
+  expect($(zoomSearch.list.children().get(1)).hasClass('addr')).toBe(true)
 
   return test().then(visible => expect(visible).toBe('block'))
+})
+
+test('searching', () => {
+})
+
+test('setFeatures/sortAlphapetically geoJSON', () => {
+  const options = {
+    layerName: 'a-layer',
+    placeholder: 'a placeholder...',
+    features: [
+      {properties: {name: 'feature 3'}},
+      {properties: {name: 'feature 1'}},
+      {properties: {name: 'feature 2'}}
+    ]
+  }
+
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.emptyList = jest.fn()
+  zoomSearch.listItem = function(typeName, data) {
+    return $('<li></li>')
+		  .addClass(typeName)
+      .html(data.name)
+  }
+  zoomSearch.featureAsLocation = function(feature, opts) {
+    expect(opts).toBe(options)
+    return feature.properties
+  }
+
+  zoomSearch.setFeatures(options)
+
+  expect(zoomSearch.input.attr('placeholder')).toBe('a placeholder...')
+  expect(container.find('.retention').children().length).toBe(3)
+  expect($(container.find('.retention').children().get(0)).hasClass('a-layer')).toBe(true)
+  expect($(container.find('.retention').children().get(0)).html()).toBe('feature 1')
+  expect($(container.find('.retention').children().get(1)).hasClass('a-layer')).toBe(true)
+  expect($(container.find('.retention').children().get(1)).html()).toBe('feature 2')
+  expect($(container.find('.retention').children().get(2)).hasClass('a-layer')).toBe(true)
+  expect($(container.find('.retention').children().get(2)).html()).toBe('feature 3')
+
+  expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
 })
