@@ -170,7 +170,7 @@ class ZoomSearch extends Container {
 			const list = this.list
 			this.emptyList(true)
 			possible.forEach(locateResult => {
-				list.append(this.listItem('addr', locateResult))
+				list.append(this.listItem({layerName: 'addr'}, locateResult))
 			})
 			list.slideDown(() => {
 				list.children().first().attr('tabindex', 0).focus()
@@ -193,12 +193,13 @@ class ZoomSearch extends Container {
 	 */
 	setFeatures(options) {
 		options.nameField = options.nameField || 'name'
+		options.displayField = options.displayField || options.nameField
 		if (options.placeholder) {
 			this.input.attr('placeholder', options.placeholder)
 		}
 		this.sortAlphapetically(options).forEach(feature => {
 			const location = this.featureAsLocation(feature, options)
-			const li = this.listItem(options.layerName, location)
+			const li = this.listItem(options, location)
 			this.getElem('.retention').append(li)
 		})
 		this.emptyList()
@@ -242,19 +243,22 @@ class ZoomSearch extends Container {
 	/**
 	 * @private
 	 * @method
-	 * @param {string} typeName
+	 * @param {ZoomSearch.FeatureSearchOptions} options The options for creating a feature search
 	 * @param {Locator.Result} data
 	 * @return {JQuery}
 	 */
-	listItem(typeName, data) {
+	listItem(options, data) {
 		const li = $('<li></li>')
-		li.addClass(typeName)
-		if (typeName !== 'addr') {
+		const displayField = options.displayField
+		li.addClass(options.layerName)
+		if (options.layerName !== 'addr') {
 			li.addClass('feature')
 		}
 		return li.addClass('notranslate')
 			.attr('translate', 'no')
-			.html(data.data.featureLabel || data.name)
+			.html(data.data[displayField] || data.name)
+			.data('nameField', options.nameField)
+			.data('displayField', displayField)
 			.data('location', data)
 			.click($.proxy(this.disambiguated, this))
 	}
@@ -281,8 +285,8 @@ class ZoomSearch extends Container {
 			li = li.parent()
 		}
 		const data = li.data('location')
-		this.val(li.html())
-		data.isFeature = li.hasClass('srch-type-feature')
+		this.val(data.name)
+		data.isFeature = li.hasClass('feature')
 		this.trigger(ZoomSearch.EventType.DISAMBIGUATED, data)
 		li.parent().slideUp()
 		this.emptyList()
@@ -296,6 +300,7 @@ class ZoomSearch extends Container {
  * @property {Array<Object|ol.Feature>} features The features to be searched
  * @property {string} layerName The name of the layer or feature type the features are from
  * @property {string} [nameField="name"] The name attribute field of the feature
+ * @property {string=} displayField The name attribute field of the feature
  * @property {string=} placeholder A placeholder for the search field
  */
 ZoomSearch.FeatureSearchOptions

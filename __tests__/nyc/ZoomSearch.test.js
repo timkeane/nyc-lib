@@ -292,9 +292,9 @@ test('disambiguate has possible', () => {
 
   const zoomSearch = new ZoomSearch(container)
 
-  zoomSearch.listItem = function(typeName, data) {
+  zoomSearch.listItem = function(options, data) {
     return $('<li></li>')
-		  .addClass(typeName)
+		  .addClass(options.layerName)
       .html(data.name)
   }
   zoomSearch.searching = jest.fn()
@@ -329,23 +329,25 @@ test('disambiguate has possible', () => {
 test('searching', () => {
 })
 
-test('setFeatures/sortAlphapetically', () => {
+test('setFeatures/sortAlphapetically no nameField no displayField has placeholder', () => {
   const options = {
     layerName: 'a-layer',
     placeholder: 'a placeholder...',
     features: [
       {properties: {name: 'feature 3'}},
       {properties: {name: 'feature 1'}},
-      {properties: {name: 'feature 2'}}
+      {properties: {name: 'feature 2'}},
+      {properties: {name: 'feature 2'}},
+      {properties: {name: 'feature 4'}}
     ]
   }
 
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.emptyList = jest.fn()
-  zoomSearch.listItem = function(typeName, data) {
+  zoomSearch.listItem = function(options, data) {
     return $('<li></li>')
-		  .addClass(typeName)
+		  .addClass(options.layerName)
       .html(data.name)
   }
   zoomSearch.featureAsLocation = function(feature, opts) {
@@ -356,6 +358,58 @@ test('setFeatures/sortAlphapetically', () => {
   zoomSearch.setFeatures(options)
 
   expect(zoomSearch.input.attr('placeholder')).toBe('a placeholder...')
+  expect(container.find('.retention').children().length).toBe(5)
+  expect($(container.find('.retention').children().get(0)).hasClass('a-layer')).toBe(true)
+  expect($(container.find('.retention').children().get(0)).html()).toBe('feature 1')
+  expect($(container.find('.retention').children().get(1)).hasClass('a-layer')).toBe(true)
+  expect($(container.find('.retention').children().get(1)).html()).toBe('feature 2')
+  expect($(container.find('.retention').children().get(2)).hasClass('a-layer')).toBe(true)
+  expect($(container.find('.retention').children().get(2)).html()).toBe('feature 2')
+  expect($(container.find('.retention').children().get(3)).hasClass('a-layer')).toBe(true)
+  expect($(container.find('.retention').children().get(3)).html()).toBe('feature 3')
+  expect($(container.find('.retention').children().get(4)).hasClass('a-layer')).toBe(true)
+  expect($(container.find('.retention').children().get(4)).html()).toBe('feature 4')
+
+  expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
+})
+
+test('setFeatures/sortAlphapetically has nameField has displayField no placeholder', () => {
+  const options = {
+    layerName: 'a-layer',
+    nameField: 'label',
+    displayField: 'label',
+    features: [
+      {
+        properties: {label: 'feature 3'}, 
+        get: function(prop){return this.properties[prop]}
+      },
+      {
+        properties: {label: 'feature 1'}, 
+        get: function(prop){return this.properties[prop]}
+      },
+      {
+        properties: {label: 'feature 2'}, 
+        get: function(prop){return this.properties[prop]}
+      }
+    ]
+  }
+
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.emptyList = jest.fn()
+  zoomSearch.listItem = function(options, data) {
+    return $('<li></li>')
+		  .addClass(options.layerName)
+      .html(data.label)
+  }
+  zoomSearch.featureAsLocation = function(feature, opts) {
+    expect(opts).toBe(options)
+    return feature.properties
+  }
+
+  zoomSearch.setFeatures(options)
+
+  expect(zoomSearch.input.attr('placeholder')).toBe('Search for an address...')
   expect(container.find('.retention').children().length).toBe(3)
   expect($(container.find('.retention').children().get(0)).hasClass('a-layer')).toBe(true)
   expect($(container.find('.retention').children().get(0)).html()).toBe('feature 1')
@@ -381,14 +435,19 @@ test('removeFeatures', () => {
   expect($(container.find('.retention').children().get(0)).hasClass('a-layer')).toBe(false)
 })
 
-test('listItem addr no featureLabel', () => {
+test('listItem addr no displayField', () => {
+  const options = {
+    layerName: 'addr',
+    nameField: 'name',
+    displayField: 'display'
+  }
   const data = {name: 'a name', data: {}}
 
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.disambiguated = jest.fn()
 
-  const li = zoomSearch.listItem('addr', data)
+  const li = zoomSearch.listItem(options, data)
 
   expect(li.length).toBe(1)
   expect(li.get(0).tagName.toUpperCase()).toBe('LI')
@@ -397,6 +456,8 @@ test('listItem addr no featureLabel', () => {
   expect(li.hasClass('notranslate')).toBe(true)
   expect(li.attr('translate')).toBe('no')
   expect(li.html()).toBe('a name')
+  expect(li.data('nameField')).toBe('name')
+  expect(li.data('displayField')).toBe('display')
   expect(li.data('location')).toBe(data)
 
   li.trigger('click')
@@ -405,23 +466,30 @@ test('listItem addr no featureLabel', () => {
   expect(zoomSearch.disambiguated.mock.calls[0][0].target).toBe(li.get(0))
 })
 
-test('listItem not addr has featureLabel', () => {
-  const data = {name: 'a name', data: {featureLabel: 'a feature'}}
+test('listItem not addr has displayField', () => {
+  const options = {
+    layerName: 'a-layer',
+    nameField: 'name',
+    displayField: 'label'
+  }
+
+  const data = {name: 'a name', data: {label: 'a label'}}
 
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.disambiguated = jest.fn()
 
-  const li = zoomSearch.listItem('a-layer', data)
+  const li = zoomSearch.listItem(options, data)
 
   expect(li.length).toBe(1)
   expect(li.get(0).tagName.toUpperCase()).toBe('LI')
   expect(li.hasClass('addr')).toBe(false)
-  expect(li.hasClass('a-layer')).toBe(true)
   expect(li.hasClass('feature')).toBe(true)
   expect(li.hasClass('notranslate')).toBe(true)
   expect(li.attr('translate')).toBe('no')
-  expect(li.html()).toBe('a feature')
+  expect(li.html()).toBe('a label')
+  expect(li.data('nameField')).toBe('name')
+  expect(li.data('displayField')).toBe('label')
   expect(li.data('location')).toBe(data)
 
   li.trigger('click')
@@ -472,4 +540,72 @@ test('emptyList not disambiguating', () => {
     expect($(li).hasClass('feature')).toBe(false)
     expect($(li).hasClass('addr')).toBe(true)
   })
+})
+
+test('disambiguated is LI', () => {
+  expect.assertions(6)
+
+  const handler = jest.fn()
+  const data = {name: 'a name', data: {label: 'a label'}}
+  const li = $('<li class="feature">a label</li>')
+    .data('location', data)
+  
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.emptyList = jest.fn()
+  zoomSearch.list.append(li).show()
+  zoomSearch.on(ZoomSearch.EventType.DISAMBIGUATED, handler)
+
+  zoomSearch.disambiguated({target: li.get(0)})
+
+  expect(handler).toHaveBeenCalledTimes(1)
+  expect(handler.mock.calls[0][0]).toBe(data)
+  expect(handler.mock.calls[0][0].isFeature).toBe(true)
+  expect(zoomSearch.val()).toBe('a name')
+  
+  expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
+
+  const test = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(zoomSearch.list.css('display'))
+      }, 500)
+    })
+  }
+  return test().then(visible => expect(visible).toBe('none'))
+
+})
+
+test('disambiguated is child of LI', () => {
+  expect.assertions(6)
+
+  const handler = jest.fn()
+  const data = {name: 'a name', data: {label: '<span>a label</span>'}}
+  const li = $('<li class="feature"><span>a label</span></li>')
+    .data('location', data)
+  
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.emptyList = jest.fn()
+  zoomSearch.list.append(li).show()
+  zoomSearch.on(ZoomSearch.EventType.DISAMBIGUATED, handler)
+
+  zoomSearch.disambiguated({target: li.children().get(0)})
+
+  expect(handler).toHaveBeenCalledTimes(1)
+  expect(handler.mock.calls[0][0]).toBe(data)
+  expect(handler.mock.calls[0][0].isFeature).toBe(true)
+  expect(zoomSearch.val()).toBe('a name')
+  
+  expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
+
+  const test = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(zoomSearch.list.css('display'))
+      }, 500)
+    })
+  }
+  return test().then(visible => expect(visible).toBe('none'))
+
 })
