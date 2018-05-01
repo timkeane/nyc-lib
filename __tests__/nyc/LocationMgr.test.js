@@ -38,6 +38,7 @@ test('constructor not autoLocate', () => {
   expect(locationMgr.autoLocate).toBe(false)
 
   expect(LocationMgr.prototype.locateFromQueryString).toHaveBeenCalledTimes(1)
+  expect(LocationMgr.prototype.locateFromQueryString.mock.calls[0][0]).toBe(document.location.search)
   expect(LocationMgr.prototype.hookupEvents).toHaveBeenCalledTimes(1)
 
   LocationMgr.prototype.locateFromQueryString = locateFromQueryString
@@ -121,4 +122,45 @@ test('hookupEvents', () => {
   LocationMgr.prototype.located = located
   LocationMgr.prototype.ambiguous = ambiguous
   LocationMgr.prototype.error = error
+})
+
+test('locateFromQueryString', () => {
+  options.locator.search = jest.fn()
+  options.locator.locate = jest.fn()
+
+  const locationMgr = new LocationMgr(options)
+
+  locationMgr.locateFromQueryString()
+
+  expect(options.locator.search).toHaveBeenCalledTimes(0)
+  expect(options.locator.locate).toHaveBeenCalledTimes(0)
+
+    locationMgr.locateFromQueryString('')
+
+    expect(options.locator.search).toHaveBeenCalledTimes(0)
+    expect(options.locator.locate).toHaveBeenCalledTimes(0)
+
+    locationMgr.locateFromQueryString('?foo=bar&bar=foo')
+
+    expect(options.locator.search).toHaveBeenCalledTimes(0)
+    expect(options.locator.locate).toHaveBeenCalledTimes(0)
+
+    locationMgr.locateFromQueryString('?foo=bar&address=59%20maiden%20ln&bar=foo')
+
+    expect(options.locator.search).toHaveBeenCalledTimes(1)
+    expect(options.locator.search.mock.calls[0][0]).toBe('59 maiden ln')
+    expect(options.locator.locate).toHaveBeenCalledTimes(0)
+
+    locationMgr.autoLocate = true
+
+    locationMgr.locateFromQueryString('?foo=bar&bar=foo&address=2%20metrotech%20ctr')
+
+    expect(options.locator.search).toHaveBeenCalledTimes(2)
+    expect(options.locator.search.mock.calls[1][0]).toBe('2 metrotech ctr')
+    expect(options.locator.locate).toHaveBeenCalledTimes(0)
+
+    locationMgr.locateFromQueryString('?foo=bar&bar=foo&input=2%20metrotech%20ctr')
+
+    expect(options.locator.search).toHaveBeenCalledTimes(2)
+    expect(options.locator.locate).toHaveBeenCalledTimes(1)
 })

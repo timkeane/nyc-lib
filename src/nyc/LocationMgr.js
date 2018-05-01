@@ -46,7 +46,7 @@ class LocationMgr extends EventHandling {
      */
     this.autoLocate = options.autoLocate || false
     this.hookupEvents()
-    this.locateFromQueryString()
+    this.locateFromQueryString(document.location.search)
   }
 	/**
 	 * @desc Geocode an input string representing a location
@@ -74,12 +74,11 @@ class LocationMgr extends EventHandling {
  	 * @private
  	 * @method
  	 */
- 	locateFromQueryString() {
-     const qstr = document.location.search
-     const args = {}
+ 	locateFromQueryString(qstr) {
+    const args = {}
  		try {
-       qstr.substr(1).split("&").foEach(param => {
-         const p = params.split("=")
+       qstr.substr(1).split("&").forEach(param => {
+         const p = param.split("=")
          args[p[0]] = decodeURIComponent(p[1])
        })
  		} catch (ignore) {}
