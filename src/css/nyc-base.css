@@ -1,16 +1,12 @@
-html, body, body *,
-body.ui-mobile-viewport, body.ui-mobile-viewport *,
-.ui-page-theme-a, .ui-page-theme-a *, .ui-page-theme-a .ui-btn {
+html, body, body * {
 	font-size: 16px;
 	text-shadow: none !important;
 	font-family: var(--theme-font-family);
 	color: var(--theme-text-color);
 }
-.ui-btn {
-	font-size: 16px !important;
-}
-.ui-corner-all, .ui-btn.ui-corner-all {
+.rad-all {
 	border-radius: var(--theme-border-radius);
+	border: var(--theme-btn-border);
 }
 *.screen-reader-only {
 	position: absolute !important;
@@ -23,27 +19,19 @@ body.ui-mobile-viewport, body.ui-mobile-viewport *,
 	color: transparent !important;
 	background-color: transparent !important;
 }
-.ctl {
-	position: absolute;
-	z-index: 100;
-}
-a.ctl-btn.ui-btn {
+.btn-sq {
+	position: fixed;
 	width: 35px;
 	height: 35px;
 	margin: 0;
 	padding: 0;
-}
-.ctl-btn.ui-btn, .ctl-btn.ui-btn:visited {
-	background-color: var(--theme-ctl-bg-color);
-}
-.ctl-btn.ui-btn:hover {
-	background-color: var(--theme-ctl-bg-color-hover);
-}
-.ctl-btn.ui-btn:after, .ctl-btn.ui-btn:hover:after {
-	background-color: transparent;
+	background-position: center;
+	background-repeat: no-repeat;
 	background-size: 20px;
 }
-a.ui-btn {
-	padding: 8px 3px;
-	box-shadow: none;
+.btn, .btn-sq {
+	background-color: var(--theme-btn-bg-color);
+}
+.btn:hover, .btn-sq:hover {
+	background-color: var(--theme-btn-bg-color-hover);
 }

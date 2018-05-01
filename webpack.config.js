@@ -38,7 +38,8 @@ module.exports = {
   },
   resolve: {
     alias: {
-      nyc: path.resolve(__dirname, './src/nyc')
+      nyc: path.resolve(__dirname, './src/nyc'),
+      jquerymobile: path.resolve(__dirname, './node_modules/jquery-mobile-babel-safe/dist/jquery.mobile-1.4.5.js')
     }
   },
   plugins: plugins

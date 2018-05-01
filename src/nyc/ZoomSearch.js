@@ -1,27 +1,37 @@
 /**
- * @module nyc/ReplaceTokens
+ * @module nyc/ZoomSearch
  */
 
 import $ from 'jquery'
 
-import CtlContainer from './CtlContainer'
+import Container from 'nyc/Container'
+import Locator from 'nyc/Locator'
 
 /**
  * @desc  Abstract class for zoom and search controls
  * @public
  * @abstract
  * @class
- * @extends nyc/CtlContainer
+ * @extends nyc/Container
+ * @fires nyc/ZoomSearch#search
+ * @fires nyc/ZoomSearch#geolocate
+ * @fires nyc/ZoomSearch#disambiguated
  */
-class ZoomSearch extends CtlContainer {
+class ZoomSearch extends Container {
 	/**
 	 * @desc  Abstract class for zoom and search controls
 	 * @access protected
 	 * @class
 	 * @constructor
+	 * @param {JQuery} container The container
 	 */
-	constructor() {
-		super()
+	constructor(container) {
+		super(container)
+		/**
+		 * @private
+		 * @member {JQuery}
+		 */
+		this.container = container
 		/**
 		 * @private
 		 * @member {boolean}
@@ -38,6 +48,16 @@ class ZoomSearch extends CtlContainer {
 		 */
 		this.list = null
 		this.render()
+	}
+	/**
+	 * @desc A method to return the map container  HTML element wrapped in a JQuery
+	 * @public
+	 * @override
+	 * @method
+	 * @return {JQuery} The the map container HTML element wrapped in a JQuery
+	 */
+	getContainer() {
+		return this.container
 	}
 	/**
 	 * @desc Handle the zoom event triggered by user interaction
@@ -60,36 +80,34 @@ class ZoomSearch extends CtlContainer {
 	featureAsLocation(feature, options) {
 		throw 'Not implemented'
 	}
-	getContainer() {
-		return $('#map')
-	}
 	/**
 	 * @private
 	 * @method
 	 */
 	render() {
-		this.getContainer().append(ZoomSearch.HTML).trigger('create')
-		this.input = this.getElem('.fld-srch-container input')
-		this.list = this.getElem('.fld-srch')
+		this.getContainer().append(ZoomSearch.HTML)
+		this.input = this.getElem('.srch input')
+		this.list = this.getElem('.srch ul')
 		this.hookupEvents(this.input, this.list)
 	}
 	/**
+	 * @private
+   * @method
 	 * @param {JQuery} input
 	 * @param {JQuery} list
 	 */
 	hookupEvents(input, list) {
 		input.on('keydown change', $.proxy(this.key, this))
-		input.on('keyup', (event) => {
-			if (event.keyCode === 13 && !$.ui.keyCode.ENTER) {
-				$.ui.keyCode.ENTER = 13
-			}
-		})
-		input.focus(() => {input.select()})
-		this.getElem('.fld-srch-container .ui-input-clear').click(() => {
-			list.slideUp()
-		})
+		input.focus($.proxy(this.select, this))
 		this.getElem('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))
-		this.getElem('.btn-geo, .srch-type-geo').click($.proxy(this.geolocate, this))
+		this.getElem('.btn-geo').click($.proxy(this.geolocate, this))
+	}
+	/**
+	 * @private
+	 * @method
+	 */
+	select() {
+		this.input.select()
 	}
 	/**
 	 * @private
@@ -97,13 +115,12 @@ class ZoomSearch extends CtlContainer {
 	 * @param {Object} event
 	 */
 	key(event) {
-		delete $.ui.keyCode.ENTER
-		if (event.keyCode == 13 && this.isAddrSrch) {
+		const list = this.list
+		if (event.keyCode === 13 && this.isAddrSrch) {
 			this.triggerSearch()
-			this.list.slideUp()
+			list.slideUp()
 		}else{
-			this.getElem('.mnu-srch-typ').hide()
-			this.list.slideDown()
+			list.slideDown()
 		}
 	}
 	/**
@@ -134,29 +151,27 @@ class ZoomSearch extends CtlContainer {
 	 * @return {string} The value of the search field
 	 */
 	val(val) {
-		if (typeof val == 'string') {
+		if (typeof val === 'string') {
 			this.input.val(val)
 			this.searching(false)
 		}
-		return 	this.input.val()
+		return this.input.val()
 	}
 	/**
 	 * @desc Displays possible address matches
 	 * @public
 	 * @method
-	 * @param {Locate.Ambiguous} ambiguous Possible locations resulting from a geocoder search to display to the user
+	 * @param {Locator.Ambiguous} ambiguous Possible locations resulting from a geocoder search to display to the user
 	 */
 	disambiguate(ambiguous) {
 		const possible = ambiguous.possible
-		const list = this.list
 		this.searching(false)
 		if (possible.length) {
+			const list = this.list
 			this.emptyList(true)
 			possible.forEach(locateResult => {
 				list.append(this.listItem('addr', locateResult))
 			})
-			list.children().first().addClass('ui-first-child')
-			list.children().last().addClass('ui-last-child')
 			list.slideDown(() => {
 				list.children().first().attr('tabindex', 0).focus()
 			})
@@ -169,7 +184,6 @@ class ZoomSearch extends CtlContainer {
 	 * @param {boolean} show Show searching status
 	 */
 	searching(show) {
-		this.getElem('.fld-srch-container a.ui-input-clear')[show ? 'addClass' : 'removeClass']('searching')
 	}
 	/**
 	 * @desc Add searchable features
@@ -193,7 +207,7 @@ class ZoomSearch extends CtlContainer {
 		this.sortAlphapetically(options).forEach(feature => {
 			const location = this.featureAsLocation(feature, options)
 			const li = this.listItem(options.featureTypeName, location)
-			this.getElem('.fld-srch-retention').append(li)
+			this.getElem('.retention').append(li)
 		})
 		this.emptyList()
 	}
@@ -231,18 +245,18 @@ class ZoomSearch extends CtlContainer {
 	 * @private
 	 * @method
 	 * @param {string} typeName
-	 * @param {Locate.Result} data
+	 * @param {Locator.Result} data
 	 * @return {JQuery}
 	 */
 	listItem(typeName, data) {
-		const li = $('<li class="ui-li-static ui-body-inherit"></li>')
+		const li = $('<li></li>')
 		li.addClass('srch-type-' + typeName)
-		if (typeName != 'addr') {
+		if (typeName !== 'addr') {
 			li.addClass('srch-type-feature')
 		}
 		li.addClass('notranslate')
 		li.attr('translate', 'no')
-		li.html(data.data.__feature_label || data.name)
+		li.html(data.data.featureLabel || data.name)
 		li.data('location', data)
 		li.click($.proxy(this.disambiguated, this))
 		return li
@@ -253,18 +267,15 @@ class ZoomSearch extends CtlContainer {
 	 * @param {Object} event
 	 */
 	choices(event) {
-		const featureTypeName = $(event.target).data('srch-type') || 'addr',
-			placeholder = $(event.target).data('placeholder') || 'Search for an address...'
-		this.isAddrSrch = featureTypeName == 'addr'
-		this.getElem('.mnu-srch-typ').slideUp()
+		const featureTypeName = $(event.target).data('srch-type') || 'addr'
+		const placeholder = $(event.target).data('placeholder') || 'Search for an address...'
+		this.isAddrSrch = featureTypeName === 'addr'
 		this.val('')
 		this.input.focus()
 		this.flipIcon()
 		this.emptyList()
 		this.input.attr('placeholder', placeholder)
-		this.list.append(this.getElem('.fld-srch-retention li.srch-type-' + featureTypeName))
-			.listview({})
-			.listview('refresh')
+		this.list.append(this.getElem('.retention li.srch-type-' + featureTypeName))
 	}
 	/**
 	 * @private
@@ -272,12 +283,10 @@ class ZoomSearch extends CtlContainer {
 	 * @method
 	 */
 	emptyList(disambiguating) {
-		this.getElem('.fld-srch-retention').append(this.getElem('.fld-srch li'))
+		this.getElem('.retention').append(this.getElem('.srch li'))
 		this.list.empty()
-		if (!this.useSearchTypeMenu && !disambiguating) {
-			this.list.append(this.getElem('.fld-srch-retention li.srch-type-feature'))
-				.listview({})
-				.listview('refresh')
+		if (!disambiguating) {
+			this.list.append(this.getElem('.retention li.srch-type-feature'))
 		}
 	}
 	/**
@@ -354,20 +363,21 @@ ZoomSearch.EventType = {
  * @const
  * @type {string}
  */
-ZoomSearch.HTML = '<div class="z-srch ol-unselectable">' +
-	'<div class="fld-srch-container ctl">' +
-		'<ul class="fld-srch ui-corner-all" data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search for an address..."></ul>' +
+ZoomSearch.HTML = '<div class="z-srch">' +
+	'<div class="srch">' +
+		'<input class="rad-all" placeholder="Search for an address...">' +
+		'<ul class="rad-all"></ul>' +
 	'</div>' +
-	'<a class="btn-z-in ctl ctl-btn" data-role="button" data-icon="plus" data-iconpos="notext" data-zoom-incr="1" title="Zoom in">' +
+	'<button class="btn-z-in btn-sq rad-all" data-zoom-incr="1" title="Zoom in">' +
 		'<span class="screen-reader-only">Zoom in</span>' +
-	'</a>' +
-	'<a class="btn-z-out ctl ctl-btn" data-role="button" data-icon="minus" data-iconpos="notext" data-zoom-incr="-1" title="Zoom out">' +
-		'Zoom out' +
-	'</a>' +
-	'<a class="btn-geo ctl ctl-btn" data-role="button" data-icon="none" data-iconpos="notext" title="Current location">' +
-		'Current location' +
-	'</a>' +
-	'<ul class="fld-srch-retention"></ul>' +
+	'</button>' +
+	'<button class="btn-z-out btn-sq rad-all" data-zoom-incr="-1" title="Zoom out">' +
+		'<span class="screen-reader-only">Zoom out</span>' +
+	'</button>' +
+	'<button class="btn-geo btn-sq rad-all" title="Current location">' +
+		'<span class="screen-reader-only">Current location</span>' +
+	'</button>' +
+	'<ul class="retention"></ul>' +
 '</div>'
 
 export default ZoomSearch

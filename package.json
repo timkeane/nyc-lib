@@ -62,7 +62,6 @@
     "jest": "^22.4.3",
     "jquery": "^3.3.1",
     "jquery-csv": "^0.8.9",
-    "jquery-mobile": "^1.5.0-alpha.1",
     "jsdoc": "^3.5.5",
     "ol": "^4.6.5",
     "pre-commit": "^1.2.2",
@@ -72,5 +71,13 @@
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.14"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "browser": {
+    "jquery-mobile": "./node_modules/jquery-mobile-babel-safe/dist/jquery.mobile-1.4.5.js"
+  },
+  "browserify-shim": {
+    "jquery-mobile": {
+      "exports": "jQuery.mobile"
+    }
+  }
 }

@@ -1,10 +1,11 @@
-import BasemapHelper from 'nyc/BasemapHelper'
 import $ from 'jquery'
+
+import BasemapHelper from 'nyc/BasemapHelper'
 
 let target
 beforeEach(() => {
   target = $('<div id="map"></div>')
-  $('body').append(target) 
+  $('body').append(target)
 })
 
 afterEach(() => {
@@ -22,7 +23,7 @@ test('hookupEvents', () => {
   expect(BasemapHelper.loadLayer.mock.calls[0][0].target).toBe(target.get(0))
 
   const dragHandler = jest.fn()
-  
+
   target.on('dragover', dragHandler)
   target.trigger('dragover')
   expect(dragHandler).toHaveBeenCalledTimes(1)
