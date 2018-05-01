@@ -260,19 +260,6 @@ class ZoomSearch extends Container {
 	}
 	/**
 	 * @private
-	 * @method
-	 * @param {Object} event
-	 */
-	choices(event) {
-		const featureTypeName = $(event.target).data('srch-type') || 'addr'
-		this.isAddrSrch = featureTypeName === 'addr'
-		this.val('')
-		this.input.focus()
-		this.emptyList()
-		this.list.append(this.getElem('.retention li.srch-type-' + featureTypeName))
-	}
-	/**
-	 * @private
 	 * @param {boolean} disambiguating
 	 * @method
 	 */

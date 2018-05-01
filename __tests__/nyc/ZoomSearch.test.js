@@ -429,3 +429,47 @@ test('listItem not addr has featureLabel', () => {
   expect(zoomSearch.disambiguated.mock.calls[0][0].type).toBe('click')
   expect(zoomSearch.disambiguated.mock.calls[0][0].target).toBe(li.get(0))
 })
+
+test('emptyList disambiguating', () => {
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.list.html('<li id="addr-1" class="addr"></li><li id="addr-2" class="addr"></li><li id="addr-3" class="addr"></li>')
+  container.find('.retention').html('<li id="feature-1" class="feature"></li><li id="feature-2" class="feature"></li><li id="feature-3" class="feature"></li>')
+
+  zoomSearch.emptyList(true)
+
+  expect(zoomSearch.list.children().length).toBe(0)
+  expect(container.find('.retention').children().length).toBe(6)
+  expect(container.find('.retention').children().get(0).id).toBe('feature-1')
+  expect(container.find('.retention').children().get(0).className).toBe('feature')
+  expect(container.find('.retention').children().get(1).id).toBe('feature-2')
+  expect(container.find('.retention').children().get(1).className).toBe('feature')
+  expect(container.find('.retention').children().get(2).id).toBe('feature-3')
+  expect(container.find('.retention').children().get(2).className).toBe('feature')
+  expect(container.find('.retention').children().get(3).id).toBe('addr-1')
+  expect(container.find('.retention').children().get(3).className).toBe('addr')
+  expect(container.find('.retention').children().get(4).id).toBe('addr-2')
+  expect(container.find('.retention').children().get(4).className).toBe('addr')
+  expect(container.find('.retention').children().get(5).id).toBe('addr-3')
+  expect(container.find('.retention').children().get(5).className).toBe('addr')
+})
+
+test('emptyList not disambiguating', () => {
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.list.html('<li class="addr"></li><li class="addr"></li><li class="addr"></li>')
+  container.find('.retention').html('<li class="feature"></li><li class="feature"></li><li class="feature"></li>')
+
+  zoomSearch.emptyList(false)
+
+  expect(zoomSearch.list.children().length).toBe(3)
+  zoomSearch.list.children().each((_, li) => {
+    expect($(li).hasClass('feature')).toBe(true)
+    expect($(li).hasClass('addr')).toBe(false)
+  })
+  expect(container.find('.retention').children().length).toBe(3)
+  container.find('.retention').children().each((_, li) => {
+    expect($(li).hasClass('feature')).toBe(false)
+    expect($(li).hasClass('addr')).toBe(true)
+  })
+})
