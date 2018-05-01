@@ -4,7 +4,7 @@
 
 import $ from 'jquery'
 
-import OlGeoJSON from 'ol/format/GeoJSON'
+import OlGeoJSON from 'ol/format/geojson'
 
 import NycZoomSearch from 'nyc/ZoomSearch'
 import NycLocator from 'nyc/Locator'
