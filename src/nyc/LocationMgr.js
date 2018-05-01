@@ -45,13 +45,7 @@ class LocationMgr extends EventHandling {
      * @member {boolean}
      */
     this.autoLocate = options.autoLocate || false
-    this.locator.on(Locator.EventType.GEOCODE, this.located, this)
-    this.locator.on(Locator.EventType.GEOLOCATION, this.located, this)
-    this.locator.on(Locator.EventType.AMBIGUOUS, this.ambiguous, this)
-    this.locator.on(Locator.EventType.ERROR, this.error, this)
-    this.controls.on(ZoomSearch.EventType.SEARCH, this.locator.search, this.locator)
-    this.controls.on(ZoomSearch.EventType.GEOLOCATE, this.locator.locator, this.locator)
-    this.controls.on(ZoomSearch.EventType.DISAMBIGUATED, this.located, this)
+    this.hookupEvents()
     this.locateFromQueryString()
   }
 	/**
@@ -63,17 +57,51 @@ class LocationMgr extends EventHandling {
 	setLocation(data) {
 		this.mapLocator.setLocation(data)
 	}
-	/** 
-	 * @private 
+  /**
+	 * @private
 	 * @method
 	 */
-	error() {
-		this.controls.searching(false)
-    //this.dialog.ok({message: 'Failed to contact geocoder'})
-    console.error('Failed to contact geocoder')
+   hookupEvents() {
+     this.locator.on(Locator.EventType.GEOCODE, this.located, this)
+     this.locator.on(Locator.EventType.GEOLOCATION, this.located, this)
+     this.locator.on(Locator.EventType.AMBIGUOUS, this.ambiguous, this)
+     this.locator.on(Locator.EventType.ERROR, this.error, this)
+     this.controls.on(ZoomSearch.EventType.DISAMBIGUATED, this.located, this)
+     this.controls.on(ZoomSearch.EventType.SEARCH, this.locator.search, this.locator)
+     this.controls.on(ZoomSearch.EventType.GEOLOCATE, this.locator.locate, this.locator)
+   }
+   /**
+ 	 * @private
+ 	 * @method
+ 	 */
+ 	locateFromQueryString() {
+     const qstr = document.location.search
+     const args = {}
+ 		try {
+       qstr.substr(1).split("&").foEach(param => {
+         const p = params.split("=")
+         args[p[0]] = decodeURIComponent(p[1])
+       })
+ 		} catch (ignore) {}
+ 		if (args.address) {
+ 			this.locator.search(args.address)
+ 		} else if (this.autoLocate) {
+ 			this.locator.locate()
+ 		}
+ 	}
+  /**
+	 * @private
+	 * @method
+	 * @param {Locator.Result} data
+	 */
+	located(data) {
+		this.controls.val(data.type === Locator.EventType.GEOLOCATION ? '' : data.name)
+		this.mapLocator.zoomLocation(data => {
+			this.trigger(data.type, data)
+		})
 	}
-	/** 
-	 * @private 
+	/**
+	 * @private
 	 * @method
 	 * @param {Locator.Ambiguous} data
 	 */
@@ -86,35 +114,14 @@ class LocationMgr extends EventHandling {
       console.warn('The location you entered was not understood')
 		}
 	}
-	/**
+  /**
 	 * @private
 	 * @method
-	 * @param {Locator.Result} data 
 	 */
-	located(data) {
-		this.controls.val(data.type === Locator.EventType.GEOLOCATION ? '' : data.name)
-		this.mapLocator.zoomLocation(data => {
-			this.trigger(data.type, data)
-		})
-	}
-	/** 
-	 * @private 
-	 * @method
-	 */
-	locateFromQueryString() {
-    const qstr = document.location.search
-    const args = {}
-		try {
-      qstr.substr(1).split("&").foEach(param => {
-        const p = params.split("=")
-        args[p[0]] = decodeURIComponent(p[1])
-      })
-		} catch (ignore) {}
-		if (args.address) {
-			this.locator.search(args.address)
-		} else if (this.autoLocate) {
-			this.locator.locate()
-		}
+	error() {
+		this.controls.searching(false)
+    //this.dialog.ok({message: 'Failed to contact geocoder'})
+    console.error('Failed to contact geocoder')
 	}
 }
 
@@ -130,5 +137,3 @@ class LocationMgr extends EventHandling {
 LocationMgr.Options
 
 export default LocationMgr
-
-

@@ -21,4 +21,14 @@ export default class MapLocator {
 	zoomLocation(data, callback) {
 		throw 'Not implemented'
 	}
+	/**
+	 * @public
+	 * @abstract
+	 * @method
+	 * @param {Locator.Result} data The location to which the map will be oriented
+	 * @param {function()} callback The function to call after the locator has zoomed to the location
+	 */
+	setLocation(data, callback) {
+		throw 'Not implemented'
+	}
 }
