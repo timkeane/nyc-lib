@@ -9,32 +9,42 @@ import NycZoomSearch from 'nyc/ZoomSearch'
 import ZoomSearch from 'nyc/ol/ZoomSearch'
 import NycLocator from 'nyc/Locator'
 
+class MockView {
+  constructor(options) {
+    this.zoom = options.zoom
+  }
+  getZoom() {
+    return this.zoom
+  }
+}
+class MockMap {
+  constructor(options) {
+    const target = options.target
+    this.view = new MockView({zoom: 11})
+    this.target = $(target).html('<div class="ol-overlaycontainer-stopevent"></div>')
+      .get(0)
+  }
+  getTargetElement() {
+    return this.target
+  }
+  getView() {
+    return this.view
+  }
+}
+
 let container
 let mockMap
-let mockView
 beforeEach(() => {
-  container = $('<div><div class="ol-overlaycontainer-stopevent"></div></div>')
+  mockMap = new MockMap({target: container})
+  container = $('<div></div>')
   $('body').append(container)
-  mockView = {
-    zoom: 11,
-    getZoom: function() {
-      return this.zoom
-    }
-  }
-  mockMap = {
-    getTargetElement: function() {
-      return container.get(0)
-    },
-    getView: function() {
-      return mockView
-    }
-  }
 })
 
 afterEach(() => {
   container.remove()
 })
 
+/*
 test('constructor', () => {
   const tip = $('<div class="feature-tip"></div>')
   $('body').append(tip)
@@ -45,8 +55,12 @@ test('constructor', () => {
   expect(zoomSearch instanceof ZoomSearch).toBe(true)
   expect(zoomSearch instanceof NycZoomSearch).toBe(true)
   expect(zoomSearch.map).toBe(mockMap)
+  expect(zoomSearch.view instanceof MockView).toBe(true)
   expect(zoomSearch.view).toBe(mockMap.getView())
   expect(zoomSearch.geoJson instanceof OlGeoJSON).toBe(true)
+
+  expect(new ZoomSearch(mockMap).getElem('.z-srch').length).toBe('wtf')
+
   expect(zoomSearch.getElem('.z-srch').length).toBe(1)
 
   zoomSearch.getElem('.z-srch').trigger('click')
@@ -83,25 +97,36 @@ test('featureAsLocation', () => {
 
 test('zoom', () => {
   const event = {
-    target: container.find('btn-z-in').get(0)
+    target: $('.btn-z-in').get(0)
   }
 
+  const mockView = mockMap.getView()
   mockView.animate = jest.fn()
 
   const zoomSearch = new ZoomSearch(mockMap)
 
   zoomSearch.zoom(event)
 
+  expect(mockView.getZoom()).toBe(11)
   expect(mockView.animate).toHaveBeenCalledTimes(1)
+  expect(mockView.animate.mock.calls[0][0].zoom).toBe(12)
 
-  console.error(mockView.animate.mock);
+  event.target = container.find('.btn-z-out').get(0)
 
-  // expect(mockView.animate.mock.calls[0][0].zoom).toBe(12)
-  //
-  // event.target = container.find('btn-z-out').get(0)
-  //
-  // zoomSearch.zoom(event)
-  //
-  // expect(mockView.animate).toHaveBeenCalledTimes(2)
-  // expect(mockView.animate.mock.calls[1][0].zoom).toBe(11)
+  zoomSearch.zoom(event)
+
+  expect(mockView.animate).toHaveBeenCalledTimes(2)
+  expect(mockView.animate.mock.calls[1][0].zoom).toBe(11)
+})
+*/
+
+test('wtf', () => {
+  const map = new MockMap({target: container})
+
+
+  // expect($(map.getTargetElement()).html()).toBe('wtf'+container.html())
+
+
+  expect(new ZoomSearch(map).getElem('.z-srch').length).toBe(1)
+
 })

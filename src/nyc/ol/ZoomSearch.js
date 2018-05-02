@@ -70,9 +70,8 @@ class ZoomSearch extends NycZoomSearch {
 	 * @param event The DOM event triggered by the zoom buttons
 	 */
 	zoom(event) {
-		const view = this.view
-		view.animate({
-      zoom: view.getZoom() + ($(event.target).data('zoom-incr') * 1)
+		this.view.animate({
+      zoom: this.view.getZoom() + ($(event.target).data('zoom-incr') * 1)
     })
 	}
 }
