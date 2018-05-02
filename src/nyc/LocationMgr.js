@@ -20,11 +20,11 @@ class LocationMgr extends EventHandling {
   constructor(options) {
     super()
     /**
-     * @desc The search controls
+     * @desc The search zoomSearch
      * @public
      * @member {ZoomSearch}
      */
-    this.controls = options.controls
+    this.zoomSearch = options.zoomSearch
     /**
      * @private
      * @member {Locator}
@@ -66,9 +66,9 @@ class LocationMgr extends EventHandling {
      this.locator.on(Locator.EventType.GEOLOCATION, this.located, this)
      this.locator.on(Locator.EventType.AMBIGUOUS, this.ambiguous, this)
      this.locator.on(Locator.EventType.ERROR, this.error, this)
-     this.controls.on(ZoomSearch.EventType.DISAMBIGUATED, this.located, this)
-     this.controls.on(ZoomSearch.EventType.SEARCH, this.locator.search, this.locator)
-     this.controls.on(ZoomSearch.EventType.GEOLOCATE, this.locator.locate, this.locator)
+     this.zoomSearch.on(ZoomSearch.EventType.DISAMBIGUATED, this.located, this)
+     this.zoomSearch.on(ZoomSearch.EventType.SEARCH, this.locator.search, this.locator)
+     this.zoomSearch.on(ZoomSearch.EventType.GEOLOCATE, this.locator.locate, this.locator)
    }
    /**
  	 * @private
@@ -94,7 +94,7 @@ class LocationMgr extends EventHandling {
 	 * @param {Locator.Result} data
 	 */
 	located(data) {
-		this.controls.val(data.type === Locator.EventType.GEOLOCATION ? '' : data.name)
+		this.zoomSearch.val(data.type === Locator.EventType.GEOLOCATION ? '' : data.name)
 		this.mapLocator.zoomLocation(data, () => {
 			this.trigger(data.type, data)
 		})
@@ -105,9 +105,9 @@ class LocationMgr extends EventHandling {
 	 * @param {Locator.Ambiguous} data
 	 */
 	ambiguous(data) {
-    this.controls.searching(false)
+    this.zoomSearch.searching(false)
 		if (data.possible.length) {
-			this.controls.disambiguate(data)
+			this.zoomSearch.disambiguate(data)
 		} else {
       //this.dialog.ok({message: 'The location you entered was not understood'})
       console.warn('The location you entered was not understood')
@@ -118,7 +118,7 @@ class LocationMgr extends EventHandling {
 	 * @method
 	 */
 	error() {
-		this.controls.searching(false)
+		this.zoomSearch.searching(false)
     //this.dialog.ok({message: 'Failed to contact geocoder'})
     console.error('Failed to contact geocoder')
 	}
@@ -128,9 +128,9 @@ class LocationMgr extends EventHandling {
  * @desc Object type to hold constructor options for {@link LocationMgr}
  * @public
  * @typedef {Object}
- * @property {ZoomSearch} controls The UX controls for user input
+ * @property {ZoomSearch} zoomSearch The UX zoom search controls for user input
  * @property {Locator} locator The geocoding and geolocation provider
- * @property {nyc.Locator} mapLocator The mapLocator used to manipulate a map
+ * @property {nyc/MapLocator} mapLocator The mapLocator used to manipulate a map
  * @property {boolean} [autoLocate=false] Automatically locator using device geolocation on load
  */
 LocationMgr.Options

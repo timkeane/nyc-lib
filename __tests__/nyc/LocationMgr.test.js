@@ -12,7 +12,7 @@ beforeEach(() => {
   $('body').append(container)
 
   options = {
-    controls: new ZoomSearch(container),
+    zoomSearch: new ZoomSearch(container),
     locator: new Locator({}),
     mapLocator: new MapLocator()
   }
@@ -32,7 +32,7 @@ test('constructor not autoLocate', () => {
   expect(locationMgr instanceof LocationMgr).toBe(true)
   expect(locationMgr instanceof EventHandling).toBe(true)
 
-  expect(locationMgr.controls).toBe(options.controls)
+  expect(locationMgr.zoomSearch).toBe(options.zoomSearch)
   expect(locationMgr.locator).toBe(options.locator)
   expect(locationMgr.mapLocator).toBe(options.mapLocator)
   expect(locationMgr.autoLocate).toBe(false)
@@ -57,7 +57,7 @@ test('constructor autoLocate', () => {
   expect(locationMgr instanceof LocationMgr).toBe(true)
   expect(locationMgr instanceof EventHandling).toBe(true)
 
-  expect(locationMgr.controls).toBe(options.controls)
+  expect(locationMgr.zoomSearch).toBe(options.zoomSearch)
   expect(locationMgr.locator).toBe(options.locator)
   expect(locationMgr.mapLocator).toBe(options.mapLocator)
   expect(locationMgr.autoLocate).toBe(true)
@@ -107,15 +107,15 @@ test('hookupEvents', () => {
   expect(LocationMgr.prototype.error).toHaveBeenCalledTimes(1)
   expect(LocationMgr.prototype.error.mock.calls[0][0]).toBe('mock-error-event')
 
-  options.controls.trigger(ZoomSearch.EventType.DISAMBIGUATED, 'mock-disambiguated-event')
+  options.zoomSearch.trigger(ZoomSearch.EventType.DISAMBIGUATED, 'mock-disambiguated-event')
   expect(LocationMgr.prototype.located).toHaveBeenCalledTimes(3)
   expect(LocationMgr.prototype.located.mock.calls[2][0]).toBe('mock-disambiguated-event')
 
-  options.controls.trigger(ZoomSearch.EventType.SEARCH, 'mock-search-event')
+  options.zoomSearch.trigger(ZoomSearch.EventType.SEARCH, 'mock-search-event')
   expect(options.locator.search).toHaveBeenCalledTimes(1)
   expect(options.locator.search.mock.calls[0][0]).toBe('mock-search-event')
 
-  options.controls.trigger(ZoomSearch.EventType.GEOLOCATE, 'mock-geolocate-event')
+  options.zoomSearch.trigger(ZoomSearch.EventType.GEOLOCATE, 'mock-geolocate-event')
   expect(options.locator.locate).toHaveBeenCalledTimes(1)
   expect(options.locator.locate.mock.calls[0][0]).toBe('mock-geolocate-event')
 
@@ -183,7 +183,7 @@ test('located GEOCODE', () => {
 
   locationMgr.located(data)
 
-  expect(locationMgr.controls.val()).toBe('a name')
+  expect(locationMgr.zoomSearch.val()).toBe('a name')
   expect(handler).toHaveBeenCalledTimes(1)
   expect(handler.mock.calls[0][0]).toBe(data)
 })
@@ -206,47 +206,47 @@ test('located GEOLOCATION', () => {
 
   locationMgr.located(data)
 
-  expect(locationMgr.controls.val()).toBe('')
+  expect(locationMgr.zoomSearch.val()).toBe('')
   expect(handler).toHaveBeenCalledTimes(1)
   expect(handler.mock.calls[0][0]).toBe(data)
 })
 
 test('ambiguous no possible', () => {
   const data = {possible: []}
-  options.controls.searching = jest.fn()
-  options.controls.disambiguate = jest.fn()
+  options.zoomSearch.searching = jest.fn()
+  options.zoomSearch.disambiguate = jest.fn()
 
   const locationMgr = new LocationMgr(options)
 
   locationMgr.ambiguous(data)
 
-  expect(options.controls.searching).toHaveBeenCalledTimes(1)
-  expect(options.controls.searching.mock.calls[0][0]).toBe(false)
-  expect(options.controls.disambiguate).toHaveBeenCalledTimes(0)
+  expect(options.zoomSearch.searching).toHaveBeenCalledTimes(1)
+  expect(options.zoomSearch.searching.mock.calls[0][0]).toBe(false)
+  expect(options.zoomSearch.disambiguate).toHaveBeenCalledTimes(0)
 })
 
 test('ambiguous has possible', () => {
   const data = {possible: ['mock-reuslt']}
-  options.controls.searching = jest.fn()
-  options.controls.disambiguate = jest.fn()
+  options.zoomSearch.searching = jest.fn()
+  options.zoomSearch.disambiguate = jest.fn()
 
   const locationMgr = new LocationMgr(options)
 
   locationMgr.ambiguous(data)
 
-  expect(options.controls.searching).toHaveBeenCalledTimes(1)
-  expect(options.controls.searching.mock.calls[0][0]).toBe(false)
-  expect(options.controls.disambiguate).toHaveBeenCalledTimes(1)
-  expect(options.controls.disambiguate.mock.calls[0][0]).toBe(data)
+  expect(options.zoomSearch.searching).toHaveBeenCalledTimes(1)
+  expect(options.zoomSearch.searching.mock.calls[0][0]).toBe(false)
+  expect(options.zoomSearch.disambiguate).toHaveBeenCalledTimes(1)
+  expect(options.zoomSearch.disambiguate.mock.calls[0][0]).toBe(data)
 })
 
 test('error', () => {
-  options.controls.searching = jest.fn()
+  options.zoomSearch.searching = jest.fn()
 
   const locationMgr = new LocationMgr(options)
 
   locationMgr.error()
 
-  expect(options.controls.searching).toHaveBeenCalledTimes(1)
-  expect(options.controls.searching.mock.calls[0][0]).toBe(false)
+  expect(options.zoomSearch.searching).toHaveBeenCalledTimes(1)
+  expect(options.zoomSearch.searching.mock.calls[0][0]).toBe(false)
 })
