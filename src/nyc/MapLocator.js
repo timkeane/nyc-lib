@@ -10,7 +10,7 @@ import Locator from 'nyc/Locator'
  * @abstract
  * @class
  */
-export default class MapLocator {
+class MapLocator {
 	/**
 	 * @public
 	 * @abstract
@@ -32,3 +32,7 @@ export default class MapLocator {
 		throw 'Not implemented'
 	}
 }
+
+MapLocator.ZOOM_LEVEL = 17
+
+export default  MapLocator
