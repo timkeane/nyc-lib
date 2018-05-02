@@ -9,7 +9,6 @@ import olExtent from 'ol/extent'
 
 import NycZoomSearch from 'nyc/ZoomSearch'
 import NycLocator from 'nyc/Locator'
-import NycGeocoder from 'nyc/Geocoder'
 
 /**
  * @desc Class for providing a set of buttons to zoom and search.
@@ -60,7 +59,7 @@ class ZoomSearch extends NycZoomSearch {
 			geometry: JSON.parse(this.geoJson.writeGeometry(geom)),
 			data: feature.getProperties(),
 			type: NycLocator.ResultType.GEOCODE,
-			accuracy: NycGeocoder.Accuracy.HIGH
+			accuracy: NycLocator.Accuracy.HIGH
 		}
 	}
 	/**
@@ -71,8 +70,10 @@ class ZoomSearch extends NycZoomSearch {
 	 * @param event The DOM event triggered by the zoom buttons
 	 */
 	zoom(event) {
-		var view = this.view
-		view.animate({zoom: view.getZoom() + $(event.target).data('zoom-incr')})
+		const view = this.view
+		view.animate({
+      zoom: view.getZoom() + ($(event.target).data('zoom-incr') * 1)
+    })
 	}
 }
 
