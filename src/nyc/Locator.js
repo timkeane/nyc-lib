@@ -38,11 +38,7 @@ class Locator extends EventHandling {
      * @member {string}
      */
 		this.projection = options.projection || 'EPSG:3857'
-		try{
-		this.geocoder.on(Locator.EventType.GEOCODE, this.proxyEvent, this)
-		this.geocoder.on(Locator.EventType.AMBIGUOUS, this.proxyEvent, this)
-		this.geocoder.on(Locator.EventType.ERROR, this.proxyEvent, this)
-		}catch(ig){}
+    this.hookupEvents()
   }
   /**
    * @desc Get a distance for an accuracy enumerator based on the projections
@@ -103,6 +99,15 @@ class Locator extends EventHandling {
 	 proxyEvent(event) {
 		 this.trigger(event.type, event)
 	 }
+   /**
+		* @private
+		* @method
+	  */
+   hookupEvents() {
+     this.geocoder.on(Locator.EventType.GEOCODE, this.proxyEvent, this)
+     this.geocoder.on(Locator.EventType.AMBIGUOUS, this.proxyEvent, this)
+     this.geocoder.on(Locator.EventType.ERROR, this.proxyEvent, this)
+   }
 }
 
 /**

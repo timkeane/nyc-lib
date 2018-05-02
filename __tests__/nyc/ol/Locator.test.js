@@ -1,6 +1,7 @@
 import proj4 from 'proj4'
 
 import NycLocator from 'nyc/Locator'
+import Geocoder from 'nyc/Geocoder'
 import Locator from 'nyc/ol/Locator'
 
 import OlGeolocation from 'ol/geolocation'
@@ -42,7 +43,7 @@ function geolocationExpectations(locator) {
 test('constructor no extent limit and default projection', () => {
   const originalHandlers = mockGeolocationEventHandlers()
 
-  const locator = new Locator({})
+  const locator = new Locator({geocoder: new Geocoder()})
 
   expect(locator instanceof NycLocator).toBe(true)
   expect(locator instanceof Locator).toBe(true)
@@ -56,7 +57,10 @@ test('constructor no extent limit and default projection', () => {
 test('constructor no extent limit and projection provided', () => {
   const originalHandlers = mockGeolocationEventHandlers()
 
-  const locator = new Locator({projection: 'EPSG:2263'})
+  const locator = new Locator({
+    geocoder: new Geocoder(),
+    projection: 'EPSG:2263'
+  })
 
   expect(locator instanceof NycLocator).toBe(true)
   expect(locator instanceof Locator).toBe(true)
@@ -71,7 +75,10 @@ test('constructor has extent limit and default projection', () => {
   const originalHandlers = mockGeolocationEventHandlers()
 
   const limit = [1, 2, 3, 4]
-  const locator = new Locator({extentLimit: limit})
+  const locator = new Locator({
+    geocoder: new Geocoder(),
+    extentLimit: limit
+  })
 
   expect(locator instanceof NycLocator).toBe(true)
   expect(locator instanceof Locator).toBe(true)
@@ -83,7 +90,7 @@ test('constructor has extent limit and default projection', () => {
 })
 
 test('locate', () => {
-  const locator = new Locator({})
+  const locator = new Locator({geocoder: new Geocoder()})
 
   locator.geolocation.setTracking = jest.fn()
 
@@ -95,7 +102,7 @@ test('locate', () => {
 })
 
 test('track', () => {
-  const locator = new Locator({})
+  const locator = new Locator({geocoder: new Geocoder()})
 
   locator.geolocation.setTracking = jest.fn()
 
@@ -111,7 +118,7 @@ test('track', () => {
 })
 
 test('geolocationError', () => {
-  const locator = new Locator({})
+  const locator = new Locator({geocoder: new Geocoder()})
 
   const error = console.error
   console.error = jest.fn()
@@ -127,7 +134,10 @@ test('geolocationError', () => {
 })
 
 test('geolocationChange not currently locating, no limit', () => {
-  const locator = new Locator({projection: 'EPSG:2263'})
+  const locator = new Locator({
+    geocoder: new Geocoder(),
+    projection: 'EPSG:2263'
+  })
   locator.track = jest.fn()
 
   const handler = jest.fn()
@@ -154,6 +164,7 @@ test('geolocationChange not currently locating, no limit', () => {
 test('geolocationChange not currently locating, within limit', () => {
   const limit = [-1, -1, 1, 1]
   const locator = new Locator({
+    geocoder: new Geocoder(),
     projection: 'EPSG:4326',
     extentLimit: limit
   })
@@ -183,6 +194,7 @@ test('geolocationChange not currently locating, within limit', () => {
 test('geolocationChange not currently locating, not within limit', () => {
   const limit = [-2, -2, -1, -1]
   const locator = new Locator({
+    geocoder: new Geocoder(),
     projection: 'EPSG:2263',
     extentLimit: limit
   })
@@ -205,6 +217,7 @@ test('geolocationChange not currently locating, not within limit', () => {
 test('geolocationChange is currently locating, not within limit', () => {
   const limit = [-2, -2, -1, -1]
   const locator = new Locator({
+    geocoder: new Geocoder(),
     projection: 'EPSG:2263',
     extentLimit: limit
   })
@@ -228,6 +241,7 @@ test('geolocationChange is currently locating, not within limit', () => {
 test('geolocationChange IS currently locating, within limit', () => {
   const limit = [-1, -1, 1, 1]
   const locator = new Locator({
+    geocoder: new Geocoder(),
     projection: 'EPSG:4326',
     extentLimit: limit
   })

@@ -4,6 +4,7 @@ import EventHandling from 'nyc/EventHandling'
 import ZoomSearch from 'nyc/ZoomSearch'
 import Locator from 'nyc/Locator'
 import MapLocator from 'nyc/MapLocator'
+import Geocoder from 'nyc/Geocoder'
 
 let container
 let options
@@ -13,7 +14,7 @@ beforeEach(() => {
 
   options = {
     zoomSearch: new ZoomSearch(container),
-    locator: new Locator({}),
+    locator: new Locator({geocoder: new Geocoder()}),
     mapLocator: new MapLocator()
   }
 })
