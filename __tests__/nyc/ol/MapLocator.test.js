@@ -122,4 +122,6 @@ test('zoomLocation not point geom', () => {
   expect(view.fit.mock.calls[0][1].size).toEqual([100, 100])
   expect(view.fit.mock.calls[0][1].duration).toBe(500)
   expect(callback).toHaveBeenCalledTimes(1)
+
+  mapLocator.zoomLocation(data)
 })
