@@ -35,16 +35,15 @@ class MockMap {
 let container
 let mockMap
 beforeEach(() => {
-  mockMap = new MockMap({target: container})
   container = $('<div></div>')
   $('body').append(container)
+  mockMap = new MockMap({target: container})
 })
 
 afterEach(() => {
   container.remove()
 })
 
-/*
 test('constructor', () => {
   const tip = $('<div class="feature-tip"></div>')
   $('body').append(tip)
@@ -58,8 +57,6 @@ test('constructor', () => {
   expect(zoomSearch.view instanceof MockView).toBe(true)
   expect(zoomSearch.view).toBe(mockMap.getView())
   expect(zoomSearch.geoJson instanceof OlGeoJSON).toBe(true)
-
-  expect(new ZoomSearch(mockMap).getElem('.z-srch').length).toBe('wtf')
 
   expect(zoomSearch.getElem('.z-srch').length).toBe(1)
 
@@ -96,14 +93,14 @@ test('featureAsLocation', () => {
 })
 
 test('zoom', () => {
-  const event = {
-    target: $('.btn-z-in').get(0)
-  }
-
   const mockView = mockMap.getView()
   mockView.animate = jest.fn()
 
   const zoomSearch = new ZoomSearch(mockMap)
+
+  const event = {
+    target: $('.btn-z-in').get(0)
+  }
 
   zoomSearch.zoom(event)
 
@@ -116,17 +113,5 @@ test('zoom', () => {
   zoomSearch.zoom(event)
 
   expect(mockView.animate).toHaveBeenCalledTimes(2)
-  expect(mockView.animate.mock.calls[1][0].zoom).toBe(11)
-})
-*/
-
-test('wtf', () => {
-  const map = new MockMap({target: container})
-
-
-  // expect($(map.getTargetElement()).html()).toBe('wtf'+container.html())
-
-
-  expect(new ZoomSearch(map).getElem('.z-srch').length).toBe(1)
-
+  expect(mockView.animate.mock.calls[1][0].zoom).toBe(10)
 })
