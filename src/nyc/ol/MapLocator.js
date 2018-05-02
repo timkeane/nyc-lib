@@ -114,11 +114,10 @@ class MapLocator extends NycMapLocator {
 	 * @param {ol.style.Style|Array<ol.style.Style>|ol.StyleFunction=} style
 	 */
 	createLayer(style) {
-		style = style || MapLocator.LOCATION_STYLE
 		this.source = new OlSourceVector()
 		this.layer = new OlLayerVector({
 			source: this.source,
-			style: style || $.proxy(this.style, this),
+			style: style || MapLocator.LOCATION_STYLE,
 			zIndex: 10000
 		})
 		this.map.addLayer(this.layer)

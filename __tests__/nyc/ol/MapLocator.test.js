@@ -7,6 +7,7 @@ import OlStyleStyle from 'ol/style/style'
 import OlStyleIcon from 'ol/style/icon'
 import OlSourceVector from 'ol/source/vector'
 import OlLayerVector from 'ol/layer/vector'
+import OlFeature from 'ol/feature'
 
 import NycMapLocator from 'nyc/MapLocator'
 import MapLocator from 'nyc/ol/MapLocator'
@@ -68,6 +69,25 @@ test('constructor provided zoom and style', () => {
   expect(mapLocator.source instanceof OlSourceVector).toBe(true)
   expect(mapLocator.source.getFeatures().length).toBe(0)
   expect(mapLocator.source.getFeatures().length).toBe(0)
+})
+
+test('setLocation', () => {
+  const feature = new OlFeature({id: '1'})
+  const data = {
+    name: 'a name',
+    coordinate: [10, 10]
+  }
+
+  const mapLocator = new MapLocator({map: map})
+  
+  mapLocator.source.addFeatures([feature])
+
+  mapLocator.setLocation(data)
+
+  expect(mapLocator.source.getFeatures().length).toBe(1)
+  expect(mapLocator.source.getFeatures()[0]).not.toBe(feature)
+  expect(mapLocator.source.getFeatures()[0].get('name')).toBe('a name')
+  expect(mapLocator.source.getFeatures()[0].getGeometry().getCoordinates()).toEqual([10, 10])
 })
 
 test('zoomLocation point geom', () => {
