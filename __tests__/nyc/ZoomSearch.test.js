@@ -90,6 +90,21 @@ test('render and hookupEvents called from constructor', () => {
   ZoomSearch.prototype.geolocate = geolocate
 })
 
+test('select', () => {
+  const handler = jest.fn()
+
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.input.on('select', handler)
+  zoomSearch.input.val('1234')
+
+  zoomSearch.select()
+
+  expect(handler).toHaveBeenCalledTimes(1)
+  expect(handler.mock.calls[0][0].type).toBe('select')
+  expect(handler.mock.calls[0][0].currentTarget).toBe(zoomSearch.input.get(0))
+})
+
 test('triggerSearch has value', () => {
   const handler = jest.fn()
 
