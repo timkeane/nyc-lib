@@ -2,6 +2,7 @@ import $ from 'jquery'
 
 import ZoomSearch from 'nyc/ZoomSearch';
 import Container from 'nyc/Container';
+import AutoComplete from 'nyc/AutoComplete';
 
 let container
 beforeEach(() => {
@@ -127,78 +128,51 @@ test('key keyCode 13 isAddrSrch true', () => {
 })
 
 test('key keyCode 13 isAddrSrch false', () => {
-  expect.assertions(2)
-
   const event = {keyCode: 13}
 
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.isAddrSrch = false
   zoomSearch.triggerSearch = jest.fn()
+  zoomSearch.filterList = jest.fn()
   zoomSearch.list.hide()
 
   zoomSearch.key(event)
 
   expect(zoomSearch.triggerSearch).toHaveBeenCalledTimes(0)
-
-  const test = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(zoomSearch.list.css('display'))
-      }, 500)
-    })
-  }
-  return test().then(visible => expect(visible).toBe('block'))
+  expect(zoomSearch.filterList).toHaveBeenCalledTimes(1)
 })
 
 test('key keyCode not 13 isAddrSrch false', () => {
-  expect.assertions(2)
-
   const event = {keyCode: 39}
 
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.isAddrSrch = false
   zoomSearch.triggerSearch = jest.fn()
+  zoomSearch.filterList = jest.fn()
   zoomSearch.list.hide()
 
   zoomSearch.key(event)
 
   expect(zoomSearch.triggerSearch).toHaveBeenCalledTimes(0)
-
-  const test = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-      resolve(zoomSearch.list.css('display'))
-      }, 500)
-    })
-  }
-  return test().then(visible => expect(visible).toBe('block'))
+  expect(zoomSearch.filterList).toHaveBeenCalledTimes(1)
 })
 
 test('key keyCode not 13 isAddrSrch true', () => {
-  expect.assertions(2)
-
   const event = {keyCode: 13}
 
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.isAddrSrch = false
   zoomSearch.triggerSearch = jest.fn()
+  zoomSearch.filterList = jest.fn()
   zoomSearch.list.hide()
 
   zoomSearch.key(event)
 
   expect(zoomSearch.triggerSearch).toHaveBeenCalledTimes(0)
-
-  const test = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(zoomSearch.list.css('display'))
-      }, 500)
-    })
-  }
-  return test().then(visible => expect(visible).toBe('block'))
+  expect(zoomSearch.filterList).toHaveBeenCalledTimes(1)
 })
 
 test('geolocate', () => {
@@ -355,7 +329,11 @@ test('setFeatures/sortAlphapetically no nameField no displayField has placeholde
     return feature.properties
   }
 
+  expect(zoomSearch.autoComplete).toBe(null)
+
   zoomSearch.setFeatures(options)
+
+  expect(zoomSearch.autoComplete instanceof AutoComplete).toBe(true)
 
   expect(zoomSearch.input.attr('placeholder')).toBe('a placeholder...')
   expect(container.find('.retention').children().length).toBe(5)
@@ -371,6 +349,10 @@ test('setFeatures/sortAlphapetically no nameField no displayField has placeholde
   expect($(container.find('.retention').children().get(4)).html()).toBe('feature 4')
 
   expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
+
+  const autoComplete = zoomSearch.autoComplete
+  zoomSearch.setFeatures(options)
+  expect(autoComplete).toBe(zoomSearch.autoComplete)
 })
 
 test('setFeatures/sortAlphapetically has nameField has displayField no placeholder', () => {
@@ -380,15 +362,15 @@ test('setFeatures/sortAlphapetically has nameField has displayField no placehold
     displayField: 'label',
     features: [
       {
-        properties: {label: 'feature 3'}, 
+        properties: {label: 'feature 3'},
         get: function(prop){return this.properties[prop]}
       },
       {
-        properties: {label: 'feature 1'}, 
+        properties: {label: 'feature 1'},
         get: function(prop){return this.properties[prop]}
       },
       {
-        properties: {label: 'feature 2'}, 
+        properties: {label: 'feature 2'},
         get: function(prop){return this.properties[prop]}
       }
     ]
@@ -407,7 +389,11 @@ test('setFeatures/sortAlphapetically has nameField has displayField no placehold
     return feature.properties
   }
 
+  expect(zoomSearch.autoComplete).toBe(null)
+
   zoomSearch.setFeatures(options)
+
+  expect(zoomSearch.autoComplete instanceof AutoComplete).toBe(true)
 
   expect(zoomSearch.input.attr('placeholder')).toBe('Search for an address...')
   expect(container.find('.retention').children().length).toBe(3)
@@ -419,6 +405,10 @@ test('setFeatures/sortAlphapetically has nameField has displayField no placehold
   expect($(container.find('.retention').children().get(2)).html()).toBe('feature 3')
 
   expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
+
+  const autoComplete = zoomSearch.autoComplete
+  zoomSearch.setFeatures(options)
+  expect(autoComplete).toBe(zoomSearch.autoComplete)
 })
 
 test('removeFeatures', () => {
@@ -549,7 +539,7 @@ test('disambiguated is LI', () => {
   const data = {name: 'a name', data: {label: 'a label'}}
   const li = $('<li class="feature">a label</li>')
     .data('location', data)
-  
+
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.emptyList = jest.fn()
@@ -562,7 +552,7 @@ test('disambiguated is LI', () => {
   expect(handler.mock.calls[0][0]).toBe(data)
   expect(handler.mock.calls[0][0].isFeature).toBe(true)
   expect(zoomSearch.val()).toBe('a name')
-  
+
   expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
 
   const test = async () => {
@@ -583,7 +573,7 @@ test('disambiguated is child of LI', () => {
   const data = {name: 'a name', data: {label: '<span>a label</span>'}}
   const li = $('<li class="feature"><span>a label</span></li>')
     .data('location', data)
-  
+
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.emptyList = jest.fn()
@@ -596,7 +586,7 @@ test('disambiguated is child of LI', () => {
   expect(handler.mock.calls[0][0]).toBe(data)
   expect(handler.mock.calls[0][0].isFeature).toBe(true)
   expect(zoomSearch.val()).toBe('a name')
-  
+
   expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
 
   const test = async () => {

@@ -6,6 +6,7 @@ import $ from 'jquery'
 
 import Container from 'nyc/Container'
 import Locator from 'nyc/Locator'
+import AutoComplete from 'nyc/AutoComplete'
 
 /**
  * @desc  Abstract class for zoom and search controls
@@ -47,6 +48,11 @@ class ZoomSearch extends Container {
 		 * @member {JQuery}
 		 */
 		this.list = null
+		/**
+		 * @private
+		 * @member {AutoComplete}
+		 */
+		this.autoComplete = null
 		this.render()
 	}
 	/**
@@ -115,13 +121,20 @@ class ZoomSearch extends Container {
 	 * @param {Object} event
 	 */
 	key(event) {
-		const list = this.list
 		if (event.keyCode === 13 && this.isAddrSrch) {
 			this.triggerSearch()
-			list.slideUp()
-		}else{
-			list.slideDown()
+			this.list.slideUp()
+		} else {
+			this.filterList()
 		}
+	}
+	/**
+	 * @private
+	 * @method
+	 * @param {Object} event
+	 */
+	filterList() {
+		this.list.slideDown()
 	}
 	/**
 	 * @private
@@ -192,6 +205,7 @@ class ZoomSearch extends Container {
 	 * @param {ZoomSearch.FeatureSearchOptions} options The options for creating a feature search
 	 */
 	setFeatures(options) {
+		this.autoComplete = this.autoComplete || new AutoComplete()
 		options.nameField = options.nameField || 'name'
 		options.displayField = options.displayField || options.nameField
 		if (options.placeholder) {
