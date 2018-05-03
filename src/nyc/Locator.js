@@ -149,10 +149,14 @@ Locator.Options
  * @enum {string}
  */
 Locator.ResultType = {
-	/**
+  /**
 	 * @desc The geocode result type
 	 */
 	GEOCODE: 'geocode',
+  /**
+	 * @desc The ambiguous result type
+	 */
+	AMBIGUOUS: 'ambiguous',
 	/**
 	 * @desc The geolocation result type
 	 */

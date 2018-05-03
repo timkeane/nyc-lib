@@ -166,10 +166,8 @@ test('search error', () => {
   expect(proxyCalls[1][1]).toEqual(geoclient)
 
   expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0][0]).toEqual('ajax-error-arguments')
-
-  expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0][0]).toEqual('ajax-error-arguments')
+  expect(handler.mock.calls[0][0].error[0]).toBe('ajax-error-arguments')
+  expect(handler.mock.calls[0][0].type).toBe(Locator.ResultType.ERROR)
 
   expect(console.error).toHaveBeenCalledTimes(1)
   expect(console.error.mock.calls[0][0]).toEqual('Geoclient error')

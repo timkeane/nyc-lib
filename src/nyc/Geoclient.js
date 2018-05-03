@@ -84,21 +84,25 @@ class Geoclient extends Geocoder {
         const result = results[0]
         const location = this.parse(result)
 				if (location) {
+          location.type = Locator.EventType.GEOCODE
 					this.trigger(Locator.EventType.GEOCODE, location)
 				} else {
 					this.trigger(Locator.EventType.AMBIGUOUS, {
+            type: Locator.ResultType.AMBIGUOUS,
             input: response.input,
             possible: []
           })
 				}
 			} else {
 				this.trigger(Locator.EventType.AMBIGUOUS, {
+          type: Locator.ResultType.AMBIGUOUS,
           input: response.input,
           possible: this.possible(results)
         })
 			}
 		} else {
 			this.trigger(Locator.EventType.AMBIGUOUS, {
+        type: Locator.ResultType.AMBIGUOUS,
         input: response.input,
         possible: []
       })
@@ -162,7 +166,10 @@ class Geoclient extends Geocoder {
    */
    error() {
      console.error('Geoclient error', arguments)
-     this.trigger(Locator.EventType.ERROR, arguments)
+     this.trigger(Locator.EventType.ERROR, {
+       type: Locator.ResultType.ERROR,
+       error: arguments
+     })
    }
 }
 
