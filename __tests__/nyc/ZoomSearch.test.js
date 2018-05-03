@@ -105,6 +105,196 @@ test('select', () => {
   expect(handler.mock.calls[0][0].currentTarget).toBe(zoomSearch.input.get(0))
 })
 
+test('key keyCode is 13 and isAddrSrch is true', () => {
+  expect.assertions(3)
+
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.triggerSearch = jest.fn()
+  zoomSearch.filterList = jest.fn()
+  zoomSearch.list.show()
+
+  const test = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(zoomSearch.list.css('display'))
+      }, 500)
+    })
+  }
+
+  zoomSearch.key({keyCode: 13})
+
+  expect(zoomSearch.triggerSearch).toHaveBeenCalledTimes(1)
+  expect(zoomSearch.filterList).toHaveBeenCalledTimes(0)
+
+  return test().then(visible => expect(visible).toBe('none'))
+})
+
+test('key keyCode not 13 and isAddrSrch is true', () => {
+  expect.assertions(3)
+
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.triggerSearch = jest.fn()
+  zoomSearch.filterList = jest.fn()
+  zoomSearch.list.show()
+
+  const test = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(zoomSearch.list.css('display'))
+      }, 500)
+    })
+  }
+
+  zoomSearch.key({keyCode: 39})
+
+  expect(zoomSearch.triggerSearch).toHaveBeenCalledTimes(0)
+  expect(zoomSearch.filterList).toHaveBeenCalledTimes(1)
+
+  return test().then(visible => expect(visible).toBe('block'))
+})
+
+test('key keyCode not 13 and isAddrSrch is false', () => {
+  expect.assertions(3)
+
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.isAddrSrch = false
+  zoomSearch.triggerSearch = jest.fn()
+  zoomSearch.filterList = jest.fn()
+  zoomSearch.list.show()
+
+  const test = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(zoomSearch.list.css('display'))
+      }, 500)
+    })
+  }
+
+  zoomSearch.key({keyCode: 39})
+
+  expect(zoomSearch.triggerSearch).toHaveBeenCalledTimes(0)
+  expect(zoomSearch.filterList).toHaveBeenCalledTimes(1)
+
+  return test().then(visible => expect(visible).toBe('block'))
+})
+
+test('key keyCode is 13 and isAddrSrch is false', () => {
+  expect.assertions(3)
+
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.isAddrSrch = false
+  zoomSearch.triggerSearch = jest.fn()
+  zoomSearch.filterList = jest.fn()
+  zoomSearch.list.show()
+
+  const test = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(zoomSearch.list.css('display'))
+      }, 500)
+    })
+  }
+
+  zoomSearch.key({keyCode: 13})
+
+  expect(zoomSearch.triggerSearch).toHaveBeenCalledTimes(0)
+  expect(zoomSearch.filterList).toHaveBeenCalledTimes(1)
+
+  return test().then(visible => expect(visible).toBe('block'))
+})
+
+test('filterList no autoComplete', () => {
+  expect.assertions(2)
+
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.emptyList = jest.fn()
+
+  const test = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(zoomSearch.list.css('display'))
+      }, 500)
+    })
+  }
+
+  zoomSearch.filterList()
+
+  expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
+
+  return test().then(visible => expect(visible).toBe('block'))
+})
+
+
+test('filterList no input', () => {
+  expect.assertions(2)
+
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.emptyList = jest.fn()
+  zoomSearch.autoComplete = 'mock-auto-complete'
+
+  const test = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(zoomSearch.list.css('display'))
+      }, 500)
+    })
+  }
+
+  zoomSearch.filterList()
+
+  expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
+
+  return test().then(visible => expect(visible).toBe('block'))
+})
+
+test('filterList has autoComplete and input', () => {
+  expect.assertions(6)
+
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.val('typed')
+  zoomSearch.emptyList = jest.fn()
+  zoomSearch.autoComplete = {filterUl: jest.fn()}
+
+  const test = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(zoomSearch.list.css('display'))
+      }, 500)
+    })
+  }
+
+  zoomSearch.filterList()
+
+  expect(zoomSearch.emptyList).toHaveBeenCalledTimes(0)
+  expect(zoomSearch.autoComplete.filterUl).toHaveBeenCalledTimes(1)
+  expect(zoomSearch.autoComplete.filterUl.mock.calls[0][0]).toBe(zoomSearch.retention)
+  expect(zoomSearch.autoComplete.filterUl.mock.calls[0][1]).toBe(zoomSearch.list)
+  expect(zoomSearch.autoComplete.filterUl.mock.calls[0][2]).toBe('typed')
+
+  return test().then(visible => expect(visible).toBe('block'))
+})
+
+test('geolocate', () => {
+  const handler = jest.fn()
+
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.on(ZoomSearch.EventType.GEOLOCATE, handler)
+  zoomSearch.val('something')
+
+  zoomSearch.geolocate()
+
+  expect(zoomSearch.val()).toBe('')
+  expect(handler).toHaveBeenCalledTimes(1)
+})
+
 test('triggerSearch has value', () => {
   const handler = jest.fn()
 
@@ -401,6 +591,19 @@ test('listItem not addr has displayField', () => {
   expect(zoomSearch.disambiguated).toHaveBeenCalledTimes(1)
   expect(zoomSearch.disambiguated.mock.calls[0][0].type).toBe('click')
   expect(zoomSearch.disambiguated.mock.calls[0][0].target).toBe(li.get(0))
+})
+
+test('emptyList', () => {
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.list.append('<li>one</li><li>two</li>')
+
+  zoomSearch.emptyList()
+
+  expect(zoomSearch.list.children().length).toBe(0)
+  expect(zoomSearch.retention.children().length).toBe(2)
+  expect(zoomSearch.retention.children().get(0).innerHTML).toBe('one')
+  expect(zoomSearch.retention.children().get(1).innerHTML).toBe('two')
 })
 
 test('disambiguated is LI', () => {

@@ -142,10 +142,7 @@ class ZoomSearch extends Container {
 	filterList() {
 		const typed = this.val().trim()
 		if (this.autoComplete && typed) {
-			const start = Date.now()
-			console.warn('filtering', typed)
 			this.autoComplete.filterUl(this.retention, this.list, typed)
-			console.info('filtered', Date.now() - start)
 		} else {
 			this.emptyList()
 		}
