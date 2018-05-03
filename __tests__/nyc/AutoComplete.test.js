@@ -182,3 +182,33 @@ test('filterUl four letters exact with one match', () => {
   expect(inUl.children().get(3).innerHTML).toBe('Betty Rubble')
   expect(inUl.children().get(4).innerHTML).toBe('BamBam Rubble')
 })
+
+test('filterUl multiple times with swap', () => {
+  const autoComplete = new AutoComplete()
+
+  autoComplete.filterUl(inUl, outUl, 'FRED')
+
+  expect(outUl.children().length).toBe(1)
+  expect(outUl.children().get(0).innerHTML).toBe('Fred Flintstone')
+
+  expect(inUl.children().length).toBe(5)
+  expect(inUl.children().get(0).innerHTML).toBe('Wilma Flintstone')
+  expect(inUl.children().get(1).innerHTML).toBe('Pebbles Flintstone')
+  expect(inUl.children().get(2).innerHTML).toBe('Barney Rubble')
+  expect(inUl.children().get(3).innerHTML).toBe('Betty Rubble')
+  expect(inUl.children().get(4).innerHTML).toBe('BamBam Rubble')
+
+  autoComplete.log = true
+  autoComplete.filterUl(inUl, outUl, 'rubb')
+
+  expect(outUl.children().length).toBe(3)
+  expect(outUl.children().get(0).innerHTML).toBe('Barney Rubble')
+  expect(outUl.children().get(1).innerHTML).toBe('Betty Rubble')
+  expect(outUl.children().get(2).innerHTML).toBe('BamBam Rubble')
+
+  expect(inUl.children().length).toBe(3)
+  expect(inUl.children().get(0).innerHTML).toBe('Fred Flintstone')
+  expect(inUl.children().get(1).innerHTML).toBe('Wilma Flintstone')
+  expect(inUl.children().get(2).innerHTML).toBe('Pebbles Flintstone')
+
+})

@@ -7,25 +7,28 @@ import $ from 'jquery'
 /**
  * @desc A class to provide fitering functionality for autocomplete
  * @public
- * @class 
- */ 
+ * @class
+ */
 export default class AutoComplete {
   /**
    * @desc Find matching li elements from inUl and move them to outUl
    * @public
-   * @method 
+   * @method
    * @param {JQuery|Element} inUl The ul element to search
    * @param {JQuery|Element} outUl The ul element to receive results
    * @param {string} type The text for searching
-   */ 
+   */
   filterUl(inUl, outUl, typed) {
     const long = typed.length > 3
     const filtered = {exact: [], possible: []}
     const matchers = this.regexp(typed)
+    const all = []
     const test = this.test
-    $(inUl).find('li').each((_, li) => {
-      test(matchers, $(li), filtered, long)
+    $.merge($(outUl).find('li'), $(inUl).find('li')).each((_, li) => {
+      all.push($(li))
+      test(matchers, $(li), filtered, long, this.log)
     })
+    $(inUl).append(all)
     if (filtered.exact.length) {
       $(outUl).append(filtered.exact)
     } else {
@@ -35,11 +38,11 @@ export default class AutoComplete {
   /**
    * @desc Find matching text in an array
    * @public
-   * @method 
+   * @method
    * @param {Array<string|number>} list The array to search
    * @param {string} type The text for searching
    * @return {Array<string|number>} The search result
-   */ 
+   */
   filter(list, typed) {
     const long = typed.length > 3
     const filtered = {exact: [], possible: []}
@@ -52,12 +55,12 @@ export default class AutoComplete {
   /**
    * @private
    * @method
-   * @param {Object<string,RegExp>} matchers 
-   * @param {JQuery|string|number} item 
-   * @param {Object<string,Array<JQuery|string|number>>} filtered 
-   * @param {boolean} long 
+   * @param {Object<string,RegExp>} matchers
+   * @param {JQuery|string|number} item
+   * @param {Object<string,Array<JQuery|string|number>>} filtered
+   * @param {boolean} long
    */
-  test(matchers, item, filtered, long) {
+  test(matchers, item, filtered, long, log) {
     const text = item instanceof $ ? item.html() : `${item}`
     if (long) {
       if (matchers.exact.test(text)) {
@@ -71,7 +74,7 @@ export default class AutoComplete {
   /**
    * @private
    * @method
-   * @param {string} typed 
+   * @param {string} typed
    * @returns {Object<string,RegExp>}
    */
   regexp(typed) {
