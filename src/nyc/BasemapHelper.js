@@ -16,7 +16,7 @@ const BasemapHelper = {
  	 * @method
    * @param {Element} target The DOM node for the map
    */
-  hookupEvents: function(node) {
+  hookupEvents(node) {
     $(node).on('drop', $.proxy(this.loadLayer, this))
     $(node).on('dragover', function(event){
       event.preventDefault()
@@ -28,18 +28,17 @@ const BasemapHelper = {
 	 * @method
 	 * @return {Basemap.BaseLayers}
 	 */
-	 loadLayer: function(event) {
+	 loadLayer(event) {
 		 const transfer = event.originalEvent.dataTransfer
 		 event.preventDefault()
 		 event.stopPropagation()
 		 if (transfer && transfer.files.length) {
-			 const storage = this.getStorage()
 			 const files = transfer.files
 			 const ext = files[0].name.split('.').pop().toLowerCase()
 			 if (ext === 'json'){
-				 storage.loadGeoJsonFile(this, null, files[0])
+				 this.storage.loadGeoJsonFile(this, null, files[0])
 			 } else {
-         storage.loadShapeFile(this, null, files)
+				this.storage.loadShapeFile(this, null, files)
        }
 		 }
 	 },
@@ -49,7 +48,7 @@ const BasemapHelper = {
 	 * @method
 	 * @return {Basemap.BaseLayers}
 	 */
-	sortedPhotos: function() {
+	sortedPhotos() {
 		const sorted = []
     Object.keys(this.photos).forEach(photo => {
       sorted.push(this.photos[photo])

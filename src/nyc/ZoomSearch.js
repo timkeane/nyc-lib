@@ -50,6 +50,11 @@ class ZoomSearch extends Container {
 		this.list = null
 		/**
 		 * @private
+		 * @member {JQuery}
+		 */
+		this.retention = null
+		/**
+		 * @private
 		 * @member {AutoComplete}
 		 */
 		this.autoComplete = null
@@ -94,6 +99,7 @@ class ZoomSearch extends Container {
 		this.getContainer().append(ZoomSearch.HTML)
 		this.input = this.getElem('.srch input')
 		this.list = this.getElem('.srch ul')
+		this.retention = this.getElem('ul.retention')
 		this.hookupEvents(this.input, this.list)
 	}
 	/**
@@ -103,7 +109,7 @@ class ZoomSearch extends Container {
 	 * @param {JQuery} list
 	 */
 	hookupEvents(input, list) {
-		input.on('keydown change', $.proxy(this.key, this))
+		input.on('keyup change', $.proxy(this.key, this))
 		input.focus($.proxy(this.select, this))
 		this.getElem('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))
 		this.getElem('.btn-geo').click($.proxy(this.geolocate, this))
@@ -134,6 +140,15 @@ class ZoomSearch extends Container {
 	 * @param {Object} event
 	 */
 	filterList() {
+		const typed = this.val().trim()
+		if (this.autoComplete && typed) {
+			const start = Date.now()
+			console.warn('filtering', typed)
+			this.autoComplete.filterUl(this.retention, this.list, typed)
+			console.info('filtered', Date.now() - start)
+		} else {
+			this.emptyList()
+		}
 		this.list.slideDown()
 	}
 	/**
@@ -214,7 +229,7 @@ class ZoomSearch extends Container {
 		this.sortAlphapetically(options).forEach(feature => {
 			const location = this.featureAsLocation(feature, options)
 			const li = this.listItem(options, location)
-			this.getElem('.retention').append(li)
+			this.retention.append(li)
 		})
 		this.emptyList()
 	}
@@ -282,11 +297,11 @@ class ZoomSearch extends Container {
 	 * @method
 	 */
 	emptyList(disambiguating) {
-		this.getElem('.retention').append(this.getElem('.srch li'))
+		this.retention.append(this.getElem('.srch li'))
 		this.list.empty()
-		if (!disambiguating) {
-			this.list.append(this.getElem('.retention li.feature'))
-		}
+		// if (!disambiguating) {
+		// 	this.list.append(this.getElem('.retention li.feature'))
+		// }
 	}
 	/**
 	 * @private

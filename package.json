@@ -10,6 +10,8 @@
   "scripts": {
     "prebuild": "yarn test",
     "build": "webpack",
+    "build-no-test": "webpack",
+    "postbuild-no-test": "yarn replace-hosts && yarn copy-examples",
     "postbuild": "yarn jsdoc && yarn replace-hosts && yarn copy-examples",
     "jsdoc": "jsdoc -c ./jsdoc/conf.json",
     "copy-examples": "cp -r ./examples ./dist/examples && cp -r ./src/css ./dist/css",

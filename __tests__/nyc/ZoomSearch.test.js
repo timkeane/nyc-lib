@@ -58,6 +58,8 @@ test('render and hookupEvents called from constructor', () => {
 
   expect(zoomSearch.list.length).toBe(1)
   expect(zoomSearch.list.get(0)).toBe(container.find('.srch ul').get(0))
+  expect(zoomSearch.retention.length).toBe(1)
+  expect(zoomSearch.retention.get(0)).toBe(container.find('ul.retention').get(0))
 
   zoomSearch.input.trigger('keydown')
   zoomSearch.input.trigger('change')
