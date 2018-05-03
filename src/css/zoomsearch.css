@@ -79,7 +79,7 @@
 .srch ul li:focus {
 	outline: none;
 }
-.srch ul li:hovers {
+.srch ul li:hover {
 	background-color: var(--theme-btn-bg-color);
 	color: var(--theme-btn-text-color);
 }

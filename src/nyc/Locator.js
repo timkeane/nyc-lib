@@ -94,7 +94,7 @@ class Locator extends EventHandling {
 	 /**
 		* @private
 		* @method
-		* @param {{Locator.ResultType} | Locate.Ambiguous}
+		* @param {{Locator.EventType} | Locate.Ambiguous}
 	  */
 	 proxyEvent(event) {
 		 this.trigger(event.type, event)
@@ -138,29 +138,9 @@ Locator.Options
 	 */
 	AMBIGUOUS: 'ambiguous',
 	/**
-	 * @desc The ambiguous event type
+	 * @desc The error event type
 	 */
 	ERROR: 'error'
-}
-
-/**
- * @desc Enumeration for locate result type
- * @public
- * @enum {string}
- */
-Locator.ResultType = {
-  /**
-	 * @desc The geocode result type
-	 */
-	GEOCODE: 'geocode',
-  /**
-	 * @desc The ambiguous result type
-	 */
-	AMBIGUOUS: 'ambiguous',
-	/**
-	 * @desc The geolocation result type
-	 */
-	GEOLOCATION: 'geolocation'
 }
 
 /**
@@ -194,7 +174,7 @@ Locator.Accuracy = {
  * @property {string} name The formatted name of the geocoded location
  * @property {(Array<number>|undefined)} coordinate The geocoded location coordinate
  * @property {number} accuracy The accuracy of the geocoded location in meters or units of a specified projection
- * @property {Locator.ResultType} type They type of result
+ * @property {Locator.EventType} type They type of result
  * @property {boolean=} zip Is this the geocoded location a ZIP Code center point
  * @property {Object=} geometry A geoJSON representation of the geocoded location coordinates
  * @property {Object=} data Additional properties provided by the geocoder
@@ -213,13 +193,13 @@ Locator.Ambiguous
 /**
  * @desc The result of a search request
  * @event Locator#geocode
- * @type {Locator.ResultType}
+ * @type {Locator.EventType}
  */
 
 /**
  * @desc The result of a locate request
  * @event Locator#geolocation
- * @type {Locator.ResultType}
+ * @type {Locator.EventType}
  */
 
 /**

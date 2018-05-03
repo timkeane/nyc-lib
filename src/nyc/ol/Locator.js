@@ -93,7 +93,7 @@ class Locator extends NycLocator {
         coordinate: p,
         heading: geo.getHeading(),
         accuracy: geo.getAccuracy() / this.metersPerUnit(),
-        type: NycLocator.ResultType.GEOLOCATION,
+        type: NycLocator.EventType.GEOLOCATION,
         name: name
       })
     }

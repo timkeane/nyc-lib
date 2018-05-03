@@ -48,7 +48,7 @@ class Geoclient extends Geocoder {
 			var p = this.project(Geoclient.ZIP_CODE_POINTS[input])
 			this.trigger(
 				p ? Locator.EventType.GEOCODE : Locator.EventType.AMBIGUOUS,
-				p ? {coordinate: p, accuracy: Locator.Accuracy.ZIP_CODE, type: Locator.ResultType.GEOCODE, zip: true, name: input} : {input: input, possible: []}
+				p ? {coordinate: p, accuracy: Locator.Accuracy.ZIP_CODE, type: Locator.EventType.GEOCODE, zip: true, name: input} : {input: input, possible: []}
 			)
 		} else if (input.length) {
 			input = input.replace(/"/g, '').replace(/'/g, '').replace(/&/g, ' and ')
@@ -88,21 +88,21 @@ class Geoclient extends Geocoder {
 					this.trigger(Locator.EventType.GEOCODE, location)
 				} else {
 					this.trigger(Locator.EventType.AMBIGUOUS, {
-            type: Locator.ResultType.AMBIGUOUS,
+            type: Locator.EventType.AMBIGUOUS,
             input: response.input,
             possible: []
           })
 				}
 			} else {
 				this.trigger(Locator.EventType.AMBIGUOUS, {
-          type: Locator.ResultType.AMBIGUOUS,
+          type: Locator.EventType.AMBIGUOUS,
           input: response.input,
           possible: this.possible(results)
         })
 			}
 		} else {
 			this.trigger(Locator.EventType.AMBIGUOUS, {
-        type: Locator.ResultType.AMBIGUOUS,
+        type: Locator.EventType.AMBIGUOUS,
         input: response.input,
         possible: []
       })
@@ -149,7 +149,7 @@ class Geoclient extends Geocoder {
 		}
     try {
       return {
-  			type: Locator.ResultType.GEOCODE,
+  			type: Locator.EventType.GEOCODE,
   			coordinate: this.project(p),
   			data: r,
   			accuracy: a, /* approximation */
@@ -167,7 +167,7 @@ class Geoclient extends Geocoder {
    error() {
      console.error('Geoclient error', arguments)
      this.trigger(Locator.EventType.ERROR, {
-       type: Locator.ResultType.ERROR,
+       type: Locator.EventType.ERROR,
        error: arguments
      })
    }

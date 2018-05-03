@@ -176,11 +176,11 @@ test('located GEOCODE', () => {
   const locationMgr = new LocationMgr(options)
 
   const data = {
-    type: Locator.ResultType.GEOCODE,
+    type: Locator.EventType.GEOCODE,
     name: 'a name'
   }
 
-  locationMgr.on(Locator.ResultType.GEOCODE, handler)
+  locationMgr.on(Locator.EventType.GEOCODE, handler)
 
   locationMgr.located(data)
 
@@ -199,11 +199,11 @@ test('located GEOLOCATION', () => {
   const locationMgr = new LocationMgr(options)
 
   const data = {
-    type: Locator.ResultType.GEOLOCATION,
+    type: Locator.EventType.GEOLOCATION,
     name: 'a name'
   }
 
-  locationMgr.on(Locator.ResultType.GEOLOCATION, handler)
+  locationMgr.on(Locator.EventType.GEOLOCATION, handler)
 
   locationMgr.located(data)
 

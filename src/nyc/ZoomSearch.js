@@ -339,7 +339,7 @@ ZoomSearch.EventType = {
 /**
  * @desc The user has chosen a location from a list of possible locations
  * @event ZoomSearch#disambiguated
- * @type {Locate.ResultType}
+ * @type {Locate.EventType}
  */
 
 /**
