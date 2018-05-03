@@ -61,10 +61,10 @@ test('render and hookupEvents called from constructor', () => {
   expect(zoomSearch.retention.length).toBe(1)
   expect(zoomSearch.retention.get(0)).toBe(container.find('ul.retention').get(0))
 
-  zoomSearch.input.trigger('keydown')
+  zoomSearch.input.trigger('keyup')
   zoomSearch.input.trigger('change')
   expect(ZoomSearch.prototype.key).toHaveBeenCalledTimes(2)
-  expect(ZoomSearch.prototype.key.mock.calls[0][0].type).toBe('keydown')
+  expect(ZoomSearch.prototype.key.mock.calls[0][0].type).toBe('keyup')
   expect(ZoomSearch.prototype.key.mock.calls[0][0].target).toBe(zoomSearch.input.get(0))
   expect(ZoomSearch.prototype.key.mock.calls[1][0].type).toBe('change')
   expect(ZoomSearch.prototype.key.mock.calls[1][0].target).toBe(zoomSearch.input.get(0))
@@ -88,107 +88,6 @@ test('render and hookupEvents called from constructor', () => {
   ZoomSearch.prototype.select = select
   ZoomSearch.prototype.zoom = zoom
   ZoomSearch.prototype.geolocate = geolocate
-})
-
-test('select', () => {
-  const select = jest.fn()
-
-  const zoomSearch = new ZoomSearch(container)
-
-  zoomSearch.input.on('select', select)
-
-  zoomSearch.select()
-
-  expect(select).toHaveBeenCalledTimes(1)
-  expect(select.mock.calls[0][0].type).toBe('select')
-  expect(select.mock.calls[0][0].target).toBe(zoomSearch.input.get(0))
-})
-
-test('key keyCode 13 isAddrSrch true', () => {
-  expect.assertions(2)
-
-  const event = {keyCode: 13}
-
-  const zoomSearch = new ZoomSearch(container)
-
-  zoomSearch.isAddrSrch = true
-  zoomSearch.triggerSearch = jest.fn()
-  zoomSearch.list.show()
-
-  zoomSearch.key(event)
-
-  expect(zoomSearch.triggerSearch).toHaveBeenCalledTimes(1)
-
-  const test = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(zoomSearch.list.css('display'))
-      }, 500)
-    })
-  }
-  return test().then(visible => expect(visible).toBe('none'))
-})
-
-test('key keyCode 13 isAddrSrch false', () => {
-  const event = {keyCode: 13}
-
-  const zoomSearch = new ZoomSearch(container)
-
-  zoomSearch.isAddrSrch = false
-  zoomSearch.triggerSearch = jest.fn()
-  zoomSearch.filterList = jest.fn()
-  zoomSearch.list.hide()
-
-  zoomSearch.key(event)
-
-  expect(zoomSearch.triggerSearch).toHaveBeenCalledTimes(0)
-  expect(zoomSearch.filterList).toHaveBeenCalledTimes(1)
-})
-
-test('key keyCode not 13 isAddrSrch false', () => {
-  const event = {keyCode: 39}
-
-  const zoomSearch = new ZoomSearch(container)
-
-  zoomSearch.isAddrSrch = false
-  zoomSearch.triggerSearch = jest.fn()
-  zoomSearch.filterList = jest.fn()
-  zoomSearch.list.hide()
-
-  zoomSearch.key(event)
-
-  expect(zoomSearch.triggerSearch).toHaveBeenCalledTimes(0)
-  expect(zoomSearch.filterList).toHaveBeenCalledTimes(1)
-})
-
-test('key keyCode not 13 isAddrSrch true', () => {
-  const event = {keyCode: 13}
-
-  const zoomSearch = new ZoomSearch(container)
-
-  zoomSearch.isAddrSrch = false
-  zoomSearch.triggerSearch = jest.fn()
-  zoomSearch.filterList = jest.fn()
-  zoomSearch.list.hide()
-
-  zoomSearch.key(event)
-
-  expect(zoomSearch.triggerSearch).toHaveBeenCalledTimes(0)
-  expect(zoomSearch.filterList).toHaveBeenCalledTimes(1)
-})
-
-test('geolocate', () => {
-  const handler = jest.fn()
-
-  const zoomSearch = new ZoomSearch(container)
-
-  zoomSearch.input.val('an address')
-  zoomSearch.on(ZoomSearch.EventType.GEOLOCATE, handler)
-
-  zoomSearch.geolocate()
-
-  expect(zoomSearch.input.val()).toBe('')
-  expect(handler).toHaveBeenCalledTimes(1)
 })
 
 test('triggerSearch has value', () => {
@@ -282,7 +181,6 @@ test('disambiguate has possible', () => {
   expect(zoomSearch.searching).toHaveBeenCalledTimes(1)
   expect(zoomSearch.searching.mock.calls[0][0]).toBe(false)
   expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.emptyList.mock.calls[0][0]).toBe(true)
 
   const test = async () => {
     return new Promise((resolve) => {
@@ -488,50 +386,6 @@ test('listItem not addr has displayField', () => {
   expect(zoomSearch.disambiguated).toHaveBeenCalledTimes(1)
   expect(zoomSearch.disambiguated.mock.calls[0][0].type).toBe('click')
   expect(zoomSearch.disambiguated.mock.calls[0][0].target).toBe(li.get(0))
-})
-
-test('emptyList disambiguating', () => {
-  const zoomSearch = new ZoomSearch(container)
-
-  zoomSearch.list.html('<li id="addr-1" class="addr"></li><li id="addr-2" class="addr"></li><li id="addr-3" class="addr"></li>')
-  container.find('.retention').html('<li id="feature-1" class="feature"></li><li id="feature-2" class="feature"></li><li id="feature-3" class="feature"></li>')
-
-  zoomSearch.emptyList(true)
-
-  expect(zoomSearch.list.children().length).toBe(0)
-  expect(container.find('.retention').children().length).toBe(6)
-  expect(container.find('.retention').children().get(0).id).toBe('feature-1')
-  expect(container.find('.retention').children().get(0).className).toBe('feature')
-  expect(container.find('.retention').children().get(1).id).toBe('feature-2')
-  expect(container.find('.retention').children().get(1).className).toBe('feature')
-  expect(container.find('.retention').children().get(2).id).toBe('feature-3')
-  expect(container.find('.retention').children().get(2).className).toBe('feature')
-  expect(container.find('.retention').children().get(3).id).toBe('addr-1')
-  expect(container.find('.retention').children().get(3).className).toBe('addr')
-  expect(container.find('.retention').children().get(4).id).toBe('addr-2')
-  expect(container.find('.retention').children().get(4).className).toBe('addr')
-  expect(container.find('.retention').children().get(5).id).toBe('addr-3')
-  expect(container.find('.retention').children().get(5).className).toBe('addr')
-})
-
-test('emptyList not disambiguating', () => {
-  const zoomSearch = new ZoomSearch(container)
-
-  zoomSearch.list.html('<li class="addr"></li><li class="addr"></li><li class="addr"></li>')
-  container.find('.retention').html('<li class="feature"></li><li class="feature"></li><li class="feature"></li>')
-
-  zoomSearch.emptyList(false)
-
-  expect(zoomSearch.list.children().length).toBe(3)
-  zoomSearch.list.children().each((_, li) => {
-    expect($(li).hasClass('feature')).toBe(true)
-    expect($(li).hasClass('addr')).toBe(false)
-  })
-  expect(container.find('.retention').children().length).toBe(3)
-  container.find('.retention').children().each((_, li) => {
-    expect($(li).hasClass('feature')).toBe(false)
-    expect($(li).hasClass('addr')).toBe(true)
-  })
 })
 
 test('disambiguated is LI', () => {

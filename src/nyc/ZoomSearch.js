@@ -196,7 +196,7 @@ class ZoomSearch extends Container {
 		this.searching(false)
 		if (possible.length) {
 			const list = this.list
-			this.emptyList(true)
+			this.emptyList()
 			possible.forEach(locateResult => {
 				list.append(this.listItem({layerName: 'addr'}, locateResult))
 			})
@@ -293,15 +293,11 @@ class ZoomSearch extends Container {
 	}
 	/**
 	 * @private
-	 * @param {boolean} disambiguating
 	 * @method
 	 */
-	emptyList(disambiguating) {
+	emptyList() {
 		this.retention.append(this.getElem('.srch li'))
 		this.list.empty()
-		// if (!disambiguating) {
-		// 	this.list.append(this.getElem('.retention li.feature'))
-		// }
 	}
 	/**
 	 * @private
