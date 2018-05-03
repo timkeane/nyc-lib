@@ -75,9 +75,11 @@
 }
 .srch ul li:last-child {
 	border-bottom: none;
-
 }
-.srch ul li:hover {
+.srch ul li:focus {
+	outline: none;
+}
+.srch ul li:hovers {
 	background-color: var(--theme-btn-bg-color);
 	color: var(--theme-btn-text-color);
 }
