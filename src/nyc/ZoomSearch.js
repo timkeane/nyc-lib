@@ -146,11 +146,18 @@ class ZoomSearch extends Container {
 		} else {
 			this.emptyList()
 		}
-		this.showList()
+		this.showList(false)
 	}
-	showList() {
+	/**
+	 * @private
+	 * @method
+	 * @param {boolean}
+	 */
+	showList(focus) {
 		this.list.slideDown(() => {
-			this.list.children().first().attr('tabindex', 0).focus()
+			if (focus) {
+				this.list.children().first().attr('tabindex', 0).focus()
+			}
 		})
 	}
 	/**
@@ -202,7 +209,7 @@ class ZoomSearch extends Container {
 			possible.forEach(locateResult => {
 				list.append(this.listItem({layerName: 'addr'}, locateResult))
 			})
-			this.showList()
+			this.showList(true)
 		}
 	}
 	/**

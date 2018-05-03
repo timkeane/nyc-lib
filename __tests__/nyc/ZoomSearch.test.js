@@ -251,7 +251,7 @@ test('filterList has autoComplete and input', () => {
   expect(zoomSearch.autoComplete.filterUl.mock.calls[0][2]).toBe('typed')
 })
 
-test('showList', () => {
+test('showList with focus', () => {
   expect.assertions(4)
 
   const zoomSearch = new ZoomSearch(container)
@@ -266,13 +266,38 @@ test('showList', () => {
     })
   }
 
-  zoomSearch.showList()
+  zoomSearch.showList(true)
 
   return test().then(visible => {
     expect(visible).toBe('block')
     expect(zoomSearch.list.children().length).toBe(2)
     expect(zoomSearch.list.children().first().attr('tabindex')).toBe('0')
     expect(zoomSearch.list.children().first().is(':focus')).toBe(true)
+  })
+})
+
+test('showList without focus', () => {
+  expect.assertions(4)
+
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.list.append('<li>one</li><li>two</li>').hide()
+
+  const test = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(zoomSearch.list.css('display'))
+      }, 1000)
+    })
+  }
+
+  zoomSearch.showList(false)
+
+  return test().then(visible => {
+    expect(visible).toBe('block')
+    expect(zoomSearch.list.children().length).toBe(2)
+    expect(zoomSearch.list.children().first().attr('tabindex')).not.toBe('0')
+    expect(zoomSearch.list.children().first().is(':focus')).not.toBe(true)
   })
 })
 
