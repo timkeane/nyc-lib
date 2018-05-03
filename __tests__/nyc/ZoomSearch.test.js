@@ -208,77 +208,72 @@ test('key keyCode is 13 and isAddrSrch is false', () => {
 })
 
 test('filterList no autoComplete', () => {
-  expect.assertions(2)
-
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.emptyList = jest.fn()
-
-  const test = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(zoomSearch.list.css('display'))
-      }, 500)
-    })
-  }
+  zoomSearch.showList = jest.fn()
 
   zoomSearch.filterList()
 
   expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
-
-  return test().then(visible => expect(visible).toBe('block'))
+  expect(zoomSearch.showList).toHaveBeenCalledTimes(1)
 })
 
 
 test('filterList no input', () => {
-  expect.assertions(2)
-
   const zoomSearch = new ZoomSearch(container)
 
-  zoomSearch.emptyList = jest.fn()
   zoomSearch.autoComplete = 'mock-auto-complete'
-
-  const test = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(zoomSearch.list.css('display'))
-      }, 500)
-    })
-  }
+  zoomSearch.emptyList = jest.fn()
+  zoomSearch.showList = jest.fn()
 
   zoomSearch.filterList()
 
   expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
-
-  return test().then(visible => expect(visible).toBe('block'))
+  expect(zoomSearch.showList).toHaveBeenCalledTimes(1)
 })
 
 test('filterList has autoComplete and input', () => {
-  expect.assertions(6)
-
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.val('typed')
-  zoomSearch.emptyList = jest.fn()
   zoomSearch.autoComplete = {filterUl: jest.fn()}
+  zoomSearch.emptyList = jest.fn()
+  zoomSearch.showList = jest.fn()
+
+  zoomSearch.filterList()
+
+  expect(zoomSearch.emptyList).toHaveBeenCalledTimes(0)
+  expect(zoomSearch.showList).toHaveBeenCalledTimes(1)
+  expect(zoomSearch.autoComplete.filterUl).toHaveBeenCalledTimes(1)
+  expect(zoomSearch.autoComplete.filterUl.mock.calls[0][0]).toBe(zoomSearch.retention)
+  expect(zoomSearch.autoComplete.filterUl.mock.calls[0][1]).toBe(zoomSearch.list)
+  expect(zoomSearch.autoComplete.filterUl.mock.calls[0][2]).toBe('typed')
+})
+
+test('showList', () => {
+  expect.assertions(4)
+
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.list.append('<li>one</li><li>two</li>').hide()
 
   const test = async () => {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(zoomSearch.list.css('display'))
-      }, 500)
+      }, 1000)
     })
   }
 
-  zoomSearch.filterList()
+  zoomSearch.showList()
 
-  expect(zoomSearch.emptyList).toHaveBeenCalledTimes(0)
-  expect(zoomSearch.autoComplete.filterUl).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.autoComplete.filterUl.mock.calls[0][0]).toBe(zoomSearch.retention)
-  expect(zoomSearch.autoComplete.filterUl.mock.calls[0][1]).toBe(zoomSearch.list)
-  expect(zoomSearch.autoComplete.filterUl.mock.calls[0][2]).toBe('typed')
-
-  return test().then(visible => expect(visible).toBe('block'))
+  return test().then(visible => {
+    expect(visible).toBe('block')
+    expect(zoomSearch.list.children().length).toBe(2)
+    expect(zoomSearch.list.children().first().attr('tabindex')).toBe('0')
+    expect(zoomSearch.list.children().first().is(':focus')).toBe(true)
+  })
 })
 
 test('geolocate', () => {
@@ -379,21 +374,14 @@ test('disambiguate has possible', () => {
   }
   zoomSearch.searching = jest.fn()
   zoomSearch.emptyList = jest.fn()
-  zoomSearch.list.hide()
+  zoomSearch.showList = jest.fn()
 
   zoomSearch.disambiguate(ambiguous)
 
   expect(zoomSearch.searching).toHaveBeenCalledTimes(1)
   expect(zoomSearch.searching.mock.calls[0][0]).toBe(false)
   expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
-
-  const test = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(zoomSearch.list.css('display'))
-      }, 500)
-    })
-  }
+  expect(zoomSearch.showList).toHaveBeenCalledTimes(1)
   expect(zoomSearch.list.children().length).toBe(2)
   expect(zoomSearch.list.children().get(0).tagName.toUpperCase()).toBe('LI')
   expect($(zoomSearch.list.children().get(0)).html()).toBe('possible 1')
@@ -401,8 +389,6 @@ test('disambiguate has possible', () => {
   expect(zoomSearch.list.children().get(1).tagName.toUpperCase()).toBe('LI')
   expect($(zoomSearch.list.children().get(1)).html()).toBe('possible 2')
   expect($(zoomSearch.list.children().get(1)).hasClass('addr')).toBe(true)
-
-  return test().then(visible => expect(visible).toBe('block'))
 })
 
 test('searching', () => {
@@ -637,7 +623,6 @@ test('disambiguated is LI', () => {
     })
   }
   return test().then(visible => expect(visible).toBe('none'))
-
 })
 
 test('disambiguated is child of LI', () => {

@@ -146,7 +146,12 @@ class ZoomSearch extends Container {
 		} else {
 			this.emptyList()
 		}
-		this.list.slideDown()
+		this.showList()
+	}
+	showList() {
+		this.list.slideDown(() => {
+			this.list.children().first().attr('tabindex', 0).focus()
+		})
 	}
 	/**
 	 * @private
@@ -197,9 +202,7 @@ class ZoomSearch extends Container {
 			possible.forEach(locateResult => {
 				list.append(this.listItem({layerName: 'addr'}, locateResult))
 			})
-			list.slideDown(() => {
-				list.children().first().attr('tabindex', 0).focus()
-			})
+			this.showList()
 		}
 	}
 	/**
