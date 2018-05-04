@@ -26,18 +26,8 @@ afterEach(() => {
 
 test('filter one lower case letter', () => {
   const autoComplete = new AutoComplete()
-  expect(autoComplete.filter(list, 'b')).toEqual([
-    'Pebbles Flintstone',
-    'Barney Rubble',
-    'Betty Rubble',
-    'BamBam Rubble'
-  ])
-})
 
-test('filterUl one lower case letter', () => {
-  const autoComplete = new AutoComplete()
-
-  autoComplete.filterUl(inUl, outUl, 'b')
+  autoComplete.filter(inUl, outUl, 'b')
 
   expect(outUl.children().length).toBe(4)
   expect(outUl.children().get(0).innerHTML).toBe('Pebbles Flintstone')
@@ -53,18 +43,7 @@ test('filterUl one lower case letter', () => {
 test('filter one upper case letter', () => {
   const autoComplete = new AutoComplete()
 
-  expect(autoComplete.filter(list, 'B')).toEqual([
-    'Pebbles Flintstone',
-    'Barney Rubble',
-    'Betty Rubble',
-    'BamBam Rubble'
-  ])
-})
-
-test('filterUl one upper case letter', () => {
-  const autoComplete = new AutoComplete()
-
-  autoComplete.filterUl(inUl, outUl, 'B')
+  autoComplete.filter(inUl, outUl, 'B')
 
   expect(outUl.children().length).toBe(4)
   expect(outUl.children().get(0).innerHTML).toBe('Pebbles Flintstone')
@@ -80,19 +59,7 @@ test('filterUl one upper case letter', () => {
 test('filter three letters', () => {
   const autoComplete = new AutoComplete()
 
-  expect(autoComplete.filter(list, 'MbA')).toEqual([
-    'Wilma Flintstone',
-    'Pebbles Flintstone',
-    'Barney Rubble',
-    'Betty Rubble',
-    'BamBam Rubble'
-  ])
-})
-
-test('filterUl three letters', () => {
-  const autoComplete = new AutoComplete()
-
-  autoComplete.filterUl(inUl, outUl, 'MbA')
+  autoComplete.filter(inUl, outUl, 'MbA')
 
   expect(outUl.children().length).toBe(5)
   expect(outUl.children().get(0).innerHTML).toBe('Wilma Flintstone')
@@ -108,19 +75,7 @@ test('filterUl three letters', () => {
 test('filter four letters not exact', () => {
   const autoComplete = new AutoComplete()
 
-  expect(autoComplete.filter(list, 'bbur')).toEqual([
-    'Fred Flintstone',
-    'Pebbles Flintstone',
-    'Barney Rubble',
-    'Betty Rubble',
-    'BamBam Rubble'
-  ])
-})
-
-test('filterUl four letters not exact', () => {
-  const autoComplete = new AutoComplete()
-
-  autoComplete.filterUl(inUl, outUl, 'bbur')
+  autoComplete.filter(inUl, outUl, 'bbur')
 
   expect(outUl.children().length).toBe(5)
   expect(outUl.children().get(0).innerHTML).toBe('Fred Flintstone')
@@ -136,17 +91,7 @@ test('filterUl four letters not exact', () => {
 test('filter four letters exact with mutiple matches', () => {
   const autoComplete = new AutoComplete()
 
-  expect(autoComplete.filter(list, 'ubbl')).toEqual([
-    'Barney Rubble',
-    'Betty Rubble',
-    'BamBam Rubble'
-  ])
-})
-
-test('filterUl four letters exact with mutiple matches', () => {
-  const autoComplete = new AutoComplete()
-
-  autoComplete.filterUl(inUl, outUl, 'ubbl')
+  autoComplete.filter(inUl, outUl, 'ubbl')
 
   expect(outUl.children().length).toBe(3)
   expect(outUl.children().get(0).innerHTML).toBe('Barney Rubble')
@@ -162,15 +107,7 @@ test('filterUl four letters exact with mutiple matches', () => {
 test('filter four letters exact with one match', () => {
   const autoComplete = new AutoComplete()
 
-  expect(autoComplete.filter(list, 'FRED')).toEqual([
-    'Fred Flintstone'
-  ])
-})
-
-test('filterUl four letters exact with one match', () => {
-  const autoComplete = new AutoComplete()
-
-  autoComplete.filterUl(inUl, outUl, 'FRED')
+  autoComplete.filter(inUl, outUl, 'FRED')
 
   expect(outUl.children().length).toBe(1)
   expect(outUl.children().get(0).innerHTML).toBe('Fred Flintstone')
@@ -183,10 +120,19 @@ test('filterUl four letters exact with one match', () => {
   expect(inUl.children().get(4).innerHTML).toBe('BamBam Rubble')
 })
 
-test('filterUl multiple times with swap', () => {
+test('filter seven letters not exact', () => {
   const autoComplete = new AutoComplete()
 
-  autoComplete.filterUl(inUl, outUl, 'FRED')
+  autoComplete.filter(inUl, outUl, 'fwebbur')
+
+  expect(outUl.children().length).toBe(0)
+  expect(inUl.children().length).toBe(6)
+})
+
+test('filter multiple times with swap', () => {
+  const autoComplete = new AutoComplete()
+
+  autoComplete.filter(inUl, outUl, 'FRED')
 
   expect(outUl.children().length).toBe(1)
   expect(outUl.children().get(0).innerHTML).toBe('Fred Flintstone')
@@ -199,7 +145,7 @@ test('filterUl multiple times with swap', () => {
   expect(inUl.children().get(4).innerHTML).toBe('BamBam Rubble')
 
   autoComplete.log = true
-  autoComplete.filterUl(inUl, outUl, 'rubb')
+  autoComplete.filter(inUl, outUl, 'rubb')
 
   expect(outUl.children().length).toBe(3)
   expect(outUl.children().get(0).innerHTML).toBe('Barney Rubble')

@@ -166,7 +166,7 @@ class ZoomSearch extends Container {
 	filterList() {
 		const typed = this.val().trim()
 		if (this.autoComplete && typed) {
-			this.autoComplete.filterUl(this.retention, this.list, typed)
+			this.autoComplete.filter(this.retention, this.list, typed)
 		} else {
 			this.emptyList()
 		}

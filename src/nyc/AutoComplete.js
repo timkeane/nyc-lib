@@ -18,7 +18,7 @@ export default class AutoComplete {
    * @param {JQuery|Element} outUl The ul element to receive results
    * @param {string} type The text for searching
    */
-  filterUl(inUl, outUl, typed) {
+  filter(inUl, outUl, typed) {
     const long = typed.length > 3
     const veryLong = typed.length > 6
     const filtered = {exact: [], possible: []}
@@ -37,23 +37,6 @@ export default class AutoComplete {
     }
   }
   /**
-   * @desc Find matching text in an array
-   * @public
-   * @method
-   * @param {Array<string|number>} list The array to search
-   * @param {string} type The text for searching
-   * @return {Array<string|number>} The search result
-   */
-  filter(list, typed) {
-    const long = typed.length > 3
-    const filtered = {exact: [], possible: []}
-    const matchers = this.regexp(typed)
-    list.forEach(item => {
-      this.test(matchers, item, filtered, long)
-    })
-    return filtered.exact.length ? filtered.exact : filtered.possible
-  }
-  /**
    * @private
    * @method
    * @param {Object<string,RegExp>} matchers
@@ -62,7 +45,7 @@ export default class AutoComplete {
    * @param {boolean} long
    */
   test(matchers, item, filtered, long, log) {
-    const text = item instanceof $ ? item.html() : `${item}`
+    const text = item.html()
     if (long) {
       if (matchers.exact.test(text)) {
         filtered.exact.push(item)

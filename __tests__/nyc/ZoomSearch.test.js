@@ -243,7 +243,7 @@ test('filterList has autoComplete and input', () => {
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.val('typed')
-  zoomSearch.autoComplete = {filterUl: jest.fn()}
+  zoomSearch.autoComplete = {filter: jest.fn()}
   zoomSearch.emptyList = jest.fn()
   zoomSearch.showList = jest.fn()
 
@@ -251,10 +251,10 @@ test('filterList has autoComplete and input', () => {
 
   expect(zoomSearch.emptyList).toHaveBeenCalledTimes(0)
   expect(zoomSearch.showList).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.autoComplete.filterUl).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.autoComplete.filterUl.mock.calls[0][0]).toBe(zoomSearch.retention)
-  expect(zoomSearch.autoComplete.filterUl.mock.calls[0][1]).toBe(zoomSearch.list)
-  expect(zoomSearch.autoComplete.filterUl.mock.calls[0][2]).toBe('typed')
+  expect(zoomSearch.autoComplete.filter).toHaveBeenCalledTimes(1)
+  expect(zoomSearch.autoComplete.filter.mock.calls[0][0]).toBe(zoomSearch.retention)
+  expect(zoomSearch.autoComplete.filter.mock.calls[0][1]).toBe(zoomSearch.list)
+  expect(zoomSearch.autoComplete.filter.mock.calls[0][2]).toBe('typed')
 })
 
 test('showList with focus', () => {
