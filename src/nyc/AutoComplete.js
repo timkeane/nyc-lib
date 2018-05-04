@@ -44,7 +44,7 @@ export default class AutoComplete {
    * @param {Object<string,Array<JQuery|string|number>>} filtered
    * @param {boolean} long
    */
-  test(matchers, item, filtered, long, log) {
+  test(matchers, item, filtered, long) {
     const text = item.html()
     if (long) {
       if (matchers.exact.test(text)) {
