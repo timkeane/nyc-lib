@@ -225,7 +225,7 @@ class Basemap extends OlMap {
  * @method
  * @param {Object} options
  */
-Basemap.setupView = function(options) {
+Basemap.setupView = (options) => {
   if (!(options.view instanceof OlView)) {
     options.view = new OlView({
       center: Basemap.CENTER,

@@ -267,7 +267,7 @@ class ZoomSearch extends Container {
 				features.push($.extend({}, feature))
 			} else {
 				features.push($.extend({
-					get: function(prop){
+					get(prop) {
 						return this.properties[prop]
 					}
 				}, feature))

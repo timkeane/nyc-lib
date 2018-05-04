@@ -18,7 +18,7 @@ const BasemapHelper = {
    */
   hookupEvents(node) {
     $(node).on('drop', $.proxy(this.loadLayer, this))
-    $(node).on('dragover', function(event){
+    $(node).on('dragover', (event) => {
       event.preventDefault()
     })
   },
@@ -54,7 +54,7 @@ const BasemapHelper = {
       sorted.push(this.photos[photo])
     })
 		/* sort descending on the first 4 digits - puts 2001-2 in the proper place */
-		return sorted.sort(function(a, b) {
+		return sorted.sort((a, b) => {
       const aName = a.name || a.get('name')
       const bName = b.name || b.get('name')
 			return bName.substr(0, 4) - aName.substr(0, 4)
