@@ -30,11 +30,6 @@ class ZoomSearch extends Container {
 		super(container)
 		/**
 		 * @private
-		 * @member {JQuery}
-		 */
-		this.container = container
-		/**
-		 * @private
 		 * @member {boolean}
 		 */
 		this.isAddrSrch = true
@@ -64,16 +59,6 @@ class ZoomSearch extends Container {
 		 */
 		this.autoComplete = null
 		this.render()
-	}
-	/**
-	 * @desc A method to return the map container  HTML element wrapped in a JQuery
-	 * @public
-	 * @override
-	 * @method
-	 * @return {JQuery} The the map container HTML element wrapped in a JQuery
-	 */
-	getContainer() {
-		return this.container
 	}
 	/**
 	 * @desc Handle the zoom event triggered by user interaction
@@ -413,7 +398,7 @@ ZoomSearch.EventType = {
 ZoomSearch.HTML = '<div class="z-srch">' +
 	'<div class="srch">' +
 		'<input class="rad-all" placeholder="Search for an address...">' +
-		'<button class="btn-clr"><span class="screen-reader-only">Clear</span></button>' +
+		'<button class="btn-rnd btn-clr"><span class="screen-reader-only">Clear</span></button>' +
 		'<ul class="rad-all"></ul>' +
 	'</div>' +
 	'<button class="btn-z-in btn-sq rad-all" data-zoom-incr="1" title="Zoom in">' +

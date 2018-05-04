@@ -1,11 +1,17 @@
+import $ from 'jquery'
+
 import Container from 'nyc/Container'
 import EventHandling from 'nyc/EventHandling'
 
 test('everything', () => {
-  const container = new Container()
+  const parent = $('<div></div>')
+  const child = $('<p></p>')
+
+  parent.append(child)
+  const container = new Container(parent)
+
   expect(container instanceof Container).toBe(true)
   expect(container instanceof EventHandling).toBe(true)
-  expect(() => {container.getContainer()}).toThrow('Not implemented')
-  expect(() => {container.getElem('selector')}).toThrow('Not implemented')
+  expect(container.getContainer().get(0)).toBe(parent.get(0))
+  expect(container.getElem('p').get(0)).toBe(child.get(0))
 })
-

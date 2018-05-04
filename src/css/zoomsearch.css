@@ -37,7 +37,6 @@
 }
 .srch input {
 	width: calc(100% - 28px);
-	height: 33px;
 	margin: 0;
 	padding: 0 3px 0 23px;
 }

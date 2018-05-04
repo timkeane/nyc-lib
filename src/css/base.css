@@ -40,14 +40,20 @@ html, body, body * {
 .btn:hover, .btn-sq:hover {
 	background-color: var(--theme-btn-bg-color-hover);
 }
-.btn-clr {
-	background-image: var(--theme-x-bg-img);
+.btn-rnd {
 	width: 24px;
 	height: 24px;
 	background-size: 14px;
 	background-color: var(--theme-btn-bg-color);
 	border-radius: 50%;
 }
-.btn-clr:focus {
+.btn-rnd:focus {
 	outline: none;
+}
+.btn-clr {
+	background-image: var(--theme-x-bg-img);
+}
+input {
+	height: 33px;
+	padding: 3px;
 }
