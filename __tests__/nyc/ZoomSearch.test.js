@@ -213,6 +213,19 @@ test('key keyCode is 13 and isAddrSrch is false', () => {
   return test().then(visible => expect(visible).toBe('block'))
 })
 
+test('clearTxt', () => {
+  const zoomSearch = new ZoomSearch(container)
+
+  zoomSearch.val = jest.fn()
+  zoomSearch.clearBtn = jest.fn()
+
+  zoomSearch.clearTxt()
+
+  expect(zoomSearch.val).toHaveBeenCalledTimes(1)
+  expect(zoomSearch.val.mock.calls[0][0]).toBe('')
+  expect(zoomSearch.clearBtn).toHaveBeenCalledTimes(1)
+})
+
 test('filterList no autoComplete', () => {
   const zoomSearch = new ZoomSearch(container)
 
@@ -672,30 +685,110 @@ test('disambiguated is child of LI', () => {
   return test().then(visible => expect(visible).toBe('none'))
 
 })
-test('listClick', () => {
+
+test('listClick list closed', () => {
   const handler = jest.fn()
 
   const zoomSearch = new ZoomSearch(container)
 
-  const li = ($('<li></li>'))
+  const li = $('<li></li>')
   const event = {
     originalEvent: {
       target: li.get(0)
     }
   }
-  zoomSearch.list.append(li)
+  zoomSearch.list.append(li).hide()
   li.on('click', handler)
 
   zoomSearch.listClick(event)
   expect(handler).toHaveBeenCalledTimes(0)
+})
 
-  zoomSearch.list.show()
+test('listClick list open but not clicked', () => {
+  expect.assertions(2)
+  const handler = jest.fn()
+
+  const zoomSearch = new ZoomSearch(container)
+
+  const li = $('<li></li>')
+  const event = {
+    originalEvent: {
+      target: document.body
+    }
+  }
+  zoomSearch.list.append(li).show()
+  li.on('click', handler)
+
+  const test = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(zoomSearch.list.css('display'))
+      }, 500)
+    })
+  }
 
   zoomSearch.listClick(event)
+
   expect(handler).toHaveBeenCalledTimes(0)
+  return test().then(visible => expect(visible).toBe('none'))
+})
+
+test('listClick list open is clicked but no autoComplete', () => {
+  expect.assertions(2)
+  const handler = jest.fn()
+
+  const zoomSearch = new ZoomSearch(container)
+
+  const li = $('<li></li>')
+  const event = {
+    originalEvent: {
+      target: li.get(0)
+    }
+  }
+  zoomSearch.list.append(li).show()
+  li.on('click', handler)
+
+  const test = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(zoomSearch.list.css('display'))
+      }, 500)
+    })
+  }
+
+  zoomSearch.listClick(event)
+
+  expect(handler).toHaveBeenCalledTimes(0)
+  return test().then(visible => expect(visible).toBe('block'))
+})
+
+test('listClick list open is clicked and has autoComplete', () => {
+  expect.assertions(2)
+  const handler = jest.fn()
+
+  const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.autoComplete = 'mock-auto-complete'
 
+  const li = $('<li></li>')
+  const event = {
+    originalEvent: {
+      target: li.get(0)
+    }
+  }
+  zoomSearch.list.append(li).show()
+  li.on('click', handler)
+
+  const test = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(zoomSearch.list.css('display'))
+      }, 500)
+    })
+  }
+
   zoomSearch.listClick(event)
+
   expect(handler).toHaveBeenCalledTimes(1)
+  return test().then(visible => expect(visible).toBe('block'))
 })
