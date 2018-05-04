@@ -113,6 +113,7 @@ class ZoomSearch extends Container {
 		input.focus($.proxy(this.select, this))
 		this.getElem('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))
 		this.getElem('.btn-geo').click($.proxy(this.geolocate, this))
+		$(document).mouseup($.proxy(this.listClick, this))
 	}
 	/**
 	 * @private
@@ -323,6 +324,16 @@ class ZoomSearch extends Container {
 		li.parent().slideUp()
 		this.emptyList()
 	}
+	/**
+	 * @private
+	 * @method
+	 * @param {jQuery.Event} event
+	 */
+	 listClick(event) {
+		 if (this.autoComplete && this.list.css('display') === 'block') {
+			 $(event.originalEvent.target).trigger('click')
+		 }
+	 }
 }
 
 /**

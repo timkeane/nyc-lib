@@ -43,7 +43,7 @@
 }
 .srch ul {
 	display: none;
-	width: 100% - 0px;
+	max-height: 300px;
 	padding: 0;
 	list-style-type: none;
 	box-shadow: var(--theme-box-shadow);

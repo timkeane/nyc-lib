@@ -44,10 +44,12 @@ test('render and hookupEvents called from constructor', () => {
   const select = ZoomSearch.prototype.select
   const zoom = ZoomSearch.prototype.zoom
   const geolocate = ZoomSearch.prototype.geolocate
+  const listClick = ZoomSearch.prototype.listClick
   ZoomSearch.prototype.key = jest.fn()
   ZoomSearch.prototype.select = jest.fn()
   ZoomSearch.prototype.zoom = jest.fn()
   ZoomSearch.prototype.geolocate = jest.fn()
+  ZoomSearch.prototype.listClick = jest.fn()
 
   const zoomSearch = new ZoomSearch(container)
 
@@ -84,10 +86,14 @@ test('render and hookupEvents called from constructor', () => {
   expect(ZoomSearch.prototype.geolocate.mock.calls[0][0].type).toBe('click')
   expect(ZoomSearch.prototype.geolocate.mock.calls[0][0].target).toBe(container.find('.btn-geo').get(0))
 
+  $(document).trigger('mouseup')
+  expect(ZoomSearch.prototype.listClick).toHaveBeenCalledTimes(1)
+
   ZoomSearch.prototype.key = key
   ZoomSearch.prototype.select = select
   ZoomSearch.prototype.zoom = zoom
   ZoomSearch.prototype.geolocate = geolocate
+  ZoomSearch.prototype.listClick = listClick
 })
 
 test('select', () => {
@@ -682,4 +688,31 @@ test('disambiguated is child of LI', () => {
   }
   return test().then(visible => expect(visible).toBe('none'))
 
+})
+test('listClick', () => {
+  const handler = jest.fn()
+
+  const zoomSearch = new ZoomSearch(container)
+
+  const li = ($('<li></li>'))
+  const event = {
+    originalEvent: {
+      target: li.get(0)
+    }
+  }
+  zoomSearch.list.append(li)
+  li.on('click', handler)
+
+  zoomSearch.listClick(event)
+  expect(handler).toHaveBeenCalledTimes(0)
+
+  zoomSearch.list.show()
+
+  zoomSearch.listClick(event)
+  expect(handler).toHaveBeenCalledTimes(0)
+
+  zoomSearch.autoComplete = 'mock-auto-complete'
+
+  zoomSearch.listClick(event)
+  expect(handler).toHaveBeenCalledTimes(1)
 })
