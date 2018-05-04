@@ -55,6 +55,11 @@ class ZoomSearch extends Container {
 		this.retention = null
 		/**
 		 * @private
+		 * @member {JQuery}
+		 */
+		this.clear = null
+		/**
+		 * @private
 		 * @member {AutoComplete}
 		 */
 		this.autoComplete = null
@@ -100,19 +105,20 @@ class ZoomSearch extends Container {
 		this.input = this.getElem('.srch input')
 		this.list = this.getElem('.srch ul')
 		this.retention = this.getElem('ul.retention')
-		this.hookupEvents(this.input, this.list)
+		this.clear = this.getElem('.btn-clr')
+		this.hookupEvents(this.input)
 	}
 	/**
 	 * @private
    * @method
 	 * @param {JQuery} input
-	 * @param {JQuery} list
 	 */
-	hookupEvents(input, list) {
+	hookupEvents(input) {
 		input.on('keyup change', $.proxy(this.key, this))
 		input.focus($.proxy(this.select, this))
 		this.getElem('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))
 		this.getElem('.btn-geo').click($.proxy(this.geolocate, this))
+		this.clear.click($.proxy(this.clearTxt, this))
 		$(document).mouseup($.proxy(this.listClick, this))
 	}
 	/**
@@ -134,6 +140,23 @@ class ZoomSearch extends Container {
 		} else {
 			this.filterList()
 		}
+		this.clearBtn()
+	}
+	/**
+	 * @private
+	 * @method
+	 */
+	clearTxt() {
+		this.val('')
+		this.clearBtn()
+	}
+	/**
+	 * @private
+	 * @method
+	 * @param {Object} event
+	 */
+	clearBtn() {
+		this.clear[this.val() ? 'show' : 'hide']()
 	}
 	/**
 	 * @private
@@ -177,7 +200,6 @@ class ZoomSearch extends Container {
 		const input = this.val().trim()
 		if (input.length) {
 			this.input.blur()
-			this.searching(true)
 			this.trigger(ZoomSearch.EventType.SEARCH, input)
 		}
 	}
@@ -191,7 +213,7 @@ class ZoomSearch extends Container {
 	val(val) {
 		if (typeof val === 'string') {
 			this.input.val(val)
-			this.searching(false)
+			this.clearBtn()
 		}
 		return this.input.val()
 	}
@@ -203,7 +225,6 @@ class ZoomSearch extends Container {
 	 */
 	disambiguate(ambiguous) {
 		const possible = ambiguous.possible
-		this.searching(false)
 		if (possible.length) {
 			const list = this.list
 			this.emptyList()
@@ -212,14 +233,6 @@ class ZoomSearch extends Container {
 			})
 			this.showList(true)
 		}
-	}
-	/**
-	 * @desc Set searching status to display to the user
-	 * @public
-	 * @method
-	 * @param {boolean} show Show searching status
-	 */
-	searching(show) {
 	}
 	/**
 	 * @desc Add searchable features
@@ -400,6 +413,7 @@ ZoomSearch.EventType = {
 ZoomSearch.HTML = '<div class="z-srch">' +
 	'<div class="srch">' +
 		'<input class="rad-all" placeholder="Search for an address...">' +
+		'<button class="btn-clr"><span class="screen-reader-only">Clear</span></button>' +
 		'<ul class="rad-all"></ul>' +
 	'</div>' +
 	'<button class="btn-z-in btn-sq rad-all" data-zoom-incr="1" title="Zoom in">' +

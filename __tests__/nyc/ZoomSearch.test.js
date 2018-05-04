@@ -326,14 +326,11 @@ test('triggerSearch has value', () => {
 
   const zoomSearch = new ZoomSearch(container)
 
-  zoomSearch.searching = jest.fn()
   zoomSearch.input.val('an address')
   zoomSearch.on(ZoomSearch.EventType.SEARCH, handler)
 
   zoomSearch.triggerSearch()
 
-  expect(zoomSearch.searching).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.searching.mock.calls[0][0]).toBe(true)
   expect(handler).toHaveBeenCalledTimes(1)
   expect(handler.mock.calls[0][0]).toBe('an address')
 })
@@ -343,7 +340,6 @@ test('triggerSearch no value', () => {
 
   const zoomSearch = new ZoomSearch(container)
 
-  zoomSearch.searching = jest.fn()
   zoomSearch.input.val('')
   zoomSearch.on(ZoomSearch.EventType.SEARCH, handler)
 
@@ -353,24 +349,19 @@ test('triggerSearch no value', () => {
 
   zoomSearch.triggerSearch()
 
-  expect(zoomSearch.searching).toHaveBeenCalledTimes(0)
   expect(handler).toHaveBeenCalledTimes(0)
 })
 
 test('val', () => {
   const zoomSearch = new ZoomSearch(container)
 
-  zoomSearch.searching = jest.fn()
   zoomSearch.input.val('an address')
 
   expect(zoomSearch.val()).toBe('an address')
   expect(zoomSearch.input.val()).toBe('an address')
-  expect(zoomSearch.searching).toHaveBeenCalledTimes(0)
 
   expect(zoomSearch.val('another address')).toBe('another address')
   expect(zoomSearch.input.val()).toBe('another address')
-  expect(zoomSearch.searching).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.searching.mock.calls[0][0]).toBe(false)
 })
 
 test('disambiguate no possible', () => {
@@ -381,13 +372,11 @@ test('disambiguate no possible', () => {
 
   const zoomSearch = new ZoomSearch(container)
 
-  zoomSearch.searching = jest.fn()
-  zoomSearch.emptyList = jest.fn()
+  zoomSearch.showList = jest.fn()
 
   zoomSearch.disambiguate(ambiguous)
 
-  expect(zoomSearch.searching).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.searching.mock.calls[0][0]).toBe(false)
+  expect(zoomSearch.showList).toHaveBeenCalledTimes(0)
 })
 
 test('disambiguate has possible', () => {
@@ -403,14 +392,11 @@ test('disambiguate has possible', () => {
 		  .addClass(options.layerName)
       .html(data.name)
   }
-  zoomSearch.searching = jest.fn()
   zoomSearch.emptyList = jest.fn()
   zoomSearch.showList = jest.fn()
 
   zoomSearch.disambiguate(ambiguous)
 
-  expect(zoomSearch.searching).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.searching.mock.calls[0][0]).toBe(false)
   expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
   expect(zoomSearch.showList).toHaveBeenCalledTimes(1)
   expect(zoomSearch.list.children().length).toBe(2)
@@ -420,9 +406,6 @@ test('disambiguate has possible', () => {
   expect(zoomSearch.list.children().get(1).tagName.toUpperCase()).toBe('LI')
   expect($(zoomSearch.list.children().get(1)).html()).toBe('possible 2')
   expect($(zoomSearch.list.children().get(1)).hasClass('addr')).toBe(true)
-})
-
-test('searching', () => {
 })
 
 test('setFeatures/sortAlphapetically no nameField no displayField has placeholder', () => {

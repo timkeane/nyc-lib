@@ -19,14 +19,19 @@ html, body, body * {
 	color: transparent !important;
 	background-color: transparent !important;
 }
+.btn, .btn-sq, .btn-clr {
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+.btn-sq, .btn-clr {
+	background-position: center;
+}
 .btn-sq {
 	position: fixed;
 	width: 35px;
 	height: 35px;
 	margin: 0;
 	padding: 0;
-	background-position: center;
-	background-repeat: no-repeat;
 	background-size: 20px;
 }
 .btn, .btn-sq {
@@ -34,4 +39,15 @@ html, body, body * {
 }
 .btn:hover, .btn-sq:hover {
 	background-color: var(--theme-btn-bg-color-hover);
+}
+.btn-clr {
+	background-image: var(--theme-x-bg-img);
+	width: 24px;
+	height: 24px;
+	background-size: 14px;
+	background-color: var(--theme-btn-bg-color);
+	border-radius: 50%;
+}
+.btn-clr:focus {
+	outline: none;
 }

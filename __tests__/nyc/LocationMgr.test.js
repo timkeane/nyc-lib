@@ -214,40 +214,31 @@ test('located GEOLOCATION', () => {
 
 test('ambiguous no possible', () => {
   const data = {possible: []}
-  options.zoomSearch.searching = jest.fn()
   options.zoomSearch.disambiguate = jest.fn()
 
   const locationMgr = new LocationMgr(options)
 
   locationMgr.ambiguous(data)
 
-  expect(options.zoomSearch.searching).toHaveBeenCalledTimes(1)
-  expect(options.zoomSearch.searching.mock.calls[0][0]).toBe(false)
   expect(options.zoomSearch.disambiguate).toHaveBeenCalledTimes(0)
 })
 
 test('ambiguous has possible', () => {
   const data = {possible: ['mock-reuslt']}
-  options.zoomSearch.searching = jest.fn()
   options.zoomSearch.disambiguate = jest.fn()
 
   const locationMgr = new LocationMgr(options)
 
   locationMgr.ambiguous(data)
 
-  expect(options.zoomSearch.searching).toHaveBeenCalledTimes(1)
-  expect(options.zoomSearch.searching.mock.calls[0][0]).toBe(false)
   expect(options.zoomSearch.disambiguate).toHaveBeenCalledTimes(1)
   expect(options.zoomSearch.disambiguate.mock.calls[0][0]).toBe(data)
 })
 
 test('error', () => {
-  options.zoomSearch.searching = jest.fn()
 
   const locationMgr = new LocationMgr(options)
 
   locationMgr.error()
 
-  expect(options.zoomSearch.searching).toHaveBeenCalledTimes(1)
-  expect(options.zoomSearch.searching.mock.calls[0][0]).toBe(false)
 })

@@ -105,7 +105,6 @@ class LocationMgr extends EventHandling {
 	 * @param {Locator.Ambiguous} data
 	 */
 	ambiguous(data) {
-    this.zoomSearch.searching(false)
 		if (data.possible.length) {
 			this.zoomSearch.disambiguate(data)
 		} else {
@@ -118,7 +117,6 @@ class LocationMgr extends EventHandling {
 	 * @method
 	 */
 	error() {
-		this.zoomSearch.searching(false)
     //this.dialog.ok({message: 'Failed to contact geocoder'})
     console.error('Failed to contact geocoder')
 	}

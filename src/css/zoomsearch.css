@@ -49,7 +49,7 @@
 	box-shadow: var(--theme-box-shadow);
 	overflow-x: hidden;
 	overflow-y: auto;
-	margin: 3px 0 0 0;
+	margin: 1px 0 0 0;
 }
 .srch:before {
 	content: " ";
@@ -61,10 +61,15 @@
 	left: 5px;
 	width: 15px;
 	height: 15px;
-
 }
 .srch input:focus {
 	opacity: 1;
+}
+.z-srch .btn-clr {
+	display: none;
+	position: absolute;
+	left: calc(100% - 28px);
+	top: 5px;
 }
 .srch ul li {
 	background-color: var(--theme-pop-bg-color);
