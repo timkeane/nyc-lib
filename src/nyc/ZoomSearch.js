@@ -330,8 +330,15 @@ class ZoomSearch extends Container {
 	 * @param {jQuery.Event} event
 	 */
 	 listClick(event) {
-		 if (this.autoComplete && this.list.css('display') === 'block') {
-			 $(event.originalEvent.target).trigger('click')
+		 if (this.list.css('display') === 'block') {
+			 const target = $(event.originalEvent.target)
+			 if ($.contains(this.list.get(0), target.get(0))) {
+				 if (this.autoComplete) {
+					 target.trigger('click')
+				 }
+			 } else {
+				 this.list.slideUp()
+			 }
 		 }
 	 }
 }

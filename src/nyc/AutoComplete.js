@@ -20,6 +20,7 @@ export default class AutoComplete {
    */
   filterUl(inUl, outUl, typed) {
     const long = typed.length > 3
+    const veryLong = typed.length > 6
     const filtered = {exact: [], possible: []}
     const matchers = this.regexp(typed)
     const all = []
@@ -30,9 +31,9 @@ export default class AutoComplete {
     })
     $(inUl).append(all)
     if (filtered.exact.length) {
-      $(outUl).append(filtered.exact)
-    } else {
-      $(outUl).append(filtered.possible)
+      $(outUl).prepend(filtered.exact)
+    } else if (!veryLong) {
+      $(outUl).prepend(filtered.possible)
     }
   }
   /**
