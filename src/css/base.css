@@ -32,7 +32,7 @@ html, body, body * {
 	height: 35px;
 	margin: 0;
 	padding: 0;
-	background-size: 20px;
+	background-size: 19px;
 }
 .btn, .btn-sq {
 	background-color: var(--theme-btn-bg-color);
