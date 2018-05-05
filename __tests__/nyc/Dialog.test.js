@@ -185,3 +185,161 @@ test('input click cancel', () => {
 
   expect(dialog.hide).toHaveBeenCalledTimes(1)
 })
+
+test('yesNo check buttons', () => {
+  expect.assertions(9)
+
+  const dialog = new Dialog()
+
+  const test = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        expect(dialog.getElem('.btn-yes').is(':focus')).toBe(true)
+        expect(dialog.okBtn.css('display')).toBe('none')
+        expect(dialog.getElem('.btn-yes').css('display')).toBe('inline-block')
+        expect(dialog.getElem('.btn-no').css('display')).toBe('inline-block')
+        expect(dialog.getElem('.btn-submit').css('display')).toBe('none')
+        expect(dialog.getElem('.btn-cancel').css('display')).toBe('none')
+        expect(dialog.field.css('display')).toBe('none')
+        expect(dialog.msg.html()).toBe('a message')
+        resolve(true)
+      }, 500)
+    })
+  }
+
+  dialog.yesNo({message: 'a message'})
+
+  return test().then(result => expect(result).toBe(true))
+})
+
+test('yesNo esc key does not resolve promise', () => {
+  expect.assertions(2)
+
+  const dialog = new Dialog()
+
+  dialog.show = jest.fn()
+  dialog.hide = jest.fn()
+
+  dialog.yesNo({message: 'a message'})
+
+  expect(dialog.show).toHaveBeenCalledTimes(1)
+
+  $(document).trigger({type: 'keyup', keyCode: 27})
+
+  expect(dialog.hide).toHaveBeenCalledTimes(0)
+})
+
+test('yesNo click yes', async () => {
+  expect.assertions(3)
+
+  const dialog = new Dialog()
+
+  dialog.show = jest.fn()
+  dialog.hide = jest.fn()
+
+  dialog.yesNo({message: 'a message'}).then((ok) => {
+    expect(dialog.hide).toHaveBeenCalledTimes(1)
+    expect(ok).toBe(true)
+  })
+
+  expect(dialog.show).toHaveBeenCalledTimes(1)
+
+  dialog.getElem('.btn-yes').trigger('click')
+})
+
+test('yesNo click no', async () => {
+  expect.assertions(3)
+
+  const dialog = new Dialog()
+
+  dialog.show = jest.fn()
+  dialog.hide = jest.fn()
+
+  dialog.yesNo({message: 'a message'}).then((ok) => {
+    expect(dialog.hide).toHaveBeenCalledTimes(1)
+    expect(ok).toBe(false)
+  })
+
+  expect(dialog.show).toHaveBeenCalledTimes(1)
+
+  dialog.getElem('.btn-no').trigger('click')
+})
+
+test('yesNoCancel check buttons', () => {
+  expect.assertions(9)
+
+  const dialog = new Dialog()
+
+  const test = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        expect(dialog.getElem('.btn-yes').is(':focus')).toBe(true)
+        expect(dialog.okBtn.css('display')).toBe('none')
+        expect(dialog.getElem('.btn-yes').css('display')).toBe('inline-block')
+        expect(dialog.getElem('.btn-no').css('display')).toBe('inline-block')
+        expect(dialog.getElem('.btn-submit').css('display')).toBe('none')
+        expect(dialog.getElem('.btn-cancel').css('display')).toBe('inline-block')
+        expect(dialog.field.css('display')).toBe('none')
+        expect(dialog.msg.html()).toBe('a message')
+        resolve(true)
+      }, 500)
+    })
+  }
+
+  dialog.yesNoCancel({message: 'a message'})
+
+  return test().then(result => expect(result).toBe(true))
+})
+
+test('yesNoCancel esc key resolves promise', () => {
+  expect.assertions(2)
+
+  const dialog = new Dialog()
+
+  dialog.show = jest.fn()
+  dialog.hide = jest.fn()
+
+  dialog.yesNoCancel({message: 'a message'})
+
+  expect(dialog.show).toHaveBeenCalledTimes(1)
+
+  $(document).trigger({type: 'keyup', keyCode: 27})
+
+  expect(dialog.hide).toHaveBeenCalledTimes(1)
+})
+
+test('yesNoCancel click yes', async () => {
+  expect.assertions(3)
+
+  const dialog = new Dialog()
+
+  dialog.show = jest.fn()
+  dialog.hide = jest.fn()
+
+  dialog.yesNoCancel({message: 'a message'}).then((ok) => {
+    expect(dialog.hide).toHaveBeenCalledTimes(1)
+    expect(ok).toBe(true)
+  })
+
+  expect(dialog.show).toHaveBeenCalledTimes(1)
+
+  dialog.getElem('.btn-yes').trigger('click')
+})
+
+test('yesNoCancel click no', async () => {
+  expect.assertions(3)
+
+  const dialog = new Dialog()
+
+  dialog.show = jest.fn()
+  dialog.hide = jest.fn()
+
+  dialog.yesNoCancel({message: 'a message'}).then((ok) => {
+    expect(dialog.hide).toHaveBeenCalledTimes(1)
+    expect(ok).toBe(false)
+  })
+
+  expect(dialog.show).toHaveBeenCalledTimes(1)
+
+  dialog.getElem('.btn-no').trigger('click')
+})
