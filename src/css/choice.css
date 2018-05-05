@@ -1,0 +1,34 @@
+.chc-container {
+	border: var(--theme-btn-border);
+	display: table;
+}
+.chc {
+	display: table-row;
+	height: 33px;
+	padding: 3px;
+	width: 100%;
+}
+.chc:hover {
+	background-color: var(--theme-btn-sm-bg-color);
+}
+.chc:hover label {
+	color: var(--theme-btn-sm-text-color);
+}
+.chc div {
+	border-top: var(--theme-btn-border);
+	display: table-cell;
+	vertical-align: middle;
+	cursor: pointer;
+	color: inherit;
+}
+.chc:first-of-type div {
+	border-top: none;
+}
+.chc div:last-child {
+	width: 100%;
+}
+.chc input {
+	margin: 0 8px;
+	width: 14px;
+	height: 14px;
+}

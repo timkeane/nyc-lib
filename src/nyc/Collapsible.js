@@ -70,6 +70,7 @@ class Collapsible extends Container {
  * @property {boolean} [collapsed=false] The starting state of the collapsible container
  */
 Collapsible.Options
+
 /**
  * @private
  * @const

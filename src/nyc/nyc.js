@@ -103,7 +103,25 @@ const nyc = {
 			result += ' '
 		})
 		return result.trim()
-	}
+	},
+	/**
+	 * @public
+   * @static
+	 * @function
+	 * @param {string} prefix An id prefix
+	 * @return {string} A unique id
+	 */
+	nextId(prefix){
+		const last = nyc.uniqueIds[prefix]
+		nyc.uniqueIds[prefix] = (typeof last === 'number') ? (last + 1) : 0
+		return `${prefix}-${nyc.uniqueIds[prefix]}`
+	},
+	/**
+	 * @private
+	 * @static
+	 * @member {Object<string, number>}
+	 */
+	 uniqueIds: {}
 }
 
 export default nyc

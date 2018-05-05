@@ -32,14 +32,22 @@ export default class Container extends EventHandling {
 	getContainer() {
     return this.container
 	}
-	/**
-	 * @desc A method to return an element in the container
+  /**
+	 * @desc A method to return elements in the container
 	 * @public
-	 * @abstract
 	 * @method
 	 * @return {JQuery} The element
 	 */
 	find(selector) {
 		return this.getContainer().find(selector)
+	}
+  /**
+	 * @desc A method to append elements to the container
+	 * @public
+	 * @method
+	 * @param {JQuery|Element|Array<Element>|string} elements The element to append
+	 */
+	append(elements) {
+		return this.getContainer().append($(elements))
 	}
 }

@@ -198,3 +198,14 @@ test('capitalize', () => {
   words = 'THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG'
   expect(nyc.capitalize(words)).toBe('The Quick Brown Fox Jumped Over The Lazy Dog')
 })
+
+test('nextId', () => {
+  const prefix1 = 'foo'
+  const prefix2 = 'bar'
+  expect(nyc.nextId(prefix1)).toBe('foo-0')
+  expect(nyc.nextId(prefix2)).toBe('bar-0')
+  expect(nyc.nextId(prefix1)).toBe('foo-1')
+  expect(nyc.nextId(prefix2)).toBe('bar-1')
+  expect(nyc.nextId(prefix1)).toBe('foo-2')
+  expect(nyc.nextId(prefix2)).toBe('bar-2')
+})
