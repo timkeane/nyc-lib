@@ -79,9 +79,9 @@ test('ok click', async () => {
   dialog.show = jest.fn()
   dialog.hide = jest.fn()
 
-  dialog.ok({message: 'a message'}).then((ok) => {
+  dialog.ok({message: 'a message'}).then((result) => {
     expect(dialog.hide).toHaveBeenCalledTimes(1)
-    expect(ok).toBe(true)
+    expect(result).toBe(true)
   })
 
   expect(dialog.show).toHaveBeenCalledTimes(1)
@@ -237,9 +237,9 @@ test('yesNo click yes', async () => {
   dialog.show = jest.fn()
   dialog.hide = jest.fn()
 
-  dialog.yesNo({message: 'a message'}).then((ok) => {
+  dialog.yesNo({message: 'a message'}).then((result) => {
     expect(dialog.hide).toHaveBeenCalledTimes(1)
-    expect(ok).toBe(true)
+    expect(result).toBe(true)
   })
 
   expect(dialog.show).toHaveBeenCalledTimes(1)
@@ -255,9 +255,9 @@ test('yesNo click no', async () => {
   dialog.show = jest.fn()
   dialog.hide = jest.fn()
 
-  dialog.yesNo({message: 'a message'}).then((ok) => {
+  dialog.yesNo({message: 'a message'}).then((result) => {
     expect(dialog.hide).toHaveBeenCalledTimes(1)
-    expect(ok).toBe(false)
+    expect(result).toBe(false)
   })
 
   expect(dialog.show).toHaveBeenCalledTimes(1)
@@ -316,9 +316,9 @@ test('yesNoCancel click yes', async () => {
   dialog.show = jest.fn()
   dialog.hide = jest.fn()
 
-  dialog.yesNoCancel({message: 'a message'}).then((ok) => {
+  dialog.yesNoCancel({message: 'a message'}).then((result) => {
     expect(dialog.hide).toHaveBeenCalledTimes(1)
-    expect(ok).toBe(true)
+    expect(result).toBe(true)
   })
 
   expect(dialog.show).toHaveBeenCalledTimes(1)
@@ -334,12 +334,135 @@ test('yesNoCancel click no', async () => {
   dialog.show = jest.fn()
   dialog.hide = jest.fn()
 
-  dialog.yesNoCancel({message: 'a message'}).then((ok) => {
+  dialog.yesNoCancel({message: 'a message'}).then((result) => {
     expect(dialog.hide).toHaveBeenCalledTimes(1)
-    expect(ok).toBe(false)
+    expect(result).toBe(false)
   })
 
   expect(dialog.show).toHaveBeenCalledTimes(1)
 
   dialog.getElem('.btn-no').trigger('click')
+})
+
+test('yesNoCancel click cancel', async () => {
+  expect.assertions(3)
+
+  const dialog = new Dialog()
+
+  dialog.show = jest.fn()
+  dialog.hide = jest.fn()
+
+  dialog.yesNoCancel({message: 'a message'}).then((result) => {
+    expect(dialog.hide).toHaveBeenCalledTimes(1)
+    expect(result).toBe(undefined)
+  })
+
+  expect(dialog.show).toHaveBeenCalledTimes(1)
+
+  dialog.getElem('.btn-cancel').trigger('click')
+})
+
+test('buttons Dialog.Type.OK', () => {
+  const dialog = new Dialog()
+
+  dialog.buttons(Dialog.Type.OK, {})
+
+  expect(dialog.okBtn.html()).toBe('OK')
+  expect(dialog.okBtn.attr('href')).toBe('#')
+
+  dialog.buttons(Dialog.Type.OK, {
+    buttonText: ['foo'],
+    buttonHref: ['bar']
+  })
+
+  expect(dialog.okBtn.html()).toBe('foo')
+  expect(dialog.okBtn.attr('href')).toBe('bar')
+})
+
+test('buttons Dialog.Type.INPUT', () => {
+  const dialog = new Dialog()
+
+  dialog.buttons(Dialog.Type.INPUT, {})
+
+  expect(dialog.getElem('.btn-submit').html()).toBe('Submit')
+  expect(dialog.getElem('.btn-submit').attr('href')).toBe('#')
+  expect(dialog.getElem('.btn-cancel').html()).toBe('Cancel')
+  expect(dialog.getElem('.btn-cancel').attr('href')).toBe('#')
+
+  dialog.buttons(Dialog.Type.INPUT, {
+    buttonText: ['foo', 'bar'],
+    buttonHref: ['doo', 'fus']
+  })
+
+  expect(dialog.getElem('.btn-submit').html()).toBe('foo')
+  expect(dialog.getElem('.btn-submit').attr('href')).toBe('doo')
+  expect(dialog.getElem('.btn-cancel').html()).toBe('bar')
+  expect(dialog.getElem('.btn-cancel').attr('href')).toBe('fus')
+})
+
+test('buttons Dialog.Type.YES_NO', () => {
+  const dialog = new Dialog()
+
+  dialog.buttons(Dialog.Type.YES_NO, {})
+
+  expect(dialog.getElem('.btn-yes').html()).toBe('Yes')
+  expect(dialog.getElem('.btn-yes').attr('href')).toBe('#')
+  expect(dialog.getElem('.btn-no').html()).toBe('No')
+  expect(dialog.getElem('.btn-no').attr('href')).toBe('#')
+
+  dialog.buttons(Dialog.Type.YES_NO, {
+    buttonText: ['foo', 'bar'],
+    buttonHref: ['doo', 'fus']
+  })
+
+  expect(dialog.getElem('.btn-yes').html()).toBe('foo')
+  expect(dialog.getElem('.btn-yes').attr('href')).toBe('doo')
+  expect(dialog.getElem('.btn-no').html()).toBe('bar')
+  expect(dialog.getElem('.btn-no').attr('href')).toBe('fus')
+})
+
+test('buttons Dialog.Type.YES_NO_CANCEL', () => {
+  const dialog = new Dialog()
+
+  dialog.buttons(Dialog.Type.YES_NO_CANCEL, {})
+
+  expect(dialog.getElem('.btn-yes').html()).toBe('Yes')
+  expect(dialog.getElem('.btn-yes').attr('href')).toBe('#')
+  expect(dialog.getElem('.btn-no').html()).toBe('No')
+  expect(dialog.getElem('.btn-no').attr('href')).toBe('#')
+  expect(dialog.getElem('.btn-cancel').html()).toBe('Cancel')
+  expect(dialog.getElem('.btn-cancel').attr('href')).toBe('#')
+
+  dialog.buttons(Dialog.Type.YES_NO_CANCEL, {
+    buttonText: ['foo', 'bar', 'lol'],
+    buttonHref: ['doo', 'fus', 'wtf']
+  })
+
+  expect(dialog.getElem('.btn-yes').html()).toBe('foo')
+  expect(dialog.getElem('.btn-yes').attr('href')).toBe('doo')
+  expect(dialog.getElem('.btn-no').html()).toBe('bar')
+  expect(dialog.getElem('.btn-no').attr('href')).toBe('fus')
+  expect(dialog.getElem('.btn-cancel').html()).toBe('lol')
+  expect(dialog.getElem('.btn-cancel').attr('href')).toBe('wtf')
+})
+
+test('hide', () => {
+  expect.assertions(1)
+  
+  const dialog = new Dialog()
+
+  dialog.field.val('abc')
+  dialog.getContainer().show()
+
+  const test = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(dialog.getContainer().css('display'))
+      }, 500)
+    })
+  }
+
+  dialog.hide()
+
+  return test().then(visible => expect(visible).toBe('none'))
 })

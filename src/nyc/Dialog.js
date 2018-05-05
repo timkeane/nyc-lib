@@ -160,9 +160,6 @@ class Dialog extends Container {
 				this.getElem('.btn-ok').html(buttonText[0] || 'OK')
 					.attr('href', buttonHref[0] || '#')
 				break
-			case Dialog.Type.LOGIN:
-				this.getElem('.btn-ok').html('OK').attr('href', '#')
-				break
 			case Dialog.Type.INPUT:
 				this.getElem('.btn-submit').html(buttonText[0] || 'Submit')
 					.attr('href', buttonHref[0] || '#')
@@ -203,7 +200,7 @@ class Dialog extends Container {
 			this.yesNoBtns.css('display', 'inline-block')
 			this.getElem('.btn-cancel').css('display', 'inline-block')
 		}
-		this.msg.html(options.message || '')
+		this.msg.html(options.message)
 		this.getContainer().fadeIn()
 	}
 	/**
@@ -255,11 +252,7 @@ Dialog.Type = {
 	/**
 	 * @desc Dialog to accept user input
 	 */
-	INPUT: 'input',
-	/**
-	 * @desc Dialog to accept user name and password
-	 */
-	LOGIN: 'login'
+	INPUT: 'input'
 }
 
 /**
