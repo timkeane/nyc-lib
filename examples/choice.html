@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>OpenLayers Example</title>
+  <title>nyc.Choice Example</title>
   <link rel="stylesheet" href="../css/nyc-lib.css">
   <script src="../js/nyc-lib.js"></script>
 	<style>
@@ -18,6 +18,34 @@
     #radio {
       float: right;
     }
+    .chc .lbl:before {
+      content: " ";
+      display: block;
+      width: 22px;
+      height: 22px;
+      background-repeat: no-repeat;
+      background-size: 22px;
+      float: left;
+      margin: -2px 6px 0 0;
+    }
+    .chc .lbl.cb-1:before {
+      background-image: url("img/dog.svg");
+    }
+    .chc .lbl.cb-2:before {
+      background-image: url("img/cat.svg");
+    }
+    .chc .lbl.cb-3:before {
+      background-image: url("img/robot.svg");
+    }
+    .chc .lbl.rad-0:before {
+      background-image: url("img/tree.svg");
+    }
+    .chc .lbl.rad-1:before {
+      background-image: url("img/flower.svg");
+    }
+    .chc .lbl.rad-2:before {
+      background-image: url("img/leaf.svg");
+    }
 	</style>
 </head>
 <body>
@@ -29,18 +57,18 @@
     var check = new nyc.Choice({
       target: '#check',
       choices: [
-        {name: 'choice-1', label: 'Choice 1', values: [1]},
-        {name: 'choice-2', label: 'Choice 2', values: [2, 3, 4]},
-        {name: 'choice-3', label: 'Choice 3', values: [5]}
+        {name: 'cb-1', label: 'Dog', values: [1]},
+        {name: 'cb-2', label: 'Cat', values: [2, 3, 4]},
+        {name: 'cb-3', label: 'Robot', values: [5]}
       ]
     });
     var radio = new nyc.Choice({
       target: '#radio',
       radio: true,
       choices: [
-        {name: 'choice', label: 'Choice A', values: ['a']},
-        {name: 'choice', label: 'Choice B', values: ['b', 'c', 'd']},
-        {name: 'choice', label: 'Choice C', values: ['z', 'q']}
+        {name: 'rad', label: 'Tree', values: ['a']},
+        {name: 'rad', label: 'Flower', values: ['b', 'c', 'd']},
+        {name: 'rad', label: 'Leaf', values: ['z', 'q']}
       ]
     });
     function hadler(event) {

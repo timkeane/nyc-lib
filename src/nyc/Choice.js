@@ -43,17 +43,19 @@ class Choice extends Container {
    */
   setChoices(choices) {
     this.getContainer().empty()
-    choices.forEach(choice => {
+    choices.forEach((choice, i) => {
       const div = $(Choice.HTML)
       const id = nyc.nextId('chc')
       const input = div.find('input')
+      div.find('.lbl').addClass(this.radio ? `${choice.name}-${i}` : choice.name)
       input.attr('id', id)
         .attr('name', choice.name)
         .attr('type', this.radio ? 'radio' : 'checkbox')
         .prop('checked', choice.checked)
         .data('choice', choice)
         .change($.proxy(this.change, this))
-      div.find('label').html(choice.label).attr('for', id)
+      div.find('label').html(choice.label)
+        .attr('for', id)
       this.append(div)
       this.extend(choice)
     })
@@ -146,7 +148,7 @@ Choice.Options;
   */
 Choice.HTML = '<div class="chc">' +
   '<div><input></div>' +
-  '<div><label></label></div>' +
+  '<div class="lbl"><label></label></div>' +
 '</div>'
 
 export default Choice

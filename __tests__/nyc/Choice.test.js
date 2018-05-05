@@ -54,6 +54,10 @@ test('constructor checkbox', () => {
   expect($(choice.find('label').get(0)).html()).toBe(checkChoices[0].label)
   expect($(choice.find('label').get(1)).html()).toBe(checkChoices[1].label)
   expect($(choice.find('label').get(2)).html()).toBe(checkChoices[2].label)
+
+  expect($(choice.find('.lbl').get(0)).hasClass(checkChoices[0].name)).toBe(true)
+  expect($(choice.find('.lbl').get(1)).hasClass(checkChoices[1].name)).toBe(true)
+  expect($(choice.find('.lbl').get(2)).hasClass(checkChoices[2].name)).toBe(true)
 })
 
 test('constructor radio', () => {
@@ -87,6 +91,10 @@ test('constructor radio', () => {
   expect($(choice.find('label').get(0)).html()).toBe(radioChoices[0].label)
   expect($(choice.find('label').get(1)).html()).toBe(radioChoices[1].label)
   expect($(choice.find('label').get(2)).html()).toBe(radioChoices[2].label)
+
+  expect($(choice.find('.lbl').get(0)).hasClass(`${radioChoices[1].name}-0`)).toBe(true)
+  expect($(choice.find('.lbl').get(1)).hasClass(`${radioChoices[1].name}-1`)).toBe(true)
+  expect($(choice.find('.lbl').get(1)).hasClass(`${radioChoices[1].name}-1`)).toBe(true)
 })
 
 test('val checkbox', () => {
