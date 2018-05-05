@@ -43,6 +43,11 @@
         {name: 'choice', label: 'Choice C', values: ['z', 'q']},
       ]
     });
+    function hadler(event) {
+      console.info(event, event.val())
+    };
+    check.on('change', hadler);
+    radio.on('change', hadler);
 	</script>
 </body>
 </html>

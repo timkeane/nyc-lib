@@ -32,10 +32,21 @@ class Choice extends Container {
      * @private
      * @member {Array<Choice.Choice>}
      */
-    this.choices = this.setChoices(options.choices)
+    this.choices = null
+    /**
+     * @private
+     * @member {Array<JQuery>}
+     */
+    this.inputs = null
+    this.setChoices(options.choices)
   }
+  /**
+   * @desc Set the available choices
+   * @public
+   * @method
+   * @param {Array<Choice.Choice>} choices The choices
+   */
   setChoices(choices) {
-    this.choices = choices
     this.getContainer().empty()
     choices.forEach(choice => {
       const div = $(Choice.HTML)
@@ -45,8 +56,63 @@ class Choice extends Container {
         .attr('name', choice.name)
         .attr('type', this.radio ? 'radio' : 'checkbox')
         .prop('checked', choice.checked)
+        .data('choice', choice)
+        .change($.proxy(this.change, this))
       div.find('label').html(choice.label).attr('for', id)
-      this.append(div.data('choice', choice))
+      this.append(div)
+      this.extend(choice)
+    })
+    this.inputs = this.find('input')
+    this.choices = choices
+  }
+  /**
+   * @desc Get or set the seleced choices
+   * @public
+   * @method
+   * @param {Array<Choice.Choice>} choices The choices
+   */
+  val(choices) {
+    if (choices) {
+      $.each(this.inputs, (_, input) => {
+        $(input).prop('checked', false)
+        choices.some(chosen => {
+          const choice = $(input).data('choice')
+          if (chosen.eq(choice)) {
+            $(input).prop('checked', true)
+            return true
+          }
+        })
+      })
+    } else {
+      const chosen = []
+      $.each(this.inputs, (_, input) => {
+        if ($(input).prop('checked')) {
+          chosen.push($(input).data('choice'))
+        }
+      })
+      return chosen
+    }
+  }
+  /**
+   * @private
+   * @method
+   * @param {JQuery.Event} event
+   */
+  change(event) {
+    this.trigger('change', this)
+  }
+  /**
+   * @private
+   * @method
+   * @param {Choice.Choice}
+   */
+  extend(choice) {
+    $.extend(choice, {
+      eq(another) {
+        return this.name === another.name &&
+          this.label === another.label &&
+          JSON.stringify(this.value) === JSON.stringify(another.value)
+      }
     })
   }
 }
@@ -67,7 +133,7 @@ Choice.Choice;
  * @public
  * @typedef {Object}
  * @property {JQuery|Element|string} target The target DOM node for creating the collapsible choice control
- * @property {Array<Choice.Choice>} choices The choices for the user
+ * @property {Array<Choice.Choice>} choices The choices
  * @property {boolean} [radio=false] Checkbox or radio button
  */
 Choice.Options;
