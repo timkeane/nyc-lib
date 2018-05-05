@@ -48,12 +48,10 @@ class Collapsible extends Container {
     const collapsed = this.content.css('display') === 'none'
     const btn = this.btn
     if (collapsed) {
-      console.warn('slideDown');
       this.content.slideDown(() => {
         btn.addClass('rad-top')
       })
     } else {
-      console.warn('slideUp');
       this.content.slideUp(() => {
         btn.removeClass('rad-top')
       })
