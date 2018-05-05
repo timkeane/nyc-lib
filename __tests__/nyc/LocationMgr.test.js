@@ -21,6 +21,7 @@ beforeEach(() => {
 
 afterEach(() => {
   container.remove()
+  $('.dia-container').remove()
 })
 
 test('constructor not autoLocate', () => {
@@ -218,9 +219,13 @@ test('ambiguous no possible', () => {
 
   const locationMgr = new LocationMgr(options)
 
+  locationMgr.dialog.ok = jest.fn()
+
   locationMgr.ambiguous(data)
 
   expect(options.zoomSearch.disambiguate).toHaveBeenCalledTimes(0)
+  expect(locationMgr.dialog.ok).toHaveBeenCalledTimes(1)
+  expect(locationMgr.dialog.ok.mock.calls[0][0].message).toBe('The location you entered was not understood')
 })
 
 test('ambiguous has possible', () => {
@@ -229,16 +234,23 @@ test('ambiguous has possible', () => {
 
   const locationMgr = new LocationMgr(options)
 
+  locationMgr.dialog.ok = jest.fn()
+
   locationMgr.ambiguous(data)
 
   expect(options.zoomSearch.disambiguate).toHaveBeenCalledTimes(1)
   expect(options.zoomSearch.disambiguate.mock.calls[0][0]).toBe(data)
+  expect(locationMgr.dialog.ok).toHaveBeenCalledTimes(0)
 })
 
 test('error', () => {
 
   const locationMgr = new LocationMgr(options)
 
+  locationMgr.dialog.ok = jest.fn()
+
   locationMgr.error()
 
+  expect(locationMgr.dialog.ok).toHaveBeenCalledTimes(1)
+  expect(locationMgr.dialog.ok.mock.calls[0][0].message).toBe('Failed to contact geocoder')
 })

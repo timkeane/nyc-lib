@@ -55,7 +55,7 @@ class Dialog extends Container {
 	ok(options) {
 		this.buttons(Dialog.Type.OK, options)
 		this.show(Dialog.Type.OK, options)
-		this.getElem('.btn-ok').focus()
+		this.okBtn.focus()
 
 		const dia = this
 		const ok = this.okBtn
@@ -82,8 +82,8 @@ class Dialog extends Container {
 		const dia = this
 		const input = this.inputBtns
 		return new Promise((resolve) => {
-			const keyup = () => {
-				dia.hndlKey(resolve, dia, event, keyup)
+			const keyup = (event) => {
+				dia.hndlKey(resolve, dia, event)
 			}
 			$(document).keyup(keyup)
 			input.one('click', (event) => {
@@ -129,8 +129,8 @@ class Dialog extends Container {
 		const yesNo = this.yesNoBtns
 		const cancel = this.getElem('.btn-cancel')
 		return new Promise((resolve) => {
-			const keyup = () => {
-				dia.hndlKey(resolve, dia, event, keyup)
+			const keyup = (event) => {
+				dia.hndlKey(resolve, dia, event)
 			}
 			$(document).keyup(keyup)
 			yesNo.one('click', (event) => {
