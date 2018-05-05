@@ -5,6 +5,7 @@
 import EventHandling from 'nyc/EventHandling'
 import Locator from 'nyc/Locator'
 import ZoomSearch from 'nyc/ZoomSearch'
+import Dialog from 'nyc/Dialog'
 
 /**
  * @desc A class for managing user-specified location information
@@ -39,7 +40,7 @@ class LocationMgr extends EventHandling {
      * @private
      * @member {nyc.Dialog}
      */
-    //this.dialog = new nyc.Dialog()
+    this.dialog = new Dialog()
     /**
      * @private
      * @member {boolean}
@@ -108,8 +109,7 @@ class LocationMgr extends EventHandling {
 		if (data.possible.length) {
 			this.zoomSearch.disambiguate(data)
 		} else {
-      //this.dialog.ok({message: 'The location you entered was not understood'})
-      console.warn('The location you entered was not understood')
+      this.dialog.ok({message: 'The location you entered was not understood'})
 		}
 	}
   /**
@@ -117,8 +117,7 @@ class LocationMgr extends EventHandling {
 	 * @method
 	 */
 	error() {
-    //this.dialog.ok({message: 'Failed to contact geocoder'})
-    console.error('Failed to contact geocoder')
+    this.dialog.ok({message: 'Failed to contact geocoder'})
 	}
 }
 

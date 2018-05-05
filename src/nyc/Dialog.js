@@ -24,7 +24,7 @@ class Dialog extends Container {
 		 * @private
 		 * @member {JQuery}
 		 */
-		this.okBtns = this.getElem('.btn-ok')
+		this.okBtn = this.getElem('.btn-ok')
 		/**
 		 * @private
 		 * @member {JQuery}
@@ -45,11 +45,6 @@ class Dialog extends Container {
 		 * @member {JQuery}
 		 */
 		this.msg = this.getElem('.dia-msg')
-		$('.btn-ok').click($.proxy(this.hndlOk, this))
-		$('.btn-ok').click($.proxy(this.hndlLogin, this))
-		$('.btn-yes, .btn-no').click($.proxy(this.hndlYesNo, this))
-		$('.btn-submit, .btn-no, .btn-cancel').click($.proxy(this.hndlInput, this))
-		$(document).keyup($.proxy(this.hndlKey, this))
 	}
 	/**
 	 * @desc Show the ok dialog
@@ -61,7 +56,15 @@ class Dialog extends Container {
 		this.buttons(Dialog.Type.OK, options)
 		this.show(Dialog.Type.OK, options)
 		this.getElem('.btn-ok').focus()
-		this.callback = options.callback
+
+		const dia = this
+		const ok = this.okBtn
+		return new Promise((resolve) => {
+			ok.one('click', () => {
+				dia.hide()
+				resolve(true)
+			})
+		})
 	}
 	/**
 	 * @desc Show the input dialog
@@ -70,10 +73,26 @@ class Dialog extends Container {
 	 * @param {Dialog.Options} options Dialog options
 	 */
 	input(options) {
+		const field = this.field
 		this.buttons(Dialog.Type.INPUT, options)
-		this.field.attr('placeholder', options.placeholder || '')
+		field.attr('placeholder', options.placeholder || '')
 		this.show(Dialog.Type.INPUT, options)
-		this.field.focus()
+		field.focus()
+
+		const dia = this
+		const input = this.inputBtns
+		return new Promise((resolve) => {
+			const keyup = () => {
+				dia.hndlKey(resolve, dia, event, keyup)
+			}
+			$(document).keyup(keyup)
+			input.one('click', (event) => {
+				const cancel = $(event.target).hasClass('btn-cancel')
+				$(document).off('keyup', keyup)
+				dia.hide()
+				resolve(cancel ? undefined : field.val())
+			})
+		})
 	}
 	/**
 	 * @desc Show the yes-no dialog
@@ -85,6 +104,15 @@ class Dialog extends Container {
 		this.buttons(Dialog.Type.YES_NO, options)
 		this.show(Dialog.Type.YES_NO, options)
 		this.getElem('.btn-yes').focus()
+
+		const dia = this
+		const yesNo = this.yesNoBtns
+		return new Promise((resolve) => {
+			yesNo.one('click', (event) => {
+				dia.hide()
+				resolve($(event.target).hasClass('btn-yes'))
+			})
+		})
 	}
 	/**
 	 * @desc Show the yes-no dialog
@@ -96,6 +124,26 @@ class Dialog extends Container {
 		this.buttons(Dialog.Type.YES_NO_CANCEL, options)
 		this.show(Dialog.Type.YES_NO_CANCEL, options)
 		this.getElem('.btn-yes').focus()
+
+		const dia = this
+		const yesNo = this.yesNoBtns
+		const cancel = this.getElem('.btn-cancel')
+		return new Promise((resolve) => {
+			const keyup = () => {
+				dia.hndlKey(resolve, dia, event, keyup)
+			}
+			$(document).keyup(keyup)
+			yesNo.one('click', (event) => {
+				$(document).off('keyup', keyup)
+				dia.hide()
+				resolve($(event.target).hasClass('btn-yes'))
+			})
+			cancel.one('click', () => {
+				$(document).off('keyup', keyup)
+				dia.hide()
+				resolve(undefined)
+			})
+		})
 	}
 	/**
 	 * @private
@@ -146,103 +194,42 @@ class Dialog extends Container {
 		this.currentType = type
 		this.getContainer().removeClass('dia-3-btns')
 		this.getElem('.ui-link').removeClass('ui-link')
-		this.inputBtns.css('display', type == Dialog.Type.INPUT ? 'inline-block' : 'none')
-		this.field.css('display', type == Dialog.Type.INPUT ? 'block' : 'none')
-		this.okBtns.css('display', type == Dialog.Type.OK ? 'inline-block' : 'none')
-		this.yesNoBtns.css('display', type == Dialog.Type.YES_NO ? 'inline-block' : 'none')
-		if (type == Dialog.Type.YES_NO_CANCEL) {
+		this.inputBtns.css('display', type === Dialog.Type.INPUT ? 'inline-block' : 'none')
+		this.field.css('display', type === Dialog.Type.INPUT ? 'block' : 'none')
+		this.okBtn.css('display', type === Dialog.Type.OK ? 'inline-block' : 'none')
+		this.yesNoBtns.css('display', type === Dialog.Type.YES_NO ? 'inline-block' : 'none')
+		if (type === Dialog.Type.YES_NO_CANCEL) {
+			this.getContainer().addClass('dia-3-btns')
 			this.yesNoBtns.css('display', 'inline-block')
 			this.getElem('.btn-cancel').css('display', 'inline-block')
-			this.getContainer().addClass('dia-3-btns')
 		}
 		this.msg.html(options.message || '')
 		this.getContainer().fadeIn()
-		this.callback = options.callback
 	}
 	/**
 	 * @private
 	 * @method
-	 * @param {function()} afterHide
 	 */
-	hide(afterHide) {
-		var me = this
-		me.container.fadeOut(function(){
-			me.getElem('input').val('')
-			if (afterHide){
-				afterHide()
-			}
+	hide() {
+		const field = this.field
+		this.getContainer().fadeOut(() => {
+			field.val('')
 		})
 	}
 	/**
 	 * @private
 	 * @method
-	 * @param {Dialog.EventType} type
-	 * @param {(boolean|string|Object)} result
-	 */
-	hndlAny(type, result) {
-		var me = this
-		me.hide(function(){
-			if (me.callback){
-				me.callback(result)
-				me.callback = null
-			}
-			me.trigger(type, result)
-		})
-	}
-	/**
-	 * @private
-	 * @method
-	 * @param {JQuery.Event} event
-	 * @return {boolean}
-	 */
-	cancel(event) {
-		var cancel = $(event.target).hasClass('btn-cancel')
-		if (cancel) this.hide()
-		return cancel
-	}
-	hndlOk(event) {
-		if (this.currentType == Dialog.Type.OK){
-			this.hndlAny(Dialog.EventType.OK, true)
-		}
-	}
-	/**
-	 * @private
-	 * @method
+	 * @param {function()} resolve
+	 * @param {Dialog} dia
 	 * @param {JQuery.Event} event
 	 */
-	hndlYesNo(event) {
-		if (!this.cancel(event)) {
-			if (this.currentType == Dialog.Type.YES_NO_CANCEL || this.currentType == Dialog.Type.YES_NO){
-				this.hndlAny(Dialog.EventType.YES_NO, $(event.target).hasClass('btn-yes'))
-			}
-		}
-	}
-	/**
-	 * @private
-	 * @method
-	 * @param {JQuery.Event} event
-	 */
-	hndlInput(event) {
-		if (this.currentType == Dialog.Type.INPUT){
-			var value = this.cancel(event) ? '' : this.field.val()
-			this.hndlAny(Dialog.EventType.INPUT, value)
-		}
-	}
-	/**
-	 * @private
-	 * @method
-	 * @param {JQuery.Event} event
-	 */
-	hndlKey(event) {
-		if (this.getContainer().css('display') == 'block'){
-			if (event.keyCode == 13 && event.target.tagName.toUpperCase() == 'INPUT'){
-				this.hndlOk(event)
-				this.hndlYesNo(event)
-				this.hndlInput(event)
-				this.hndlLogin(event)
-			}else if (event.keyCode == 27 && this.currentType != Dialog.Type.OK){
-				this.hide()
-			}
+	hndlKey(resolve, dia, event) {
+		if (event.keyCode === 13 && $(event.target).get(0) === dia.field.get(0)) {
+			dia.hide()
+			resolve(dia.field.val())
+		} else if (event.keyCode === 27) {
+			dia.hide()
+			resolve(undefined)
 		}
 	}
 }
@@ -276,30 +263,6 @@ Dialog.Type = {
 }
 
 /**
- * @desc Dialog event type
- * @public
- * @enum {string}
- */
-Dialog.EventType = {
-	/**
-	 * @desc Dialog ok event type
-	 */
-	OK: 'ok',
-	/**
-	 * @desc Dialog yes-no event type
-	 */
-	YES_NO: 'yes-no',
-	/**
-	 * @desc Dialog input event type
-	 */
-	INPUT: 'input',
-	/**
-	 * @desc Dialog login event type
-	 */
-	LOGIN: 'login'
-}
-
-/**
  * @desc Dialog options.
  * @public
  * @typedef {Object}
@@ -307,7 +270,6 @@ Dialog.EventType = {
  * @property {Array<string>=} buttonText Button text list
  * @property {Array<string>=} buttonHref Button href list
  * @property {string=} placeholder Placeholder text for input dialog
- * @property {function(Object)=} callback Callback function
  */
 Dialog.Options
 
@@ -321,11 +283,11 @@ Dialog.HTML = '<div class="dia-container">' +
 	'<div class="dia-msg"></div>' +
 	'<input class="rad-all">' +
 	'<div class="dia-btns">' +
-		'<button class="btn rad-all btn-ok">OK</button>' +
-		'<button class="btn rad-all btn-yes">Yes</button>' +
-		'<button class="btn rad-all btn-no">No</button>' +
-		'<button class="btn rad-all btn-submit">OK</button>' +
-		'<button class="btn rad-all btn-cancel">Cancel</button>' +
+		'<a class="btn rad-all btn-ok">OK</a>' +
+		'<a class="btn rad-all btn-yes">Yes</a>' +
+		'<a class="btn rad-all btn-no">No</a>' +
+		'<a class="btn rad-all btn-submit">OK</a>' +
+		'<a class="btn rad-all btn-cancel">Cancel</a>' +
 		'</div>' +
 	'</div>' +
 '</div>'

@@ -7,35 +7,23 @@
   <link rel="stylesheet" href="../css/nyc-lib.css">
   <script src="../js/nyc-lib.js"></script>
 	<style>
-		 button.open-dia.ui-btn {
-		 	width: 60%;
+    button.open-dia {
+      display: block;
+      width: 60%;
 		 	margin: 10px 20%;
-		 }
+    }
 	</style>
 </head>
 <body>
-	<button class="open-dia" onclick="dia.ok({message: 'Hi there!', callback: dialogCallback});">Show OK dialog</button>
-	<button class="open-dia" onclick="dia.yesNo({message: 'Are you there?', callback: dialogCallback});">Show Yes/No dialog</button>
-	<button class="open-dia" onclick="dia.yesNoCancel({message: 'Are you there?', callback: dialogCallback});">Show Yes/No/Cancel dialog</button>
-	<button class="open-dia" onclick="dia.input({message: 'Where are you?', placeholder: 'Tell me...', callback: dialogCallback});">Show Input dialog</button>
-	<button class="open-dia" onclick="dia.login({callback: dialogCallback});">Show Login dialog</button>
+	<button class="btn open-dia" onclick="dia.ok({message: 'Hi there!'}).then(dialogCallback);">Show OK dialog</button>
+	<button class="btn open-dia" onclick="dia.yesNo({message: 'Are you there?'}).then(dialogCallback);">Show Yes/No dialog</button>
+	<button class="btn open-dia" onclick="dia.yesNoCancel({message: 'Are you there?'}).then(dialogCallback);">Show Yes/No/Cancel dialog</button>
+	<button class="btn open-dia" onclick="dia.input({message: 'Where are you?', placeholder: 'Tell me...'}).then(dialogCallback);">Show Input dialog</button>
 	<script>
 		var dia = new nyc.Dialog();
 		function dialogCallback(result){
 			console.info('dialogCallback', result);
 		};
-		dia.on(nyc.Dialog.EventType.OK, function(result){
-			console.info('nyc.Dialog.EventType.OK', result);
-		});
-		dia.on(nyc.Dialog.EventType.YES_NO, function(result){
-			console.info('nyc.Dialog.EventType.YES_NO', result);
-		});
-		dia.on(nyc.Dialog.EventType.INPUT, function(result){
-			console.info('nyc.Dialog.EventType.INPUT', result);
-		});
-		dia.on(nyc.Dialog.EventType.LOGIN, function(result){
-			console.info('nyc.Dialog.EventType.LOGIN', result);
-		});
 	</script>
 </body>
 </html>

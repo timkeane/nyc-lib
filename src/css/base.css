@@ -28,6 +28,14 @@ html, body, body * {
 	background-color: var(--theme-btn-bg-color);
 	color: var(--theme-btn-text-color);
 	height: 35px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+a.btn {
+	padding-top: 7px;
+	height: 28px;
+	text-decoration: none;
 }
 .btn-sq, .btn-rnd {
 	background-color: var(--theme-btn-sm-bg-color);
