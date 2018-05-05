@@ -75,7 +75,7 @@
 	cursor: pointer;
 	padding: 6px;
 	margin: 0;
-	border-bottom: var(--theme-btn-border);
+	border-bottom: var(--theme-btn-sm-border);
 }
 .srch ul li:last-child {
 	border-bottom: none;
@@ -84,8 +84,8 @@
 	outline: none;
 }
 .srch ul li:hover {
-	background-color: var(--theme-btn-bg-color);
-	color: var(--theme-btn-text-color);
+	background-color: var(--theme-btn-sm-bg-color);
+	color: var(--theme-btn-sm-text-color);
 }
 .z-srch ul.retention {
 	display: none;

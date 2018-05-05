@@ -10,8 +10,8 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const plugins = [
   new CleanWebpackPlugin(['dist']),
-  new webpack.optimize.ModuleConcatenationPlugin(),
-  new BundleAnalyzerPlugin({analyzerMode: 'static'})
+  // new BundleAnalyzerPlugin({analyzerMode: 'static'}),
+  new webpack.optimize.ModuleConcatenationPlugin()
 ]
 
 if (isProd) {
@@ -21,7 +21,8 @@ if (isProd) {
 
 module.exports = {
   entry: './src/index.js',
-  devtool: isProd ? false : "source-map",
+  devtool: isProd ? false : "cheap-module-eval-source-map",
+  // devtool: isProd ? false : "source-map",
   output: {
      path: path.resolve(__dirname, 'dist/js'),
      filename: 'nyc-lib.js'

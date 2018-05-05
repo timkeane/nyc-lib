@@ -19,11 +19,21 @@ html, body, body * {
 	color: transparent !important;
 	background-color: transparent !important;
 }
-.btn, .btn-sq, .btn-clr {
+.btn, .btn-sq, .btn-rnd {
 	background-repeat: no-repeat;
 	cursor: pointer;
+	font-weight: bold;
 }
-.btn-sq, .btn-clr {
+.btn {
+	background-color: var(--theme-btn-bg-color);
+	color: var(--theme-btn-text-color);
+	height: 35px;
+}
+.btn-sq, .btn-rnd {
+	background-color: var(--theme-btn-sm-bg-color);
+	color: var(--theme-btn-sm-text-color);
+}
+.btn-sq, .btn-rnd {
 	background-position: center;
 }
 .btn-sq {
@@ -34,17 +44,18 @@ html, body, body * {
 	padding: 0;
 	background-size: 19px;
 }
-.btn, .btn-sq {
-	background-color: var(--theme-btn-bg-color);
-}
-.btn:hover, .btn-sq:hover {
+.btn:hover {
 	background-color: var(--theme-btn-bg-color-hover);
+}
+.btn-sq:hover, .btn-rnd:hover {
+	background-color: var(--theme-btn-sm-bg-color-hover);
+	color: var(--theme-btn-sm-text-color-hover);
 }
 .btn-rnd {
 	width: 24px;
 	height: 24px;
 	background-size: 14px;
-	background-color: var(--theme-btn-bg-color);
+	background-color: var(--theme-btn-sm-bg-color);
 	border-radius: 50%;
 }
 .btn-rnd:focus {

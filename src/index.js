@@ -1,5 +1,4 @@
-import _jq from 'jquery'
-window.$ = _jq
+import $ from 'jquery'
 
 import _nyc from 'nyc/nyc'
 import _nyc_AutoComplete from 'nyc/AutoComplete'
