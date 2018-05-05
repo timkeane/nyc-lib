@@ -1,0 +1,16 @@
+.clps h3 {
+  margin: 0;
+}
+.clps h3 .btn-rnd {
+  background-image: var(--theme-up-bg-img);
+  float: left;
+  margin: -3px 5px 0 3px;
+}
+.clps h3 .btn-rnd.expd {
+  background-image: var(--theme-dn-bg-img);
+}
+.clps div.content {
+  border: var(--theme-btn-border);
+  border-top: none;
+  padding: 5px;
+}

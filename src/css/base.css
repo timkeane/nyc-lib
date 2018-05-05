@@ -4,9 +4,16 @@ html, body, body * {
 	font-family: var(--theme-font-family);
 	color: var(--theme-text-color);
 }
-.rad-all {
+.rad-all, .rad-top, .rad-bot {
 	border-radius: var(--theme-border-radius);
-	border: var(--theme-btn-border);
+}
+.rad-top {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.rad-bot {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 }
 *.screen-reader-only {
 	position: absolute !important;
@@ -20,6 +27,7 @@ html, body, body * {
 	background-color: transparent !important;
 }
 .btn, .btn-sq, .btn-rnd {
+	border: var(--theme-btn-border);
 	background-repeat: no-repeat;
 	cursor: pointer;
 	font-weight: bold;
@@ -32,9 +40,9 @@ html, body, body * {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-a.btn {
-	padding-top: 7px;
-	height: 28px;
+a.btn, h3.btn {
+	padding-top: 9px;
+	height: 26px;
 	text-decoration: none;
 }
 .btn-sq, .btn-rnd {

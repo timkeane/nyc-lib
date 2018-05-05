@@ -3,6 +3,7 @@ import $ from 'jquery'
 import _nyc from 'nyc/nyc'
 import _nyc_AutoComplete from 'nyc/AutoComplete'
 import _nyc_BasemapHelper from 'nyc/BasemapHelper'
+import _nyc_Collapsible from 'nyc/Collapsible'
 import _nyc_Container from 'nyc/Container'
 import _nyc_Dialog from 'nyc/Dialog'
 import _nyc_EventHandling from 'nyc/EventHandling'
@@ -17,6 +18,7 @@ import _nyc_ZoomSearch from 'nyc/ZoomSearch'
 window.nyc = _nyc
 window.nyc.AutoComplete = _nyc_AutoComplete
 window.nyc.BasemapHelper = _nyc_BasemapHelper
+window.nyc.Collapsible = _nyc_Collapsible
 window.nyc.Container = _nyc_Container
 window.nyc.Dialog = _nyc_Dialog
 window.nyc.EventHandling = _nyc_EventHandling
