@@ -35,7 +35,7 @@ class Collapsible extends Container {
      * @member {jQuery}
      */
     this.content = this.getElem('.content').append($(options.content))
-    if (options.expanded === false) {
+    if (options.collapsed) {
       this.toggle()
     }
   }
@@ -45,13 +45,15 @@ class Collapsible extends Container {
    * @method
    */
   toggle() {
-    const collapsed = !this.content.is(':visible')
+    const collapsed = this.content.css('display') === 'none'
     const btn = this.btn
     if (collapsed) {
+      console.warn('slideDown');
       this.content.slideDown(() => {
         btn.addClass('rad-top')
       })
     } else {
+      console.warn('slideUp');
       this.content.slideUp(() => {
         btn.removeClass('rad-top')
       })
@@ -67,7 +69,7 @@ class Collapsible extends Container {
  * @property {JQuery|Element|string} target The target element for the collapsible container
  * @property {JQuery|Element|string} title The title for the collapsible container
  * @property {JQuery|Element|string=} content The content for the body of the collapsible container
- * @property {boolean} [expanded=true] The starting state of the collapsible container
+ * @property {boolean} [collapsed=false] The starting state of the collapsible container
  */
 Collapsible.Options
 /**
@@ -76,7 +78,7 @@ Collapsible.Options
  * @type {string}
  */
 Collapsible.HTML = '<div class="clps rad-all">' +
-  '<h3 class="btn rad-all">' +
+  '<h3 class="btn rad-all rad-top">' +
     '<button class="btn-rnd">' +
       '<span class="screen-reader-only">show/hide</span>' +
     '</button>' +
