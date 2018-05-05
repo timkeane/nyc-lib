@@ -4,7 +4,7 @@
 
 import $ from 'jquery'
 
-import {nextId} from 'nyc/nyc'
+import nyc from 'nyc/nyc'
 import Container from 'nyc/Container'
 
 /**
@@ -28,11 +28,6 @@ class Choice extends Container {
      * @member {boolean}
      */
     this.radio = options.radio
-    /**
-     * @private
-     * @member {Array<Choice.Choice>}
-     */
-    this.choices = null
     /**
      * @private
      * @member {Array<JQuery>}
@@ -63,7 +58,6 @@ class Choice extends Container {
       this.extend(choice)
     })
     this.inputs = this.find('input')
-    this.choices = choices
   }
   /**
    * @desc Get or set the seleced choices
