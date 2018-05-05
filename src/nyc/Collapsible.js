@@ -26,7 +26,7 @@ class Collapsible extends Container {
      * @private
      * @member {jQuery}
      */
-    this.btn = this.getElem('h3')
+    this.btn = this.find('h3')
       .append(options.title)
       .click($.proxy(this.toggle, this))
 
@@ -34,7 +34,7 @@ class Collapsible extends Container {
      * @private
      * @member {jQuery}
      */
-    this.content = this.getElem('.content').append($(options.content))
+    this.content = this.find('.content').append($(options.content))
     if (options.collapsed) {
       this.toggle()
     }
@@ -56,7 +56,7 @@ class Collapsible extends Container {
         btn.removeClass('rad-top')
       })
     }
-    this.getElem('h3 button').toggleClass('expd')
+    this.find('h3 button').toggleClass('expd')
   }
 }
 

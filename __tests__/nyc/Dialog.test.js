@@ -17,11 +17,11 @@ test('constructor', () => {
   expect(dialog.okBtn.length).toBe(1)
   expect(dialog.okBtn.hasClass('btn-ok')).toBe(true)
   expect(dialog.yesNoBtns.length).toBe(2)
-  expect(dialog.yesNoBtns.get(0)).toBe(dialog.getElem('.btn-yes').get(0))
-  expect(dialog.yesNoBtns.get(1)).toBe(dialog.getElem('.btn-no').get(0))
+  expect(dialog.yesNoBtns.get(0)).toBe(dialog.find('.btn-yes').get(0))
+  expect(dialog.yesNoBtns.get(1)).toBe(dialog.find('.btn-no').get(0))
   expect(dialog.inputBtns.length).toBe(2)
-  expect(dialog.inputBtns.get(0)).toBe(dialog.getElem('.btn-submit').get(0))
-  expect(dialog.inputBtns.get(1)).toBe(dialog.getElem('.btn-cancel').get(0))
+  expect(dialog.inputBtns.get(0)).toBe(dialog.find('.btn-submit').get(0))
+  expect(dialog.inputBtns.get(1)).toBe(dialog.find('.btn-cancel').get(0))
   expect(dialog.okBtn.length).toBe(1)
   expect(dialog.field.get(0).tagName).toBe('INPUT')
   expect(dialog.msg.length).toBe(1)
@@ -38,10 +38,10 @@ test('ok check buttons', () => {
       setTimeout(() => {
         expect(dialog.okBtn.is(':focus')).toBe(true)
         expect(dialog.okBtn.css('display')).toBe('inline-block')
-        expect(dialog.getElem('.btn-yes').css('display')).toBe('none')
-        expect(dialog.getElem('.btn-no').css('display')).toBe('none')
-        expect(dialog.getElem('.btn-submit').css('display')).toBe('none')
-        expect(dialog.getElem('.btn-cancel').css('display')).toBe('none')
+        expect(dialog.find('.btn-yes').css('display')).toBe('none')
+        expect(dialog.find('.btn-no').css('display')).toBe('none')
+        expect(dialog.find('.btn-submit').css('display')).toBe('none')
+        expect(dialog.find('.btn-cancel').css('display')).toBe('none')
         expect(dialog.field.css('display')).toBe('none')
         expect(dialog.msg.html()).toBe('a message')
         resolve(true)
@@ -99,10 +99,10 @@ test('input check buttons', () => {
       setTimeout(() => {
         expect(dialog.field.is(':focus')).toBe(true)
         expect(dialog.okBtn.css('display')).toBe('none')
-        expect(dialog.getElem('.btn-yes').css('display')).toBe('none')
-        expect(dialog.getElem('.btn-no').css('display')).toBe('none')
-        expect(dialog.getElem('.btn-submit').css('display')).toBe('inline-block')
-        expect(dialog.getElem('.btn-cancel').css('display')).toBe('inline-block')
+        expect(dialog.find('.btn-yes').css('display')).toBe('none')
+        expect(dialog.find('.btn-no').css('display')).toBe('none')
+        expect(dialog.find('.btn-submit').css('display')).toBe('inline-block')
+        expect(dialog.find('.btn-cancel').css('display')).toBe('inline-block')
         expect(dialog.field.css('display')).toBe('block')
         expect(dialog.msg.html()).toBe('a message')
         resolve(true)
@@ -163,7 +163,7 @@ test('input click submit', () => {
   expect(dialog.show).toHaveBeenCalledTimes(1)
 
   dialog.field.val('abc')
-  dialog.getElem('.btn-submit').trigger('click')
+  dialog.find('.btn-submit').trigger('click')
 
   expect(dialog.hide).toHaveBeenCalledTimes(1)
 })
@@ -181,7 +181,7 @@ test('input click cancel', () => {
   expect(dialog.show).toHaveBeenCalledTimes(1)
 
   dialog.field.val('abc')
-  dialog.getElem('.btn-cancel').trigger('click')
+  dialog.find('.btn-cancel').trigger('click')
 
   expect(dialog.hide).toHaveBeenCalledTimes(1)
 })
@@ -194,12 +194,12 @@ test('yesNo check buttons', () => {
   const test = async () => {
     return new Promise((resolve) => {
       setTimeout(() => {
-        expect(dialog.getElem('.btn-yes').is(':focus')).toBe(true)
+        expect(dialog.find('.btn-yes').is(':focus')).toBe(true)
         expect(dialog.okBtn.css('display')).toBe('none')
-        expect(dialog.getElem('.btn-yes').css('display')).toBe('inline-block')
-        expect(dialog.getElem('.btn-no').css('display')).toBe('inline-block')
-        expect(dialog.getElem('.btn-submit').css('display')).toBe('none')
-        expect(dialog.getElem('.btn-cancel').css('display')).toBe('none')
+        expect(dialog.find('.btn-yes').css('display')).toBe('inline-block')
+        expect(dialog.find('.btn-no').css('display')).toBe('inline-block')
+        expect(dialog.find('.btn-submit').css('display')).toBe('none')
+        expect(dialog.find('.btn-cancel').css('display')).toBe('none')
         expect(dialog.field.css('display')).toBe('none')
         expect(dialog.msg.html()).toBe('a message')
         resolve(true)
@@ -244,7 +244,7 @@ test('yesNo click yes', async () => {
 
   expect(dialog.show).toHaveBeenCalledTimes(1)
 
-  dialog.getElem('.btn-yes').trigger('click')
+  dialog.find('.btn-yes').trigger('click')
 })
 
 test('yesNo click no', async () => {
@@ -262,7 +262,7 @@ test('yesNo click no', async () => {
 
   expect(dialog.show).toHaveBeenCalledTimes(1)
 
-  dialog.getElem('.btn-no').trigger('click')
+  dialog.find('.btn-no').trigger('click')
 })
 
 test('yesNoCancel check buttons', () => {
@@ -273,12 +273,12 @@ test('yesNoCancel check buttons', () => {
   const test = async () => {
     return new Promise((resolve) => {
       setTimeout(() => {
-        expect(dialog.getElem('.btn-yes').is(':focus')).toBe(true)
+        expect(dialog.find('.btn-yes').is(':focus')).toBe(true)
         expect(dialog.okBtn.css('display')).toBe('none')
-        expect(dialog.getElem('.btn-yes').css('display')).toBe('inline-block')
-        expect(dialog.getElem('.btn-no').css('display')).toBe('inline-block')
-        expect(dialog.getElem('.btn-submit').css('display')).toBe('none')
-        expect(dialog.getElem('.btn-cancel').css('display')).toBe('inline-block')
+        expect(dialog.find('.btn-yes').css('display')).toBe('inline-block')
+        expect(dialog.find('.btn-no').css('display')).toBe('inline-block')
+        expect(dialog.find('.btn-submit').css('display')).toBe('none')
+        expect(dialog.find('.btn-cancel').css('display')).toBe('inline-block')
         expect(dialog.field.css('display')).toBe('none')
         expect(dialog.msg.html()).toBe('a message')
         resolve(true)
@@ -323,7 +323,7 @@ test('yesNoCancel click yes', async () => {
 
   expect(dialog.show).toHaveBeenCalledTimes(1)
 
-  dialog.getElem('.btn-yes').trigger('click')
+  dialog.find('.btn-yes').trigger('click')
 })
 
 test('yesNoCancel click no', async () => {
@@ -341,7 +341,7 @@ test('yesNoCancel click no', async () => {
 
   expect(dialog.show).toHaveBeenCalledTimes(1)
 
-  dialog.getElem('.btn-no').trigger('click')
+  dialog.find('.btn-no').trigger('click')
 })
 
 test('yesNoCancel click cancel', async () => {
@@ -359,7 +359,7 @@ test('yesNoCancel click cancel', async () => {
 
   expect(dialog.show).toHaveBeenCalledTimes(1)
 
-  dialog.getElem('.btn-cancel').trigger('click')
+  dialog.find('.btn-cancel').trigger('click')
 })
 
 test('buttons Dialog.Type.OK', () => {
@@ -384,20 +384,20 @@ test('buttons Dialog.Type.INPUT', () => {
 
   dialog.buttons(Dialog.Type.INPUT, {})
 
-  expect(dialog.getElem('.btn-submit').html()).toBe('Submit')
-  expect(dialog.getElem('.btn-submit').attr('href')).toBe('#')
-  expect(dialog.getElem('.btn-cancel').html()).toBe('Cancel')
-  expect(dialog.getElem('.btn-cancel').attr('href')).toBe('#')
+  expect(dialog.find('.btn-submit').html()).toBe('Submit')
+  expect(dialog.find('.btn-submit').attr('href')).toBe('#')
+  expect(dialog.find('.btn-cancel').html()).toBe('Cancel')
+  expect(dialog.find('.btn-cancel').attr('href')).toBe('#')
 
   dialog.buttons(Dialog.Type.INPUT, {
     buttonText: ['foo', 'bar'],
     buttonHref: ['doo', 'fus']
   })
 
-  expect(dialog.getElem('.btn-submit').html()).toBe('foo')
-  expect(dialog.getElem('.btn-submit').attr('href')).toBe('doo')
-  expect(dialog.getElem('.btn-cancel').html()).toBe('bar')
-  expect(dialog.getElem('.btn-cancel').attr('href')).toBe('fus')
+  expect(dialog.find('.btn-submit').html()).toBe('foo')
+  expect(dialog.find('.btn-submit').attr('href')).toBe('doo')
+  expect(dialog.find('.btn-cancel').html()).toBe('bar')
+  expect(dialog.find('.btn-cancel').attr('href')).toBe('fus')
 })
 
 test('buttons Dialog.Type.YES_NO', () => {
@@ -405,20 +405,20 @@ test('buttons Dialog.Type.YES_NO', () => {
 
   dialog.buttons(Dialog.Type.YES_NO, {})
 
-  expect(dialog.getElem('.btn-yes').html()).toBe('Yes')
-  expect(dialog.getElem('.btn-yes').attr('href')).toBe('#')
-  expect(dialog.getElem('.btn-no').html()).toBe('No')
-  expect(dialog.getElem('.btn-no').attr('href')).toBe('#')
+  expect(dialog.find('.btn-yes').html()).toBe('Yes')
+  expect(dialog.find('.btn-yes').attr('href')).toBe('#')
+  expect(dialog.find('.btn-no').html()).toBe('No')
+  expect(dialog.find('.btn-no').attr('href')).toBe('#')
 
   dialog.buttons(Dialog.Type.YES_NO, {
     buttonText: ['foo', 'bar'],
     buttonHref: ['doo', 'fus']
   })
 
-  expect(dialog.getElem('.btn-yes').html()).toBe('foo')
-  expect(dialog.getElem('.btn-yes').attr('href')).toBe('doo')
-  expect(dialog.getElem('.btn-no').html()).toBe('bar')
-  expect(dialog.getElem('.btn-no').attr('href')).toBe('fus')
+  expect(dialog.find('.btn-yes').html()).toBe('foo')
+  expect(dialog.find('.btn-yes').attr('href')).toBe('doo')
+  expect(dialog.find('.btn-no').html()).toBe('bar')
+  expect(dialog.find('.btn-no').attr('href')).toBe('fus')
 })
 
 test('buttons Dialog.Type.YES_NO_CANCEL', () => {
@@ -426,24 +426,24 @@ test('buttons Dialog.Type.YES_NO_CANCEL', () => {
 
   dialog.buttons(Dialog.Type.YES_NO_CANCEL, {})
 
-  expect(dialog.getElem('.btn-yes').html()).toBe('Yes')
-  expect(dialog.getElem('.btn-yes').attr('href')).toBe('#')
-  expect(dialog.getElem('.btn-no').html()).toBe('No')
-  expect(dialog.getElem('.btn-no').attr('href')).toBe('#')
-  expect(dialog.getElem('.btn-cancel').html()).toBe('Cancel')
-  expect(dialog.getElem('.btn-cancel').attr('href')).toBe('#')
+  expect(dialog.find('.btn-yes').html()).toBe('Yes')
+  expect(dialog.find('.btn-yes').attr('href')).toBe('#')
+  expect(dialog.find('.btn-no').html()).toBe('No')
+  expect(dialog.find('.btn-no').attr('href')).toBe('#')
+  expect(dialog.find('.btn-cancel').html()).toBe('Cancel')
+  expect(dialog.find('.btn-cancel').attr('href')).toBe('#')
 
   dialog.buttons(Dialog.Type.YES_NO_CANCEL, {
     buttonText: ['foo', 'bar', 'lol'],
     buttonHref: ['doo', 'fus', 'wtf']
   })
 
-  expect(dialog.getElem('.btn-yes').html()).toBe('foo')
-  expect(dialog.getElem('.btn-yes').attr('href')).toBe('doo')
-  expect(dialog.getElem('.btn-no').html()).toBe('bar')
-  expect(dialog.getElem('.btn-no').attr('href')).toBe('fus')
-  expect(dialog.getElem('.btn-cancel').html()).toBe('lol')
-  expect(dialog.getElem('.btn-cancel').attr('href')).toBe('wtf')
+  expect(dialog.find('.btn-yes').html()).toBe('foo')
+  expect(dialog.find('.btn-yes').attr('href')).toBe('doo')
+  expect(dialog.find('.btn-no').html()).toBe('bar')
+  expect(dialog.find('.btn-no').attr('href')).toBe('fus')
+  expect(dialog.find('.btn-cancel').html()).toBe('lol')
+  expect(dialog.find('.btn-cancel').attr('href')).toBe('wtf')
 })
 
 test('hide', () => {

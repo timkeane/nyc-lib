@@ -58,9 +58,9 @@ test('constructor', () => {
   expect(zoomSearch.view).toBe(mockMap.getView())
   expect(zoomSearch.geoJson instanceof OlGeoJSON).toBe(true)
 
-  expect(zoomSearch.getElem('.z-srch').length).toBe(1)
+  expect(zoomSearch.find('.z-srch').length).toBe(1)
 
-  zoomSearch.getElem('.z-srch').trigger('click')
+  zoomSearch.find('.z-srch').trigger('click')
 
   expect(tip.css('display')).toBe('none')
 

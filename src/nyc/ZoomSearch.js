@@ -87,10 +87,10 @@ class ZoomSearch extends Container {
 	 */
 	render() {
 		this.getContainer().append(ZoomSearch.HTML)
-		this.input = this.getElem('.srch input')
-		this.list = this.getElem('.srch ul')
-		this.retention = this.getElem('ul.retention')
-		this.clear = this.getElem('.btn-clr')
+		this.input = this.find('.srch input')
+		this.list = this.find('.srch ul')
+		this.retention = this.find('ul.retention')
+		this.clear = this.find('.btn-clr')
 		this.hookupEvents(this.input)
 	}
 	/**
@@ -101,8 +101,8 @@ class ZoomSearch extends Container {
 	hookupEvents(input) {
 		input.on('keyup change', $.proxy(this.key, this))
 		input.focus($.proxy(this.select, this))
-		this.getElem('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))
-		this.getElem('.btn-geo').click($.proxy(this.geolocate, this))
+		this.find('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))
+		this.find('.btn-geo').click($.proxy(this.geolocate, this))
 		this.clear.click($.proxy(this.clearTxt, this))
 		$(document).mouseup($.proxy(this.listClick, this))
 	}
@@ -273,7 +273,7 @@ class ZoomSearch extends Container {
 	 * @param {string} featureTypeName The featureTypeName used when the features were set
 	 */
 	removeFeatures(featureTypeName) {
-		this.getElem('li.' + featureTypeName).remove()
+		this.find('li.' + featureTypeName).remove()
 	}
 	/**
 	 * @private
@@ -302,7 +302,7 @@ class ZoomSearch extends Container {
 	 * @method
 	 */
 	emptyList() {
-		this.retention.append(this.getElem('.srch li'))
+		this.retention.append(this.find('.srch li'))
 		this.list.empty()
 	}
 	/**

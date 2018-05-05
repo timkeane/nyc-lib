@@ -39,7 +39,7 @@ export default class Container extends EventHandling {
 	 * @method
 	 * @return {JQuery} The element
 	 */
-	getElem(selector) {
+	find(selector) {
 		return this.getContainer().find(selector)
 	}
 }

@@ -24,27 +24,27 @@ class Dialog extends Container {
 		 * @private
 		 * @member {JQuery}
 		 */
-		this.okBtn = this.getElem('.btn-ok')
+		this.okBtn = this.find('.btn-ok')
 		/**
 		 * @private
 		 * @member {JQuery}
 		 */
-		this.yesNoBtns = this.getElem('.btn-yes, .btn-no')
+		this.yesNoBtns = this.find('.btn-yes, .btn-no')
 		/**
 		 * @private
 		 * @member {JQuery}
 		 */
-	 	this.inputBtns = this.getElem('.btn-submit, .btn-cancel')
+	 	this.inputBtns = this.find('.btn-submit, .btn-cancel')
 		/**
 		 * @private
 		 * @member {JQuery}
 		 */
-	 	this.field = this.getElem('input')
+	 	this.field = this.find('input')
 		/**
 		 * @private
 		 * @member {JQuery}
 		 */
-		this.msg = this.getElem('.dia-msg')
+		this.msg = this.find('.dia-msg')
 	}
 	/**
 	 * @desc Show the ok dialog
@@ -103,7 +103,7 @@ class Dialog extends Container {
 	yesNo(options) {
 		this.buttons(Dialog.Type.YES_NO, options)
 		this.show(Dialog.Type.YES_NO, options)
-		this.getElem('.btn-yes').focus()
+		this.find('.btn-yes').focus()
 
 		const dia = this
 		const yesNo = this.yesNoBtns
@@ -123,11 +123,11 @@ class Dialog extends Container {
 	yesNoCancel(options) {
 		this.buttons(Dialog.Type.YES_NO_CANCEL, options)
 		this.show(Dialog.Type.YES_NO_CANCEL, options)
-		this.getElem('.btn-yes').focus()
+		this.find('.btn-yes').focus()
 
 		const dia = this
 		const yesNo = this.yesNoBtns
-		const cancel = this.getElem('.btn-cancel')
+		const cancel = this.find('.btn-cancel')
 		return new Promise((resolve) => {
 			const keyup = (event) => {
 				dia.hndlKey(resolve, dia, event)
@@ -157,27 +157,27 @@ class Dialog extends Container {
 		const buttonHref = options.buttonHref || []
 		switch(type) {
 			case Dialog.Type.OK:
-				this.getElem('.btn-ok').html(buttonText[0] || 'OK')
+				this.find('.btn-ok').html(buttonText[0] || 'OK')
 					.attr('href', buttonHref[0] || '#')
 				break
 			case Dialog.Type.INPUT:
-				this.getElem('.btn-submit').html(buttonText[0] || 'Submit')
+				this.find('.btn-submit').html(buttonText[0] || 'Submit')
 					.attr('href', buttonHref[0] || '#')
-				this.getElem('.btn-cancel').html(buttonText[1] || 'Cancel')
+				this.find('.btn-cancel').html(buttonText[1] || 'Cancel')
 					.attr('href', buttonHref[1] || '#')
 				break
 			case Dialog.Type.YES_NO:
-				this.getElem('.btn-yes').html(buttonText[0] || 'Yes')
+				this.find('.btn-yes').html(buttonText[0] || 'Yes')
 					.attr('href', buttonHref[0] || '#')
-				this.getElem('.btn-no').html(buttonText[1] || 'No')
+				this.find('.btn-no').html(buttonText[1] || 'No')
 					.attr('href', buttonHref[1] || '#')
 				break
 			case Dialog.Type.YES_NO_CANCEL:
-				this.getElem('.btn-yes').html(buttonText[0] || 'Yes')
+				this.find('.btn-yes').html(buttonText[0] || 'Yes')
 					.attr('href', buttonHref[0] || '#')
-				this.getElem('.btn-no').html(buttonText[1] || 'No')
+				this.find('.btn-no').html(buttonText[1] || 'No')
 					.attr('href', buttonHref[1] || '#')
-				this.getElem('.btn-cancel').html(buttonText[2] || 'Cancel')
+				this.find('.btn-cancel').html(buttonText[2] || 'Cancel')
 					.attr('href', buttonHref[2] || '#')
 		}
 	}
@@ -190,7 +190,7 @@ class Dialog extends Container {
 	show(type, options) {
 		this.currentType = type
 		this.getContainer().removeClass('dia-3-btns')
-		this.getElem('.ui-link').removeClass('ui-link')
+		this.find('.ui-link').removeClass('ui-link')
 		this.inputBtns.css('display', type === Dialog.Type.INPUT ? 'inline-block' : 'none')
 		this.field.css('display', type === Dialog.Type.INPUT ? 'block' : 'none')
 		this.okBtn.css('display', type === Dialog.Type.OK ? 'inline-block' : 'none')
@@ -198,7 +198,7 @@ class Dialog extends Container {
 		if (type === Dialog.Type.YES_NO_CANCEL) {
 			this.getContainer().addClass('dia-3-btns')
 			this.yesNoBtns.css('display', 'inline-block')
-			this.getElem('.btn-cancel').css('display', 'inline-block')
+			this.find('.btn-cancel').css('display', 'inline-block')
 		}
 		this.msg.html(options.message)
 		this.getContainer().fadeIn()
