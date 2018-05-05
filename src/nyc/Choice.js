@@ -77,6 +77,7 @@ class Choice extends Container {
           }
         })
       })
+      return this.val()
     } else {
       const chosen = []
       $.each(this.inputs, (_, input) => {

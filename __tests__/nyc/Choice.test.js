@@ -88,3 +88,52 @@ test('constructor radio', () => {
   expect($(choice.find('label').get(1)).html()).toBe(radioChoices[1].label)
   expect($(choice.find('label').get(2)).html()).toBe(radioChoices[2].label)
 })
+
+test('val checkbox', () => {
+  const choice = new Choice({
+    target: container,
+    choices: checkChoices
+  })
+
+  let value = choice.val()
+  expect(value.length).toBe(2)
+  expect(value[0]).toBe(checkChoices[0])
+  expect(value[1]).toBe(checkChoices[2])
+
+  value = choice.val([checkChoices[1], checkChoices[2]])
+  expect(value.length).toBe(2)
+  expect(value[0]).toBe(checkChoices[1])
+  expect(value[1]).toBe(checkChoices[2])
+})
+
+test('val radio', () => {
+  const choice = new Choice({
+    target: container,
+    choices: radioChoices,
+    radio: true
+  })
+
+  let value = choice.val()
+  expect(value.length).toBe(1)
+  expect(value[0]).toBe(radioChoices[1])
+
+  value = choice.val([radioChoices[0], radioChoices[2]])
+  expect(value.length).toBe(1)
+  expect(value[0]).toBe(radioChoices[2])
+})
+
+test('change checkbox', () => {
+  const handler = jest.fn()
+
+  const choice = new Choice({
+    target: container,
+    choices: checkChoices
+  })
+
+  choice.on('change', handler)
+
+  $(choice.inputs.get(1)).trigger('change')
+
+  expect(handler).toHaveBeenCalledTimes(1)
+  expect(handler.mock.calls[0][0]).toBe(choice)
+})
