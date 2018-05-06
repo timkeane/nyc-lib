@@ -2,6 +2,8 @@
  * @module nyc
  */
 
+import $ from 'jquery'
+
 import proj4 from 'proj4'
 
 proj4.defs(
@@ -53,9 +55,7 @@ const nyc = {
 	 */
 	mixin(obj, mixins) {
 		mixins.forEach(mixin => {
-		Object.keys(mixin).forEach(member => {
-				obj[member] = mixin[member]
-			})
+			$.extend(obj, mixin)
 		})
 	},
 	/**

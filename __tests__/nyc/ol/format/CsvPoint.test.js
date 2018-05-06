@@ -4,10 +4,6 @@ import nyc from 'nyc/nyc'
 
 import CsvPoint from 'nyc/ol/format/CsvPoint'
 
-import OlFeaure from 'ol/feature'
-import OlFormatFeaure from 'ol/format/feature'
-import OlGeomPoint from 'ol/geom/point'
-
 const sourceId = [
   {id: 'a', x: 0, y: 0, name: 'foo'},
   {id: 'b', x: 1, y: 2, name: 'bar'},

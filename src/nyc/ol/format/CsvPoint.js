@@ -89,7 +89,7 @@ class CsvPoint extends OlFormatFeature {
 }
 
 /**
-* @desc Constructor options for {@link Choice}
+* @desc Constructor options for {@link CsvPoint}
 * @public
 * @typedef {Object}
 * @property {string} x The name of the field containing the x ordinate of the point
