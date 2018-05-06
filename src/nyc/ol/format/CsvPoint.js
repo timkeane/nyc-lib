@@ -4,6 +4,8 @@
 
 import proj4 from 'proj4'
 
+import Papa from 'papaparse'
+
 import nyc from 'nyc/nyc'
 
 import OlFeature from 'ol/feature'
@@ -59,12 +61,14 @@ class CsvPoint extends OlFormatFeature {
    */
   readFeature(source, options) {
     options = this.adaptOptions(options)
-    const feature = new OlFeature(source)
+    const x = source[this.x] = source[this.x] * 1
+    const y = source[this.y] = source[this.y] * 1
     const coord = proj4(
       options.dataProjection,
       options.featureProjection,
-      [source[this.x], source[this.y]]
+      [x, y]
     )
+    const feature = new OlFeature(source)
     const point = new OlGeomPoint(coord)
     const id = source[this.id] || this.lastId++
     feature.setGeometry(point)
@@ -81,8 +85,15 @@ class CsvPoint extends OlFormatFeature {
    */
   readFeatures(source, options) {
     const features = []
-    source.forEach(row => {
-      features.push(this.readFeature(row, options))
+    if (typeof source === 'string') {
+      source = Papa.parse(source, {header: true}).data
+    }
+    source.forEach((row, i) => {
+      try {
+        features.push(this.readFeature(row, options))
+      } catch (error) {
+        console.error(`Bad data at row ${i} of ${source.length}`, row)
+      }
     })
     return features
   }

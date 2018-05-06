@@ -43,3 +43,15 @@ window.nyc.ol.Basemap = _nyc_ol_Basemap
 window.nyc.ol.Locator = _nyc_ol_Locator
 window.nyc.ol.MapLocator = _nyc_ol_MapLocator
 window.nyc.ol.ZoomSearch = _nyc_ol_ZoomSearch
+
+import _nyc_ol_format_CsvPoint from 'nyc/ol/format/CsvPoint'
+import _nyc_ol_format_Decorating from 'nyc/ol/format/Decorating'
+
+window.nyc.ol.format = {}
+window.nyc.ol.format.CsvPoint = _nyc_ol_format_CsvPoint
+window.nyc.ol.format.Decorating = _nyc_ol_format_Decorating
+
+import _nyc_ol_source_AutoLoad from 'nyc/ol/source/AutoLoad'
+
+window.nyc.ol.source = {}
+window.nyc.ol.source.AutoLoad = _nyc_ol_source_AutoLoad

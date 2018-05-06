@@ -119,3 +119,13 @@ test('readFeatures no extendFeature', () => {
   expect(features[1].sayHi()).toBe('Hi, bar foo!')
   expect(features[2].sayHi()).toBe('Hi, wtf lol!')
 })
+
+test('readFeature', () => {
+  const decorating = new Decorating({
+    parentFormat: parentFormat,
+    decorations: featureDecorations
+  })
+  expect(() => {decorating.readFeature('anything')}).toThrow(
+    'Not supported: Use readFeatures'
+  )
+})

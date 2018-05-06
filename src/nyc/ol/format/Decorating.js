@@ -10,7 +10,6 @@ import OlFeature from 'ol/feature'
 import OlFormatFeature from 'ol/format/feature'
 import OlGeomPoint from 'ol/geom/point'
 
-
 /**
  * @desc Class to create point features from CSV data
  * @public
@@ -39,12 +38,7 @@ class Decorating extends OlFormatFeature {
    * @return {ol.Feature} Feature
    */
   readFeature(source, options) {
-    const feature = this.parentFormat.readFeature(source, options)
-    nyc.mixin(feature, this.decorations)
-    if (feature.extendFeature) {
-      feature.extendFeature()
-    }
-    return feature
+    throw 'Not supported: Use readFeatures'
   }
   /**
    * @desc Read all features from a source
@@ -55,11 +49,17 @@ class Decorating extends OlFormatFeature {
    * @return {Array.<ol.Feature>} Features
    */
   readFeatures(source, options) {
-    const features = []
-    source.forEach(feature => {
-      features.push(this.readFeature(feature, options))
+    const features = this.parentFormat.readFeatures(source, options)
+    features.forEach(feature => {
+      this.mixin(feature)
     })
     return features
+  }
+  mixin(feature) {
+    nyc.mixin(feature, this.decorations)
+    if (feature.extendFeature) {
+      feature.extendFeature()
+    }
   }
 }
 
