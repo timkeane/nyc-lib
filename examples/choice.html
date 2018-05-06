@@ -8,15 +8,8 @@
   <script src="../js/nyc-lib.js"></script>
 	<style>
     #check, #radio {
-      margin: 30px 10px;
-      display: inline-block;
-      width: 40%;
-    }
-    #check {
-      float: left;
-    }
-    #radio {
-      float: right;
+      margin: 30px auto 0;
+      width: 200px;
     }
     .chc .lbl:before {
       content: " ";
@@ -45,6 +38,24 @@
     }
     .chc .lbl.rad-2:before {
       background-image: url("img/leaf.svg");
+    }
+    .chc:hover .lbl.cb-1:before {
+      background-image: url("img/dog-white.svg");
+    }
+    .chc:hover .lbl.cb-2:before {
+      background-image: url("img/cat-white.svg");
+    }
+    .chc:hover .lbl.cb-3:before {
+      background-image: url("img/robot-white.svg");
+    }
+    .chc:hover .lbl.rad-0:before {
+      background-image: url("img/tree-white.svg");
+    }
+    .chc:hover .lbl.rad-1:before {
+      background-image: url("img/flower-white.svg");
+    }
+    .chc:hover .lbl.rad-2:before {
+      background-image: url("img/leaf-white.svg");
     }
 	</style>
 </head>

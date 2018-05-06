@@ -4,13 +4,13 @@
 	 height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
 <g id="Black">
 	<g>
-		<polygon fill="none" stroke="#58595B" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="11.5,0.5 
+		<polygon fill="none" stroke="#58595B" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="11.5,0.5
 			19,16.5 4,16.5 		"/>
-		
+
 			<line fill="none" stroke="#58595B" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="11.5" y1="23.5" x2="11.5" y2="8.5"/>
-		
+
 			<line fill="none" stroke="#58595B" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="11.5" y1="14" x2="9.002" y2="11.503"/>
-		
+
 			<line fill="none" stroke="#58595B" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="11.5" y1="21.078" x2="16.039" y2="16.539"/>
 	</g>
 </g>
