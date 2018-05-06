@@ -3,13 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>nyc.Choice Example</title>
+  <title>nyc.Collapsible and nyc.Choice Example</title>
   <link rel="stylesheet" href="../css/nyc-lib.css">
   <script src="../js/nyc-lib.js"></script>
 	<style>
-    #check, #radio {
-      margin: 30px auto 0;
-      width: 200px;
+    #collapsible {
+      margin: 30px auto;
+      display: block;
+      width: 60%;
     }
     .chc .lbl:before {
       content: " ";
@@ -30,15 +31,6 @@
     .chc .lbl.robot:before {
       background-image: url("img/robot.svg");
     }
-    .chc .lbl.plant-0:before {
-      background-image: url("img/tree.svg");
-    }
-    .chc .lbl.plant-1:before {
-      background-image: url("img/flower.svg");
-    }
-    .chc .lbl.plant-2:before {
-      background-image: url("img/leaf.svg");
-    }
     .chc:hover .lbl.dog:before {
       background-image: url("img/dog-white.svg");
     }
@@ -48,22 +40,11 @@
     .chc:hover .lbl.robot:before {
       background-image: url("img/robot-white.svg");
     }
-    .chc:hover .lbl.plant-0:before {
-      background-image: url("img/tree-white.svg");
-    }
-    .chc:hover .lbl.plant-1:before {
-      background-image: url("img/flower-white.svg");
-    }
-    .chc:hover .lbl.plant-2:before {
-      background-image: url("img/leaf-white.svg");
-    }
 	</style>
 </head>
 <body>
-  <div>
-    <div id="check"></div>
-    <div id="radio"></div>
-  </div>
+  <div id="collapsible"></div>
+  <div id="check"></div>
 	<script>
     var check = new nyc.Choice({
       target: '#check',
@@ -73,20 +54,15 @@
         {name: 'robot', label: 'Robot', values: [5]}
       ]
     });
-    var radio = new nyc.Choice({
-      target: '#radio',
-      radio: true,
-      choices: [
-        {name: 'plant', label: 'Tree', values: ['a']},
-        {name: 'plant', label: 'Flower', values: ['b', 'c', 'd']},
-        {name: 'plant', label: 'Leaf', values: ['z', 'q']}
-      ]
+    var collapsible = new nyc.Collapsible({
+      target: '#collapsible',
+      title: 'Pets',
+      content: '#check'
     });
     function hadler(event) {
       console.info(event, event.val())
     };
     check.on('change', hadler);
-    radio.on('change', hadler);
 	</script>
 </body>
 </html>
