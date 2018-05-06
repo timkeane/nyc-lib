@@ -33,3 +33,6 @@
 	width: 14px;
 	height: 14px;
 }
+.chc label {
+	display: block;
+}
