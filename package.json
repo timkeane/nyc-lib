@@ -74,14 +74,5 @@
     "webpack": "^4.6.0",
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.14"
-  },
-  "dependencies": {},
-  "browser": {
-    "jquery-mobile": "./node_modules/jquery-mobile-babel-safe/dist/jquery.mobile-1.4.5.js"
-  },
-  "browserify-shim": {
-    "jquery-mobile": {
-      "exports": "jQuery.mobile"
-    }
   }
 }
