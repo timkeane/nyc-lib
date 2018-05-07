@@ -3,7 +3,7 @@ import proj4 from 'proj4'
 import nyc from 'nyc/nyc'
 
 import CsvPoint from 'nyc/ol/format/CsvPoint'
-import Decorating from 'nyc/ol/format/Decorating'
+import Decorate from 'nyc/ol/format/Decorate'
 
 const sourceId = [
   {id: 'a', x: 0, y: 0, first: 'foo', last: 'bar'},
@@ -43,7 +43,7 @@ const featureDecorations = [
 ]
 
 test('readFeatures extendFeature', () => {
-  const decorating = new Decorating({
+  const decorating = new Decorate({
     parentFormat: parentFormat,
     decorations: extendFeatureDecorations
   })
@@ -80,7 +80,7 @@ test('readFeatures extendFeature', () => {
 })
 
 test('readFeatures no extendFeature', () => {
-  const decorating = new Decorating({
+  const decorating = new Decorate({
     parentFormat: parentFormat,
     decorations: featureDecorations
   })
@@ -121,7 +121,7 @@ test('readFeatures no extendFeature', () => {
 })
 
 test('readFeature', () => {
-  const decorating = new Decorating({
+  const decorating = new Decorate({
     parentFormat: parentFormat,
     decorations: featureDecorations
   })

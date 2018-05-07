@@ -45,11 +45,11 @@ window.nyc.ol.MapLocator = _nyc_ol_MapLocator
 window.nyc.ol.ZoomSearch = _nyc_ol_ZoomSearch
 
 import _nyc_ol_format_CsvPoint from 'nyc/ol/format/CsvPoint'
-import _nyc_ol_format_Decorating from 'nyc/ol/format/Decorating'
+import _nyc_ol_format_Decorate from 'nyc/ol/format/Decorate'
 
 window.nyc.ol.format = {}
 window.nyc.ol.format.CsvPoint = _nyc_ol_format_CsvPoint
-window.nyc.ol.format.Decorating = _nyc_ol_format_Decorating
+window.nyc.ol.format.Decorate = _nyc_ol_format_Decorate
 
 import _nyc_ol_source_AutoLoad from 'nyc/ol/source/AutoLoad'
 

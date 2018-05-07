@@ -1,5 +1,5 @@
 /**
- * @module nyc/ol/format/Decorating
+ * @module nyc/ol/format/Decorate
  */
 
 import $ from 'jquery'
@@ -15,7 +15,7 @@ import OlGeomPoint from 'ol/geom/point'
  * @public
  * @class
  */
-class Decorating extends OlFormatFeature {
+class Decorate extends OlFormatFeature {
   constructor(options) {
     super()
     /**
@@ -64,12 +64,12 @@ class Decorating extends OlFormatFeature {
 }
 
 /**
-* @desc Constructor options for {@link Decorating}
+* @desc Constructor options for {@link Decorate}
 * @public
 * @typedef {Object}
 * @property {ol.format.Feature} parentFormat The parent format for creating features to decorate
 * @property {Array<Object>} decorations The objects used to decorate features
 */
-Decorating.Options
+Decorate.Options
 
-export default Decorating
+export default Decorate

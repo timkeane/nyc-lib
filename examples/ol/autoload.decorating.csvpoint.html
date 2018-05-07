@@ -58,7 +58,7 @@
     })
     const source = new nyc.ol.source.AutoLoad({
       url: '../data/pka.csv',
-      format: new nyc.ol.format.Decorating({
+      format: new nyc.ol.format.Decorate({
         parentFormat: csv,
         decorations: decorations
       })
