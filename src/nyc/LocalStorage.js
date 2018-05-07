@@ -4,6 +4,8 @@
 
 import $ from 'jquery'
 
+const shapefile = require('shapefile')
+
 /**
  * @desc Class to provide access to localStorage and filesystem
  * @public
@@ -13,7 +15,6 @@ import $ from 'jquery'
 class LocalStorage {
   
   constructor(){
-    super()
   }
 
   /**
@@ -152,11 +153,12 @@ class LocalStorage {
 	*/
 	getShpDbfPrj(map, files, callback) {
 		let shp, dbf, prj
-		$.each(files, () => {
-			const ext = this.name.substr(name.length - 4)
-			if (ext == '.shp') shp = this
-			else if (ext == '.dbf') dbf = this
-			else if (ext == '.prj') prj = this
+		Object.values(files).forEach(file => {
+			console.log(file)
+			const ext = file.name.substr(name.length - 4)
+			if (ext == '.shp') shp = file
+			else if (ext == '.dbf') dbf = file
+			else if (ext == '.prj') prj = file
 		})
 		if (shp){
 			this.readPrj(prj, projcs => {
@@ -221,13 +223,14 @@ class LocalStorage {
 	 * @param {function} callback
 	*/
 	readShp(map, shp, dbf, projcs, callback) {
+		const me = this
     let features = []
 		shapefile.open(shp, dbf)
 		  .then( source => {
 				source.read()
 				.then(function collect(result){
 					if (result.done){
-						const layer = this.addToMap(map, features, projcs)
+						const layer = me.addToMap(map, features, projcs)
 						if (callback) callback(layer)
 						return
 					}else{
