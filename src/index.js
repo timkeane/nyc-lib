@@ -13,6 +13,7 @@ import _nyc_Geocoder from 'nyc/Geocoder'
 import _nyc_Locator from 'nyc/Locator'
 import _nyc_LocationMgr from 'nyc/LocationMgr'
 import _nyc_MapLocator from 'nyc/MapLocator'
+import _nyc_Pager from 'nyc/Pager'
 import _nyc_ReplaceTokens from 'nyc/ReplaceTokens'
 import _nyc_ZoomSearch from 'nyc/ZoomSearch'
 
@@ -29,6 +30,7 @@ window.nyc.Geocoder = _nyc_Geocoder
 window.nyc.Locator = _nyc_Locator
 window.nyc.LocationMgr = _nyc_LocationMgr
 window.nyc.MapLocator = _nyc_MapLocator
+window.nyc.Pager = _nyc_Pager
 window.nyc.ReplaceTokens = _nyc_ReplaceTokens
 window.nyc.ZoomSearch = _nyc_ZoomSearch
 

@@ -63,7 +63,7 @@
         decorations: decorations
       })
     })
-    source.autoLoad().then((features) => {
+    source.autoLoad().then(function(features) {
       console.log(features[0].getAddress())
     })
 

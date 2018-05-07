@@ -30,7 +30,7 @@
       url: '../data/data.json',
       format: new ol.format.GeoJSON()
     })
-    source.autoLoad().then((features) => {console.log(features)})
+    source.autoLoad().then(function(features) {console.log(features)})
     map.addLayer(new ol.layer.Vector({source: source}));
   </script>
 </body>

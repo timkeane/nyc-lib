@@ -18,13 +18,23 @@
       top: 0;
       left: 0;
       bottom: 0;
+      width: calc(100% - 400px);
+    }
+    #nearest {
+      position: fixed;
+      top: 0;
       right: 0;
+      bottom: 0;
+      width: 400px;
     }
   </style>
 </head>
 <body>
   <div id="map"></div>
+  <div id="nearest"></div>
   <script>
+    var pager = new nyc.Pager({target: '#nearest', pageSize: 200});
+
     var decorations = [
       {
         extendFeature() {
@@ -48,7 +58,16 @@
       {
         getAddress() {
           return this.get('full-address')
-        }
+        },
+        html() {
+          var distance = this.get('distance')
+          var html = this.getAddress().replace(/\n/g, '<br>')
+          if (distance) {
+            html = distance.distance + ' ' + 
+              distance.units + html + '<br>'
+          }
+          return html
+        }        
       }
     ]
     var csv = new nyc.ol.format.CsvPoint({
@@ -63,7 +82,9 @@
         decorations: decorations
       })
     })
-    source.autoLoad();
+    source.autoLoad().then(function(features) {
+      pager.reset(features)
+    });
 
     var map = new nyc.ol.Basemap({target: 'map'});
     map.addLayer(new ol.layer.Vector({source: source}));
@@ -72,12 +93,13 @@
     var locationMgr = new nyc.LocationMgr({
       zoomSearch: new nyc.ol.ZoomSearch(map),
       locator: new nyc.ol.Locator({
-        geocoder: new nyc.Geoclient({url: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'})
+        geocoder: new nyc.Geoclient({url: url})
       }),
       mapLocator: new nyc.ol.MapLocator({map: map})
     });
     locationMgr.on(nyc.ol.Locator.EventType.GEOCODE, function(location) {
       var features = source.sort(location.coordinate);
+      pager.reset(features)
       for (var i = 0; i < 10; i++) {
         console.log(features[i].get('distance'))
         console.log(features[i].getAddress())

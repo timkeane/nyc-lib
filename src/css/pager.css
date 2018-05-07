@@ -1,0 +1,16 @@
+.pg {
+  margin: 0;
+}
+.pg .list {
+  height: calc(100% - 50px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.pg button {
+  margin: 5px;
+  width: calc(100% - 10px)
+}
+.pg .list .pg-item {
+  border-bottom: var(--theme-btn-border);
+  padding: 5px;
+}
