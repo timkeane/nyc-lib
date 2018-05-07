@@ -1,3 +1,7 @@
+import OlFormatGeoJSON from 'ol/format/geojson'
+import OlSourceVector from 'ol/source/vector'
+import OlLayerVector from 'ol/layer/vector'
+
 import NycLocalStorage from 'nyc/LocalStorage'
 
 /**
@@ -7,8 +11,8 @@ import NycLocalStorage from 'nyc/LocalStorage'
  * @extends {nyc.storage.Local}
  * @constructor
  */
-class LocalStorage extends NycLocalStorage {
-	constructor(){
+export default class LocalStorage extends NycLocalStorage {
+	constructor() {
 		super()
 	}
 	/**
@@ -21,16 +25,16 @@ class LocalStorage extends NycLocalStorage {
 	 * @return {Object}
 	*/
 	addToMap (map, features, projcs) {
-		var options = {
+		const options = {
 			featureProjection: map.getView().getProjection(),
 			dataProjection: this.customProj(projcs)
 		}
 		if (typeof features == 'object'){
 			features = {type: 'FeatureCollection', features: features}
 		}
-		features = new ol.format.GeoJSON().readFeatures(features, options)
-		var source = new ol.source.Vector()
-		var layer = new ol.layer.Vector({source: source})
+		features = new OlFormatGeoJSON().readFeatures(features, options)
+		const source = new OlSourceVector()
+		const layer = new OlLayerVector({source: source})
 		source.addFeatures(features)
 		map.addLayer(layer)
 		return layer
