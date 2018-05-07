@@ -29,7 +29,7 @@ class LocationMgr extends NycLocationMgr {
       locator: new NycOlLocator({
         geocoder: new NycGeoclient({url: options.url})
       }),
-      mapLocator: new NycOlMapLocator({map: map})
+      mapLocator: new NycOlMapLocator({map: options.map})
     })
   }
 }
