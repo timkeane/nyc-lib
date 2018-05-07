@@ -67,17 +67,19 @@ test('filter', () => {
     features: [f0, f4, f2, f1, f3]
   })
 
-  let features = filterAndSort.filter([filter0])
+  let features
 
-  expect(features.length).toBe(2)
-  expect(features[0]).toBe(f0)
-  expect(features[1]).toBe(f2)
-
-  features = filterAndSort.filter([filter1])
-
-  expect(features.length).toBe(2)
-  expect(features[0]).toBe(f0)
-  expect(features[1]).toBe(f3)
+  // features = filterAndSort.filter([filter0])
+  //
+  // expect(features.length).toBe(2)
+  // expect(features[0]).toBe(f0)
+  // expect(features[1]).toBe(f2)
+  //
+  // features = filterAndSort.filter([filter1])
+  //
+  // expect(features.length).toBe(2)
+  // expect(features[0]).toBe(f0)
+  // expect(features[1]).toBe(f3)
 
   features = filterAndSort.filter([filter0, filter1])
 

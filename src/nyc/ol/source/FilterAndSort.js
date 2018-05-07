@@ -48,10 +48,8 @@ class FilterAndSort extends AutoLoad {
   			return !incl
   		})
   		if (incl) {
-  			if (!filtered[feature.getId()]) {
-  				filtered[feature.getId()] = true
-  				filteredFeatures.push(feature)
-  			}
+				filtered[feature.getId()] = true
+				filteredFeatures.push(feature)
   		}
   	})
   	this.clear(true)
