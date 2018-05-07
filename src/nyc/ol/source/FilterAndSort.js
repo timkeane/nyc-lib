@@ -30,7 +30,8 @@ class FilterAndSort extends AutoLoad {
      * @private
      * @member {Array<ol.Feature>}
      */
-    this.allFeatures = null
+    this.allFeatures = options.features || null
+    this.on('change:autoload-complete', $.proxy(this.storeFeatures, this))
   }
   /**
    * @desc Filters the features of this source
@@ -42,7 +43,6 @@ class FilterAndSort extends AutoLoad {
   filter(filters) {
     const filteredFeatures = []
     const filtered = {}
-    this.allFeatures = this.allFeatures || this.getFeatures()
     this.allFeatures.forEach(feature => {
   		let incl = true
   		filters.every(filter => {
@@ -108,6 +108,9 @@ class FilterAndSort extends AutoLoad {
       dataProj = dataProj.getCode ? dataProj : new OlProjProjection({code: dataProj})
     }
     return [dataProj, featureProj]
+  }
+  storeFeatures() {
+    this.allFeatures = this.getFeatures()
   }
 }
 
