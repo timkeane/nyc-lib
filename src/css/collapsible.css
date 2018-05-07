@@ -10,7 +10,7 @@
   background-image: var(--theme-dn-bg-img);
 }
 .clps div.content {
-  border: var(--theme-btn-border);
+  border: var(--theme-border);
   border-top: none;
   padding: 5px;
 }

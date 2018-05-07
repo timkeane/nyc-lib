@@ -5,7 +5,7 @@ html, body, body * {
 }
 .rad-all, .rad-top, .rad-bot {
 	border-radius: var(--theme-border-radius);
-	border: var(--theme-btn-border);
+	border: var(--theme-border);
 }
 .rad-top {
 	border-bottom-left-radius: 0;

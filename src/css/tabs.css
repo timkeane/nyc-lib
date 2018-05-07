@@ -1,0 +1,33 @@
+.tabs {
+  border: var(--theme-border);
+  overflow: hidden;
+}
+.tabs .btns {
+  height: 35px;
+  width: 100%;
+  display: block;
+}
+.tabs .btns h3 {
+  display: inline-block;
+  margin: 0;
+  border-right: var(--theme-border);
+  border-bottom: var(--theme-border);
+  text-align: center;
+}
+.tabs .btns h3.active {
+  background-color: var(--theme-btn-active-bg-color);
+	color: var(--theme-btn-active-text-color);
+}
+.tabs .btns h3:last-of-type {
+  border-right: none;
+}
+.tabs .container {
+  height: calc(100% - 35px);
+  overflow: scroll;
+}
+.tabs .container .tab {
+  display: none;
+}
+.tabs .container .tab.active {
+  display: block;
+}

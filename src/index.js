@@ -15,6 +15,7 @@ import _nyc_LocationMgr from 'nyc/LocationMgr'
 import _nyc_MapLocator from 'nyc/MapLocator'
 import _nyc_Pager from 'nyc/Pager'
 import _nyc_ReplaceTokens from 'nyc/ReplaceTokens'
+import _nyc_Tabs from 'nyc/Tabs'
 import _nyc_ZoomSearch from 'nyc/ZoomSearch'
 
 window.nyc = _nyc
@@ -32,6 +33,7 @@ window.nyc.LocationMgr = _nyc_LocationMgr
 window.nyc.MapLocator = _nyc_MapLocator
 window.nyc.Pager = _nyc_Pager
 window.nyc.ReplaceTokens = _nyc_ReplaceTokens
+window.nyc.Tabs = _nyc_Tabs
 window.nyc.ZoomSearch = _nyc_ZoomSearch
 
 import _nyc_ol from 'nyc/ol/ol'

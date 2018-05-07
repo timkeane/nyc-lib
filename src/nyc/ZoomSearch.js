@@ -20,9 +20,8 @@ import AutoComplete from 'nyc/AutoComplete'
  */
 class ZoomSearch extends Container {
 	/**
-	 * @desc  Abstract class for zoom and search controls
+	 * @desc  Creates an instance of search controls
 	 * @access protected
-	 * @class
 	 * @constructor
 	 * @param {JQuery} container The container
 	 */

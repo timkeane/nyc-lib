@@ -1,5 +1,5 @@
 .chc-container {
-	border: var(--theme-btn-border);
+	border: var(--theme-border);
 	display: table;
 }
 .chc {
@@ -16,7 +16,7 @@
 	color: var(--theme-btn-sm-text-color);
 }
 .chc div {
-	border-top: var(--theme-btn-border);
+	border-top: var(--theme-border);
 	display: table-cell;
 	vertical-align: middle;
 	cursor: pointer;
