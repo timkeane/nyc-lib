@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <title>nyc.LocationMgr With Searchable Features Example</title>
   <link rel="stylesheet" href="../../css/nyc-lib.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol-debug.js"></script>
   <script src="../../js/nyc-lib.js"></script>
   <style>
@@ -26,11 +25,6 @@
 <body>
   <div id="map"></div>
   <script>
-    proj4.defs(
-      'EPSG:2263',
-      '+proj=lcc +lat_1=41.03333333333333 +lat_2=40.66666666666666 +lat_0=40.16666666666666 +lon_0=-74 +x_0=300000.0000000001 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=ft +to_meter=0.3048006096012192 +no_defs'
-    )
-
     const url = 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
     const map = new nyc.ol.Basemap({target: 'map'});
 

@@ -2,8 +2,6 @@
  * @module nyc/ol/format/CsvPoint
  */
 
-import proj4 from 'proj4'
-
 import Papa from 'papaparse'
 
 import nyc from 'nyc/nyc'

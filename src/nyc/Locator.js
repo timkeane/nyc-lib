@@ -2,8 +2,6 @@
  * @module nyc/Locator
  */
 
-import proj4 from 'proj4'
-
 import nyc from 'nyc/nyc'
 import EventHandling from 'nyc/EventHandling'
 

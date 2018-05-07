@@ -4,8 +4,6 @@
 
 import $ from 'jquery'
 
-import proj4 from 'proj4'
-
 import nyc from 'nyc/nyc'
 import BasemapHelper from 'nyc/BasemapHelper'
 

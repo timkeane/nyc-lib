@@ -40,11 +40,11 @@ test('sort', () => {
   expect(features[3]).toBe(f3)
   expect(features[4]).toBe(f4)
 
-  expect(features[0].get('distance')).toBe(0)
-  expect(features[1].get('distance')).toBe(1)
-  expect(features[2].get('distance')).toBe(2)
-  expect(features[3].get('distance')).toBe(2)
-  expect(features[4].get('distance')).toBe(3)
+  expect(features[0].get('distance').distance).toBe(0)
+  expect(features[1].get('distance').distance).toBe(1)
+  expect(features[2].get('distance').distance).toBe(2)
+  expect(features[3].get('distance').distance).toBe(2)
+  expect(features[4].get('distance').distance).toBe(3)
 })
 
 test('filter', () => {

@@ -1,11 +1,11 @@
 html, body, body * {
 	font-size: 16px;
-	text-shadow: none !important;
 	font-family: var(--theme-font-family);
 	color: var(--theme-text-color);
 }
 .rad-all, .rad-top, .rad-bot {
 	border-radius: var(--theme-border-radius);
+	border: var(--theme-btn-border);
 }
 .rad-top {
 	border-bottom-left-radius: 0;
@@ -27,7 +27,6 @@ html, body, body * {
 	background-color: transparent !important;
 }
 .btn, .btn-sq, .btn-rnd {
-	border: var(--theme-btn-border);
 	background-repeat: no-repeat;
 	cursor: pointer;
 	font-weight: bold;

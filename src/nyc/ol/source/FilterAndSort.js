@@ -5,7 +5,9 @@
 import $ from 'jquery'
 
 import OlGeomLineString from 'ol/geom/linestring'
+import OlProjProjection from 'ol/proj/projection'
 
+import nyc from 'nyc/nyc'
 import AutoLoad from 'nyc/ol/source/AutoLoad'
 
 /**
@@ -57,30 +59,55 @@ class FilterAndSort extends AutoLoad {
     return filteredFeatures
   }
   /**
-   * @desc Sort features by distance from a coordiante
+   * @desc Sort features by distance from a coordinate
    * @public
    * @method
    * @return {Array<ol.Feature>} features
    */
-  sort(coordiante) {
+  sort(coordinate) {
     const features = this.getFeatures()
     features.sort((f0, f1) => {
       const geom0 = f0.getGeometry()
       const geom1 = f1.getGeometry()
-      const coord0 = geom0.getClosestPoint(coordiante)
-      const coord1 = geom1.getClosestPoint(coordiante)
-      const dist0 = new OlGeomLineString([coordiante, coord0]).getLength()
-      const dist1 = new OlGeomLineString([coordiante, coord1]).getLength()
+      const dist0 = this.distance(coordinate, f0.getGeometry())
+      const dist1 = this.distance(coordinate, f1.getGeometry())
       f0.set('distance', dist0)
       f1.set('distance', dist1)
-      if (dist0 < dist1) {
+      if (dist0.distance < dist1.distance) {
         return -1
-      }else if (dist0 > dist1) {
+      }else if (dist0.distance > dist1.distance) {
         return 1
       }
 			return 0
     })
     return features
+  }
+  distance(coordinate, geom) {
+    const line = new OlGeomLineString([coordinate, geom.getClosestPoint(coordinate)])
+    const projections = this.projections(this.getFormat())
+    if (projections[0]) {
+      line.transform(projections[0], projections[1])
+    }
+    return {
+      distance: line.getLength(),
+      units: projections[0] ? projections[0].getUnits() : undefined
+    }
+  }
+  projections(format) {
+    const parentFormat = format ? format.parentFormat : null
+    let dataProj
+    let featureProj
+    if (parentFormat) {
+      dataProj = parentFormat.defaultDataProjection
+      featureProj = parentFormat.defaultFeatureProjection || 'EPSG:3857'
+    } else if (format) {
+      dataProj = format.defaultDataProjection
+      featureProj = format.defaultFeatureProjection || 'EPSG:3857'
+    }
+    if (dataProj) {
+      dataProj = dataProj.getCode ? dataProj : new OlProjProjection({code: dataProj})
+    }
+    return [dataProj, featureProj]
   }
 }
 

@@ -4,7 +4,7 @@
 
 import $ from 'jquery'
 
-import proj4 from 'proj4'
+import nyc from 'nyc/nyc'
 
 import NycLocator from 'nyc/Locator'
 

@@ -52,6 +52,8 @@ window.nyc.ol.format.CsvPoint = _nyc_ol_format_CsvPoint
 window.nyc.ol.format.Decorate = _nyc_ol_format_Decorate
 
 import _nyc_ol_source_AutoLoad from 'nyc/ol/source/AutoLoad'
+import _nyc_ol_source_FilterAndSort from 'nyc/ol/source/FilterAndSort'
 
 window.nyc.ol.source = {}
 window.nyc.ol.source.AutoLoad = _nyc_ol_source_AutoLoad
+window.nyc.ol.source.FilterAndSort = _nyc_ol_source_FilterAndSort

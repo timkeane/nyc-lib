@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>nyc.LocationMgr Example</title>
+  <link rel="stylesheet" href="../../css/nyc-lib.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol-debug.js"></script>
+  <script src="../../js/nyc-lib.js"></script>
+  <style>
+    html, body, #map {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    #map {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+    const decorations = [
+      {
+        extendFeature() {
+          this.set('full-address',
+            this.get('NAME') + '\n' +
+            this.get('ADDRESS') + '\n' +
+            this.getBorough() + ', NY ' +
+            this.get('ZIP')
+          )
+        },
+        getBorough() {
+          return {
+            M: 'Manhattan',
+            X: 'Bronx',
+            K: 'Brooklyn',
+            Q: 'Queens',
+            R: 'Staten Island'
+          }[this.get('BOROUGH')]
+        }
+      },
+      {
+        getAddress() {
+          return this.get('full-address')
+        }
+      }
+    ]
+    const csv = new nyc.ol.format.CsvPoint({
+      defaultDataProjection: 'EPSG:2263',
+      x: 'X',
+      y: 'Y'
+    })
+    const source = new nyc.ol.source.FilterAndSort({
+      url: '../data/pka.csv',
+      format: new nyc.ol.format.Decorate({
+        parentFormat: csv,
+        decorations: decorations
+      })
+    })
+    source.autoLoad();
+
+    const map = new nyc.ol.Basemap({target: 'map'});
+    map.addLayer(new ol.layer.Vector({source: source}));
+
+    const url = 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
+    const zoomSearch = new nyc.ol.ZoomSearch(map);
+    const geoclient = new nyc.Geoclient({url: url});
+    const locator = new nyc.ol.Locator({geocoder: geoclient});
+    const mapLocator = new nyc.ol.MapLocator({map: map})
+    const locationMgr = new nyc.LocationMgr({
+      zoomSearch: zoomSearch,
+      locator: locator,
+      mapLocator: mapLocator
+    });
+    locationMgr.on(nyc.ol.Locator.EventType.GEOCODE, function(location) {
+      const features = source.sort(location.coordinate);
+      for (var i = 0; i < 10; i++) {
+        console.log(features[i].get('distance'))
+        console.log(features[i].getAddress())
+      }
+    });
+  </script>
+</body>
+</html>
