@@ -1,7 +1,7 @@
 import nyc from 'nyc/nyc'
 
 test('proj4', () => {
-  expect(typeof window.proj4).toBe('function')
+  expect(typeof proj4).toBe('function')
   expect(typeof proj4('EPSG:2263')).toBe('object')
   expect(typeof proj4('EPSG:6539')).toBe('object')
 })
