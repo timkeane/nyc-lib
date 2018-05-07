@@ -51,14 +51,23 @@ class Decorate extends OlFormatFeature {
   readFeatures(source, options) {
     const features = this.parentFormat.readFeatures(source, options)
     features.forEach(feature => {
-      this.mixin(feature)
+      this.decorate(feature)
     })
     return features
   }
-  mixin(feature) {
-    nyc.mixin(feature, this.decorations)
-    if (feature.extendFeature) {
-      feature.extendFeature()
+  /**
+   * @desc Decorate a feature
+   * @public
+   * @method
+   * @param {ol.Feature} source The feature to decorate
+   */
+  decorate(feature) {
+    if (!feature.get('decorated')) {
+      feature.set('decorated', true)
+      nyc.mixin(feature, this.decorations)
+      if (feature.extendFeature) {
+        feature.extendFeature()
+      }
     }
   }
 }

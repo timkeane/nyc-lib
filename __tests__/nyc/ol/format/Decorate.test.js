@@ -2,6 +2,9 @@ import proj4 from 'proj4'
 
 import nyc from 'nyc/nyc'
 
+import OlFeature from 'ol/feature'
+import OlGeomPoint from 'ol/geom/point'
+
 import CsvPoint from 'nyc/ol/format/CsvPoint'
 import Decorate from 'nyc/ol/format/Decorate'
 
@@ -128,4 +131,29 @@ test('readFeature', () => {
   expect(() => {decorating.readFeature('anything')}).toThrow(
     'Not supported: Use readFeatures'
   )
+})
+
+test('decorate', () => {
+  const feature = new OlFeature({
+    geometry: new OlGeomPoint([0, 0]),
+    first: 'foo',
+    last: 'bar'
+  })
+
+  const decorating = new Decorate({
+    parentFormat: parentFormat,
+    decorations: featureDecorations
+  })
+
+  decorating.decorate(feature)
+
+  expect(feature.sayHi()).toBe('Hi, foo bar!')
+  expect(feature.getName()).toBe('foo bar')
+  expect(feature.get('decorated')).toBe(true)
+
+  decorating.decorate(feature)
+
+  expect(feature.sayHi()).toBe('Hi, foo bar!')
+  expect(feature.getName()).toBe('foo bar')
+  expect(feature.get('decorated')).toBe(true)
 })
