@@ -6,8 +6,6 @@ import $ from 'jquery'
 
 import OlSourceVector from 'ol/source/vector'
 
-const fetch = window.fetch || require('node-fetch')
-
 /**
  * @desc Class to auto load all features from a URL
  * @public
@@ -34,6 +32,7 @@ export default class AutoLoad extends OlSourceVector {
    * @return {Promise} features
    */
   autoLoad() {
+    const fetch = window.fetch || require('node-fetch')
     const options = this.autoLoadOptions
     const format = this.getFormat()
     return new Promise((resolve, reject) => {

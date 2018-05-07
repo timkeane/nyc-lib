@@ -56,7 +56,7 @@ class Tabs extends Container {
   /**
    * @public
    * @method
-   * @param {JQuery|Element||string} tab
+   * @param {JQuery|Element|string} tab
    */
   open(tab) {
     tab = $(tab)
@@ -81,7 +81,7 @@ class Tabs extends Container {
  * @public
  * @typedef {Object}
  * @property {JQuery|Element|string} target The target DOM node for Tabs
- * @property {Array<Tabs.Tab} tabs The tabs
+ * @property {Array<Tabs.Tab>} tabs The tabs
  */
 Tabs.Options
 

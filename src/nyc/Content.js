@@ -6,26 +6,26 @@ import Papa from 'papaparse'
 
 import ReplaceTokens from 'nyc/ReplaceTokens'
 
-/** 
+/**
  * @desc A class to provide messages with substitution values
- * @public 
+ * @public
  * @class
  * @extends {nyc.ReplaceTokens}
  */
 class Content extends ReplaceTokens {
-	/** 
+	/**
 	 * @desc A class to provide messages with substitution values
-	 * @public 
+	 * @public
 	 * @constructor
 	 * @param {Array<Object<string, string>>} messages The messages with optional tokens mapped by message id
 	 */
 	constructor(messages) {
 		super()
-		/** 
+		/**
 		 * @private
 		 * @member {Object<string, string>}
-		 */	
-		this.messages = []
+		 */
+		this.messages = {}
 		messages.forEach(msgs => {
 			Object.keys(msgs).forEach(key => {
 				if (this.messages[key]) {
@@ -47,11 +47,7 @@ class Content extends ReplaceTokens {
 		if (!this.messages[msgId]) {
 			return ''
 		}
-		try {
-			return this.replace(this.messages[msgId], values || {})						
-		} catch(error) {
-			return ''
-		}
+		return this.replace(this.messages[msgId], values || {})
 	}
 }
 
@@ -64,23 +60,20 @@ class Content extends ReplaceTokens {
  * @return {Promise} The promise that will return the content
  */
 Content.loadCsv = (options) => {
+	const fetch = window.fetch || require('node-fetch')
 	const messages = options.messages || [{}]
 	const key = options.key || 'key'
 	const value = options.value || 'value'
 	return new Promise((resolve, reject) => {
-		fetch(option.url).then((respose) => {
+		fetch(options.url).then((respose) => {
 			return respose.text()
 		}).then((resposeText) => {
-      const csvRows = Papa.parse(source, {header: true}).data
+      const csvRows = Papa.parse(resposeText, {header: true}).data
 			csvRows.forEach((row, i) => {
-				try {
-					if (messages[0][key]) {
-						console.warn(`Overwriting message with key '${key}'`)
-					}						
-					messages[0][key] = row[value]
-				} catch (error) {
-					console.error(`Bad data at row ${i + 1} of ${csvRows.length}`, row)
+				if (messages[0][row[key]]) {
+					console.warn(`Overwriting message with key '${[row[key]]}'`)
 				}
+				messages[0][row[key]] = row[value]
 			})
 			resolve(new Content(messages))
 		})
@@ -88,7 +81,7 @@ Content.loadCsv = (options) => {
 }
 
 /**
- * @desc Options for loading CSV content 
+ * @desc Options for loading CSV content
  * @public
  * @typedef {Object}
  * @property {string} url The URL to a CSV source
