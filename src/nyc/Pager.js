@@ -23,7 +23,7 @@ class Pager extends Container {
      * @private
      * @member {Array<Pager.Item>}
      */
-    this.items = options.items
+    this.items = options.items || []
     /**
      * @private
      * @member {JQuery}
@@ -44,6 +44,7 @@ class Pager extends Container {
      * @member {JQuery}
      */
     this.moreBtn = this.find('button').click($.proxy(this.more, this))
+    this.reset(this.items)
   }
 	/**
 	 * @desc Resets the pager with a new items
