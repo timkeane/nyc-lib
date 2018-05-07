@@ -34,12 +34,14 @@ window.nyc.ZoomSearch = _nyc_ZoomSearch
 
 import _nyc_ol from 'nyc/ol/ol'
 import _nyc_ol_Basemap from 'nyc/ol/Basemap'
+import _nyc_ol_LocationMgr from 'nyc/ol/LocationMgr'
 import _nyc_ol_Locator from 'nyc/ol/Locator'
 import _nyc_ol_MapLocator from 'nyc/ol/MapLocator'
 import _nyc_ol_ZoomSearch from 'nyc/ol/ZoomSearch'
 
 window.nyc.ol = _nyc_ol
 window.nyc.ol.Basemap = _nyc_ol_Basemap
+window.nyc.ol.LocationMgr = _nyc_ol_LocationMgr
 window.nyc.ol.Locator = _nyc_ol_Locator
 window.nyc.ol.MapLocator = _nyc_ol_MapLocator
 window.nyc.ol.ZoomSearch = _nyc_ol_ZoomSearch

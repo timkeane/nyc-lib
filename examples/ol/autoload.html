@@ -25,8 +25,8 @@
 <body>
   <div id="map"></div>
   <script>
-    const map = new nyc.ol.Basemap({target: 'map'});
-    const source = new nyc.ol.source.AutoLoad({
+    var map = new nyc.ol.Basemap({target: 'map'});
+    var source = new nyc.ol.source.AutoLoad({
       url: '../data/data.json',
       format: new ol.format.GeoJSON()
     })

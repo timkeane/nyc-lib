@@ -12,12 +12,16 @@ import Dialog from 'nyc/Dialog'
  * @public
  * @class
  * @extends {EventHandling}
- * @constructor
- * @param {LocationMgr.Options} options Constructor options
  * @fires Locator#geocode
  * @fires Locator#geolocation
  */
 class LocationMgr extends EventHandling {
+  /**
+   * @desc Create an instance of LocationMgr
+   * @public
+   * @constructor
+   * @param {LocationMgr.Options} options Constructor options
+   */
   constructor(options) {
     super()
     /**

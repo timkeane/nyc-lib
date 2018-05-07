@@ -25,7 +25,7 @@
 <body>
   <div id="map"></div>
   <script>
-    const decorations = [
+    var decorations = [
       {
         extendFeature() {
           this.set('full-address',
@@ -51,12 +51,12 @@
         }
       }
     ]
-    const csv = new nyc.ol.format.CsvPoint({
+    var csv = new nyc.ol.format.CsvPoint({
       defaultDataProjection: 'EPSG:2263',
       x: 'X',
       y: 'Y'
     })
-    const source = new nyc.ol.source.AutoLoad({
+    var source = new nyc.ol.source.AutoLoad({
       url: '../data/pka.csv',
       format: new nyc.ol.format.Decorate({
         parentFormat: csv,
@@ -67,7 +67,7 @@
       console.log(features[0].getAddress())
     })
 
-    const map = new nyc.ol.Basemap({target: 'map'});
+    var map = new nyc.ol.Basemap({target: 'map'});
     map.addLayer(new ol.layer.Vector({source: source}));
   </script>
 </body>
