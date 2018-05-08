@@ -52,28 +52,27 @@ class FeatureTip extends OlOverlay {
 	/**
 	 * @private
 	 * @method
-	 * @param {ol.MapEvent} event
+	 * @param {ol.MapBrowserEvent} event
 	 */
 	label(event) {
-		const px = event.pixel
-		const lbl = this.map.forEachFeatureAtPixel(px, function(f, lyr) {
-			return f && lyr && lyr.getVisible() && lyr.nycTip ? lyr.nycTip.call(f) : null
+		const pixel = event.pixel
+		const label = this.map.forEachFeatureAtPixel(pixel, (feature, layer) => {
+			return layer.getVisible() && layer.nycTip ? layer.nycTip(feature) : null
 		})
-		if (lbl) {
-			this.tip.html(lbl.text).addClass(lbl.cssClass || '')
+		if (label) {
+			this.tip.html(label.html).addClass(label.css || '')
       this.setPosition(event.coordinate)
       this.tip.show()
-			this.position(lbl, px)
+			this.position(pixel)
 		}else{
 			this.hide()
 		}
 	}
 	/**
 	 * @private
-	 * @param {nyc.ol.FeatureLabel} lbl
-	 * @param {ol.Pixel} px
+	 * @param {ol.Pixel} pixel
 	 */
-	position(lbl, px) {
+	position(pixel) {
 		const size = this.map.getSize()
 		const position = this.map.getPixelFromCoordinate(this.getPosition())
 		const width = this.tip.width()
@@ -94,9 +93,9 @@ class FeatureTip extends OlOverlay {
 FeatureTip.TipDef
 
 /**
- * @desc Label function that runs in the scope of the feature and returns a {@link FeatureTip.Label}
+ * @desc Label function that returns a {@link FeatureTip.Label}
  * @public
- * @typedef {function():FeatureTip.Label}
+ * @typedef {function(ol.Feature):FeatureTip.Label}
  */
 FeatureTip.LabelFunction
 
@@ -104,8 +103,8 @@ FeatureTip.LabelFunction
  * @desc Object type to return from a feature's label function
  * @public
  * @typedef {Object}
- * @property {string} text The tip text
- * @property {string=} cssClass A CSS class to apply to the tip
+ * @property {JQuery|Element|string} html The tip inner html
+ * @property {string=} css A CSS class to apply to the tip
  */
 FeatureTip.Label
 
