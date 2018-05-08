@@ -3,7 +3,7 @@ import $ from 'jquery'
 import OlMap from 'ol/map'
 import OlView from 'ol/view'
 import OlFeature from 'ol/feature'
-import OlGeomPoint from 'ol/geom/Point'
+import OlGeomPoint from 'ol/geom/point'
 import OlSourceVector from 'ol/source/vector'
 import OlLayerVector from 'ol/layer/vector'
 import OlOverlay from 'ol/overlay'
@@ -92,7 +92,7 @@ beforeEach(() => {
         html: `Layer Two - ${feature.get('name')}`,
         css: 'my-tip'
       }
-    }  
+    }
   }]
 })
 
@@ -117,7 +117,7 @@ test('constructor', () => {
 
 test('hide', () => {
   const tip = new FeatureTip({map: map, tips: tips})
-  
+
   tip.tip.show()
   expect(tip.tip.css('display')).toBe('block')
 
@@ -216,7 +216,7 @@ test('position bottom-right', () => {
   tip.map.getPixelFromCoordinate.mockReturnValueOnce([50, 50])
   tip.map.getGetSize = jest.fn()
   tip.map.getGetSize.mockReturnValueOnce([200, 200])
-  
+
   tip.position()
 
   expect(tip.getPositioning()).toBe('top-left')
@@ -232,7 +232,7 @@ test('position bottom-right', () => {
   tip.map.getPixelFromCoordinate.mockReturnValueOnce([150, 50])
   tip.map.getSize = jest.fn()
   tip.map.getSize.mockReturnValueOnce([200, 200])
-  
+
   tip.position()
 
   expect(tip.getPositioning()).toBe('top-right')
@@ -248,7 +248,7 @@ test('position bottom-right', () => {
   tip.map.getPixelFromCoordinate.mockReturnValueOnce([150, 190])
   tip.map.getSize = jest.fn()
   tip.map.getSize.mockReturnValueOnce([200, 200])
-  
+
   tip.position()
 
   expect(tip.getPositioning()).toBe('bottom-right')
@@ -264,7 +264,7 @@ test('position bottom-right', () => {
   tip.map.getPixelFromCoordinate.mockReturnValueOnce([50, 190])
   tip.map.getSize = jest.fn()
   tip.map.getSize.mockReturnValueOnce([200, 200])
-  
+
   tip.position()
 
   expect(tip.getPositioning()).toBe('bottom-left')
