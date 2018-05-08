@@ -20,7 +20,7 @@ class FeatureTip extends OlOverlay {
   constructor(options) {
     const element = $(options.map.getTargetElement()).find('f-tip').get(0)
     super({
-      id: nyc.nextId('ol.Overlay'),
+      id: nyc.nextId('FeatureTip'),
       element: element || $(FeatureTip.HTML).get(0)
     })
     this.setMap(options.map)
@@ -62,9 +62,8 @@ class FeatureTip extends OlOverlay {
 		if (lbl) {
 			this.tip.html(lbl.text).addClass(lbl.cssClass || '')
       this.setPosition(event.coordinate)
-      this.setPositioning('bottom-right')
       this.tip.show()
-			this.flip(lbl, px)
+			this.position(lbl, px)
 		}else{
 			this.hide()
 		}
@@ -74,27 +73,14 @@ class FeatureTip extends OlOverlay {
 	 * @param {nyc.ol.FeatureLabel} lbl
 	 * @param {ol.Pixel} px
 	 */
-	flip(lbl, px) {
-    const size = this.map.getSize()
-    const position = this.map.getPixelFromCoordinate(this.getPosition())
+	position(lbl, px) {
+		const size = this.map.getSize()
+		const position = this.map.getPixelFromCoordinate(this.getPosition())
 		const width = this.tip.width()
-    const height = this.tip.height()
-    let vert = 'bottom'
-    let horiz = 'right'
-    console.warn('width =', width)
-    console.warn('height =', height)
-    console.warn('position =', position)
-    console.warn('size =', size);
-    console.log('position[1] + height =', position[1] + height)
-    console.log('position[0] + width =', position[0] + width);
-    if ((position[1] + height) > size[1]) {
-			vert = 'top'
-		}
-		if ((position[0] + width) > size[0]) {
-      horiz = 'left'
-		}
-    console.log(`${vert}-${horiz}`);
-    this.setPositioning(`${vert}-${horiz}`)
+		const height = this.tip.height()
+		const vert = position[1] + height > size[1] ? 'bottom' : 'top'
+		const horz = position[0] + width > size[0] ? 'right' : 'left'
+		this.setPositioning(`${vert}-${horz}`)
 	}
 }
 

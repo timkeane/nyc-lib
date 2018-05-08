@@ -1,5 +1,4 @@
 .f-tip, .f-tip-hlp {
-	position: absolute;
 	border-radius: var(--theme-border-radius);
 	padding: 3px;
 	font-size: 12px;
