@@ -6,6 +6,7 @@
   height: 35px;
   width: 100%;
   display: block;
+  white-space: nowrap;
 }
 .tabs .btns h3 {
   display: inline-block;

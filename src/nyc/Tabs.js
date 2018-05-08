@@ -42,8 +42,9 @@ class Tabs extends Container {
   open(tab) {
     tab = $(tab)
     this.find('.btns h3, .tab').removeClass('active')
+      .not('.tab').attr('aria-pressed', false)
     tab.addClass('active')
-    tab.data('btn').addClass('active')
+    tab.data('btn').addClass('active').attr('aria-pressed', true)
     this.active = tab
   }
   /**
@@ -52,30 +53,23 @@ class Tabs extends Container {
    * @param {Array<Tabs.Tab>} tabs The tabs
    */
 render(tabs){
-    const width = Math.floor(100 / tabs.length)
-    let consumedWidth = 0
     let opened = false
     tabs.forEach((tab, i) => {
       const tb = $(tab.tab)
         .addClass(`tab tab-${i}`)
-        .attr('role', 'tabpanel')
       const btn = $(Tabs.BTN_HTML)
         .append(tab.title)
         .click($.proxy(this.btnClick, this))
-        .css('width', `${width}%`)
+        .css('width', `${100 / tabs.length}%`)
         .addClass(`btn-${i}`)
         .data('tab', tb)
       tb.data('btn', btn)
-      if (i === tabs.length - 1) {
-        btn.css('width', `calc(${100 - consumedWidth}% - ${tabs.length - 1}px)`)
-      }
       this.btns.append(btn)
       this.tabs.append(tb)
       if (tab.active) {
         this.open(tb)
         opened = true
       }
-      consumedWidth = consumedWidth + width
     })
     if (!opened) this.open(tabs[0].tab)
     this.ready = true
@@ -115,7 +109,7 @@ Tabs.Tab
  * @type {string}
  */
 Tabs.HTML = '<div class="btns" role="tablist"></div>' +
-  '<div class="container"></div>'
+  '<div class="container" role="tabpanel"></div>'
 
 /**
  * @private
