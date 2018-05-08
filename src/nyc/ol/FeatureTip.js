@@ -75,12 +75,6 @@ class FeatureTip extends OlOverlay {
 		const position = this.map.getPixelFromCoordinate(this.getPosition())
 		const width = this.tip.width()
 		const height = this.tip.height()
-
-		console.warn('size',size)
-		console.warn('position',position)
-		console.warn('width',width)
-		console.warn('height',height)
-
 		const vert = position[1] + height > size[1] ? 'bottom' : 'top'
 		const horz = position[0] + width > size[0] ? 'right' : 'left'
 		this.setPositioning(`${vert}-${horz}`)

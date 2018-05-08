@@ -54,7 +54,7 @@ beforeEach(() => {
       features: [
         new OlFeature({geometry: new OlGeomPoint([0, 0]), name: 'Feature i'}),
         new OlFeature({geometry: new OlGeomPoint([0, 1]), name: 'Feature ii'}),
-        new OlFeature({geometry: new OlGeomPoint([0, 2]), name: 'Feature iii'}),
+        new OlFeature({geometry: new OlGeomPoint([0, 3]), name: 'Feature iii'}),
       ]
     })
   })
@@ -134,7 +134,7 @@ test('hide', () => {
   return test().then(visible => expect(visible).toBe('none'))
 })
 
-test('label', () => {
+test('label with css', () => {
   const event = {
     type: 'pointermove',
     pixel: 'mockPixelFor-0,0',
@@ -155,6 +155,56 @@ test('label', () => {
 
   expect(tip.position).toHaveBeenCalledTimes(1)
 })
+
+test('label no css', () => {
+  const event = {
+    type: 'pointermove',
+    pixel: 'mockPixelFor-1,0',
+    coordinate: [1, 0]
+  }
+
+  const tip = new FeatureTip({map: map, tips: tips})
+
+  tip.position = jest.fn()
+
+  tip.tip.hide()
+
+  map.dispatchEvent(event)
+
+  expect(tip.tip.html()).toBe('Layer One - Feature One')
+  expect(tip.tip.css('display')).toBe('block')
+
+  expect(tip.position).toHaveBeenCalledTimes(1)
+})
+
+test('label no label', () => {
+  const event = {
+    type: 'pointermove',
+    pixel: 'mockPixelFor-0,3',
+    coordinate: [0, 3]
+  }
+
+  const tip = new FeatureTip({map: map, tips: tips})
+
+  tip.position = jest.fn()
+  tip.hide = jest.fn()
+
+  map.dispatchEvent(event)
+
+  expect(tip.tip.html()).toBe('')
+  expect(tip.hide).toHaveBeenCalledTimes(1)
+  expect(tip.position).toHaveBeenCalledTimes(0)
+})
+
+
+
+
+
+
+
+
+
+
 
 test('position bottom-right', () => {
   const tip = new FeatureTip({map: map, tips: tips})
