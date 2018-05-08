@@ -40,9 +40,9 @@
       map: map,
       tips: [{
         layer: layer,
-        label: function() {
+        label: function(feature) {
           return {
-            html: this.get('name'),
+            html: feature.get('name'),
             css: 'my-tip'
           }
         }
