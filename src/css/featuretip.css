@@ -1,0 +1,11 @@
+.f-tip, .f-tip-hlp {
+	position: absolute;
+	border-radius: var(--theme-border-radius);
+	padding: 3px;
+	font-size: 12px;
+	min-width: 100px;
+	max-width: 150px;
+	text-align: center;
+	background-color: var(--theme-tip-bg-color);
+	box-shadow: var(--theme-box-shadow);
+}
