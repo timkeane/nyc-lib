@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>nyc.LocationMgr Example</title>
+  <title>nyc.ol.MultiFeaturePopup Example</title>
   <link rel="stylesheet" href="../../css/nyc-lib.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol-debug.js"></script>
   <script src="../../js/nyc-lib.js"></script>
@@ -18,23 +18,13 @@
       top: 0;
       left: 0;
       bottom: 0;
-      width: calc(100% - 400px);
-    }
-    #nearest {
-      position: fixed;
-      top: 0;
       right: 0;
-      bottom: 0;
-      width: 400px;
     }
   </style>
 </head>
 <body>
   <div id="map"></div>
-  <div id="nearest"></div>
   <script>
-    var listPager = new nyc.ListPager({target: '#nearest'});
-
     var decorations = [
       {
         extendFeature() {
@@ -63,11 +53,11 @@
           var distance = this.get('distance')
           var html = this.getAddress().replace(/\n/g, '<br>')
           if (distance) {
-            html = distance.distance + ' ' + 
+            html = distance.distance + ' ' +
               distance.units + html + '<br>'
           }
-          return html
-        }        
+          return '<div>' + html + '</div>'
+        }
       }
     ]
     var csv = new nyc.ol.format.CsvPoint({
@@ -82,28 +72,18 @@
         decorations: decorations
       })
     })
-    source.autoLoad().then(function(features) {
-      listPager.reset(features)
-    });
+    source.autoLoad();
 
     var map = new nyc.ol.Basemap({target: 'map'});
-    map.addLayer(new ol.layer.Vector({source: source}));
+    var layer = new ol.layer.Vector({source: source});
 
-    var url = 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example';
-    var locationMgr = new nyc.LocationMgr({
-      zoomSearch: new nyc.ol.ZoomSearch(map),
-      locator: new nyc.ol.Locator({
-        geocoder: new nyc.Geoclient({url: url})
-      }),
-      mapLocator: new nyc.ol.MapLocator({map: map})
-    });
-    locationMgr.on(nyc.ol.Locator.EventType.GEOCODE, function(location) {
-      var features = source.sort(location.coordinate);
-      listPager.reset(features)
-      for (var i = 0; i < 10; i++) {
-        console.log(features[i].get('distance'))
-        console.log(features[i].getAddress())
-      }
+    map.addLayer(layer)
+
+    new nyc.ol.MutiFeaturePopup({map: map, layers: [layer]})
+
+    var locationMgr = new nyc.ol.LocationMgr({
+      map: map,
+      url: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
     });
   </script>
 </body>

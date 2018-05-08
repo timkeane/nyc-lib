@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
 import Container from 'nyc/Container'
-import Pager from 'nyc/Pager'
+import ListPager from 'nyc/ListPager'
 
 const items = [
   {html() {return 'item 0'}},
@@ -27,12 +27,12 @@ afterEach(() => {
 })
 
 test('constructor without items and pageSize', () => {
-  const pager = new Pager({
+  const pager = new ListPager({
     target: target
   })
  
   expect(pager instanceof Container).toBe(true)
-  expect(pager instanceof Pager).toBe(true)
+  expect(pager instanceof ListPager).toBe(true)
   expect(pager.pageSize).toBe(10)
   expect(pager.items.length).toBe(0)
   expect(pager.getContainer().length).toBe(1)
@@ -45,14 +45,14 @@ test('constructor without items and pageSize', () => {
 })
 
 test('everything constructed with items and pageSize', () => {
-  const pager = new Pager({
+  const pager = new ListPager({
     target: target,
     items: items,
     pageSize: 5
   })
  
   expect(pager instanceof Container).toBe(true)
-  expect(pager instanceof Pager).toBe(true)
+  expect(pager instanceof ListPager).toBe(true)
   expect(pager.pageSize).toBe(5)
   expect(pager.items).toBe(items)
   expect(pager.getContainer().length).toBe(1)

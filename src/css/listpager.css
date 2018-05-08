@@ -1,16 +1,16 @@
-.pg {
+.lst-pg {
   margin: 0;
 }
-.pg .list {
+.lst-pg .list {
   height: calc(100% - 50px);
   overflow-x: hidden;
   overflow-y: auto;
 }
-.pg button {
+.lst-pg button {
   margin: 5px;
   width: calc(100% - 10px)
 }
-.pg .list .pg-item {
+.lst-pg .list .lst-item {
   border-bottom: var(--theme-border);
   padding: 5px;
 }

@@ -89,7 +89,7 @@ class ZoomSearch extends Container {
 		this.input = this.find('.srch input')
 		this.list = this.find('.srch ul')
 		this.retention = this.find('ul.retention')
-		this.clear = this.find('.btn-clr')
+		this.clear = this.find('.btn-x')
 		this.hookupEvents(this.input)
 	}
 	/**
@@ -397,7 +397,7 @@ ZoomSearch.EventType = {
 ZoomSearch.HTML = '<div class="z-srch" role="toolbar">' +
 	'<div class="srch" role="search">' +
 		'<input class="rad-all" placeholder="Search for an address...">' +
-		'<button class="btn-rnd btn-clr"><span class="screen-reader-only">Clear</span></button>' +
+		'<button class="btn-rnd btn-x"><span class="screen-reader-only">Clear</span></button>' +
 		'<ul class="rad-all"></ul>' +
 	'</div>' +
 	'<button class="btn-z-in btn-sq rad-all" data-zoom-incr="1" title="Zoom in">' +

@@ -64,7 +64,7 @@
 .srch input:focus {
 	opacity: 1;
 }
-.z-srch .btn-clr {
+.z-srch .btn-x {
 	display: none;
 	position: absolute;
 	left: calc(100% - 28px);

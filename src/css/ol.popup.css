@@ -1,0 +1,55 @@
+.pop {
+	max-width: 350px;
+	background-color: var(--theme-pop-bg-color);
+	border-radius: var(--theme-border-radius);
+	border: var(--theme-pop-border);
+	border-color: var(--theme-pop-border-color);
+	box-shadow: var(--theme-box-shadow);
+	display: none;
+	position: absolute;
+	bottom: 12px;
+	left: -50px;
+	z-index: 200;
+}
+.pop:after, .pop:before {
+	top: 100%;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+.pop:after {
+	border: solid transparent;
+	border-top-color: var(--theme-pop-bg-color);
+	border-width: 10px;
+	left: 48px;
+	margin-left: -10px;
+}
+.pop:before {
+	border: solid transparent;
+	border-top-color: var(--theme-pop-border-color);
+	border-width: 12px;
+	left: 48px;
+	margin-left: -12px;
+	margin-top: 0.4px;
+}
+.pop .content {
+	margin: 5px 25px 10px 10px;
+	width: 320px;
+	max-height: 200%;
+}
+.pop button.close {
+	position: absolute;
+	top: 3px;
+	right: 3px;
+	z-index: 2;
+}
+@media only screen and (max-width : 320px) {
+	.pop {
+		max-width: 300px;
+	}
+	.pop-content {
+		max-width: 265px;
+	}
+}

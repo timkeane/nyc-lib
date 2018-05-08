@@ -118,6 +118,26 @@ const nyc = {
 		return `${prefix}-${nyc.uniqueIds[prefix]}`
 	},
 	/**
+	 * @public
+   * @static
+	 * @function
+	 * @param {Object} object An object
+	 * @return {JQuery}
+	 */
+	 html(object) {
+		 if (typeof object.html === 'function') {
+       return $(object.html())
+     } else {
+       const html = $('<div class="nyc-html"></div>')
+       if (object.getProperties) object = object.getProperties()
+			 else if (object.properties) object = object.properties
+       Object.keys(object).forEach(prop => {
+         html.append(`<div class="fld"><div>${prop}</div><div class="val">${props[prop]}</div></div>`)
+       })
+			 return html
+		 }
+	 },
+	/**
 	 * @private
 	 * @static
 	 * @member {Object<string, number>}

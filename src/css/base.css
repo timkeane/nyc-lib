@@ -76,10 +76,26 @@ a.btn, h3.btn {
 .btn-rnd:focus {
 	outline: none;
 }
-.btn-clr {
+.btn-x {
 	background-image: var(--theme-x-bg-img);
 }
+.btn-prv {
+	background-image: var(--theme-prv-bg-img);
+}
+.btn-nxt {
+	background-image: var(--theme-nxt-bg-img);
+}
+
 input {
 	height: 33px;
 	padding: 3px;
+}
+.nyc-html {
+	display: table;
+}
+.nyc-html div {
+	display: table-cell;
+}
+.nyc-html .fld {
+	font-weight: bold;
 }

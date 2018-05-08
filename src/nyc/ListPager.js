@@ -1,5 +1,5 @@
 /**
- * @module nyc/Pager
+ * @module nyc/ListPager
  */
 
 import $ from 'jquery'
@@ -12,16 +12,16 @@ import Container from 'nyc/Container'
  * @class
  * @extends {nyc.ReplaceTokens}
  * @constructor
- * @param {Pager.Options} options The constructor options
+ * @param {ListPager.Options} options The constructor options
  */
-class Pager extends Container {
+class ListPager extends Container {
   constructor(options) {
     super(options.target)
-    this.getContainer().addClass('pg')
-    this.getContainer().append($(Pager.HTML))
+    this.getContainer().addClass('lst-pg')
+    this.getContainer().append($(ListPager.HTML))
     /**
      * @private
-     * @member {Array<Pager.Item>}
+     * @member {Array<ListPager.Item>}
      */
     this.items = options.items || []
     /**
@@ -50,7 +50,7 @@ class Pager extends Container {
 	 * @desc Resets the pager with a new items
 	 * @public
 	 * @method
-	 * @param {Array<Pager.Item>=} items The items to page through
+	 * @param {Array<ListPager.Item>=} items The items to page through
 	 */
 	reset(items) {
     this.items = items
@@ -63,7 +63,7 @@ class Pager extends Container {
 	 * @public
 	 * @method
 	 * @param {number} [pageSize=10] The length of the items for the next page
-	 * @return {Array<Pager.Item>} List of items on the next page
+	 * @return {Array<ListPager.Item>} List of items on the next page
 	 */
 	next(pageSize) {
     pageSize = pageSize || this.pageSize
@@ -79,11 +79,11 @@ class Pager extends Container {
 	 * @desc Returns next page from the items
 	 * @public
 	 * @method
-	 * @param {Array<Pager.Item>} items List of items
+	 * @param {Array<ListPager.Item>} items List of items
 	 */
 	render(items) {
     items.forEach(item => {
-      const div = $('<div class="pg-item"></div>').append(item.html())
+      const div = $('<div class="lst-item"></div>').append(item.html())
       this.list.append(div)
     })
   }
@@ -93,28 +93,28 @@ class Pager extends Container {
 }
 
 /**
- * @desc Options for Pager constructor
+ * @desc Options for ListPager constructor
  * @public
- * @typedef {Pager.Item}
- * @property {JQuery|Element|string} target The DOM node in which to create the Pager
- * @param {Array<Pager.Item>=} items The items to page through
+ * @typedef {ListPager.Item}
+ * @property {JQuery|Element|string} target The DOM node in which to create the ListPager
+ * @param {Array<ListPager.Item>=} items The items to page through
  * @param {number} [pageSize=10] The number of items per page
  */
-Pager.Options
+ListPager.Options
 
 /**
- * @desc Pager.Item type 
+ * @desc ListPager.Item type
  * @public
- * @typedef {Pager.Item}
+ * @typedef {ListPager.Item}
  * @property {function()} html The renderinf function for the item
  */
-Pager.Item
+ListPager.Item
 
 /**
  * @private
  * @const
  * @type {string}
  */
-Pager.HTML = '<div class="list" role="list"></div><button class="btn rad-all">More...</button>'
+ListPager.HTML = '<div class="list" role="list"></div><button class="btn rad-all">More...</button>'
 
-export default Pager
+export default ListPager

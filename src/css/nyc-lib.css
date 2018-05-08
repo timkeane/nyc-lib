@@ -4,7 +4,10 @@
 @import "dialog.css";
 @import "choice.css";
 @import "collapsible.css";
-@import "featuretip.css";
-@import "pager.css";
+@import "itempager.css";
+@import "listpager.css";
 @import "tabs.css";
 @import "zoomsearch.css";
+
+@import "ol.featuretip.css";
+@import "ol.popup.css";

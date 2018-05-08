@@ -5,7 +5,6 @@
 import $ from 'jquery'
 
 import OlOverlay from 'ol/overlay'
-import olExtent from 'ol/extent'
 
 import nyc from 'nyc/nyc'
 
@@ -31,67 +30,13 @@ class Popup extends OlOverlay {
       element: $(Popup.HTML).get(0),
       stopEvent: true
     })
+    this.margin = [10, 10, 10, 10]
     this.popup = $(this.getElement())
     this.map = options.map
-    this.layers = []
-    this.addLayers(options.layers)
     this.setMap(this.map)
-    this.map.on('click', $.proxy(this.mapClick, this))
+    this.content = this.popup.find('.content')
     this.popup.find('button').on('click tap', $.proxy(this.hide, this))
     this.popup.on('mouseover mousemove',  $.proxy(this.hideTip, this))
-  }
-  /**
-   * @desc Add a layer
-   * @public
-   * @method
-   * @param {Array<ol.layer.Vector>} layers The layers to add
-   */
-  addLayers(layers) {
-    layers.forEach(layer => {
-      this.addLayer(layer)
-    })
-  }
-  /**
-   * @desc Add a layer
-   * @public
-   * @method
-   * @param {ol.layer.Vector} layer The layer to add
-   */
-  addLayer() {
-    this.layers.push(layer)
-    layer.set('popup-id', this.getId())
-  }
-  /**
-   * @desc Show the popup
-   * @public
-   * @method
-   * @param {Array<ol.Feature>} features The features
-   */
-  showFeatures(features) {
-    if (features.length) {
-      const feature = features[0]
-      this.show({
-        coordinate: olExtent.getCenter(feature.getGeometry().getExtent()),
-        html: this.html(feature)
-      })
-    }
-  }
-  /**
-   * @private
-   * @param {ol.Feature} feature 
-   * @returns {JQuery}
-   */
-  html(feature) {
-    let html
-    if (typeof feature.html === 'function') {
-      html = $(feature.html())
-    } else {
-      html = $('<div class="f-pop"></div>')
-      Object.keys(feature.getProperties()).forEach(prop => {
-        html.append(`<div class="prop"><div>${prop}</div><div>${feature.get(prop)}</div></div>`)
-      })
-    }
-    return html
   }
   /**
    * @desc Show the popup
@@ -101,13 +46,15 @@ class Popup extends OlOverlay {
    */
   show(options) {
     this.setPosition(options.coordinate)
-    this.popup.find('.content').html(options.html)
+    if (options.html) {
+      this.content.html(options.html)
+    }
     this.popup.fadeIn()
     $('.f-tip').fadeOut()
     this.pan()
   }
   /**
-   * @desc Hide the popup 
+   * @desc Hide the popup
    * @method
    * @public
    */
@@ -148,7 +95,7 @@ class Popup extends OlOverlay {
       const fromBottom = mapSize[1] - (popPx[1] + tailHeight) - popOffset[1] - this.margin[2]
       const center = view.getCenter()
       const px = map.getPixelFromCoordinate(center)
-      
+
       if (fromRight < 0) {
         px[0] -= fromRight
       } else if (fromLeft < 0) {
@@ -161,20 +108,6 @@ class Popup extends OlOverlay {
       }
       view.animate({center: map.getCoordinateFromPixel(px)})
     }
-  }
-  /**
-   * @private
-   * @param {ol.MapBrowserEvent} event 
-   */
-  mapClick(event) {
-    const pop = this
-    const features = []
-    this.map.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
-      if (layer.get('popup-id') === pop.getId()) {
-        features.push(feature)
-      }
-    })
-    this.showFeatures(features)
   }
 }
 
@@ -192,12 +125,11 @@ Popup.ShowOptions
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The map
- * @property {Array<ol.layer.Vector>} layers The layers
  */
 Popup.Options
 
 Popup.HTML = '<div class="pop">' +
-  '<button class="btn-rnd btn-clr"><span class="screen-reader-only">Close</span></button>' +
+  '<button class="btn-rnd btn-x close"><span class="screen-reader-only">Close</span></button>' +
   '<div class="content"></div>' +
 '</div>'
 
