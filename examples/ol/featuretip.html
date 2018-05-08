@@ -34,7 +34,7 @@
     var source = new nyc.ol.source.AutoLoad({
       url: '../data/data.json',
       format: new ol.format.GeoJSON()
-    })
+    });
     var layer = new ol.layer.Vector({source: source});
     var tip = new nyc.ol.FeatureTip({
       map: map,
@@ -47,7 +47,7 @@
           }
         }
       }]
-    })
+    });
     source.autoLoad();
     map.addLayer(layer);
   </script>
