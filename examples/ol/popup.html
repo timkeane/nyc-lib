@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>nyc.Popup Example</title>
+  <link rel="stylesheet" href="../../css/nyc-lib.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol-debug.js"></script>
+  <script src="../../js/nyc-lib.js"></script>
+  <style>
+    html, body, #map {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    #map {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+    var decorations = [
+      {
+        extendFeature() {
+          this.set('full-address',
+            this.get('NAME') + '\n' +
+            this.get('ADDRESS') + '\n' +
+            this.getBorough() + ', NY ' +
+            this.get('ZIP')
+          )
+        },
+        getBorough() {
+          return {
+            M: 'Manhattan',
+            X: 'Bronx',
+            K: 'Brooklyn',
+            Q: 'Queens',
+            R: 'Staten Island'
+          }[this.get('BOROUGH')]
+        }
+      },
+      {
+        getAddress() {
+          return this.get('full-address')
+        },
+        html() {
+          var distance = this.get('distance')
+          var html = this.getAddress().replace(/\n/g, '<br>')
+          if (distance) {
+            html = distance.distance + ' ' + 
+              distance.units + html + '<br>'
+          }
+          return '<div>' + html + '</div>'
+        }        
+      }
+    ]
+    var csv = new nyc.ol.format.CsvPoint({
+      defaultDataProjection: 'EPSG:2263',
+      x: 'X',
+      y: 'Y'
+    })
+    var source = new nyc.ol.source.FilterAndSort({
+      url: '../data/pka.csv',
+      format: new nyc.ol.format.Decorate({
+        parentFormat: csv,
+        decorations: decorations
+      })
+    })
+    source.autoLoad();
+
+    var map = new nyc.ol.Basemap({target: 'map'});
+    var layer = new ol.layer.Vector({source: source});
+
+    map.addLayer(layer)
+
+    new nyc.ol.Popup({map: map, layers: [layer]})
+
+    var locationMgr = new nyc.ol.LocationMgr({
+      map: map, 
+      url: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
+    });
+  </script>
+</body>
+</html>
