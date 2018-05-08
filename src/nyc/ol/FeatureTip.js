@@ -55,28 +55,32 @@ class FeatureTip extends OlOverlay {
 	 * @param {ol.MapBrowserEvent} event
 	 */
 	label(event) {
-		const pixel = event.pixel
-		const label = this.map.forEachFeatureAtPixel(pixel, (feature, layer) => {
+		const label = this.map.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
 			return layer.getVisible() && layer.nycTip ? layer.nycTip(feature) : null
 		})
 		if (label) {
 			this.tip.html(label.html).addClass(label.css || '')
       this.setPosition(event.coordinate)
       this.tip.show()
-			this.position(pixel)
+			this.position()
 		}else{
 			this.hide()
 		}
 	}
 	/**
 	 * @private
-	 * @param {ol.Pixel} pixel
 	 */
-	position(pixel) {
+	position() {
 		const size = this.map.getSize()
 		const position = this.map.getPixelFromCoordinate(this.getPosition())
 		const width = this.tip.width()
 		const height = this.tip.height()
+
+		console.warn('size',size)
+		console.warn('position',position)
+		console.warn('width',width)
+		console.warn('height',height)
+
 		const vert = position[1] + height > size[1] ? 'bottom' : 'top'
 		const horz = position[0] + width > size[0] ? 'right' : 'left'
 		this.setPositioning(`${vert}-${horz}`)

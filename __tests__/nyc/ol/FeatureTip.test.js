@@ -69,7 +69,6 @@ beforeEach(() => {
         const coord = features[j].getGeometry().getCoordinates()
         if (coord.toString() === mockPixel.split('-')[1]) {
           const result = callback(features[j], layers[i])
-          console.warn(result)
           return result
         }
       }
@@ -155,5 +154,68 @@ test('label', () => {
   expect(tip.tip.hasClass('my-tip')).toBe(true)
 
   expect(tip.position).toHaveBeenCalledTimes(1)
-  expect(tip.position.mock.calls[0][0]).toBe(event.pixel)
+})
+
+test('position bottom-right', () => {
+  const tip = new FeatureTip({map: map, tips: tips})
+
+  tip.tip.css({width: '100px', height: '20px'}).show()
+  tip.setPosition([0, 0])
+
+  tip.map.getPixelFromCoordinate = jest.fn()
+  tip.map.getPixelFromCoordinate.mockReturnValueOnce([50, 50])
+  tip.map.getGetSize = jest.fn()
+  tip.map.getGetSize.mockReturnValueOnce([200, 200])
+  
+  tip.position()
+
+  expect(tip.getPositioning()).toBe('top-left')
+})
+
+test('position bottom-right', () => {
+  const tip = new FeatureTip({map: map, tips: tips})
+
+  tip.tip.css({width: '100px', height: '20px'}).show()
+  tip.setPosition([0, 0])
+
+  tip.map.getPixelFromCoordinate = jest.fn()
+  tip.map.getPixelFromCoordinate.mockReturnValueOnce([150, 50])
+  tip.map.getSize = jest.fn()
+  tip.map.getSize.mockReturnValueOnce([200, 200])
+  
+  tip.position()
+
+  expect(tip.getPositioning()).toBe('top-right')
+})
+
+test('position bottom-right', () => {
+  const tip = new FeatureTip({map: map, tips: tips})
+
+  tip.tip.css({width: '100px', height: '20px'}).show()
+  tip.setPosition([0, 0])
+
+  tip.map.getPixelFromCoordinate = jest.fn()
+  tip.map.getPixelFromCoordinate.mockReturnValueOnce([150, 190])
+  tip.map.getSize = jest.fn()
+  tip.map.getSize.mockReturnValueOnce([200, 200])
+  
+  tip.position()
+
+  expect(tip.getPositioning()).toBe('bottom-right')
+})
+
+test('position bottom-right', () => {
+  const tip = new FeatureTip({map: map, tips: tips})
+
+  tip.tip.css({width: '100px', height: '20px'}).show()
+  tip.setPosition([0, 0])
+
+  tip.map.getPixelFromCoordinate = jest.fn()
+  tip.map.getPixelFromCoordinate.mockReturnValueOnce([50, 190])
+  tip.map.getSize = jest.fn()
+  tip.map.getSize.mockReturnValueOnce([200, 200])
+  
+  tip.position()
+
+  expect(tip.getPositioning()).toBe('bottom-left')
 })
