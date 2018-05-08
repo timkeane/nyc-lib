@@ -77,7 +77,7 @@ Collapsible.Options
  * @type {string}
  */
 Collapsible.HTML = '<div class="clps rad-all">' +
-  '<h3 class="btn rad-all rad-top" aria-role="button">' +
+  '<h3 class="btn rad-all rad-top" role="button">' +
     '<button class="btn-rnd">' +
       '<span class="screen-reader-only">show/hide</span>' +
     '</button>' +

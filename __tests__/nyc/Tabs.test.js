@@ -53,9 +53,9 @@ test('contructor default active', () => {
   expect($(tabs.find('.tab').get(2)).hasClass('tab-2')).toBe(true)
 
   expect(tabs.find('h3.btn').length).toBe(3)
-  expect(tabs.find('h3.btn').get(0).innerHTML).toBe('Tab One')
-  expect(tabs.find('h3.btn').get(1).innerHTML).toBe('Tab Two')
-  expect(tabs.find('h3.btn').get(2).innerHTML).toBe('Tab Three')
+  expect(tabs.find('h3.btn').get(0).innerHTML).toBe('<span class="screen-reader-only">show </span>Tab One')
+  expect(tabs.find('h3.btn').get(1).innerHTML).toBe('<span class="screen-reader-only">show </span>Tab Two')
+  expect(tabs.find('h3.btn').get(2).innerHTML).toBe('<span class="screen-reader-only">show </span>Tab Three')
 
   expect($(tabs.find('h3.btn').get(0)).hasClass('active')).toBe(true)
   expect($(tabs.find('h3.btn').get(1)).hasClass('active')).toBe(false)

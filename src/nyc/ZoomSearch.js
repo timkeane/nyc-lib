@@ -394,7 +394,7 @@ ZoomSearch.EventType = {
  * @const
  * @type {string}
  */
-ZoomSearch.HTML = '<div class="z-srch">' +
+ZoomSearch.HTML = '<div class="z-srch" role="toolbar">' +
 	'<div class="srch">' +
 		'<input class="rad-all" placeholder="Search for an address...">' +
 		'<button class="btn-rnd btn-clr"><span class="screen-reader-only">Clear</span></button>' +

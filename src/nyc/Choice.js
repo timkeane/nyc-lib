@@ -43,6 +43,7 @@ class Choice extends Container {
    */
   setChoices(choices) {
     this.getContainer().empty()
+    if (this.radio) this.getContainer().attr('role', 'radiogroup')
     choices.forEach((choice, i) => {
       const div = $(Choice.HTML)
       const id = nyc.nextId('chc')

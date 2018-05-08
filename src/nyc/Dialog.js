@@ -271,7 +271,7 @@ Dialog.Options
  * @const
  * @type {string}
  */
-Dialog.HTML = '<div class="dia-container">' +
+Dialog.HTML = '<div class="dia-container" role="dialog">' +
 	'<div class="dia">' +
 	'<div class="dia-msg"></div>' +
 	'<input class="rad-all">' +

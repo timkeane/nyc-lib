@@ -51,13 +51,16 @@ class Tabs extends Container {
    * @method
    * @param {Array<Tabs.Tab>} tabs The tabs
    */
-  render(tabs){
+render(tabs){
     const width = Math.floor(100 / tabs.length)
     let consumedWidth = 0
     let opened = false
     tabs.forEach((tab, i) => {
-      const tb = $(tab.tab).addClass(`tab tab-${i}`)
-      const btn = $(`<h3 class="btn" aria-role="button">${tab.title}</h3>`)
+      const tb = $(tab.tab)
+        .addClass(`tab tab-${i}`)
+        .attr('role', 'tabpanel')
+      const btn = $(Tabs.BTN_HTML)
+        .append(tab.title)
         .click($.proxy(this.btnClick, this))
         .css('width', `${width}%`)
         .addClass(`btn-${i}`)
@@ -111,6 +114,15 @@ Tabs.Tab
  * @const
  * @type {string}
  */
-Tabs.HTML = '<div class="btns"></div><div class="container"></div>'
+Tabs.HTML = '<div class="btns" role="tablist"></div>' +
+  '<div class="container"></div>'
+
+/**
+ * @private
+ * @const
+ * @type {string}
+ */
+Tabs.BTN_HTML = '<h3 class="btn" role="tab">' +
+  '<span class="screen-reader-only">show </span></h3>'
 
 export default Tabs

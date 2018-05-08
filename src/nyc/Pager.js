@@ -115,6 +115,6 @@ Pager.Item
  * @const
  * @type {string}
  */
-Pager.HTML = '<div class="list" aria-role="list"></div><button class="btn rad-all">More...</button>'
+Pager.HTML = '<div class="list" role="list"></div><button class="btn rad-all">More...</button>'
 
 export default Pager
