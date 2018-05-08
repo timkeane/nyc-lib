@@ -19,7 +19,6 @@ class Tabs extends Container {
 	 */
   constructor(options) {
     super(options.target)
-    const tabs = options.tabs
     this.getContainer().append($(Tabs.HTML)).addClass('tabs')
     this.btns = this.find('.btns')
     this.tabs = this.find('.container')
@@ -28,30 +27,12 @@ class Tabs extends Container {
      * @member {JQuery}
      */
     this.active = null
-    const width = Math.floor(100 / tabs.length)
-    let consumedWidth = 0
-    tabs.forEach((tab, i) => {
-      const tb = $(tab.tab).addClass('tab')
-      const btn = $(`<h3 class="btn" aria-role="button">${tab.title}</h3>`)
-        .css('width', `${width}%`)
-        .data('tab', tb)
-        .click($.proxy(this.btnClick, this))
-      tb.data('btn', btn)
-      if (i === 0 || tab.active) {
-        this.open(tb)
-      }
-      if (i === tabs.length - 1) {
-        btn.css('width', `calc(${100 - consumedWidth}% - ${tabs.length - 1}px)`)
-      }
-      this.btns.append(btn)
-      this.tabs.append(tb)
-      consumedWidth = consumedWidth + width
-    })
     /**
      * @private
      * @member {JQuery}
      */
-    this.ready = true
+    this.ready = false
+    this.render(options.tabs)
   }
   /**
    * @public
@@ -64,7 +45,37 @@ class Tabs extends Container {
     tab.addClass('active')
     tab.data('btn').addClass('active')
     this.active = tab
-    if (this.ready) this.trigger('change', this)
+  }
+  /**
+   * @private
+   * @method
+   * @param {Array<Tabs.Tab>} tabs The tabs
+   */
+  render(tabs){
+    const width = Math.floor(100 / tabs.length)
+    let consumedWidth = 0
+    let opened = false
+    tabs.forEach((tab, i) => {
+      const tb = $(tab.tab).addClass(`tab tab-${i}`)
+      const btn = $(`<h3 class="btn" aria-role="button">${tab.title}</h3>`)
+        .click($.proxy(this.btnClick, this))
+        .css('width', `${width}%`)
+        .addClass(`btn-${i}`)
+        .data('tab', tb)
+      tb.data('btn', btn)
+      if (i === tabs.length - 1) {
+        btn.css('width', `calc(${100 - consumedWidth}% - ${tabs.length - 1}px)`)
+      }
+      this.btns.append(btn)
+      this.tabs.append(tb)
+      if (tab.active) {
+        this.open(tb)
+        opened = true
+      }
+      consumedWidth = consumedWidth + width
+    })
+    if (!opened) this.open(tabs[0].tab)
+    this.ready = true
   }
   /**
    * @private
@@ -89,8 +100,8 @@ Tabs.Options
  * @desc Object type to hold a tab definition
  * @public
  * @typedef {Object}
- * @property {string} title The tab title
  * @property {JQuery|Element|string} tab The target DOM node for tab
+ * @property {string} title The tab title
  * @property {boolean} [active=false] Active state of the tab
  */
 Tabs.Tab

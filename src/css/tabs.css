@@ -27,6 +27,8 @@
 }
 .tabs .container .tab {
   display: none;
+  margin: 5px;
+  z-index: 0;
 }
 .tabs .container .tab.active {
   display: block;
