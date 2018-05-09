@@ -30,10 +30,26 @@ class Popup extends OlOverlay {
       element: $(Popup.HTML).get(0),
       stopEvent: true
     })
+    /**
+     * @public
+     * @member {Array<number>}
+     */
     this.margin = [10, 10, 10, 10]
+    /**
+     * @private
+     * @member {JQuery}
+     */
     this.popup = $(this.getElement())
+    /**
+     * @private
+     * @member {ol.Map}
+     */
     this.map = options.map
     this.setMap(this.map)
+    /**
+     * @private
+     * @member {JQuery}
+     */
     this.content = this.popup.find('.content')
     this.popup.find('.btn-x').on('click tap', $.proxy(this.hide, this))
     this.popup.on('mouseover mousemove',  $.proxy(this.hideTip, this))
@@ -76,25 +92,38 @@ class Popup extends OlOverlay {
    */
   pan() {
     const popup = this.popup
+    console.warn(popup.css('display'));
     if (popup.css('display') !== 'none') {
-      const map = this.getMap()
-      const view = map.getView()
+      const view = this.map.getView()
       const tailHeight = parseInt(popup.css('bottom'))
+
+      console.warn('tailHeight',tailHeight)
+
       const tailOffsetLeft = -parseInt(popup.css('left'))
       const popOffset = this.getOffset()
-      const popPx = map.getPixelFromCoordinate(this.getPosition())
-      const mapSize = map.getSize()
+      const popPx = this.map.getPixelFromCoordinate(this.getPosition())
+      const mapSize = this.map.getSize()
       const popSize = {
         width: popup.width(),
         height: popup.height() + tailHeight
       }
       const tailOffsetRight = popSize.width - tailOffsetLeft
+
+      console.warn('tailOffsetLeft', tailOffsetLeft);
+      console.warn('popSize', popSize);
+      console.warn('tailOffsetRight', tailOffsetRight);
+
       const fromLeft = (popPx[0] - tailOffsetLeft) - this.margin[3]
       const fromRight = mapSize[0] - (popPx[0] + tailOffsetRight) - this.margin[1]
       const fromTop = popPx[1] - popSize.height + popOffset[1] - this.margin[0]
       const fromBottom = mapSize[1] - (popPx[1] + tailHeight) - popOffset[1] - this.margin[2]
       const center = view.getCenter()
-      const px = map.getPixelFromCoordinate(center)
+      const px = this.map.getPixelFromCoordinate(center)
+
+      console.warn('fromRight',fromRight);
+      console.warn('fromLeft',fromLeft);
+      console.warn('fromTop',fromTop);
+      console.warn('fromBottom',fromBottom);
 
       if (fromRight < 0) {
         px[0] -= fromRight
@@ -106,7 +135,7 @@ class Popup extends OlOverlay {
       } else if (fromBottom < 0) {
         px[1] -= fromBottom
       }
-      view.animate({center: map.getCoordinateFromPixel(px)})
+      view.animate({center: this.map.getCoordinateFromPixel(px)})
     }
   }
 }

@@ -74,9 +74,6 @@ beforeEach(() => {
       }
     }
   }
-  map.getPixelFromCoordinate = (coord) => {
-
-  }
 
   tips = [{
     layer: layer0,
