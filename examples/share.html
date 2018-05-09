@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <title>nyc.Share Example</title>
-  <link href="../../css/nyc-lib.css" rel="stylesheet">
-  <script src="../../js/nyc-lib.js"></script>
+  <link href="../css/nyc-lib.css" rel="stylesheet">
+  <script src="../js/nyc-lib.js"></script>
   <style>
     html, body, #map {
       margin: 0;
@@ -24,7 +24,7 @@
 <body>
   <div id="map"></div>
   <script>
-    var map = new nyc.ol.Basemap({target: '#map'});
+    var map = new nyc.ol.Basemap({target: 'map'});
     new nyc.Share({target: '#map'})
   </script>
 </body>

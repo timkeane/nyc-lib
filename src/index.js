@@ -17,6 +17,7 @@ import _nyc_MapLocator from 'nyc/MapLocator'
 import _nyc_Pager from 'nyc/ListPager'
 import _nyc_ReplaceTokens from 'nyc/ReplaceTokens'
 import _nyc_Tabs from 'nyc/Tabs'
+import _nyc_Share from 'nyc/Share'
 import _nyc_ZoomSearch from 'nyc/ZoomSearch'
 
 window.nyc = _nyc
@@ -35,6 +36,7 @@ window.nyc.Locator = _nyc_Locator
 window.nyc.MapLocator = _nyc_MapLocator
 window.nyc.ListPager = _nyc_Pager
 window.nyc.ReplaceTokens = _nyc_ReplaceTokens
+window.nyc.Share = _nyc_Share
 window.nyc.Tabs = _nyc_Tabs
 window.nyc.ZoomSearch = _nyc_ZoomSearch
 
