@@ -8,8 +8,8 @@ import nyc from 'nyc/nyc'
 
 import OlFeature from 'ol/feature'
 import OlFormatFeature from 'ol/format/feature'
+import OlFormatFormatType from 'ol/format/formattype'
 import OlGeomPoint from 'ol/geom/point'
-
 /**
  * @desc Class to create point features from CSV data
  * @public
@@ -61,14 +61,10 @@ class CsvPoint extends OlFormatFeature {
     options = this.adaptOptions(options)
     const x = source[this.x] = source[this.x] * 1
     const y = source[this.y] = source[this.y] * 1
-    const coord = proj4(
-      options.dataProjection,
-      options.featureProjection,
-      [x, y]
-    )
-    const feature = new OlFeature(source)
-    const point = new OlGeomPoint(coord)
+    const point = new OlGeomPoint([x, y])
     const id = source[this.id] || this.lastId++
+    const feature = new OlFeature(source)
+    point.transform(options.dataProjection, options.featureProjection)
     feature.setGeometry(point)
     feature.setId(id)
     return feature
@@ -83,6 +79,9 @@ class CsvPoint extends OlFormatFeature {
    */
   readFeatures(source, options) {
     const features = []
+    if (source instanceof ArrayBuffer) {
+      source = new TextDecoder('utf-8').decode(source)
+    }
     if (typeof source === 'string') {
       source = Papa.parse(source, {header: true}).data
     }
@@ -94,6 +93,16 @@ class CsvPoint extends OlFormatFeature {
       }
     })
     return features
+  }
+  /**
+   * @desc Return format type
+   * @public
+   * @override
+   * @method
+   * @return {ol.format.FormatType}
+   */
+  getType() {
+    return OlFormatFormatType.ARRAY_BUFFER
   }
 }
 

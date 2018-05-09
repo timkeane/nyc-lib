@@ -56,6 +56,16 @@ class Decorate extends OlFormatFeature {
     return features
   }
   /**
+   * @desc Return format type
+   * @public
+   * @override
+   * @method
+   * @return {ol.format.FormatType}
+   */
+  getType() {
+    return this.parentFormat.getType()
+  }
+  /**
    * @desc Decorate a feature
    * @public
    * @method
