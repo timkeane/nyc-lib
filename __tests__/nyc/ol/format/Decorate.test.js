@@ -157,3 +157,12 @@ test('decorate', () => {
   expect(feature.getName()).toBe('foo bar')
   expect(feature.get('decorated')).toBe(true)
 })
+
+test('getType', () => {
+  const decorating = new Decorate({
+    parentFormat: parentFormat,
+    decorations: featureDecorations
+  })
+
+  expect(decorating.getType()).toBe(parentFormat.getType())
+})

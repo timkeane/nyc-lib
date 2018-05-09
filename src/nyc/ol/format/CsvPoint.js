@@ -4,6 +4,8 @@
 
 import Papa from 'papaparse'
 
+import Encoding from 'text-encoding'
+
 import nyc from 'nyc/nyc'
 
 import OlFeature from 'ol/feature'
@@ -80,17 +82,13 @@ class CsvPoint extends OlFormatFeature {
   readFeatures(source, options) {
     const features = []
     if (source instanceof ArrayBuffer) {
-      source = new TextDecoder('utf-8').decode(source)
+      source = new Encoding.TextDecoder('utf-8').decode(source)
     }
     if (typeof source === 'string') {
       source = Papa.parse(source, {header: true}).data
     }
     source.forEach((row, i) => {
-      try {
-        features.push(this.readFeature(row, options))
-      } catch (error) {
-        console.error(`Bad data at row ${i} of ${source.length}`, row)
-      }
+      features.push(this.readFeature(row, options))
     })
     return features
   }

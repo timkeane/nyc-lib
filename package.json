@@ -72,6 +72,7 @@
     "proj4": "^2.4.4",
     "shapefile": "^0.6.6",
     "strict-mode": "^1.1.2",
+    "text-encoding": "^0.6.4",
     "webpack": "^4.6.0",
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.14"

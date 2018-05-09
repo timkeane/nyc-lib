@@ -1,8 +1,11 @@
-import nyc from 'nyc/nyc'
+import Encoding from 'text-encoding'
 
 import OlGeomPoint from 'ol/geom/point'
+import OlFormatFormatType from 'ol/format/formattype'
 
 import CsvPoint from 'nyc/ol/format/CsvPoint'
+
+import nyc from 'nyc/nyc'
 
 const csv = 'x,y,name\n0,0,foo\n1,2,bar\n2,3,wtf'
 const sourceId = [
@@ -49,13 +52,13 @@ test('readFeatures has id and projections', () => {
   expect(features[2].getId()).toBe('c')
 })
 
-test('readFeatures from csv no id default projections', () => {
+test('readFeatures from ArrayBuffer no id or default projections', () => {
   const csvpoint = new CsvPoint({
     x: 'x',
     y: 'y'
   })
 
-  const features = csvpoint.readFeatures(csv)
+  const features = csvpoint.readFeatures(new Encoding.TextEncoder().encode(csv).buffer)
 
   expect(features.length).toBe(3)
   expect(features[0].getGeometry().getCoordinates()).toEqual(new OlGeomPoint([0, 0]).transform('EPSG:4326', 'EPSG:3857').getCoordinates())
@@ -79,7 +82,7 @@ test('readFeatures from csv no id default projections', () => {
   expect(features[2].getId()).toBe(2)
 })
 
-test('readFeatures no id default projections', () => {
+test('readFeatures no id or default projections', () => {
   const csvpoint = new CsvPoint({
     x: 'x',
     y: 'y'
@@ -107,4 +110,8 @@ test('readFeatures no id default projections', () => {
   expect(features[0].getId()).toBe(0)
   expect(features[1].getId()).toBe(1)
   expect(features[2].getId()).toBe(2)
+})
+
+test('getType', () => {
+  expect(new CsvPoint({x: 'x', y: 'y'}).getType()).toBe(OlFormatFormatType.ARRAY_BUFFER)
 })
