@@ -29,7 +29,7 @@ class FeaturePopup extends Popup {
     super(options)
     /**
      * @private
-     * @member {Array<ol.layer.Vector}
+     * @member {Array<ol.layer.Vector>}
      */
     this.layers = []
     this.addLayers(options.layers)
