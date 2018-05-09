@@ -25,54 +25,15 @@
 <body>
   <div id="map"></div>
   <script>
-    var decorations = [
-      {
-        extendFeature() {
-          this.set('full-address',
-            this.get('NAME') + '\n' +
-            this.get('ADDRESS') + '\n' +
-            this.getBorough() + ', NY ' +
-            this.get('ZIP')
-          )
-        },
-        getBorough() {
-          return {
-            M: 'Manhattan',
-            X: 'Bronx',
-            K: 'Brooklyn',
-            Q: 'Queens',
-            R: 'Staten Island'
-          }[this.get('BOROUGH')]
-        }
-      },
-      {
-        getAddress() {
-          return this.get('full-address')
-        },
-        html() {
-          var distance = this.get('distance')
-          var html = this.getAddress().replace(/\n/g, '<br>')
-          if (distance) {
-            html = distance.distance + ' ' +
-              distance.units + html + '<br>'
-          }
-          return '<div>' + html + '</div>'
-        }
-      }
-    ]
     var csv = new nyc.ol.format.CsvPoint({
       defaultDataProjection: 'EPSG:2263',
       x: 'X',
       y: 'Y'
     })
-    var source = new nyc.ol.source.FilterAndSort({
+    var source = new ol.source.Vector({
       url: '../data/pka.csv',
-      format: new nyc.ol.format.Decorate({
-        parentFormat: csv,
-        decorations: decorations
-      })
+      format: csv
     })
-    source.autoLoad();
 
     var map = new nyc.ol.Basemap({target: 'map'});
     var layer = new ol.layer.Vector({source: source});

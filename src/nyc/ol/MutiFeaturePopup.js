@@ -52,14 +52,14 @@ class MutiFeaturePopup extends FeaturePopup {
    * @param {ol.MapBrowserEvent} event
    */
   mapClick(event) {
-    const pop = this
+    const id = this.getId()
     const features = []
     this.map.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
-      if (layer.get('popup-id') === pop.getId()) {
+      if (layer.get('popup-id') === id) {
         features.push(feature)
       }
     })
-    if (features.length) pop.showFeatures(features, event.coordinate)
+    if (features.length) this.showFeatures(features, event.coordinate)
   }
 }
 

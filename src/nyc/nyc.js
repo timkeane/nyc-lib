@@ -132,7 +132,7 @@ const nyc = {
        if (object.getProperties) object = object.getProperties()
 			 else if (object.properties) object = object.properties
        Object.keys(object).forEach(prop => {
-         html.append(`<div class="fld"><div>${prop}</div><div class="val">${props[prop]}</div></div>`)
+         html.append(`<div><span class="fld">${prop}</span><span class="val">${object[prop]}</span></div>`)
        })
 			 return html
 		 }

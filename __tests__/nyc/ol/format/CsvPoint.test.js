@@ -1,6 +1,6 @@
-import proj4 from 'proj4'
-
 import nyc from 'nyc/nyc'
+
+import OlGeomPoint from 'ol/geom/point'
 
 import CsvPoint from 'nyc/ol/format/CsvPoint'
 
@@ -28,9 +28,9 @@ test('readFeatures has id and projections', () => {
   const features = csvpoint.readFeatures(sourceId)
 
   expect(features.length).toBe(3)
-  expect(features[0].getGeometry().getCoordinates()).toEqual(proj4('EPSG:2263', 'EPSG:4326', [0, 0]))
-  expect(features[1].getGeometry().getCoordinates()).toEqual(proj4('EPSG:2263', 'EPSG:4326', [1, 2]))
-  expect(features[2].getGeometry().getCoordinates()).toEqual(proj4('EPSG:2263', 'EPSG:4326', [2, 3]))
+  expect(features[0].getGeometry().getCoordinates()).toEqual(new OlGeomPoint([0, 0]).transform('EPSG:2263', 'EPSG:4326').getCoordinates())
+  expect(features[1].getGeometry().getCoordinates()).toEqual(new OlGeomPoint([1, 2]).transform('EPSG:2263', 'EPSG:4326').getCoordinates())
+  expect(features[2].getGeometry().getCoordinates()).toEqual(new OlGeomPoint([2, 3]).transform('EPSG:2263', 'EPSG:4326').getCoordinates())
 
   expect(features[0].getProperties().x).toBe(0)
   expect(features[0].getProperties().y).toBe(0)
@@ -58,9 +58,9 @@ test('readFeatures from csv no id default projections', () => {
   const features = csvpoint.readFeatures(csv)
 
   expect(features.length).toBe(3)
-  expect(features[0].getGeometry().getCoordinates()).toEqual(proj4('EPSG:4326', 'EPSG:3857', [0, 0]))
-  expect(features[1].getGeometry().getCoordinates()).toEqual(proj4('EPSG:4326', 'EPSG:3857', [1, 2]))
-  expect(features[2].getGeometry().getCoordinates()).toEqual(proj4('EPSG:4326', 'EPSG:3857', [2, 3]))
+  expect(features[0].getGeometry().getCoordinates()).toEqual(new OlGeomPoint([0, 0]).transform('EPSG:4326', 'EPSG:3857').getCoordinates())
+  expect(features[1].getGeometry().getCoordinates()).toEqual(new OlGeomPoint([1, 2]).transform('EPSG:4326', 'EPSG:3857').getCoordinates())
+  expect(features[2].getGeometry().getCoordinates()).toEqual(new OlGeomPoint([2, 3]).transform('EPSG:4326', 'EPSG:3857').getCoordinates())
 
   expect(features[0].getProperties().x).toBe(0)
   expect(features[0].getProperties().y).toBe(0)
@@ -88,9 +88,9 @@ test('readFeatures no id default projections', () => {
   const features = csvpoint.readFeatures(sourceNoId)
 
   expect(features.length).toBe(3)
-  expect(features[0].getGeometry().getCoordinates()).toEqual(proj4('EPSG:4326', 'EPSG:3857', [0, 0]))
-  expect(features[1].getGeometry().getCoordinates()).toEqual(proj4('EPSG:4326', 'EPSG:3857', [1, 2]))
-  expect(features[2].getGeometry().getCoordinates()).toEqual(proj4('EPSG:4326', 'EPSG:3857', [2, 3]))
+  expect(features[0].getGeometry().getCoordinates()).toEqual(new OlGeomPoint([0, 0]).transform('EPSG:4326', 'EPSG:3857').getCoordinates())
+  expect(features[1].getGeometry().getCoordinates()).toEqual(new OlGeomPoint([1, 2]).transform('EPSG:4326', 'EPSG:3857').getCoordinates())
+  expect(features[2].getGeometry().getCoordinates()).toEqual(new OlGeomPoint([2, 3]).transform('EPSG:4326', 'EPSG:3857').getCoordinates())
 
   expect(features[0].getProperties().x).toBe(0)
   expect(features[0].getProperties().y).toBe(0)

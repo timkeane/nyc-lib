@@ -27,7 +27,6 @@ class FeaturePopup extends Popup {
    */
   constructor(options) {
     super(options)
-    this.pager = options.pager
     this.layers = []
     this.addLayers(options.layers)
     this.map.on('click', $.proxy(this.mapClick, this))
@@ -73,12 +72,13 @@ class FeaturePopup extends Popup {
    * @param {ol.MapBrowserEvent} event
    */
   mapClick(event) {
-    const pop = this
-    this.map.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
-      if (layer.get('popup-id') === pop.getId()) {
-        pop.showFeature(feature, event.coordinate)
+    const id = this.getId()
+    const feature = this.map.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
+      if (layer.get('popup-id') === id) {
+        return feature
       }
     })
+    this.showFeature(feature, event.coordinate)
   }
 }
 

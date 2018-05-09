@@ -89,7 +89,7 @@ class ZoomSearch extends Container {
 		this.input = this.find('.srch input')
 		this.list = this.find('.srch ul')
 		this.retention = this.find('ul.retention')
-		this.clear = this.find('.btn-x')
+		this.clear = this.find('.srch .btn-x')
 		this.hookupEvents(this.input)
 	}
 	/**

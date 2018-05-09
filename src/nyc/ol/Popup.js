@@ -35,7 +35,7 @@ class Popup extends OlOverlay {
     this.map = options.map
     this.setMap(this.map)
     this.content = this.popup.find('.content')
-    this.popup.find('button').on('click tap', $.proxy(this.hide, this))
+    this.popup.find('.btn-x').on('click tap', $.proxy(this.hide, this))
     this.popup.on('mouseover mousemove',  $.proxy(this.hideTip, this))
   }
   /**
@@ -55,15 +55,15 @@ class Popup extends OlOverlay {
   }
   /**
    * @desc Hide the popup
-   * @method
    * @public
+   * @method
    */
   hide() {
     this.popup.fadeOut()
   }
   /**
    * @private
-   * @public
+   * @method
    * @param {JQuery.Event}
    */
   hideTip(event) {
@@ -129,7 +129,7 @@ Popup.ShowOptions
 Popup.Options
 
 Popup.HTML = '<div class="pop">' +
-  '<button class="btn-rnd btn-x close"><span class="screen-reader-only">Close</span></button>' +
+  '<button class="btn-rnd btn-x"><span class="screen-reader-only">Close</span></button>' +
   '<div class="content"></div>' +
 '</div>'
 
