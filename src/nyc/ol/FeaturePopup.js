@@ -27,6 +27,10 @@ class FeaturePopup extends Popup {
    */
   constructor(options) {
     super(options)
+    /**
+     * @private
+     * @member {Array<ol.layer.Vector}
+     */
     this.layers = []
     this.addLayers(options.layers)
     this.map.on('click', $.proxy(this.mapClick, this))
@@ -48,7 +52,7 @@ class FeaturePopup extends Popup {
    * @method
    * @param {ol.layer.Vector} layer The layer to add
    */
-  addLayer() {
+  addLayer(layer) {
     this.layers.push(layer)
     layer.set('popup-id', this.getId())
   }
