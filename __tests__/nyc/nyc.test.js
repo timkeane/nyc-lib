@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 import nyc from 'nyc/nyc'
 
 test('proj4', () => {
@@ -65,7 +67,7 @@ test('mixin', () => {
   const obj = {
     foo: 'bar',
     bar: 'foo',
-    getFooBar: () => {
+    getFooBar() {
       return this.foo + this.bar
     }
   }
@@ -74,19 +76,19 @@ test('mixin', () => {
     foo: 'foo',
     bar: 'bar',
     wtf: 'wtf',
-    getFooBar: () => {
+    getFooBar() {
       return this.foo + this.bar
     },
-    getBarFoo: () => {
+    getBarFoo() {
       return this.bar + this.foo
     },
-    getWtf: () => {
+    getWtf() {
       return this.wtf + '!'
     }
   }
 
   const mixin1 = {
-    getWtf: () => {
+    getWtf() {
       return this.wtf + '?'
     }
   }
@@ -127,13 +129,13 @@ test('copyFromParentProperties', () => {
     foo: 'foo',
     bar: 'bar',
     wtf: 'wtf',
-    getFooBar: () => {
+    getFooBar() {
       return this.foo + this.bar
     },
-    getBarFoo: () => {
+    getBarFoo() {
       return this.bar + this.foo
     },
-    getWtf: () => {
+    getWtf() {
       return this.wtf + '!'
     }
   }
@@ -141,7 +143,7 @@ test('copyFromParentProperties', () => {
   const childObj = {
     foo: 'bar',
     bar: 'foo',
-    getFooBar: () => {
+    getFooBar() {
       return this.foo + this.bar
     }
   }
@@ -165,13 +167,13 @@ test('copyFromParentKeys', () => {
     foo: 'foo',
     bar: 'bar',
     wtf: 'wtf',
-    getFooBar: () => {
+    getFooBar() {
       return this.foo + this.bar
     },
-    getBarFoo: () => {
+    getBarFoo() {
       return this.bar + this.foo
     },
-    getWtf: () => {
+    getWtf() {
       return this.wtf + '!'
     }
   }
@@ -179,7 +181,7 @@ test('copyFromParentKeys', () => {
   const childObj = {
     foo: 'bar',
     bar: 'foo',
-    getFooBar: () => {
+    getFooBar() {
       return this.foo + this.bar
     }
   }
@@ -214,4 +216,66 @@ test('nextId', () => {
   expect(nyc.nextId(prefix2)).toBe('bar-1')
   expect(nyc.nextId(prefix1)).toBe('foo-2')
   expect(nyc.nextId(prefix2)).toBe('bar-2')
+})
+
+test('html has htm method', () => {
+  const object = {
+    html() {
+      return '<div>Some HTML</div>'
+    }
+  }
+
+  expect(nyc.html(object).get(0).tagName).toBe('DIV')
+  expect(nyc.html(object).html()).toBe('Some HTML')
+})
+
+test('html has getProperties method', () => {
+  const object = {
+    getProperties() {
+      return {
+        foo: 'bar',
+        bar: 'foo',
+        doo: 'fus'
+      }
+    }
+  }
+
+  expect(nyc.html(object).get(0).tagName).toBe('DIV')
+  expect(nyc.html(object).hasClass('nyc-html')).toBe(true)
+  expect(nyc.html(object).children().length).toBe(3)
+  expect($(nyc.html(object).children().get(0)).html()).toBe('<span class="fld">foo</span><span class="val">bar</span>')
+  expect($(nyc.html(object).children().get(1)).html()).toBe('<span class="fld">bar</span><span class="val">foo</span>')
+  expect($(nyc.html(object).children().get(2)).html()).toBe('<span class="fld">doo</span><span class="val">fus</span>')
+})
+
+test('html has properties field', () => {
+  const object = {
+    properties: {
+      foo: 'bar',
+      bar: 'foo',
+      doo: 'fus'
+    }
+  }
+
+  expect(nyc.html(object).get(0).tagName).toBe('DIV')
+  expect(nyc.html(object).hasClass('nyc-html')).toBe(true)
+  expect(nyc.html(object).children().length).toBe(3)
+  expect($(nyc.html(object).children().get(0)).html()).toBe('<span class="fld">foo</span><span class="val">bar</span>')
+  expect($(nyc.html(object).children().get(1)).html()).toBe('<span class="fld">bar</span><span class="val">foo</span>')
+  expect($(nyc.html(object).children().get(2)).html()).toBe('<span class="fld">doo</span><span class="val">fus</span>')
+})
+
+test('html plain object', () => {
+  const object = {
+    foo: 'bar',
+    bar: 'foo',
+    doo: 'fus'
+  }
+
+  expect(nyc.html(object).get(0).tagName).toBe('DIV')
+  expect(nyc.html(object).hasClass('nyc-html')).toBe(true)
+  expect(nyc.html(object).children().length).toBe(3)
+  expect($(nyc.html(object).children().get(0)).html()).toBe('<span class="fld">foo</span><span class="val">bar</span>')
+  expect($(nyc.html(object).children().get(1)).html()).toBe('<span class="fld">bar</span><span class="val">foo</span>')
+  expect($(nyc.html(object).children().get(2)).html()).toBe('<span class="fld">doo</span><span class="val">fus</span>')
 })

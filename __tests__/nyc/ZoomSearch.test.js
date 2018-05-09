@@ -481,15 +481,15 @@ test('setFeatures/sortAlphapetically has nameField has displayField no placehold
     features: [
       {
         properties: {label: 'feature 3'},
-        get: (prop) => {return this.properties[prop]}
+        get(prop) {return this.properties[prop]}
       },
       {
         properties: {label: 'feature 1'},
-        get: (prop) => {return this.properties[prop]}
+        get(prop) {return this.properties[prop]}
       },
       {
         properties: {label: 'feature 2'},
-        get: (prop) => {return this.properties[prop]}
+        get(prop) {return this.properties[prop]}
       }
     ]
   }

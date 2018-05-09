@@ -129,7 +129,7 @@ test('search for address', () => {
 test('search error', () => {
   const jqueryProxy = $.jqueryProxy
   const proxyCalls = []
-  $.proxy = (fn, scope) => {}{
+  $.proxy = (fn, scope) => {
     proxyCalls.push([fn, scope])
     return [fn, scope]
   }
