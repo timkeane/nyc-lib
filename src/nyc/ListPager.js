@@ -53,6 +53,7 @@ class ListPager extends Container {
 	 * @param {Array<ListPager.Item>=} items The items to page through
 	 */
 	reset(items) {
+    this.list.empty()
     this.items = items
     this.index = 0
     this.moreBtn.fadeIn()

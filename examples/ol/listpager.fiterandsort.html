@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>nyc.LocationMgr Example</title>
+  <title>nyc.ol.source.FilterAndSort and nyc.ListPager Example</title>
   <link rel="stylesheet" href="../../css/nyc-lib.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.5/ol-debug.js"></script>
   <script src="../../js/nyc-lib.js"></script>
   <style>
@@ -60,14 +61,16 @@
           return this.get('full-address')
         },
         html() {
+          var html = $('<div></div>')
           var distance = this.get('distance')
-          var html = this.getAddress().replace(/\n/g, '<br>')
           if (distance) {
-            html = distance.distance + ' ' + 
-              distance.units + html + '<br>'
+            var div = $('<div></div>')
+              .append(distance.distance.toFixed(2))
+              .append(' ' + distance.units);
+            html.append(div);
           }
-          return html
-        }        
+          return html.append(this.getAddress().replace(/\n/g, '<br>'))
+        }
       }
     ]
     var csv = new nyc.ol.format.CsvPoint({
@@ -99,7 +102,7 @@
     });
     locationMgr.on(nyc.ol.Locator.EventType.GEOCODE, function(location) {
       var features = source.sort(location.coordinate);
-      listPager.reset(features)
+      listPager.reset(features);
       for (var i = 0; i < 10; i++) {
         console.log(features[i].get('distance'))
         console.log(features[i].getAddress())

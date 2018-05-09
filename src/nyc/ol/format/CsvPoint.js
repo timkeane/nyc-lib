@@ -61,10 +61,13 @@ class CsvPoint extends OlFormatFeature {
    */
   readFeature(source, options) {
     options = this.adaptOptions(options)
+    const id = source[this.id] || this.lastId++
     const x = source[this.x] = source[this.x] * 1
     const y = source[this.y] = source[this.y] * 1
+    if (isNaN(x) || isNaN(y)) {
+      throw `Invalid coordinate [${x}, ${y}] for id ${id}`
+    }
     const point = new OlGeomPoint([x, y])
-    const id = source[this.id] || this.lastId++
     const feature = new OlFeature(source)
     point.transform(options.dataProjection, options.featureProjection)
     feature.setGeometry(point)
@@ -88,7 +91,11 @@ class CsvPoint extends OlFormatFeature {
       source = Papa.parse(source, {header: true}).data
     }
     source.forEach((row, i) => {
-      features.push(this.readFeature(row, options))
+      try {
+        features.push(this.readFeature(row, options))
+      } catch (error) {
+        console.error(error, row)
+      }
     })
     return features
   }
