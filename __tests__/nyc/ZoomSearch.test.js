@@ -15,87 +15,80 @@ afterEach(() => {
 })
 
 test('constructor', () => {
-  const render = ZoomSearch.prototype.render
-  ZoomSearch.prototype.render = jest.fn()
-
   const zoomSearch = new ZoomSearch(container)
   expect(zoomSearch instanceof Container).toBe(true)
   expect(zoomSearch instanceof ZoomSearch).toBe(true)
   expect(zoomSearch.isAddrSrch).toBe(true)
-  expect(ZoomSearch.prototype.render).toHaveBeenCalledTimes(1)
-
-  ZoomSearch.prototype.render = render
+  expect(zoomSearch.getContainer().hasClass('z-srch')).toBe(true)
 })
 
 test('abstract methods', () => {
-  const render = ZoomSearch.prototype.render
-  ZoomSearch.prototype.render = jest.fn()
-
   const zoomSearch = new ZoomSearch(container)
-  expect(ZoomSearch.prototype.render).toHaveBeenCalledTimes(1)
   expect(() => {zoomSearch.zoom('event')}).toThrow('Not implemented')
   expect(() => {zoomSearch.featureAsLocation('feature', 'options')}).toThrow('Not implemented')
-
-  ZoomSearch.prototype.render = render
 })
 
-test('render and hookupEvents called from constructor', () => {
+describe('hookupEvents called from constructor', () => {
   const key = ZoomSearch.prototype.key
   const select = ZoomSearch.prototype.select
   const zoom = ZoomSearch.prototype.zoom
   const geolocate = ZoomSearch.prototype.geolocate
   const listClick = ZoomSearch.prototype.listClick
-  ZoomSearch.prototype.key = jest.fn()
-  ZoomSearch.prototype.select = jest.fn()
-  ZoomSearch.prototype.zoom = jest.fn()
-  ZoomSearch.prototype.geolocate = jest.fn()
-  ZoomSearch.prototype.listClick = jest.fn()
+  beforeEach(() => {
+    ZoomSearch.prototype.key = jest.fn()
+    ZoomSearch.prototype.select = jest.fn()
+    ZoomSearch.prototype.zoom = jest.fn()
+    ZoomSearch.prototype.geolocate = jest.fn()
+    ZoomSearch.prototype.listClick = jest.fn()
+  })
+  afterEach(() => {
+    ZoomSearch.prototype.key = key
+    ZoomSearch.prototype.select = select
+    ZoomSearch.prototype.zoom = zoom
+    ZoomSearch.prototype.geolocate = geolocate
+    ZoomSearch.prototype.listClick = listClick
+  })
 
-  const zoomSearch = new ZoomSearch(container)
+  test('hookupEvents', () => {
+    const zoomSearch = new ZoomSearch(container)
 
-  expect(container.html()).toBe($('<div></div>').append(ZoomSearch.HTML).html())
+    expect(zoomSearch.getContainer().html()).toBe($(ZoomSearch.HTML).html())
 
-  expect(zoomSearch.input.length).toBe(1)
-  expect(zoomSearch.input.get(0)).toBe(container.find('.srch input').get(0))
+    expect(zoomSearch.input.length).toBe(1)
+    expect(zoomSearch.input.get(0)).toBe(container.find('.srch input').get(0))
 
-  expect(zoomSearch.list.length).toBe(1)
-  expect(zoomSearch.list.get(0)).toBe(container.find('.srch ul').get(0))
-  expect(zoomSearch.retention.length).toBe(1)
-  expect(zoomSearch.retention.get(0)).toBe(container.find('ul.retention').get(0))
+    expect(zoomSearch.list.length).toBe(1)
+    expect(zoomSearch.list.get(0)).toBe(container.find('.srch ul').get(0))
+    expect(zoomSearch.retention.length).toBe(1)
+    expect(zoomSearch.retention.get(0)).toBe(container.find('ul.retention').get(0))
 
-  zoomSearch.input.trigger('keyup')
-  zoomSearch.input.trigger('change')
-  expect(ZoomSearch.prototype.key).toHaveBeenCalledTimes(2)
-  expect(ZoomSearch.prototype.key.mock.calls[0][0].type).toBe('keyup')
-  expect(ZoomSearch.prototype.key.mock.calls[0][0].target).toBe(zoomSearch.input.get(0))
-  expect(ZoomSearch.prototype.key.mock.calls[1][0].type).toBe('change')
-  expect(ZoomSearch.prototype.key.mock.calls[1][0].target).toBe(zoomSearch.input.get(0))
+    zoomSearch.input.trigger('keyup')
+    zoomSearch.input.trigger('change')
+    expect(ZoomSearch.prototype.key).toHaveBeenCalledTimes(2)
+    expect(ZoomSearch.prototype.key.mock.calls[0][0].type).toBe('keyup')
+    expect(ZoomSearch.prototype.key.mock.calls[0][0].target).toBe(zoomSearch.input.get(0))
+    expect(ZoomSearch.prototype.key.mock.calls[1][0].type).toBe('change')
+    expect(ZoomSearch.prototype.key.mock.calls[1][0].target).toBe(zoomSearch.input.get(0))
 
-  zoomSearch.input.trigger('focus')
-  expect(ZoomSearch.prototype.select).toHaveBeenCalledTimes(1)
+    zoomSearch.input.trigger('focus')
+    expect(ZoomSearch.prototype.select).toHaveBeenCalledTimes(1)
 
-  container.find('.btn-z-in, .btn-z-out').trigger('click')
-  expect(ZoomSearch.prototype.zoom).toHaveBeenCalledTimes(2)
-  expect(ZoomSearch.prototype.zoom.mock.calls[0][0].type).toBe('click')
-  expect(ZoomSearch.prototype.zoom.mock.calls[0][0].target).toBe(container.find('.btn-z-in').get(0))
-  expect(ZoomSearch.prototype.zoom.mock.calls[1][0].type).toBe('click')
-  expect(ZoomSearch.prototype.zoom.mock.calls[1][0].target).toBe(container.find('.btn-z-out').get(0))
+    container.find('.btn-z-in, .btn-z-out').trigger('click')
+    expect(ZoomSearch.prototype.zoom).toHaveBeenCalledTimes(2)
+    expect(ZoomSearch.prototype.zoom.mock.calls[0][0].type).toBe('click')
+    expect(ZoomSearch.prototype.zoom.mock.calls[0][0].target).toBe(container.find('.btn-z-in').get(0))
+    expect(ZoomSearch.prototype.zoom.mock.calls[1][0].type).toBe('click')
+    expect(ZoomSearch.prototype.zoom.mock.calls[1][0].target).toBe(container.find('.btn-z-out').get(0))
 
-  container.find('.btn-geo').trigger('click')
-  expect(ZoomSearch.prototype.geolocate).toHaveBeenCalledTimes(1)
-  expect(ZoomSearch.prototype.geolocate.mock.calls[0][0].type).toBe('click')
-  expect(ZoomSearch.prototype.geolocate.mock.calls[0][0].target).toBe(container.find('.btn-geo').get(0))
+    container.find('.btn-geo').trigger('click')
+    expect(ZoomSearch.prototype.geolocate).toHaveBeenCalledTimes(1)
+    expect(ZoomSearch.prototype.geolocate.mock.calls[0][0].type).toBe('click')
+    expect(ZoomSearch.prototype.geolocate.mock.calls[0][0].target).toBe(container.find('.btn-geo').get(0))
 
-  $(document).trigger('mouseup')
-  expect(ZoomSearch.prototype.listClick).toHaveBeenCalledTimes(1)
-
-  ZoomSearch.prototype.key = key
-  ZoomSearch.prototype.select = select
-  ZoomSearch.prototype.zoom = zoom
-  ZoomSearch.prototype.geolocate = geolocate
-  ZoomSearch.prototype.listClick = listClick
+    $(document).trigger('mouseup')
+    expect(ZoomSearch.prototype.listClick).toHaveBeenCalledTimes(1)
+  })
 })
-
 test('select', () => {
   const handler = jest.fn()
 

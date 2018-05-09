@@ -23,10 +23,11 @@ class ZoomSearch extends Container {
 	 * @desc  Creates an instance of search controls
 	 * @access protected
 	 * @constructor
-	 * @param {JQuery} container The container
+	 * @param {JQuery|Element|string} target The target
 	 */
-	constructor(container) {
-		super(container)
+	constructor(target) {
+		super($(ZoomSearch.HTML))
+		$(target).append(this.getContainer())
 		/**
 		 * @private
 		 * @member {boolean}
@@ -57,7 +58,11 @@ class ZoomSearch extends Container {
 		 * @member {AutoComplete}
 		 */
 		this.autoComplete = null
-		this.render()
+		this.input = this.find('.srch input')
+		this.list = this.find('.srch ul')
+		this.retention = this.find('ul.retention')
+		this.clear = this.find('.srch .btn-x')
+		this.hookupEvents(this.input)
 	}
 	/**
 	 * @desc Handle the zoom event triggered by user interaction
@@ -79,18 +84,6 @@ class ZoomSearch extends Container {
 	 */
 	featureAsLocation(feature, options) {
 		throw 'Not implemented'
-	}
-	/**
-	 * @private
-	 * @method
-	 */
-	render() {
-		this.getContainer().append(ZoomSearch.HTML)
-		this.input = this.find('.srch input')
-		this.list = this.find('.srch ul')
-		this.retention = this.find('ul.retention')
-		this.clear = this.find('.srch .btn-x')
-		this.hookupEvents(this.input)
 	}
 	/**
 	 * @private
@@ -327,8 +320,9 @@ class ZoomSearch extends Container {
 	 * @param {jQuery.Event} event
 	 */
 	 listClick(event) {
+		 event = event.originalEvent || event
 		 if (this.list.css('display') === 'block') {
-			 const target = $(event.originalEvent.target)
+			 const target = $(event.target)
 			 if ($.contains(this.list.get(0), target.get(0))) {
 				 if (this.autoComplete) {
 					 target.trigger('click')

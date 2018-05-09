@@ -32,16 +32,16 @@ class MockMap {
   }
 }
 
-let container
+let target
 let mockMap
 beforeEach(() => {
-  container = $('<div></div>')
-  $('body').append(container)
-  mockMap = new MockMap({target: container})
+  target = $('<div></div>')
+  $('body').append(target)
+  mockMap = new MockMap({target: target})
 })
 
 afterEach(() => {
-  container.remove()
+  target.remove()
 })
 
 test('constructor', () => {
@@ -58,9 +58,9 @@ test('constructor', () => {
   expect(zoomSearch.view).toBe(mockMap.getView())
   expect(zoomSearch.geoJson instanceof OlGeoJSON).toBe(true)
 
-  expect(zoomSearch.find('.z-srch').length).toBe(1)
+  expect(zoomSearch.getContainer().hasClass('z-srch')).toBe(true)
 
-  zoomSearch.find('.z-srch').trigger('click')
+  zoomSearch.getContainer().trigger('click')
 
   expect(tip.css('display')).toBe('none')
 
@@ -108,7 +108,7 @@ test('zoom', () => {
   expect(mockView.animate).toHaveBeenCalledTimes(1)
   expect(mockView.animate.mock.calls[0][0].zoom).toBe(12)
 
-  event.target = container.find('.btn-z-out').get(0)
+  event.target = zoomSearch.getContainer().find('.btn-z-out').get(0)
 
   zoomSearch.zoom(event)
 
