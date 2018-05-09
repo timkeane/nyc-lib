@@ -1,5 +1,4 @@
 .pop {
-	max-width: 350px;
 	background-color: var(--theme-pop-bg-color);
 	border-radius: var(--theme-border-radius);
 	border: var(--theme-pop-border);
@@ -10,7 +9,6 @@
 	bottom: 12px;
 	left: -50px;
 	z-index: 200;
-	overflow: hidden;
 }
 .pop:after, .pop:before {
 	top: 100%;
@@ -36,10 +34,10 @@
 	margin-top: 0.4px;
 }
 .pop .content {
-	margin: 5px 25px 10px 10px;
+	margin: 10px;
 	width: 330px;
 	max-height: 500px;
-	overflow: auto
+	overflow: auto;
 }
 .pop .btn-x {
 	position: absolute;
