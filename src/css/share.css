@@ -1,0 +1,42 @@
+#share-btn {
+	position: fixed;
+	left: 3px;
+	bottom: 3px;
+	background-image: var(--theme-share-bg-img);
+}
+#share-btn.ctl-btn, #share-btns .ctl-btn {
+	padding: 0;
+}
+#share-btns {
+	left: 43px;
+	bottom: -2px;
+	display: none;
+}
+#share-btn, #share-btns a {
+	background-size: 28px 28px;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+#share-btns a {
+	position: relative;
+	display: inline-block;
+	margin: 0 3px 0 0;
+}
+#facebook-btn {
+	background-image: var(--theme-facebook-bg-img);
+}
+#twitter-btn {
+	background-image: var(--theme-twitter-bg-img);
+}
+#google-btn {
+	background-image: var(--theme-google-bg-img);
+}
+#linkedin-btn {
+	background-image: var(--theme-linkedin-bg-img);
+}
+#tumblr-btn {
+	background-image: var(--theme-tumblr-bg-img);
+}
+#email-btn {
+	background-image: var(--theme-email-bg-img);
+}

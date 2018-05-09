@@ -19,7 +19,7 @@ export default class ReplaceTokens {
 	 * @return {string} String with replacement value substitution
 	 */
 	replace(str, values) {
-		Object.keys(values).forEach((name) => {
+		Object.keys(values).forEach(name => {
 			str = str.replace(new RegExp('\\$\\{' + name + '\\}', 'g'), values[name] !== undefined ? values[name] : '')
 		})
 		return str
