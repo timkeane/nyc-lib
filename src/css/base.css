@@ -92,10 +92,29 @@ input {
 }
 .nyc-html {
 	display: table;
+	border: var(--theme-border);
+	border-radius: var(--theme-border-radius);
 }
 .nyc-html div {
+	display: table-row;
+}
+.nyc-html div span {
+	font-size: 14px;
 	display: table-cell;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	border-bottom: var(--theme-border);
+	padding: 0 3px;
+	overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+}
+.nyc-html div:last-of-type span {
+	border-bottom: none;
 }
 .nyc-html .fld {
 	font-weight: bold;
+	border-right: var(--theme-border);
 }

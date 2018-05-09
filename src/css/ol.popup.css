@@ -10,6 +10,7 @@
 	bottom: 12px;
 	left: -50px;
 	z-index: 200;
+	overflow: hidden;
 }
 .pop:after, .pop:before {
 	top: 100%;
@@ -36,20 +37,13 @@
 }
 .pop .content {
 	margin: 5px 25px 10px 10px;
-	width: 320px;
-	max-height: 200%;
+	width: 330px;
+	max-height: 500px;
+	overflow: auto
 }
-.pop button.close {
+.pop .btn-x {
 	position: absolute;
 	top: 3px;
 	right: 3px;
 	z-index: 2;
-}
-@media only screen and (max-width : 320px) {
-	.pop {
-		max-width: 300px;
-	}
-	.pop-content {
-		max-width: 265px;
-	}
 }
