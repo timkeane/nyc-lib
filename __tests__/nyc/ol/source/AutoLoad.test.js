@@ -36,3 +36,13 @@ test('resolve', () => {
     expect(features[0].get('zip')).toEqual(geojson.properties.zip)
   })
 })
+
+test('requires fetch', () => {
+  // const fetch = window.fetch
+  // window.fetch = undefined
+  //
+  // return new AutoLoad({
+  //   url: 'https://maps.nyc.gov/data.json',
+  //   format: new OlFormatGeoJson()
+  // }).autoLoad()
+})
