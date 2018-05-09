@@ -10,11 +10,15 @@ import Container from 'nyc/Container'
  * @desc A class to generate legend HTML
  * @public
  * @class
- * @extends {nyc.ReplaceTokens}
- * @constructor
- * @param {ListPager.Options} options The constructor options
+ * @extends {Container}
  */
 class ListPager extends Container {
+  /**
+   * @desc A class to generate legend HTML
+   * @public
+   * @constructor
+   * @param {ListPager.Options} options The constructor options
+   */
   constructor(options) {
     super(options.target)
     this.getContainer().addClass('lst-pg')
@@ -96,7 +100,7 @@ class ListPager extends Container {
 /**
  * @desc Options for ListPager constructor
  * @public
- * @typedef {ListPager.Item}
+ * @typedef {Object}
  * @property {JQuery|Element|string} target The DOM node in which to create the ListPager
  * @param {Array<ListPager.Item>=} items The items to page through
  * @param {number} [pageSize=10] The number of items per page
