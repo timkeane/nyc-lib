@@ -176,10 +176,10 @@ describe('pan', () => {
     OlOverlay.prototype.getOffset = getOffset
   })
 
-  test('pan', () => {
-
+  test('pan fromTop < 0 and fromRight < 0', () => {
     const css = {
       bottom: '10px',
+      left: '100px',
       width: '300px',
       height: '300px'
     }
@@ -191,7 +191,67 @@ describe('pan', () => {
 
     popup.map.getPixelFromCoordinate = jest.fn()
     popup.map.getPixelFromCoordinate
-      .mockReturnValueOnce([50, 50])
+      .mockReturnValueOnce([400, 50])
+      .mockReturnValueOnce([250, 250])
+    popup.map.getSize = jest.fn()
+    popup.map.getSize.mockReturnValue([500, 500])
+
+    popup.popup.css(css)
+    popup.popup.show()
+
+    popup.pan()
+
+    popup.popup.hide()
+
+    popup.pan()
+  })
+
+  test('pan fromTop > 0 and fromBottom < 0 and fromRight > 0 and fromLeft < 0', () => {
+    const css = {
+      bottom: '10px',
+      left: '100px',
+      width: '300px',
+      height: '300px'
+    }
+
+    const popup = new Popup({map: map})
+
+    popup.setPosition([0, 0])
+    popup.content.html('some content')
+
+    popup.map.getPixelFromCoordinate = jest.fn()
+    popup.map.getPixelFromCoordinate
+      .mockReturnValueOnce([-100, 495])
+      .mockReturnValueOnce([250, 250])
+    popup.map.getSize = jest.fn()
+    popup.map.getSize.mockReturnValue([500, 500])
+
+    popup.popup.css(css)
+    popup.popup.show()
+
+    popup.pan()
+
+    popup.popup.hide()
+
+    popup.pan()
+  })
+
+  test('pan fromTop > 0 and fromBottom = 0 and fromRight > 0 and fromLeft = 0', () => {
+    const css = {
+      bottom: '10px',
+      left: '100px',
+      width: '300px',
+      height: '300px'
+    }
+
+    const popup = new Popup({map: map})
+
+    popup.setPosition([0, 0])
+    popup.content.html('some content')
+
+    popup.map.getPixelFromCoordinate = jest.fn()
+    popup.map.getPixelFromCoordinate
+      .mockReturnValueOnce([-90, 480])
       .mockReturnValueOnce([250, 250])
     popup.map.getSize = jest.fn()
     popup.map.getSize.mockReturnValue([500, 500])

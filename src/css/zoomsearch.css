@@ -90,7 +90,7 @@
 .z-srch ul.retention {
 	display: none;
 }
-.ol-zoom, .ol-attribution {
+.ol-control, .ol-zoom, .ol-attribution {
 	display: none;
 }
 @media only screen and (max-width : 405px) {

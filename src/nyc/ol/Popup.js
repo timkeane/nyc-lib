@@ -102,6 +102,9 @@ class Popup extends OlOverlay {
       const tailOffsetLeft = -parseInt(popup.css('left'))
       const popOffset = this.getOffset()
       const popPx = this.map.getPixelFromCoordinate(this.getPosition())
+
+      console.warn('popPx', popPx);
+
       const mapSize = this.map.getSize()
       const popSize = {
         width: popup.width(),
@@ -125,6 +128,8 @@ class Popup extends OlOverlay {
       console.warn('fromTop',fromTop);
       console.warn('fromBottom',fromBottom);
 
+      console.error('px before', px)
+
       if (fromRight < 0) {
         px[0] -= fromRight
       } else if (fromLeft < 0) {
@@ -135,6 +140,9 @@ class Popup extends OlOverlay {
       } else if (fromBottom < 0) {
         px[1] -= fromBottom
       }
+
+      console.error('px after', px)
+
       view.animate({center: this.map.getCoordinateFromPixel(px)})
     }
   }
