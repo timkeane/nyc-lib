@@ -1,5 +1,5 @@
 /**
- * @module nyc/ol/FeaturePopup
+ * @module nyc/ol/MultiFeaturePopup
  */
 
 import $ from 'jquery'
@@ -18,7 +18,7 @@ import FeaturePopup from 'nyc/ol/FeaturePopup'
  * @constructor
  * @see http://www.openlayers.org/
  */
-class MutiFeaturePopup extends FeaturePopup {
+class MultiFeaturePopup extends FeaturePopup {
   /**
    * @desc Create an instance of FeaturePopup
    * @public
@@ -28,7 +28,15 @@ class MutiFeaturePopup extends FeaturePopup {
    */
   constructor(options) {
     super(options)
+    /**
+     * @private
+     * @member {Array<ol.layer.Vector>}
+     */
     this.layers = []
+    /**
+     * @private
+     * @member {ItemPager}
+     */
     this.pager = new ItemPager({
       target: this.content
     })
@@ -63,4 +71,4 @@ class MutiFeaturePopup extends FeaturePopup {
   }
 }
 
-export default MutiFeaturePopup
+export default MultiFeaturePopup

@@ -125,6 +125,7 @@ test('mapClick', () => {
       return callback(feature, mockLayer)
     }
   }
+  
   const popup = new FeaturePopup({
     map: map,
     layers: mockLayers

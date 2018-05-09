@@ -46,7 +46,7 @@ import _nyc_ol_LocalStorage from 'nyc/ol/LocalStorage'
 import _nyc_ol_LocationMgr from 'nyc/ol/LocationMgr'
 import _nyc_ol_Locator from 'nyc/ol/Locator'
 import _nyc_ol_MapLocator from 'nyc/ol/MapLocator'
-import _nyc_ol_MutiFeaturePopup from 'nyc/ol/MutiFeaturePopup'
+import _nyc_ol_MultiFeaturePopup from 'nyc/ol/MultiFeaturePopup'
 import _nyc_ol_Popup from 'nyc/ol/Popup'
 import _nyc_ol_ZoomSearch from 'nyc/ol/ZoomSearch'
 
@@ -58,7 +58,7 @@ window.nyc.ol.LocalStorage = _nyc_ol_LocalStorage
 window.nyc.ol.LocationMgr = _nyc_ol_LocationMgr
 window.nyc.ol.Locator = _nyc_ol_Locator
 window.nyc.ol.MapLocator = _nyc_ol_MapLocator
-window.nyc.ol.MutiFeaturePopup = _nyc_ol_MutiFeaturePopup
+window.nyc.ol.MultiFeaturePopup = _nyc_ol_MultiFeaturePopup
 window.nyc.ol.Popup = _nyc_ol_Popup
 window.nyc.ol.ZoomSearch = _nyc_ol_ZoomSearch
 
