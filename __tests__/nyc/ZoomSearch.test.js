@@ -400,7 +400,7 @@ test('disambiguate has possible', () => {
 
   const zoomSearch = new ZoomSearch(container)
 
-  zoomSearch.listItem = function(options, data) {
+  zoomSearch.listItem = (options, data) => {
     return $('<li></li>')
 		  .addClass(options.layerName)
       .html(data.name)
@@ -437,12 +437,12 @@ test('setFeatures/sortAlphapetically no nameField no displayField has placeholde
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.emptyList = jest.fn()
-  zoomSearch.listItem = function(options, data) {
+  zoomSearch.listItem = (options, data) => {
     return $('<li></li>')
 		  .addClass(options.layerName)
       .html(data.name)
   }
-  zoomSearch.featureAsLocation = function(feature, opts) {
+  zoomSearch.featureAsLocation = (feature, opts) => {
     expect(opts).toBe(options)
     return feature.properties
   }
@@ -481,15 +481,15 @@ test('setFeatures/sortAlphapetically has nameField has displayField no placehold
     features: [
       {
         properties: {label: 'feature 3'},
-        get: function(prop){return this.properties[prop]}
+        get: (prop) => {return this.properties[prop]}
       },
       {
         properties: {label: 'feature 1'},
-        get: function(prop){return this.properties[prop]}
+        get: (prop) => {return this.properties[prop]}
       },
       {
         properties: {label: 'feature 2'},
-        get: function(prop){return this.properties[prop]}
+        get: (prop) => {return this.properties[prop]}
       }
     ]
   }
@@ -497,12 +497,12 @@ test('setFeatures/sortAlphapetically has nameField has displayField no placehold
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.emptyList = jest.fn()
-  zoomSearch.listItem = function(options, data) {
+  zoomSearch.listItem = (options, data) => {
     return $('<li></li>')
 		  .addClass(options.layerName)
       .html(data.label)
   }
-  zoomSearch.featureAsLocation = function(feature, opts) {
+  zoomSearch.featureAsLocation = (feature, opts) => {
     expect(opts).toBe(options)
     return feature.properties
   }

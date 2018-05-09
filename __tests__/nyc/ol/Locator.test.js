@@ -143,9 +143,9 @@ test('geolocationChange not currently locating, no limit', () => {
   const handler = jest.fn()
   locator.on(NycLocator.EventType.GEOLOCATION, handler)
 
-  locator.geolocation.getPosition = function() { return [0, 0] }
-  locator.geolocation.getHeading = function() { return 90 }
-  locator.geolocation.getAccuracy = function() { return 500 }
+  locator.geolocation.getPosition = () => { return [0, 0] }
+  locator.geolocation.getHeading = () => { return 90 }
+  locator.geolocation.getAccuracy = () => { return 500 }
 
   locator.geolocationChange()
 
@@ -173,9 +173,9 @@ test('geolocationChange not currently locating, within limit', () => {
   const handler = jest.fn()
   locator.on(NycLocator.EventType.GEOLOCATION, handler)
 
-  locator.geolocation.getPosition = function() { return [0, 0] }
-  locator.geolocation.getHeading = function() { return 90 }
-  locator.geolocation.getAccuracy = function() { return 500 }
+  locator.geolocation.getPosition = () => { return [0, 0] }
+  locator.geolocation.getHeading = () => { return 90 }
+  locator.geolocation.getAccuracy = () => { return 500 }
 
   locator.geolocationChange()
 
@@ -203,9 +203,9 @@ test('geolocationChange not currently locating, not within limit', () => {
   const handler = jest.fn()
   locator.on(NycLocator.EventType.GEOLOCATION, handler)
 
-  locator.geolocation.getPosition = function() { return [0, 0] }
-  locator.geolocation.getHeading = function() { return 90 }
-  locator.geolocation.getAccuracy = function() { return 500 }
+  locator.geolocation.getPosition = () => { return [0, 0] }
+  locator.geolocation.getHeading = () => { return 90 }
+  locator.geolocation.getAccuracy = () => { return 500 }
 
   locator.geolocationChange()
 
@@ -227,9 +227,9 @@ test('geolocationChange is currently locating, not within limit', () => {
   const handler = jest.fn()
   locator.on(NycLocator.EventType.GEOLOCATION, handler)
 
-  locator.geolocation.getPosition = function() { return [0, 0] }
-  locator.geolocation.getHeading = function() { return 90 }
-  locator.geolocation.getAccuracy = function() { return 500 }
+  locator.geolocation.getPosition = () => { return [0, 0] }
+  locator.geolocation.getHeading = () => { return 90 }
+  locator.geolocation.getAccuracy = () => { return 500 }
 
   locator.geolocationChange()
 
@@ -251,9 +251,9 @@ test('geolocationChange IS currently locating, within limit', () => {
   const handler = jest.fn()
   locator.on(NycLocator.EventType.GEOLOCATION, handler)
 
-  locator.geolocation.getPosition = function() { return [0, 0] }
-  locator.geolocation.getHeading = function() { return 90 }
-  locator.geolocation.getAccuracy = function() { return 500 }
+  locator.geolocation.getPosition = () => { return [0, 0] }
+  locator.geolocation.getHeading = () => { return 90 }
+  locator.geolocation.getAccuracy = () => { return 500 }
 
   locator.geolocationChange()
 

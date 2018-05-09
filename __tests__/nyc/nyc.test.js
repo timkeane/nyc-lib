@@ -7,17 +7,17 @@ test('proj4', () => {
 })
 
 test('inherits', () => {
-  const parentCtor = function(){}
+  const parentCtor = () => {}
   parentCtor.prototype.parentProperty = 'parentProperty'
   parentCtor.prototype.propertyToOverride = 'propertyToOverride'
-  parentCtor.prototype.parentMethod = function(){}
-  parentCtor.prototype.methodToOverride = function(){}
+  parentCtor.prototype.parentMethod = () => {}
+  parentCtor.prototype.methodToOverride = () => {}
 
   const overrideProperty = 'overrideProperty'
-  const overrideMethod = function(){}
+  const overrideMethod = () => {}
 
-  const childCtor = function(){}
-  childCtor.prototype.childMethod = function(){}
+  const childCtor = () => {}
+  childCtor.prototype.childMethod = () => {}
   childCtor.prototype.propertyToOverride = overrideProperty
   childCtor.prototype.methodToOverride = overrideMethod
 
@@ -50,7 +50,7 @@ test('subclass', () => {
     nyc.subclass(this, this.superClass);
     this.parent = false
   }
-  SubClass.prototype.getFamily = function(){
+  SubClass.prototype.getFamily = () => {
       return 'Rubble'
   }
 
@@ -65,7 +65,7 @@ test('mixin', () => {
   const obj = {
     foo: 'bar',
     bar: 'foo',
-    getFooBar: function() {
+    getFooBar: () => {
       return this.foo + this.bar
     }
   }
@@ -74,19 +74,19 @@ test('mixin', () => {
     foo: 'foo',
     bar: 'bar',
     wtf: 'wtf',
-    getFooBar: function() {
+    getFooBar: () => {
       return this.foo + this.bar
     },
-    getBarFoo: function() {
+    getBarFoo: () => {
       return this.bar + this.foo
     },
-    getWtf: function() {
+    getWtf: () => {
       return this.wtf + '!'
     }
   }
 
   const mixin1 = {
-    getWtf: function() {
+    getWtf: () => {
       return this.wtf + '?'
     }
   }
@@ -127,13 +127,13 @@ test('copyFromParentProperties', () => {
     foo: 'foo',
     bar: 'bar',
     wtf: 'wtf',
-    getFooBar: function() {
+    getFooBar: () => {
       return this.foo + this.bar
     },
-    getBarFoo: function() {
+    getBarFoo: () => {
       return this.bar + this.foo
     },
-    getWtf: function() {
+    getWtf: () => {
       return this.wtf + '!'
     }
   }
@@ -141,7 +141,7 @@ test('copyFromParentProperties', () => {
   const childObj = {
     foo: 'bar',
     bar: 'foo',
-    getFooBar: function() {
+    getFooBar: () => {
       return this.foo + this.bar
     }
   }
@@ -165,13 +165,13 @@ test('copyFromParentKeys', () => {
     foo: 'foo',
     bar: 'bar',
     wtf: 'wtf',
-    getFooBar: function() {
+    getFooBar: () => {
       return this.foo + this.bar
     },
-    getBarFoo: function() {
+    getBarFoo: () => {
       return this.bar + this.foo
     },
-    getWtf: function() {
+    getWtf: () => {
       return this.wtf + '!'
     }
   }
@@ -179,7 +179,7 @@ test('copyFromParentKeys', () => {
   const childObj = {
     foo: 'bar',
     bar: 'foo',
-    getFooBar: function() {
+    getFooBar: () => {
       return this.foo + this.bar
     }
   }

@@ -215,7 +215,7 @@ test('defaultExtent view not provided', () => {
   const basemap = new Basemap({target: 'map'})
 
   const fit = jest.fn()
-  basemap.getView = function() {
+  basemap.getView = () => {
     return {fit: fit}
   }
   basemap.defaultExtent(false)
@@ -229,7 +229,7 @@ test('defaultExtent view is provided', () => {
   const basemap = new Basemap({target: 'map'})
 
   const fit = jest.fn()
-  basemap.getView = function() {
+  basemap.getView = () => {
     return {fit: fit}
   }
   basemap.defaultExtent(true)
@@ -311,7 +311,7 @@ test('layerExtent', () => {
   const tr = proj4(epsg0, epsg1, [extent0[2], extent0[3]])
   const extent1 = [bl[0], bl[1], tr[0], tr[1]]
   const view = {
-    getProjection: function() {
+    getProjection: () => {
       return new OlProjection({code: epsg1})
     }
   }

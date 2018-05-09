@@ -125,7 +125,7 @@ test('loadLayer dataTransfer has no files', () => {
 test('sortedPhotos', () => {
   BasemapHelper.photos = {
     '1951': {
-      get: function(key) {
+      get: (key) => {
         if (key === 'name')
           return '1951'
       }
@@ -133,7 +133,7 @@ test('sortedPhotos', () => {
     '1996': {name: '1996'},
     '1924': {name: '1924'},
     '2004': {
-      get: function(key) {
+      get: (key) => {
         if (key === 'name')
           return '2004'
       }
@@ -144,7 +144,7 @@ test('sortedPhotos', () => {
     '2008': {name: '2008'},
     '2010-11': {name: '2010-11'},
     '2012': {
-      get: function(key) {
+      get: (key) => {
         if (key === 'name')
           return '2012'
       }

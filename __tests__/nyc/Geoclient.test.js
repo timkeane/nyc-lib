@@ -82,14 +82,14 @@ test('search for bad ZIP', () => {
 test('search for address', () => {
   const jqueryProxy = $.jqueryProxy
   const proxyCalls = []
-  $.proxy = function(fn, scope) {
+  $.proxy = (fn, scope) => {
     proxyCalls.push([fn, scope])
     return [fn, scope]
   }
 
   const jqueryAjax = $.ajax
   const ajaxCalls = []
-  $.ajax = function(args){
+  $.ajax = (args) => {
     ajaxCalls.push(args)
     args.success[0].call(args.success[1], GEOCLIENT_OK_ADDRESS_RESPONSE)
   }
@@ -129,14 +129,14 @@ test('search for address', () => {
 test('search error', () => {
   const jqueryProxy = $.jqueryProxy
   const proxyCalls = []
-  $.proxy = function(fn, scope) {
+  $.proxy = (fn, scope) => {}{
     proxyCalls.push([fn, scope])
     return [fn, scope]
   }
 
   const jqueryAjax = $.ajax
   const ajaxCalls = []
-  $.ajax = function(args){
+  $.ajax = (args) => {
     ajaxCalls.push(args)
     args.error[0].call(args.error[1], 'ajax-error-arguments')
   }

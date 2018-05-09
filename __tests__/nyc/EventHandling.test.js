@@ -8,15 +8,15 @@ test('constructor', () => {
 test('on', () => {
     const handling = new EventHandling()
 
-	const aHandler = function(){}
-	const anotherHandler = function(data){}
+	const aHandler = () => {}
+	const anotherHandler = (data) => {}
 	const anObj = {
 		name: 'anObj',
-		handler: function(){}
+		handler: () => {}
 	}
 	const anotherObj = {
 		name: 'anotherObj',
-		handler: function(data){}
+		handler: (data) => {}
 	}
 
 	handling.on('event1', aHandler)
@@ -58,15 +58,15 @@ test('on', () => {
 test('one', () => {
 	const handling = new EventHandling()
 
-	const aHandler = function(){}
-	const anotherHandler = function(data){}
+	const aHandler = () => {}
+	const anotherHandler = (data) => {}
 	const anObj = {
 		name: 'anObj',
-		handler: function(){}
+		handler: () => {}
 	}
 	const anotherObj = {
 		name: 'anotherObj',
-		handler: function(data){}
+		handler: (data) => {}
 	}
 
 	handling.one('event1', aHandler)
