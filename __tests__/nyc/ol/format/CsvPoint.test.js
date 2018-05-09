@@ -115,3 +115,27 @@ test('readFeatures no id or default projections', () => {
 test('getType', () => {
   expect(new CsvPoint({x: 'x', y: 'y'}).getType()).toBe(OlFormatFormatType.ARRAY_BUFFER)
 })
+
+describe('hookupEvents called from constructor', () => {
+  const error = console.error
+  beforeEach(() => {
+    console.error = jest.fn()
+  })
+  afterEach(() => {
+    console.error = error
+  })
+  test('readFeatures has bad data', () => {
+    const source = [{x: '123', y: 'abc'}]
+
+    const csvpoint = new CsvPoint({
+      x: 'x',
+      y: 'y'
+    })
+
+    const features = csvpoint.readFeatures(source)
+
+    expect(console.error).toHaveBeenCalledTimes(1)
+    expect(console.error.mock.calls[0][0]).toBe('Invalid coordinate [123, NaN] for id 0')
+    expect(console.error.mock.calls[0][1]).toBe(source[0])
+  })
+})
