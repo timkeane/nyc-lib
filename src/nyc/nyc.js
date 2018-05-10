@@ -156,7 +156,7 @@ const nyc = {
 		* @function
 		* @param {JQuery} [target=body] Target elements
 	  */
-	 loaded(target) {
+	 ready(target) {
 		 $(target || $('body')).removeClass('loading').attr('aria-hidden', false)
 		 $('#loading').fadeOut()
 	 },

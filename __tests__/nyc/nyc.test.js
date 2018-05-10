@@ -295,7 +295,7 @@ test('loading/loaded', () => {
     })
   }
 
-  nyc.loaded()
+  nyc.ready()
 
   expect(body.hasClass('loading')).toBe(false)
   expect(body.attr('aria-hidden')).toBe('false')
