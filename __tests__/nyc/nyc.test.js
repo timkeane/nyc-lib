@@ -279,3 +279,26 @@ test('html plain object', () => {
   expect($(nyc.html(object).children().get(1)).html()).toBe('<span class="fld">bar</span><span class="val">foo</span>')
   expect($(nyc.html(object).children().get(2)).html()).toBe('<span class="fld">doo</span><span class="val">fus</span>')
 })
+
+test('loading/loaded', () => {
+  const body = $('body')
+  body.addClass('loading').attr('aria-hidden', true)
+  nyc.loading(body)
+  expect(body.children().first().attr('id')).toBe('loading')
+  expect(body.children().first().css('display')).toBe('block')
+
+  const test = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(body.children().first().css('display'))
+      }, 500)
+    })
+  }
+
+  nyc.loaded()
+
+  expect(body.hasClass('loading')).toBe(false)
+  expect(body.attr('aria-hidden')).toBe('false')
+
+  return test().then(visible => expect(visible).toBe('none'))
+})

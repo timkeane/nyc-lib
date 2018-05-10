@@ -137,8 +137,27 @@ const nyc = {
 			 return html
 		 }
 	 },
-	 loaded() {
-		 $('body').removeClass('loading').attr('aria-hidden', 'false')
+	 /**
+	  * @desc Shows the loading splash screen on eleents with loading class
+	  * @public
+		* @static
+		* @function
+		* @param {JQuery} target Target elements
+	  */
+	 loading(target) {
+		 if (target.hasClass('loading')) {
+			 target.append($('#loading').get(0) || nyc.LOADING_HTML)
+		 }
+	 },
+	 /**
+	  * @desc Clears the loading splash screen
+	  * @public
+		* @static
+		* @function
+		* @param {JQuery} [target=body] Target elements
+	  */
+	 loaded(target) {
+		 $(target || $('body')).removeClass('loading').attr('aria-hidden', false)
 		 $('#loading').fadeOut()
 	 },
 	/**
@@ -149,24 +168,21 @@ const nyc = {
 	 uniqueIds: {}
 }
 
+nyc.LOADING_HTML = '<div id="loading">' +
+	'<div>' +
+	  '<svg xmlns="http://www.w3.org/2000/svg" width="152" height="52">' +
+	    '<g transform="translate(1.5,0)">'+
+	      '<polygon points="15.5,1.2 3.1,1.2 0,4.3 0,47.7 3.1,50.8 15.5,50.8 18.6,47.7 18.6,35.3 34.1,50.8 46.6,50.8 49.7,47.7 49.7,4.3 46.6,1.2 34.1,1.2 31,4.3 31,16.7 "/>' +
+	      '<polygon points="83.8,47.7 83.8,38.4 99.3,22.9 99.3,10.5 99.3,4.3 96.2,1.2 83.8,1.2 80.7,4.3 80.7,10.5 74.5,16.7 68.3,10.5 68.3,4.3 65.2,1.2 52.8,1.2 49.7,4.3 49.7,22.9 65.2,38.4 65.2,47.7 68.3,50.8 80.7,50.8 "/>' +
+	      '<polygon points="145.9,29.1 130.4,29.1 130.4,32.2 118,32.2 118,19.8 130.4,19.8 130.4,22.9 145.9,22.9 149,19.8 149,10.5 139.7,1.2 108.6,1.2 99.3,10.5 99.3,41.5 108.6,50.8 139.7,50.8 149,41.5 149,32.2 "/>' +
+	    '</g>' +
+	  '</svg>' +
+	  '<h1>maps.nyc.gov</h1>' +
+	'</div>' +
+'</div>'
+
 $(document).ready(() => {
-	const body = $(document.body)
-	if (body.hasClass('loading')) {
-		body.prepend(
-			'<div id="loading">' +
-				'<div>' +
-				  '<svg xmlns="http://www.w3.org/2000/svg" width="152" height="52">' +
-				    '<g transform="translate(1.5,0)">'+
-				      '<polygon points="15.5,1.2 3.1,1.2 0,4.3 0,47.7 3.1,50.8 15.5,50.8 18.6,47.7 18.6,35.3 34.1,50.8 46.6,50.8 49.7,47.7 49.7,4.3 46.6,1.2 34.1,1.2 31,4.3 31,16.7 "/>' +
-				      '<polygon points="83.8,47.7 83.8,38.4 99.3,22.9 99.3,10.5 99.3,4.3 96.2,1.2 83.8,1.2 80.7,4.3 80.7,10.5 74.5,16.7 68.3,10.5 68.3,4.3 65.2,1.2 52.8,1.2 49.7,4.3 49.7,22.9 65.2,38.4 65.2,47.7 68.3,50.8 80.7,50.8 "/>' +
-				      '<polygon points="145.9,29.1 130.4,29.1 130.4,32.2 118,32.2 118,19.8 130.4,19.8 130.4,22.9 145.9,22.9 149,19.8 149,10.5 139.7,1.2 108.6,1.2 99.3,10.5 99.3,41.5 108.6,50.8 139.7,50.8 149,41.5 149,32.2 "/>' +
-				    '</g>' +
-				  '</svg>' +
-				  '<h1>maps.nyc.gov</h1>' +
-				'</div>' +
-			'</div>'
-		)
-	}
+	nyc.loading($('body'))
 })
 
 export default nyc
