@@ -26,13 +26,13 @@
   <div id="map"></div>
   <script>
     var map = new nyc.ol.Basemap({target: 'map'});
-    var popup = new nyc.ol.Popup({map: map})
-    map.on('click', function(event){
+    var popup = new nyc.ol.Popup({map: map});
+    map.on('click', function(event) {
       popup.show({
         html: "Hi! I'm a plain 'ol popup.'",
         coordinate: event.coordinate
       })
-    })
+    });
   </script>
 </body>
 </html>

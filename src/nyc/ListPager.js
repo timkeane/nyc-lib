@@ -88,7 +88,7 @@ class ListPager extends Container {
 	 */
 	render(items) {
     items.forEach(item => {
-      const div = $('<div class="lst-item"></div>').append(item.html())
+      const div = $('<div class="lst-it"></div>').append(item.html())
       this.list.append(div)
     })
   }

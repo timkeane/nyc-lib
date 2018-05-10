@@ -50,22 +50,22 @@
           return this.get('full-address')
         }
       }
-    ]
+    ];
     var csv = new nyc.ol.format.CsvPoint({
       defaultDataProjection: 'EPSG:2263',
       x: 'X',
       y: 'Y'
-    })
+    });
     var source = new nyc.ol.source.AutoLoad({
       url: '../data/pka.csv',
       format: new nyc.ol.format.Decorate({
         parentFormat: csv,
         decorations: decorations
       })
-    })
+    });
     source.autoLoad().then(function(features) {
       console.log(features[0].getAddress())
-    })
+    });
 
     var map = new nyc.ol.Basemap({target: 'map'});
     map.addLayer(new ol.layer.Vector({source: source}));

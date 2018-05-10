@@ -59,27 +59,27 @@
           return '<div>' + html + '</div>'
         }
       }
-    ]
+    ];
     var csv = new nyc.ol.format.CsvPoint({
       defaultDataProjection: 'EPSG:2263',
       x: 'X',
       y: 'Y'
-    })
+    });
     var source = new nyc.ol.source.FilterAndSort({
       url: '../data/pka.csv',
       format: new nyc.ol.format.Decorate({
         parentFormat: csv,
         decorations: decorations
       })
-    })
+    });
     source.autoLoad();
 
     var map = new nyc.ol.Basemap({target: 'map'});
     var layer = new ol.layer.Vector({source: source});
 
-    map.addLayer(layer)
+    map.addLayer(layer);
 
-    new nyc.ol.MultiFeaturePopup({map: map, layers: [layer]})
+    new nyc.ol.MultiFeaturePopup({map: map, layers: [layer]});
 
     var locationMgr = new nyc.ol.LocationMgr({
       map: map,

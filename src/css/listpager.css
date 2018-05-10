@@ -10,7 +10,10 @@
   margin: 5px;
   width: calc(100% - 10px)
 }
-.lst-pg .list .lst-item {
+.lst-it {
   border-bottom: var(--theme-border);
   padding: 5px;
+}
+.lst-it:nth-child(even) {
+  background-color: var(--theme-even-row-bg-color);
 }

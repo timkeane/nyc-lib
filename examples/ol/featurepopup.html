@@ -29,18 +29,18 @@
       defaultDataProjection: 'EPSG:2263',
       x: 'X',
       y: 'Y'
-    })
+    });
     var source = new ol.source.Vector({
       url: '../data/pka.csv',
       format: csv
-    })
+    });
 
     var map = new nyc.ol.Basemap({target: 'map'});
     var layer = new ol.layer.Vector({source: source});
 
-    map.addLayer(layer)
+    map.addLayer(layer);
 
-    new nyc.ol.FeaturePopup({map: map, layers: [layer]})
+    new nyc.ol.FeaturePopup({map: map, layers: [layer]});
 
     var locationMgr = new nyc.ol.LocationMgr({
       map: map,
