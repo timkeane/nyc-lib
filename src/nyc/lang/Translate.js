@@ -21,70 +21,83 @@ class Translate extends Container {
    * @desc Class for language translation using the Google Translate Gadget
    * @public
    * @constructor
-   * @param {nyc.lang.Translate.Options} options Constructor options
+   * @param {Translate.Options} options Constructor options
    */
-  constructor(options) {
-    super(options.target)
-  	global.nycTranslateInstance = this
-    this.defaultLanguage = options.defaultLanguage || 'en'
+   constructor(options) {
+     super(options.target)
+     global.nycTranslateInstance = this
+     /**
+      * @private
+      * @member {string}
+      */
+     this.defaultLanguage = options.defaultLanguage || 'en'
+     /**
+      * @private
+      * @member {boolean}
+      */
+     this.button = options.button
+     /**
+    	* @private
+    	* @member {Array<string>}
+     */
+    this.languages = options.languages
     /**
-  	 * @private
-  	 * @member {boolean}
-  	 */
-  	this.button = options.button
+     * @private
+     * @member {Array<string>}
+     */
+    this.hints = []
     /**
-  	 * @private
-  	 * @member {Array<string>}
-  	 */
-  	this.languages = options.languages
+     * @private
+     * @member {Array<string>}
+     */
+    this.namedCodes = {}
     /**
-  	 * @private
-  	 * @member {Array<string>}
-  	 */
-  	this.hints = []
+     * @private
+     * @member {string}
+     */
+    this.code = ''
     /**
-  	 * @private
-  	 * @member {Array<string>}
-  	 */
-  	this.namedCodes = {}
-    /**
-  	 * @private
-  	 * @member {string}
-  	 */
-  	this.code = ''
-    /**
-  	 * @private
-  	 * @member {string}
-  	 */
-  	this.defaultLanguage = ''
-    if (options.messages) {
-        this.messages = options.messages
-        this.defaultMessages = options.messages[this.defaultLanguage] || options.messages[this.defaultLang()]
+     * @private
+     * @member {Object<string,Object<string,string>>}
+     */
+    this.messages = options.messages
+    if (!this.messages[this.defaultLanguage]) {
+      this.defaultLanguage = this.defaultLang()
     }
+    if (!this.messages[this.defaultLanguage]) {
+      this.defaultLanguage = 'en'
+    }
+    /**
+     * @private
+     * @member {string}
+     */
+    this.code = this.defaultLanguage
+    /**
+     * @private
+     * @member {Object<string,Object<string,string>>}
+     */
+    this.defaultMessages = this.messages[this.defaultLanguage]
   	this.render(options.target)
   }
 	/**
 	 * @desc Sets the chosen language and performs message substitution
 	 * @public
 	 * @method
+   * @param {JQuery.Event} event
 	 */
    translate(event) {
-	   if (event) {
-		   const lang = $(event.target).val()
-		   if (lang) {
-			   this.code = lang
-         Object.keys(this.defaultMessages).forEach(key => {
-           const messages = this.messages[lang] || this.defaultMessages
-           const msg = messages[key] || this.defaultMessages[key]
-				   $('.' + key).html(msg)
-				   $('*[data-msg-key="' + key + '"]').each((_, element) => {
-					   $(element).attr($(element).data('msg-attr'), msg)
-				   })
-         })
-			   this.css('translated')
-			   this.trigger(Translate.EventType.CHANGE, this.code)
-		   }
-	   }
+	   const lang = $(event.target).val()
+	   this.code = lang
+     Object.keys(this.defaultMessages).forEach(key => {
+       const messages = this.messages[lang] || this.defaultMessages
+       const msg = messages[key] || this.defaultMessages[key]
+		   $('.' + key).html(msg)
+		   $('*[data-msg-key="' + key + '"]').each((_, element) => {
+			   $(element).attr($(element).data('msg-attr'), msg)
+		   })
+     })
+	   this.css('translated')
+	   this.trigger(Translate.EventType.CHANGE, this)
    }
 	/**
 	 * @desc Get the currently chosen language code
@@ -100,7 +113,9 @@ class Translate extends Container {
 	 * @method
 	 * @return {string}
 	 */
-	getCookieValue() {}
+	getCookieValue() {
+    return ''
+  }
   /**
 	 * @private
 	 * @method
@@ -111,23 +126,22 @@ class Translate extends Container {
     const div = $(Translate.HTML)
     $(target).append(div)
     Object.keys(this.languages).forEach(code => {
-      const name = this.languages[code].val || code
+      const name = this.languages[code].val
       const opt = $('<option></option>').attr('value', name).html(this.languages[code].desc)
-      $('#lng select').append(opt)
+      this.find('select').append(opt)
       codes.push(code)
       this.hints.push(this.languages[code].hint)
       this.namedCodes[name] = code
     })
     this.codes = codes.toString()
     $('body').addClass('lang-en')
-    $('#lng select').change($.proxy(this.translate, this))
-    this.setChoices()
+    this.find('select').change($.proxy(this.translate, this))
+    this.selectDefault()
+    this.showHint()
     if (this.button) {
       $('#lng').addClass('button')
     }
-    if (this.messages) {
-      this.trigger(Translate.EventType.READY, true)
-    }
+    this.trigger(Translate.EventType.READY, this)
   }
   /**
 	 * @private
@@ -148,57 +162,59 @@ class Translate extends Container {
 	 * @method
 	 */
 	defaultLang() {
-		return navigator.language ? navigator.language.split('-')[0] : (this.defaultLanguage || 'en')
+		return navigator.language.split('-')[0]
 	}
 	/**
 	 * @private
 	 * @method
 	 */
-	setChoices() {
+	selectDefault() {
 		const defLang = this.defaultLang()
 		const cookie = this.getCookieValue()
     const exact = []
     const possible = []
-		this.showHint()
-    Object.keys(this.languages).forEach(code => {
-      if (code.indexOf(cookie) === 0) {
+    Object.values(this.languages).forEach(language => {
+      const code = language.val
+      if (cookie.indexOf(code) === 0) {
 				exact.push(code)
-			} else if (code.indexOf(defLang) === 0) {
+			} else if (cookie.indexOf(defLang) === 0) {
         possible.push(code)
       }
     })
     const lang = exact[0] || possible[0] || 'en'
-		$('#lng select').val(this.languages[lang].val).trigger('change')
+    this.find('select').val(this.languages[lang].val).trigger('change')
 	}
   /**
    * @private
    * @method
    */
   showHint() {
-  	const hints = this.hints
-    let h = 0
-  	setInterval(() => {
-      $('#lng .hint').html(hints[h] || 'Translate')
-  		h++
-  		if (h === hints.length) h = 0
-  	}, 1000)
+    if (!this.button) {
+      const hints = this.hints
+      let h = 0
+    	setInterval(() => {
+        this.find('.hint').html(hints[h] || 'Translate')
+    		h++
+    		if (h === hints.length) h = 0
+    	}, 1000)
+    }
   }
 }
 
 /**
- * @desc Constructor for {@link nyc.lang.Translate}
+ * @desc Constructor for {@link Translate}
  * @public
  * @typedef {Object}
  * @property {(String|Element|JQuery)} target The HTML DOM element that will provide language choices
  * @property {Translate.Choices} languages The languages to provide
- * @property {Object} messages The language-specific message bundles
+ * @property {Object<string,Object<string,string>>} messages The language-specific message bundles
  * @property {string} [defaultLanguage='en'] The default language
  * @property {boolean} [button=false] Show as a button
  */
 Translate.Options
 
 /**
- * @desc Enumeration for nyc.lang.Translate event types
+ * @desc Enumeration for Translate event types
  * @public
  * @enum {string}
  */
@@ -214,7 +230,7 @@ Translate.EventType = {
 }
 
 /**
- * @desc A language choice for {@link nyc.lang.Translate.Choices}
+ * @desc A language choice for {@link Translate.Choices}
  * @public
  * @typedef {Object}
  * @property {string} val The language value used by Google
@@ -224,21 +240,21 @@ Translate.EventType = {
 Translate.Choice
 
 /**
- * @desc A mapping of {@link nyc.lang.Translate.Choice} objects to language codes
+ * @desc A mapping of {@link Translate.Choice} objects to language codes
  * @public
- * @typedef {Object<string, nyc.lang.Translate.Choice>}
+ * @typedef {Object<string, Translate.Choice>}
  */
 Translate.Choices
 
 /**
  * @desc The class has completed initialization
- * @event nyc.lang.Translate#ready
+ * @event Translate#ready
  * @type {boolean}
  */
 
 /**
  * @desc The language value has changed
- * @event nyc.lang.Translate#change
+ * @event Translate#change
  * @type {string}
  */
 
