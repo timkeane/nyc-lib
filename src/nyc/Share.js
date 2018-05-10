@@ -80,10 +80,10 @@ Share.HTML = '<div class="shr">' +
 		'<a class="btn-sq rad-all tumblr" role="button" href="http://www.tumblr.com/share/link?url=${url}&name=${name}&description=via%20NYC.gov" target="_blank" rel="noopener noreferrer" title="Tumblr">' +
 			'<span class="screen-reader-only">Tumblr</span>' +
 		'</a>' +
-		'<a class="btn-sq rad-all email" role="button" href="mailto:?subject=${nsme}&body=${description}%0A%0A${url}" title="email">' +
+		'<a class="btn-sq rad-all email" role="button" href="mailto:?subject=${name}&body=${description}%0A%0A${url}" title="email">' +
 			'<span class="screen-reader-only">Email</span>' +
 		'</a>' +
-	'</div>'
+	'</div>' +
 '</div>'
 
 export default Share
