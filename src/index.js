@@ -40,6 +40,11 @@ window.nyc.Share = _nyc_Share
 window.nyc.Tabs = _nyc_Tabs
 window.nyc.ZoomSearch = _nyc_ZoomSearch
 
+import _nyc_lang_Translate from 'nyc/lang/Translate'
+
+window.nyc.lang = {}
+window.nyc.lang.Translate = _nyc_lang_Translate
+
 import _nyc_ol from 'nyc/ol/ol'
 import _nyc_ol_Basemap from 'nyc/ol/Basemap'
 import _nyc_ol_FeaturePopup from 'nyc/ol/FeaturePopup'

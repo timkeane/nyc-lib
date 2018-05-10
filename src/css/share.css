@@ -4,9 +4,6 @@
 	bottom: 3px;
 	height: 35px;
 }
-.shr a {
-	background-size: 28px;
-}
 .btn-shr {
 	background-image: var(--theme-share-bg-img);
 }

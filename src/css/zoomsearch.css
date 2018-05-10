@@ -4,6 +4,9 @@
 	top: 3px;
 	right: 0;
 }
+.btn-z-in, .btn-z-out {
+	background-size: 19px;
+}
 .btn-z-in {
 	left: 3px;
 	top: 3px;
