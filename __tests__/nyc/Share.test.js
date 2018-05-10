@@ -29,7 +29,7 @@ test('constructor', () => {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(share.getContainer().html())
-      }, 500)
+      }, 1000)
     })
   }
 
@@ -59,8 +59,8 @@ test('show', () => {
         share.find('.btn-shr').trigger('click')
         setTimeout(() => {
           resolve(share.find('.btns').css('display'))
-        }, 500)
-      }, 500)
+        }, 1000)
+      }, 1000)
     })
   }
 
@@ -80,8 +80,8 @@ test('hide button click', () => {
         share.find('.btn-shr').trigger('click')
         setTimeout(() => {
           resolve(share.find('.btns').css('display'))
-        }, 500)
-      }, 500)
+        }, 1000)
+      }, 1000)
     })
   }
 
@@ -104,9 +104,9 @@ test('hide other click', () => {
           share.find('.email').trigger('click')
           setTimeout(() => {
             resolve(share.find('.btns').css('display'))
-          }, 500)
-        }, 500)
-      }, 500)
+          }, 1000)
+        }, 1000)
+      }, 1000)
     })
   }
 
