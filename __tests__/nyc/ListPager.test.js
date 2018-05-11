@@ -79,7 +79,7 @@ test('everything constructed with items and pageSize', () => {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(pager.moreBtn.css('display'))
-      }, 500)
+      }, 600)
     })
   }
 
