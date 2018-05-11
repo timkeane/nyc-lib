@@ -104,7 +104,7 @@ describe('translate', () => {
   })
 
   test('translate', async () => {
-    expect.assertions(10)
+    expect.assertions(11)
 
   	const translate = new Goog({
       target: target,
@@ -124,6 +124,8 @@ describe('translate', () => {
       })
       $('#lng select').val(code).trigger('change')
     })
+
+    expect(Goog.prototype.showOriginalText).toHaveBeenCalledTimes(1)
   })
 
 })
