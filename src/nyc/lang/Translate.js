@@ -268,7 +268,7 @@ Translate.Choices
  */
 Translate.HTML = '<div id="lng">' +
   '<button class="btn-sq rad-all">' +
-    '<span class ="hint">Translate</span>' +
+    '<span class ="hint notranslate">Translate</span>' +
     '<select class="notranslate" translate="no" title="Translate..." araia-label="Translate..."></select>' +
   '</button>' +
   '<div id="lng-goog"></div>' +

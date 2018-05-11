@@ -25,7 +25,6 @@ export default class Goog extends Translate {
    */
   constructor(options) {
     super(options)
-    this.find('.hint').addClass('notranslate')
     $.getScript('https://translate.google.com/translate_a/element.js?cb=nycTranslateInstance.init')
   }
   /**
