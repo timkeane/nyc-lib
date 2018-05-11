@@ -56,7 +56,7 @@ test('show', () => {
       setTimeout(() => {
         expect(share.find('.btns').length).toBe(1)
         share.find('.btns').hide()
-        share.find('.btn-shr').click()
+        share.find('.btn-shr').trigger('click')
         setTimeout(() => {
           resolve(share.find('.btns').css('display'))
         }, 500)
@@ -68,7 +68,7 @@ test('show', () => {
 })
 
 test('hide button click', () => {
-  expect.assertions(2)
+  expect.assertions(3)
 
   const share = new Share({target: target})
 
@@ -77,6 +77,7 @@ test('hide button click', () => {
       setTimeout(() => {
         expect(share.find('.btns').length).toBe(1)
         share.find('.btns').show()
+        expect(share.find('.btns').css('display')).toBe('block')
         share.find('.btn-shr').trigger('click')
         setTimeout(() => {
           resolve(share.find('.btns').css('display'))
