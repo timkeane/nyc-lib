@@ -33,7 +33,7 @@ export default class Goog extends Translate {
 	 * @method
 	 */
   init() {
-		this.goog = new google.translate.TranslateElement({
+		nycTranslateInstance.goog = new google.translate.TranslateElement({
 			pageLanguage: 'en',
 			includedLanguages: nycTranslateInstance.codes,
 			layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
@@ -71,13 +71,29 @@ export default class Goog extends Translate {
 		}
 	}
   /**
-   * @access protected
+	 * @desc Gets the google translate cookie value
+	 * @access protected
+	 * @override
+	 * @method
+	 * @return {string}
+	 */
+	getCookieValue() {
+		let cookie = this.getCookie()
+		if (cookie) {
+			cookie = cookie.split('/')
+			cookie = cookie[2]
+			return cookie
+		}
+    return ''
+	}
+  /**
+   * @private
    * @method
    * @override
    * @return {string}
    */
   getCookie() {
-    const cookies = document.cookie.split('')
+    const cookies = document.cookie.split(';')
     for (let i = 0; i < cookies.length; i++) {
       let cookie = cookies[i]
       while (cookie.charAt(0) === ' ') cookie = cookie.substring(1, cookie.length)

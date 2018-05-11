@@ -35,9 +35,9 @@ beforeEach(() => {
   window.google = googleMock
   target = $('<div></div>')
   $('body').append(target)
+  iframe = $('<iframe class="goog-te-menu-frame"><iframe>')
+  $('body').append(iframe)
   $.getScript = () => {
-    iframe = $('<iframe class="goog-te-menu-frame"><iframe>')
-    $('body').append(iframe)
     let html = ''
     Object.values(languages).forEach(language => {
       html += `<a class="goog-te-menu2-item"><span class="text">${language.name}</span></a>`
@@ -128,4 +128,17 @@ describe('translate', () => {
     expect(Goog.prototype.showOriginalText).toHaveBeenCalledTimes(1)
   })
 
+})
+
+test('getCookie', () => {
+  document.cookie = 'foo=bar'
+  document.cookie = 'googtrans=/en/ar'
+  document.cookie = 'bar=foo'
+
+  const translate = new Goog({
+    target: target,
+    languages: languages
+  })
+
+  expect(translate.getCookie()).toBe('/en/ar')
 })
