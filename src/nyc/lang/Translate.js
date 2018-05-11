@@ -128,13 +128,13 @@ class Translate extends Container {
     const codes = []
     const div = $(Translate.HTML)
     $(target).append(div)
-    Object.keys(this.languages).forEach(code => {
-      const name = this.languages[code].val
-      const opt = $('<option></option>').attr('value', name).html(this.languages[code].desc)
+    Object.keys(this.languages).forEach(lang => {
+      const code = this.languages[lang].code
+      const opt = $('<option></option>').attr('value', code).html(this.languages[lang].name)
       this.find('select').append(opt)
-      codes.push(code)
-      this.hints.push(this.languages[code].hint)
-      this.namedCodes[name] = code
+      codes.push(lang)
+      this.hints.push(this.languages[lang].hint)
+      this.namedCodes[code] = lang
     })
     this.codes = codes.toString()
     $('body').addClass('lang-en')
@@ -177,7 +177,7 @@ class Translate extends Container {
     const exact = []
     const possible = []
     Object.values(this.languages).forEach(language => {
-      const code = language.val
+      const code = language.code
       if (cookie.indexOf(code) === 0) {
 				exact.push(code)
 			} else if (cookie.indexOf(defLang) === 0) {
@@ -185,7 +185,7 @@ class Translate extends Container {
       }
     })
     const lang = exact[0] || possible[0] || 'en'
-    this.find('select').val(this.languages[lang].val).trigger('change')
+    this.find('select').val(this.languages[lang].code).trigger('change')
 	}
   /**
    * @private
@@ -236,8 +236,8 @@ Translate.EventType = {
  * @desc A language choice for {@link Translate.Choices}
  * @public
  * @typedef {Object}
- * @property {string} val The language value used by Google
- * @property {string} desc The display value for the language
+ * @property {string} code The language value used by Google
+ * @property {string} name The display value for the language
  * @property {string=} hint The translation of the word 'Translate' in the language
  */
 Translate.Choice
@@ -268,7 +268,7 @@ Translate.Choices
  */
 Translate.HTML = '<div id="lng">' +
   '<button class="btn-sq rad-all">' +
-    '<span class ="hint notranslate">Translate</span>' +
+    '<span class ="hint">Translate</span>' +
     '<select class="notranslate" translate="no" title="Translate..." araia-label="Translate..."></select>' +
   '</button>' +
   '<div id="lng-goog"></div>' +

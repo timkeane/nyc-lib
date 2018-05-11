@@ -25,6 +25,7 @@ export default class Goog extends Translate {
    */
   constructor(options) {
     super(options)
+    this.find('.hint').addClass('notranslate')
     $.getScript('https://translate.google.com/translate_a/element.js?cb=nycTranslateInstance.init')
   }
   /**
@@ -52,7 +53,7 @@ export default class Goog extends Translate {
    translate(event) {
 		const choices = $('iframe.goog-te-menu-frame:first').contents().find('.goog-te-menu2-item span.text')
 		if (event && choices.length) {
-			const lang =  this.languages[$(event.target).val()].desc
+			const lang =  this.languages[$(event.target).val()].name
 			if (lang === 'English') {
 				this.showOriginalText()
 			} else {

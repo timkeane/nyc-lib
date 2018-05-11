@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>nyc.lang.Translate Hint Button Example</title>
+  <title>nyc.lang.Translate Small Button Example</title>
   <link rel="stylesheet" href="../../css/nyc-lib.css">
   <script src="../../js/nyc-lib.js"></script>
   <style>
@@ -20,13 +20,14 @@
 <body>
   <div id="lang"></div>
   <div id="content">
-    <h3 class="msg1">msg1-en</h3>
-    <a class="msg2" data-msg-key="msg3" data-msg-attr="href" href="msg3-en">msg2-en</a>
-    <div class="msg1">msg1-en</div>
+    <h3>Hello</h3>
+    <div>How are you?</a>
+    <div>Glad to here it!</div>
   </div>
   <script>
-    var translate = new nyc.lang.Translate({
+    var translate = new nyc.lang.Goog({
       target: '#lang',
+      button: true,
       languages: {
         en: {code: 'en', name: 'English', hint: 'Translate'},
         ar: {code: 'ar', name: 'Arabic' , hint: 'Translate-ar'},
@@ -38,23 +39,6 @@
         ru: {code: 'ru', name: 'Russian', hint: 'Translate-ru'},
         es: {code: 'es', name: 'Spanish', hint: 'Translate-es'},
         ur: {code: 'ur', name: 'Urdu', hint: 'Translate-ur'}
-      },
-      messages: {
-        en: {
-          msg1: 'msg1-en',
-          msg2: 'msg2-en',
-          msg3: 'msg3-en'
-        },
-        ar: {
-          msg1: 'msg1-ar',
-          msg2: 'msg2-ar',
-          msg3: 'msg3-ar'
-        },
-        es: {
-          msg1: 'msg1-es',
-          msg2: 'msg2-es',
-          msg3: 'msg3-es'
-        }
       }
     });
   </script>
