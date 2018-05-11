@@ -33,7 +33,7 @@ export default class Goog extends Translate {
 	 * @method
 	 */
   init() {
-		new google.translate.TranslateElement({
+		this.goog = new google.translate.TranslateElement({
 			pageLanguage: 'en',
 			includedLanguages: nycTranslateInstance.codes,
 			layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
@@ -58,7 +58,7 @@ export default class Goog extends Translate {
 			} else {
 				$(choices).each((_, choice) => {
 					if ($(choice).text() === lang) {
-						$(choice).click()
+						$(choice).trigger('click')
 						return false
 					}
 				})
@@ -67,8 +67,7 @@ export default class Goog extends Translate {
 			this.css('goog-tranlated')
 			this.trigger(Translate.EventType.CHANGE, this)
 		} else {
-			const me = this
-			setTimeout(() => {me.translate(event)}, 200)
+			setTimeout(() => {nycTranslateInstance.translate(event)}, 200)
 		}
 	}
   /**
