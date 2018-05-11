@@ -41,9 +41,11 @@ window.nyc.Tabs = _nyc_Tabs
 window.nyc.ZoomSearch = _nyc_ZoomSearch
 
 import _nyc_lang_Translate from 'nyc/lang/Translate'
+import _nyc_lang_Goog from 'nyc/lang/Goog'
 
 window.nyc.lang = {}
 window.nyc.lang.Translate = _nyc_lang_Translate
+window.nyc.lang.Goog = _nyc_lang_Goog
 
 import _nyc_ol from 'nyc/ol/ol'
 import _nyc_ol_Basemap from 'nyc/ol/Basemap'

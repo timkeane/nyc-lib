@@ -47,3 +47,26 @@
 	position: absolute;
 	left: -1000px;
 }
+.lng-placeholder {
+	visibility: hidden;
+	position: fixed;
+	left: -10000px;
+}
+
+#lng .goog-te-gadget-icon, #lng-goog, .skiptranslate, .goog-te-banner-frame {
+	display: none;
+	height: 0;
+	position: absolute;
+	left: -1000px;
+	top: -1000px;
+}
+body .goog-text-highlight {
+	background-color: inherit;
+	-webkit-box-shadow: inherit;
+	-moz-box-shadow: inherit;
+	box-shadow: inherit;
+	box-sizing: inherit;
+	-webkit-box-sizing: inherit;
+	-moz-box-sizing: inherit;
+	position: inherit;
+}

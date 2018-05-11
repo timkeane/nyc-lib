@@ -61,22 +61,25 @@ class Translate extends Container {
      * @member {Object<string,Object<string,string>>}
      */
     this.messages = options.messages
-    if (!this.messages[this.defaultLanguage]) {
-      this.defaultLanguage = this.defaultLang()
-    }
-    if (!this.messages[this.defaultLanguage]) {
-      this.defaultLanguage = 'en'
+    /**
+     * @private
+     * @member {Object<string,Object<string,string>>}
+     */
+    this.defaultMessages = null
+    if (this.messages) {
+      if (!this.messages[this.defaultLanguage]) {
+        this.defaultLanguage = this.defaultLang()
+      }
+      if (!this.messages[this.defaultLanguage]) {
+        this.defaultLanguage = 'en'
+      }
+      this.defaultMessages = this.messages[this.defaultLanguage]
     }
     /**
      * @private
      * @member {string}
      */
     this.code = this.defaultLanguage
-    /**
-     * @private
-     * @member {Object<string,Object<string,string>>}
-     */
-    this.defaultMessages = this.messages[this.defaultLanguage]
   	this.render(options.target)
   }
 	/**
@@ -265,9 +268,10 @@ Translate.Choices
  */
 Translate.HTML = '<div id="lng">' +
   '<button class="btn-sq rad-all">' +
-    '<span class ="hint">Translate</span>' +
+    '<span class ="hint notranslate">Translate</span>' +
     '<select class="notranslate" translate="no" title="Translate..." araia-label="Translate..."></select>' +
   '</button>' +
+  '<div id="lng-goog"></div>' +
 '</div>'
 
 export default Translate
