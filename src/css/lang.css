@@ -16,7 +16,7 @@
     width: 22px;
     height: 22px;
     float: right;
-    margin: 0 -30px 0 0;
+    margin: 4px -31px 0 0;
     background-color: #fff;
     border-radius: 50%;
     background-repeat: no-repeat;
@@ -26,6 +26,7 @@
 }
 #lng .btn-sq .hint {
 	color: var(--theme-btn-sm-text-color);
+	line-height: 30px;
 }
 #lng select {
 	position: absolute;
