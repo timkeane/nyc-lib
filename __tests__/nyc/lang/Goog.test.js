@@ -80,6 +80,12 @@ test('constructor not button', () => {
   expect(translate instanceof Translate).toBe(true)
   expect(translate instanceof Goog).toBe(true)
 
+  expect(translate.goog.target).toBe('lng-goog')
+  expect(translate.goog.options.pageLanguage).toBe('en')
+  expect(translate.goog.options.includedLanguages).toBe(translate.codes)
+  expect(translate.goog.options.layout).toBe(googleMock.translate.TranslateElement.InlineLayout.SIMPLE)
+  expect(translate.goog.options.autoDisplay).toBe(false)
+
   expect(translate.find('#lng').hasClass('button')).toBe(false)
   expect(translate.defaultLanguage).toBe('en')
 	expect(translate.languages).toBe(languages)
@@ -111,7 +117,6 @@ describe('translate', () => {
       const choice = languages[code].name
       $(items).each((_, span) => {
       if (choice !== 'English' && $(span).text() === choice) {
-        console.warn(choice,'=====================',$(span).text(),$(span).text() === choice);
       $(span).one('click', () => {
             expect($(span).text()).toBe(choice)
           })
