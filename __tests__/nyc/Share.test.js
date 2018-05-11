@@ -47,7 +47,7 @@ test('constructor', () => {
 })
 
 test('show', () => {
-  expect.assertions(2)
+  expect.assertions(3)
 
   const share = new Share({target: target})
 
@@ -56,6 +56,7 @@ test('show', () => {
       setTimeout(() => {
         expect(share.find('.btns').length).toBe(1)
         share.find('.btns').hide()
+        expect(share.find('.btns').css('display')).toBe('none')
         share.find('.btn-shr').trigger('click') 
         setTimeout(() => {
           resolve(share.find('.btns').css('display'))
