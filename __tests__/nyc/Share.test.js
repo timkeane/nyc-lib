@@ -56,7 +56,7 @@ test('show', () => {
       setTimeout(() => {
         expect(share.find('.btns').length).toBe(1)
         share.find('.btns').hide()
-        share.find('.btn-shr').trigger('click')
+        share.find('.btn-shr').trigger('click') 
         setTimeout(() => {
           resolve(share.find('.btns').css('display'))
         }, 500)
