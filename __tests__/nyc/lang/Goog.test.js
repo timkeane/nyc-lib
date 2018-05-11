@@ -28,28 +28,33 @@ const googleMock = {
 googleMock.translate.TranslateElement.InlineLayout = {SIMPLE: 0}
 
 let target
-let iframe
+let googleIframeMenu
+let googleIframeButton
 const getScript = $.getScript
 const google = window.google
 beforeEach(() => {
   window.google = googleMock
   target = $('<div></div>')
   $('body').append(target)
-  iframe = $('<iframe class="goog-te-menu-frame"><iframe>')
-  $('body').append(iframe)
+  googleIframeMenu = $('<iframe class="goog-te-menu-frame"><iframe>')
+  googleIframeButton = $('<iframe class="goog-te-banner-frame"><iframe>')
+  $('body').append(googleIframeMenu)
+  $('body').append(googleIframeButton)
   $.getScript = () => {
     let html = ''
+    googleIframeButton.get(0).contentDocument.write('<div class="goog-te-button"><button>X</button></div><div class="goog-te-button"><button>Show original</button></div>')
     Object.values(languages).forEach(language => {
       html += `<a class="goog-te-menu2-item"><span class="text">${language.name}</span></a>`
     })
-    iframe.get(0).contentDocument.write(html)
+    googleIframeMenu.get(0).contentDocument.write(html)
     nycTranslateInstance.init()
   }
 })
 afterEach(() => {
   window.google = google
   target.remove()
-  iframe.remove()
+  googleIframeMenu.remove()
+  googleIframeButton.remove()
   $.getScript = getScript
 })
 
@@ -141,4 +146,64 @@ test('getCookie', () => {
   })
 
   expect(translate.getCookie()).toBe('/en/ar')
+})
+
+describe('hack', () => {
+  let inputs
+  afterEach(() => {
+    inputs.remove()
+  })
+
+  test('hack not translated', () => {
+    inputs = $('<div><input placeholder="a placeholder"><input><input placeholder="another placeholder"></div>')
+    $('body').append(inputs)
+
+    const translate = new Goog({
+      target: target,
+      languages: languages
+    })
+
+    expect($('span.lng-placeholder').length).toBe(2)
+    expect($('span.lng-placeholder').get(0).innerHTML).toBe('a placeholder')
+    expect($('span.lng-placeholder').get(1).innerHTML).toBe('another placeholder')
+  })
+
+  test('hack is translated', () => {
+    inputs = $('<input placeholder="a placeholder"><span class="lng-placeholder"><font>a translated</font></span><input><input placeholder="another placeholder"><span class="lng-placeholder"><font>another translated</font></span>')
+    $('body').append(inputs)
+
+    const translate = new Goog({
+      target: target,
+      languages: languages
+    })
+
+    expect($('input[placeholder]').length).toBe(2)
+    expect($('input[placeholder]').get(0).placeholder).toBe('a translated')
+    expect($('input[placeholder]').get(1).placeholder).toBe('another translated')
+  })
+
+})
+
+test('showOriginalText', () => {
+  const handler = jest.fn()
+
+  const translate = new Goog({
+    target: target,
+    languages: languages
+  })
+
+  $('iframe.goog-te-banner-frame:first').contents()
+    .find('.goog-te-button button').click(handler)
+
+  translate.find('select').val('fr')
+
+  translate.showOriginalText()
+
+  expect(handler).toHaveBeenCalledTimes(1)
+  expect(translate.find('select').val()).toBe('en')
+
+  translate.showOriginalText()
+
+  expect(handler).toHaveBeenCalledTimes(2)
+  expect(translate.find('select').val()).toBe('en')
 })

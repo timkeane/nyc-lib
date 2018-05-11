@@ -120,8 +120,8 @@ export default class Goog extends Translate {
 			} else {
 				const fonts = next.find('font')
 				let text = next.html()
-				$.each(next.find('font'), function() {
-					text = $(input).html()
+				$.each(next.find('font'), (_, font) => {
+					text = $(font).html()
 				})
 				$(input).attr('placeholder', text)
 			}
@@ -138,9 +138,10 @@ export default class Goog extends Translate {
     const googBar = $('iframe.goog-te-banner-frame:first')
     $(googBar.contents().find('.goog-te-button button')).each((_, button) => {
     	if ($(button).text() === 'Show original') {
-    		$(button).trigger('click')
-    		if (this.find('select').val() !== 'English') {
-    			this.find('select').val('English')
+        const code = this.find('select').val()
+        $(button).trigger('click')
+    		if (this.languages[code].name !== 'English') {
+    			this.find('select').val('en')
     		}
     		return false
     	}
