@@ -130,7 +130,7 @@ class Translate extends Container {
     $(target).append(div)
     Object.keys(this.languages).forEach(lang => {
       const code = this.languages[lang].code
-      const opt = $('<option></option>').attr('value', code).html(this.languages[lang].name)
+      const opt = $('<option></option>').attr('value', code).html(this.languages[lang].native)
       this.find('select').append(opt)
       codes.push(lang)
       this.hints.push(this.languages[lang].hint)
@@ -236,8 +236,9 @@ Translate.EventType = {
  * @desc A language choice for {@link Translate.Choices}
  * @public
  * @typedef {Object}
- * @property {string} code The language value used by Google
- * @property {string} name The display value for the language
+ * @property {string} code The language code
+ * @property {string} name The language name
+ * @property {string} native The display value for the language
  * @property {string=} hint The translation of the word 'Translate' in the language
  */
 Translate.Choice
