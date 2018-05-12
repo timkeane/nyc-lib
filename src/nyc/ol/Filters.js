@@ -1,4 +1,4 @@
-/**
+  /**
  * @module nyc/Filters
  */
 
@@ -8,23 +8,47 @@ import nyc from 'nyc/nyc'
 import Container from 'nyc/Container'
 import Choice from 'nyc/Choice'
 
+/**
+ * @desc Class for managing controls for filtering a FilterAndSort source
+ * @public
+ * @class
+ * @extends {Container}
+ */
 class Filters extends Container {
+  /**
+   * @desc Class for creating choice control
+   * @public
+   * @constructor
+   * @param {Filters.Options}
+   */
   constructor(options) {
     super(options.target)
-    this.filterControls = []
-    this.source = options.source
-    options.filterChoiceOptions.forEach((option, i) => {
-      option.target = option.target || $(`<div class="${nyc.nextId('filter')}"></div>`)
-      this.append($(option.target))
-      const choice = new Choice(option)
+      /**
+       * @private
+       * @member {Array<Choice>}
+       */
+      this.choiceControls = []
+      /**
+       * @private
+       * @member {FilterAndSort}
+       */
+      this.source = options.source
+      options.filterChoiceOptions.forEach(choiceOptions => {
+      choiceOptions.target = choiceOptions.target || $(`<div class="${nyc.nextId('filter')}"></div>`)
+      this.append($(choiceOptions.target))
+      const choice = new Choice(choiceOptions)
       choice.on('change', $.proxy(this.filter, this))
-      this.filterControls.push(choice)
+      this.choiceControls.push(choice)
     })
   }
+  /**
+   * @private
+   * @method
+   */
   filter() {
     const namedFilters = {}
     const filters = []
-    this.filterControls.forEach(filterControl => {
+    this.choiceControls.forEach(filterControl => {
       filterControl.val().forEach(choice => {
         const filter = namedFilters[choice.name] || []
         namedFilters[choice.name] = filter.concat(choice.values)

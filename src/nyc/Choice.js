@@ -33,7 +33,12 @@ class Choice extends Container {
      * @member {Array<JQuery>}
      */
     this.inputs = null
-    this.setChoices(options.choices)
+    /**
+     * @private
+     * @member {Array<Choice.Choice>}
+     */
+    this.choices = options.choices
+    this.setChoices(this.choices)
   }
   /**
    * @desc Set the available choices
@@ -139,7 +144,7 @@ Choice.Options;
 /**
  * @desc The change event
  * @event Choice#change
- * @type {Array<Choice.Choice>}
+ * @type {Choice}
  */
 
  /**
