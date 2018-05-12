@@ -22,7 +22,7 @@ class Choice extends Container {
    */
   constructor(options) {
     super(options.target)
-    this.getContainer().addClass('chc-container rad-all')
+    this.getContainer().addClass('chc rad-all')
     /**
      * @private
      * @member {boolean}
@@ -46,7 +46,7 @@ class Choice extends Container {
     if (this.radio) this.getContainer().attr('role', 'radiogroup')
     choices.forEach((choice, i) => {
       const div = $(Choice.HTML)
-      const id = nyc.nextId('chc')
+      const id = nyc.nextId('chc-chc')
       const input = div.find('input')
       div.find('.lbl').addClass(this.radio ? `${choice.name}-${i}` : choice.name)
       input.attr('id', id)
@@ -147,7 +147,7 @@ Choice.Options;
   * @const
   * @type {string}
   */
-Choice.HTML = '<div class="chc">' +
+Choice.HTML = '<div class="chc-chc">' +
   '<div><input></div>' +
   '<div class="lbl"><label></label></div>' +
 '</div>'

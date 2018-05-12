@@ -1,38 +1,38 @@
-.chc-container {
+.chc {
 	border: var(--theme-border);
 	display: table;
 }
-.chc {
+.chc-chc {
 	display: table-row;
 	height: 33px;
 	padding: 3px;
 	width: 100%;
 	background-color: var(--theme-btn-bg-color);
 }
-.chc:hover {
+.chc-chc:hover {
 	background-color: var(--theme-btn-sm-bg-color);
 }
-.chc:hover label {
+.chc-chc:hover label {
 	color: var(--theme-btn-sm-text-color);
 }
-.chc div {
+.chc-chc div {
 	border-top: var(--theme-border);
 	display: table-cell;
 	vertical-align: middle;
 	cursor: pointer;
 	color: inherit;
 }
-.chc:first-of-type div {
+.chc-chc:first-of-type div {
 	border-top: none;
 }
-.chc div:last-child {
+.chc-chc div:last-child {
 	width: 100%;
 }
-.chc input {
+.chc-chc input {
 	margin: 0 8px;
 	width: 14px;
 	height: 14px;
 }
-.chc label {
+.chc-chc label {
 	display: block;
 }

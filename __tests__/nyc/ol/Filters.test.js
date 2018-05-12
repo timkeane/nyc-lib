@@ -55,5 +55,5 @@ test('constructor', () => {
   expect(filters instanceof Container).toBe(true)
   expect(filters instanceof Filters).toBe(true)
 
-  expect(filters.find('.chc-container').length).toBe(2)
+  expect(filters.find('.chc').length).toBe(2)
 })

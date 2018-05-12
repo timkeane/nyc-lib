@@ -34,14 +34,14 @@ class FinderApp {
     this.locationMgr.on('geolocate', this.resetList, this)
     this.filters.on('change', this.resetList, this)
 
-    this.tabs = new Tabs(
+    this.tabs = new Tabs({
       target: '#tabs',
       tabs: [
         {tab: '#map', title: 'Map'},
-        {tab: '#list', title: options.facilityTitle || 'Facilites' active: true},
+        {tab: '#list', title: options.facilityTitle || 'Facilites', active: true},
         {tab: '#filters', title: options.filterTitle || 'Filters'}
       ]
-    )
+    })
     this.pager = new ListPager({target: '#list'})
 
     this.source = new FilterAndSort({
