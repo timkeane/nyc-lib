@@ -71,8 +71,10 @@ class FilterAndSort extends AutoLoad {
       const geom1 = f1.getGeometry()
       const dist0 = this.distance(coordinate, f0.getGeometry())
       const dist1 = this.distance(coordinate, f1.getGeometry())
-      f0.set('distance', dist0)
-      f1.set('distance', dist1)
+      f0.set('__distance', dist0)
+      f1.set('__distance', dist1)
+      $.extend(f0, FilterAndSort.DistanceDecoration)
+      $.extend(f1, FilterAndSort.DistanceDecoration)
       if (dist0.distance < dist1.distance) {
         return -1
       }else if (dist0.distance > dist1.distance) {
@@ -122,5 +124,11 @@ class FilterAndSort extends AutoLoad {
  * @property {Array<string>} values The valid values for the property
  */
 FilterAndSort.Filter
+
+FilterAndSort.DistanceDecoration = {
+  getDistance() {
+    return this.get('__distance')
+  }
+}
 
 export default FilterAndSort

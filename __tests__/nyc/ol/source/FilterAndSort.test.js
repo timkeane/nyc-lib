@@ -44,11 +44,11 @@ test('sort', () => {
   expect(features[3]).toBe(f3)
   expect(features[4]).toBe(f4)
 
-  expect(features[0].get('distance').distance).toBe(0)
-  expect(features[1].get('distance').distance).toBe(1)
-  expect(features[2].get('distance').distance).toBe(2)
-  expect(features[3].get('distance').distance).toBe(2)
-  expect(features[4].get('distance').distance).toBe(3)
+  expect(features[0].getDistance().distance).toBe(0)
+  expect(features[1].getDistance().distance).toBe(1)
+  expect(features[2].getDistance().distance).toBe(2)
+  expect(features[3].getDistance().distance).toBe(2)
+  expect(features[4].getDistance().distance).toBe(3)
 })
 
 test('filter', () => {
@@ -104,17 +104,17 @@ test('sort with distance in data projection', () => {
   expect(features[3]).toBe(f3)
   expect(features[4]).toBe(f4)
 
-  expect(features[0].get('distance').distance).toBe(new OlGeomLineString([[0, 0], [0, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
-  expect(features[1].get('distance').distance).toBe(new OlGeomLineString([[0, 0], [100, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
-  expect(features[2].get('distance').distance).toBe(new OlGeomLineString([[0, 0], [200, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
-  expect(features[3].get('distance').distance).toBe(new OlGeomLineString([[0, 0], [300, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
-  expect(features[4].get('distance').distance).toBe(new OlGeomLineString([[0, 0], [400, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
+  expect(features[0].getDistance().distance).toBe(new OlGeomLineString([[0, 0], [0, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
+  expect(features[1].getDistance().distance).toBe(new OlGeomLineString([[0, 0], [100, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
+  expect(features[2].getDistance().distance).toBe(new OlGeomLineString([[0, 0], [200, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
+  expect(features[3].getDistance().distance).toBe(new OlGeomLineString([[0, 0], [300, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
+  expect(features[4].getDistance().distance).toBe(new OlGeomLineString([[0, 0], [400, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
 
-  expect(features[0].get('distance').units).toBe('ft')
-  expect(features[1].get('distance').units).toBe('ft')
-  expect(features[2].get('distance').units).toBe('ft')
-  expect(features[3].get('distance').units).toBe('ft')
-  expect(features[4].get('distance').units).toBe('ft')
+  expect(features[0].getDistance().units).toBe('ft')
+  expect(features[1].getDistance().units).toBe('ft')
+  expect(features[2].getDistance().units).toBe('ft')
+  expect(features[3].getDistance().units).toBe('ft')
+  expect(features[4].getDistance().units).toBe('ft')
 })
 
 test('sort with distance in data projection from parentFormat', () => {
@@ -142,17 +142,17 @@ test('sort with distance in data projection from parentFormat', () => {
   expect(features[3]).toBe(f3)
   expect(features[4]).toBe(f4)
 
-  expect(features[0].get('distance').distance).toBe(new OlGeomLineString([[0, 0], [0, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
-  expect(features[1].get('distance').distance).toBe(new OlGeomLineString([[0, 0], [100, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
-  expect(features[2].get('distance').distance).toBe(new OlGeomLineString([[0, 0], [200, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
-  expect(features[3].get('distance').distance).toBe(new OlGeomLineString([[0, 0], [300, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
-  expect(features[4].get('distance').distance).toBe(new OlGeomLineString([[0, 0], [400, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
+  expect(features[0].getDistance().distance).toBe(new OlGeomLineString([[0, 0], [0, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
+  expect(features[1].getDistance().distance).toBe(new OlGeomLineString([[0, 0], [100, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
+  expect(features[2].getDistance().distance).toBe(new OlGeomLineString([[0, 0], [200, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
+  expect(features[3].getDistance().distance).toBe(new OlGeomLineString([[0, 0], [300, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
+  expect(features[4].getDistance().distance).toBe(new OlGeomLineString([[0, 0], [400, 0]]).transform('EPSG:3857', 'EPSG:2263').getLength())
 
-  expect(features[0].get('distance').units).toBe('ft')
-  expect(features[1].get('distance').units).toBe('ft')
-  expect(features[2].get('distance').units).toBe('ft')
-  expect(features[3].get('distance').units).toBe('ft')
-  expect(features[4].get('distance').units).toBe('ft')
+  expect(features[0].getDistance().units).toBe('ft')
+  expect(features[1].getDistance().units).toBe('ft')
+  expect(features[2].getDistance().units).toBe('ft')
+  expect(features[3].getDistance().units).toBe('ft')
+  expect(features[4].getDistance().units).toBe('ft')
 })
 
 test('storeFeatures', () => {
