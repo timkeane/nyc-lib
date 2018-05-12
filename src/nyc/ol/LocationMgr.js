@@ -1,5 +1,5 @@
 /**
- * @module nyc/o/LocationMgr
+ * @module nyc/ol/LocationMgr
  */
 
 import NycLocationMgr from 'nyc/LocationMgr'
