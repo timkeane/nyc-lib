@@ -117,6 +117,17 @@ class FilterAndSort extends AutoLoad {
 }
 
 /**
+ * @desc Mixin for features
+ * @private
+ * @typedef {Object}
+ */
+FilterAndSort.DistanceDecoration = {
+  getDistance() {
+    return this.get('__distance')
+  }
+}
+
+/**
  * @desc Object to use for filtering the features of an instance of {@see FilterAndSort}
  * @public
  * @typedef {Object}
@@ -124,11 +135,5 @@ class FilterAndSort extends AutoLoad {
  * @property {Array<string>} values The valid values for the property
  */
 FilterAndSort.Filter
-
-FilterAndSort.DistanceDecoration = {
-  getDistance() {
-    return this.get('__distance')
-  }
-}
 
 export default FilterAndSort
