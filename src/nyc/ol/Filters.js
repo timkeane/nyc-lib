@@ -2,6 +2,9 @@
  * @module nyc/Filters
  */
 
+import $ from 'jquery'
+
+import nyc from 'nyc/nyc'
 import Container from 'nyc/Container'
 import Choice from 'nyc/Choice'
 
@@ -10,7 +13,7 @@ class Filters extends Container {
     super(options.target)
     this.filterControls = []
     this.source = options.source
-    options.filterControlOptions.forEach((option, i) => {
+    options.filterChoiceOptions.forEach((option, i) => {
       option.target = option.target || $(`<div class="${nyc.nextId('filter')}"></div>`)
       this.append($(option.target))
       const choice = new Choice(option)
@@ -40,7 +43,7 @@ class Filters extends Container {
  * @public
  * @typedef {Object}
  * @property {JQuery|Element|string} target
- * @property {Array<Choice.Options>} filterControlOptions
+ * @property {Array<Choice.Options>} filterChoiceOptions
  * @property {nyc.ol.source.FilterAndSort} source The source to filter
  */
 Filters.Options
