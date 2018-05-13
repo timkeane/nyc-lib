@@ -1,5 +1,9 @@
+.clps.rad-all {
+  border: none;
+}
 .clps h3 {
   margin: 0;
+  text-align: left;
 }
 .clps h3 .btn-rnd {
   background-image: var(--theme-up-bg-img);
