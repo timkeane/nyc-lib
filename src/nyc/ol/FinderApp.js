@@ -23,6 +23,11 @@ class FinderApp {
     global.finderApp = this
     $('body').append(FinderApp.HTML)
     /**
+     * @private
+     * @member {nyc.ListPager}
+     */
+    this.pager = new ListPager({target: '#facilites'})
+    /**
      * @public
      * @member {ol.Map}
      */
@@ -66,13 +71,7 @@ class FinderApp {
     this.view = this.map.getView()
     /**
      * @private
-     * @member {nyc.Filters}
-     */
-    this.filters = new Filters(options.filterOptions)
-    this.filters.on('change', this.resetList, this)
-    /**
-     * @private
-     * @member {nyc.Tabs}
+     * @member {nyc.ol.LocationMgr}
      */
     this.locationMgr = new nyc.ol.LocationMgr({
       map: this.map,
@@ -82,21 +81,14 @@ class FinderApp {
     this.locationMgr.on('geolocate', this.resetList, this)
     /**
      * @private
-     * @member {nyc.Tabs}
+     * @member {nyc.Filters}
      */
-    this.tabs = new Tabs({
-      target: '#tabs',
-      tabs: [
-        {tab: '#map', title: 'Map'},
-        {tab: '#facilites', title: options.facilityTabTitle || 'Facilites', active: true},
-        {tab: '#filters', title: options.filterTabTitle || 'Filters'}
-      ]
-    })
+    this.filters = this.createFilters(options.filterOptions)
     /**
      * @private
-     * @member {nyc.ListPager}
+     * @member {nyc.Tabs}
      */
-    this.pager = new ListPager({target: '#facilites'})
+    this.tabs = createTabs(options.filterTabTitle)
   }
   /**
    * @desc Centers and zooms the map on the provided feature
@@ -118,6 +110,23 @@ class FinderApp {
    */
   directionsTo(feature) {
 
+  }
+  createFilters(options) {
+    if (options) {
+      const filters = new Filters(options)
+      filters.on('change', this.resetList, this)
+      return filters
+    }
+  }
+  createTabs(filterTabTitle) {
+    const tabs = [
+      {tab: '#map', title: 'Map'},
+      {tab: '#facilites', title: options.facilityTabTitle || 'Facilites', active: true}
+    ]
+    if (this.filters) {
+      tabs.push({tab: '#filters', title: filterTabTitle || 'Filters'})
+    }
+    return new Tabs({target: '#tabs', tabs: tabs})
   }
   /**
    * @private
@@ -186,37 +195,89 @@ FinderApp.handleButton = (event) => {
  * @desc Default facility feature decorations
  * @public
  * @const
+ * @mixin
  * @type {Object<string, fuction()>}
  */
 FinderApp.FEATURE_DECORATIONS = {
+  /**
+   * @desc Returns HTML rendering of a facility feature
+   * @public
+   * @method
+   * @param {JQuery}
+   */
   html() {
     throw 'An html decoration must be provided'
   },
+  /**
+   * @desc Returns the name of a facility feature
+   * @public
+   * @method
+   * @param {string}
+   */
   getName() {
     throw 'An getName decoration must be provided'
   },
+  /**
+   * @desc Returns an HTML button that when clicked will zoom to the facility
+   * @public
+   * @method
+   * @param {JQuery}
+   */
   mapButton() {
     return $('<button class="btn map">Map</button>')
       .data('feature', this)
       .click(FinderApp.handleButton)
   },
+  /**
+   * @desc Returns an HTML button that when clicked will provide directions to the facility
+   * @public
+   * @method
+   * @param {JQuery}
+   */
   directionsButton() {
     return $('<button class="btn directions">Directions</button>')
       .data('feature', this)
       .click(FinderApp.handleButton)
   },
+  /**
+   * @desc Returns an HTML button that when clicked will call the provided phone number
+   * @public
+   * @method
+   * @param {string} phoneNumber The phone number
+   * @param {JQuery}
+   */
   phoneButton(phoneNumber) {
     return $(`<a class="btn phone">${phoneNumber}</a>`)
       .attr('href', `tel:${phoneNumber}`)
   },
+  /**
+   * @desc Returns an HTML button that when clicked will open the facility web site
+   * @public
+   * @method
+   * @param {string} name The text to display on the button
+   * @param {string} url The web site URL
+   */
   websiteButton(name, url) {
     return $(`<a class="btn web">${name}</a>`)
-      .attr('href', `${url}`)
+      .attr('href', url)
   },
+  /**
+   * @desc Returns an HTML button that when clicked will open email editor for the provided email
+   * @public
+   * @method
+   * @param {string} email The email
+   * @param {JQuery}
+   */
   emailButton(email) {
     return $(`<a class="btn email">${email}</a>`)
       .attr('href', `mailto:${email}`)
   },
+  /**
+   * @desc Returns HTML rendering of the distance from the user location to the facility
+   * @public
+   * @method
+   * @param {JQuery}
+   */
   distanceHtml() {
     const distance = this.getDistance()
     if (distance.units === 'ft') {
@@ -224,11 +285,18 @@ FinderApp.FEATURE_DECORATIONS = {
     }
     return html.html(`&bull; ${(distance.units / 1000).toFixed(2)} km &bull;`)
   },
+  /**
+   * @desc Returns an HTML button that when clicked will display the provided details
+   * @method
+   * @param {string} email The email
+   * @param {JQuery}
+   */
   detailsCollapsible(details) {
     return new Collapsible({
       target: $('<div class="details"></div>'),
       title: 'Details',
-      content: details
+      content: details,
+      collapsed: true
     }).getContainer()
   }
 }
