@@ -41,6 +41,8 @@
           const html = $('<div></div>')
             .append(this.distanceHtml())
             .append(this.nameHtml())
+            .append(this.phoneButton(this.get('PHONE')))
+            .append(this.websiteButton('Website', this.get('WEBSITE')))
             .append(this.mapButton())
             .append(this.directionsButton())
           return html;
