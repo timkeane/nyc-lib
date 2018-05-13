@@ -75,12 +75,20 @@
 .fnd #map, .fnd #facilities {
   width: : 100%;
 }
-.fnd .btn {
-  margin: 3px 3px 0 0;
-}
-.fnd .btn.map, .fnd .btn.dir {
-  width: calc(50% - 3px);
+.fnd .lst-it .btn, .fnd .pop .btn {
+  margin: 0 3px 0 0;
+  width: calc(50% - 5px);
   display: inline-block;
+}
+.fnd .lst-it .btn:first-of-type, .fnd .pop .btn:first-of-type {
+  margin-top: 3px;
+}
+.fnd .pop .btn.map {
+  display: none;
+}
+.fnd .pop .btn.dir {
+  display: block;
+  width: auto;
 }
 .lst-it .name, .pop .name {
   font-weight: bold;

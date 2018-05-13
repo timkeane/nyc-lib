@@ -34,6 +34,8 @@ html, body, body * {
 }
 .btn {
 	background-position: 3px center;
+	padding: 0;
+	text-align: center;
 }
 .btn, .btn-sq {
 	background-size: 28px;
