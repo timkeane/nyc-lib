@@ -2,7 +2,7 @@
   border: var(--theme-border);
   overflow: hidden;
 }
-.tabs .btns {
+.tabs>.btns {
   height: 35px;
   width: 100%;
   display: table;
@@ -15,9 +15,9 @@
   border-bottom: var(--theme-border);
   text-align: center;
 }
-.tabs .btns h3.active {
+.tabs .btns h3.active, .tabs .btns h3.active * {
   background-color: var(--theme-btn-active-bg-color);
-	color: var(--theme-btn-active-text-color);
+  color: var(--theme-btn-active-text-color);
 }
 .tabs .btns h3:last-of-type {
   border-right: none;

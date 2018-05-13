@@ -1,5 +1,5 @@
 .shr {
-	position: fixed;
+	position: absolute;
 	left: 3px;
 	bottom: 3px;
 	height: 35px;
