@@ -45,13 +45,14 @@ input[type="checkbox"], input[type="radio"] {
 input[type="checkbox"]:before, input[type="radio"]:before {
   display: block;
   position: relative;
-  top: 5px;
+  margin: -5px;
+  font-size: 14px;
   background-color: #fff;
   border: 1px solid #000;
   color: transparent;
   text-align: center;
-  width: 19px;
-  height: 19px;
+  width: 15px;
+  height: 15px;
 }
 input[type="checkbox"]:before {
   content: "\002714";
