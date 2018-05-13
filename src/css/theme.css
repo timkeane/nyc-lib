@@ -6,6 +6,7 @@
 	--theme-box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
 
 	--theme-border: 1px solid rgb(221,221,221);
+	--theme-border-dark: 1px solid #000;
 	--theme-btn-bg-color: rgba(100,100,100,.1);
 	--theme-btn-bg-color-hover: rgba(100,100,100,.2);
 	--theme-btn-text-color: #000;
