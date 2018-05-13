@@ -14,7 +14,6 @@ import Filters from 'nyc/ol/Filters'
 import LocationMgr from 'nyc/ol/LocationMgr'
 import MultiFeaturePopup from 'nyc/ol/MultiFeaturePopup'
 
-import CsvPoint from 'nyc/ol/format/CsvPoint'
 import Decorate from 'nyc/ol/format/Decorate'
 
 import FilterAndSort from 'nyc/ol/source/FilterAndSort'
