@@ -5,11 +5,11 @@
 .tabs .btns {
   height: 35px;
   width: 100%;
-  display: block;
+  display: table;
   white-space: nowrap;
 }
 .tabs .btns h3 {
-  display: inline-block;
+  display: table-cell;
   margin: 0;
   border-right: var(--theme-border);
   border-bottom: var(--theme-border);

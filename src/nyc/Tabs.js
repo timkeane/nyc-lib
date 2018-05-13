@@ -60,7 +60,6 @@ render(tabs){
       const btn = $(Tabs.BTN_HTML)
         .append(tab.title)
         .click($.proxy(this.btnClick, this))
-        .css('width', `${100 / tabs.length}%`)
         .addClass(`btn-${i}`)
         .data('tab', tb)
       tb.data('btn', btn)
