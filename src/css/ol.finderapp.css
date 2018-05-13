@@ -65,7 +65,7 @@
   margin: -3px 3px;
   border: var(--theme-border)
 }
-.fnd #tabs .container .tab {
+.fnd #map.tab, .fnd #facilities.tab {
   margin: 0;
   bottom: 0;
 }
