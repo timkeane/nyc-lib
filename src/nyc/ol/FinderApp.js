@@ -110,9 +110,13 @@ class FinderApp {
    * @param {ol.Feature}
    */
   zoomTo(feature) {
+    const popup = this.popup
     if ($('h3.btn-0').css('display') === 'table-cell') {
       this.tabs.open($('#map'))
     }
+    this.map.once('moveend', () => {
+      popup.showFeature(feature)
+    })
     this.view.animate({
       center: feature.getGeometry().getCoordinates(),
       zoom: MapLocator.ZOOM_LEVEL

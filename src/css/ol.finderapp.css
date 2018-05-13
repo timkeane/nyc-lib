@@ -43,13 +43,13 @@
   width: : 100%;
 }
 .fnd .btn {
-  margin: 0 3px 0 0;
+  margin: 3px 3px 0 0;
 }
 .fnd .btn.map, .fnd .btn.dir {
   width: calc(50% - 3px);
   display: inline-block;
 }
-.lst-it .name {
+.lst-it .name, .pop .name {
   font-weight: bold;
 }
 @media only screen and (max-width : 750px), screen and (max-device-height: 350px) {
