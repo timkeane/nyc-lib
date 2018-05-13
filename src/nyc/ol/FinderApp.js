@@ -326,7 +326,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @param {JQuery}
    */
   mapButton() {
-    return $('<button class="btn rad-all map">Map</button>')
+    return $('<a class="btn rad-all map" role="button">Map</a>')
       .data('feature', this)
       .click(FinderApp.handleButton)
   },
@@ -337,7 +337,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @param {JQuery}
    */
   directionsButton() {
-    return $('<button class="btn rad-all dir">Directions</button>')
+    return $('<a class="btn rad-all dir" role="button">Directions</a>')
       .data('feature', this)
       .click(FinderApp.handleButton)
   },
@@ -360,7 +360,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @param {string} url The web site URL
    */
   websiteButton(name, url) {
-    return $(`<a class="btn rad-all web">${name}</a>`)
+    return $(`<a class="btn rad-all web" target="blank" role="button">${name}</a>`)
       .attr('href', url)
   },
   /**
