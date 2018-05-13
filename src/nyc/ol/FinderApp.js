@@ -307,7 +307,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @param {JQuery}
    */
   mapButton() {
-    return $('<button class="btn map">Map</button>')
+    return $('<button class="btn rad-all map">Map</button>')
       .data('feature', this)
       .click(FinderApp.handleButton)
   },
@@ -318,7 +318,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @param {JQuery}
    */
   directionsButton() {
-    return $('<button class="btn dir">Directions</button>')
+    return $('<button class="btn rad-all dir">Directions</button>')
       .data('feature', this)
       .click(FinderApp.handleButton)
   },
@@ -330,7 +330,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @param {JQuery}
    */
   phoneButton(phoneNumber) {
-    return $(`<a class="btn phone">${phoneNumber}</a>`)
+    return $(`<a class="btn rad-all phone">${phoneNumber}</a>`)
       .attr('href', `tel:${phoneNumber}`)
   },
   /**
@@ -341,7 +341,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @param {string} url The web site URL
    */
   websiteButton(name, url) {
-    return $(`<a class="btn web">${name}</a>`)
+    return $(`<a class="btn rad-all web">${name}</a>`)
       .attr('href', url)
   },
   /**
@@ -352,7 +352,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @param {JQuery}
    */
   emailButton(email) {
-    return $(`<a class="btn email">${email}</a>`)
+    return $(`<a class="btn rad-all email">${email}</a>`)
       .attr('href', `mailto:${email}`)
   },
   /**
