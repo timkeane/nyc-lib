@@ -111,6 +111,7 @@ class FinderApp {
    */
   zoomTo(feature) {
     const popup = this.popup
+    popup.hide()
     if ($('h3.btn-0').css('display') === 'table-cell') {
       this.tabs.open($('#map'))
     }
@@ -181,6 +182,7 @@ class FinderApp {
    */
   resetList(location) {
     const coordinate = location.coordinate
+    this.popup.hide()
     this.pager.reset(
       coordinate ? this.source.sort(coordinate) : this.source.getFeatures()
     )
@@ -332,11 +334,14 @@ FinderApp.FEATURE_DECORATIONS = {
    * @param {JQuery}
    */
   distanceHtml() {
-    const distance = this.getDistance()
-    if (distance.units === 'ft') {
-      return html.html(`&bull; ${(distance.units / 5280).toFixed(2)} mi &bull;`)
+    if (this.getDistance) {
+      const html = $('<div class="dist"></div>')
+      const distance = this.getDistance()
+      if (distance.units === 'ft') {
+        return html.html(`&bull; ${(distance.distance / 5280).toFixed(2)} mi &bull;`)
+      }
+      return html.html(`&bull; ${(distance.distance / 1000).toFixed(2)} km &bull;`)
     }
-    return html.html(`&bull; ${(distance.units / 1000).toFixed(2)} km &bull;`)
   },
   /**
    * @desc Returns an HTML button that when clicked will display the provided details
