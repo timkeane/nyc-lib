@@ -102,6 +102,7 @@ class FinderApp {
      * @member {nyc.Tabs}
      */
     this.tabs = this.createTabs(options)
+    this.adjustTabs()
   }
   /**
    * @desc Centers and zooms the map on the provided feature
@@ -146,7 +147,7 @@ class FinderApp {
   createTabs(options) {
     const pages = [
       {tab: '#map', title: 'Map'},
-      {tab: '#facilites', title: options.facilityTabTitle || 'Facilites', active: true}
+      {tab: '#facilites', title: options.facilityTabTitle || 'Facilites'}
     ]
     if (this.filters) {
       pages.push({tab: '#filters', title: options.filterTabTitle || 'Filters'})
@@ -161,7 +162,6 @@ class FinderApp {
    * @method
    */
   adjustTabs() {
-    console.warn(Math.abs(this.tabs.getContainer().width() - $(window).width()));
     if (Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1) {
         this.tabs.open($('#map'))
     } else {
