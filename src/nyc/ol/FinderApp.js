@@ -69,6 +69,11 @@ class FinderApp {
       map: this.map,
       layers: [this.layer]
     })
+    /**
+     * @private
+     * @member {nyc.ol.Locator.Result}
+     */
+    this.location = {}
     new FeatureTip({
       map: this.map,
       tips: [{
@@ -91,8 +96,8 @@ class FinderApp {
       map: this.map,
       url: options.geoclientUrl
     })
-    this.locationMgr.on('geocode', this.resetList, this)
-    this.locationMgr.on('geolocate', this.resetList, this)
+    this.locationMgr.on('geocode', this.located, this)
+    this.locationMgr.on('geolocate', this.located, this)
     /**
      * @public
      * @member {nyc.Filters}
@@ -191,8 +196,20 @@ class FinderApp {
    * @method
    * @param {Locator.Result}
    */
-  resetList(location) {
-    const coordinate = location.coordinate
+  located(location) {
+    this.location = location
+    this.resetList()
+  }
+  /**
+   * @private
+   * @method
+   * @param {Object}
+   */
+  resetList(event) {
+    if (event instanceof Filters) {
+      $('#tabs .btns h3.btn-2').addClass('filtered')
+    }
+    const coordinate = this.location.coordinate
     this.popup.hide()
     this.pager.reset(
       coordinate ? this.source.sort(coordinate) : this.source.getFeatures()
