@@ -36,3 +36,44 @@
 .chc-chc label {
 	display: block;
 }
+input[type="checkbox"], input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+}
+input[type="checkbox"]:before, input[type="radio"]:before {
+  display: block;
+  position: relative;
+  top: 5px;
+  background-color: #fff;
+  border: 1px solid #000;
+  color: transparent;
+  text-align: center;
+  width: 19px;
+  height: 19px;
+}
+input[type="checkbox"]:before {
+  content: "\002714";
+}
+input[type="radio"]:before {
+  content: " ";
+}
+input:focus {
+  outline: none;
+}
+input[type="checkbox"]:before {
+  border-radius: 3px;
+}
+input[type="radio"]:before {
+  border-radius: 50%;
+}
+input[type="checkbox"]:checked:before {
+  color: #000;
+}
+input[type="radio"]:checked:before {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 11px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%2216%22%20width%3D%2216%22%3E%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%228%22%20fill%3D%22%23000%22%2F%3E%3C%2Fsvg%3E");
+}
