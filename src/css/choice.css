@@ -57,9 +57,6 @@ input[type="checkbox"]:before, input[type="radio"]:before {
   background-repeat: no-repeat;
   background-position: center;
 }
-input:focus {
-  outline: none;
-}
 input[type="checkbox"]:before {
   border-radius: 3px;
 }
