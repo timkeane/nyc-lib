@@ -104,6 +104,10 @@ class FinderApp {
      */
     this.tabs = this.createTabs(options)
     this.adjustTabs()
+    this.view.fit(Basemap.EXTENT, {
+      size: this.map.getSize(),
+      duration: 500
+    })
     new Share({target: '#map'})
     new Goog({
       target: '#map',
