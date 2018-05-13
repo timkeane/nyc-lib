@@ -43,6 +43,7 @@ input[type="checkbox"], input[type="radio"] {
   background-color: transparent;
 }
 input[type="checkbox"]:before, input[type="radio"]:before {
+  content: " ";
   display: block;
   position: relative;
   margin: -5px;
@@ -53,12 +54,8 @@ input[type="checkbox"]:before, input[type="radio"]:before {
   text-align: center;
   width: 15px;
   height: 15px;
-}
-input[type="checkbox"]:before {
-  content: "\002714";
-}
-input[type="radio"]:before {
-  content: " ";
+  background-repeat: no-repeat;
+  background-position: center;
 }
 input:focus {
   outline: none;
@@ -70,11 +67,10 @@ input[type="radio"]:before {
   border-radius: 50%;
 }
 input[type="checkbox"]:checked:before {
-  color: #000;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20height%3D%221024%22%20width%3D%22768%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M640%20192L256%20576%20128%20448%200%20576l256%20256%20512-512L640%20192z%22%2F%3E%3C%2Fsvg%3E");
+  background-size: 13px;
 }
 input[type="radio"]:checked:before {
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 11px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%2216%22%20width%3D%2216%22%3E%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%228%22%20fill%3D%22%23000%22%2F%3E%3C%2Fsvg%3E");
+  background-size: 9px;
 }
