@@ -6,6 +6,7 @@ import $ from 'jquery'
 
 import nyc from 'nyc/nyc'
 import Container from 'nyc/Container'
+import Collapsible from 'nyc/Collapsible'
 import Choice from 'nyc/Choice'
 
 /**
@@ -23,20 +24,26 @@ class Filters extends Container {
    */
   constructor(options) {
     super(options.target)
-      /**
-       * @private
-       * @member {Array<Choice>}
-       */
-      this.choiceControls = []
-      /**
-       * @private
-       * @member {FilterAndSort}
-       */
-      this.source = options.source
-      options.filterChoiceOptions.forEach(choiceOptions => {
-      choiceOptions.target = choiceOptions.target || $(`<div class="${nyc.nextId('filter')}"></div>`)
-      this.append($(choiceOptions.target))
+    /**
+     * @private
+     * @member {Array<Choice>}
+     */
+    this.choiceControls = []
+    /**
+     * @private
+     * @member {FilterAndSort}
+     */
+    this.source = options.source
+    options.choiceOptions.forEach(choiceOptions => {
+      const target = $(`<div class="${nyc.nextId('filter')}"></div>`)
+      choiceOptions.target = choiceOptions.target || $(`<div class="${nyc.nextId('filter-chc')}"></div>`)
+      this.append($(target))
       const choice = new Choice(choiceOptions)
+      const collapsible = new Collapsible({
+        target: target,
+        title: choiceOptions.title,
+        content: choice.getContainer()
+      })
       choice.on('change', $.proxy(this.filter, this))
       this.choiceControls.push(choice)
     })
@@ -67,9 +74,18 @@ class Filters extends Container {
  * @public
  * @typedef {Object}
  * @property {JQuery|Element|string} target
- * @property {Array<Choice.Options>} filterChoiceOptions
+ * @property {Array<Filters.ChoiceOptions>} choiceOptions
  * @property {nyc.ol.source.FilterAndSort} source The source to filter
  */
 Filters.Options
+
+/**
+ * @desc Object type to hold choice options
+ * @public
+ * @typedef {Object}
+ * @property {string} title
+ * @property {Array<Choice.Options>} choiceOptions
+ */
+Filters.ChoiceOptions
 
 export default Filters

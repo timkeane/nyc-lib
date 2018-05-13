@@ -1,5 +1,5 @@
 .z-srch {
-	position: fixed;
+	position: absolute;
 	left: 3px;
 	top: 3px;
 	right: 0;
@@ -8,12 +8,12 @@
 	background-size: 19px;
 }
 .btn-z-in {
-	left: 3px;
-	top: 3px;
+	left: 0;
+	top: 0;
 }
 .btn-z-out {
-	left: 3px;
-	top: 40px;
+	left: 0;
+	top: 37px;
 }
 .btn-z-in {
 	background-image: var(--theme-zoom-in-bg-img);
@@ -22,18 +22,19 @@
 	background-image: var(--theme-zoom-out-bg-img);
 }
 .btn-geo {
-  left: 3px;
-  top: 77px;
+  left: 0;
+  top: 74px;
 }
 .btn-geo {
 	background-image: var(--theme-zoom-geo-bg-img);
   background-size: 25px;
 }
 .srch {
-	position: fixed;
-	left: 40px;
+	position: absolute;
+	left: 38px;
 	right: 3px;
-	width: 400px;
+	width: auto;
+	max-width: 400px;
 }
 .srch input, .srch ul {
 	opacity: 0.7;
@@ -95,10 +96,4 @@
 }
 .ol-control, .ol-zoom, .ol-attribution {
 	display: none;
-}
-@media only screen and (max-width : 405px) {
-	.srch {
-		width: auto;
-		right: 4px;
-	}
 }

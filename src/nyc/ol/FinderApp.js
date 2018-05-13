@@ -2,10 +2,13 @@
  * @module nyc/ol/FinderApp
  */
 
+import $ from 'jquery'
+
+import nyc from 'nyc/nyc'
 import Share from 'nyc/Share'
 import Tabs from 'nyc/Tabs'
 import ListPager from 'nyc/ListPager'
-import {ZOOM_LEVEL} from 'nyc/MapLocator'
+import MapLocator from 'nyc/MapLocator'
 
 import Goog from 'nyc/lang/Goog'
 
@@ -13,15 +16,19 @@ import Basemap from 'nyc/ol/Basemap'
 import Filters from 'nyc/ol/Filters'
 import LocationMgr from 'nyc/ol/LocationMgr'
 import MultiFeaturePopup from 'nyc/ol/MultiFeaturePopup'
+import FeatureTip from 'nyc/ol/FeatureTip'
 
 import Decorate from 'nyc/ol/format/Decorate'
 
 import FilterAndSort from 'nyc/ol/source/FilterAndSort'
 
+import OlLayerVector from 'ol/layer/vector'
+
 class FinderApp {
   constructor(options) {
     global.finderApp = this
-    $('body').append(FinderApp.HTML)
+    $('body').append(FinderApp.HTML).addClass('fnd')
+    $('#banner').html(options.title)
     /**
      * @private
      * @member {nyc.ListPager}
@@ -39,16 +46,19 @@ class FinderApp {
     this.source = new FilterAndSort({
       url: options.facilityUrl,
       format: new Decorate({
-        parentFomat: this.parentFomat(options.facilityFormat),
-        decorations: this.decorations(options, facilityFormat)
+        parentFormat: this.parentFomat(options.facilityFormat),
+        decorations: this.decorations(options, options.facilityFormat)
       })
     })
-    this.source.autoLoad($.proxy(this.ready, this))
+    this.source.autoLoad().then($.proxy(this.ready, this))
     /**
      * @public
      * @member {ol.layer.Vector}
      */
-    this.layer = new OlLayerVector({source: this.source})
+    this.layer = new OlLayerVector({
+      source: this.source,
+      style: options.facilityStyle
+    })
     this.map.addLayer(this.layer)
     /**
      * @public
@@ -58,37 +68,40 @@ class FinderApp {
       map: this.map,
       layers: [this.layer]
     })
-    new FeatureTip([{
-      layer: this.layer,
-      label: (feature) => {
-        return {html: feature.getName()}
-      }
-    }])
+    new FeatureTip({
+      map: this.map,
+      tips: [{
+        layer: this.layer,
+        label: (feature) => {
+          return {html: feature.getName()}
+        }
+      }]
+    })
     /**
-     * @private
+     * @public
      * @member {ol.View}
      */
     this.view = this.map.getView()
     /**
-     * @private
+     * @public
      * @member {nyc.ol.LocationMgr}
      */
-    this.locationMgr = new nyc.ol.LocationMgr({
+    this.locationMgr = new LocationMgr({
       map: this.map,
       url: options.geoclientUrl
     })
     this.locationMgr.on('geocode', this.resetList, this)
     this.locationMgr.on('geolocate', this.resetList, this)
     /**
-     * @private
+     * @public
      * @member {nyc.Filters}
      */
-    this.filters = this.createFilters(options.filterOptions)
+    this.filters = this.createFilters(options.filterChoiceOptions)
     /**
-     * @private
+     * @public
      * @member {nyc.Tabs}
      */
-    this.tabs = createTabs(options.filterTabTitle)
+    this.tabs = this.createTabs(options)
   }
   /**
    * @desc Centers and zooms the map on the provided feature
@@ -97,9 +110,12 @@ class FinderApp {
    * @param {ol.Feature}
    */
   zoomTo(feature) {
+    if ($('h3.btn-0').css('display') === 'table-cell') {
+      this.tabs.open($('#map'))
+    }
     this.view.animate({
       center: feature.getGeometry().getCoordinates(),
-      zoom: ZOOM_LEVEL
+      zoom: MapLocator.ZOOM_LEVEL
     })
   }
   /**
@@ -111,22 +127,48 @@ class FinderApp {
   directionsTo(feature) {
 
   }
-  createFilters(options) {
-    if (options) {
-      const filters = new Filters(options)
+  createFilters(choiceOptions) {
+    if (choiceOptions) {
+      const filters = new Filters({
+        target: '#filters',
+        source: this.source,
+        choiceOptions: choiceOptions
+      })
       filters.on('change', this.resetList, this)
       return filters
     }
   }
-  createTabs(filterTabTitle) {
-    const tabs = [
+  createTabs(options) {
+    const pages = [
       {tab: '#map', title: 'Map'},
       {tab: '#facilites', title: options.facilityTabTitle || 'Facilites', active: true}
     ]
     if (this.filters) {
-      tabs.push({tab: '#filters', title: filterTabTitle || 'Filters'})
+      pages.push({tab: '#filters', title: options.filterTabTitle || 'Filters'})
     }
-    return new Tabs({target: '#tabs', tabs: tabs})
+    const tabs = new Tabs({target: '#tabs', tabs: pages})
+    tabs.on('change', $.proxy(this.resizeMap, this))
+    $(window).resize($.proxy(this.adjustTabs, this))
+    return tabs
+  }
+  /**
+   * @private
+   * @method
+   */
+  adjustTabs() {
+    console.warn(Math.abs(this.tabs.getContainer().width() - $(window).width()));
+    if (Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1) {
+        this.tabs.open($('#map'))
+    } else {
+      this.tabs.open($('#facilites'))
+    }
+  }
+  /**
+   * @private
+   * @method
+   */
+  resizeMap() {
+    this.map.setSize([$('#map').width(), $('#map').height()])
   }
   /**
    * @private
@@ -134,7 +176,10 @@ class FinderApp {
    * @param {Locator.Result}
    */
   resetList(location) {
-    this.pager.reset(this.source.sort(location.coordinate))
+    const coordinate = location.coordinate
+    this.pager.reset(
+      coordinate ? this.source.sort(coordinate) : this.source.getFeatures()
+    )
   }
   /**
    * @private
@@ -153,15 +198,15 @@ class FinderApp {
    * @return {Array<Object<string, fuction()>>}
    */
   decorations(options, format) {
-    const decorations = [FinderApp.FEATURE_DECORATIONS]
+    let decorations = [FinderApp.FEATURE_DECORATIONS]
     if (format.parentFomat && format.parentFomat.decorations) {
-      decorations.push(format.parentFomat.decorations)
+      decorations = decorations.concat(format.parentFomat.decorations)
     }
     if (format.decorations) {
-      decorations.push(format.decorations)
+      decorations = decorations.concat(format.decorations)
     }
     if (options.decorations) {
-      decorations.push(options.decorations)
+      decorations = decorations.concat(options.decorations)
     }
     return decorations
   }
@@ -172,6 +217,7 @@ class FinderApp {
    */
   ready(features) {
     this.pager.reset(features)
+    nyc.ready($('body'))
   }
 }
 
@@ -217,6 +263,9 @@ FinderApp.FEATURE_DECORATIONS = {
   getName() {
     throw 'An getName decoration must be provided'
   },
+  nameHtml() {
+    return $('<div class="name"></div>').html(this.getName())
+  },
   /**
    * @desc Returns an HTML button that when clicked will zoom to the facility
    * @public
@@ -235,7 +284,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @param {JQuery}
    */
   directionsButton() {
-    return $('<button class="btn directions">Directions</button>')
+    return $('<button class="btn dir">Directions</button>')
       .data('feature', this)
       .click(FinderApp.handleButton)
   },
@@ -305,11 +354,13 @@ FinderApp.FEATURE_DECORATIONS = {
  * @desc Object to hold constructor options for FinderApp
  * @public
  * @typedef {Object}
+ * @property {string} title
  * @property {string} facilityTabTitle
  * @property {string} facilityUrl
  * @property {ol.format.Feature} facilityFormat
+ * @property {ol.style.Style} facilityStyle
  * @property {string} filterTabTitle
- * @property {Filters.Options} filterOptions
+ * @property {Array<Choice.Options>} filterChoiceOptions
  * @property {string} geoclientUrl
  */
 FinderApp.Options
@@ -327,3 +378,5 @@ FinderApp.HTML = '<h1 id="banner"></h1>' +
 '<div id="filters"></div>' +
 '<div id="translate"></div>' +
 '<div id="share"></div>'
+
+export default FinderApp

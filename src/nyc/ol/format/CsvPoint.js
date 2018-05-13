@@ -12,6 +12,7 @@ import OlFeature from 'ol/feature'
 import OlFormatFeature from 'ol/format/feature'
 import OlFormatFormatType from 'ol/format/formattype'
 import OlGeomPoint from 'ol/geom/point'
+
 /**
  * @desc Class to create point features from CSV data
  * @public

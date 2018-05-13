@@ -21,8 +21,7 @@ class ListPager extends Container {
    */
   constructor(options) {
     super(options.target)
-    this.getContainer().addClass('lst-pg')
-    this.getContainer().append($(ListPager.HTML))
+    this.getContainer().addClass('lst-pg').append($(ListPager.HTML))
     /**
      * @private
      * @member {Array<ListPager.Item>}
@@ -88,8 +87,9 @@ class ListPager extends Container {
 	 */
 	render(items) {
     items.forEach(item => {
-      const div = $('<div class="lst-it"></div>').append(item.html())
-      this.list.append(div)
+      this.list.append(
+        $('<div class="lst-it" role="listitem"></div>').append(item.html())
+      )
     })
   }
   more() {
@@ -120,6 +120,6 @@ ListPager.Item
  * @const
  * @type {string}
  */
-ListPager.HTML = '<div class="list" role="list"></div><button class="btn rad-all">More...</button>'
+ListPager.HTML = '<div class="list" role="list"></div><button class="btn rad-all btn-more">More...</button>'
 
 export default ListPager

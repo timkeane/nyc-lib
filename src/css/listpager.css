@@ -6,9 +6,9 @@
   overflow-x: hidden;
   overflow-y: auto;
 }
-.lst-pg button {
+.lst-pg button.btn-more {
   margin: 5px;
-  width: calc(100% - 10px)
+  width: calc(100% - 10px);
 }
 .lst-it {
   border-bottom: var(--theme-border);

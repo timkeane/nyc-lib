@@ -3,7 +3,7 @@ import $ from 'jquery'
 import Filters from 'nyc/ol/Filters'
 import Container from 'nyc/Container'
 
-const filterChoiceOptions = [
+const choiceOptions = [
   {
     target: '#choice',
     choices: [
@@ -39,7 +39,7 @@ test('constructor', () => {
   const filters = new Filters({
     target: target,
     source: {},
-    filterChoiceOptions: filterChoiceOptions
+    choiceOptions: choiceOptions
   })
 
   expect(filters instanceof Container).toBe(true)
@@ -49,19 +49,19 @@ test('constructor', () => {
   expect(filters.getContainer().get(0)).toBe(target.get(0))
 
   expect(filters.choiceControls.length).toBe(2)
+  expect(filters.find('.clps').length).toBe(2)
   expect(filters.find('.chc').length).toBe(2)
   expect(filters.find('#choice').length).toBe(1)
   expect(filters.find('.filter-0').length).toBe(1)
 
   expect(filters.choiceControls[0].getContainer().length).toBe(1)
-  expect(filters.choiceControls[0].getContainer().get(0)).toBe(choiceTarget.get(0))
   expect(filters.choiceControls[0].radio).toBe(undefined)
-  expect(filters.choiceControls[0].choices).toBe(filterChoiceOptions[0].choices)
+  expect(filters.choiceControls[0].choices).toBe(choiceOptions[0].choices)
 
   expect(filters.choiceControls[1].getContainer().length).toBe(1)
-  expect(filters.choiceControls[1].getContainer().hasClass('filter-0')).toBe(true)
+  expect(filters.choiceControls[1].getContainer().hasClass('filter-chc-0')).toBe(true)
   expect(filters.choiceControls[1].radio).toBe(true)
-  expect(filters.choiceControls[1].choices).toBe(filterChoiceOptions[1].choices)
+  expect(filters.choiceControls[1].choices).toBe(choiceOptions[1].choices)
 })
 
 test('filter', () => {
@@ -70,7 +70,7 @@ test('filter', () => {
   const filters = new Filters({
     target: target,
     source: {},
-    filterChoiceOptions: filterChoiceOptions
+    choiceOptions: choiceOptions
   })
 
   filters.source.filter = jest.fn()

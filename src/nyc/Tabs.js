@@ -46,6 +46,7 @@ class Tabs extends Container {
     tab.addClass('active')
     tab.data('btn').addClass('active').attr('aria-pressed', true)
     this.active = tab
+    this.trigger('change', this)
   }
   /**
    * @private
