@@ -61,7 +61,7 @@ render(tabs){
       const btn = $(Tabs.BTN_HTML)
         .append(tab.title)
         .click($.proxy(this.btnClick, this))
-        .addClass(`btn-${i}`)
+        .addClass(`btn-tab btn-${i}`)
         .data('tab', tb)
       tb.data('btn', btn)
       this.btns.append(btn)
@@ -80,7 +80,7 @@ render(tabs){
    * @param {JQuery.Event} event
    */
   btnClick(event) {
-    this.open($(event.target).data('tab'))
+    this.open($(event.currentTarget).data('tab'))
   }
 }
 

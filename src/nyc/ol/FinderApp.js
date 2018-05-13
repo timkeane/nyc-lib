@@ -10,6 +10,7 @@ import Tabs from 'nyc/Tabs'
 import ListPager from 'nyc/ListPager'
 import MapLocator from 'nyc/MapLocator'
 
+import Translate from 'nyc/lang/Translate'
 import Goog from 'nyc/lang/Goog'
 
 import Basemap from 'nyc/ol/Basemap'
@@ -103,6 +104,12 @@ class FinderApp {
      */
     this.tabs = this.createTabs(options)
     this.adjustTabs()
+    new Share({target: '#map'})
+    new Goog({
+      target: '#map',
+      languages: options.languages || Translate.DEFAULT_LANGUAGES,
+      button: true
+    })
   }
   /**
    * @desc Centers and zooms the map on the provided feature
@@ -235,7 +242,7 @@ class FinderApp {
  * @param {JQuery.Event}
  */
 FinderApp.handleButton = (event) => {
-  const target = $(event.target)
+  const target = $(event.currentTarget)
   const feature = target.data('feature')
   if (target.hasClass('map')) {
     global.finderApp.zoomTo(feature)
@@ -270,7 +277,7 @@ FinderApp.FEATURE_DECORATIONS = {
     throw 'An getName decoration must be provided'
   },
   nameHtml() {
-    return $('<div class="name"></div>').html(this.getName())
+    return $('<div class="name notranslate"></div>').html(this.getName())
   },
   /**
    * @desc Returns an HTML button that when clicked will zoom to the facility
@@ -384,8 +391,6 @@ FinderApp.HTML = '<h1 id="banner"></h1>' +
 '<div id="map"></div>' +
 '<div id="tabs"></div>' +
 '<div id="facilites"></div>' +
-'<div id="filters"></div>' +
-'<div id="translate"></div>' +
-'<div id="share"></div>'
+'<div id="filters"></div>'
 
 export default FinderApp
