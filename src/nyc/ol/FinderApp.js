@@ -5,6 +5,7 @@
 import $ from 'jquery'
 
 import nyc from 'nyc/nyc'
+import Dialog from 'nyc/Dialog'
 import Share from 'nyc/Share'
 import Tabs from 'nyc/Tabs'
 import ListPager from 'nyc/ListPager'
@@ -113,6 +114,7 @@ class FinderApp {
       size: this.map.getSize(),
       duration: 500
     })
+    this.showSplash(options.splashContent)
     new Share({target: '#map'})
     new Goog({
       target: '#map',
@@ -160,6 +162,23 @@ class FinderApp {
       return filters
     }
   }
+  /**
+   * @private
+   * @method
+   */
+  showSplash(content) {
+    if (content) {
+      new Dialog('splash').ok({
+        message: content,
+        buttonText: ['Continue...']
+      })
+      $('.dia-msg').attr('tabindex', 0).focus()
+    }
+  }
+  /**
+   * @private
+   * @method
+   */
   createTabs(options) {
     const pages = [
       {tab: '#map', title: 'Map'},
@@ -392,6 +411,7 @@ FinderApp.FEATURE_DECORATIONS = {
  * @public
  * @typedef {Object}
  * @property {string} title
+ * @property {JQuery|Element|String} splashContent
  * @property {string} facilityTabTitle
  * @property {string} facilityUrl
  * @property {ol.format.Feature} facilityFormat
@@ -408,7 +428,6 @@ FinderApp.Options
  * @type {string}
  */
 FinderApp.HTML = '<h1 id="banner"></h1>' +
-'<div id="splash"></div>' +
 '<div id="map"></div>' +
 '<div id="tabs"></div>' +
 '<div id="facilites"></div>' +

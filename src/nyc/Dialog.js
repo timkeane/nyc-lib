@@ -17,9 +17,9 @@ class Dialog extends Container {
 	 * @public
 	 * @constructor
 	 */
-	constructor() {
+	constructor(css) {
 		super($(Dialog.HTML))
-		$('body').append(this.getContainer())
+		$('body').append(this.getContainer().addClass(css))
 		/**
 		 * @private
 		 * @member {JQuery}
