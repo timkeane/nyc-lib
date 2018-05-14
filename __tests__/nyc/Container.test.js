@@ -4,6 +4,8 @@ import Container from 'nyc/Container'
 import EventHandling from 'nyc/EventHandling'
 
 test('everything', () => {
+  expect.assertions(8)
+
   const parent = $('<div></div>')
   const child = $('<p></p>')
   const append = $('<span></span>')

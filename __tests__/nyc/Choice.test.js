@@ -25,6 +25,8 @@ afterEach(() => {
 })
 
 test('constructor checkbox', () => {
+  expect.assertions(22)
+
   const choice = new Choice({
     target: container,
     choices: checkChoices
@@ -61,6 +63,8 @@ test('constructor checkbox', () => {
 })
 
 test('constructor radio', () => {
+  expect.assertions(22)
+
   const choice = new Choice({
     target: container,
     choices: radioChoices,
@@ -98,6 +102,8 @@ test('constructor radio', () => {
 })
 
 test('val checkbox', () => {
+  expect.assertions(6)
+
   const choice = new Choice({
     target: container,
     choices: checkChoices
@@ -115,6 +121,8 @@ test('val checkbox', () => {
 })
 
 test('val radio', () => {
+  expect.assertions(4)
+  
   const choice = new Choice({
     target: container,
     choices: radioChoices,
@@ -131,6 +139,8 @@ test('val radio', () => {
 })
 
 test('change checkbox', () => {
+  expect.assertions(2)
+  
   const handler = jest.fn()
 
   const choice = new Choice({

@@ -1,16 +1,18 @@
 import Container from 'nyc/Container'
 import Collapsible from 'nyc/Collapsible'
 
-import mock from '../../mocks/jquery.mock'
+import $mock from '../../mocks/jquery.mock'
 
 let target
 let content
 beforeEach(() => {
+  $.resetMocks()
   target = $('<div></div>')
   content = $('<p>content</p>')
   $('body').append(target).append(content)
 })
 afterEach(() => {
+  $.resetMocks()
   target.remove()
   content.remove()
 })
@@ -63,8 +65,17 @@ test('toggle', () => {
     content: content
   })
 
+  expect(collapsible.find('h3 button').hasClass('expd')).toBe(false)
+
   collapsible.toggle()
 
   expect($.mocks.slideUp).toHaveBeenCalledTimes(1)
-  // expect($.mocks.slideUp.mocks.instances).toHaveBeenCalledTimes(1)
+  expect($.mocks.slideUp.mock.instances[0].get(0)).toBe(collapsible.content.get(0))
+  expect(collapsible.find('h3 button').hasClass('expd')).toBe(true)
+
+  collapsible.toggle()
+
+  expect($.mocks.slideDown).toHaveBeenCalledTimes(1)
+  expect($.mocks.slideDown.mock.instances[0].get(0)).toBe(collapsible.content.get(0))
+  expect(collapsible.find('h3 button').hasClass('expd')).toBe(false)
 })

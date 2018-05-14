@@ -25,6 +25,8 @@ afterEach(() => {
 })
 
 test('filter one lower case letter', () => {
+  expect.assertions(8)
+
   const autoComplete = new AutoComplete()
 
   autoComplete.filter(inUl, outUl, 'b')
@@ -41,6 +43,8 @@ test('filter one lower case letter', () => {
 })
 
 test('filter one upper case letter', () => {
+  expect.assertions(8)
+
   const autoComplete = new AutoComplete()
 
   autoComplete.filter(inUl, outUl, 'B')
@@ -57,6 +61,8 @@ test('filter one upper case letter', () => {
 })
 
 test('filter three letters', () => {
+  expect.assertions(8)
+  
   const autoComplete = new AutoComplete()
 
   autoComplete.filter(inUl, outUl, 'MbA')
@@ -73,6 +79,8 @@ test('filter three letters', () => {
 })
 
 test('filter four letters not exact', () => {
+  expect.assertions(8)
+
   const autoComplete = new AutoComplete()
 
   autoComplete.filter(inUl, outUl, 'bbur')
@@ -89,6 +97,8 @@ test('filter four letters not exact', () => {
 })
 
 test('filter four letters exact with mutiple matches', () => {
+  expect.assertions(8)
+
   const autoComplete = new AutoComplete()
 
   autoComplete.filter(inUl, outUl, 'ubbl')
@@ -105,6 +115,8 @@ test('filter four letters exact with mutiple matches', () => {
 })
 
 test('filter four letters exact with one match', () => {
+  expect.assertions(8)
+
   const autoComplete = new AutoComplete()
 
   autoComplete.filter(inUl, outUl, 'FRED')
@@ -121,6 +133,8 @@ test('filter four letters exact with one match', () => {
 })
 
 test('filter seven letters not exact', () => {
+  expect.assertions(2)
+
   const autoComplete = new AutoComplete()
 
   autoComplete.filter(inUl, outUl, 'fwebbur')
@@ -130,6 +144,8 @@ test('filter seven letters not exact', () => {
 })
 
 test('filter multiple times with swap', () => {
+  expect.assertions(16)
+
   const autoComplete = new AutoComplete()
 
   autoComplete.filter(inUl, outUl, 'FRED')
@@ -156,5 +172,4 @@ test('filter multiple times with swap', () => {
   expect(inUl.children().get(0).innerHTML).toBe('Fred Flintstone')
   expect(inUl.children().get(1).innerHTML).toBe('Wilma Flintstone')
   expect(inUl.children().get(2).innerHTML).toBe('Pebbles Flintstone')
-
 })

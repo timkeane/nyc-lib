@@ -24,6 +24,8 @@ const fetchMock = require('fetch-mock')
 fetchMock.get('https://maps.nyc.gov/data.csv', csv);
 
 test('constructor', () => {
+  expect.assertions(5)
+
   const warn = console.warn
   console.warn = jest.fn()
 
@@ -46,6 +48,8 @@ test('constructor', () => {
 })
 
 test('message', () => {
+  expect.assertions(3)
+
   const content = new Content(messages)
 
   expect(content.message('foo', values)).toBe('')
@@ -54,6 +58,8 @@ test('message', () => {
 })
 
 test('loadCsv returns Promise', () => {
+  expect.assertions(1)
+  
   expect(Content.loadCsv({
     url: 'https://maps.nyc.gov/data.csv'
   }) instanceof Promise).toBe(true)

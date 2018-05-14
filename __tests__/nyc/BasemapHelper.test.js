@@ -49,7 +49,10 @@ afterEach(() => {
 })
 
 test('hookupEvents', () => {
+  expect.assertions(4)
+  
   const loadLayer = BasemapHelper.loadLayer
+  
   BasemapHelper.loadLayer = jest.fn()
 
   BasemapHelper.hookupEvents(target.get(0))
@@ -69,6 +72,8 @@ test('hookupEvents', () => {
 })
 
 test('loadLayer event has dataTransfer', () => {
+  expect.assertions(12) /* asseritons in mocks as well */
+
   BasemapHelper.storage = mockStorage
 
   BasemapHelper.hookupEvents(target.get(0))
@@ -85,6 +90,8 @@ test('loadLayer event has dataTransfer', () => {
 })
 
 test('loadLayer event has no dataTransfer', () => {
+  expect.assertions(2)
+  
   BasemapHelper.storage = mockStorage
 
   const mockEvent = {
@@ -102,6 +109,8 @@ test('loadLayer event has no dataTransfer', () => {
 })
 
 test('loadLayer dataTransfer has no files', () => {
+  expect.assertions(2)
+
   BasemapHelper.storage = mockStorage
 
   BasemapHelper.hookupEvents(target.get(0))
@@ -123,6 +132,8 @@ test('loadLayer dataTransfer has no files', () => {
 })
 
 test('sortedPhotos', () => {
+  expect.assertions(12)
+
   BasemapHelper.photos = {
     '1951': {
       get: (key) => {

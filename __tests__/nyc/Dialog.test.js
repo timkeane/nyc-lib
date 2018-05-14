@@ -1,13 +1,19 @@
-import $ from 'jquery'
-
 import Container from 'nyc/Container'
 import Dialog from 'nyc/Dialog'
 
+import $mock from '../../mocks/jquery.mock'
+
+beforeEach(() => {
+  $.resetMocks()
+})
 afterEach(() => {
+  $.resetMocks()
   $('.dia-container').remove()
 })
 
 test('constructor', () => {
+  expect.assertions(16)
+  
   const dialog = new Dialog()
 
   expect(dialog instanceof Container).toBe(true)
@@ -363,6 +369,8 @@ test('yesNoCancel click cancel', async () => {
 })
 
 test('buttons Dialog.Type.OK', () => {
+  expect.assertions(4)
+
   const dialog = new Dialog()
 
   dialog.buttons(Dialog.Type.OK, {})
@@ -380,6 +388,8 @@ test('buttons Dialog.Type.OK', () => {
 })
 
 test('buttons Dialog.Type.INPUT', () => {
+  expect.assertions(8)
+  
   const dialog = new Dialog()
 
   dialog.buttons(Dialog.Type.INPUT, {})
@@ -401,6 +411,8 @@ test('buttons Dialog.Type.INPUT', () => {
 })
 
 test('buttons Dialog.Type.YES_NO', () => {
+  expect.assertions(8)
+
   const dialog = new Dialog()
 
   dialog.buttons(Dialog.Type.YES_NO, {})
@@ -422,6 +434,8 @@ test('buttons Dialog.Type.YES_NO', () => {
 })
 
 test('buttons Dialog.Type.YES_NO_CANCEL', () => {
+  expect.assertions(12)
+
   const dialog = new Dialog()
 
   dialog.buttons(Dialog.Type.YES_NO_CANCEL, {})
@@ -447,22 +461,14 @@ test('buttons Dialog.Type.YES_NO_CANCEL', () => {
 })
 
 test('hide', () => {
-  expect.assertions(1)
+  expect.assertions(2)
   
   const dialog = new Dialog()
 
-  dialog.field.val('abc')
   dialog.getContainer().show()
-
-  const test = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(dialog.getContainer().css('display'))
-      }, 500)
-    })
-  }
 
   dialog.hide()
 
-  return test().then(visible => expect(visible).toBe('none'))
+  expect($.mocks.fadeOut).toHaveBeenCalledTimes(1)
+  expect($.mocks.fadeOut.mock.instances[0].get(0)).toBe(dialog.getContainer().get(0))
 })

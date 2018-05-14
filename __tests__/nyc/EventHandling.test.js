@@ -1,12 +1,16 @@
 import EventHandling from 'nyc/EventHandling'
 
 test('constructor', () => {
-    const handling = new EventHandling()
-    expect(handling.evtHdlrs).toEqual({})
+	expect.assertions(1)
+
+	const handling = new EventHandling()
+	expect(handling.evtHdlrs).toEqual({})
 })
 
 test('on', () => {
-    const handling = new EventHandling()
+	expect.assertions(10)
+	
+	const handling = new EventHandling()
 
 	const aHandler = () => {}
 	const anotherHandler = (data) => {}
@@ -23,18 +27,18 @@ test('on', () => {
 
 	expect(handling.evtHdlrs['event1'].length).toBe(1)
 	expect(handling.evtHdlrs['event1'][0]).toEqual({
-        handler: aHandler, scope: undefined, remove: undefined
-    })
+		handler: aHandler, scope: undefined, remove: undefined
+	})
 
 	handling.on('event1', anObj.handler, anObj)
 
 	expect(handling.evtHdlrs['event1'].length).toBe(2)
 	expect(handling.evtHdlrs['event1'][0]).toEqual({
-        handler: aHandler, scope: undefined, remove: undefined
-    })
+		handler: aHandler, scope: undefined, remove: undefined
+	})
 	expect(handling.evtHdlrs['event1'][1]).toEqual({
-        handler: anObj.handler, scope: anObj, remove: undefined
-    })
+		handler: anObj.handler, scope: anObj, remove: undefined
+	})
 
 	handling.on('event2', anotherHandler)
 
@@ -52,10 +56,11 @@ test('on', () => {
 	expect(handling.evtHdlrs['event2'][1]).toEqual({
 		handler: anotherObj.handler, scope: anotherObj, remove: undefined
 	})
-
 })
 
 test('one', () => {
+	expect.assertions(10)
+
 	const handling = new EventHandling()
 
 	const aHandler = () => {}
