@@ -3,7 +3,6 @@
  */
 
 import $ from 'jquery'
-
 import Container from 'nyc/Container'
 
 /**

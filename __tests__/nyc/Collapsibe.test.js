@@ -1,7 +1,7 @@
-import $ from 'jquery'
-
 import Container from 'nyc/Container'
 import Collapsible from 'nyc/Collapsible'
+
+import mock from '../JqMock'
 
 let target
 let content
@@ -57,31 +57,14 @@ test('constructor collapsed', () => {
 })
 
 test('toggle', () => {
-  expect.assertions(3)
-
   const collapsible = new Collapsible({
     target: target,
     title: 'Collapsible Title',
     content: content
   })
 
-  const test = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(collapsible.content.css('display'))
-      }, 500)
-    })
-  }
-
-  expect(collapsible.content.css('display')).toBe('block')
-
   collapsible.toggle()
 
-  return test().then((display) => {
-    expect(display).toBe('none')
-    collapsible.toggle()
-    return test().then((display) => {
-      expect(display).toBe('block')
-    })
-  })
+  expect($.mocks.slideUp).toHaveBeenCalledTimes(1)
+  // expect($.mocks.slideUp.mocks.instances).toHaveBeenCalledTimes(1)
 })
