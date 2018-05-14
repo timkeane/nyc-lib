@@ -36,7 +36,9 @@ class Collapsible extends Container {
      */
     this.content = this.find('.content').append($(options.content))
     if (options.collapsed) {
-      this.toggle()
+      this.content.hide()
+      this.btn.removeClass('rad-top')
+      this.find('h3 button').addClass('expd')
     }
   }
   /**

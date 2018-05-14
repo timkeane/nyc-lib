@@ -36,8 +36,6 @@ test('constructor expanded', () => {
 })
 
 test('constructor collapsed', () => {
-  expect.assertions(11)
-
   const collapsible = new Collapsible({
     target: target,
     title: 'Collapsible Title',
@@ -48,23 +46,14 @@ test('constructor collapsed', () => {
   expect(collapsible instanceof Container).toBe(true)
   expect(collapsible instanceof Collapsible).toBe(true)
 
-  const test = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        expect(collapsible.find('h3').length).toBe(1)
-        expect(collapsible.btn.get(0)).toBe(collapsible.find('h3').get(0))
-        expect(collapsible.btn.hasClass('rad-top')).toBe(false)
-        expect(collapsible.find('.content').length).toBe(1)
-        expect(collapsible.content.get(0)).toBe(collapsible.find('.content').get(0))
-        expect(collapsible.content.css('display')).toBe('none')
-        expect(collapsible.find('h3 button').hasClass('expd')).toBe(true)
-        expect(collapsible.find('h3:contains("Collapsible Title")').get(0)).toBe(collapsible.btn.get(0))
-        resolve(true)
-      }, 500)
-    })
-  }
-
-  return test().then(result => expect(result).toBe(true))
+  expect(collapsible.find('h3').length).toBe(1)
+  expect(collapsible.btn.get(0)).toBe(collapsible.find('h3').get(0))
+  expect(collapsible.btn.hasClass('rad-top')).toBe(false)
+  expect(collapsible.find('.content').length).toBe(1)
+  expect(collapsible.content.get(0)).toBe(collapsible.find('.content').get(0))
+  expect(collapsible.content.css('display')).toBe('none')
+  expect(collapsible.find('h3 button').hasClass('expd')).toBe(true)
+  expect(collapsible.find('h3:contains("Collapsible Title")').get(0)).toBe(collapsible.btn.get(0))
 })
 
 test('toggle', () => {
