@@ -1,19 +1,18 @@
 import Container from 'nyc/Container'
 import Dialog from 'nyc/Dialog'
 
-import $mock from '../../mocks/jquery.mock'
+import $ from '../../mocks/jquery.mock'
 
 beforeEach(() => {
   $.resetMocks()
 })
 afterEach(() => {
-  $.resetMocks()
   $('.dia-container').remove()
 })
 
 test('constructor', () => {
   expect.assertions(16)
-  
+
   const dialog = new Dialog()
 
   expect(dialog instanceof Container).toBe(true)
@@ -389,7 +388,7 @@ test('buttons Dialog.Type.OK', () => {
 
 test('buttons Dialog.Type.INPUT', () => {
   expect.assertions(8)
-  
+
   const dialog = new Dialog()
 
   dialog.buttons(Dialog.Type.INPUT, {})
@@ -461,8 +460,8 @@ test('buttons Dialog.Type.YES_NO_CANCEL', () => {
 })
 
 test('hide', () => {
-  expect.assertions(2)
-  
+  expect.assertions(3)
+
   const dialog = new Dialog()
 
   dialog.getContainer().show()
@@ -471,4 +470,5 @@ test('hide', () => {
 
   expect($.mocks.fadeOut).toHaveBeenCalledTimes(1)
   expect($.mocks.fadeOut.mock.instances[0].get(0)).toBe(dialog.getContainer().get(0))
+  expect(dialog.getContainer().css('display')).toBe('none')
 })

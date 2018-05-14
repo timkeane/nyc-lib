@@ -1,52 +1,62 @@
-import jq from 'jquery'
+import $ from 'jquery'
 
-const exeCallback = (callback) => {
-  if (callback) callback()
+$.originalFunctions = {
+  proxy: $.proxy,
+  ajax: $.ajax
 }
 
-jq.fn.slideDown = jest.fn((callback) => {
-  const instances = $.mocks.slideDown.mock.instances
-  instances[instances.length - 1].show()
-  exeCallback(callback)
-})
-jq.fn.slideUp = jest.fn((callback) => {
-  const instances = $.mocks.slideUp.mock.instances
-  instances[instances.length - 1].hide()
-  exeCallback(callback)
-})
-jq.fn.fadeIn = jest.fn((callback) => {
-  const instances = $.mocks.fadeIn.mock.instances
-  instances[instances.length - 1].show()
-  exeCallback(callback)
-})
-jq.fn.fadeOut = jest.fn((callback) => {
-  const instances = $.mocks.fadeOut.mock.instances
-  instances[instances.length - 1].hide()
-  exeCallback(callback)
-})
-
-jq.originalProxy = jq.proxy
-
-jq.proxy = jest.fn() 
-jq.proxy.mockImplementation = (fn, scope) => {
-  console.warn(fn,scope);
-  
-  return jq.originalProxy(fn, scope)
-}
-jq.proxy.wtf ='wtf'
-
-jq.mocks = {
-  slideDown: jq.fn.slideDown,
-  slideUp: jq.fn.slideUp,
-  fadeIn: jq.fn.fadeIn,
-  fadeOut: jq.fn.fadeOut,
-  proxy: jq.proxy
-}
-
-jq.resetMocks = () => {
-  Object.values(jq.mocks).forEach(fn => {
-    fn.mockReset()
+$.resetMocks = () => {
+  $.fn.slideUp = jest.fn().mockImplementation(callback => {
+    const instances = $.mocks.slideUp.mock.instances
+    instances[instances.length - 1].hide()
+    if (callback) callback()
   })
+
+  $.fn.slideDown = jest.fn().mockImplementation(callback => {
+    const instances = $.mocks.slideDown.mock.instances
+    instances[instances.length - 1].show()
+    if (callback) callback()
+  })
+
+
+  $.fn.fadeIn = jest.fn().mockImplementation(callback => {
+    const instances = $.mocks.fadeIn.mock.instances
+    instances[instances.length - 1].show()
+    if (callback) callback()
+  })
+
+  $.fn.fadeOut = jest.fn().mockImplementation(callback => {
+    const instances = $.mocks.fadeOut.mock.instances
+    instances[instances.length - 1].hide()
+    if (callback) callback()
+  })
+
+  $.proxy = jest.fn()
+  $.proxy.returnedValues = []
+  $.proxy.mockImplementation((fn, scope) => {
+    const result = $.originalFunctions.proxy(fn, scope)
+    $.proxy.returnedValues.push(result)
+    return result
+  })
+
+  $.ajax = jest.fn()
+  $.ajax.testData = {error: false, response: {}}
+  $.ajax.mockImplementation(args => {
+    if (!$.ajax.testData.error) {
+      args.success($.ajax.testData.response)
+    } else {
+      args.error($.ajax.testData.error)
+    }
+  })
+
+  $.mocks = {
+    slideDown: $.fn.slideDown,
+    slideUp: $.fn.slideUp,
+    fadeIn: $.fn.fadeIn,
+    fadeOut: $.fn.fadeOut,
+    proxy: $.proxy,
+    ajax: $.ajax
+  }
 }
 
-global.$ = jq
+export default $
