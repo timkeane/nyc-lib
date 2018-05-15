@@ -17,7 +17,7 @@
     "copy-examples": "cp -r ./examples ./dist/examples && cp -r ./src/css ./dist/css",
     "replace-hosts": "bash -c 'if [ -f replace-hosts.sh ]; then ./replace-hosts.sh; fi'",
     "test": "jest",
-    "precommit": "yarn test",
+    "precommit": "yarn test", 
     "prepush": "yarn build"
   },
   "jest": {
