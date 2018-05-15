@@ -29,7 +29,9 @@
 }
 #loading div {
   width: 152px;
-  margin: calc(50% - 100px) auto;
+  position: fixed;
+  top: calc(50% - 40px);
+  left: calc(50% - 76px);
 }
 #loading svg {
   stroke: #fff;
