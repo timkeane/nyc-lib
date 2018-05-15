@@ -24,54 +24,66 @@ afterEach(() => {
   $('.dia-container').remove()
 })
 
-test('constructor not autoLocate', () => {
+describe('constructor tests', () => {
   const locateFromQueryString = LocationMgr.prototype.locateFromQueryString
-  LocationMgr.prototype.locateFromQueryString = jest.fn()
   const hookupEvents = LocationMgr.prototype.hookupEvents
-  LocationMgr.prototype.hookupEvents = jest.fn()
+  beforeEach(() => {
+    LocationMgr.prototype.locateFromQueryString = jest.fn()
+    LocationMgr.prototype.hookupEvents = jest.fn()
 
-  const locationMgr = new LocationMgr(options)
-  expect(locationMgr instanceof LocationMgr).toBe(true)
-  expect(locationMgr instanceof EventHandling).toBe(true)
+  })
+  afterEach(() => {
+    LocationMgr.prototype.locateFromQueryString = locateFromQueryString
+    LocationMgr.prototype.hookupEvents = hookupEvents
+  })
 
-  expect(locationMgr.zoomSearch).toBe(options.zoomSearch)
-  expect(locationMgr.locator).toBe(options.locator)
-  expect(locationMgr.mapLocator).toBe(options.mapLocator)
-  expect(locationMgr.autoLocate).toBe(false)
+  test('constructor not autoLocate', () => {
+    expect.assertions(9)
 
-  expect(LocationMgr.prototype.locateFromQueryString).toHaveBeenCalledTimes(1)
-  expect(LocationMgr.prototype.locateFromQueryString.mock.calls[0][0]).toBe(document.location.search)
-  expect(LocationMgr.prototype.hookupEvents).toHaveBeenCalledTimes(1)
+    const locationMgr = new LocationMgr(options)
+    expect(locationMgr instanceof LocationMgr).toBe(true)
+    expect(locationMgr instanceof EventHandling).toBe(true)
 
-  LocationMgr.prototype.locateFromQueryString = locateFromQueryString
-  LocationMgr.prototype.hookupEvents = hookupEvents
-})
+    expect(locationMgr.zoomSearch).toBe(options.zoomSearch)
+    expect(locationMgr.locator).toBe(options.locator)
+    expect(locationMgr.mapLocator).toBe(options.mapLocator)
+    expect(locationMgr.autoLocate).toBe(false)
 
-test('constructor autoLocate', () => {
-  const locateFromQueryString = LocationMgr.prototype.locateFromQueryString
-  LocationMgr.prototype.locateFromQueryString = jest.fn()
-  const hookupEvents = LocationMgr.prototype.hookupEvents
-  LocationMgr.prototype.hookupEvents = jest.fn()
+    expect(LocationMgr.prototype.locateFromQueryString).toHaveBeenCalledTimes(1)
+    expect(LocationMgr.prototype.locateFromQueryString.mock.calls[0][0]).toBe(document.location.search)
+    expect(LocationMgr.prototype.hookupEvents).toHaveBeenCalledTimes(1)
+  })
 
-  options.autoLocate = true
+  test('constructor autoLocate', () => {
+    expect.assertions(8)
 
-  const locationMgr = new LocationMgr(options)
-  expect(locationMgr instanceof LocationMgr).toBe(true)
-  expect(locationMgr instanceof EventHandling).toBe(true)
+    const locateFromQueryString = LocationMgr.prototype.locateFromQueryString
+    LocationMgr.prototype.locateFromQueryString = jest.fn()
+    const hookupEvents = LocationMgr.prototype.hookupEvents
+    LocationMgr.prototype.hookupEvents = jest.fn()
 
-  expect(locationMgr.zoomSearch).toBe(options.zoomSearch)
-  expect(locationMgr.locator).toBe(options.locator)
-  expect(locationMgr.mapLocator).toBe(options.mapLocator)
-  expect(locationMgr.autoLocate).toBe(true)
+    options.autoLocate = true
 
-  expect(LocationMgr.prototype.locateFromQueryString).toHaveBeenCalledTimes(1)
-  expect(LocationMgr.prototype.hookupEvents).toHaveBeenCalledTimes(1)
+    const locationMgr = new LocationMgr(options)
+    expect(locationMgr instanceof LocationMgr).toBe(true)
+    expect(locationMgr instanceof EventHandling).toBe(true)
 
-  LocationMgr.prototype.locateFromQueryString = locateFromQueryString
-  LocationMgr.prototype.hookupEvents = hookupEvents
+    expect(locationMgr.zoomSearch).toBe(options.zoomSearch)
+    expect(locationMgr.locator).toBe(options.locator)
+    expect(locationMgr.mapLocator).toBe(options.mapLocator)
+    expect(locationMgr.autoLocate).toBe(true)
+
+    expect(LocationMgr.prototype.locateFromQueryString).toHaveBeenCalledTimes(1)
+    expect(LocationMgr.prototype.hookupEvents).toHaveBeenCalledTimes(1)
+
+    LocationMgr.prototype.locateFromQueryString = locateFromQueryString
+    LocationMgr.prototype.hookupEvents = hookupEvents
+  })
 })
 
 test('setLocation', () => {
+  expect.assertions(2)
+
   options.mapLocator.setLocation = jest.fn()
 
   const locationMgr = new LocationMgr(options)
@@ -81,52 +93,62 @@ test('setLocation', () => {
   expect(options.mapLocator.setLocation.mock.calls[0][0]).toBe('mock-data')
 })
 
-test('hookupEvents', () => {
+describe('hookupEvents', () => {
   const located = LocationMgr.prototype.located
   const ambiguous = LocationMgr.prototype.ambiguous
   const error = LocationMgr.prototype.error
-  LocationMgr.prototype.located = jest.fn()
-  LocationMgr.prototype.ambiguous = jest.fn()
-  LocationMgr.prototype.error = jest.fn()
-  options.locator.search = jest.fn()
-  options.locator.locate = jest.fn()
+  beforeEach(() => {
+    LocationMgr.prototype.located = jest.fn()
+    LocationMgr.prototype.ambiguous = jest.fn()
+    LocationMgr.prototype.error = jest.fn()
+  })
+  afterEach(() => {
+    LocationMgr.prototype.located = located
+    LocationMgr.prototype.ambiguous = ambiguous
+    LocationMgr.prototype.error = error
+  })
 
-  const locationMgr = new LocationMgr(options)
+  test('hookupEvents', () => {
+    expect.assertions(14)
 
-  options.locator.trigger(Locator.EventType.GEOCODE, 'mock-geocode-event')
-  expect(LocationMgr.prototype.located).toHaveBeenCalledTimes(1)
-  expect(LocationMgr.prototype.located.mock.calls[0][0]).toBe('mock-geocode-event')
+    options.locator.search = jest.fn()
+    options.locator.locate = jest.fn()
 
-  options.locator.trigger(Locator.EventType.GEOLOCATION, 'mock-geolocation-event')
-  expect(LocationMgr.prototype.located).toHaveBeenCalledTimes(2)
-  expect(LocationMgr.prototype.located.mock.calls[1][0]).toBe('mock-geolocation-event')
+    const locationMgr = new LocationMgr(options)
 
-  options.locator.trigger(Locator.EventType.AMBIGUOUS, 'mock-ambiguous-event')
-  expect(LocationMgr.prototype.ambiguous).toHaveBeenCalledTimes(1)
-  expect(LocationMgr.prototype.ambiguous.mock.calls[0][0]).toBe('mock-ambiguous-event')
+    options.locator.trigger(Locator.EventType.GEOCODE, 'mock-geocode-event')
+    expect(LocationMgr.prototype.located).toHaveBeenCalledTimes(1)
+    expect(LocationMgr.prototype.located.mock.calls[0][0]).toBe('mock-geocode-event')
 
-  options.locator.trigger(Locator.EventType.ERROR, 'mock-error-event')
-  expect(LocationMgr.prototype.error).toHaveBeenCalledTimes(1)
-  expect(LocationMgr.prototype.error.mock.calls[0][0]).toBe('mock-error-event')
+    options.locator.trigger(Locator.EventType.GEOLOCATION, 'mock-geolocation-event')
+    expect(LocationMgr.prototype.located).toHaveBeenCalledTimes(2)
+    expect(LocationMgr.prototype.located.mock.calls[1][0]).toBe('mock-geolocation-event')
 
-  options.zoomSearch.trigger(ZoomSearch.EventType.DISAMBIGUATED, 'mock-disambiguated-event')
-  expect(LocationMgr.prototype.located).toHaveBeenCalledTimes(3)
-  expect(LocationMgr.prototype.located.mock.calls[2][0]).toBe('mock-disambiguated-event')
+    options.locator.trigger(Locator.EventType.AMBIGUOUS, 'mock-ambiguous-event')
+    expect(LocationMgr.prototype.ambiguous).toHaveBeenCalledTimes(1)
+    expect(LocationMgr.prototype.ambiguous.mock.calls[0][0]).toBe('mock-ambiguous-event')
 
-  options.zoomSearch.trigger(ZoomSearch.EventType.SEARCH, 'mock-search-event')
-  expect(options.locator.search).toHaveBeenCalledTimes(1)
-  expect(options.locator.search.mock.calls[0][0]).toBe('mock-search-event')
+    options.locator.trigger(Locator.EventType.ERROR, 'mock-error-event')
+    expect(LocationMgr.prototype.error).toHaveBeenCalledTimes(1)
+    expect(LocationMgr.prototype.error.mock.calls[0][0]).toBe('mock-error-event')
 
-  options.zoomSearch.trigger(ZoomSearch.EventType.GEOLOCATE, 'mock-geolocate-event')
-  expect(options.locator.locate).toHaveBeenCalledTimes(1)
-  expect(options.locator.locate.mock.calls[0][0]).toBe('mock-geolocate-event')
+    options.zoomSearch.trigger(ZoomSearch.EventType.DISAMBIGUATED, 'mock-disambiguated-event')
+    expect(LocationMgr.prototype.located).toHaveBeenCalledTimes(3)
+    expect(LocationMgr.prototype.located.mock.calls[2][0]).toBe('mock-disambiguated-event')
 
-  LocationMgr.prototype.located = located
-  LocationMgr.prototype.ambiguous = ambiguous
-  LocationMgr.prototype.error = error
+    options.zoomSearch.trigger(ZoomSearch.EventType.SEARCH, 'mock-search-event')
+    expect(options.locator.search).toHaveBeenCalledTimes(1)
+    expect(options.locator.search.mock.calls[0][0]).toBe('mock-search-event')
+
+    options.zoomSearch.trigger(ZoomSearch.EventType.GEOLOCATE, 'mock-geolocate-event')
+    expect(options.locator.locate).toHaveBeenCalledTimes(1)
+    expect(options.locator.locate.mock.calls[0][0]).toBe('mock-geolocate-event')
+  })
 })
 
 test('locateFromQueryString', () => {
+  expect.assertions(14)
+
   options.locator.search = jest.fn()
   options.locator.locate = jest.fn()
 
@@ -137,37 +159,39 @@ test('locateFromQueryString', () => {
   expect(options.locator.search).toHaveBeenCalledTimes(0)
   expect(options.locator.locate).toHaveBeenCalledTimes(0)
 
-    locationMgr.locateFromQueryString('')
+  locationMgr.locateFromQueryString('')
 
-    expect(options.locator.search).toHaveBeenCalledTimes(0)
-    expect(options.locator.locate).toHaveBeenCalledTimes(0)
+  expect(options.locator.search).toHaveBeenCalledTimes(0)
+  expect(options.locator.locate).toHaveBeenCalledTimes(0)
 
-    locationMgr.locateFromQueryString('?foo=bar&bar=foo')
+  locationMgr.locateFromQueryString('?foo=bar&bar=foo')
 
-    expect(options.locator.search).toHaveBeenCalledTimes(0)
-    expect(options.locator.locate).toHaveBeenCalledTimes(0)
+  expect(options.locator.search).toHaveBeenCalledTimes(0)
+  expect(options.locator.locate).toHaveBeenCalledTimes(0)
 
-    locationMgr.locateFromQueryString('?foo=bar&address=59%20maiden%20ln&bar=foo')
+  locationMgr.locateFromQueryString('?foo=bar&address=59%20maiden%20ln&bar=foo')
 
-    expect(options.locator.search).toHaveBeenCalledTimes(1)
-    expect(options.locator.search.mock.calls[0][0]).toBe('59 maiden ln')
-    expect(options.locator.locate).toHaveBeenCalledTimes(0)
+  expect(options.locator.search).toHaveBeenCalledTimes(1)
+  expect(options.locator.search.mock.calls[0][0]).toBe('59 maiden ln')
+  expect(options.locator.locate).toHaveBeenCalledTimes(0)
 
-    locationMgr.autoLocate = true
+  locationMgr.autoLocate = true
 
-    locationMgr.locateFromQueryString('?foo=bar&bar=foo&address=2%20metrotech%20ctr')
+  locationMgr.locateFromQueryString('?foo=bar&bar=foo&address=2%20metrotech%20ctr')
 
-    expect(options.locator.search).toHaveBeenCalledTimes(2)
-    expect(options.locator.search.mock.calls[1][0]).toBe('2 metrotech ctr')
-    expect(options.locator.locate).toHaveBeenCalledTimes(0)
+  expect(options.locator.search).toHaveBeenCalledTimes(2)
+  expect(options.locator.search.mock.calls[1][0]).toBe('2 metrotech ctr')
+  expect(options.locator.locate).toHaveBeenCalledTimes(0)
 
-    locationMgr.locateFromQueryString('?foo=bar&bar=foo&input=2%20metrotech%20ctr')
+  locationMgr.locateFromQueryString('?foo=bar&bar=foo&input=2%20metrotech%20ctr')
 
-    expect(options.locator.search).toHaveBeenCalledTimes(2)
-    expect(options.locator.locate).toHaveBeenCalledTimes(1)
+  expect(options.locator.search).toHaveBeenCalledTimes(2)
+  expect(options.locator.locate).toHaveBeenCalledTimes(1)
 })
 
 test('located GEOCODE', () => {
+  expect.assertions(3)
+
   const handler = jest.fn()
 
   options.mapLocator.zoomLocation = (data, callback) => {
@@ -191,6 +215,8 @@ test('located GEOCODE', () => {
 })
 
 test('located GEOLOCATION', () => {
+  expect.assertions(3)
+
   const handler = jest.fn()
 
   options.mapLocator.zoomLocation = (data, callback) => {
@@ -214,6 +240,8 @@ test('located GEOLOCATION', () => {
 })
 
 test('ambiguous no possible', () => {
+  expect.assertions(3)
+
   const data = {possible: []}
   options.zoomSearch.disambiguate = jest.fn()
 
@@ -229,6 +257,8 @@ test('ambiguous no possible', () => {
 })
 
 test('ambiguous has possible', () => {
+  expect.assertions(3)
+
   const data = {possible: ['mock-reuslt']}
   options.zoomSearch.disambiguate = jest.fn()
 
@@ -244,6 +274,7 @@ test('ambiguous has possible', () => {
 })
 
 test('error', () => {
+  expect.assertions(2)
 
   const locationMgr = new LocationMgr(options)
 

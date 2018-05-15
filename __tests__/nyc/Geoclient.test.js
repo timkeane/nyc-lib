@@ -94,6 +94,8 @@ test('search for bad ZIP', () => {
 })
 
 test('search for address', () => {
+  expect.assertions(16)
+
   $.ajax.testData.response = GEOCLIENT_OK_ADDRESS_RESPONSE
 
   const geoclient = new Geoclient({url: URL})
@@ -124,6 +126,8 @@ test('search for address', () => {
 })
 
 test('search error', () => {
+  expect.assertions(12)
+
   $.ajax.testData.error = {}
 
   const geoclient = new Geoclient({url: URL})
@@ -150,6 +154,8 @@ test('search error', () => {
 })
 
 test('project', () => {
+  expect.assertions(3)
+
   const coordinate = [990203, 196492]
 
   let geoclient = new Geoclient({url: URL})
@@ -163,6 +169,8 @@ test('project', () => {
 })
 
 test('geoclient GEOCLIENT_OK_ADDRESS_RESPONSE', () => {
+  expect.assertions(5)
+
   const response = GEOCLIENT_OK_ADDRESS_RESPONSE;
 
   const handler = jest.fn()
@@ -181,6 +189,8 @@ test('geoclient GEOCLIENT_OK_ADDRESS_RESPONSE', () => {
 })
 
 test('geoclient GEOCLIENT_OK_PLACE_RESPONSE', () => {
+  expect.assertions(7)
+
   const response = GEOCLIENT_OK_PLACE_RESPONSE
 
   const handler = jest.fn()
@@ -201,6 +211,8 @@ test('geoclient GEOCLIENT_OK_PLACE_RESPONSE', () => {
 })
 
 test('geoclient GEOCLIENT_AMBIGUOUS_RESPONSE', () => {
+  expect.assertions(18)
+
   const response = GEOCLIENT_AMBIGUOUS_RESPONSE
 
   const handler = jest.fn()
@@ -235,6 +247,8 @@ test('geoclient GEOCLIENT_AMBIGUOUS_RESPONSE', () => {
 })
 
 test('geoclient GEOCLIENT_OK_BLOCKFACE_RESPONSE', () => {
+  expect.assertions(6)
+
   const response = GEOCLIENT_OK_BLOCKFACE_RESPONSE
 
   const handler = jest.fn()
@@ -254,6 +268,8 @@ test('geoclient GEOCLIENT_OK_BLOCKFACE_RESPONSE', () => {
 })
 
 test('geoclient GEOCLIENT_OK_INTERSECTION_RESPONSE', () => {
+  expect.assertions(6)
+
   const response = GEOCLIENT_OK_INTERSECTION_RESPONSE
 
   const handler = jest.fn()
@@ -273,6 +289,8 @@ test('geoclient GEOCLIENT_OK_INTERSECTION_RESPONSE', () => {
 })
 
 test('geoclient GEOCLIENT_REJECTED_RESPONSE', () => {
+  expect.assertions(4)
+
   const response = GEOCLIENT_REJECTED_RESPONSE
 
   const handler = jest.fn()
@@ -290,6 +308,8 @@ test('geoclient GEOCLIENT_REJECTED_RESPONSE', () => {
 })
 
 test('geoclient GEOCLIENT_NON_ADDRESSABLE_RESPONSE', () => {
+  expect.assertions(4)
+
   const response = GEOCLIENT_NON_ADDRESSABLE_RESPONSE
 
   const handler = jest.fn()

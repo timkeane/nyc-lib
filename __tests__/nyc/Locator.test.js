@@ -2,46 +2,51 @@ import Locator from 'nyc/Locator'
 import EventHandling from 'nyc/EventHandling'
 import Geocoder from 'nyc/Geocoder'
 
-test('constructor no projection', () => {
+describe('constructor tests', () => {
   const hookupEvents = Locator.prototype.hookupEvents
-  Locator.prototype.hookupEvents = jest.fn()
-
-  const locator = new Locator({geocoder: new Geocoder()})
-
-  expect(locator instanceof EventHandling).toBe(true)
-  expect(locator instanceof Locator).toBe(true)
-  expect(locator.geocoder instanceof Geocoder).toBe(true)
-  expect(locator.projection).toBe('EPSG:3857')
-  expect(Locator.prototype.hookupEvents).toHaveBeenCalledTimes(1)
-
-  Locator.prototype.hookupEvents = hookupEvents
-})
-
-test('constructor has projection', () => {
-  const hookupEvents = Locator.prototype.hookupEvents
-  Locator.prototype.hookupEvents = jest.fn()
-
-  const locator = new Locator({
-    geocoder: new Geocoder(),
-    projection: 'EPSG:2263'
+  beforeEach(() => {
+    Locator.prototype.hookupEvents = jest.fn()
+  })
+  afterEach(() => {
+    Locator.prototype.hookupEvents = hookupEvents
   })
 
-  expect(locator instanceof EventHandling).toBe(true)
-  expect(locator instanceof Locator).toBe(true)
-  expect(locator.geocoder instanceof Geocoder).toBe(true)
-  expect(locator.projection).toBe('EPSG:2263')
-  expect(Locator.prototype.hookupEvents).toHaveBeenCalledTimes(1)
+  test('constructor no projection', () => {
+    expect.assertions(5)
 
-  Locator.prototype.hookupEvents = hookupEvents
+    const locator = new Locator({geocoder: new Geocoder()})
+
+    expect(locator instanceof EventHandling).toBe(true)
+    expect(locator instanceof Locator).toBe(true)
+    expect(locator.geocoder instanceof Geocoder).toBe(true)
+    expect(locator.projection).toBe('EPSG:3857')
+    expect(Locator.prototype.hookupEvents).toHaveBeenCalledTimes(1)
+  })
+
+  test('constructor has projection', () => {
+    expect.assertions(5)
+
+    const locator = new Locator({
+      geocoder: new Geocoder(),
+      projection: 'EPSG:2263'
+    })
+
+    expect(locator instanceof EventHandling).toBe(true)
+    expect(locator instanceof Locator).toBe(true)
+    expect(locator.geocoder instanceof Geocoder).toBe(true)
+    expect(locator.projection).toBe('EPSG:2263')
+    expect(Locator.prototype.hookupEvents).toHaveBeenCalledTimes(1)
+  })
 })
 
 test('hookupEvents/proxyEvent', () => {
+  expect.assertions(8)
+
   const handler = jest.fn()
 
   const locator = new Locator({geocoder: new Geocoder()})
   expect(locator.geocoder instanceof Geocoder).toBe(true)
   expect(locator.geocoder instanceof EventHandling).toBe(true)
-// expect(locator.geocoder.on).toBe({})
 
   locator.on(Locator.EventType.GEOCODE, handler)
   locator.on(Locator.EventType.AMBIGUOUS, handler)
@@ -61,12 +66,16 @@ test('hookupEvents/proxyEvent', () => {
 })
 
 test('not implemented methods', () => {
+  expect.assertions(2)
+
   const locator = new Locator({geocoder: new Geocoder()})
   expect(() => {locator.locate()}).toThrow('Not implemented')
   expect(() => {locator.track()}).toThrow('Not implemented')
 })
 
 test('search', () => {
+  expect.assertions(2)
+
   const search = jest.fn()
 
   const locator = new Locator({
@@ -82,7 +91,10 @@ test('search', () => {
 })
 
 test('accuracyDistance', () => {
+  expect.assertions(2)
+
   let locator = new Locator({geocoder: new Geocoder()})
+
   expect(locator.accuracyDistance(100)).toBe(100)
 
   locator = new Locator({

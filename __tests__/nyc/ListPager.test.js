@@ -1,7 +1,7 @@
-import $ from 'jquery'
-
 import Container from 'nyc/Container'
 import ListPager from 'nyc/ListPager'
+
+import $ from '../../mocks/jquery.mock'
 
 const items = [
   {html() {return 'item 0'}},
@@ -14,11 +14,12 @@ const items = [
   {html() {return 'item 7'}},
   {html() {return 'item 8'}},
   {html() {return 'item 9'}},
-  {html() {return 'item 10'}},   
-  {html() {return 'item 11'}} 
+  {html() {return 'item 10'}},
+  {html() {return 'item 11'}}
 ]
 let target
 beforeEach(() => {
+  $.resetMocks()
   target = $('<div></div>')
   $('body').append(target)
 })
@@ -27,10 +28,12 @@ afterEach(() => {
 })
 
 test('constructor without items and pageSize', () => {
+  expect.assertions(11)
+
   const pager = new ListPager({
     target: target
   })
- 
+
   expect(pager instanceof Container).toBe(true)
   expect(pager instanceof ListPager).toBe(true)
   expect(pager.pageSize).toBe(10)
@@ -45,12 +48,14 @@ test('constructor without items and pageSize', () => {
 })
 
 test('everything constructed with items and pageSize', () => {
+  expect.assertions(44)
+
   const pager = new ListPager({
     target: target,
     items: items,
     pageSize: 5
   })
- 
+
   expect(pager instanceof Container).toBe(true)
   expect(pager instanceof ListPager).toBe(true)
   expect(pager.pageSize).toBe(5)
@@ -74,21 +79,15 @@ test('everything constructed with items and pageSize', () => {
   pager.list.children().each((i, item) => {
     expect($(item).html()).toBe(items[i].html())
   })
-  
-  const test = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(pager.moreBtn.css('display'))
-      }, 600)
-    })
-  }
 
   pager.moreBtn.trigger('click')
-  
+
   expect(pager.list.children().length).toBe(12)
   pager.list.children().each((i, item) => {
     expect($(item).html()).toBe(items[i].html())
   })
-  
-  return test().then(visible => expect(visible).toBe('none'))
+
+  expect($.mocks.fadeOut).toHaveBeenCalledTimes(1)
+  expect($.mocks.fadeOut.mock.instances[0].get(0)).toBe(pager.moreBtn.get(0))
+  expect(pager.moreBtn.css('display')).toBe('none')
 })

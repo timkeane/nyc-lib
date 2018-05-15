@@ -1,14 +1,21 @@
-import $ from 'jquery'
-
 import nyc from 'nyc/nyc'
 
+import $ from '../../mocks/jquery.mock'
+
+beforeEach(() => {
+  $.resetMocks()
+})
+
 test('proj4', () => {
+  expect.assertions(3)
   expect(typeof proj4).toBe('function')
   expect(typeof proj4('EPSG:2263')).toBe('object')
   expect(typeof proj4('EPSG:6539')).toBe('object')
 })
 
 test('inherits', () => {
+  expect.assertions(5)
+
   const parentCtor = () => {}
   parentCtor.prototype.parentProperty = 'parentProperty'
   parentCtor.prototype.propertyToOverride = 'propertyToOverride'
@@ -33,6 +40,7 @@ test('inherits', () => {
 })
 
 test('subclass', () => {
+  expect.assertions(3)
 
   class SuperClass {
     constructor(name) {
@@ -64,6 +72,8 @@ test('subclass', () => {
 })
 
 test('mixin', () => {
+  expect.assertions(24)
+
   const obj = {
     foo: 'bar',
     bar: 'foo',
@@ -125,6 +135,8 @@ test('mixin', () => {
 });
 
 test('copyFromParentProperties', () => {
+  expect.assertions(9)
+
   const parentObj = {
     foo: 'foo',
     bar: 'bar',
@@ -159,10 +171,11 @@ test('copyFromParentProperties', () => {
   expect(childObj.getFooBar()).toBe('barfoo')
   expect(childObj.getBarFoo()).toBe('foobar')
   expect(childObj.getWtf()).toBe('wtf!')
-
 });
 
 test('copyFromParentKeys', () => {
+  expect.assertions(9)
+
   const parentObj = {
     foo: 'foo',
     bar: 'bar',
@@ -197,17 +210,21 @@ test('copyFromParentKeys', () => {
   expect(childObj.getFooBar()).toBe('barfoo')
   expect(childObj.getBarFoo()).toBe('foobar')
   expect(childObj.getWtf()).toBe('wtf!')
-
 })
 
 test('capitalize', () => {
+  expect.assertions(2)
+
   let words = 'the quick brown fox jumped over the lazy dog'
   expect(nyc.capitalize(words)).toBe('The Quick Brown Fox Jumped Over The Lazy Dog')
+
   words = 'THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG'
   expect(nyc.capitalize(words)).toBe('The Quick Brown Fox Jumped Over The Lazy Dog')
 })
 
 test('nextId', () => {
+  expect.assertions(6)
+
   const prefix1 = 'foo'
   const prefix2 = 'bar'
   expect(nyc.nextId(prefix1)).toBe('foo-0')
@@ -219,6 +236,8 @@ test('nextId', () => {
 })
 
 test('html has htm method', () => {
+  expect.assertions(2)
+
   const object = {
     html() {
       return '<div>Some HTML</div>'
@@ -230,6 +249,8 @@ test('html has htm method', () => {
 })
 
 test('html has getProperties method', () => {
+  expect.assertions(6)
+
   const object = {
     getProperties() {
       return {
@@ -249,6 +270,8 @@ test('html has getProperties method', () => {
 })
 
 test('html has properties field', () => {
+  expect.assertions(6)
+
   const object = {
     properties: {
       foo: 'bar',
@@ -266,6 +289,8 @@ test('html has properties field', () => {
 })
 
 test('html plain object', () => {
+  expect.assertions(6)
+
   const object = {
     foo: 'bar',
     bar: 'foo',
@@ -281,6 +306,8 @@ test('html plain object', () => {
 })
 
 test('loading/loaded', () => {
+  expect.assertions(7)
+
   const body = $('body')
   body.addClass('loading').attr('aria-hidden', true)
   nyc.loading(body)
@@ -290,7 +317,7 @@ test('loading/loaded', () => {
   const test = async () => {
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(body.children().first().css('display'))
+        resolve()
       }, 500)
     })
   }
@@ -299,6 +326,7 @@ test('loading/loaded', () => {
 
   expect(body.hasClass('loading')).toBe(false)
   expect(body.attr('aria-hidden')).toBe('false')
-
-  return test().then(visible => expect(visible).toBe('none'))
+  expect($.mocks.fadeOut).toHaveBeenCalledTimes(1)
+  expect($.mocks.fadeOut.mock.instances[0].get(0)).toBe(body.children().get(0))
+  expect(body.children().first().css('display')).toBe('none')
 })

@@ -27,6 +27,8 @@ afterEach(() => {
 })
 
 test('constructor no target and no items', () => {
+  expect.assertions(11)
+
   const pager = new ItemPager()
 
   expect(pager instanceof Container).toBe(true)
@@ -43,9 +45,9 @@ test('constructor no target and no items', () => {
 })
 
 test('constructor no items', () => {
-  const pager = new ItemPager({
-    target: target
-  })
+  expect.assertions(13)
+
+  const pager = new ItemPager({target: target})
 
   expect(pager instanceof Container).toBe(true)
   expect(pager instanceof ItemPager).toBe(true)
@@ -63,6 +65,8 @@ test('constructor no items', () => {
 })
 
 test('constructor has zero calls show', () => {
+  expect.assertions(7)
+
   const pager = new ItemPager({
     target: target,
     items: []
@@ -78,6 +82,8 @@ test('constructor has zero calls show', () => {
 })
 
 test('constructor has items calls show', () => {
+  expect.assertions(7)
+
   const pager = new ItemPager({
     target: target,
     items: items
@@ -109,6 +115,8 @@ test('show triggers change', () => {
 })
 
 test('navigate', () => {
+  expect.assertions(5 + 2 * (items.length - 1))
+
   const pager = new ItemPager({
     target: target,
     items: items
