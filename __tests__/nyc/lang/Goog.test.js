@@ -1,5 +1,3 @@
-import $ from 'jquery'
-
 import Translate from 'nyc/lang/Translate'
 import Goog from 'nyc/lang/Goog'
 
@@ -33,6 +31,7 @@ let googleIframeButton
 const getScript = $.getScript
 const google = window.google
 beforeEach(() => {
+  $.resetMocks()
   window.google = googleMock
   target = $('<div></div>')
   $('body').append(target)
@@ -59,6 +58,8 @@ afterEach(() => {
 })
 
 test('constructor is button', () => {
+  expect.assertions(8)
+
   const translate = new Goog({
     target: target,
     languages: languages,
@@ -77,6 +78,8 @@ test('constructor is button', () => {
 })
 
 test('constructor not button', () => {
+  expect.assertions(13)
+
   const translate = new Goog({
     target: target,
     languages: languages
@@ -136,6 +139,8 @@ describe('translate', () => {
 })
 
 test('getCookie', () => {
+  expect.assertions(1)
+
   document.cookie = 'foo=bar'
   document.cookie = 'googtrans=/en/ar'
   document.cookie = 'bar=foo'
@@ -155,6 +160,8 @@ describe('hack', () => {
   })
 
   test('hack not translated', () => {
+    expect.assertions(3)
+
     inputs = $('<div><input placeholder="a placeholder"><input><input placeholder="another placeholder"></div>')
     $('body').append(inputs)
 
@@ -169,6 +176,8 @@ describe('hack', () => {
   })
 
   test('hack is translated', () => {
+    expect.assertions(3)
+
     inputs = $('<input placeholder="a placeholder"><span class="lng-placeholder"><font>a translated</font></span><input><input placeholder="another placeholder"><span class="lng-placeholder"><font>another translated</font></span>')
     $('body').append(inputs)
 
@@ -185,6 +194,8 @@ describe('hack', () => {
 })
 
 test('showOriginalText', () => {
+  expect.assertions(4)
+
   const handler = jest.fn()
 
   const translate = new Goog({

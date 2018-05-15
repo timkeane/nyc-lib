@@ -1,5 +1,3 @@
-import $ from 'jquery'
-
 import Container from 'nyc/Container'
 import Translate from 'nyc/lang/Translate'
 
@@ -37,6 +35,7 @@ const expectedHints = [undefined, 'Translate-ar', 'Translate-bn', 'Translate-cn'
 let target
 let content
 beforeEach(() => {
+  $.resetMocks()
   target = $('<div></div>')
   $('body').append(target)
   content = $('<div><h3 class="msg1">msg1-en</h3><a class="msg2" data-msg-key="msg3" data-msg-attr="href" href="msg3-en">msg2-en</a><div class="msg1">msg1-en</div></div>')
@@ -48,6 +47,8 @@ afterEach(() => {
 })
 
 test('constructor is button', () => {
+  expect.assertions(10)
+
   const translate = new Translate({
     target: target,
     languages: languages,
@@ -69,6 +70,8 @@ test('constructor is button', () => {
 })
 
 test('constructor not button', () => {
+  expect.assertions(10)
+
   const translate = new Translate({
     target: target,
     languages: languages,
@@ -89,6 +92,8 @@ test('constructor not button', () => {
 })
 
 test('constructor (is button, defaultLanguage in messages)', () => {
+  expect.assertions(2)
+
   const translate = new Translate({
 		target: target,
 		languages: languages,
@@ -113,6 +118,8 @@ test('constructor (is button, defaultLanguage not messages)', () => {
 })
 
 test('constructor (is button, defaultLanguage in messages)', () => {
+  expect.assertions(2)
+
   const translate = new Translate({
 		target: target,
 		languages: languages,
@@ -131,6 +138,8 @@ describe('defaultLanguage from system', () => {
   })
 
   test('constructor (is button, system defaultLanguage available)', () => {
+    expect.assertions(2)
+
     Translate.prototype.defaultLang = () => {return 'es'}
     const translate = new Translate({
   		target: target,
@@ -144,6 +153,8 @@ describe('defaultLanguage from system', () => {
   })
 
   test('constructor (is button, system defaultLanguage available)', () => {
+    expect.assertions(2)
+
     Translate.prototype.defaultLang = () => {return 'ru'}
     const translate = new Translate({
   		target: target,
@@ -158,6 +169,8 @@ describe('defaultLanguage from system', () => {
 })
 
 test('translate', () => {
+  expect.assertions(21)
+
   const handler = jest.fn()
 
   const translate = new Translate({
@@ -206,6 +219,8 @@ describe('selectDefault', () => {
   })
 
   test('selectDefault matches cookie', () => {
+    expect.assertions(1)
+
     Translate.prototype.getCookieValue = () => {
       return 'fr-CA'
     }
@@ -220,6 +235,8 @@ describe('selectDefault', () => {
   })
 
   test('selectDefault cookie is defaultLanguage', () => {
+    expect.assertions(1)
+
     Translate.prototype.getCookieValue = () => {
       return 'en-US'
     }
@@ -234,6 +251,8 @@ describe('selectDefault', () => {
   })
 
   test('selectDefault does not match cookie', () => {
+    expect.assertions(1)
+
     Translate.prototype.getCookieValue = () => {
       return 'zh-CN'
     }
@@ -249,6 +268,8 @@ describe('selectDefault', () => {
 })
 
 test('showHint is button', () => {
+  expect.assertions(0)
+
   const translate = new Translate({
     target: target,
     languages: languages,
@@ -260,13 +281,14 @@ test('showHint is button', () => {
 })
 
 test('showHint not button', () => {
+  expect.assertions(expectedHints.length + 1)
+  jest.setTimeout((expectedHints.length + 1) * 1000)
+
   const translate = new Translate({
     target: target,
     languages: languages,
     messages: messages
   })
-  expect.assertions(translate.hints.length + 1)
-  jest.setTimeout((translate.hints.length + 1) * 1000)
 
   const test = async () => {
     return new Promise((resolve) => {
