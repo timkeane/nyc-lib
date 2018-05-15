@@ -1,5 +1,3 @@
-import wtf from 'wtf'
-
 import $ from 'jquery'
 
 import _nyc from 'nyc/nyc'
