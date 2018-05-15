@@ -302,7 +302,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns HTML rendering of a facility feature
    * @public
    * @method
-   * @param {JQuery}
+   * @return {JQuery}
    */
   html() {
     return $('<div class="facility"></div>')
@@ -319,25 +319,25 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns the name of a facility feature
    * @public
    * @method
-   * @param {string}
+   * @return {string}
    */
   getName() {
-    throw 'An getName decoration must be provided'
+    throw 'A getName decoration must be provided'
   },
   /**
    * @desc Returns the address line 1 of a facility feature
    * @public
    * @method
-   * @param {string}
+   * @return {string}
    */
   getAddress1() {
-    throw 'An getAddress1 decoration must be provided to use default html method'
+    throw 'A getAddress1 decoration must be provided to use default html method'
   },
   /**
    * @desc Returns the address line 2 of a facility feature
    * @public
    * @method
-   * @param {string}
+   * @return {string}
    */
   getAddress2() {
     return ''
@@ -346,32 +346,39 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns the city, state zip line of a facility feature
    * @public
    * @method
-   * @param {string}
+   * @return {string}
    */
   getCityStateZip() {
-    throw 'An getCityStateZip decoration must be provided to use default html method'
+    throw 'A getCityStateZip decoration must be provided to use default html method'
   },
   /**
    * @desc Returns the phone number for a facility feature
    * @public
    * @method
-   * @param {string}
+   * @return {string}
    */
   getPhone() {},
   /**
    * @desc Returns the email for a facility feature
    * @public
    * @method
-   * @param {string}
+   * @return {string}
    */
   getEmail() {},
   /**
    * @desc Returns the website URL for a facility feature
    * @public
    * @method
-   * @param {string}
+   * @return {string}
    */
   getWebsite() {},
+  /**
+   * @desc Returns the website URL for a facility feature
+   * @public
+   * @method
+   * @param {JQuery|Element|string}
+   */
+  detailsHtml() {},
   /**
    * @desc Returns the full address of a facility feature to append to HTML
    * @public
@@ -469,16 +476,18 @@ FinderApp.FEATURE_DECORATIONS = {
   /**
    * @desc Returns an HTML button that when clicked will display the provided details
    * @method
-   * @param {string} email The email
-   * @param {JQuery}
+   * @return {JQuery}
    */
-  detailsCollapsible(details) {
-    return new Collapsible({
-      target: $('<div class="details"></div>'),
-      title: 'Details',
-      content: details,
-      collapsed: true
-    }).getContainer()
+  detailsCollapsible() {
+    const details = this.detailsHtml()
+    if (details) {
+      return new Collapsible({
+        target: $('<div class="details"></div>'),
+        title: 'Details...',
+        content: details,
+        collapsed: true
+      }).getContainer()
+    }
   }
 }
 
