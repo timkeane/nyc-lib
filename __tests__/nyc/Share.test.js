@@ -16,7 +16,7 @@ afterEach(() => {
 })
 
 test('constructor', () => {
-  expect.assertions(5)
+  expect.assertions(7)
 
   const values = JSON.parse(manifest)
   values.url = document.location
@@ -30,6 +30,9 @@ test('constructor', () => {
   const test = async () => {
     return new Promise((resolve) => {
       setTimeout(() => {
+        expect(fetch.mock.calls.length).toEqual(1)
+        expect(fetch.mock.calls[0][0]).toEqual('./manifest.webmanifest')
+
         resolve(share.getContainer().html())
       }, 500)
     })
@@ -46,7 +49,7 @@ test('constructor', () => {
 })
 
 test('show', () => {
-  expect.assertions(7)
+  expect.assertions(9)
 
   fetch.mockResponseOnce(manifest)
 
@@ -55,6 +58,9 @@ test('show', () => {
   const test = async () => {
     return new Promise((resolve) => {
       setTimeout(() => {
+        expect(fetch.mock.calls.length).toEqual(1)
+        expect(fetch.mock.calls[0][0]).toEqual('./manifest.webmanifest')
+
         expect(share.find('.btns').length).toBe(1)
         share.find('.btns').hide()
         expect(share.find('.btns').css('display')).toBe('none')
@@ -72,7 +78,7 @@ test('show', () => {
 })
 
 test('hide button click', () => {
-  expect.assertions(7)
+  expect.assertions(9)
 
   fetch.mockResponseOnce(manifest)
 
@@ -81,6 +87,9 @@ test('hide button click', () => {
   const test = async () => {
     return new Promise((resolve) => {
       setTimeout(() => {
+        expect(fetch.mock.calls.length).toEqual(1)
+        expect(fetch.mock.calls[0][0]).toEqual('./manifest.webmanifest')
+
         expect(share.find('.btns').length).toBe(1)
         share.find('.btns').show()
         expect(share.find('.btns').css('display')).toBe('block')
@@ -98,7 +107,7 @@ test('hide button click', () => {
 })
 
 test('hide other click', () => {
-  expect.assertions(10)
+  expect.assertions(12)
 
   fetch.mockResponseOnce(manifest)
 
@@ -107,6 +116,9 @@ test('hide other click', () => {
   const test = async () => {
     return new Promise((resolve) => {
       setTimeout(() => {
+        expect(fetch.mock.calls.length).toEqual(1)
+        expect(fetch.mock.calls[0][0]).toEqual('./manifest.webmanifest')
+
         expect(share.find('.btns').length).toBe(1)
         share.find('.btns').hide()
 
@@ -131,7 +143,7 @@ test('hide other click', () => {
 })
 
 test('hide already hiding', () => {
-  expect.assertions(8)
+  expect.assertions(10)
 
   fetch.mockResponseOnce(manifest)
 
@@ -140,6 +152,9 @@ test('hide already hiding', () => {
   const test = async () => {
     return new Promise((resolve) => {
       setTimeout(() => {
+        expect(fetch.mock.calls.length).toEqual(1)
+        expect(fetch.mock.calls[0][0]).toEqual('./manifest.webmanifest')
+
         expect(share.find('.btns').length).toBe(1)
         share.find('.btns').show()
 

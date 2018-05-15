@@ -19,9 +19,17 @@ const messages = [
     when: '${when} the ${clock}'
   }
 ]
+const url = 'https://maps.nyc.gov/data.csv'
 const csv = 'key,value\nspeed,the ${speed} ${animal} \nwhen,${when} the ${clock}'
-const fetchMock = require('fetch-mock')
-fetchMock.get('https://maps.nyc.gov/data.csv', csv);
+
+const warn = console.warn
+beforeEach(() => {
+  console.warn = jest.fn()
+  fetch.resetMocks()
+})
+afterEach(() => {
+  console.warn = warn
+})
 
 test('constructor', () => {
   expect.assertions(5)
@@ -58,49 +66,58 @@ test('message', () => {
 })
 
 test('loadCsv returns Promise', () => {
-  expect.assertions(1)
-  
+  expect.assertions(3)
+
+  fetch.mockResponseOnce(csv)
+
   expect(Content.loadCsv({
-    url: 'https://maps.nyc.gov/data.csv'
+    url: url
   }) instanceof Promise).toBe(true)
+
+  expect(fetch.mock.calls.length).toEqual(1)
+  expect(fetch.mock.calls[0][0]).toEqual(url)
 })
 
 test('loadCsv with provided messages', () => {
-  expect.assertions(4)
+  expect.assertions(6)
 
-  const warn = console.warn
-  console.warn = jest.fn()
+  fetch.mockResponseOnce(csv)
 
   return Content.loadCsv({
-    url: 'https://maps.nyc.gov/data.csv',
+    url: url,
     messages: [messages[0]]
   }).then(content => {
     expect(content instanceof Content).toBe(true)
 
     expect(content.messages).toEqual({
-        animal: '${color} ${animal} ',
-        action: '${action} the ${otherAnimal}',
-        when: '${when} the ${clock}',
-        speed: 'the ${speed} ${animal} '
-      })
+      animal: '${color} ${animal} ',
+      action: '${action} the ${otherAnimal}',
+      when: '${when} the ${clock}',
+      speed: 'the ${speed} ${animal} '
+    })
+
+    expect(fetch.mock.calls.length).toEqual(1)
+    expect(fetch.mock.calls[0][0]).toEqual(url)
 
     expect(console.warn).toHaveBeenCalledTimes(1)
     expect(console.warn.mock.calls[0][0]).toBe("Overwriting message with key 'when'")
-
-    console.warn = warn
   })
 })
 
 test('loadCsv with no messages', () => {
-  expect.assertions(2)
+  expect.assertions(4)
+
+  fetch.mockResponseOnce(csv)
 
   return Content.loadCsv({
-    url: 'https://maps.nyc.gov/data.csv'
+    url: url
   }).then(content => {
     expect(content instanceof Content).toBe(true)
     expect(content.messages).toEqual({
-        when: '${when} the ${clock}',
-        speed: 'the ${speed} ${animal} '
-      })
+      when: '${when} the ${clock}',
+      speed: 'the ${speed} ${animal} '
+    })
+    expect(fetch.mock.calls.length).toEqual(1)
+    expect(fetch.mock.calls[0][0]).toEqual(url)
   })
 })

@@ -6,6 +6,9 @@ import Papa from 'papaparse'
 
 import ReplaceTokens from 'nyc/ReplaceTokens'
 
+require('es6-promise').polyfill()
+require('isomorphic-fetch')
+
 /**
  * @desc A class to provide messages with substitution values
  * @public
@@ -60,7 +63,6 @@ class Content extends ReplaceTokens {
  * @return {Promise} The promise that will return the content
  */
 Content.loadCsv = (options) => {
-	const fetch = window.fetch || require('node-fetch')
 	const messages = options.messages || [{}]
 	const key = options.key || 'key'
 	const value = options.value || 'value'
