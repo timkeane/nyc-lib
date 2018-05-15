@@ -22,16 +22,11 @@
     "verbose": true,
     "collectCoverage": true,
     "coverageDirectory": "./coverage/",
-    "transformIgnorePatterns": [
-      "node_modules/(?!(ol)/)"
-    ],
-    "moduleNameMapper": {
-      "^nyc(.*)$": "<rootDir>/src/nyc/$1"
-    },
+    "collectCoverageFrom": ["src/nyc/**/*.js"],
+    "transformIgnorePatterns": ["node_modules/(?!(ol)/)"],
+    "moduleNameMapper": {"^nyc(.*)$": "<rootDir>/src/nyc/$1"},
     "automock": false,
-    "setupFiles": [
-      "./conf/jest-setup.js"
-    ]
+    "setupFiles": ["./conf/jest-setup.js"]
   },
   "repository": {
     "type": "git",
