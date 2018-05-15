@@ -23,12 +23,14 @@ html, body.fnd, .fnd #map {
 }
 .fnd .splash .dia {
   background-color: var(--theme-btn-active-bg-color);
-  width: calc(100% - 60px);
-  margin-left: calc(15px - 50%);
-  margin-top: -130px;
+  width: 400px;
+  top: 30%;
+  left: calc(50% - 208px);
+  margin: 0;
 }
 .fnd .splash .dia-msg {
   color: var(--theme-btn-sm-text-color);
+  text-align: left;
 }
 .fnd .splash .dia-msg:focus {
   outline: none;
@@ -122,5 +124,11 @@ html, body.fnd, .fnd #map {
   }
   .fnd #map.tab.active {
     display: block;
+  }
+}
+@media only screen and (max-width : 400px) {
+  .fnd .splash .dia {
+    width: 370px;
+    left: calc(50% - 194px)
   }
 }
