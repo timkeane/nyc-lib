@@ -1,4 +1,3 @@
-import x from 'x'
 import $ from 'jquery'
 
 import _nyc from 'nyc/nyc'
