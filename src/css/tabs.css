@@ -24,7 +24,7 @@
 }
 .tabs .container {
   height: calc(100% - 35px);
-  overflow: scroll;
+  overflow: auto;
 }
 .tabs .container .tab {
   display: none;

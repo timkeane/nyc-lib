@@ -35,7 +35,7 @@ class FinderApp {
      * @private
      * @member {nyc.ListPager}
      */
-    this.pager = new ListPager({target: '#facilites'})
+    this.pager = new ListPager({target: '#facilities'})
     /**
      * @public
      * @member {ol.Map}
@@ -182,7 +182,7 @@ class FinderApp {
   createTabs(options) {
     const pages = [
       {tab: '#map', title: 'Map'},
-      {tab: '#facilites', title: options.facilityTabTitle || 'Facilites'}
+      {tab: '#facilities', title: options.facilityTabTitle || 'facilities'}
     ]
     if (this.filters) {
       pages.push({tab: '#filters', title: options.filterTabTitle || 'Filters'})
@@ -200,7 +200,7 @@ class FinderApp {
     if (Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1) {
         this.tabs.open($('#map'))
     } else {
-      this.tabs.open($('#facilites'))
+      this.tabs.open($('#facilities'))
     }
   }
   /**
@@ -430,7 +430,7 @@ FinderApp.Options
 FinderApp.HTML = '<h1 id="banner"></h1>' +
 '<div id="map"></div>' +
 '<div id="tabs"></div>' +
-'<div id="facilites"></div>' +
+'<div id="facilities"></div>' +
 '<div id="filters"></div>'
 
 export default FinderApp
