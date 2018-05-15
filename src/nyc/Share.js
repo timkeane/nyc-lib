@@ -7,6 +7,9 @@ import $ from 'jquery'
 import Container from 'nyc/Container'
 import ReplaceTokens from 'nyc/ReplaceTokens'
 
+require('es6-promise').polyfill()
+require('isomorphic-fetch')
+
 /**
  * @desc Class for providing a set of buttons for social media sharing
  * @public
@@ -22,9 +25,8 @@ class Share extends Container {
 	 */
 	constructor(options) {
 		super(options.target)
-		const fetch = window.fetch || require('node-fetch')
 		const share = this
-		fetch(options.url || './manifest.webmanifest').then((respose) => {
+		fetch(options.url || './manifest.webmanifest').then(respose => {
 			return respose.json()
 		}).then(manifest => {
 			manifest.url = document.location.href
@@ -34,9 +36,11 @@ class Share extends Container {
 	}
 	hookupEvents() {
 		const btns = this.find('.btns')
-	 	this.find('.btn-shr').click(() => {
+	 	this.find('.btn-shr').click(event => {
+			event.stopPropagation()
 			btns.fadeToggle(() => {
-				$('*').one('click', (event) => {
+				$('*').one('click', event => {
+					event.stopPropagation()
 					if (btns.css('opacity') * 1 === 1) {
 						btns.fadeOut()
 					}

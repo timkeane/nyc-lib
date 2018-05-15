@@ -18,6 +18,12 @@ $.resetMocks = () => {
     if (callback) callback()
   })
 
+  $.fn.slideToggle = jest.fn().mockImplementation(callback => {
+    const instances = $.mocks.slideToggle.mock.instances
+    const hidden = instances[instances.length - 1].css('display') === 'none'
+    instances[instances.length - 1][hidden ? 'show' : 'hide']()
+    if (callback) callback()
+  })
 
   $.fn.fadeIn = jest.fn().mockImplementation(callback => {
     const instances = $.mocks.fadeIn.mock.instances
@@ -28,6 +34,13 @@ $.resetMocks = () => {
   $.fn.fadeOut = jest.fn().mockImplementation(callback => {
     const instances = $.mocks.fadeOut.mock.instances
     instances[instances.length - 1].hide()
+    if (callback) callback()
+  })
+
+  $.fn.fadeToggle = jest.fn().mockImplementation(callback => {
+    const instances = $.mocks.fadeToggle.mock.instances
+    const hidden = instances[instances.length - 1].css('display') === 'none'
+    instances[instances.length - 1][hidden ? 'show' : 'hide']()
     if (callback) callback()
   })
 
@@ -52,8 +65,10 @@ $.resetMocks = () => {
   $.mocks = {
     slideDown: $.fn.slideDown,
     slideUp: $.fn.slideUp,
+    slideToggle: $.fn.slideToggle,
     fadeIn: $.fn.fadeIn,
     fadeOut: $.fn.fadeOut,
+    fadeToggle: $.fn.fadeToggle,
     proxy: $.proxy,
     ajax: $.ajax
   }
