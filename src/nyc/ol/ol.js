@@ -10,7 +10,7 @@ import olTilegrid from 'ol/tilegrid'
   * @namespace
   */
 const ol = {}
-
+ 
 /**
  * @public
  * @deprecated
