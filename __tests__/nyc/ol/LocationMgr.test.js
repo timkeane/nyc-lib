@@ -1,5 +1,3 @@
-import $ from 'jquery'
-
 import NycLocationMgr from 'nyc/LocationMgr'
 import Basemap from 'nyc/ol/Basemap'
 import LocationMgr from 'nyc/ol/LocationMgr'
@@ -19,6 +17,8 @@ afterEach(() => {
 })
 
 test('constructor', () => {
+  expect.assertions(7)
+  
   const locationMgr = new LocationMgr({
     map: new Basemap({target: 'map'}),
     url: 'http://geoclient.url?keys=keys'

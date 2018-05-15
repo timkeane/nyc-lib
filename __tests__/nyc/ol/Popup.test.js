@@ -10,6 +10,7 @@ let map
 let tip
 let target
 beforeEach(() => {
+  $.resetMocks()
   tip = $('<div class="f-tip"></div>')
   $('body').append(tip)
   target = $('<div></div>').css({width: '500px', height: '500px'})
@@ -40,6 +41,8 @@ describe('constructor and events', () => {
   })
 
   test('constructor and events', () => {
+    expect.assertions(8)
+
     const popup = new Popup({map: map})
 
     expect(popup instanceof OlOverlay).toBe(true)
@@ -60,37 +63,36 @@ describe('constructor and events', () => {
 })
 
 test('show with html', () => {
+  expect.assertions(10)
+
   const popup = new Popup({map: map})
 
   popup.setPosition = jest.fn()
   popup.pan = jest.fn()
   popup.map.getPixelFromCoordinate = jest.fn()
 
-  const test = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(
-          popup.popup.css('display') === 'block' &&
-          $('.f-tip').css('display') === 'none'
-        )
-      }, 600)
-    })
-  }
-
   popup.show({
     html: 'popup content',
     coordinate: [1, 1]
   })
 
+  expect(popup.popup.css('display')).toBe('block')
+  expect($.mocks.fadeIn).toHaveBeenCalledTimes(1)
+  expect($.mocks.fadeIn.mock.instances[0].get(0)).toBe(popup.getElement())
+
+  expect($('.f-tip').css('display')).toBe('none')
+  expect($.mocks.fadeOut).toHaveBeenCalledTimes(1)
+  expect($.mocks.fadeOut.mock.instances[0].get(0)).toBe($('.f-tip').get(0))
+
   expect(popup.content.html()).toBe('popup content')
   expect(popup.pan).toHaveBeenCalledTimes(1)
   expect(popup.setPosition).toHaveBeenCalledTimes(1)
   expect(popup.setPosition.mock.calls[0][0]).toEqual([1, 1])
-
-  return test().then(passed => expect(passed).toBe(true))
 })
 
 test('show without html', () => {
+  expect.assertions(10)
+  
   const popup = new Popup({map: map})
 
   popup.setPosition = jest.fn()
@@ -99,47 +101,34 @@ test('show without html', () => {
 
   popup.content.html('pre-existing')
 
-  const test = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(
-          popup.popup.css('display') === 'block' &&
-          $('.f-tip').css('display') === 'none'
-        )
-      }, 600)
-    })
-  }
+  popup.show({coordinate: [1, 1]})
 
-  popup.show({
-    coordinate: [1, 1]
-  })
+  expect(popup.popup.css('display')).toBe('block')
+  expect($.mocks.fadeIn).toHaveBeenCalledTimes(1)
+  expect($.mocks.fadeIn.mock.instances[0].get(0)).toBe(popup.getElement())
+
+  expect($('.f-tip').css('display')).toBe('none')
+  expect($.mocks.fadeOut).toHaveBeenCalledTimes(1)
+  expect($.mocks.fadeOut.mock.instances[0].get(0)).toBe($('.f-tip').get(0))
 
   expect(popup.content.html()).toBe('pre-existing')
   expect(popup.pan).toHaveBeenCalledTimes(1)
   expect(popup.setPosition).toHaveBeenCalledTimes(1)
   expect(popup.setPosition.mock.calls[0][0]).toEqual([1, 1])
-
-  return test().then(passed => expect(passed).toBe(true))
 })
 
 test('hide', () => {
+  expect.assertions(3)
+  
   const popup = new Popup({map: map})
 
   popup.popup.show()
 
-  const test = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(
-          popup.popup.css('display') === 'none'
-        )
-      }, 500)
-    })
-  }
-
   popup.hide()
 
-  return test().then(passed => expect(passed).toBe(true))
+  expect(popup.popup.css('display')).toBe('none')
+  expect($.mocks.fadeOut).toHaveBeenCalledTimes(1)
+  expect($.mocks.fadeOut.mock.instances[0].get(0)).toBe(popup.getElement())
 })
 
 test('hideTip', () => {
@@ -149,21 +138,13 @@ test('hideTip', () => {
 
   const popup = new Popup({map: map})
 
-  const test = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(
-          tip.css('display') === 'none'
-        )
-      }, 500)
-    })
-  }
-
   popup.hideTip(event)
 
   expect(event.stopPropagation).toHaveBeenCalledTimes(1)
 
-  return test().then(passed => expect(passed).toBe(true))
+  expect($('.f-tip').css('display')).toBe('none')
+  expect($.mocks.fadeOut).toHaveBeenCalledTimes(1)
+  expect($.mocks.fadeOut.mock.instances[0].get(0)).toBe($('.f-tip').get(0))
 })
 
 describe('pan', () => {
@@ -177,6 +158,8 @@ describe('pan', () => {
   })
 
   test('pan fromTop < 0 and fromRight < 0', () => {
+    expect.assertions(0)
+
     const css = {
       bottom: '10px',
       left: '100px',
@@ -207,6 +190,8 @@ describe('pan', () => {
   })
 
   test('pan fromTop > 0 and fromBottom < 0 and fromRight > 0 and fromLeft < 0', () => {
+    expect.assertions(0)
+
     const css = {
       bottom: '10px',
       left: '100px',
@@ -237,6 +222,8 @@ describe('pan', () => {
   })
 
   test('pan fromTop > 0 and fromBottom = 0 and fromRight > 0 and fromLeft = 0', () => {
+    expect.assertions(0)
+
     const css = {
       bottom: '10px',
       left: '100px',

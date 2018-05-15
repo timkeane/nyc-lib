@@ -167,6 +167,8 @@ test('hidePhoto', () => {
 })
 
 test('showLabels', () => {
+  expect.assertions(6)
+
   const basemap = new Basemap({target: 'map'})
 
   expect(basemap.labels.base.getVisible()).toBe(true)
@@ -183,6 +185,8 @@ test('showLabels', () => {
 })
 
 test('getBaseLayers', () => {
+  expect.assertions(20)
+
   const basemap = new Basemap({target: 'map'})
 
   const baseLayers = basemap.getBaseLayers()
@@ -205,11 +209,15 @@ test('getBaseLayers', () => {
 })
 
 test('getStorage', () => {
+  expect.assertions(1)
+
   const basemap = new Basemap({target: 'map'})
   expect(basemap.getStorage()).toEqual({})
 })
 
 test('defaultExtent view not provided', () => {
+  expect.assertions(3)
+
   const basemap = new Basemap({target: 'map'})
 
   const fit = jest.fn()
@@ -224,6 +232,8 @@ test('defaultExtent view not provided', () => {
 })
 
 test('defaultExtent view is provided', () => {
+  expect.assertions(1)
+
   const basemap = new Basemap({target: 'map'})
 
   const fit = jest.fn()
@@ -236,6 +246,8 @@ test('defaultExtent view is provided', () => {
 })
 
 test('setupLayers as called by constructor', () => {
+  expect.assertions(102)
+
   const basemap = new Basemap({target: 'map'})
 
   expect(basemap.base instanceof OlLayerTile).toBe(true)
@@ -300,6 +312,8 @@ test('setupLayers as called by constructor', () => {
 })
 
 test('layerExtent', () => {
+  expect.assertions(2)
+
   const basemap = new Basemap({target: 'map'})
 
   const extent0 = Basemap.EXTENT
@@ -319,6 +333,8 @@ test('layerExtent', () => {
 })
 
 test('photoChange triggered by visible change', () => {
+  expect.assertions(58)
+
   const basemap = new Basemap({target: 'map'})
 
   expect(Object.entries(basemap.photos).length).toBe(11)
@@ -340,6 +356,8 @@ test('photoChange triggered by visible change', () => {
 })
 
 test('setupView no view in options', () => {
+  expect.assertions(5)
+  
   const options = {}
 
   Basemap.setupView(options)
@@ -352,6 +370,8 @@ test('setupView no view in options', () => {
 })
 
 test('setupView has view in options', () => {
+  expect.assertions(1)
+  
   const view = new OlView({})
   const options = {view: view}
 

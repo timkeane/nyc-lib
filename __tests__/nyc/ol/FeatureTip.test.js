@@ -1,5 +1,3 @@
-import $ from 'jquery'
-
 import OlMap from 'ol/map'
 import OlView from 'ol/view'
 import OlFeature from 'ol/feature'
@@ -17,6 +15,7 @@ let layer1
 let layer2
 let target
 beforeEach(() => {
+  $.resetMocks()
   target = $('<div></div>').css({width: '200px', height: '200px'})
   $('body').append(target)
   map = new OlMap({
@@ -98,6 +97,8 @@ afterEach(() => {
 })
 
 test('constructor', () => {
+  expect.assertions(10)
+
   const tip = new FeatureTip({map: map, tips: tips})
 
   expect(tip instanceof OlOverlay).toBe(true)
@@ -113,25 +114,22 @@ test('constructor', () => {
 })
 
 test('hide', () => {
+  expect.assertions(4)
+
   const tip = new FeatureTip({map: map, tips: tips})
 
   tip.tip.show()
   expect(tip.tip.css('display')).toBe('block')
 
-  const test = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(tip.tip.css('display'))
-      }, 500)
-    })
-  }
-
   tip.hide()
-
-  return test().then(visible => expect(visible).toBe('none'))
+  expect(tip.tip.css('display')).toBe('none')
+  expect($.mocks.fadeOut).toHaveBeenCalledTimes(1)
+  expect($.mocks.fadeOut.mock.instances[0].get(0)).toBe(tip.tip.get(0))
 })
 
 test('label with css', () => {
+  expect.assertions(4)
+
   const event = {
     type: 'pointermove',
     pixel: 'mockPixelFor-0,0',
@@ -154,6 +152,8 @@ test('label with css', () => {
 })
 
 test('label no css', () => {
+  expect.assertions(3)
+
   const event = {
     type: 'pointermove',
     pixel: 'mockPixelFor-1,0',
@@ -175,6 +175,8 @@ test('label no css', () => {
 })
 
 test('label no label', () => {
+  expect.assertions(3)
+
   const event = {
     type: 'pointermove',
     pixel: 'mockPixelFor-0,3',
@@ -193,17 +195,9 @@ test('label no label', () => {
   expect(tip.position).toHaveBeenCalledTimes(0)
 })
 
-
-
-
-
-
-
-
-
-
-
 test('position bottom-right', () => {
+  expect.assertions(1)
+
   const tip = new FeatureTip({map: map, tips: tips})
 
   tip.tip.css({width: '100px', height: '20px'}).show()
@@ -220,6 +214,8 @@ test('position bottom-right', () => {
 })
 
 test('position bottom-right', () => {
+  expect.assertions(1)
+  
   const tip = new FeatureTip({map: map, tips: tips})
 
   tip.tip.css({width: '100px', height: '20px'}).show()
@@ -236,6 +232,8 @@ test('position bottom-right', () => {
 })
 
 test('position bottom-right', () => {
+  expect.assertions(1)
+  
   const tip = new FeatureTip({map: map, tips: tips})
 
   tip.tip.css({width: '100px', height: '20px'}).show()
@@ -252,6 +250,8 @@ test('position bottom-right', () => {
 })
 
 test('position bottom-right', () => {
+  expect.assertions(1)
+  
   const tip = new FeatureTip({map: map, tips: tips})
 
   tip.tip.css({width: '100px', height: '20px'}).show()

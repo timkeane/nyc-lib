@@ -1,5 +1,3 @@
-import $ from 'jquery'
-
 import OlMap from 'ol/map'
 import OlView from 'ol/view'
 import OlFeature from 'ol/feature'
@@ -74,6 +72,8 @@ describe('constructor', () => {
 })
 
 test('showFeature has coordinate', () => {
+  expect.assertions(3)
+  
   const feature = new OlFeature({
     geometry: new OlGeomPoint([0, 0])
   })
@@ -95,6 +95,8 @@ test('showFeature has coordinate', () => {
 })
 
 test('showFeature no coordinate', () => {
+  expect.assertions(3)
+
   const feature = new OlFeature({
     geometry: new OlGeomPoint([0, 0])
   })
@@ -116,6 +118,8 @@ test('showFeature no coordinate', () => {
 })
 
 test('mapClick', () => {
+  expect.assertions(3)
+
   const feature = {}
 
   map.forEachFeatureAtPixel = (pixel, callback) => {

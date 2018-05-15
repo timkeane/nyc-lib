@@ -1,5 +1,3 @@
-import $ from 'jquery'
-
 import OlMap from 'ol/map'
 import OlView from 'ol/view'
 import OlFeature from 'ol/feature'
@@ -48,6 +46,8 @@ afterEach(() => {
 })
 
 test('constructor', () => {
+  expect.assertions(8)
+
   const popup = new MultiFeaturePopup({
     map: map,
     layers: mockLayers
@@ -67,6 +67,8 @@ test('constructor', () => {
 })
 
 test('showFeatures no coordinate', () => {
+  expect.assertions(4)
+
   const features = [
     new OlFeature({geometry: new OlGeomPoint([0, 0])}),
     new OlFeature({geometry: new OlGeomPoint([0, 1])}),
@@ -89,6 +91,8 @@ test('showFeatures no coordinate', () => {
 })
 
 test('showFeatures has coordinate', () => {
+  expect.assertions(4)
+
   const features = [
     new OlFeature({geometry: new OlGeomPoint([0, 0])}),
     new OlFeature({geometry: new OlGeomPoint([0, 1])}),
@@ -111,6 +115,8 @@ test('showFeatures has coordinate', () => {
 })
 
 test('mapClick has features', () => {
+  expect.assertions(3)
+
   const features = ['f0', 'f1', 'f2']
 
   map.forEachFeatureAtPixel = (pixel, callback) => {
@@ -135,6 +141,8 @@ test('mapClick has features', () => {
 })
 
 test('mapClick no features', () => {
+  expect.assertions(1)
+
   map.forEachFeatureAtPixel = (pixel, callback) => {
     return null
   }

@@ -1,5 +1,3 @@
-import $ from 'jquery'
-
 import OlPolygon from 'ol/geom/polygon'
 import olExtent from 'ol/extent'
 import OlGeoJSON from 'ol/format/geojson'
@@ -45,6 +43,8 @@ afterEach(() => {
 })
 
 test('constructor', () => {
+  expect.assertions(8)
+  
   const tip = $('<div class="feature-tip"></div>')
   $('body').append(tip)
   tip.show()
@@ -68,6 +68,8 @@ test('constructor', () => {
 })
 
 test('featureAsLocation', () => {
+  expect.assertions(1)
+
   const options = {
     nameField: 'NAME'
   }
@@ -93,6 +95,8 @@ test('featureAsLocation', () => {
 })
 
 test('zoom', () => {
+  expect.assertions(5)
+
   const mockView = mockMap.getView()
   mockView.animate = jest.fn()
 

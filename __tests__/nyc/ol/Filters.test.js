@@ -1,5 +1,3 @@
-import $ from 'jquery'
-
 import Filters from 'nyc/ol/Filters'
 import Container from 'nyc/Container'
 
@@ -36,6 +34,8 @@ afterEach(() => {
 })
 
 test('constructor', () => {
+  expect.assertions(16)
+
   const filters = new Filters({
     target: target,
     source: {},

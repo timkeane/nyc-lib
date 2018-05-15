@@ -1,5 +1,3 @@
-import $ from 'jquery'
-
 import OlView from 'ol/view'
 import OlMap from 'ol/map'
 import OlFormatGeoJson from 'ol/format/geojson'
@@ -27,6 +25,8 @@ afterEach(() => {
 })
 
 test('constructor default zoom and style', () => {
+  expect.assertions(11)
+
   const mapLocator = new MapLocator({map: map})
 
   expect(mapLocator instanceof NycMapLocator).toBe(true)
@@ -46,6 +46,8 @@ test('constructor default zoom and style', () => {
 })
 
 test('constructor provided zoom and style', () => {
+  expect.assertions(12)
+
   const style = new OlStyleStyle({})
 
   const mapLocator = new MapLocator({
@@ -72,6 +74,8 @@ test('constructor provided zoom and style', () => {
 })
 
 test('setLocation', () => {
+  expect.assertions(4)
+
   const feature = new OlFeature({id: '1'})
   const data = {
     name: 'a name',
@@ -91,6 +95,8 @@ test('setLocation', () => {
 })
 
 test('zoomLocation point geom', () => {
+  expect.assertions(5)
+
   const callback = jest.fn()
   const data = {
     name: 'a name',
@@ -114,6 +120,8 @@ test('zoomLocation point geom', () => {
 })
 
 test('zoomLocation not point geom', () => {
+  expect.assertions(6)
+
   const callback = jest.fn()
   const data = {
     name: 'a name',
