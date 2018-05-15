@@ -1,5 +1,3 @@
-import $ from 'jquery'
-
 import proj4 from 'proj4'
 
 import nyc from 'nyc/nyc'
@@ -22,94 +20,90 @@ afterEach(() => {
   target.remove()
 })
 
-test('constructor no view in options', () => {
-  let basemap
-  const options = {target: 'map'}
-
+describe('constructor tests', () => {
+  const mixin = nyc.mixin
   const setupView = Basemap.setupView
   const setupLayers = Basemap.prototype.setupLayers
   const defaultExtent = Basemap.prototype.defaultExtent
-  const mixin = nyc.mixin
-
-  Basemap.setupView = jest.fn()
-  Basemap.prototype.setupLayers = jest.fn()
-  Basemap.prototype.defaultExtent = jest.fn()
-  const hookupEvents = jest.fn(targetNode => {
-    expect(targetNode).toBe(target.get(0))
+  beforeEach(() => {
+    Basemap.setupView = jest.fn()
+    Basemap.prototype.setupLayers = jest.fn()
+    Basemap.prototype.defaultExtent = jest.fn()
   })
-  nyc.mixin = jest.fn(obj => {
-    obj.hookupEvents = hookupEvents
-  })
-
-  basemap = new Basemap(options, 5)
-
-  expect(basemap instanceof OlMap).toBe(true)
-  expect(basemap instanceof Basemap).toBe(true)
-
-  expect(Basemap.setupView).toHaveBeenCalledTimes(1)
-  expect(Basemap.setupView.mock.calls[0][0]).toEqual(options)
-
-  expect(Basemap.prototype.setupLayers).toHaveBeenCalledTimes(1)
-  expect(Basemap.prototype.setupLayers.mock.calls[0][0]).toEqual(options)
-  expect(Basemap.prototype.setupLayers.mock.calls[0][1]).toBe(5)
-
-  expect(Basemap.prototype.defaultExtent).toHaveBeenCalledTimes(1)
-  expect(Basemap.prototype.defaultExtent.mock.calls[0][0]).toBe(false)
-
-  expect(hookupEvents).toHaveBeenCalledTimes(1)
-  expect(hookupEvents.mock.calls[0][0]).toBe(target.get(0))
-
-  Basemap.setupView = setupView
-  Basemap.prototype.setupLayers = setupLayers
-  Basemap.prototype.defaultExtent = defaultExtent
-  nyc.mixin = mixin
-})
-
-test('constructor has view in options', () => {
-  let basemap
-  const view = new OlView({})
-  const options = {target: 'map', view: view}
-
-  const setupView = Basemap.setupView
-  const setupLayers = Basemap.prototype.setupLayers
-  const defaultExtent = Basemap.prototype.defaultExtent
-  const mixin = nyc.mixin
-
-  Basemap.setupView = jest.fn()
-  Basemap.prototype.setupLayers = jest.fn()
-  Basemap.prototype.defaultExtent = jest.fn()
-  const hookupEvents = jest.fn(targetNode => {
-    expect(targetNode).toBe(target.get(0))
-  })
-  nyc.mixin = jest.fn(obj => {
-    obj.hookupEvents = hookupEvents
+  afterEach(() => {
+    Basemap.setupView = setupView
+    Basemap.prototype.setupLayers = setupLayers
+    Basemap.prototype.defaultExtent = defaultExtent
+    nyc.mixin = mixin
   })
 
-  basemap = new Basemap(options, 5)
+  test('constructor no view in options', () => {
+    expect.assertions(12)
 
-  expect(basemap instanceof OlMap).toBe(true)
-  expect(basemap instanceof Basemap).toBe(true)
+    const options = {target: 'map'}
 
-  expect(Basemap.setupView).toHaveBeenCalledTimes(1)
-  expect(Basemap.setupView.mock.calls[0][0]).toEqual(options)
+    const hookupEvents = jest.fn(targetNode => {
+      expect(targetNode).toBe(target.get(0))
+    })
+    nyc.mixin = jest.fn(obj => {
+      obj.hookupEvents = hookupEvents
+    })
 
-  expect(Basemap.prototype.setupLayers).toHaveBeenCalledTimes(1)
-  expect(Basemap.prototype.setupLayers.mock.calls[0][0]).toEqual(options)
-  expect(Basemap.prototype.setupLayers.mock.calls[0][1]).toBe(5)
+    const basemap = new Basemap(options, 5)
 
-  expect(Basemap.prototype.defaultExtent).toHaveBeenCalledTimes(1)
-  expect(Basemap.prototype.defaultExtent.mock.calls[0][0]).toBe(true)
+    expect(basemap instanceof OlMap).toBe(true)
+    expect(basemap instanceof Basemap).toBe(true)
 
-  expect(hookupEvents).toHaveBeenCalledTimes(1)
-  expect(hookupEvents.mock.calls[0][0]).toBe(target.get(0))
+    expect(Basemap.setupView).toHaveBeenCalledTimes(1)
+    expect(Basemap.setupView.mock.calls[0][0]).toEqual(options)
 
-  Basemap.setupView = setupView
-  Basemap.prototype.setupLayers = setupLayers
-  Basemap.prototype.defaultExtent = defaultExtent
-  nyc.mixin = mixin
+    expect(Basemap.prototype.setupLayers).toHaveBeenCalledTimes(1)
+    expect(Basemap.prototype.setupLayers.mock.calls[0][0]).toEqual(options)
+    expect(Basemap.prototype.setupLayers.mock.calls[0][1]).toBe(5)
+
+    expect(Basemap.prototype.defaultExtent).toHaveBeenCalledTimes(1)
+    expect(Basemap.prototype.defaultExtent.mock.calls[0][0]).toBe(false)
+
+    expect(hookupEvents).toHaveBeenCalledTimes(1)
+    expect(hookupEvents.mock.calls[0][0]).toBe(target.get(0))
+  })
+
+  test('constructor has view in options', () => {
+    expect.assertions(12)
+
+    const view = new OlView({})
+    const options = {target: 'map', view: view}
+
+    const hookupEvents = jest.fn(targetNode => {
+      expect(targetNode).toBe(target.get(0))
+    })
+    nyc.mixin = jest.fn(obj => {
+      obj.hookupEvents = hookupEvents
+    })
+
+    const basemap = new Basemap(options, 5)
+
+    expect(basemap instanceof OlMap).toBe(true)
+    expect(basemap instanceof Basemap).toBe(true)
+
+    expect(Basemap.setupView).toHaveBeenCalledTimes(1)
+    expect(Basemap.setupView.mock.calls[0][0]).toEqual(options)
+
+    expect(Basemap.prototype.setupLayers).toHaveBeenCalledTimes(1)
+    expect(Basemap.prototype.setupLayers.mock.calls[0][0]).toEqual(options)
+    expect(Basemap.prototype.setupLayers.mock.calls[0][1]).toBe(5)
+
+    expect(Basemap.prototype.defaultExtent).toHaveBeenCalledTimes(1)
+    expect(Basemap.prototype.defaultExtent.mock.calls[0][0]).toBe(true)
+
+    expect(hookupEvents).toHaveBeenCalledTimes(1)
+    expect(hookupEvents.mock.calls[0][0]).toBe(target.get(0))
+  })
 })
 
 test('showPhoto no year', () => {
+  expect.assertions(27)
+
   const basemap = new Basemap({target: 'map'})
 
   expect(Object.entries(basemap.photos).length).toBe(11)
@@ -129,6 +123,8 @@ test('showPhoto no year', () => {
 })
 
 test('showPhoto 1996', () => {
+  expect.assertions(27)
+
   const basemap = new Basemap({target: 'map'})
 
   expect(Object.entries(basemap.photos).length).toBe(11)
@@ -148,6 +144,8 @@ test('showPhoto 1996', () => {
 })
 
 test('hidePhoto', () => {
+  expect.assertions(27)
+
   const basemap = new Basemap({target: 'map'})
 
   basemap.showPhoto(1996)

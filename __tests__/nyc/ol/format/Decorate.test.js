@@ -46,6 +46,8 @@ const featureDecorations = [
 ]
 
 test('readFeatures extendFeature', () => {
+  expect.assertions(22)
+
   const decorating = new Decorate({
     parentFormat: parentFormat,
     decorations: extendFeatureDecorations
@@ -83,6 +85,8 @@ test('readFeatures extendFeature', () => {
 })
 
 test('readFeatures no extendFeature', () => {
+  expect.assertions(25)
+
   const decorating = new Decorate({
     parentFormat: parentFormat,
     decorations: featureDecorations
@@ -124,6 +128,8 @@ test('readFeatures no extendFeature', () => {
 })
 
 test('readFeature', () => {
+  expect.assertions(1)
+
   const decorating = new Decorate({
     parentFormat: parentFormat,
     decorations: featureDecorations
@@ -134,6 +140,8 @@ test('readFeature', () => {
 })
 
 test('decorate', () => {
+  expect.assertions(6)
+
   const feature = new OlFeature({
     geometry: new OlGeomPoint([0, 0]),
     first: 'foo',
@@ -159,6 +167,8 @@ test('decorate', () => {
 })
 
 test('getType', () => {
+  expect.assertions(1)
+
   const decorating = new Decorate({
     parentFormat: parentFormat,
     decorations: featureDecorations

@@ -20,6 +20,8 @@ const sourceNoId = [
 ]
 
 test('readFeatures has id and projections', () => {
+  expect.assertions(16)
+
   const csvpoint = new CsvPoint({
     x: 'x',
     y: 'y',
@@ -53,6 +55,8 @@ test('readFeatures has id and projections', () => {
 })
 
 test('readFeatures from ArrayBuffer no id or default projections', () => {
+  expect.assertions(16)
+
   const csvpoint = new CsvPoint({
     x: 'x',
     y: 'y'
@@ -83,6 +87,8 @@ test('readFeatures from ArrayBuffer no id or default projections', () => {
 })
 
 test('readFeatures no id or default projections', () => {
+  expect.assertions(16)
+
   const csvpoint = new CsvPoint({
     x: 'x',
     y: 'y'
@@ -113,6 +119,8 @@ test('readFeatures no id or default projections', () => {
 })
 
 test('getType', () => {
+  expect.assertions(1)
+
   expect(new CsvPoint({x: 'x', y: 'y'}).getType()).toBe(OlFormatFormatType.ARRAY_BUFFER)
 })
 
@@ -125,6 +133,8 @@ describe('hookupEvents called from constructor', () => {
     console.error = error
   })
   test('readFeatures has bad data', () => {
+    expect.assertions(3)
+
     const source = [{x: '123', y: 'abc'}]
 
     const csvpoint = new CsvPoint({
