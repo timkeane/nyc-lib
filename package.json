@@ -16,7 +16,9 @@
     "jsdoc": "jsdoc -c ./jsdoc/conf.json",
     "copy-examples": "cp -r ./examples ./dist/examples && cp -r ./src/css ./dist/css",
     "replace-hosts": "bash -c 'if [ -f replace-hosts.sh ]; then ./replace-hosts.sh; fi'",
-    "test": "jest"
+    "test": "jest",
+    "precommit": "yarn test",
+    "prepush": "yarn build"
   },
   "jest": {
     "verbose": true,
@@ -68,6 +70,7 @@
     "es6-promise": "^4.2.4",
     "eslint": "^4.19.1",
     "eslint-loader": "^2.0.0",
+    "husky": "^0.14.3",
     "ink-docstrap": "^1.3.2",
     "isomorphic-fetch": "^2.2.1",
     "jest": "^22.4.3",
