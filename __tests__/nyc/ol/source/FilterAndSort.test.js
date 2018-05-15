@@ -1,30 +1,29 @@
 import OlFormatGeoJson from 'ol/format/geojson'
-
 import OlFeature from 'ol/feature'
 import OlGeomPoint from 'ol/geom/point'
 import OlGeomLineString from 'ol/geom/linestring'
 import OlProjProjection from 'ol/proj/projection'
 
 import nyc from 'nyc/nyc'
-
-const json = '{"type":"FeatureCollection","features":[{"type":"Feature","id":"1","geometry":{"type":"Point","coordinates":[-8225901.570409151,4992156.62272557]},"properties":{"zip":"10458","hours":"Mon, Tue, Wed, Thu, Fri, Sat: 9:00am - 9:00pm<br>Sun: 12:00pm - 6:00pm","address2":"(at Kingsbridge and Briggs)","city":"Bronx","address1":"310 East Kingsbridge Road","name":"Bronx - Bronx Library Center","type":"permanent"}}]}'
-const fetchMock = require('fetch-mock')
-fetchMock.get('https://maps.nyc.gov/data.json', json);
-
-const AutoLoad = require('nyc/ol/source/AutoLoad').default
+import AutoLoad from 'nyc/ol/source/AutoLoad'
 
 const FilterAndSort = require('nyc/ol/source/FilterAndSort').default
 
 test('constructor', () => {
+  expect.assertions(2)
+
   const filterAndSort = new FilterAndSort({
     url: 'https://maps.nyc.gov/data.json',
     format: new OlFormatGeoJson()
   })
+
   expect(filterAndSort instanceof AutoLoad).toBe(true)
   expect(filterAndSort instanceof FilterAndSort).toBe(true)
 })
 
 test('sort', () => {
+  expect.assertions(11)
+
   const f0 = new OlFeature({id: 'f0', geometry: new OlGeomPoint([0, 0])})
   const f1 = new OlFeature({id: 'f1', geometry: new OlGeomPoint([0, 1])})
   const f2 = new OlFeature({id: 'f2', geometry: new OlGeomPoint([0, 2])})
@@ -52,6 +51,8 @@ test('sort', () => {
 })
 
 test('filter', () => {
+  expect.assertions(4)
+
   const f0 = new OlFeature({id: 'f0', type: 'foo', geometry: new OlGeomPoint([0, 0])})
   const f1 = new OlFeature({id: 'f1', type: 'bar', geometry: new OlGeomPoint([0, 1])})
   const f2 = new OlFeature({id: 'f2', type: 'bar', geometry: new OlGeomPoint([0, 2])})
@@ -82,6 +83,8 @@ test('filter', () => {
 })
 
 test('sort with distance in data projection', () => {
+  expect.assertions(16)
+
   const f0 = new OlFeature({id: 'f0', geometry: new OlGeomPoint([0, 0])})
   const f1 = new OlFeature({id: 'f1', geometry: new OlGeomPoint([100, 0])})
   const f2 = new OlFeature({id: 'f2', geometry: new OlGeomPoint([200, 0])})
@@ -118,6 +121,8 @@ test('sort with distance in data projection', () => {
 })
 
 test('sort with distance in data projection from parentFormat', () => {
+  expect.assertions(16)
+
   const f0 = new OlFeature({id: 'f0', geometry: new OlGeomPoint([0, 0])})
   const f1 = new OlFeature({id: 'f1', geometry: new OlGeomPoint([100, 0])})
   const f2 = new OlFeature({id: 'f2', geometry: new OlGeomPoint([200, 0])})
@@ -156,7 +161,6 @@ test('sort with distance in data projection from parentFormat', () => {
 })
 
 test('storeFeatures', () => {
-  const filterAndSort = new FilterAndSort({})
-  filterAndSort.set('autoload-complete', true)
-
+  expect.assertions(0)
+  new FilterAndSort({}).set('autoload-complete', true)
 })
