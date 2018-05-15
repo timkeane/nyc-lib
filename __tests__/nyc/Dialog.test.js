@@ -1,8 +1,6 @@
 import Container from 'nyc/Container'
 import Dialog from 'nyc/Dialog'
 
-import $ from '../../mocks/jquery.mock'
-
 beforeEach(() => {
   $.resetMocks()
 })

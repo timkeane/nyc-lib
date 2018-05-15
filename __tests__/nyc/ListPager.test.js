@@ -1,8 +1,6 @@
 import Container from 'nyc/Container'
 import ListPager from 'nyc/ListPager'
 
-import $ from '../../mocks/jquery.mock'
-
 const items = [
   {html() {return 'item 0'}},
   {html() {return 'item 1'}},

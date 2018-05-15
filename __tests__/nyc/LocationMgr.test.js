@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import LocationMgr from 'nyc/LocationMgr'
 import EventHandling from 'nyc/EventHandling'
 import ZoomSearch from 'nyc/ZoomSearch'

@@ -1,8 +1,6 @@
 import Container from 'nyc/Container'
 import Collapsible from 'nyc/Collapsible'
 
-import $ from '../../mocks/jquery.mock'
-
 let target
 let content
 beforeEach(() => {

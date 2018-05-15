@@ -1,5 +1,3 @@
-import $ from 'jquery'
-
 import Container from 'nyc/Container'
 import ItemPager from 'nyc/ItemPager'
 

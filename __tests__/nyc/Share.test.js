@@ -2,8 +2,6 @@ import Container from 'nyc/Container'
 import ReplaceTokens from 'nyc/ReplaceTokens'
 import Share from 'nyc/Share'
 
-import $ from '../../mocks/jquery.mock'
-
 const manifest = '{"name": "App Name", "description": "App Description"}'
 
 let target

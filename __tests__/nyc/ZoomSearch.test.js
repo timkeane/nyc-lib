@@ -1,5 +1,3 @@
-import $ from 'jquery'
-
 import ZoomSearch from 'nyc/ZoomSearch';
 import Container from 'nyc/Container';
 import AutoComplete from 'nyc/AutoComplete';

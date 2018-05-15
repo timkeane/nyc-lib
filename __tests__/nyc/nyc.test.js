@@ -1,7 +1,5 @@
 import nyc from 'nyc/nyc'
 
-import $ from '../../mocks/jquery.mock'
-
 beforeEach(() => {
   $.resetMocks()
 })
