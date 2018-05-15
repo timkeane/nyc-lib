@@ -305,7 +305,15 @@ FinderApp.FEATURE_DECORATIONS = {
    * @param {JQuery}
    */
   html() {
-    throw 'An html decoration must be provided'
+    return $('<div class="facility"></div>')
+      .append(this.distanceHtml())
+      .append(this.nameHtml())
+      .append(this.addressHtml())
+      .append(this.phoneButton())
+      .append(this.emailButton())
+      .append(this.websiteButton())
+      .append(this.mapButton())
+      .append(this.directionsButton())
   },
   /**
    * @desc Returns the name of a facility feature
@@ -316,6 +324,68 @@ FinderApp.FEATURE_DECORATIONS = {
   getName() {
     throw 'An getName decoration must be provided'
   },
+  /**
+   * @desc Returns the address line 1 of a facility feature
+   * @public
+   * @method
+   * @param {string}
+   */
+  getAddress1() {
+    throw 'An getAddress1 decoration must be provided to use default html method'
+  },
+  /**
+   * @desc Returns the address line 2 of a facility feature
+   * @public
+   * @method
+   * @param {string}
+   */
+  getAddress2() {
+    return ''
+  },
+  /**
+   * @desc Returns the city, state zip line of a facility feature
+   * @public
+   * @method
+   * @param {string}
+   */
+  getCityStateZip() {
+    throw 'An getCityStateZip decoration must be provided to use default html method'
+  },
+  /**
+   * @desc Returns the phone number for a facility feature
+   * @public
+   * @method
+   * @param {string}
+   */
+  getPhone() {},
+  /**
+   * @desc Returns the email for a facility feature
+   * @public
+   * @method
+   * @param {string}
+   */
+  getEmail() {},
+  /**
+   * @desc Returns the website URL for a facility feature
+   * @public
+   * @method
+   * @param {string}
+   */
+  getWebsite() {},
+  /**
+   * @desc Returns the full address of a facility feature to append to HTML
+   * @public
+   * @method
+   * @return {JQuery}
+   */
+  addressHtml() {
+    const html = $('<div calss="addr"></div>')
+    .append(`<div calss="ln1">${this.getAddress1()}</div>`)
+    if (this.getAddress2 && this.getAddress2()) {
+      html.append(`<div calss="ln2">${this.getAddress2()}</div>`)
+    }
+    return html.append(`<div calss="ln3">${this.getCityStateZip()}</div>`)
+  },
   nameHtml() {
     return $('<div class="name notranslate"></div>').html(this.getName())
   },
@@ -323,7 +393,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns an HTML button that when clicked will zoom to the facility
    * @public
    * @method
-   * @param {JQuery}
+   * @return {JQuery}
    */
   mapButton() {
     return $('<a class="btn rad-all map" role="button">Map</a>')
@@ -334,7 +404,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns an HTML button that when clicked will provide directions to the facility
    * @public
    * @method
-   * @param {JQuery}
+   * @return {JQuery}
    */
   directionsButton() {
     return $('<a class="btn rad-all dir" role="button">Directions</a>')
@@ -345,40 +415,46 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns an HTML button that when clicked will call the provided phone number
    * @public
    * @method
-   * @param {string} phoneNumber The phone number
-   * @param {JQuery}
+   * @return {JQuery}
    */
-  phoneButton(phoneNumber) {
-    return $(`<a class="btn rad-all phone">${phoneNumber}</a>`)
-      .attr('href', `tel:${phoneNumber}`)
+  phoneButton() {
+    const phone = this.getPhone()
+    if (phone) {
+      return $(`<a class="btn rad-all phone">${phone}</a>`)
+        .attr('href', `tel:${phone}`)
+    }
   },
   /**
    * @desc Returns an HTML button that when clicked will open the facility web site
    * @public
    * @method
-   * @param {string} name The text to display on the button
-   * @param {string} url The web site URL
+   * @return {JQuery}
    */
-  websiteButton(name, url) {
-    return $(`<a class="btn rad-all web" target="blank" role="button">${name}</a>`)
+  websiteButton() {
+    const url = this.getWebsite()
+    if (url) {
+    return $(`<a class="btn rad-all web" target="blank" role="button">Website</a>`)
       .attr('href', url)
+    }
   },
   /**
    * @desc Returns an HTML button that when clicked will open email editor for the provided email
    * @public
    * @method
-   * @param {string} email The email
-   * @param {JQuery}
+   * @return {JQuery}
    */
-  emailButton(email) {
-    return $(`<a class="btn rad-all email">${email}</a>`)
-      .attr('href', `mailto:${email}`)
+  emailButton() {
+    const email = this.getEmail()
+    if (email) {
+      return $(`<a class="btn rad-all email">Email</a>`)
+        .attr('href', `mailto:${email}`)
+    }
   },
   /**
    * @desc Returns HTML rendering of the distance from the user location to the facility
    * @public
    * @method
-   * @param {JQuery}
+   * @return {JQuery}
    */
   distanceHtml() {
     if (this.getDistance) {
