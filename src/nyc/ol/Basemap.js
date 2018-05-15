@@ -44,7 +44,7 @@ class Basemap extends OlMap {
   	 * @private
   	 * @member {OlLayerTile}
   	 */
-  	this.base
+  	this.base = null
     /**
   	 * @private
   	 * @member {Object<string, OlLayerTile>}

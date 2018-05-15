@@ -86,3 +86,8 @@ import _nyc_ol_source_FilterAndSort from 'nyc/ol/source/FilterAndSort'
 window.nyc.ol.source = {}
 window.nyc.ol.source.AutoLoad = _nyc_ol_source_AutoLoad
 window.nyc.ol.source.FilterAndSort = _nyc_ol_source_FilterAndSort
+
+import _nyc_leaf_Basemap from 'nyc/leaf/Basemap'
+
+window.nyc.leaf = {}
+window.nyc.leaf.Basemap = _nyc_leaf_Basemap
