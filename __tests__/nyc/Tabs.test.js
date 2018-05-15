@@ -28,6 +28,8 @@ afterEach(() => {
 })
 
 test('contructor default active', () => {
+  expect.assertions(25)
+
   const tabs = new Tabs(options)
 
   expect(tabs instanceof Container).toBe(true)
@@ -65,6 +67,8 @@ test('contructor default active', () => {
 })
 
 test('contructor provide active', () => {
+  expect.assertions(9)
+
   options.tabs[1].active = true
 
   const tabs = new Tabs(options)
@@ -83,6 +87,8 @@ test('contructor provide active', () => {
 })
 
 test('open', () => {
+  expect.assertions(9)
+
   const tabs = new Tabs(options)
 
   tabs.open(tab2)
@@ -101,6 +107,8 @@ test('open', () => {
 })
 
 test('btnClick', () => {
+  expect.assertions(2)
+
   const tabs = new Tabs(options)
 
   expect(tabs.active.get(0)).toBe(tab0.get(0))
