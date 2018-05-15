@@ -20,11 +20,12 @@ import L from 'leaflet'
  * @see http://leafletjs.com/
  */
 
-class Basemap {
+ class Basemap {
 
   constructor(options) {
     const map = L.map(options.target)
 		nyc.mixin(map, [BasemapHelper])
+
     /**
   	 * @private
   	 * @member {number}
@@ -98,14 +99,29 @@ class Basemap {
 				bounds: Basemap.PHOTO_EXTENT,
 				zIndex: 1
 			})
-			if ((year.split('-')[0] * 1) > this.latestPhoto) {
+			if ((year.split('-')[0] * 1) > map.latestPhoto) {
+				console.warn(year)
 				map.latestPhoto = year
 			}
 			photo.name = year;
 			map.photos[year] = photo;
 			map.photos[year] = photo
     })
-  }
+	}
+	/**
+	 * @desc Show photo layer
+	 * @public
+	 * @override
+	 * @method
+	 * @param layer {number} The photo year to show
+	 */
+	showPhoto(year) {
+		year = year || this.latestPhoto;
+		// this.hidePhoto();
+		this.addLayer(this.photos[year + '']);
+		this.showLabels('photo');
+	}
+	
 }
 
 /**
@@ -182,5 +198,7 @@ Basemap.LABEL_EXTENT = L.latLngBounds([40.0341, -74.2727], [41.2919, -71.9101])
  * @type {L.LatLngBounds}
  */
 Basemap.PHOTO_EXTENT = L.latLngBounds([40.4888, -74.2759], [40.9279, -73.6896])
+
+nyc.inherits(L.Map, Basemap)
 
 export default Basemap

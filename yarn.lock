@@ -2900,10 +2900,6 @@ gh-got@^6.0.0:
     got "^7.0.0"
     is-plain-obj "^1.1.0"
 
-git-hooks@^1.1.10:
-  version "1.1.10"
-  resolved "https://registry.yarnpkg.com/git-hooks/-/git-hooks-1.1.10.tgz#c3113a8506593ac703bffc3bc77badbe8c9e1536"
-
 github-username@^4.0.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/github-username/-/github-username-4.1.0.tgz#cbe280041883206da4212ae9e4b5f169c30bf417"
