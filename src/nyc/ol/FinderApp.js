@@ -306,6 +306,7 @@ FinderApp.FEATURE_DECORATIONS = {
    */
   html() {
     return $('<div class="facility"></div>')
+      .addClass(this.cssClass())
       .append(this.distanceHtml())
       .append(this.nameHtml())
       .append(this.addressHtml())
@@ -324,6 +325,13 @@ FinderApp.FEATURE_DECORATIONS = {
   getName() {
     throw 'A getName decoration must be provided'
   },
+  /**
+   * @desc Returns a css class for the facility feature HTML
+   * @public
+   * @method
+   * @return {string}
+   */
+  cssClass() {},
   /**
    * @desc Returns the address line 1 of a facility feature
    * @public

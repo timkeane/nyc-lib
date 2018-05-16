@@ -5,10 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <title>nyc.ol.FinderApp Example</title>
   <link rel="stylesheet" href="../../css/nyc-lib.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol-debug.js"></script>
   <script src="../../js/nyc-lib.js"></script>
 	<style>
-    .lst-it .btn.phone {
+    .facility .name, .filter-chc-0 label {
+      padding-left: 25px;
+      background-position: 0 center;
+      background-repeat: no-repeat;
+      background-size: 20px;
+    }
+    .facility.DOE .name, label[for="chc-chc-0"] {
+      background-image: url("../img/DOE.png")
+    }
+    .facility.NYCEEC .name, label[for="chc-chc-1"] {
+      background-image: url("../img/NYCEEC.png")
+    }
+    .facility.PKC .name, label[for="chc-chc-2"] {
+      background-image: url("../img/PKC.png")
+    }
+    .facility.CHARTER .name, label[for="chc-chc-3"] {
+      background-image: url("../img/CHARTER.png")
+    }
+    .facility .btn.phone {
       display: block;
       margin-bottom: 3px;
       width: auto;
@@ -28,12 +46,29 @@
         y: 'Y',
         defaultDataProjection: 'EPSG:2263'
       }),
+      facilityStyle: function(feature, resolution) {
+        return new ol.style.Style({
+          image: new ol.style.Icon({
+            src: '../img/' + feature.get('TYPE') + '.png',
+            scale: 24 / 64
+          })
+        });
+      },
       filterChoiceOptions: [
+        {
+          title: 'School Type',
+          choices: [
+            {name: 'TYPE', values: ['DOE'], label: 'District School', checked: true},
+            {name: 'TYPE', values: ['NYCEEC'], label: 'Early Ed Center', checked: true},
+            {name: 'TYPE', values: ['CHARTER'], label: 'Charter School', checked: true},
+            {name: 'TYPE', values: ['PKC'], label: 'Pre-K Center', checked: true},
+          ]
+        },
         {
           title: 'Day Length',
           choices: [
-            {name: 'DAY_LENGTH', values: ['1', '2', '5', '7'], label: 'full day', checked: true},
-      			{name: 'DAY_LENGTH', values: ['3', '6', '7'], label: 'half day', checked: true},
+            {name: 'DAY_LENGTH', values: ['1', '2', '5', '7'], label: 'Full Day', checked: true},
+      			{name: 'DAY_LENGTH', values: ['3', '6', '7'], label: 'Half Day', checked: true},
       			{name: 'DAY_LENGTH', values: ['4', '5', '6', '7'], label: '5-hour', checked: true}
           ]
         }
@@ -56,6 +91,9 @@
         },
         getWebsite: function() {
           return this.get('WEBSITE')
+        },
+        cssClass: function() {
+          return this.get('TYPE')
         }
       }]
     });

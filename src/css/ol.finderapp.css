@@ -69,8 +69,8 @@ html, body.fnd, .fnd #map {
   background-repeat: no-repeat;
   background-position: center;
   background-image: var(--theme-filter-bg-img);
-  margin: -3px 3px;
-  border: var(--theme-border)
+  margin: -3px 5px -3px 3px;
+  border: var(--theme-border);
 }
 .fnd #map.tab, .fnd #facilities.tab {
   margin: 0;
@@ -86,6 +86,9 @@ html, body.fnd, .fnd #map {
 }
 .fnd #map, .fnd #facilities {
   width: : 100%;
+}
+.fnd #filters .clps {
+  margin-bottom: 5px;
 }
 .fnd .lst-it .btn, .fnd .pop .btn {
   margin: 0 3px 0 0;
@@ -104,6 +107,26 @@ html, body.fnd, .fnd #map {
 }
 .lst-it .name, .pop .name {
   font-weight: bold;
+}
+.fnd .btn.map {
+  background-size: 24px;
+  background-image: var(--theme-finder-map-bg-img);
+}
+.fnd .btn.dir {
+  background-size: 23px;
+  background-image: var(--theme-finder-direct-bg-img);
+}
+.fnd .btn.phone {
+  background-size: 23px;
+  background-image: var(--theme-finder-phone-bg-img);
+}
+.fnd .btn.email {
+  background-size: 26px;
+  background-image: var(--theme-finder-email-bg-img);
+}
+.fnd .btn.web {
+  background-size: 32px;
+  background-image: var(--theme-finder-web-bg-img);
 }
 #lng {
   position: absolute;
