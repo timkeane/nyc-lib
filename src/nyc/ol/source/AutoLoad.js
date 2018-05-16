@@ -24,7 +24,9 @@ export default class AutoLoad extends OlSourceVector {
    * @param {Object} options
    */
   constructor(options) {
-    options.loader = () => {}
+    options.loader = () => {
+      console.warn('Use autoLoad to load features')
+    }
     super(options)
     this.autoLoadOptions = options
   }

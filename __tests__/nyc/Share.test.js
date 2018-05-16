@@ -28,11 +28,10 @@ test('constructor', () => {
   const share = new Share({target: target})
 
   const test = async () => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         expect(fetch.mock.calls.length).toEqual(1)
         expect(fetch.mock.calls[0][0]).toEqual('./manifest.webmanifest')
-
         resolve(share.getContainer().html())
       }, 500)
     })
