@@ -5,17 +5,31 @@
  import EventHandling from 'nyc/EventHandling'
 
 /**
- * @desc A class for geocoding using the New York City Geoclient API
+ * @desc A class for geocoding
  * @public
  * @abstract
  * @class
- * @extends nyc/EventHandling
+ * @extends {module:nyc/EventHandling~EventHandling}
  */
-export default class Geocoder extends EventHandling {
+class Geocoder extends EventHandling {
+  /**
+   * @desc Create an instance of {@see module:nyc/Geocoder~Geocoder}
+   * @public
+   * @constructor
+   */
   constructor() {
     super()
   }
+  /**
+   * @desc Search for a location
+   * @public
+   * @abstract
+   * @method
+   * @param {string}
+   */
   search(input) {
     throw 'Not implemented'
   }
 }
+
+export default Geocoder

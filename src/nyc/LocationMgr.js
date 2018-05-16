@@ -11,38 +11,38 @@ import Dialog from 'nyc/Dialog'
  * @desc A class for managing user-specified location information
  * @public
  * @class
- * @extends {EventHandling}
- * @fires Locator#geocode
- * @fires Locator#geolocation
+ * @extends {module:nyc/EventHandling~EventHandling}
+ * @fires module:nyc/Locator#geocode
+ * @fires module:nyc/Locator#geolocation
  */
 class LocationMgr extends EventHandling {
   /**
    * @desc Create an instance of LocationMgr
    * @public
    * @constructor
-   * @param {LocationMgr.Options} options Constructor options
+   * @param {module:nyc/LocationMgr~LocationMgr.Options} options Constructor options
    */
   constructor(options) {
     super()
     /**
      * @desc The search zoomSearch
      * @public
-     * @member {ZoomSearch}
+     * @member {module:nyc/ZoomSearch~ZoomSearch}
      */
     this.zoomSearch = options.zoomSearch
     /**
      * @private
-     * @member {Locator}
+     * @member {module:nyc/Locator~Locator}
      */
     this.locator = options.locator
     /**
      * @private
-     * @member {nyc.Locator}
+     * @member {module:nyc/MapLocator~MapLocator}
      */
     this.mapLocator = options.mapLocator
     /**
      * @private
-     * @member {nyc.Dialog}
+     * @member {module:nyc/Dialog~Dialog}
      */
     this.dialog = new Dialog()
     /**
@@ -57,7 +57,7 @@ class LocationMgr extends EventHandling {
 	 * @desc Geocode an input string representing a location
 	 * @public
 	 * @method
-	 * @param {Locator.Result} data The location
+	 * @param {module:nyc/Locator~Locator.Result} data The location
 	 */
 	setLocation(data) {
 		this.mapLocator.setLocation(data)
@@ -77,7 +77,8 @@ class LocationMgr extends EventHandling {
    }
    /**
  	 * @private
- 	 * @method
+   * @method
+   * @param {string} qstr
  	 */
  	locateFromQueryString(qstr) {
     const args = {}
@@ -96,7 +97,7 @@ class LocationMgr extends EventHandling {
   /**
 	 * @private
 	 * @method
-	 * @param {Locator.Result} data
+	 * @param {module:nyc/Locator~Locator.Result} data
 	 */
 	located(data) {
 		this.zoomSearch.val(data.type === Locator.EventType.GEOLOCATION ? '' : data.name)
@@ -107,7 +108,7 @@ class LocationMgr extends EventHandling {
 	/**
 	 * @private
 	 * @method
-	 * @param {Locator.Ambiguous} data
+	 * @param {module:nyc/Locator~Locator.Ambiguous} data
 	 */
 	ambiguous(data) {
 		if (data.possible.length) {
@@ -129,9 +130,9 @@ class LocationMgr extends EventHandling {
  * @desc Object type to hold constructor options for {@link LocationMgr}
  * @public
  * @typedef {Object}
- * @property {ZoomSearch} zoomSearch The UX zoom search controls for user input
- * @property {Locator} locator The geocoding and geolocation provider
- * @property {nyc/MapLocator} mapLocator The mapLocator used to manipulate a map
+ * @property {module:nyc/ZoomSearch~ZoomSearch} zoomSearch The UX zoom search controls for user input
+ * @property {module:nyc/Locator~Locator} locator The geocoding and geolocation provider
+ * @property {module:nyc/MapLocator~MapLocator} mapLocator The mapLocator used to manipulate a map
  * @property {boolean} [autoLocate=false] Automatically locator using device geolocation on load
  */
 LocationMgr.Options
