@@ -11,25 +11,25 @@ html, body.fnd, .fnd #map {
   height: 32px;
   margin: 0;
   padding: 4px 0 0 80px;
-  background-color: var(--theme-btn-active-bg-color);
-  background-image: var(--theme-nyc-logo);
+  background-color: var(--color-dark);
+  background-image: var(--nyc-icon-light);
   background-position: 3px 6px;
   background-size: 71px 24px;
   background-repeat: no-repeat;
 }
 .fnd #banner, .fnd #banner * {
   font-size: 24px;
-  color: var(--theme-btn-sm-text-color);
+  color: var(--color-light);
 }
 .fnd .splash .dia {
-  background-color: var(--theme-btn-active-bg-color);
+  background-color: var(--color-dark);
   width: 400px;
   top: 30%;
   left: calc(50% - 208px);
   margin: 0;
 }
 .fnd .splash .dia-msg {
-  color: var(--theme-btn-sm-text-color);
+  color: var(--color-light);
   text-align: left;
 }
 .fnd .splash .dia-msg:focus {
@@ -63,14 +63,14 @@ html, body.fnd, .fnd #map {
   content: " ";
   width: 22px;
   height: 22px;
-  background-color: var(--theme-btn-sm-bg-color);
+  background-color: var(--color-dark);
   border-radius: 50%;
   background-size: 18px;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: var(--theme-filter-bg-img);
+  background-image: var(--filter-icon-light);
   margin: -3px 5px -3px 3px;
-  border: var(--theme-border);
+  border: 1px solid var(--color-medium);
 }
 .fnd #map.tab, .fnd #facilities.tab {
   margin: 0;
@@ -109,21 +109,21 @@ html, body.fnd, .fnd #map {
   font-weight: bold;
 }
 .fnd .btn.map {
-  background-image: var(--theme-finder-map-bg-img);
+  background-image: var(--map-icon-medium);
 }
 .fnd .btn.dir {
   background-size: 24px;
-  background-image: var(--theme-finder-direct-bg-img);
+  background-image: var(--directions-icon-medium);
 }
 .fnd .btn.phone {
-  background-image: var(--theme-finder-phone-bg-img);
+  background-image: var(--phone-icon-medium);
 }
 .fnd .btn.email {
-  background-image: var(--theme-finder-email-bg-img);
+  background-image: var(--email-icon-medium);
 }
 .fnd .btn.web {
   background-size: 24px;
-  background-image: var(--theme-finder-web-bg-img);
+  background-image: var(--web-icon-medium);
 }
 #lng {
   position: absolute;

@@ -1,5 +1,5 @@
 .tabs {
-  border: var(--theme-border);
+  border: 1px solid var(--color-medium);
   overflow: hidden;
 }
 .tabs>.btns {
@@ -11,13 +11,13 @@
 .tabs .btns h3 {
   display: table-cell;
   margin: 0;
-  border-right: var(--theme-border);
-  border-bottom: var(--theme-border);
+  border-right: 1px solid var(--color-medium);
+  border-bottom: 1px solid var(--color-medium);
   text-align: center;
 }
 .tabs .btns h3.active, .tabs .btns h3.active * {
-  background-color: var(--theme-btn-active-bg-color);
-  color: var(--theme-btn-active-text-color);
+  background-color: var(--color-dark);
+  color: var(--color-light);
 }
 .tabs .btns h3:last-of-type {
   border-right: none;

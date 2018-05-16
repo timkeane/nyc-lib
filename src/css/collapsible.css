@@ -6,15 +6,15 @@
   text-align: left;
 }
 .clps h3 .btn-rnd {
-  background-image: var(--theme-up-bg-img);
+  background-image: var(--up-icon-light);
   float: left;
   margin: -3px 5px 0 3px;
 }
 .clps h3 .btn-rnd.expd {
-  background-image: var(--theme-dn-bg-img);
+  background-image: var(--down-icon-light);
 }
 .clps div.content {
-  border: var(--theme-border);
+  border: 1px solid var(--color-medium);
   border-top: none;
   padding: 5px;
 }

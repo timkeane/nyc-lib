@@ -1,11 +1,16 @@
 html, body, body * {
 	font-size: 16px;
-	font-family: var(--theme-font-family);
-	color: var(--theme-text-color);
+	font-family: var(--font-family);
+	color: var(--color-dark);
+}
+*:focus {
+	outline: none;
+	box-shadow: 0px 1px 7px 3px var(--color-shadow);
+	z-index: 100000;
 }
 .rad-all, .rad-top, .rad-bot {
-	border-radius: var(--theme-border-radius);
-	border: var(--theme-border);
+	border-radius: var(--border-radius);
+	border: 1px solid var(--color-medium);
 }
 .rad-top {
 	border-bottom-left-radius: 0;
@@ -41,8 +46,8 @@ html, body, body * {
 	background-size: 28px;
 }
 .btn {
-	background-color: var(--theme-btn-bg-color);
-	color: var(--theme-btn-text-color);
+	background-color: var(--color-medium-translucent);
+	color: var(--color-dark);
 	height: 35px;
 	white-space: nowrap;
 	overflow: hidden;
@@ -54,8 +59,8 @@ a.btn, h3.btn, div.btn {
 	text-decoration: none;
 }
 .btn-sq, .btn-rnd {
-	background-color: var(--theme-btn-sm-bg-color);
-	color: var(--theme-btn-sm-text-color);
+	background-color: var(--color-dark-translucent);
+	color: var(--color-light);
 }
 .btn-sq {
 	position: absolute;
@@ -65,40 +70,39 @@ a.btn, h3.btn, div.btn {
 	padding: 0;
 }
 .btn:hover {
-	background-color: var(--theme-btn-bg-color-hover);
+	background-color: var(--color-medium);
 }
 .btn-sq:hover, .btn-rnd:hover {
-	background-color: var(--theme-btn-sm-bg-color-hover);
-	color: var(--theme-btn-sm-text-color-hover);
+	background-color: var(--color-dark);
+	color: var(--color-light);
 }
 .btn-rnd {
 	width: 24px;
 	height: 24px;
 	background-size: 14px;
-	background-color: var(--theme-btn-sm-bg-color);
 	border-radius: 50%;
+	border: none;
 }
 .btn-rnd:focus {
 	outline: none;
 }
 .btn-x {
-	background-image: var(--theme-x-bg-img);
+	background-image: var(--x-icon-light);
 }
 .btn-prv {
-	background-image: var(--theme-prv-bg-img);
+	background-image: var(--left-icon-light);
 }
 .btn-nxt {
-	background-image: var(--theme-nxt-bg-img);
+	background-image: var(--right-icon-light);
 }
-
 input {
 	height: 33px;
 	padding: 3px;
 }
 .nyc-html {
 	display: table;
-	border: var(--theme-border);
-	border-radius: var(--theme-border-radius);
+	border: 1px solid var(--color-medium);
+	border-radius: var(--border-radius);
 }
 .nyc-html div {
 	display: table-row;
@@ -108,7 +112,7 @@ input {
 	display: table-cell;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	border-bottom: var(--theme-border);
+	border-bottom: 1px solid var(--color-medium);
 	padding: 0 3px;
 	overflow-wrap: break-word;
   word-wrap: break-word;
@@ -121,5 +125,5 @@ input {
 }
 .nyc-html .fld {
 	font-weight: bold;
-	border-right: var(--theme-border);
+	border-right: 1px solid var(--color-medium);
 }

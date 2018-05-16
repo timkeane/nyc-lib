@@ -1,5 +1,5 @@
 .chc {
-	border: var(--theme-border);
+	border: 1px solid var(--color-medium);
 	display: table;
 }
 .chc-chc {
@@ -7,16 +7,13 @@
 	height: 33px;
 	padding: 3px;
 	width: 100%;
-	background-color: var(--theme-btn-bg-color);
+	background-color: var(--color-medium-light-translucent);
 }
 .chc-chc:hover {
-	background-color: var(--theme-btn-sm-bg-color);
-}
-.chc-chc:hover label {
-	color: var(--theme-btn-sm-text-color);
+	background-color: var(--color-medium);
 }
 .chc-chc div {
-	border-top: var(--theme-border);
+	border-top: 1px solid var(--color-medium);
 	display: table-cell;
 	vertical-align: middle;
 	cursor: pointer;
@@ -48,8 +45,8 @@ input[type="checkbox"]:before, input[type="radio"]:before {
   position: relative;
   margin: -5px;
   font-size: 14px;
-  background-color: var(--theme-pop-bg-color);
-  border: var(--theme-border-dark);
+  background-color: var(--color-light);
+  border: 1px solid var(--color-dark);
   color: transparent;
   text-align: center;
   width: 15px;
@@ -64,10 +61,10 @@ input[type="radio"]:before {
   border-radius: 50%;
 }
 input[type="checkbox"]:checked:before {
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20height%3D%221024%22%20width%3D%22768%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M640%20192L256%20576%20128%20448%200%20576l256%20256%20512-512L640%20192z%22%2F%3E%3C%2Fsvg%3E");
+  background-image: var(--check-icon-dark);
   background-size: 13px;
 }
 input[type="radio"]:checked:before {
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%2216%22%20width%3D%2216%22%3E%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%228%22%2F%3E%3C%2Fsvg%3E");
+  background-image: var(--dot-icon-dark);
   background-size: 9px;
 }

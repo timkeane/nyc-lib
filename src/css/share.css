@@ -5,7 +5,7 @@
 	height: 35px;
 }
 .btn-shr {
-	background-image: var(--theme-share-bg-img);
+	background-image: var(--share-icon-light);
 }
 .shr .btns {
 	display: none;
@@ -18,20 +18,20 @@
 	margin: 0 3px 0 0;
 }
 .shr .btns .facebook {
-	background-image: var(--theme-facebook-bg-img);
+	background-image: var(--facebook-icon-light);
 }
 .shr .btns .twitter {
-	background-image: var(--theme-twitter-bg-img);
+	background-image: var(--twitter-icon-light);
 }
 .shr .btns .google {
-	background-image: var(--theme-google-bg-img);
+	background-image: var(--google-icon-light);
 }
 .shr .btns .linkedin {
-	background-image: var(--theme-linkedin-bg-img);
+	background-image: var(--linkedin-icon-light);
 }
 .shr .btns .tumblr {
-	background-image: var(--theme-tumblr-bg-img);
+	background-image: var(--tumblr-icon-light);
 }
 .shr .btns .email {
-	background-image: var(--theme-email-bg-img);
+	background-image: var(--email-icon-light);
 }
