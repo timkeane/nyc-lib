@@ -269,7 +269,10 @@ class FinderApp {
    * @param {Array<ol.Feature>}
    */
   ready(features) {
+    const options = this.facilitySearchOptions || {}
+    options.features = features
     this.pager.reset(features)
+    this.locationMgr.zoomSearch.setFeatures(options)
     nyc.ready($('body'))
   }
 }
