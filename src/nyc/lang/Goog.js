@@ -51,6 +51,7 @@ export default class Goog extends Translate {
 	 */
    translate(event) {
 		const choices = $('iframe.goog-te-menu-frame:first').contents().find('.goog-te-menu2-item span.text')
+		clearTimeout(nycTranslateInstance.timeout)
 		if (event && choices.length) {
 			const lang =  this.languages[$(event.target).val()].name
 			if (lang === 'English') {
@@ -67,7 +68,7 @@ export default class Goog extends Translate {
 			this.css('goog-tranlated')
 			this.trigger(Translate.EventType.CHANGE, this)
 		} else {
-			setTimeout(() => {nycTranslateInstance.translate(event)}, 200)
+			nycTranslateInstance.timeout = setTimeout(() => {nycTranslateInstance.translate(event)}, 200)
 		}
 	}
   /**

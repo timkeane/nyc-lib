@@ -25,9 +25,22 @@ const googleMock = {
 }
 googleMock.translate.TranslateElement.InlineLayout = {SIMPLE: 0}
 
-let target
 let googleIframeMenu
 let googleIframeButton
+const createIframes = () => {
+  let html = ''
+  googleIframeMenu = $('<iframe class="goog-te-menu-frame"><iframe>')
+  googleIframeButton = $('<iframe class="goog-te-banner-frame"><iframe>')
+  $('body').append(googleIframeMenu)
+  $('body').append(googleIframeButton)
+  googleIframeButton.get(0).contentDocument.write('<div class="goog-te-button"><button>X</button></div><div class="goog-te-button"><button>Show original</button></div>')
+  Object.values(languages).forEach(language => {
+    html += `<a class="goog-te-menu2-item"><span class="text">${language.name}</span></a>`
+  })
+  googleIframeMenu.get(0).contentDocument.write(html)
+}
+
+let target
 const getScript = $.getScript
 const google = window.google
 beforeEach(() => {
@@ -35,17 +48,8 @@ beforeEach(() => {
   window.google = googleMock
   target = $('<div></div>')
   $('body').append(target)
-  googleIframeMenu = $('<iframe class="goog-te-menu-frame"><iframe>')
-  googleIframeButton = $('<iframe class="goog-te-banner-frame"><iframe>')
-  $('body').append(googleIframeMenu)
-  $('body').append(googleIframeButton)
   $.getScript = () => {
-    let html = ''
-    googleIframeButton.get(0).contentDocument.write('<div class="goog-te-button"><button>X</button></div><div class="goog-te-button"><button>Show original</button></div>')
-    Object.values(languages).forEach(language => {
-      html += `<a class="goog-te-menu2-item"><span class="text">${language.name}</span></a>`
-    })
-    googleIframeMenu.get(0).contentDocument.write(html)
+    createIframes()
     nycTranslateInstance.init()
   }
 })
@@ -135,7 +139,6 @@ describe('translate', () => {
 
     expect(Goog.prototype.showOriginalText).toHaveBeenCalledTimes(1)
   })
-
 })
 
 test('getCookie', () => {
@@ -217,4 +220,37 @@ test('showOriginalText', () => {
 
   expect(handler).toHaveBeenCalledTimes(2)
   expect(translate.find('select').val()).toBe('en')
+})
+
+test('translate needs to wait for google to load', () => {
+  expect.assertions(4)
+
+  const input = $('<input value="en">')
+  const handler = jest.fn()
+  const event = {target: input.get(0)}
+
+  const translate = new Goog({
+    target: target,
+    languages: languages
+  })
+
+  $('iframe').remove()
+
+  translate.on(Translate.EventType.CHANGE, handler)
+
+  const test = async () => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        expect(handler).toHaveBeenCalled()
+        expect(handler.mock.calls[0][0]).toBe(translate)
+        expect(translate.lang()).toBe('en')
+        resolve(true)              
+      }, 500)
+    })
+  }
+  translate.translate(event)
+
+  createIframes()
+
+  return test().then(success => {expect(success).toBe(true)})
 })

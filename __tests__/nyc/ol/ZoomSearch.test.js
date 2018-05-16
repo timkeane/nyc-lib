@@ -94,6 +94,34 @@ test('featureAsLocation', () => {
   })
 })
 
+test('featureAsLocation feature has getName', () => {
+  expect.assertions(1)
+
+  const options = {}
+  const geom = new OlPolygon([[0,0], [0,2], [2,2], [2,0], [0,0]])
+  const feature = new OlFeature({
+    geometry: geom,
+    foo: 'bar'
+  })
+
+  feature.getName = () => {
+    return 'a name'
+  }
+
+  const zoomSearch = new ZoomSearch(mockMap)
+
+  const result = zoomSearch.featureAsLocation(feature, options)
+
+  expect(result).toEqual({
+    name: 'a name',
+    coordinate: olExtent.getCenter(geom.getExtent()),
+    geometry: JSON.parse(zoomSearch.geoJson.writeGeometry(geom)),
+    data: feature.getProperties(),
+    type: NycLocator.EventType.GEOCODE,
+    accuracy: NycLocator.Accuracy.HIGH
+  })
+})
+
 test('zoom', () => {
   expect.assertions(5)
 
