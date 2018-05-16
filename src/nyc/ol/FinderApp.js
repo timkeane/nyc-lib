@@ -507,13 +507,14 @@ FinderApp.FEATURE_DECORATIONS = {
  * @public
  * @typedef {Object}
  * @property {string} title
- * @property {JQuery|Element|String} splashContent
- * @property {string} facilityTabTitle
+ * @property {JQuery|Element|String=} splashContent
+ * @property {string=} facilityTabTitle
  * @property {string} facilityUrl
- * @property {ol.format.Feature} facilityFormat
+ * @property {ol.format.Feature=} facilityFormat
  * @property {ol.style.Style} facilityStyle
- * @property {string} filterTabTitle
- * @property {Array<Choice.Options>} filterChoiceOptions
+ * @property {NycZoomSearch.FeatureSearchOptions=} facilitySearchOptions
+ * @property {string=} filterTabTitle
+ * @property {Array<Choice.Options>=} filterChoiceOptions
  * @property {string} geoclientUrl
  */
 FinderApp.Options
