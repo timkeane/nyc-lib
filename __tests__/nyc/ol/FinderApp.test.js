@@ -19,6 +19,7 @@ import Decorate from '../../../src/nyc/ol/format/Decorate'
 import FilterAndSort from '../../../src/nyc/ol/source/FilterAndSort'
 
 import OlLayerVector from 'ol/layer/vector'
+import OlStyleStyle from 'ol/style/style'
 
 import FinderApp from 'nyc/ol/FinderApp'
 
@@ -43,31 +44,33 @@ jest.mock('../../../src/nyc/ol/format/Decorate')
 jest.mock('../../../src/nyc/ol/source/FilterAndSort')
 
 jest.mock('ol/layer/vector')
+jest.mock('ol/style/style')
+
+const format = new CsvPoint({})
+const style = new OlStyleStyle({})
 
 beforeEach(() => {
-  CsvPoint.mockClear()
+  Dialog.mockClear()
+  Share.mockClear()
+  Tabs.mockClear()
   ListPager.mockClear()
-  Dialog.mockClear() '../../../src/nyc/Dialog'
-  Share.mockClear() '../../../src/nyc/Share'
-  import Tabs.mockClear() '../../../src/nyc/Tabs'
-  ListPager.mockClear() '../../../src/nyc/ListPager'
-  MapLocator.mockClear() '../../../src/nyc/MapLocator'
+  MapLocator.mockClear()
 
-  Translate.mockClear() '../../../src/nyc/lang/Translate'
-  Goog.mockClear() '../../../src/nyc/lang/Goog'
+  Translate.mockClear()
+  Goog.mockClear()
 
-  Basemap.mockClear() '../../../src/nyc/ol/Basemap'
-  Filters.mockClear() '../../../src/nyc/ol/Filters'
-  LocationMgr.mockClear() '../../../src/nyc/ol/LocationMgr'
-  MultiFeaturePopup.mockClear() '../../../src/nyc/ol/MultiFeaturePopup'
-  FeatureTip.mockClear() '../../../src/nyc/ol/FeatureTip'
+  Basemap.mockClear()
+  Filters.mockClear()
+  LocationMgr.mockClear()
+  MultiFeaturePopup.mockClear()
+  FeatureTip.mockClear()
 
-  CsvPoint.mockClear() '../../../src/nyc/ol/format/CsvPoint'
-  Decorate.mockClear() '../../../src/nyc/ol/format/Decorate'
+  CsvPoint.mockClear()
+  Decorate.mockClear()
 
-  FilterAndSort.mockClear() '../../../src/nyc/ol/source/FilterAndSort'
+  FilterAndSort.mockClear()
 
-  OlLayerVector from 'ol/layer/vector'
+  OlLayerVector.mockClear()
 })
 
 test('constructor', () => {
