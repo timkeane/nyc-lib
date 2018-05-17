@@ -23,7 +23,7 @@ test('constructor', () => {
 
 test('resolve', async () => {
   expect.assertions(9)
-
+  
   const geojson = JSON.parse(json).features[0]
 
   fetch.mockResponseOnce(json)

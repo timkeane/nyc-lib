@@ -67,9 +67,9 @@ Content.loadCsv = (options) => {
 	const key = options.key || 'key'
 	const value = options.value || 'value'
 	return new Promise((resolve, reject) => {
-		fetch(options.url).then((respose) => {
+		fetch(options.url).then(respose => {
 			return respose.text()
-		}).then((resposeText) => {
+		}).then(resposeText => {
       const csvRows = Papa.parse(resposeText, {header: true}).data
 			csvRows.forEach((row, i) => {
 				if (messages[0][row[key]]) {

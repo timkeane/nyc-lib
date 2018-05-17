@@ -1,14 +1,15 @@
+import OlSourceVector from 'ol/source/vector'
+import AutoLoad from 'nyc/ol/source/AutoLoad'
+
+jest.mock('ol/source/vector')
+
 const warn = console.warn
 beforeEach(() => {
-  jest.mock('ol/source/vector', () => {
-    return jest.fn(optns => global.passedOptions = optns)
-  })
+  OlSourceVector.mockClear()
   console.warn = jest.fn()
 })
 afterEach(() => {
-  jest.unmock('ol/source/vector')
   console.warn = warn
-  delete global.passedOptions
 })
 
 test('loader passed to super constructor should be empty function', () => {
@@ -16,16 +17,15 @@ test('loader passed to super constructor should be empty function', () => {
 
   const options = {name: 'test'}
 
-  require('ol/source/vector')
-  const AutoLoading = require('nyc/ol/source/AutoLoad').default
+  const autoLoad = new AutoLoad(options)
 
-  const autoLoad = new AutoLoading(options)
+  warn(OlSourceVector.mock)
 
-  expect(global.passedOptions).toBe(options)
-  expect(global.passedOptions.name).toBe('test')
-  expect(typeof global.passedOptions.loader).toBe('function')
+  expect(OlSourceVector.mock.calls.length).toBe(1)
+  expect(OlSourceVector.mock.calls[0][0].name).toBe('test')
+  expect(typeof OlSourceVector.mock.calls[0][0].loader).toBe('function')
 
-  global.passedOptions.loader()
+  OlSourceVector.mock.calls[0][0].loader()
 
   expect(console.warn).toHaveBeenCalledTimes(1)
   expect(console.warn.mock.calls[0][0]).toBe('Use autoLoad to load features')
