@@ -25,7 +25,7 @@ import FinderApp from 'nyc/ol/FinderApp'
 
 jest.mock('../../../src/nyc/Dialog')
 jest.mock('../../../src/nyc/Share')
-jest.mock('../../../src/nyc/Tabs')
+// jest.mock('../../../src/nyc/Tabs')
 jest.mock('../../../src/nyc/ListPager')
 jest.mock('../../../src/nyc/MapLocator')
 
@@ -52,7 +52,7 @@ const style = new OlStyleStyle({})
 beforeEach(() => {
   Dialog.mockClear()
   Share.mockClear()
-  Tabs.mockClear()
+  // Tabs.mockClear()
   ListPager.mockClear()
   MapLocator.mockClear()
 
@@ -74,15 +74,30 @@ beforeEach(() => {
 })
 
 test('constructor', () => {
-  expect.assertions(0)
+  expect.assertions(1)
 
-  const csv = new CsvPoint({})
+  // const finderApp = new FinderApp({
+  //   title: 'Finder App',
+  //   splashContent: 'splash page message',
+  //   facilityTabTitle: 'Facility Title',
+  //   facilityUrl: 'http://facility',
+  //   facilityFormat: format,
+  //   facilityStyle: style,
+  //   facilitySearchOptions: {},
+  //   filterTabTitle: 'Filter Title',
+  //   filterChoiceOptions: [],
+  //   geoclientUrl: 'http://geoclient'
+  // })
 
-  console.warn(CsvPoint);
-  console.warn(CsvPoint.mock);
+  console.warn(FilterAndSort);
+  console.warn(FilterAndSort.mock);
+  const auto = new FilterAndSort()
+  
+  console.log(auto.autoLoad)
 
-  const pager = new ListPager({})
+  auto.autoLoad().then(features => {
+    expect(features.length).toBe(1)
+  })
 
-  console.warn(ListPager);
-  console.warn(ListPager.mock);
+
 })

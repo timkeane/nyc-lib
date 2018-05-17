@@ -19,8 +19,6 @@ test('loader passed to super constructor should be empty function', () => {
 
   const autoLoad = new AutoLoad(options)
 
-  warn(OlSourceVector.mock)
-
   expect(OlSourceVector.mock.calls.length).toBe(1)
   expect(OlSourceVector.mock.calls[0][0].name).toBe('test')
   expect(typeof OlSourceVector.mock.calls[0][0].loader).toBe('function')
