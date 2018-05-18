@@ -28,7 +28,7 @@ html, body.fnd, .fnd #map {
   left: calc(50% - 208px);
   margin: 0;
 }
-.fnd .splash .dia-msg {
+.fnd .splash .dia-msg, .fnd .splash .dia-msg * {
   color: var(--color-light);
   text-align: left;
 }
@@ -80,9 +80,10 @@ html, body.fnd, .fnd #map {
   display: block;
   position: fixed;
   left: 0;
-  top: 36px;
+  top: 35px;
   right: 400px;
   overflow: hidden;
+  border-top: 1px solid var(--color-medium)
 }
 .fnd #map, .fnd #facilities {
   width: : 100%;

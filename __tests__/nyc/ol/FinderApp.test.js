@@ -18,6 +18,8 @@ import Decorate from '../../../src/nyc/ol/format/Decorate'
 
 import FilterAndSort from '../../../src/nyc/ol/source/FilterAndSort'
 
+import OlFeature from 'ol/feature'
+import OlGeomPoint from 'ol/geom/point'
 import OlLayerVector from 'ol/layer/vector'
 import OlStyleStyle from 'ol/style/style'
 
@@ -49,6 +51,7 @@ jest.mock('ol/style/style')
 const format = new CsvPoint({})
 const style = new OlStyleStyle({})
 const filterChoiceOptions = []
+
 beforeEach(() => {
   Dialog.mockClear()
   Share.mockClear()
@@ -71,6 +74,7 @@ beforeEach(() => {
   FilterAndSort.mockClear()
 
   OlLayerVector.mockClear()
+  OlStyleStyle.mockClear()
 })
 
 test('constructor', () => {
@@ -163,4 +167,28 @@ test('constructor', () => {
   expect(Goog.mock.calls[0][0].target).toBe('#map')
   expect(Goog.mock.calls[0][0].languages).toBe(Translate.DEFAULT_LANGUAGES)
   expect(Goog.mock.calls[0][0].button).toBe(true)
+})
+
+describe('zoomTo', () => {
+  test('zoomTo map tab button hidden', () => {
+    expect.assertions(0)
+    const feature = new OlFeature({geometry: new OlGeomPoint([0, 0])})
+    
+    // const finderApp = new FinderApp({
+    //   title: 'Finder App',
+    //   splashContent: 'splash page message',
+    //   facilityTabTitle: 'Facility Title',
+    //   facilityUrl: 'http://facility',
+    //   facilityFormat: format,
+    //   facilityStyle: style,
+    //   filterTabTitle: 'Filter Title',
+    //   filterChoiceOptions: filterChoiceOptions,
+    //   geoclientUrl: 'http://geoclient'
+    // })
+
+    // $('h3.btn-0').hide()
+    // finderApp.zoomTo(feature)
+
+    // expect(finderApp.popup.hide).toHaveBeenCalledTimes(1)
+  })
 })
