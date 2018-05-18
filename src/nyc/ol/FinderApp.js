@@ -188,7 +188,7 @@ class FinderApp {
       pages.push({tab: '#filters', title: options.filterTabTitle || 'Filters'})
     }
     const tabs = new Tabs({target: '#tabs', tabs: pages})
-    tabs.on('change', $.proxy(this.resizeMap, this))
+    tabs.on('change', this.resizeMap, this)
     $(window).resize($.proxy(this.adjustTabs, this))
     return tabs
   }

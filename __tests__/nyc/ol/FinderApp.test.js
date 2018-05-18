@@ -48,7 +48,7 @@ jest.mock('ol/style/style')
 
 const format = new CsvPoint({})
 const style = new OlStyleStyle({})
-
+const filterChoiceOptions = []
 beforeEach(() => {
   Dialog.mockClear()
   Share.mockClear()
@@ -74,7 +74,7 @@ beforeEach(() => {
 })
 
 test('constructor', () => {
-  expect.assertions(25)
+  expect.assertions(60)
 
   const finderApp = new FinderApp({
     title: 'Finder App',
@@ -84,7 +84,7 @@ test('constructor', () => {
     facilityFormat: format,
     facilityStyle: style,
     filterTabTitle: 'Filter Title',
-    filterChoiceOptions: [],
+    filterChoiceOptions: filterChoiceOptions,
     geoclientUrl: 'http://geoclient'
   })
 
@@ -120,4 +120,47 @@ test('constructor', () => {
   expect(FeatureTip.mock.calls[0][0].tips.length).toBe(1)
   expect(FeatureTip.mock.calls[0][0].tips[0].layer).toBe(finderApp.layer)
   expect(typeof FeatureTip.mock.calls[0][0].tips[0].label).toBe('function')
+
+  expect(FeatureTip.mock.calls[0][0].tips[0].label({getName: () => {return 'Fred'}}).html).toBe('Fred')
+
+  expect(LocationMgr).toHaveBeenCalledTimes(1)
+  expect(LocationMgr.mock.calls[0][0].map).toBe(finderApp.map)
+  expect(LocationMgr.mock.calls[0][0].url).toBe('http://geoclient')
+  expect(finderApp.locationMgr.on).toHaveBeenCalledTimes(2)
+  expect(finderApp.locationMgr.on.mock.calls[0][0]).toBe('geocode')
+  expect(finderApp.locationMgr.on.mock.calls[0][1]).toBe(finderApp.located)
+  expect(finderApp.locationMgr.on.mock.calls[0][2]).toBe(finderApp)
+  expect(finderApp.locationMgr.on.mock.calls[1][0]).toBe('geolocate')
+  expect(finderApp.locationMgr.on.mock.calls[1][1]).toBe(finderApp.located)
+  expect(finderApp.locationMgr.on.mock.calls[1][2]).toBe(finderApp)
+
+  expect(Filters).toHaveBeenCalledTimes(1)
+  expect(Filters.mock.calls[0][0].target).toBe('#filters')
+  expect(Filters.mock.calls[0][0].source).toBe(finderApp.source)
+  expect(Filters.mock.calls[0][0].choiceOptions).toBe(filterChoiceOptions)
+  expect(finderApp.filters.on).toHaveBeenCalledTimes(1)
+  expect(finderApp.filters.on.mock.calls[0][0]).toBe('change')
+  expect(finderApp.filters.on.mock.calls[0][1]).toBe(finderApp.resetList)
+  expect(finderApp.filters.on.mock.calls[0][2]).toBe(finderApp)
+
+  expect(finderApp.tabs instanceof Tabs).toBe(true)
+  expect(finderApp.tabs.tabs.children().length).toBe(3)
+
+  expect(finderApp.view.fit).toHaveBeenCalledTimes(1)
+  expect(finderApp.view.fit.mock.calls[0][0]).toBe(Basemap.EXTENT)
+  expect(finderApp.view.fit.mock.calls[0][1].size).toEqual([100, 100])
+  expect(finderApp.view.fit.mock.calls[0][1].duration).toBe(500)
+
+  expect(Dialog).toHaveBeenCalledTimes(1)
+  expect(Dialog.mock.calls[0][0]).toBe('splash')
+  expect(Dialog.mock.instances[0].ok.mock.calls[0][0].message).toBe('splash page message')
+  expect(Dialog.mock.instances[0].ok.mock.calls[0][0].buttonText[0]).toBe('Continue...')
+
+  expect(Share).toHaveBeenCalledTimes(1)
+  expect(Share.mock.calls[0][0].target).toBe('#map')
+
+  expect(Goog).toHaveBeenCalledTimes(1)
+  expect(Goog.mock.calls[0][0].target).toBe('#map')
+  expect(Goog.mock.calls[0][0].languages).toBe(Translate.DEFAULT_LANGUAGES)
+  expect(Goog.mock.calls[0][0].button).toBe(true)
 })
