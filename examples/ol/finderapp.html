@@ -17,6 +17,10 @@
       background-repeat: no-repeat;
       background-size: 20px;
     }
+    .fnd .pop .btn.dir {
+      display: inline-block;
+      width: calc(50% - 5px);
+    }
     .facility.DOE .name, label[for="chc-chc-0"] {
       background-image: url("../img/DOE.png")
     }
@@ -86,10 +90,10 @@
         },
         getBorough() {
           return {
-            M: 'Manhattan', 
-            X: 'Bronx', 
-            Q: 'Queens', 
-            K: 'Brooklyn', 
+            M: 'Manhattan',
+            X: 'Bronx',
+            Q: 'Queens',
+            K: 'Brooklyn',
             R: 'Staten Island'
           }[this.get('BOROUGH')]
         },
