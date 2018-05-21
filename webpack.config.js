@@ -5,18 +5,16 @@ const webpack = require('webpack');
 const path = require('path')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const MinifyPlugin = require('babel-minify-webpack-plugin')
-// const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const plugins = [
-  new CleanWebpackPlugin(['dist']),
   // new BundleAnalyzerPlugin({analyzerMode: 'static'}),
+  new CleanWebpackPlugin(['dist']),
   new webpack.optimize.ModuleConcatenationPlugin()
 ]
 
 if (isProd) {
   plugins.push(new MinifyPlugin())
-  // new UglifyJSPlugin({parallel: true})
 }
 
 module.exports = {
@@ -29,7 +27,6 @@ module.exports = {
      filename: '[name]-lib.js'
   },
   devtool: isProd ? false : "cheap-module-eval-source-map",
-  // devtool: isProd ? false : "source-map",
   module: {
     rules: [{
       test: /\.js$/,
@@ -42,30 +39,30 @@ module.exports = {
   },
   externals: {
     jquery: 'jQuery',
-    'ol/extent': '(window.ol ? ol.extent : {})',
-    'ol/coordinate': '(window.ol ? ol.coordinate : {})',
-    'ol/tilegrid': '(window.ol ? ol.tilegrid : {})',
-    'ol/feature': '(window.ol ? ol.Feature : function(){})',
-    'ol/map': '(window.ol ? ol.Map : function(){})',
-    'ol/view': '(window.ol ? ol.View : function(){})',
-    'ol/overlay': '(window.ol ? ol.Overlay : function(){})',
-    'ol/geolocation': '(window.ol ? ol.Geolocation : function(){})',
-    'ol/format/feature': '(window.ol ? ol.format.Feature : function(){})',
-    'ol/format/geojson': '(window.ol ? ol.format.GeoJSON : function(){})',
-    'ol/format/formattype': '(window.ol ? ol.format.FormatType : function(){})',
-    'ol/source/vector': '(window.ol ? ol.source.Vector : function(){})',
-    'ol/source/xyz': '(window.ol ? ol.source.XYZ : function(){})',
-    'ol/layer/vector': '(window.ol ? ol.layer.Vector : function(){})',
-    'ol/layer/tile': '(window.ol ? ol.layer.Tile : function(){})',
-    'ol/style/style': '(window.ol ? ol.style.Style : function(){})',
-    'ol/style/icon': '(window.ol ? ol.style.Icon : function(){})',
-    'ol/geom/point': '(window.ol ? ol.geom.Point : function(){})',
-    'ol/geom/linestring': '(window.ol ? ol.geom.LineString : function(){})',
-    'ol/geom/polygon': '(window.ol ? ol.geom.Polygon : function(){})',
-    'ol/proj/projection': '(window.ol ? ol.proj.Projection : function(){})',
+    'ol/extent': 'ol.extent',
+    'ol/coordinate': 'ol.coordinate',
+    'ol/tilegrid': 'ol.tilegrid',
+    'ol/feature': 'ol.Feature',
+    'ol/map': 'ol.Map',
+    'ol/view': 'ol.View',
+    'ol/overlay': 'ol.Overlay',
+    'ol/geolocation': 'ol.Geolocation',
+    'ol/format/feature': 'ol.format.Feature',
+    'ol/format/geojson': 'ol.format.GeoJSON',
+    'ol/format/formattype': 'ol.format.FormatType',
+    'ol/source/vector': 'ol.source.Vector',
+    'ol/source/xyz': 'ol.source.XYZ',
+    'ol/layer/vector': 'ol.layer.Vector',
+    'ol/layer/tile': 'ol.layer.Tile',
+    'ol/style/style': 'ol.style.Style',
+    'ol/style/icon': 'ol.style.Icon',
+    'ol/geom/point': 'ol.geom.Point',
+    'ol/geom/linestring': 'ol.geom.LineString',
+    'ol/geom/polygon': 'ol.geom.Polygon',
+    'ol/proj/projection': 'ol.proj.Projection',
 
     'text-encoding': 'window',
-    'leaflet': '(window.L || {})',
+    'leaflet': 'L',
     'shapefile': '(window.shapefile || {})',
     'papaparse': '(window.Papa || {})',
     'proj4': '(window.proj4 || {})'
