@@ -19,6 +19,7 @@ if (isProd) {
 
 module.exports = {
   entry: {
+    "nyc": './src/nyc.js',
     "nyc-ol": './src/nyc-ol.js',
     "nyc-leaf": './src/nyc-leaf.js'
   },
