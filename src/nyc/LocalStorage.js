@@ -13,7 +13,7 @@ const shapefile = require('shapefile')
  */
 
 class LocalStorage {
-  
+
   constructor(){
   }
 
@@ -41,7 +41,7 @@ class LocalStorage {
 		a.attr('href', href).attr('download', name).find('img').trigger('click')
 		a.remove()
   }
-  
+
   /**
 	 * @desc Set data in localStorage if available
 	 * @public
@@ -67,7 +67,7 @@ class LocalStorage {
 			return localStorage.getItem(key)
 		}
   }
-  
+
 	/**
 	 * @desc Remove data from localStorage if available
 	 * @public
@@ -80,7 +80,7 @@ class LocalStorage {
 			return localStorage.removeItem(key)
 		}
   }
-  
+
 	/**
 	 * @desc Open a text file from local disk
 	 * @public
@@ -105,7 +105,7 @@ class LocalStorage {
 			reader.readAsText(file)
 		}
   }
-  
+
 	/**
 	 * @desc Open a GeoJSON file from local disk
 	 * @public
@@ -120,7 +120,7 @@ class LocalStorage {
 			if (callback) callback(layer)
 		}, file)
   }
-  
+
 	/**
 	 * @desc Open a shapefile from local disk
 	 * @public
@@ -143,7 +143,7 @@ class LocalStorage {
 			this.getShpDbfPrj(map, files, callback)
 		}
   }
-  
+
 	/**
 	 * @private
 	 * @method
@@ -154,7 +154,6 @@ class LocalStorage {
 	getShpDbfPrj(map, files, callback) {
 		let shp, dbf, prj
 		Object.values(files).forEach(file => {
-			console.log(file)
 			const ext = file.name.substr(name.length - 4)
 			if (ext == '.shp') shp = file
 			else if (ext == '.dbf') dbf = file
@@ -168,7 +167,7 @@ class LocalStorage {
 			callback()
 		}
   }
-  
+
 	/**
 	 * @private
 	 * @method
@@ -182,7 +181,7 @@ class LocalStorage {
 			callback()
 		}
   }
-  
+
 	/**
 	 * @private
 	 * @method
@@ -213,7 +212,7 @@ class LocalStorage {
 		shpReader.readAsArrayBuffer(shp)
 		if (dbf) dbfReader.readAsArrayBuffer(dbf)
   }
-  
+
 	/**
 	 * @private
 	 * @method
@@ -242,7 +241,7 @@ class LocalStorage {
 				console.error(error.stack)
 			})
   }
-  
+
 	/**
 	 * @public
 	 * @abstract
@@ -255,7 +254,7 @@ class LocalStorage {
 	addToMap(map, features, projcs) {
 		throw 'Must be implemented'
   }
-  
+
 	/**
 	 * @private
 	 * @method

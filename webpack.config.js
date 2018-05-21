@@ -20,13 +20,16 @@ if (isProd) {
 }
 
 module.exports = {
-  entry: './src/index.js',
-  devtool: isProd ? false : "cheap-module-eval-source-map",
-  // devtool: isProd ? false : "source-map",
+  entry: {
+    "nyc-ol": './src/nyc-ol.js',
+    "nyc-leaf": './src/nyc-leaf.js'
+  },
   output: {
      path: path.resolve(__dirname, 'dist/js'),
-     filename: 'nyc-lib.js'
+     filename: '[name]-lib.js'
   },
+  devtool: isProd ? false : "cheap-module-eval-source-map",
+  // devtool: isProd ? false : "source-map",
   module: {
     rules: [{
       test: /\.js$/,
@@ -66,7 +69,7 @@ module.exports = {
     'shapefile': '(window.shapefile || {})',
     'papaparse': '(window.Papa || {})',
     'proj4': '(window.proj4 || {})'
-  },    
+  },
   resolve: {
     alias: {
       nyc: path.resolve(__dirname, './src/nyc')
