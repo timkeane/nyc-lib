@@ -15,8 +15,7 @@
     "jsdoc": "jsdoc -c ./jsdoc/conf.json",
     "copy-examples": "cp -r ./examples ./dist/examples && cp -r ./src/css ./dist/css",
     "replace-hosts": "bash -c 'if [ -f replace-hosts.sh ]; then ./replace-hosts.sh; fi'",
-    "test": "jest",
-    "build-css": "./build/uglifycss.js"
+    "test": "jest"
   },
   "jest": {
     "verbose": true,
@@ -82,7 +81,6 @@
     "shapefile": "^0.6.6",
     "strict-mode": "^1.1.2",
     "text-encoding": "^0.6.4",
-    "uglifycss": "^0.0.29",
     "webpack": "^4.6.0",
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.14"
