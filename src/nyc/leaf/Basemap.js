@@ -14,57 +14,57 @@ import L from 'leaflet'
  * @public
  * @class
  * @extends {L.Map}
- * @mixes nyc.Basemap
- * @param {nyc.Basemap.Options} options Constructor options
+ * @mixes nyc.BasemapHelper
+ * @param {Basemap.Options} options Constructor options
  * @constructor
  * @see http://leafletjs.com/
  */
 
- class Basemap {
+class Basemap {
 
-  constructor(options) {
-    const map = L.map(options.target)
+	constructor(options) {
+		const map = L.map(options.target)
 		nyc.mixin(map, [BasemapHelper])
 
-    /**
-  	 * @private
-  	 * @member {number}
-  	 */
-  	map.latestPhoto = 0
-    /**
-  	 * @private
-  	 * @member {OlLayerTile}
-  	 */
-  	map.base = null
-    /**
-  	 * @private
-  	 * @member {Object<string, OlLayerTile>}
-  	 */
-  	map.labels = {}
-    /**
-  	 * @private
-  	 * @member {Object<string, OlLayerTile>}
-  	 */
-  	map.photos = {}
-    /**
-  	 * @private
-  	 * @member {storage.Local}
-  	 */
-    map.storage = null //new LocalStorage()
-    this.setupLayers(map, options)
-		map.fitBounds(Basemap.EXTENT);
-    map.hookupEvents(map.getContainer())
+		/**
+		 * @private
+		 * @member {number}
+		 */
+		map.latestPhoto = 0
+		/**
+		 * @private
+		 * @member {L.TileLayer}
+		 */
+		map.base = null
+		/**
+		 * @private
+		 * @member {Object<string, L.TileLayer>}
+		 */
+		map.labels = {}
+		/**
+		 * @private
+		 * @member {Object<string, L.TileLayer>}
+		 */
+		map.photos = {}
+		/**
+		 * @private
+		 * @member {storage.Local}
+		 */
+		map.storage = null //new LocalStorage()
+		this.setupLayers(map, options)
+		map.fitBounds(Basemap.EXTENT)
+		map.hookupEvents(map.getContainer())
 
-    return map
-  }
-  /**
-   * @private
-   * @method
-   * @param {L.Map} map
-   * @param {Object} options
-   */
-  setupLayers(map, options) {
-    map.base = L.tileLayer(Basemap.BASE_URL, {
+		return map
+	}
+	/**
+	 * @private
+	 * @method
+	 * @param {L.Map} map
+	 * @param {Object} options
+	 */
+	setupLayers(map, options) {
+		map.base = L.tileLayer(Basemap.BASE_URL, {
 			minNativeZoom: 8,
 			maxNativeZoom: 21,
 			subdomains: '1234',
@@ -75,8 +75,8 @@ import L from 'leaflet'
 		map.base.name = 'base'
 		map.addLayer(map.base)
 
-    Object.entries(Basemap.LABEL_URLS).forEach(([labelType, url]) => {
-      map.labels[labelType] = L.tileLayer(Basemap.LABEL_URLS[labelType], {
+		Object.entries(Basemap.LABEL_URLS).forEach(([labelType, url]) => {
+			map.labels[labelType] = L.tileLayer(Basemap.LABEL_URLS[labelType], {
 				minNativeZoom: 8,
 				maxNativeZoom: 21,
 				subdomains: '1234',
@@ -88,10 +88,10 @@ import L from 'leaflet'
 			if (labelType == 'base') {
 				map.addLayer(map.labels[labelType])
 			}
-    })
+		})
 
-    Object.entries(Basemap.PHOTO_URLS).forEach(([year, url]) => {
-      const photo = L.tileLayer(url, {
+		Object.entries(Basemap.PHOTO_URLS).forEach(([year, url]) => {
+			const photo = L.tileLayer(url, {
 				minNativeZoom: 8,
 				maxNativeZoom: 21,
 				subdomains: '1234',
@@ -102,11 +102,23 @@ import L from 'leaflet'
 			if ((year.split('-')[0] * 1) > map.latestPhoto) {
 				map.latestPhoto = year
 			}
-			photo.name = year;
-			map.photos[year] = photo;
+			photo.name = year
 			map.photos[year] = photo
-    })
+			map.photos[year] = photo
+		})
 	}
+
+	/**
+	 * @desc Get the storage used for laoding and saving data
+	 * @public
+	 * @override
+	 * @method
+	 * @return {storage.Local} srorage
+	 */
+	getStorage(year) {
+		return this.storage
+	}
+
 	/**
 	 * @desc Show photo layer
 	 * @public
@@ -115,14 +127,67 @@ import L from 'leaflet'
 	 * @param layer {number} The photo year to show
 	 */
 	showPhoto(year) {
-		year = year || this.latestPhoto;
-		// this.hidePhoto();
-		this.addLayer(this.photos[year + '']);
-		this.showLabels('photo');
+		year = year || this.latestPhoto
+		this.hidePhoto()
+		this.addLayer(this.photos[year + ''])
+		this.showLabels('photo')
 	}
-	
-}
 
+	/**
+	 * @desc Show photo layer
+	 * @public
+	 * @override
+	 * @method
+	 * @param labelType {BasemapHelper.LabelType} The label type to show
+	 */
+	showLabels(labelType) {
+		this[labelType == BasemapHelper.LabelType.BASE ? 'addLayer' : 'removeLayer'](this.labels.base)
+		this[labelType == BasemapHelper.LabelType.PHOTO ? 'addLayer' : 'removeLayer'](this.labels.photo)
+	}
+
+	/**
+	 * @desc Hide photo layer
+	 * @public
+	 * @override
+	 * @method
+	 */
+	hidePhoto() {
+		this.showLabels(BasemapHelper.LabelType.BASE)
+		Object.keys(this.photos).map(photoYear => {
+			if (this.hasLayer(this.photos[photoYear])) {
+				this.removeLayer(this.photos[photoYear])
+			}
+		})
+	}
+	/**
+	 * @desc Returns the base layers
+	 * @public
+	 * @override
+	 * @method
+	 * @return {BasemapHelper.BaseLayers}
+	 */
+	getBaseLayers() {
+		return {
+			base: this.base,
+			labels: this.labels,
+			photos: this.photos
+		}
+	}
+	/**
+	 * @private
+	 * @method
+	 */
+	photoChange() {
+		Object.keys(this.photos).map(photo => {
+			if (this.hasLayer(this.photos[photo])) {
+				this.showLabels(BasemapHelper.LabelType.PHOTO)
+				return
+			}
+		})
+
+		this.showLabels(BasemapHelper.LabelType.BASE)
+	}
+}
 /**
  * @desc The URL of the New York City base map tiles
  * @private
