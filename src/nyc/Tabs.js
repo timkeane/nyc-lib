@@ -40,10 +40,7 @@ class Tabs extends Container {
    * @param {JQuery|Element|string} tab
    */
   open(tab) {
-    console.warn(tab)
     tab = this.find(tab)
-    console.log("ID=",tab.attr('id'))
-    console.warn(tab)
     this.find('.btns h3, .tab').removeClass('active')
       .not('.tab').attr('aria-pressed', false)
     tab.addClass('active')
@@ -67,7 +64,6 @@ render(tabs){
         .addClass(`btn-tab btn-${i}`)
         .data('tab', tb)
       tb.data('btn', btn)
-      console.log('ID=',tb.attr('id'));
       this.btns.append(btn)
       this.tabs.append(tb)
       if (tab.active) {

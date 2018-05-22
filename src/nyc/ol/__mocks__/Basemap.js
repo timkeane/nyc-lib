@@ -1,11 +1,15 @@
 const mock = jest.fn().mockImplementation(() => {
   return {
     getView: () => {
-      return {fit: jest.fn()}
+      return {
+        fit: jest.fn(),
+        animate: jest.fn()
+      }
     },
     addLayer: jest.fn(),
     getSize: jest.fn(() => {return [100, 100]}),
-    setSize: jest.fn()
+    setSize: jest.fn(),
+    once: jest.fn()
   }
 })
 
