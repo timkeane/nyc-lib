@@ -86,7 +86,7 @@ html, body.fnd, .fnd #map {
   border-top: 1px solid var(--color-medium)
 }
 .fnd #map, .fnd #facilities {
-  width: : 100%;
+  width: 100%;
 }
 .fnd #filters .clps {
   margin-bottom: 5px;
