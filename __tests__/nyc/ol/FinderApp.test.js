@@ -316,7 +316,7 @@ test('showSplash', () => {
 })
 
 describe('createTabs', () => {
-  test('createTabs called from constructor no filters', () => {
+  test('createTabs called from constructor no filters tiles provided', () => {
     expect.assertions(12)
 
     const finderApp = new FinderApp({
@@ -331,9 +331,9 @@ describe('createTabs', () => {
     expect(finderApp.tabs instanceof Tabs).toBe(true)
     expect(finderApp.tabs.tabs.children().length).toBe(2)
     expect(finderApp.tabs.tabs.find('#map').length).toBe(1)
-    expect(finderApp.tabs.tabs.find('#map').data('btn').html()).toBe('<span class=\"screen-reader-only\">show </span>Map')
+    expect(finderApp.tabs.tabs.find('#map').data('btn').html()).toBe('<span class="screen-reader-only">show </span>Map')
     expect(finderApp.tabs.tabs.find('#facilities').length).toBe(1)
-    expect(finderApp.tabs.tabs.find('#facilities').data('btn').html()).toBe('<span class=\"screen-reader-only\">show </span>Facility Title')
+    expect(finderApp.tabs.tabs.find('#facilities').data('btn').html()).toBe('<span class="screen-reader-only">show </span>Facility Title')
   
     expect($.mocks.resize).toHaveBeenCalledTimes(1)
     expect($.mocks.resize.mock.instances[0].get(0)).toBe(window)
@@ -346,16 +346,14 @@ describe('createTabs', () => {
     expect($.mocks.resize.mock.calls[0][0]).toBe($.mocks.proxy.returnedValues[lastCall])
   })
 
-  test('createTabs called from constructor has filters', () => {
+  test('createTabs called from constructor has filters tiles not provided', () => {
     expect.assertions(14)
 
     const finderApp = new FinderApp({
       title: 'Finder App',
-      facilityTabTitle: 'Facility Title',
       facilityUrl: 'http://facility',
       facilityFormat: format,
       facilityStyle: style,
-      filterTabTitle: 'Filter Title',
       filterChoiceOptions: filterChoiceOptions,
       geoclientUrl: 'http://geoclient'
     })
@@ -363,11 +361,11 @@ describe('createTabs', () => {
     expect(finderApp.tabs instanceof Tabs).toBe(true)
     expect(finderApp.tabs.tabs.children().length).toBe(3)
     expect(finderApp.tabs.tabs.find('#map').length).toBe(1)
-    expect(finderApp.tabs.tabs.find('#map').data('btn').html()).toBe('<span class=\"screen-reader-only\">show </span>Map')
+    expect(finderApp.tabs.tabs.find('#map').data('btn').html()).toBe('<span class="screen-reader-only">show </span>Map')
     expect(finderApp.tabs.tabs.find('#facilities').length).toBe(1)
-    expect(finderApp.tabs.tabs.find('#facilities').data('btn').html()).toBe('<span class=\"screen-reader-only\">show </span>Facility Title')
+    expect(finderApp.tabs.tabs.find('#facilities').data('btn').html()).toBe('<span class="screen-reader-only">show </span>Facilities')
     expect(finderApp.tabs.tabs.find('#filters').length).toBe(1)
-    expect(finderApp.tabs.tabs.find('#filters').data('btn').html()).toBe('<span class=\"screen-reader-only\">show </span>Filter Title')
+    expect(finderApp.tabs.tabs.find('#filters').data('btn').html()).toBe('<span class="screen-reader-only">show </span>Filters')
   
     expect($.mocks.resize).toHaveBeenCalledTimes(1)
     expect($.mocks.resize.mock.instances[0].get(0)).toBe(window)
@@ -797,7 +795,7 @@ describe('ready', () => {
   })
 })
 
-describe('handleButton',() => {
+describe('handleButton', () => {
   let target
   beforeEach(() => {
     target = $('<div></div>')
@@ -832,5 +830,234 @@ describe('handleButton',() => {
     expect(global.finderApp.zoomTo).toHaveBeenCalledTimes(1)
     expect(global.finderApp.directionsTo).toHaveBeenCalledTimes(1)
     expect(global.finderApp.directionsTo.mock.calls[0][0]).toBe('mock-feature')
+  })
+})
+
+describe('FEATURE_DECORATIONS', () => {
+  let extendedDecorations = {}
+  beforeEach(() => {
+    extendedDecorations = {}
+    $.extend(extendedDecorations, FinderApp.FEATURE_DECORATIONS, {
+      getName() {
+        return 'A Name'
+      },
+      getAddress1() {
+        return 'Address line 1'
+      },
+      getAddress2() {
+        return 'Address line 2'
+      },
+      getCityStateZip() {
+        return 'City, State Zip'
+      },
+      getPhone() {
+        return '212-867-5309'
+      },
+      getEmail() {
+        return 'email@email.com'
+      },
+      getWebsite() {
+        return 'http://website'
+      },
+      detailsHtml() {
+        return 'Some details'
+      },
+      cssClass() {
+        return 'css-class'
+      }
+    })
+  })
+
+  test('getName', () => {
+    expect.assertions(1)
+    expect(() => {
+      FinderApp.FEATURE_DECORATIONS.getName()
+    }).toThrow('A getName decoration must be provided')
+  })
+
+  test('getAddress1', () => {
+    expect.assertions(1)
+    expect(() => {
+      FinderApp.FEATURE_DECORATIONS.getAddress1()
+    }).toThrow('A getAddress1 decoration must be provided to use default html method')
+  })
+
+  test('getAddress2', () => {
+    expect.assertions(1)
+    expect(FinderApp.FEATURE_DECORATIONS.getAddress2()).toBe('')
+  })
+
+  test('getCityStateZip', () => {
+    expect.assertions(1)
+    expect(() => {
+      FinderApp.FEATURE_DECORATIONS.getCityStateZip()
+    }).toThrow('A getCityStateZip decoration must be provided to use default html method')
+  })
+
+  test('getPhone', () => {
+    expect.assertions(1)
+    expect(FinderApp.FEATURE_DECORATIONS.getPhone()).toBe(undefined)
+  })
+
+  test('getEmail', () => {
+    expect.assertions(1)
+    expect(FinderApp.FEATURE_DECORATIONS.getEmail()).toBe(undefined)
+  })
+
+  test('getWebsite', () => {
+    expect.assertions(1)
+    expect(FinderApp.FEATURE_DECORATIONS.getWebsite()).toBe(undefined)
+  })
+
+  test('cssClass', () => {
+    expect.assertions(1)
+    expect(FinderApp.FEATURE_DECORATIONS.cssClass()).toBe(undefined)
+  })
+
+  test('detailsHtml', () => {
+    expect.assertions(1)
+    expect(FinderApp.FEATURE_DECORATIONS.detailsHtml()).toBe(undefined)
+  })
+
+  test('nameHtml', () => {
+    expect.assertions(2)
+    const html = extendedDecorations.nameHtml()
+    expect(html.length).toBe(1)
+    expect($('<div></div>').append(html).html()).toBe(
+      '<div class="name notranslate">A Name</div>'
+    )
+  })
+
+  test('addressHtml with line 2', () => {
+    expect.assertions(2)
+    const html = extendedDecorations.addressHtml()
+    expect(html.length).toBe(1)
+    expect($('<div></div>').append(html).html()).toBe(
+      '<div class="addr"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div>'
+    )
+  })
+
+  test('addressHtml no line 2', () => {
+    expect.assertions(2)
+    extendedDecorations.getAddress2 = () => {return ''}
+    const html = extendedDecorations.addressHtml()
+    expect(html.length).toBe(1)
+    expect($('<div></div>').append(html).html()).toBe(
+      '<div class="addr"><div class="ln1">Address line 1</div><div class="ln3">City, State Zip</div></div>'
+    )
+  })
+
+  test('mapButton', () => {
+    expect.assertions(3)
+    const html = extendedDecorations.mapButton()
+    expect(html.length).toBe(1)
+    expect(html.data('feature')).toBe(extendedDecorations)
+    expect($('<div></div>').append(html).html()).toBe(
+      '<a class="btn rad-all map" role="button">Map</a>'
+    )
+  })
+
+  test('mapButton', () => {
+    expect.assertions(3)
+    const html = extendedDecorations.directionsButton()
+    expect(html.length).toBe(1)
+    expect(html.data('feature')).toBe(extendedDecorations)
+    expect($('<div></div>').append(html).html()).toBe(
+      '<a class="btn rad-all dir" role="button">Directions</a>'
+    )
+  })
+
+  test('phoneButton has phone', () => {
+    expect.assertions(2)
+    const html = extendedDecorations.phoneButton()
+    expect(html.length).toBe(1)
+    expect($('<div></div>').append(html).html()).toBe(
+      '<a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a>'
+    )
+  })
+
+  test('phoneButton no phone', () => {
+    expect.assertions(1)
+    extendedDecorations.getPhone = () => {}
+    expect(extendedDecorations.phoneButton()).toBe(undefined)
+  })
+
+  test('emailButton has email', () => {
+    expect.assertions(2)
+    const html = extendedDecorations.emailButton()
+    expect(html.length).toBe(1)
+    expect($('<div></div>').append(html).html()).toBe(
+      '<a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a>'
+    )
+  })
+
+  test('emailButton no email', () => {
+    expect.assertions(1)
+    extendedDecorations.getEmail = () => {}
+    expect(extendedDecorations.emailButton()).toBe(undefined)
+  })
+
+  test('websiteButton has website', () => {
+    expect.assertions(2)
+    const html = extendedDecorations.websiteButton()
+    expect(html.length).toBe(1)
+    expect($('<div></div>').append(html).html()).toBe(
+      '<a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a>'
+    )
+  })
+
+  test('websiteButton no website', () => {
+    expect.assertions(1)
+    extendedDecorations.getWebsite = () => {}
+    expect(extendedDecorations.websiteButton()).toBe(undefined)
+  })
+
+  test('distanceHtml has distance in feet', () => {
+    expect.assertions(2)
+    extendedDecorations.getDistance = () => {return {distance: 1000, units: 'ft'}}
+    const html = extendedDecorations.distanceHtml()
+    expect(html.length).toBe(1)
+    expect($('<div></div>').append(html).html()).toBe(
+      '<div class="dist">• 0.19 mi •</div>'
+    )
+  })
+
+  test('distanceHtml has distance in meters', () => {
+    expect.assertions(2)
+    extendedDecorations.getDistance = () => {return {distance: 1000, units: 'm'}}
+    const html = extendedDecorations.distanceHtml()
+    expect(html.length).toBe(1)
+    expect($('<div></div>').append(html).html()).toBe(
+      '<div class="dist">• 1.00 km •</div>'
+    )
+  })
+
+  test('distanceHtml no distance', () => {
+    expect.assertions(1)
+    expect(extendedDecorations.distanceHtml()).toBe(undefined)
+  })
+
+  test('detailsCollapsible has details', () => {
+    expect.assertions(2)
+    const html = extendedDecorations.detailsCollapsible()
+    expect(html.length).toBe(1)
+    expect($('<div></div>').append(html).html()).toBe(
+      '<div class="details"><div class="clps rad-all"><h3 class="btn rad-all" role="button"><button class="btn-rnd expd"><span class="screen-reader-only">show/hide</span></button>Details...</h3><div class="content rad-bot" style="display: none;"></div></div></div>'
+    )
+  })
+
+  test('detailsCollapsible no details', () => {
+    expect.assertions(1)
+    extendedDecorations.detailsHtml = () => {}
+    expect(extendedDecorations.detailsCollapsible()).toBe(undefined)
+  })
+
+  test('html', () => {
+    expect.assertions(2)
+    const html = extendedDecorations.html()
+    expect(html.length).toBe(1)
+    expect($('<div></div>').append(html).html()).toBe(
+      '<div class="facility css-class"><div class="name notranslate">A Name</div><div class="addr"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a><a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a><a class="btn rad-all map" role="button">Map</a><a class="btn rad-all dir" role="button">Directions</a></div>'
+    )
   })
 })

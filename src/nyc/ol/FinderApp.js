@@ -5,6 +5,7 @@
 import $ from 'jquery'
 
 import nyc from 'nyc/nyc'
+import Collapsible from 'nyc/Collapsible'
 import Dialog from 'nyc/Dialog'
 import Share from 'nyc/Share'
 import Tabs from 'nyc/Tabs'
@@ -187,7 +188,7 @@ class FinderApp {
   createTabs(options) {
     const pages = [
       {tab: '#map', title: 'Map'},
-      {tab: '#facilities', title: options.facilityTabTitle || 'facilities'}
+      {tab: '#facilities', title: options.facilityTabTitle || 'Facilities'}
     ]
     if (this.filters) {
       pages.push({tab: '#filters', title: options.filterTabTitle || 'Filters'})
@@ -397,21 +398,27 @@ FinderApp.FEATURE_DECORATIONS = {
    */
   detailsHtml() {},
   /**
+   * @desc Returns the name of a facility feature to append to HTML
+   * @public
+   * @method
+   * @return {JQuery}
+   */
+  nameHtml() {
+    return $('<div class="name notranslate"></div>').html(this.getName())
+  },
+  /**
    * @desc Returns the full address of a facility feature to append to HTML
    * @public
    * @method
    * @return {JQuery}
    */
   addressHtml() {
-    const html = $('<div calss="addr"></div>')
-    .append(`<div calss="ln1">${this.getAddress1()}</div>`)
-    if (this.getAddress2 && this.getAddress2()) {
-      html.append(`<div calss="ln2">${this.getAddress2()}</div>`)
+    const html = $('<div class="addr"></div>')
+    .append(`<div class="ln1">${this.getAddress1()}</div>`)
+    if (this.getAddress2()) {
+      html.append(`<div class="ln2">${this.getAddress2()}</div>`)
     }
-    return html.append(`<div calss="ln3">${this.getCityStateZip()}</div>`)
-  },
-  nameHtml() {
-    return $('<div class="name notranslate"></div>').html(this.getName())
+    return html.append(`<div class="ln3">${this.getCityStateZip()}</div>`)
   },
   /**
    * @desc Returns an HTML button that when clicked will zoom to the facility
@@ -444,8 +451,21 @@ FinderApp.FEATURE_DECORATIONS = {
   phoneButton() {
     const phone = this.getPhone()
     if (phone) {
-      return $(`<a class="btn rad-all phone">${phone}</a>`)
+      return $(`<a class="btn rad-all phone" role="button">${phone}</a>`)
         .attr('href', `tel:${phone}`)
+    }
+  },
+  /**
+   * @desc Returns an HTML button that when clicked will open email editor for the provided email
+   * @public
+   * @method
+   * @return {JQuery}
+   */
+  emailButton() {
+    const email = this.getEmail()
+    if (email) {
+      return $(`<a class="btn rad-all email" role="button">Email</a>`)
+        .attr('href', `mailto:${email}`)
     }
   },
   /**
@@ -459,19 +479,6 @@ FinderApp.FEATURE_DECORATIONS = {
     if (url) {
     return $(`<a class="btn rad-all web" target="blank" role="button">Website</a>`)
       .attr('href', url)
-    }
-  },
-  /**
-   * @desc Returns an HTML button that when clicked will open email editor for the provided email
-   * @public
-   * @method
-   * @return {JQuery}
-   */
-  emailButton() {
-    const email = this.getEmail()
-    if (email) {
-      return $(`<a class="btn rad-all email">Email</a>`)
-        .attr('href', `mailto:${email}`)
     }
   },
   /**
