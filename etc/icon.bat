@@ -1,6 +1,6 @@
-set ink=%1
-set infile=%2
-set outdir=%3
+set ink=%3
+set infile=%1
+set outdir=%2
 
 set sizes=512 384 256 192 180 167 152 120 76 60
 
