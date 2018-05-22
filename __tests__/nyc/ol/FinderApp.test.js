@@ -1,3 +1,5 @@
+import nyc from 'nyc/nyc'
+
 import Dialog from '../../../src/nyc/Dialog'
 import Share from '../../../src/nyc/Share'
 import Tabs from '../../../src/nyc/Tabs'
@@ -476,7 +478,7 @@ test('located', () => {
 
 describe('resetList', () => {
   test('resetList is filter event has coordinate', () => {
-    expect.assertions(6)
+    expect.assertions(7)
 
     const features = [{}, {}]
     FilterAndSort.features = features
@@ -504,8 +506,331 @@ describe('resetList', () => {
     expect(finderApp.pager.reset).toHaveBeenCalledTimes(1)
     expect(finderApp.pager.reset.mock.calls[0][0]).toBe(features)
 
+    expect(finderApp.source.getFeatures).toHaveBeenCalledTimes(0)
     expect(finderApp.source.sort).toHaveBeenCalledTimes(1)
     expect(finderApp.source.sort.mock.calls[0][0]).toBe(finderApp.location.coordinate)
   })
+
+  test('resetList no filter event no coordinate', () => {
+    expect.assertions(7)
+
+    const features = [{}, {}]
+    FilterAndSort.features = features
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    finderApp.pager.reset = jest.fn()
+
+    finderApp.resetList()
+
+    expect($('#tabs .btns h3.btn-2').hasClass('filtered')).toBe(false)
+
+    expect(finderApp.popup.hide).toHaveBeenCalledTimes(1)
+
+    expect(finderApp.pager.reset).toHaveBeenCalledTimes(1)
+    expect(finderApp.pager.reset.mock.calls[0][0]).toBe(features)
+
+    expect(finderApp.source.sort).toHaveBeenCalledTimes(0)
+    expect(finderApp.source.getFeatures).toHaveBeenCalledTimes(1)
+    expect(finderApp.source.getFeatures.mock.calls[0][0]).toBe(finderApp.location.coordinate)
+  })
 })
 
+test('parentFomat', () => {
+  expect.assertions(2)
+
+  const format = {parentFomat: 'mock-format'}
+
+  const finderApp = new FinderApp({
+    title: 'Finder App',
+    facilityTabTitle: 'Facility Title',
+    facilityUrl: 'http://facility',
+    facilityFormat: format,
+    facilityStyle: style,
+    filterTabTitle: 'Filter Title',
+    filterChoiceOptions: filterChoiceOptions,
+    geoclientUrl: 'http://geoclient'
+  })
+
+  expect(finderApp.parentFomat(format)).toBe('mock-format')  
+
+  delete format.parentFomat
+
+  expect(finderApp.parentFomat(format)).toBe(format)  
+})
+
+describe('decorations', () => {
+  test('decorations none supplied', () => {
+    expect.assertions(2)
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    const decorations = finderApp.decorations({}, {})
+
+    expect(decorations.length).toBe(1)
+    expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
+  })
+
+  test('decorations supplied on parentFormat', () => {
+    expect.assertions(3)
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    const decoratedFormat = {
+      parentFomat: {
+        decorations: [{foo: 'bar', bar: 'foo'}]
+      }
+  }
+    const decorations = finderApp.decorations({}, decoratedFormat)
+
+    expect(decorations.length).toBe(2)
+    expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
+    expect(decorations[1]).toBe(decoratedFormat.parentFomat.decorations[0])
+  })
+
+  test('decorations supplied on format', () => {
+    expect.assertions(3)
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    const decoratedFormat = {
+      decorations: [{foo: 'bar', bar: 'foo'}]
+    }
+
+    const decorations = finderApp.decorations({}, decoratedFormat)
+
+    expect(decorations.length).toBe(2)
+    expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
+    expect(decorations[1]).toBe(decoratedFormat.decorations[0])
+  })
+
+  test('decorations supplied on parentFormat', () => {
+    expect.assertions(3)
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    const decoratedFormat = {
+      parentFomat: {
+        decorations: [{foo: 'bar', bar: 'foo'}]
+      }
+  }
+    const decorations = finderApp.decorations({}, decoratedFormat)
+
+    expect(decorations.length).toBe(2)
+    expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
+    expect(decorations[1]).toBe(decoratedFormat.parentFomat.decorations[0])
+  })
+
+  test('decorations supplied on options', () => {
+    expect.assertions(3)
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    const options = {
+      decorations: [{foo: 'bar', bar: 'foo'}]
+    }
+
+    const decorations = finderApp.decorations(options, {})
+
+    expect(decorations.length).toBe(2)
+    expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
+    expect(decorations[1]).toBe(options.decorations[0])
+  })
+
+  test('decorations supplied on all the things', () => {
+    expect.assertions(5)
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    const options = {
+      decorations: [{foo: 'bar', bar: 'foo'}]
+    }
+    const decoratedFormat = {
+      parentFomat: {
+        decorations: [{doo: 'fus', wtf: 'lol'}]
+      },
+      decorations: [{you: 'me', me: 'you'}]
+    }
+
+    const decorations = finderApp.decorations(options, decoratedFormat)
+
+    expect(decorations.length).toBe(4)
+    expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
+    expect(decorations[1]).toBe(decoratedFormat.parentFomat.decorations[0])
+    expect(decorations[2]).toBe(decoratedFormat.decorations[0])
+    expect(decorations[3]).toBe(options.decorations[0])
+  })
+})
+
+describe('ready', () => {
+  const ready = nyc.ready
+  afterEach(() => {
+    nyc.ready = ready
+  })
+
+  test('ready no search options', () => {
+    expect.assertions(6)
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    nyc.ready = jest.fn()
+    finderApp.pager.reset = jest.fn()
+    finderApp.locationMgr.zoomSearch = {
+      setFeatures: jest.fn()
+    }
+
+    finderApp.ready('mock-features')
+
+    expect(finderApp.pager.reset).toHaveBeenCalledTimes(1)
+    expect(finderApp.pager.reset.mock.calls[0][0]).toBe('mock-features')
+
+    expect(finderApp.locationMgr.zoomSearch.setFeatures).toHaveBeenCalledTimes(1)
+    expect(finderApp.locationMgr.zoomSearch.setFeatures.mock.calls[0][0].features).toBe('mock-features')
+
+    expect(nyc.ready).toHaveBeenCalledTimes(1)
+    expect(nyc.ready.mock.calls[0][0].get(0)).toBe(document.body)
+  })
+
+  test('ready has search options', () => {
+    expect.assertions(7)
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    nyc.ready = jest.fn()
+    finderApp.pager.reset = jest.fn()
+    finderApp.locationMgr.zoomSearch = {
+      setFeatures: jest.fn()
+    }
+    finderApp.facilitySearchOptions = {}
+    finderApp.ready('mock-features')
+
+    expect(finderApp.pager.reset).toHaveBeenCalledTimes(1)
+    expect(finderApp.pager.reset.mock.calls[0][0]).toBe('mock-features')
+
+    expect(finderApp.locationMgr.zoomSearch.setFeatures).toHaveBeenCalledTimes(1)
+    expect(finderApp.locationMgr.zoomSearch.setFeatures.mock.calls[0][0]).toBe(finderApp.facilitySearchOptions)
+    expect(finderApp.locationMgr.zoomSearch.setFeatures.mock.calls[0][0].features).toBe('mock-features')
+
+    expect(nyc.ready).toHaveBeenCalledTimes(1)
+    expect(nyc.ready.mock.calls[0][0].get(0)).toBe(document.body)
+  })
+})
+
+describe('handleButton',() => {
+  let target
+  beforeEach(() => {
+    target = $('<div></div>')
+    target.data('feature', 'mock-feature')
+    target = target.get(0)
+    $('body').append(target)
+  })
+  afterEach(() => {
+    $(target).remove()
+  })
+
+  test('handleButton map', () => {
+    expect.assertions(6)
+    
+    global.finderApp = {
+      zoomTo: jest.fn(),
+      directionsTo: jest.fn()
+    }
+
+    $(target).addClass('map')
+
+    FinderApp.handleButton({currentTarget: target})
+
+    expect(global.finderApp.directionsTo).toHaveBeenCalledTimes(0)
+    expect(global.finderApp.zoomTo).toHaveBeenCalledTimes(1)
+    expect(global.finderApp.zoomTo.mock.calls[0][0]).toBe('mock-feature')
+
+    $(target).removeClass('map')
+
+    FinderApp.handleButton({currentTarget: target})
+
+    expect(global.finderApp.zoomTo).toHaveBeenCalledTimes(1)
+    expect(global.finderApp.directionsTo).toHaveBeenCalledTimes(1)
+    expect(global.finderApp.directionsTo.mock.calls[0][0]).toBe('mock-feature')
+  })
+})

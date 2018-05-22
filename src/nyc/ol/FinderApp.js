@@ -218,7 +218,7 @@ class FinderApp {
   /**
    * @private
    * @method
-   * @param {Locator.Result}
+   * @param {Locator.Result} location
    */
   located(location) {
     this.location = location
@@ -227,7 +227,7 @@ class FinderApp {
   /**
    * @private
    * @method
-   * @param {Object}
+   * @param {Object} event
    */
   resetList(event) {
     if (event instanceof Filters) {
@@ -242,7 +242,7 @@ class FinderApp {
   /**
    * @private
    * @method
-   * @param {ol.format.Feature}
+   * @param {ol.format.Feature} format
    * @return {ol.format.Feature}
    */
   parentFomat(format) {
@@ -294,8 +294,9 @@ FinderApp.handleButton = (event) => {
   const feature = target.data('feature')
   if (target.hasClass('map')) {
     global.finderApp.zoomTo(feature)
+  } else {
+    global.finderApp.directionsTo(feature)
   }
-  global.finderApp.directionsTo(feature)
 }
 
 /**

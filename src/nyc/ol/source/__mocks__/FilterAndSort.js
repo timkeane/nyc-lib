@@ -8,7 +8,7 @@ const mock = jest.fn().mockImplementation(() => {
     }),
     autoLoad: () => {
     return new Promise(resolve => {
-      resolve([{id: '1'}])
+      resolve(mock.features)
     })
   }
 }
