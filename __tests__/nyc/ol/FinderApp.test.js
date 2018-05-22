@@ -77,6 +77,9 @@ beforeEach(() => {
   OlLayerVector.mockClear()
   OlStyleStyle.mockClear()
 })
+afterEach(() => {
+  $('body').empty()
+})
 
 test('constructor', () => {
   expect.assertions(60)

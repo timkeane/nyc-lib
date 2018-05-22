@@ -44,14 +44,12 @@ class Tabs extends Container {
     tab = this.find(tab)
     console.log("ID=",tab.attr('id'))
     console.warn(tab)
-    if (tab.length) {
-      this.find('.btns h3, .tab').removeClass('active')
-        .not('.tab').attr('aria-pressed', false)
-      tab.addClass('active')
-      tab.data('btn').addClass('active').attr('aria-pressed', true)
-      this.active = tab
-      this.trigger('change', this)
-    }
+    this.find('.btns h3, .tab').removeClass('active')
+      .not('.tab').attr('aria-pressed', false)
+    tab.addClass('active')
+    tab.data('btn').addClass('active').attr('aria-pressed', true)
+    this.active = tab
+    this.trigger('change', this)
   }
   /**
    * @private
