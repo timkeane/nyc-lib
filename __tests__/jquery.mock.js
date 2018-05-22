@@ -1,6 +1,7 @@
 import $ from 'jquery'
 
 $.originalFunctions = {
+  width: $.fn.width,
   proxy: $.proxy,
   ajax: $.ajax
 }
@@ -53,7 +54,8 @@ $.resetMocks = () => {
       instance.data('width', width)
       return instance
     } else {
-      return instance.data('width')
+      width = instance.data('width')
+      return typeof width === 'number' ? width : $.originalFunctions.width.call(instance)
     }
   })
 
