@@ -1,1 +1,0 @@
-QUnit.module('nyc.ol.Popup');
