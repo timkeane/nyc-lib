@@ -429,3 +429,83 @@ describe('adjustTabs', () => {
   })
 })
 
+test('resizeMap', () => {
+  expect.assertions(2)
+
+  const finderApp = new FinderApp({
+    title: 'Finder App',
+    facilityTabTitle: 'Facility Title',
+    facilityUrl: 'http://facility',
+    facilityFormat: format,
+    facilityStyle: style,
+    filterTabTitle: 'Filter Title',
+    filterChoiceOptions: filterChoiceOptions,
+    geoclientUrl: 'http://geoclient'
+  })
+
+  $('#map').width(500)
+  $('#map').height(400)
+
+  finderApp.resizeMap()
+
+  expect(finderApp.map.setSize).toHaveBeenCalledTimes(2)
+  expect(finderApp.map.setSize.mock.calls[1][0]).toEqual([500, 400])
+})
+
+test('located', () => {
+  expect.assertions(2)
+
+  const finderApp = new FinderApp({
+    title: 'Finder App',
+    facilityTabTitle: 'Facility Title',
+    facilityUrl: 'http://facility',
+    facilityFormat: format,
+    facilityStyle: style,
+    filterTabTitle: 'Filter Title',
+    filterChoiceOptions: filterChoiceOptions,
+    geoclientUrl: 'http://geoclient'
+  })
+
+  finderApp.resetList = jest.fn()
+
+  finderApp.located('mock-location')
+
+  expect(finderApp.location).toBe('mock-location')
+  expect(finderApp.resetList).toHaveBeenCalledTimes(1)
+})
+
+describe('resetList', () => {
+  test('resetList is filter event has coordinate', () => {
+    expect.assertions(6)
+
+    const features = [{}, {}]
+    FilterAndSort.features = features
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    finderApp.location = {coordinate: [0, 0]}
+    finderApp.pager.reset = jest.fn()
+
+    finderApp.resetList(finderApp.filters)
+
+    expect($('#tabs .btns h3.btn-2').hasClass('filtered')).toBe(true)
+
+    expect(finderApp.popup.hide).toHaveBeenCalledTimes(1)
+
+    expect(finderApp.pager.reset).toHaveBeenCalledTimes(1)
+    expect(finderApp.pager.reset.mock.calls[0][0]).toBe(features)
+
+    expect(finderApp.source.sort).toHaveBeenCalledTimes(1)
+    expect(finderApp.source.sort.mock.calls[0][0]).toBe(finderApp.location.coordinate)
+  })
+})
+

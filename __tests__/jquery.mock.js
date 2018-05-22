@@ -2,6 +2,7 @@ import $ from 'jquery'
 
 $.originalFunctions = {
   width: $.fn.width,
+  height: $.fn.height,
   proxy: $.proxy,
   ajax: $.ajax
 }
@@ -59,6 +60,18 @@ $.resetMocks = () => {
     }
   })
 
+  $.fn.height = jest.fn().mockImplementation(height => {
+    const instances = $.mocks.height.mock.instances
+    const instance = instances[instances.length - 1]
+    if (typeof height === 'number') {
+      instance.data('height', height)
+      return instance
+    } else {
+      height = instance.data('height')
+      return typeof height === 'number' ? height : $.originalFunctions.height.call(instance)
+    }
+  })
+
   $.proxy = jest.fn()
   $.proxy.returnedValues = []
   $.proxy.mockImplementation((fn, scope) => {
@@ -86,6 +99,7 @@ $.resetMocks = () => {
     fadeToggle: $.fn.fadeToggle,
     resize: $.fn.resize,
     width: $.fn.width,
+    height: $.fn.height,
     proxy: $.proxy,
     ajax: $.ajax
   }
