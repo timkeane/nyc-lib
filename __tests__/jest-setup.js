@@ -1,2 +1,2 @@
 global.fetch = require('jest-fetch-mock')
-global.$ = require('../mocks/jquery.mock').default
+global.$ = require('jquery.mock').default
