@@ -53,6 +53,7 @@ const style = new OlStyleStyle({})
 const filterChoiceOptions = []
 
 beforeEach(() => {
+  $.resetMocks()
   Dialog.mockClear()
   Share.mockClear()
   // Tabs.mockClear()
@@ -174,17 +175,17 @@ describe('zoomTo', () => {
     expect.assertions(0)
     const feature = new OlFeature({geometry: new OlGeomPoint([0, 0])})
     
-    // const finderApp = new FinderApp({
-    //   title: 'Finder App',
-    //   splashContent: 'splash page message',
-    //   facilityTabTitle: 'Facility Title',
-    //   facilityUrl: 'http://facility',
-    //   facilityFormat: format,
-    //   facilityStyle: style,
-    //   filterTabTitle: 'Filter Title',
-    //   filterChoiceOptions: filterChoiceOptions,
-    //   geoclientUrl: 'http://geoclient'
-    // })
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      splashContent: 'splash page message',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
 
     // $('h3.btn-0').hide()
     // finderApp.zoomTo(feature)

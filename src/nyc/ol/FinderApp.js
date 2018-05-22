@@ -132,6 +132,7 @@ class FinderApp {
     const popup = this.popup
     popup.hide()
     if ($('h3.btn-0').css('display') === 'table-cell') {
+      console.warn(this.tabs)
       this.tabs.open($('#map'))
     }
     this.map.once('moveend', () => {
@@ -198,7 +199,7 @@ class FinderApp {
    */
   adjustTabs() {  
     if (Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1) {
-      console.warn($('#map'))
+      // console.log(this.tabs)
       this.tabs.open($('#map'))
     } else {
       this.tabs.open($('#facilities'))
