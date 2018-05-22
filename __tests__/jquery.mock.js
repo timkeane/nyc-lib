@@ -44,6 +44,8 @@ $.resetMocks = () => {
     if (callback) callback()
   })
 
+  $.fn.resize = jest.fn()
+
   $.proxy = jest.fn()
   $.proxy.returnedValues = []
   $.proxy.mockImplementation((fn, scope) => {
@@ -69,6 +71,7 @@ $.resetMocks = () => {
     fadeIn: $.fn.fadeIn,
     fadeOut: $.fn.fadeOut,
     fadeToggle: $.fn.fadeToggle,
+    resize: $.fn.resize,
     proxy: $.proxy,
     ajax: $.ajax
   }

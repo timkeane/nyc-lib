@@ -277,7 +277,6 @@ test('directionsTo without from', () => {
     facilityUrl: 'http://facility',
     facilityFormat: format,
     facilityStyle: style,
-    filterTabTitle: 'Filter Title',
     geoclientUrl: 'http://geoclient'
   })
 
@@ -292,4 +291,90 @@ test('directionsTo without from', () => {
   expect(filters.on.mock.calls[0][0]).toBe('change')
   expect(filters.on.mock.calls[0][1]).toBe(finderApp.resetList)
   expect(filters.on.mock.calls[0][2]).toBe(finderApp)
+})
+
+test('showSplash', () => {
+  expect.assertions(4)
+  
+  const finderApp = new FinderApp({
+    title: 'Finder App',
+    facilityTabTitle: 'Facility Title',
+    facilityUrl: 'http://facility',
+    facilityFormat: format,
+    facilityStyle: style,
+    geoclientUrl: 'http://geoclient'
+  })
+
+  finderApp.showSplash('splash page message')
+
+  expect(Dialog).toHaveBeenCalledTimes(1)
+  expect(Dialog.mock.calls[0][0]).toBe('splash')
+  expect(Dialog.mock.instances[0].ok.mock.calls[0][0].message).toBe('splash page message')
+  expect(Dialog.mock.instances[0].ok.mock.calls[0][0].buttonText[0]).toBe('Continue...')
+})
+
+describe('createTabs', () => {
+  test('createTabs called from constructor no filters', () => {
+    expect.assertions(12)
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    expect(finderApp.tabs instanceof Tabs).toBe(true)
+    expect(finderApp.tabs.tabs.children().length).toBe(2)
+    expect(finderApp.tabs.tabs.find('#map').length).toBe(1)
+    expect(finderApp.tabs.tabs.find('#map').data('btn').html()).toBe('<span class=\"screen-reader-only\">show </span>Map')
+    expect(finderApp.tabs.tabs.find('#facilities').length).toBe(1)
+    expect(finderApp.tabs.tabs.find('#facilities').data('btn').html()).toBe('<span class=\"screen-reader-only\">show </span>Facility Title')
+  
+    expect($.mocks.resize).toHaveBeenCalledTimes(1)
+    expect($.mocks.resize.mock.instances[0].get(0)).toBe(window)
+
+    expect($.mocks.proxy).toHaveBeenCalled()
+    const lastCall = $.mocks.proxy.mock.calls.length - 1
+    expect($.mocks.proxy.mock.calls[lastCall][0]).toBe(finderApp.adjustTabs)
+    expect($.mocks.proxy.mock.calls[lastCall][1]).toBe(finderApp)
+
+    expect($.mocks.resize.mock.calls[0][0]).toBe($.mocks.proxy.returnedValues[lastCall])
+  })
+
+  test('createTabs called from constructor has filters', () => {
+    expect.assertions(14)
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    expect(finderApp.tabs instanceof Tabs).toBe(true)
+    expect(finderApp.tabs.tabs.children().length).toBe(3)
+    expect(finderApp.tabs.tabs.find('#map').length).toBe(1)
+    expect(finderApp.tabs.tabs.find('#map').data('btn').html()).toBe('<span class=\"screen-reader-only\">show </span>Map')
+    expect(finderApp.tabs.tabs.find('#facilities').length).toBe(1)
+    expect(finderApp.tabs.tabs.find('#facilities').data('btn').html()).toBe('<span class=\"screen-reader-only\">show </span>Facility Title')
+    expect(finderApp.tabs.tabs.find('#filters').length).toBe(1)
+    expect(finderApp.tabs.tabs.find('#filters').data('btn').html()).toBe('<span class=\"screen-reader-only\">show </span>Filter Title')
+  
+    expect($.mocks.resize).toHaveBeenCalledTimes(1)
+    expect($.mocks.resize.mock.instances[0].get(0)).toBe(window)
+
+    expect($.mocks.proxy).toHaveBeenCalled()
+    const lastCall = $.mocks.proxy.mock.calls.length - 1
+    expect($.mocks.proxy.mock.calls[lastCall][0]).toBe(finderApp.adjustTabs)
+    expect($.mocks.proxy.mock.calls[lastCall][1]).toBe(finderApp)
+
+    expect($.mocks.resize.mock.calls[0][0]).toBe($.mocks.proxy.returnedValues[lastCall])
+  })
 })
