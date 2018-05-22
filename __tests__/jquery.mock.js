@@ -46,6 +46,17 @@ $.resetMocks = () => {
 
   $.fn.resize = jest.fn()
 
+  $.fn.width = jest.fn().mockImplementation(width => {
+    const instances = $.mocks.width.mock.instances
+    const instance = instances[instances.length - 1]
+    if (typeof width === 'number') {
+      instance.data('width', width)
+      return instance
+    } else {
+      return instance.data('width')
+    }
+  })
+
   $.proxy = jest.fn()
   $.proxy.returnedValues = []
   $.proxy.mockImplementation((fn, scope) => {
@@ -72,6 +83,7 @@ $.resetMocks = () => {
     fadeOut: $.fn.fadeOut,
     fadeToggle: $.fn.fadeToggle,
     resize: $.fn.resize,
+    width: $.fn.width,
     proxy: $.proxy,
     ajax: $.ajax
   }

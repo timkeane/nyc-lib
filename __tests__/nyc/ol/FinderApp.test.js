@@ -378,3 +378,54 @@ describe('createTabs', () => {
     expect($.mocks.resize.mock.calls[0][0]).toBe($.mocks.proxy.returnedValues[lastCall])
   })
 })
+
+describe('adjustTabs', () => {
+  test('adjustTabs full width', () => {
+    expect.assertions(2)
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    finderApp.tabs.open = jest.fn()
+
+    $(window).width(500)
+    finderApp.tabs.getContainer().width(500)
+
+    finderApp.adjustTabs()
+
+    expect(finderApp.tabs.open).toHaveBeenCalledTimes(1)
+    expect(finderApp.tabs.open.mock.calls[0][0]).toBe('#map')
+  })
+
+  test('adjustTabs not full width', () => {
+    expect.assertions(2)
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    finderApp.tabs.open = jest.fn()
+
+    $(window).width(500)
+    finderApp.tabs.getContainer().width(400)
+
+    finderApp.adjustTabs()
+
+    expect(finderApp.tabs.open).toHaveBeenCalledTimes(1)
+    expect(finderApp.tabs.open.mock.calls[0][0]).toBe('#facilities')
+  })
+})
+

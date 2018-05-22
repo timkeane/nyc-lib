@@ -203,9 +203,9 @@ class FinderApp {
    */
   adjustTabs() {  
     if (Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1) {
-      this.tabs.open($('#map'))
+      this.tabs.open('#map')
     } else {
-      this.tabs.open($('#facilities'))
+      this.tabs.open('#facilities')
     }
   }
   /**
