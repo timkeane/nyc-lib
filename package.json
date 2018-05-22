@@ -1,6 +1,6 @@
 {
   "name": "@timkeane/nyc-lib",
-  "version": "0.8.0-SNAPSHOT",
+  "version": "0.8.0",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "directories": {
     "example": "examples",
@@ -24,14 +24,24 @@
   "jest": {
     "verbose": true,
     "automock": false,
-    "testMatch": ["**/__tests__/**/*.test.js"],
-    "transformIgnorePatterns": [ "node_modules/(?!(ol)/)"],
-    "moduleNameMapper": { "^nyc(.*)$": "<rootDir>/src/nyc/$1"},
-    "setupFiles": ["./__tests__/jest-setup.js"],
+    "testMatch": [
+      "**/__tests__/**/*.test.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(ol)/)"
+    ],
+    "moduleNameMapper": {
+      "^nyc(.*)$": "<rootDir>/src/nyc/$1"
+    },
+    "setupFiles": [
+      "./__tests__/jest-setup.js"
+    ],
     "collectCoverage": true,
     "coverageDirectory": "./coverage/",
-    "collectCoverageFrom": ["src/nyc/**/*.js"]
-},
+    "collectCoverageFrom": [
+      "src/nyc/**/*.js"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/timkeane/nyc-lib.git"
@@ -75,6 +85,7 @@
     "ol": "^4.6.5",
     "papaparse": "^4.4.0",
     "postcss-clean": "^1.1.0",
+    "postcss-css-variables": "^0.8.1",
     "postcss-import": "^11.1.0",
     "proj4": "^2.4.4",
     "shapefile": "^0.6.6",
@@ -84,13 +95,11 @@
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.14"
   },
+  "dependencies": {},
   "config": {
     "ghooks": {
       "pre-commit": "yarn test",
       "pre-push": "yarn build"
     }
-  },
-  "dependencies": {
-    "postcss-css-variables": "^0.8.1"
   }
 }
