@@ -126,13 +126,13 @@ class FinderApp {
    * @desc Centers and zooms the map on the provided feature
    * @public
    * @method
-   * @param {ol.Feature}
+   * @param {ol.Feature} feature
    */
   zoomTo(feature) {
     const popup = this.popup
     popup.hide()
-    if ($('h3.btn-0').css('display') === 'table-cell') {
-      this.tabs.open($('#map'))
+    if ($('h3.btn-0').css('display') !== 'none') {
+      this.tabs.open('#map')
     }
     this.map.once('moveend', () => {
       popup.showFeature(feature)
@@ -146,11 +146,16 @@ class FinderApp {
    * @desc Provides directions to the provided facility feature
    * @public
    * @method
-   * @param {ol.Feature}
+   * @param {ol.Feature} feature
    */
   directionsTo(feature) {
 
   }
+  /**
+   * @private
+   * @method
+   * @param {Array<Choice.Options>=} choiceOptions
+   */
   createFilters(choiceOptions) {
     if (choiceOptions) {
       const filters = new Filters({

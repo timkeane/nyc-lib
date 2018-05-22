@@ -175,7 +175,7 @@ test('constructor', () => {
 
 describe('zoomTo', () => {
   test('zoomTo map tab button hidden', () => {
-    expect.assertions(4)
+    expect.assertions(9)
     const feature = new OlFeature({geometry: new OlGeomPoint([0, 0])})
     
     const finderApp = new FinderApp({
@@ -194,10 +194,102 @@ describe('zoomTo', () => {
     finderApp.zoomTo(feature)
 
     expect(finderApp.popup.hide).toHaveBeenCalledTimes(1)
+
     expect(finderApp.map.once).toHaveBeenCalledTimes(1)
     expect(finderApp.map.once.mock.calls[0][0]).toBe('moveend')
     expect(typeof finderApp.map.once.mock.calls[0][1]).toBe('function')
-    // expect(finderApp.popup.showFeature).toHaveBeenCalledTimes(1)
-    // expect(finderApp.popup.mock.calls[0][0]).toBe(feature)
+
+    expect(finderApp.popup.showFeature).toHaveBeenCalledTimes(1)
+    expect(finderApp.popup.showFeature.mock.calls[0][0]).toBe(feature)
+    
+    expect(finderApp.view.animate).toHaveBeenCalledTimes(1)
+    expect(finderApp.view.animate.mock.calls[0][0].center).toEqual(feature.getGeometry().getCoordinates())
+    expect(finderApp.view.animate.mock.calls[0][0].zoom).toBe(MapLocator.ZOOM_LEVEL)
   })
+
+  test('zoomTo map tab button visible', () => {
+    expect.assertions(11)
+    const feature = new OlFeature({geometry: new OlGeomPoint([0, 0])})
+    
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      splashContent: 'splash page message',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    finderApp.tabs.open = jest.fn()
+
+    $('h3.btn-0').show()
+    finderApp.zoomTo(feature)
+
+    expect(finderApp.tabs.open).toHaveBeenCalledTimes(1)
+    expect(finderApp.tabs.open.mock.calls[0][0]).toBe('#map')
+
+    expect(finderApp.popup.hide).toHaveBeenCalledTimes(1)
+
+    expect(finderApp.map.once).toHaveBeenCalledTimes(1)
+    expect(finderApp.map.once.mock.calls[0][0]).toBe('moveend')
+    expect(typeof finderApp.map.once.mock.calls[0][1]).toBe('function')
+
+    expect(finderApp.popup.showFeature).toHaveBeenCalledTimes(1)
+    expect(finderApp.popup.showFeature.mock.calls[0][0]).toBe(feature)
+    
+    expect(finderApp.view.animate).toHaveBeenCalledTimes(1)
+    expect(finderApp.view.animate.mock.calls[0][0].center).toEqual(feature.getGeometry().getCoordinates())
+    expect(finderApp.view.animate.mock.calls[0][0].zoom).toBe(MapLocator.ZOOM_LEVEL)
+  })  
+})
+
+describe('directionsTo', () => {
+  test('directionsTo without from', () => {
+    expect.assertions(0)
+    const feature = new OlFeature({geometry: new OlGeomPoint([0, 0])})
+    
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      splashContent: 'splash page message',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    finderApp.directionsTo(feature)
+  })
+})
+
+test('directionsTo without from', () => {
+  expect.assertions(8)
+  
+  const finderApp = new FinderApp({
+    title: 'Finder App',
+    splashContent: 'splash page message',
+    facilityTabTitle: 'Facility Title',
+    facilityUrl: 'http://facility',
+    facilityFormat: format,
+    facilityStyle: style,
+    filterTabTitle: 'Filter Title',
+    geoclientUrl: 'http://geoclient'
+  })
+
+  const filters = finderApp.createFilters('mock-filterChoiceOptions')
+
+  expect(Filters).toHaveBeenCalledTimes(1)
+  expect(Filters.mock.calls[0][0].target).toBe('#filters')
+  expect(Filters.mock.calls[0][0].source).toBe(finderApp.source)
+  expect(Filters.mock.calls[0][0].choiceOptions).toBe('mock-filterChoiceOptions')
+
+  expect(filters.on).toHaveBeenCalledTimes(1)
+  expect(filters.on.mock.calls[0][0]).toBe('change')
+  expect(filters.on.mock.calls[0][1]).toBe(finderApp.resetList)
+  expect(filters.on.mock.calls[0][2]).toBe(finderApp)
 })
