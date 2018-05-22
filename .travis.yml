@@ -4,7 +4,7 @@ node_js:
   - "v8.11.1"
 
 before_install:
-  - yarn global add postcss-cli
+  - export NODE_ENV=prd && yarn global add postcss-cli
 
 install:
   - yarn install
