@@ -2,12 +2,13 @@ import LocalStorage from 'nyc/LocalStorage'
 
 import localStorageMock from '../localStorage.mock'
 import FileReaderMock from '../FileReader.mock'
-import { EPERM } from 'constants';
-// import shapefileMock from '../shapefile.mock'
+import shapefileMock from '../shapefile.mock'
+import { resolve } from 'uri-js';
 
 beforeEach(() => {
   localStorageMock.resetMock()
   FileReaderMock.resetMock()
+  shapefileMock.resetMock()
 })
 afterEach(() => {
   localStorageMock.unmock()
@@ -382,11 +383,123 @@ describe('readShpDbf', () => {
 describe('readShp', () => {
 
   test('readShp success with callback', () => {
-    expect.assertions(0)
+    expect.assertions(9)
   
+    LocalStorage.shapefile = shapefileMock.mock
+
+    shapefileMock.features = ['mock-feature-0', 'mock-feature-1']
+    
+    const callback = jest.fn()
+
+    const storage = new LocalStorage()
+
+    storage.addToMap = jest.fn(() => {return 'mock-layer'})
+
+    const test = async () => {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          expect(storage.addToMap).toHaveBeenCalledTimes(1)
+          expect(storage.addToMap.mock.calls[0][0]).toBe('mock-map')
+          expect(storage.addToMap.mock.calls[0][1].length).toBe(2)
+          expect(storage.addToMap.mock.calls[0][1][0]).toBe('mock-feature-0')
+          expect(storage.addToMap.mock.calls[0][1][1]).toBe('mock-feature-1')
+          expect(storage.addToMap.mock.calls[0][2]).toBe('mock-projcs')
+          expect(callback).toHaveBeenCalledTimes(1)
+          expect(callback.mock.calls[0][0]).toBe('mock-layer')
+          resolve(true)
+        }, 500)
+      })
+    }
+
+    storage.readShp('mock-map', 'mock-shp', 'mock-dbf', 'mock-projcs', callback)
+
+    return test().then(success => {expect(success).toBe(true)})
+  })
+
+  test('readShp success no callback', () => {
+    expect.assertions(7)
+  
+    LocalStorage.shapefile = shapefileMock.mock
+
+    shapefileMock.features = ['mock-feature-0', 'mock-feature-1']
+    
+    const storage = new LocalStorage()
+
+    storage.addToMap = jest.fn(() => {return 'mock-layer'})
+
+    const test = async () => {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          expect(storage.addToMap).toHaveBeenCalledTimes(1)
+          expect(storage.addToMap.mock.calls[0][0]).toBe('mock-map')
+          expect(storage.addToMap.mock.calls[0][1].length).toBe(2)
+          expect(storage.addToMap.mock.calls[0][1][0]).toBe('mock-feature-0')
+          expect(storage.addToMap.mock.calls[0][1][1]).toBe('mock-feature-1')
+          expect(storage.addToMap.mock.calls[0][2]).toBe('mock-projcs')
+          resolve(true)
+        }, 500)
+      })
+    }
+
+    storage.readShp('mock-map', 'mock-shp', 'mock-dbf', 'mock-projcs')
+
+    return test().then(success => {expect(success).toBe(true)})
+  })
+
+  test('readShp fail', () => {
+    expect.assertions(2)
+  
+    shapefileMock.reject = true
+    LocalStorage.shapefile = shapefileMock.mock
+
     const storage = new LocalStorage()
 
     storage.addToMap = jest.fn()
 
+    const test = async () => {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          expect(storage.addToMap).toHaveBeenCalledTimes(0)
+          resolve(true)
+        }, 500)
+      })
+    }
+
+    storage.readShp('mock-map', 'mock-shp', 'mock-dbf', 'mock-projcs')
+
+    return test().then(success => {expect(success).toBe(true)})
+  })
+})
+
+test('addToMap', () => {
+  expect.assertions(1)
+  expect(() => {new LocalStorage().addToMap('anything')}).toThrow('Not implemented')
+})
+
+describe('customProj', () => {
+  const prj4 = global.proj4
+  beforeEach(() => {
+    global.proj4 = {
+      defs: jest.fn()
+    }
+  })
+  afterEach(() => {
+    global.proj4 = prj4
+  })
+
+  test('customProj', () => {
+    expect.assertions(4)
+    
+    const storage = new LocalStorage()
+    
+    storage.customProj()
+
+    expect(proj4.defs).toHaveBeenCalledTimes(0)
+
+    storage.customProj('mock-projcs')
+
+    expect(proj4.defs).toHaveBeenCalledTimes(1)
+    expect(proj4.defs.mock.calls[0][0]).toBe('shp:prj')
+    expect(proj4.defs.mock.calls[0][1]).toBe('mock-projcs')
   })
 })

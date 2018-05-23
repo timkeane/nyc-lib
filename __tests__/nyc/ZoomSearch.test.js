@@ -112,7 +112,7 @@ test('key keyCode is 13 and isAddrSrch is true', () => {
   zoomSearch.list.show()
 
   const test = async () => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         resolve(zoomSearch.list.css('display'))
       }, 500)
@@ -137,7 +137,7 @@ test('key keyCode not 13 and isAddrSrch is true', () => {
   zoomSearch.list.show()
 
   const test = async () => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         resolve(zoomSearch.list.css('display'))
       }, 500)
@@ -163,7 +163,7 @@ test('key keyCode not 13 and isAddrSrch is false', () => {
   zoomSearch.list.show()
 
   const test = async () => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         resolve(zoomSearch.list.css('display'))
       }, 500)
@@ -189,7 +189,7 @@ test('key keyCode is 13 and isAddrSrch is false', () => {
   zoomSearch.list.show()
 
   const test = async () => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         resolve(zoomSearch.list.css('display'))
       }, 500)
@@ -269,7 +269,7 @@ test('showList with focus', () => {
   zoomSearch.list.append('<li>one</li><li>two</li>').hide()
 
   const test = async () => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         resolve(zoomSearch.list.css('display'))
       }, 1000)
@@ -294,7 +294,7 @@ test('showList without focus', () => {
   zoomSearch.list.append('<li>one</li><li>two</li>').hide()
 
   const test = async () => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         resolve(zoomSearch.list.css('display'))
       }, 1000)
@@ -634,7 +634,7 @@ test('disambiguated is LI', () => {
   expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
 
   const test = async () => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         resolve(zoomSearch.list.css('display'))
       }, 500)
@@ -667,7 +667,7 @@ test('disambiguated is child of LI', () => {
   expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
 
   const test = async () => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         resolve(zoomSearch.list.css('display'))
       }, 500)
@@ -711,7 +711,7 @@ test('listClick list open but not clicked', () => {
   li.on('click', handler)
 
   const test = async () => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         resolve(zoomSearch.list.css('display'))
       }, 500)
@@ -740,7 +740,7 @@ test('listClick list open is clicked but no autoComplete', () => {
   li.on('click', handler)
 
   const test = async () => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         resolve(zoomSearch.list.css('display'))
       }, 500)
@@ -771,7 +771,7 @@ test('listClick list open is clicked and has autoComplete', () => {
   li.on('click', handler)
 
   const test = async () => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         resolve(zoomSearch.list.css('display'))
       }, 500)

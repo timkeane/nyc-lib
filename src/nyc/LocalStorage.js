@@ -4,8 +4,6 @@
 
 import $ from 'jquery'
 
-const shapefile = require('shapefile')
-
 /**
  * @desc Class to provide access to localStorage and filesystem
  * @public
@@ -208,8 +206,8 @@ class LocalStorage {
 	readShp(map, shp, dbf, projcs, callback) {
 		const me = this
     let features = []
-		shapefile.open(shp, dbf)
-		  .then( source => {
+		LocalStorage.shapefile.open(shp, dbf)
+		  .then(source => {
 				source.read()
 				.then(function collect(result) {
 					if (result.done) {
@@ -217,13 +215,12 @@ class LocalStorage {
 						if (callback) callback(layer)
 						return
 					} else {
-						console.log(result.value)
 						features.push(result.value)
 					}
 					return source.read().then(collect)
 				})
 			}).catch(error => {
-				console.error(error.stack)
+				console.error(error)
 			})
   }
 	/**
@@ -236,7 +233,7 @@ class LocalStorage {
 	 * @return {Object}
 	*/
 	addToMap(map, features, projcs) {
-		throw 'Must be implemented'
+		throw 'Not implemented'
   }
 	/**
 	 * @private
@@ -251,5 +248,7 @@ class LocalStorage {
 		}
 	}
 }
+
+LocalStorage.shapefile = require('shapefile')
 
 export default LocalStorage
