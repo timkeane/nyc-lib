@@ -1,21 +1,32 @@
 const originalFileReader = window.FileReader 
 
-class MockFileReader {
+class FileReaderMock {
+  read(file) {
+    const name = file ? (file.name || file) : null
+    if (FileReaderMock.resultByFile[name]) {
+      return this.result = FileReaderMock.resultByFile[name]
+    }
+  }
   readAsText(file) {
-    if (file === MockFileReader.expectedFile) {
-      this.result = MockFileReader.result
+    if (this.read(file)) {
       this.onload()
+    }
+  }
+  readAsArrayBuffer(file) {
+    if (this.read(file)) {
+      this.onload({
+        target: {result: this.result}
+      })
     }
   }
 }
 
-MockFileReader.expectedFile = ''
-MockFileReader.result = ''
-MockFileReader.resetMock = () => {
-  window.FileReader = MockFileReader
+FileReaderMock.resultByFile = {}
+FileReaderMock.resetMock = () => {
+  window.FileReader = FileReaderMock
 }
-MockFileReader.unmock = () => {
+FileReaderMock.unmock = () => {
   window.FileReader = originalFileReader
 }
 
-export default MockFileReader
+export default FileReaderMock

@@ -164,8 +164,6 @@ class LocalStorage {
 	*/
 	readPrj(prj, callback) {
 		if (prj) {
-			console.warn(prj);
-			
 			this.readTextFile(callback, prj)
 		} else {
 			callback()
@@ -219,6 +217,7 @@ class LocalStorage {
 						if (callback) callback(layer)
 						return
 					} else {
+						console.log(result.value)
 						features.push(result.value)
 					}
 					return source.read().then(collect)
