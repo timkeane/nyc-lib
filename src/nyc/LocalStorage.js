@@ -9,82 +9,72 @@ const shapefile = require('shapefile')
 /**
  * @desc Class to provide access to localStorage and filesystem
  * @public
- * @constructor
+ * @class
  */
-
 class LocalStorage {
-
-  constructor(){
-  }
-
   /**
-	 * @desc Check if download is available
-	 * @public
-	 * @function
-	 * @return {boolean}
-	 */
-	canDownload(name, data) {
-		return 'download' in $('<a></a>').get(0)
+   * @desc Check if download is available
+   * @public
+   * @method
+   * @return {boolean}
+   */
+  canDownload(name, data) {
+	  return 'download' in $('<a></a>').get(0)
   }
-
   /**
-	 * @desc Save data to a file prompting the user with a file dialog
-	 * @public
-	 * @function
-	 * @param {string} name File name
-	 * @param {string} data JSON data to write to file
-	 */
-	saveGeoJson(name, data) {
-		const href = `data:application/jsoncharset=utf-8,${encodeURIComponent(data)}`
-		const a = $('<a class="file-dwn"><img></a>')
-		$('body').append(a)
-		a.attr('href', href).attr('download', name).find('img').trigger('click')
-		a.remove()
+   * @desc Save data to a file prompting the user with a file dialog
+   * @public
+   * @method
+   * @param {string} name File name
+   * @param {string} data JSON data to write to file
+   */
+  saveGeoJson(name, data) {
+    const href = `data:application/jsoncharset=utf-8,${encodeURIComponent(data)}`
+    const a = $('<a class="file-dwn"><img></a>')
+    $('body').append(a)
+    a.attr('href', href).attr('download', name).find('img').trigger('click')
+    a.remove()
   }
-
   /**
-	 * @desc Set data in localStorage if available
-	 * @public
-	 * @function
-	 * @param {string} key Storage key
-	 * @param {string} data Data to store
-	 */
-	setItem(key, data){
-		if ('localStorage' in window){
-			localStorage.setItem(key, data)
-		}
+   * @desc Set data in localStorage if available
+   * @public
+   * @method
+   * @param {string} key Storage key
+   * @param {string} data Data to store
+   */
+  setItem(key, data) {
+    if ('localStorage' in window) {
+      localStorage.setItem(key, data)
+    }
   }
-
   /**
 	 * @desc Get data from localStorage if available
 	 * @public
-	 * @function
+	 * @method
 	 * @param {string} key Storage key
 	 * @return {string}
 	 */
 	getItem(key) {
-		if ('localStorage' in window){
+		if ('localStorage' in window) {
 			return localStorage.getItem(key)
 		}
   }
-
-	/**
+  /**
 	 * @desc Remove data from localStorage if available
 	 * @public
-	 * @function
+	 * @method
 	 * @param {string} key Storage key
 	 * @return {string}
 	 */
 	removeItem(key) {
-		if ('localStorage' in window){
+		if ('localStorage' in window) {
 			return localStorage.removeItem(key)
 		}
   }
-
-	/**
+  /**
 	 * @desc Open a text file from local disk
 	 * @public
-	 * @function
+	 * @method
 	 * @param {function} callback The callback function to receive file content
 	 * @param {File=} file File
 	 */
@@ -93,7 +83,7 @@ class LocalStorage {
 		reader.onload = () => {
 			callback(reader.result)
 		}
-		if (!file){
+		if (!file) {
 			const input = $('<input class="file-in" type="file">')
 			$('body').append(input)
 			input.change( event => {
@@ -101,15 +91,14 @@ class LocalStorage {
 				reader.readAsText(event.target.files[0])
 			})
 			input.trigger('click')
-		}else{
+		} else {
 			reader.readAsText(file)
 		}
   }
-
 	/**
 	 * @desc Open a GeoJSON file from local disk
 	 * @public
-	 * @function
+	 * @method
 	 * @param {ol.Map|L.Map} map The map in which the data will be displayed
 	 * @param {function=} callback The callback function to receive the added ol.vector.Layer
 	 * @param {File=} file File
@@ -120,18 +109,17 @@ class LocalStorage {
 			if (callback) callback(layer)
 		}, file)
   }
-
 	/**
 	 * @desc Open a shapefile from local disk
 	 * @public
-	 * @function
+	 * @method
 	 * @param {ol.Map|L.Map} map The map in which the data will be displayed
 	 * @param {function=} callback The callback function to receive the added ol.vector.Layer
 	 * @param {FileList=} files Files (.shp, .dbf, .prj)
 	 * @see https://github.com/mbostock/shapefile
 	 */
 	loadShapeFile(map, callback, files) {
-		if (!files){
+		if (!files) {
 			const input = $('<input class="file-in" type="file" multiple>')
 			$('body').append(input)
 			input.change( event => {
@@ -139,11 +127,10 @@ class LocalStorage {
 				input.remove()
 			})
 			input.trigger('click')
-		}else{
+		} else {
 			this.getShpDbfPrj(map, files, callback)
 		}
   }
-
 	/**
 	 * @private
 	 * @method
@@ -159,15 +146,14 @@ class LocalStorage {
 			else if (ext == '.dbf') dbf = file
 			else if (ext == '.prj') prj = file
 		})
-		if (shp){
+		if (shp) {
 			this.readPrj(prj, projcs => {
 				this.readShpDbf(map, shp, dbf, projcs, callback)
 			})
-		}else if (callback){
+		} else if (callback) {
 			callback()
 		}
   }
-
 	/**
 	 * @private
 	 * @method
@@ -175,13 +161,12 @@ class LocalStorage {
 	 * @param {function} callback
 	*/
 	readPrj(prj, callback) {
-		if (prj){
+		if (prj) {
 			this.readTextFile(callback, prj)
-		}else{
+		} else {
 			callback()
 		}
   }
-
 	/**
 	 * @private
 	 * @method
@@ -196,23 +181,20 @@ class LocalStorage {
 		const shpReader = new FileReader()
 		shpReader.onload = event => {
 			shpBuffer = event.target.result
-			if (dbfBuffer || !dbf){
+			if (dbfBuffer || !dbf) {
 				this.readShp(map, shpBuffer, dbfBuffer, projcs, callback)
 			}
 		}
-
 		const dbfReader = new FileReader()
 		dbfReader.onload = event => {
 			dbfBuffer = event.target.result
-			if (shpBuffer){
+			if (shpBuffer) {
 				this.readShp(map, shpBuffer, dbfBuffer, projcs, callback)
 			}
 		}
-
 		shpReader.readAsArrayBuffer(shp)
 		if (dbf) dbfReader.readAsArrayBuffer(dbf)
   }
-
 	/**
 	 * @private
 	 * @method
@@ -227,12 +209,12 @@ class LocalStorage {
 		shapefile.open(shp, dbf)
 		  .then( source => {
 				source.read()
-				.then(function collect(result){
-					if (result.done){
+				.then(function collect(result) {
+					if (result.done) {
 						const layer = me.addToMap(map, features, projcs)
 						if (callback) callback(layer)
 						return
-					}else{
+					} else {
 						features.push(result.value)
 					}
 					return source.read().then(collect)
@@ -241,7 +223,6 @@ class LocalStorage {
 				console.error(error.stack)
 			})
   }
-
 	/**
 	 * @public
 	 * @abstract
@@ -254,7 +235,6 @@ class LocalStorage {
 	addToMap(map, features, projcs) {
 		throw 'Must be implemented'
   }
-
 	/**
 	 * @private
 	 * @method
@@ -262,12 +242,11 @@ class LocalStorage {
 	  * @return {string|undefined}
 	*/
 	customProj(projcs) {
-		if (projcs){
+		if (projcs) {
 			proj4.defs('shp:prj', projcs)
 			return 'shp:prj'
 		}
 	}
-
 }
 
 export default LocalStorage
