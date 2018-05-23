@@ -1,5 +1,3 @@
-window.localStorage = window.localStorage || {}
-
 const originalLocalStorage = window.localStorage 
 
 const mockFunctions = {
@@ -14,15 +12,15 @@ const mockFunctions = {
   })
 }
 
-const ls = {
+const localStorageMock = {
   data: {},
   resetMock() {
-    $.extend(ls, mockFunctions)
-    window.localStorage = ls
+    $.extend(localStorageMock, mockFunctions)
+    window.localStorage = localStorageMock
   },
   unmock() {
     window.localStorage = originalLocalStorage
   }
 }
 
-export default ls
+export default localStorageMock

@@ -86,7 +86,7 @@ class LocalStorage {
 		if (!file) {
 			const input = $('<input class="file-in" type="file">')
 			$('body').append(input)
-			input.change( event => {
+			input.change(event => {
 				input.remove()
 				reader.readAsText(event.target.files[0])
 			})

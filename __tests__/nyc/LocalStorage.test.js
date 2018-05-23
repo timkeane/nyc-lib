@@ -1,6 +1,7 @@
 import LocalStorage from 'nyc/LocalStorage'
 
 import localStorageMock from '../localStorage.mock'
+import FileReaderMock from '../FileReader.mock'
 
 const shapefile = require('shapefile')
 
@@ -8,9 +9,11 @@ jest.mock('shapefile')
 
 beforeEach(() => {
   localStorageMock.resetMock()
+  FileReaderMock.resetMock()
 })
 afterEach(() => {
   localStorageMock.unmock()
+  FileReaderMock.unmock()
 })
 
 test('canDownload', () => {
@@ -25,7 +28,7 @@ test('saveGeoJson', () => {
 
   const storage = new LocalStorage()
 
-  $(document).click(event => {
+  $(document).one('click', event => {
     const img = $(event.target)
     const a = img.parent()
     expect(img.get(0).tagName).toBe('IMG')
@@ -92,9 +95,45 @@ test('removeItem', () => {
   expect(window.localStorage).toBe(undefined)
 })
 
-test('readTextFile', () => {
-  expect.assertions(0)
+describe('readTextFile', () => {
 
-  const storage = new LocalStorage()
-  
+  test('readTextFile file provided', () => {
+    expect.assertions(1)
+
+    FileReaderMock.expectedFile = 'mock-file'
+    FileReaderMock.result = '{"foo": "bar"}'
+
+    const callback = (text) => {
+      expect(text).toBe(FileReaderMock.result)
+    }
+
+    const storage = new LocalStorage()
+    
+    return storage.readTextFile(callback, 'mock-file')
+  })
+
+  test('readTextFile no file provided', () => {
+    expect.assertions(1)
+
+    FileReaderMock.expectedFile = 'mock-file'
+    FileReaderMock.result = '{"foo": "bar"}'
+
+    const callback = (text) => {
+      expect(text).toBe(FileReaderMock.result)
+    }
+
+    $(document).one('click', event => {
+      const input = $(event.target)
+      if (input.hasClass('file-in')) {
+        input.trigger({
+          type: 'change',
+          target: {files: ['mock-file']}
+        })
+      }
+    })
+
+    const storage = new LocalStorage()
+    
+    return storage.readTextFile(callback)
+  })
 })
