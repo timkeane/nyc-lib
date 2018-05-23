@@ -2,6 +2,7 @@ import LocalStorage from 'nyc/LocalStorage'
 
 import localStorageMock from '../localStorage.mock'
 import FileReaderMock from '../FileReader.mock'
+import MockFileReader from '../FileReader.mock';
 
 const shapefile = require('shapefile')
 
@@ -137,3 +138,136 @@ describe('readTextFile', () => {
     return storage.readTextFile(callback)
   })
 })
+
+describe('loadGeoJsonFile', () => {
+
+  test('loadGeoJsonFile has callback', () => {
+    expect.assertions(4)
+    
+    FileReaderMock.expectedFile = 'mock-file'
+    FileReaderMock.result = '{"foo": "bar"}'
+
+    const callback = (layer) => {
+      expect(layer).toBe('mock-layer')
+    }
+
+    const storage = new LocalStorage()
+
+    storage.addToMap = jest.fn(() => {return 'mock-layer'})
+
+    storage.loadGeoJsonFile('mock-map', callback, 'mock-file')
+
+    expect(storage.addToMap).toHaveBeenCalledTimes(1)
+    expect(storage.addToMap.mock.calls[0][0]).toBe('mock-map')
+    expect(storage.addToMap.mock.calls[0][1]).toBe(FileReaderMock.result)
+  })
+
+  test('loadGeoJsonFile no callback', () => {
+    expect.assertions(3)
+    
+    FileReaderMock.expectedFile = 'mock-file'
+    FileReaderMock.result = '{"foo": "bar"}'
+
+    const storage = new LocalStorage()
+
+    storage.addToMap = jest.fn(() => {return 'mock-layer'})
+
+    storage.loadGeoJsonFile('mock-map', null, 'mock-file')
+
+    expect(storage.addToMap).toHaveBeenCalledTimes(1)
+    expect(storage.addToMap.mock.calls[0][0]).toBe('mock-map')
+    expect(storage.addToMap.mock.calls[0][1]).toBe(FileReaderMock.result)
+  })
+
+   test('loadGeoJsonFile no callback', () => {
+    expect.assertions(3)
+    
+    FileReaderMock.expectedFile = 'mock-file'
+    FileReaderMock.result = '{"foo": "bar"}'
+
+    const storage = new LocalStorage()
+
+    storage.addToMap = jest.fn(() => {return 'mock-layer'})
+
+    storage.loadGeoJsonFile('mock-map', null, 'mock-file')
+
+    expect(storage.addToMap).toHaveBeenCalledTimes(1)
+    expect(storage.addToMap.mock.calls[0][0]).toBe('mock-map')
+    expect(storage.addToMap.mock.calls[0][1]).toBe(FileReaderMock.result)
+  })
+})
+
+describe('loadShapeFile', () => {
+
+  test('loadShapeFile no files', () => {
+    expect.assertions(4)
+    
+    $(document).one('click', event => {
+      const input = $(event.target)
+      if (input.hasClass('file-in')) {
+        input.trigger({
+          type: 'change',
+          target: {files: 'mock-files'}
+        })
+      }
+    })
+    const storage = new LocalStorage()
+    
+    storage.getShpDbfPrj = jest.fn()
+
+    storage.loadShapeFile('mock-map', 'mock-callback')
+
+    expect(storage.getShpDbfPrj).toHaveBeenCalledTimes(1)
+    expect(storage.getShpDbfPrj.mock.calls[0][0]).toBe('mock-map')
+    expect(storage.getShpDbfPrj.mock.calls[0][1]).toBe('mock-files')
+    expect(storage.getShpDbfPrj.mock.calls[0][2]).toBe('mock-callback')
+  })
+
+  test('loadShapeFile has files', () => {
+    expect.assertions(4)
+    
+    const storage = new LocalStorage()
+    
+    storage.getShpDbfPrj = jest.fn()
+
+    storage.loadShapeFile('mock-map', 'mock-callback', 'mock-files')
+
+    expect(storage.getShpDbfPrj).toHaveBeenCalledTimes(1)
+    expect(storage.getShpDbfPrj.mock.calls[0][0]).toBe('mock-map')
+    expect(storage.getShpDbfPrj.mock.calls[0][1]).toBe('mock-files')
+    expect(storage.getShpDbfPrj.mock.calls[0][2]).toBe('mock-callback')
+  })
+})
+
+describe('getShpDbfPrj', () => {
+
+  test('getShpDbfPrj has shp', () => {
+    expect.assertions(5)
+
+    const mockFiles = [
+      {name: 'mock-file.shp'}, 
+      {name: 'mock-file.dbf'}, 
+      {name: 'mock-file.shx'}, 
+      {name: 'mock-file.prj'}
+    ]
+
+    MockFileReader.expectedFile = mockFiles[3]
+    MockFileReader.result = 'mock-prj'
+
+    const storage = new LocalStorage()
+    
+    storage.readShpDbf = jest.fn()
+
+    storage.getShpDbfPrj('mock-map', mockFiles)
+
+    expect(storage.readShpDbf).toHaveBeenCalledTimes(1)
+    expect(storage.readShpDbf.mock.calls[0][0]).toBe('mock-map')
+    expect(storage.readShpDbf.mock.calls[0][1]).toBe(mockFiles[0])
+    expect(storage.readShpDbf.mock.calls[0][2]).toBe(mockFiles[1])
+    expect(storage.readShpDbf.mock.calls[0][3]).toBe('mock-prj')
+  })
+})
+
+
+// shapefile.expectedFiles = ['mock-shp', 'mock-dbf', 'mock-shx']
+// shapefile.result = '{"foo": "bar"}'

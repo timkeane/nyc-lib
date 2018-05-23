@@ -104,7 +104,7 @@ class LocalStorage {
 	 * @param {File=} file File
 	 */
 	loadGeoJsonFile(map, callback, file) {
-		this.readTextFile( geoJson => {
+		this.readTextFile(geoJson => {
 			const layer = this.addToMap(map, geoJson)
 			if (callback) callback(layer)
 		}, file)
@@ -120,10 +120,11 @@ class LocalStorage {
 	 */
 	loadShapeFile(map, callback, files) {
 		if (!files) {
+			const me = this
 			const input = $('<input class="file-in" type="file" multiple>')
 			$('body').append(input)
-			input.change( event => {
-				this.getShpDbfPrj(map, event.target.files, callback)
+			input.change(event => {
+				me.getShpDbfPrj(map, event.target.files, callback)
 				input.remove()
 			})
 			input.trigger('click')
@@ -141,10 +142,11 @@ class LocalStorage {
 	getShpDbfPrj(map, files, callback) {
 		let shp, dbf, prj
 		Object.values(files).forEach(file => {
-			const ext = file.name.substr(name.length - 4)
-			if (ext == '.shp') shp = file
-			else if (ext == '.dbf') dbf = file
-			else if (ext == '.prj') prj = file
+			const name = file.name
+			const ext = name.substr(name.length - 4).toLowerCase()
+			if (ext === '.shp') shp = file
+			else if (ext === '.dbf') dbf = file
+			else if (ext === '.prj') prj = file
 		})
 		if (shp) {
 			this.readPrj(prj, projcs => {
@@ -162,6 +164,8 @@ class LocalStorage {
 	*/
 	readPrj(prj, callback) {
 		if (prj) {
+			console.warn(prj);
+			
 			this.readTextFile(callback, prj)
 		} else {
 			callback()
