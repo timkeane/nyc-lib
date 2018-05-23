@@ -4,6 +4,8 @@
 
 import $ from 'jquery'
 
+import nyc from 'nyc/nyc'
+
 /**
  * @desc Class to provide access to localStorage and filesystem
  * @public
@@ -243,8 +245,9 @@ class LocalStorage {
 	*/
 	customProj(projcs) {
 		if (projcs) {
-			proj4.defs('shp:prj', projcs)
-			return 'shp:prj'
+			const prj = nyc.nextId('shp:prj')
+			proj4.defs(prj, projcs)
+			return prj
 		}
 	}
 }

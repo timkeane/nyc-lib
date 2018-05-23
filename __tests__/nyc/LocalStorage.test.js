@@ -488,7 +488,7 @@ describe('customProj', () => {
   })
 
   test('customProj', () => {
-    expect.assertions(4)
+    expect.assertions(5)
     
     const storage = new LocalStorage()
     
@@ -496,10 +496,10 @@ describe('customProj', () => {
 
     expect(proj4.defs).toHaveBeenCalledTimes(0)
 
-    storage.customProj('mock-projcs')
+    expect(storage.customProj('mock-projcs')).toBe('shp:prj-0')
 
     expect(proj4.defs).toHaveBeenCalledTimes(1)
-    expect(proj4.defs.mock.calls[0][0]).toBe('shp:prj')
+    expect(proj4.defs.mock.calls[0][0]).toBe('shp:prj-0')
     expect(proj4.defs.mock.calls[0][1]).toBe('mock-projcs')
   })
 })
