@@ -3,7 +3,10 @@ const mock = jest.fn().mockImplementation(() => {
     getView: () => {
       return {
         fit: jest.fn(),
-        animate: jest.fn()
+        animate: jest.fn(),
+        getProjection: jest.fn(() => {
+          return 'EPSG:3857'
+        })
       }
     },
     addLayer: jest.fn(),
