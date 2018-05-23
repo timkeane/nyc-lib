@@ -66,7 +66,7 @@ module.exports = {
     'leaflet': 'L',
     'shapefile': '(window.shapefile || {})',
     'papaparse': '(window.Papa || {})',
-    'proj4': '(window.proj4 || {})'
+    'proj4': '(window.proj4 || {defs: function(){}})'
   },
   resolve: {
     alias: {
