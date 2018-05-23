@@ -11,14 +11,12 @@ import olTilegrid from 'ol/tilegrid'
  */
 const ol = {}
 
-if (olTilegrid.createXYZ) {
- /**
-  * @desc The tile grid for NYC TMS layers
-  * @public
-  * @type {ol.tilegrid.TileGrid}
-  */
- ol.TILE_GRID = olTilegrid.createXYZ({minZoom: 8, maxZoom: 21}) 
-}
+/**
+* @desc The tile grid for NYC TMS layers
+* @public
+* @type {ol.tilegrid.TileGrid}
+*/
+ol.TILE_GRID = olTilegrid.createXYZ({minZoom: 8, maxZoom: 21}) 
 
 export default ol
 
