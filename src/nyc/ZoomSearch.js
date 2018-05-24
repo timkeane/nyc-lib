@@ -14,9 +14,9 @@ import AutoComplete from 'nyc/AutoComplete'
  * @abstract
  * @class
  * @extends module:nyc/Container~Container
- * @fires nyc/ZoomSearch#search
- * @fires nyc/ZoomSearch#geolocate
- * @fires nyc/ZoomSearch#disambiguated
+ * @fires module:nyc/ZoomSearch~ZoomSearch#search
+ * @fires module:nyc/ZoomSearch~ZoomSearch#geolocate
+ * @fires module:nyc/ZoomSearch~ZoomSearch#disambiguated
  */
 class ZoomSearch extends Container {
 	/**
@@ -346,18 +346,18 @@ ZoomSearch.FeatureSearchOptions
 
 /**
  * @desc The user has requested a search based on their text input
- * @event ZoomSearch#search
+ * @event module:nyc/ZoomSearch~ZoomSearch#search
  * @type {string}
  */
 
 /**
  * @desc The user has requested their geolcation
- * @event ZoomSearch#geolocate
+ * @event module:nyc/ZoomSearch~ZoomSearch#geolocate
  */
 
 /**
  * @desc The user has chosen a location from a list of possible locations
- * @event ZoomSearch#disambiguated
+ * @event module:nyc/ZoomSearch~ZoomSearch#disambiguated
  * @type {module:nyc/Locate~Locate.Result}
  */
 

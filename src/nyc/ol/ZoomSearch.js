@@ -15,6 +15,9 @@ import NycLocator from 'nyc/Locator'
  * @public
  * @class
  * @extends {module:nyc/ZoomSearch~ZoomSearch}
+ * @fires module:nyc/ZoomSearch~ZoomSearch#search
+ * @fires module:nyc/ZoomSearch~ZoomSearch#geolocate
+ * @fires module:nyc/ZoomSearch~ZoomSearch#disambiguated
  */
 class ZoomSearch extends NycZoomSearch {
   /**
