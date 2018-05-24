@@ -229,10 +229,10 @@ class LocalStorage {
 	 * @public
 	 * @abstract
 	 * @method
-	 * @param {ol.Map|L.Map} map
-	 * @param {string|Array<Object>} features
-	 * @param {string} projcs
-	 * @return {Object}
+	 * @param {ol.Map|L.Map} map The map on which to display the new layer
+	 * @param {string|Array<Object>} features The features from which to create the new layer
+	 * @param {string=} projcs The projection
+	 * @return {ol.layer.Vector|L.Layer} The new layer
 	*/
 	addToMap(map, features, projcs) {
 		throw 'Not implemented'

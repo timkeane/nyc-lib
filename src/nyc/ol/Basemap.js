@@ -26,7 +26,7 @@ class Basemap extends OlMap {
    * @desc Class that provides an ol.Map with base layers and labels
    * @public
    * @constructor
-   * @param {module:nyc/Basemap~Basemap.Options} options Constructor options
+   * @param {olx.MapOptions} options Constructor options
    * @param {number} [preload=0] Preload option for base layer
    * @see http://openlayers.org/en/latest/apidoc/ol.Map.html
    */
@@ -69,7 +69,7 @@ class Basemap extends OlMap {
    * @public
    * @override
    * @method
-   * @param layer {number} The photo year to show
+	 * @param year {number=} The photo year to show - shows the latest year if not provided
    */
   showPhoto(year) {
   	this.hidePhoto()

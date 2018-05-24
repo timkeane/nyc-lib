@@ -12,7 +12,7 @@ import olTilegrid from 'ol/tilegrid'
 const ol = {}
 
 /**
-* @desc The tile grid for NYC TMS layers
+* @desc The tile grid for NYC tiled layers
 * @public
 * @type {ol.tilegrid.TileGrid}
 */

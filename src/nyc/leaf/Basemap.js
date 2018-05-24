@@ -15,18 +15,20 @@ import L from 'leaflet'
  * @public
  * @class
  * @extends {L.Map}
- * @mixes nyc.BasemapHelper
- * @param {module:nyc/Basemap~Basemap.Options} options Constructor options
- * @constructor
+ * @mixes module:nyc/BasemapHelper~BasemapHelper
  * @see http://leafletjs.com/
  */
-
 class Basemap {
-
-	constructor(options) {
+/**
+ * @desc Create an instance of Basemap
+ * @public
+ * @extends {L.Map}
+ * @param {module:nyc/leaf/Basemap~Basemap.Options} options Constructor options
+ * @constructor
+ */
+constructor(options) {
 		const map = L.map(options.target)
 		nyc.mixin(map, [BasemapHelper])
-
 		/**
 		 * @private
 		 * @member {number}
@@ -55,14 +57,13 @@ class Basemap {
 		this.setupLayers(map, options)
 		map.fitBounds(Basemap.EXTENT)
 		map.hookupEvents(map.getContainer())
-
 		return map
 	}
 	/**
 	 * @private
 	 * @method
 	 * @param {L.Map} map
-	 * @param {Object} options
+	 * @param {module:nyc/BasemapHelper~BasemapHelper.Options} options
 	 */
 	setupLayers(map, options) {
 		map.base = L.tileLayer(Basemap.BASE_URL, {
@@ -108,13 +109,12 @@ class Basemap {
 			map.photos[year] = photo
 		})
 	}
-
 	/**
 	 * @desc Get the storage used for laoding and saving data
 	 * @public
 	 * @override
 	 * @method
-	 * @return {storage.Local} srorage
+	 * @return {module:nyc/leaf/LocalStorage~LocalStorage} srorage
 	 */
 	getStorage(year) {
 		return this.storage
@@ -125,7 +125,7 @@ class Basemap {
 	 * @public
 	 * @override
 	 * @method
-	 * @param layer {number} The photo year to show
+	 * @param year {number=} The photo year to show - shows the latest year if not provided
 	 */
 	showPhoto(year) {
 		year = year || this.latestPhoto
@@ -133,13 +133,12 @@ class Basemap {
 		this.addLayer(this.photos[year + ''])
 		this.showLabels('photo')
 	}
-
 	/**
 	 * @desc Show photo layer
 	 * @public
 	 * @override
 	 * @method
-	 * @param labelType {BasemapHelper.LabelType} The label type to show
+	 * @param labelType {module:nyc/BasemapHelper~BasemapHelper} The label type to show
 	 */
 	showLabels(labelType) {
 		this[labelType == BasemapHelper.LabelType.BASE ? 'addLayer' : 'removeLayer'](this.labels.base)
@@ -165,7 +164,7 @@ class Basemap {
 	 * @public
 	 * @override
 	 * @method
-	 * @return {BasemapHelper.BaseLayers}
+	 * @return {module:nyc/BasemapHelper~BasemapHelper.BaseLayers}
 	 */
 	getBaseLayers() {
 		return {
@@ -175,6 +174,13 @@ class Basemap {
 		}
 	}
 }
+/**
+ * @desc Constructor options for {@link module:nyc/leaf/Basemap~Basemap}
+ * @public
+ * @typedef {Object}
+ * @property {Element|string} target The target DOM node for creating the map
+ */
+Basemap.Options;
 
 /**
  * @desc The URL of the New York City base map tiles
@@ -240,7 +246,6 @@ Basemap.CENTER = L.latLng([40.7033127, -73.979681])
  * @type {L.LatLngBounds}
  */
 Basemap.LABEL_EXTENT = L.latLngBounds([40.0341, -74.2727], [41.2919, -71.9101])
-
 /**
  * @private
  * @const

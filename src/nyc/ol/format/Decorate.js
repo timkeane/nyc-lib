@@ -14,8 +14,16 @@ import OlGeomPoint from 'ol/geom/point'
  * @desc Class to create point features from CSV data
  * @public
  * @class
+ * @extends ol.format.Feature
+ * @see http://openlayers.org/en/latest/apidoc/ol.format.Feature.html
  */
-class Decorate extends OlFormatFeature {
+class Decorate extends OlFeature {
+  /**
+	 * @desc Create an instance of CsvPoint
+	 * @public
+	 * @constructor
+   * @param {module:nyc/ol/Decorate~Decorate.Options} options Constructor options
+	 */
   constructor(options) {
     super()
     /**
@@ -25,7 +33,7 @@ class Decorate extends OlFormatFeature {
     this.parentFormat = options.parentFormat
     /**
      * @private
-     * @member {Array<Object>}
+     * @member {Array<Object<string, Object>>}
      */
     this.decorations = options.decorations
   }
@@ -83,11 +91,11 @@ class Decorate extends OlFormatFeature {
 }
 
 /**
-* @desc Constructor options for {@link Decorate}
+* @desc Constructor options for {@link module:nyc/Decorate~Decorate}
 * @public
 * @typedef {Object}
 * @property {ol.format.Feature} parentFormat The parent format for creating features to decorate
-* @property {Array<Object>} decorations The objects used to decorate features
+* @property {Array<Object<string, Object>>} decorations The objects used to decorate features
 */
 Decorate.Options
 

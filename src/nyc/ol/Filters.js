@@ -13,14 +13,14 @@ import Choice from 'nyc/Choice'
  * @desc Class for managing controls for filtering a FilterAndSort source
  * @public
  * @class
- * @extends {Container}
+ * @extends module:nyc/Container~Container
  */
 class Filters extends Container {
   /**
-   * @desc Class for creating choice control
+   * @desc Create an instance of Filters
    * @public
    * @constructor
-   * @param {Filters.Options}
+   * @param {module:nyc/ol/Filters~Filters.Options}
    */
   constructor(options) {
     super(options.target)
@@ -31,7 +31,7 @@ class Filters extends Container {
     this.choiceControls = []
     /**
      * @private
-     * @member {FilterAndSort}
+     * @member {module:nyc/ol/source/FilterAndSort~FilterAndSort}
      */
     this.source = options.source
     options.choiceOptions.forEach(choiceOptions => {
@@ -72,7 +72,7 @@ class Filters extends Container {
 }
 
 /**
- * @desc Object type to hold constructor options for
+ * @desc Constructor options for {@link module:nyc/ol/Filters~Filters}
  * @public
  * @typedef {Object}
  * @property {jQuery|Element|string} target

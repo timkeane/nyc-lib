@@ -27,14 +27,25 @@ import FilterAndSort from 'nyc/ol/source/FilterAndSort'
 
 import OlLayerVector from 'ol/layer/vector'
 
+/**
+ * @desc A template for creating basic finder apps
+ * @public
+ * @class
+ */
 class FinderApp {
+  /**
+   * @desc Create an instance of FinderApp
+   * @public
+   * @constructor
+   * @param {module:nyc/ol/FinderApp~FinderApp.Options} options Constructor options
+   */
   constructor(options) {
     global.finderApp = this
     $('body').append(FinderApp.HTML).addClass('fnd')
     $('#banner').html(options.title)
     /**
      * @private
-     * @member {nyc.ListPager}
+     * @member {module:nyc/ListPager~ListPager}
      */
     this.pager = new ListPager({target: '#facilities'})
     /**
@@ -44,7 +55,7 @@ class FinderApp {
     this.map = new Basemap({target: 'map'})
     /**
      * @public
-     * @member {ol.source.Vector}
+     * @member {module:nyc/ol/source/FilterAndSort~FilterAndSort}
      */
     this.source = new FilterAndSort({
       url: options.facilityUrl,
@@ -65,7 +76,7 @@ class FinderApp {
     this.map.addLayer(this.layer)
     /**
      * @public
-     * @member {nyc.ol.MultiFeaturePopup}
+     * @member {module:nyc/ol/MultiFeaturePopup~MultiFeaturePopup}
      */
     this.popup = new MultiFeaturePopup({
       map: this.map,
@@ -73,7 +84,7 @@ class FinderApp {
     })
     /**
      * @private
-     * @member {nyc.ol.Locator.Result}
+     * @member {module:nyc/Locator~Locator.Result}
      */
     this.location = {}
     new FeatureTip({
@@ -92,7 +103,7 @@ class FinderApp {
     this.view = this.map.getView()
     /**
      * @public
-     * @member {nyc.ol.LocationMgr}
+     * @member {module:nyc/ol/LocationMgr~LocationMgr}
      */
     this.locationMgr = new LocationMgr({
       map: this.map,
@@ -102,12 +113,12 @@ class FinderApp {
     this.locationMgr.on('geolocated', this.located, this)
     /**
      * @public
-     * @member {nyc.Filters}
+     * @member {module:nyc/ol/Filters~Filters}
      */
     this.filters = this.createFilters(options.filterChoiceOptions)
     /**
      * @public
-     * @member {nyc.Tabs}
+     * @member {module:nyc/Tabs~Tabs}
      */
     this.tabs = this.createTabs(options)
     this.adjustTabs()
@@ -155,7 +166,7 @@ class FinderApp {
   /**
    * @private
    * @method
-   * @param {Array<Choice.Options>=} choiceOptions
+   * @param {Array<module:nyc/ol/Filters~Filters.ChoiceOptions>=} choiceOptions
    */
   createFilters(choiceOptions) {
     if (choiceOptions) {
@@ -171,6 +182,7 @@ class FinderApp {
   /**
    * @private
    * @method
+   * @param {jQuery|Element|string} content
    */
   showSplash(content) {
     if (content) {
@@ -184,6 +196,7 @@ class FinderApp {
   /**
    * @private
    * @method
+   * @param {module:nyc/ol/FinderApp~FinderApp.Options} options
    */
   createTabs(options) {
     const pages = [
@@ -254,7 +267,7 @@ class FinderApp {
    * @method
    * @param {FinderApp.Options} options
    * @param {ol.format.Feature} format
-   * @return {Array<Object<string, fuction()>>}
+   * @return {Array<Object<string, fuction>>}
    */
   decorations(options, format) {
     let decorations = [FinderApp.FEATURE_DECORATIONS]
@@ -305,7 +318,7 @@ FinderApp.handleButton = (event) => {
  * @public
  * @const
  * @mixin
- * @type {Object<string, fuction()>}
+ * @type {Object<string, fuction>}
  */
 FinderApp.FEATURE_DECORATIONS = {
   /**
@@ -499,6 +512,7 @@ FinderApp.FEATURE_DECORATIONS = {
   },
   /**
    * @desc Returns an HTML button that when clicked will display the provided details
+   * @public
    * @method
    * @return {jQuery}
    */
@@ -516,7 +530,7 @@ FinderApp.FEATURE_DECORATIONS = {
 }
 
 /**
- * @desc Object to hold constructor options for FinderApp
+ * @desc Constructor options for {@link module:nyc/ol/FinderApp~FinderApp}
  * @public
  * @typedef {Object}
  * @property {string} title
@@ -525,9 +539,9 @@ FinderApp.FEATURE_DECORATIONS = {
  * @property {string} facilityUrl
  * @property {ol.format.Feature=} facilityFormat
  * @property {ol.style.Style} facilityStyle
- * @property {NycZoomSearch.FeatureSearchOptions=} facilitySearchOptions
+ * @property {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions=} facilitySearchOptions
  * @property {string=} filterTabTitle
- * @property {Array<Choice.Options>=} filterChoiceOptions
+ * @property {Array<module:nyc/ol/Filters~Filters.ChoiceOptions>=} filterChoiceOptions
  * @property {string} geoclientUrl
  */
 FinderApp.Options

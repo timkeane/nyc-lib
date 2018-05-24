@@ -12,16 +12,16 @@ import NycOlZoomSearch from 'nyc/ol/ZoomSearch'
  * @desc A class for managing user-specified location information
  * @public
  * @class
- * @extends {nyc.LocationMgr}
- * @fires Locator#geocode
- * @fires Locator#geolocation
+ * @extends module:nyc/LocationMgr~LocationMgr
+ * @fires module:nyc/Locator~Locator#geocoded
+ * @fires module:nyc/Locator~Locator#geolocated
  */
 class LocationMgr extends NycLocationMgr {
   /**
    * @desc Create an instance of LocationMgr
    * @public
    * @constructor
-   * @param {LocationMgr.Options} options Constructor options
+   * @param {module:nyc/ol/LocationMgr~LocationMgr.Options} options Constructor options
    */
   constructor(options) {
     super({
@@ -35,7 +35,7 @@ class LocationMgr extends NycLocationMgr {
 }
 
 /**
- * @desc Object type to hold constructor options for {@link LocationMgr}
+ * @desc Constructor options for {@link module:nyc/ol/LocationMgr~LocationMgr}
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The map

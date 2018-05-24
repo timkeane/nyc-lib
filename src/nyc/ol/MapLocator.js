@@ -14,17 +14,22 @@ import OlGeomPoint from 'ol/geom/point'
 
 import Locator from 'nyc/Locator'
 import NycMapLocator from 'nyc/MapLocator'
+import FeatureTip from 'nyc/ol/FeatureTip'
 
 /**
  * @desc A class for managing map location
  * @public
  * @class
- * @extends {nyc/MapLocator}
- * @constructor
- * @param {MapLocator.Options} options Constructor options
+ * @extends module:nyc/MapLocator~MapLocator
  */
 class MapLocator extends NycMapLocator {
-  constructor(options) {
+/**
+ * @desc Create an instance of MapLocator
+ * @public
+ * @constructor
+ * @param {module:nyc/ol/MapLocator~MapLocator.Options} options Constructor options
+ */
+constructor(options) {
     super()
     /**
      * @public
@@ -62,8 +67,8 @@ class MapLocator extends NycMapLocator {
 	 * @public
 	 * @override
 	 * @method
-	 * @param {Locator.Result} data The location to which the map will be oriented
-	 * @param {function()} callback The function to call after the locator has zoomed to the location
+	 * @param {module:nyc/Locator~Locator.Result} data The location to which the map will be oriented
+	 * @param {module:nyc/MapLocator~MapLocator#zoomLocationCallback=} callback The function to call after the locator has zoomed to the location
 	 */
 	zoomLocation(data, callback) {
     const map = this.map
@@ -86,7 +91,7 @@ class MapLocator extends NycMapLocator {
 	 * @public
 	 * @override
 	 * @method
-	 * @param {Locator.Result} data The data to set as the location
+	 * @param {module:nyc/Locator~Locator.Result} data The location to which the map will be oriented
 	 */
 	setLocation(data) {
 		this.source.clear()
@@ -95,7 +100,7 @@ class MapLocator extends NycMapLocator {
 	/**
 	 * @private
 	 * @method
-	 * @param {Locator.Result} location
+	 * @param {module:nyc/Locator~Locator.Result} location
 	 * @return {ol.Feature}
 	 */
 	feature (location) {
@@ -121,15 +126,15 @@ class MapLocator extends NycMapLocator {
 			zIndex: 10000
 		})
 		this.map.addLayer(this.layer)
-		// new FeatureTip(this.map, [{
-		// 	layer: this.layer,
-		// 	labelFunction: () => {
-		// 		return {
-		// 			cssClass: 'nyc-user-location',
-		// 			text: this.get('name')
-		// 		}
-		// 	}
-		// }])
+		new FeatureTip(this.map, [{
+			layer: this.layer,
+			labelFunction: () => {
+				return {
+					cssClass: 'nyc-user-location',
+					text: this.getName()
+				}
+			}
+		}])
 	}
 }
 

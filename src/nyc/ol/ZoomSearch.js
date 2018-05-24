@@ -14,11 +14,11 @@ import NycLocator from 'nyc/Locator'
  * @desc Class for providing a set of buttons to zoom and search.
  * @public
  * @class
- * @extends {nyc/ZoomSearch}
+ * @extends {module:/nyc/ZoomSearch~ZoomSearch}
  */
 class ZoomSearch extends NycZoomSearch {
   /**
-   * @desc Creates an instance of nyc/ol/ZoomSearch
+   * @desc Create an instance of ZoomSearch
    * @constructor
    * @param {ol.Map} map The OpenLayers map that will be controlled
    */
@@ -47,9 +47,9 @@ class ZoomSearch extends NycZoomSearch {
 	 * @public
 	 * @override
 	 * @method
-	 * @param {Object} feature The feature object
-	 * @param {NycZoomSearch.FeatureSearchOptions} options The options passed to setFeature
-	 * @return {NycLocator.Result}
+	 * @param {ol.Feature} feature The feature object
+	 * @param {module:/nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions} options The options passed to setFeature
+	 * @return {module:/nyc/Locator~Locator.Result} The location
 	 */
 	featureAsLocation(feature, options) {
 		const geom = feature.getGeometry()
@@ -67,7 +67,7 @@ class ZoomSearch extends NycZoomSearch {
 	 * @public
 	 * @override
 	 * @method
-	 * @param event The DOM event triggered by the zoom buttons
+	 * @param {jQuery.Event} event The event triggered by the zoom buttons
 	 */
 	zoom(event) {
 		this.view.animate({

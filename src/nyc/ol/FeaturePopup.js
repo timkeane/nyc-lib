@@ -10,12 +10,10 @@ import nyc from 'nyc/nyc'
 import Popup from 'nyc/ol/Popup'
 
 /**
- * @desc A class to display popups on a map
+ * @desc A class to display popups on a map that display feature data
  * @public
  * @class
- * @extends {ol.Overlay}
- * @constructor
- * @see http://www.openlayers.org/
+ * @extends module:nyc/ol/Popup~Popup
  */
 class FeaturePopup extends Popup {
   /**
@@ -23,7 +21,6 @@ class FeaturePopup extends Popup {
    * @public
    * @constructor
    * @param {module:nyc/FeaturePopup~FeaturePopup.Options} options Constructor options
-   * @see http://www.openlayers.org/
    */
   constructor(options) {
     super(options)
@@ -61,7 +58,7 @@ class FeaturePopup extends Popup {
    * @public
    * @method
    * @param {ol.Feature} feature The feature
-   * @param {ol.coordinate=} coordinate The coordinate
+   * @param {ol.Coordinate=} coordinate The coordinate
    */
   showFeature(feature, coordinate) {
     coordinate = coordinate || olExtent.getCenter(feature.getGeometry().getExtent())
@@ -91,7 +88,7 @@ class FeaturePopup extends Popup {
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The map
- * @property {Array<ol.layer.Vector>} layers The layers
+ * @property {Array<ol.layer.Vector>} layers The layers for which the popup will report feature properties
  */
 FeaturePopup.Options
 

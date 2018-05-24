@@ -8,7 +8,8 @@ import nyc from 'nyc/nyc'
  * @desc A class for providing tool tips on mouseover for vector features
  * @public
  * @class
- * @constructor
+ * @extends ol.Overlay
+ * @see http://openlayers.org/en/latest/apidoc/ol.Overlay.html
  */
 class FeatureTip extends OlOverlay {
   /**
@@ -42,7 +43,7 @@ class FeatureTip extends OlOverlay {
 	 * @desc Adds tip definitions
 	 * @public
 	 * @method
-	 * @param {Array<FeatureTip.TipDef>} tips The tip definitions to add
+	 * @param {Array<module:nyc/FeatureTip~FeatureTip.TipDef>} tips The tip definitions to add
 	 */
 	addTips(tips) {
 		tips.forEach(def => {
@@ -93,7 +94,7 @@ FeatureTip.TipDef
 /**
  * @desc Label function that returns a {@link FeatureTip.Label}
  * @public
- * @typedef {function(ol.Feature):FeatureTip.Label}
+ * @typedef {function(ol.Feature):module:nyc/FeatureTip~FeatureTip.Label}
  */
 FeatureTip.LabelFunction
 

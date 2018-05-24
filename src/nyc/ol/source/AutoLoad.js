@@ -14,14 +14,15 @@ require('isomorphic-fetch')
  * @public
  * @class
  * @extends {ol.source.Vector}
+ * @see http://openlayers.org/en/latest/apidoc/ol.source.Vector.html
  */
 export default class AutoLoad extends OlSourceVector {
   /**
-   * @desc Creates an instance of AutoLoad
+   * @desc Create an instance of AutoLoad
    * @public
    * @constructor
-   * @extends {ol.source.Vector}
-   * @param {Object} options
+   * @extends ol.source.Vector
+   * @param {olx.source.VectorOptions} options Constructor optionss
    */
   constructor(options) {
     options.loader = () => {
@@ -34,7 +35,7 @@ export default class AutoLoad extends OlSourceVector {
    * @desc Load all features
    * @public
    * @method
-   * @return {Promise} features
+   * @return {Promise.<Array<ol.Feature>>} A promise that resolves to a list of features
    */
   autoLoad() {
     const options = this.autoLoadOptions

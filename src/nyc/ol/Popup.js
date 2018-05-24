@@ -12,17 +12,15 @@ import nyc from 'nyc/nyc'
  * @desc A class to display popups on a map
  * @public
  * @class
- * @extends {ol.Overlay}
- * @constructor
- * @see http://www.openlayers.org/
+ * @extends ol.Overlay
+ * @see http://openlayers.org/en/latest/apidoc/ol.Overlay.html
  */
 class Popup extends OlOverlay {
   /**
    * @desc Create an instance of Popup
    * @public
    * @constructor
-   * @param {Popup.Options} options Constructor options
-   * @see http://www.openlayers.org/
+   * @param {module:nyc/ol/Popup~Popup.Options} options Constructor options
    */
   constructor(options) {
     super({
@@ -58,7 +56,7 @@ class Popup extends OlOverlay {
    * @desc Show the popup
    * @public
    * @method
-   * @param {Popup.ShowOptions} options Overlay options
+   * @param {module:nyc/ol/Popup~Popup.ShowOptions} options Overlay options
    */
   show(options) {
     this.setPosition(options.coordinate)
@@ -126,7 +124,7 @@ class Popup extends OlOverlay {
 }
 
 /**
- * @desc Object to hold options for showing the popup
+ * @desc Options for {@link module:nyc/ol/Popup~Popup#show}
  * @public
  * @typedef {Object}
  * @property {jQuery|Element|string} html The popup content
@@ -135,13 +133,17 @@ class Popup extends OlOverlay {
 Popup.ShowOptions
 
 /**
- * @desc Object to hold constructor option for Popup
+ * @desc Constructor option for {@link module:nyc/ol/Popup~Popup}
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The map
  */
 Popup.Options
 
+/**
+ * @private
+ * @const {string}
+ */
 Popup.HTML = '<div class="pop">' +
   '<button class="btn-rnd btn-x"><span class="screen-reader-only">Close</span></button>' +
   '<div class="content"></div>' +

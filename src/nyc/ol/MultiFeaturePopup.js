@@ -14,8 +14,7 @@ import FeaturePopup from 'nyc/ol/FeaturePopup'
  * @desc A class to display popups on a map
  * @public
  * @class
- * @extends {ol.Overlay}
- * @constructor
+ * @extends module:nyc/ol/FeaturePopup~FeaturePopup
  * @see http://www.openlayers.org/
  */
 class MultiFeaturePopup extends FeaturePopup {
@@ -23,8 +22,7 @@ class MultiFeaturePopup extends FeaturePopup {
    * @desc Create an instance of FeaturePopup
    * @public
    * @constructor
-   * @param {FeaturePopup.Options} options Constructor options
-   * @see http://www.openlayers.org/
+   * @param {module:nyc/ol/FeaturePopup~FeaturePopup.Options} options Constructor options
    */
   constructor(options) {
     super(options)
@@ -35,7 +33,7 @@ class MultiFeaturePopup extends FeaturePopup {
     this.layers = []
     /**
      * @private
-     * @member {ItemPager}
+     * @member {module:nyc/ItemPager~ItemPager}
      */
     this.pager = new ItemPager({
       target: this.content

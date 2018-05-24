@@ -14,15 +14,15 @@ import AutoLoad from 'nyc/ol/source/AutoLoad'
  * @desc Class to auto load all features from a URL
  * @public
  * @class
- * @extends {ol.source.Vector}
+ * @extends ol.source.Vector
+ * @see http://openlayers.org/en/latest/apidoc/ol.source.Vector.html
  */
 class FilterAndSort extends AutoLoad {
   /**
-   * @desc Creates an instance of AutoLoad
+   * @desc Create an instance of FilterAndSort
    * @public
    * @constructor
-   * @extends {ol.source.Vector}
-   * @param {Object} options
+   * @param {olx.source.VectorOptions} options Constructor optionss
    */
   constructor(options) {
     super(options)
@@ -37,7 +37,7 @@ class FilterAndSort extends AutoLoad {
    * @desc Filters the features of this source
    * @public
    * @method
-   * @param {Array<FilterAndSort.Filter>} filters Used to filter features by attributes
+   * @param {Array<module:nyc/FilterAndSort~FilterAndSort.Filter>} filters Used to filter features by attributes
    * @return {Array<ol.Feature>} An array of features contained in this source that are the result is the intersection of the applied filters
    */
   filter(filters) {
@@ -84,6 +84,13 @@ class FilterAndSort extends AutoLoad {
     })
     return features
   }
+  /**
+   * @private
+   * @method
+   * @param {ol.Coordinate} coordinate 
+   * @param {ol.geom.Geometry} geom 
+   * @returns {module:nyc/FilterAndSort~FilterAndSort.Distance}
+   */
   distance(coordinate, geom) {
     const line = new OlGeomLineString([coordinate, geom.getClosestPoint(coordinate)])
     const projections = this.projections(this.getFormat())
@@ -95,6 +102,12 @@ class FilterAndSort extends AutoLoad {
       units: projections[0] ? projections[0].getUnits() : undefined
     }
   }
+  /**
+   * @private
+   * @method
+   * @param {ol.format.Feature} format 
+   * @returns {Array<ol.proj.Projection>}
+   */
   projections(format) {
     const parentFormat = format ? format.parentFormat : null
     let dataProj
@@ -111,29 +124,47 @@ class FilterAndSort extends AutoLoad {
     }
     return [dataProj, featureProj]
   }
+  /**
+   * @private
+   * @method
+   */
   storeFeatures() {
     this.allFeatures = this.getFeatures()
   }
 }
 
 /**
- * @desc Mixin for features
- * @private
+ * @public
  * @typedef {Object}
+ * @property {number} distance The distance
+ * @property {string} units The distance units
  */
-FilterAndSort.DistanceDecoration = {
-  getDistance() {
-    return this.get('__distance')
-  }
-}
+FilterAndSort.Distance
 
 /**
  * @desc Object to use for filtering the features of an instance of {@see FilterAndSort}
  * @public
  * @typedef {Object}
  * @property {string} property The property name on which to filter features
- * @property {Array<string>} values The valid values for the property
+ * @property {Array<string>} values The values used to filter features 
  */
 FilterAndSort.Filter
+
+/**
+ * @desc Mixin for features
+ * @private
+ * @typedef {Object<string, function>}
+ */
+FilterAndSort.DistanceDecoration = {
+  /**
+   * @desc Mixin for features
+   * @private
+   * @method 
+   * @returns {module:nyc/FilterAndSort~FilterAndSort.Distance}
+   */
+  getDistance() {
+    return this.get('__distance')
+  }
+}
 
 export default FilterAndSort

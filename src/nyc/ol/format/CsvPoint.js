@@ -17,8 +17,16 @@ import OlGeomPoint from 'ol/geom/point'
  * @desc Class to create point features from CSV data
  * @public
  * @class
+ * @extends ol.format.Feature
+ * @see http://openlayers.org/en/latest/apidoc/ol.format.Feature.html
  */
 class CsvPoint extends OlFormatFeature {
+	/**
+	 * @desc Create an instance of CsvPoint
+	 * @public
+	 * @constructor
+   * @param {module:nyc/ol/CsvPoint~CsvPoint.Options} options Constructor options
+	 */
   constructor(options) {
     super()
     /**
@@ -56,7 +64,7 @@ class CsvPoint extends OlFormatFeature {
    * @desc Read a single feature from a source
    * @public
    * @method
-   * @param {Object} source A row from a {@see nyc.ol.source.CsvPoint} data source
+   * @param {Object} source A row from a CSV data source
    * @param {olx.format.ReadOptions=} options Read options
    * @return {ol.Feature} Feature
    */
@@ -81,7 +89,7 @@ class CsvPoint extends OlFormatFeature {
    * @desc Read all features from a source
    * @public
    * @method
-   * @param {Array<Object>} source Rows from a {@see nyc.ol.source.CsvPoint} data source
+   * @param {Array<Object>} source Rows from a CSV data source
    * @param {olx.format.ReadOptions=} options Read options
    * @return {Array.<ol.Feature>} Features
    */
@@ -115,7 +123,7 @@ class CsvPoint extends OlFormatFeature {
 }
 
 /**
-* @desc Constructor options for {@link CsvPoint}
+* @desc Constructor options for {@link module:nyc/ol/CsvPoint~CsvPoint}
 * @public
 * @typedef {Object}
 * @property {string} x The name of the field containing the x ordinate of the point

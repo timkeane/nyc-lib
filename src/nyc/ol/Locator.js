@@ -13,15 +13,19 @@ import olCoordinate from 'ol/coordinate'
 import olExtent from 'ol/extent'
 
 /**
- * @desc A class for geocoding and geolocating
+ * @desc A class for geocoding and geolocating in OpenLayers
  * @public
  * @class
- * @extends {nyc/Locator}
- * @constructor
- * @param {nyc/ol/Locator/Options} options Constructor options
+ * @extends module:nyc/Locator~Locator
  */
 class Locator extends NycLocator {
-  constructor(options) {
+/**
+ * @desc Create an instance of Locator
+ * @public
+ * @constructor
+ * @param {module:nyc/ol/Locator~LocatorOptions} options Constructor options
+ */
+constructor(options) {
     super(options)
     /**
   	 * @private
@@ -110,10 +114,10 @@ class Locator extends NycLocator {
 }
 
 /**
- * @desc constructor options for {nyc/ol/Locator}
+ * @desc constructor options for {@link module:nyc/ol/Locator~Locator}
  * @public
  * @typedef {Object}
- * @property {nyc/Geocoder} geocoder A geocoder
+ * @property {module:nyc/Geocoder~Geocoder} geocoder A geocoder
  * @property {string} [projection=EPSG:3857] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
  * @property {ol.Extent=} extentLimit Geolocation coordinates outside of this bounding box are ignored
  */

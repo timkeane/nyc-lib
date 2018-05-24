@@ -47,7 +47,8 @@ window.nyc.lang = {}
 window.nyc.lang.Translate = _nyc_lang_Translate
 window.nyc.lang.Goog = _nyc_lang_Goog
 
+import _nyc_leaf from 'nyc/leaf/leaf'
 import _nyc_leaf_Basemap from 'nyc/leaf/Basemap'
 
-window.nyc.leaf = {}
+window.nyc.leaf = _nyc_leaf
 window.nyc.leaf.Basemap = _nyc_leaf_Basemap

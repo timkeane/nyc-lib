@@ -4,10 +4,15 @@ import NycLocalStorage from 'nyc/LocalStorage'
  * @desc Class to provide access to localStorage and filesystem
  * @public
  * @class
- * @extends {nyc.storage.Local}
- * @constructor
+ * @extends module:nyc/LocalStorage~LocalStorage
  */
 export default class LocalStorage extends NycLocalStorage {
+	/**
+	 * @desc Create an instance of LocalStorage
+	 * @public
+	 * @constructor
+	 * @param {} options Constructor options
+	 */
 	constructor() {
 		super()
 	}
@@ -15,10 +20,10 @@ export default class LocalStorage extends NycLocalStorage {
 	 * @public
 	 * @override
 	 * @method
-	 * @param {L.Map} map
-	 * @param {string|Array<Object>} features
-	 * @param {string} projcs
-	 * @return {L.Layer}
+	 * @param {L.Map} map The map on which to display the new layer
+	 * @param {string|Array<Object>} features The features from which to create the new layer
+	 * @param {string=} projcs The projection
+	 * @return {L.Layer}  The new layer
 	 */
 	addToMap(map, features, projcs) {
 		const dataProjection = this.customProj(projcs)
