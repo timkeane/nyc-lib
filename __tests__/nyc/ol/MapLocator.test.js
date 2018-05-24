@@ -80,7 +80,7 @@ test('FeatureTip created', () => {
   const mapLocator = new MapLocator({map: map})
   expect(mapLocator.tip instanceof FeatureTip).toBe(true)
   expect(mapLocator.layer.nycTip({
-    getName: () => {
+    get: (prop) => {
       return 'Fred'
     }
   })).toEqual({

@@ -136,7 +136,7 @@ constructor(options) {
 			tips: [{
 				layer: this.layer,
 				label: feature => {
-					return {css: 'nyc-user-location', html: feature.getName()}
+					return {css: 'nyc-user-location', html: feature.get('name')}
 				}
 			}]
 		})
