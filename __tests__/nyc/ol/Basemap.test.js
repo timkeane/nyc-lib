@@ -2,6 +2,7 @@ import proj4 from 'proj4'
 
 import nyc from 'nyc/nyc'
 import Basemap from 'nyc/ol/Basemap'
+import LocalStorage from 'nyc/ol/LocalStorage'
 import BasemapHelper from 'nyc/BasemapHelper'
 
 import OlMap from 'ol/map'
@@ -212,7 +213,7 @@ test('getStorage', () => {
   expect.assertions(1)
 
   const basemap = new Basemap({target: 'map'})
-  expect(basemap.getStorage()).toEqual({})
+  expect(basemap.getStorage() instanceof LocalStorage).toBe(true)
 })
 
 test('defaultExtent view not provided', () => {
