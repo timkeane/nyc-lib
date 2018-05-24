@@ -14,7 +14,7 @@ import NycLocator from 'nyc/Locator'
  * @desc Class for providing a set of buttons to zoom and search.
  * @public
  * @class
- * @extends {module:/nyc/ZoomSearch~ZoomSearch}
+ * @extends {module:nyc/ZoomSearch~ZoomSearch}
  */
 class ZoomSearch extends NycZoomSearch {
   /**
