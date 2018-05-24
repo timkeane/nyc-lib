@@ -48,8 +48,8 @@ class ZoomSearch extends NycZoomSearch {
 	 * @override
 	 * @method
 	 * @param {ol.Feature} feature The feature object
-	 * @param {module:/nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions} options The options passed to setFeature
-	 * @return {module:/nyc/Locator~Locator.Result} The location
+	 * @param {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions} options The options passed to setFeature
+	 * @return {module:nyc/Locator~Locator.Result} The location
 	 */
 	featureAsLocation(feature, options) {
 		const geom = feature.getGeometry()
