@@ -51,7 +51,7 @@ test('sort', () => {
 })
 
 test('filter', () => {
-  expect.assertions(4)
+  expect.assertions(2)
 
   const f0 = new OlFeature({id: 'f0', type: 'foo', geometry: new OlGeomPoint([0, 0])})
   const f1 = new OlFeature({id: 'f1', type: 'bar', geometry: new OlGeomPoint([0, 1])})
@@ -76,10 +76,8 @@ test('filter', () => {
 
   features = filterAndSort.filter([filter0, filter1])
 
-  expect(features.length).toBe(3)
+  expect(features.length).toBe(1)
   expect(features[0]).toBe(f0)
-  expect(features[1]).toBe(f2)
-  expect(features[2]).toBe(f3)
 })
 
 test('sort with distance in data projection', () => {

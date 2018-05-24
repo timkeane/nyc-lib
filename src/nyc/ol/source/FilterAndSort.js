@@ -47,7 +47,7 @@ class FilterAndSort extends AutoLoad {
   		let incl = true
   		filters.every(filter => {
   			incl = $.inArray(feature.get(filter.property), filter.values) > -1
-  			return !incl
+  			return incl
   		})
   		if (incl) {
 				filtered[feature.getId()] = true

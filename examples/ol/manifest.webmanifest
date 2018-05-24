@@ -3,6 +3,9 @@
   "name": "NYC Pre-K Finder",
   "description": "Locate Pre-K schools",
   "start_url": "index.html",
+  "background_color": "#1e90ff",
+  "theme_color": "#D8D8D8",
+  "display": "standalone",
   "icons": [
     {
       "src": "img/icon-60.png",
@@ -54,8 +57,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "background_color": "#1e90ff",
-  "theme_color": "#D8D8D8",
-  "display": "standalone"
+  ]
 }

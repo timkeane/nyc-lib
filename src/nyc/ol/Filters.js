@@ -64,6 +64,8 @@ class Filters extends Container {
     Object.keys(namedFilters).forEach(name => {
       filters.push({property: name, values: namedFilters[name]})
     })
+    console.warn(filters);
+    
     this.source.filter(filters)
     this.trigger('change', this)
   }
