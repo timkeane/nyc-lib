@@ -173,21 +173,8 @@ class Basemap {
 			photos: this.photos
 		}
 	}
-	/**
-	 * @private
-	 * @method
-	 */
-	photoChange() {
-		Object.keys(this.photos).map(photo => {
-			if (this.hasLayer(this.photos[photo])) {
-				this.showLabels(BasemapHelper.LabelType.PHOTO)
-				return
-			}
-		})
-
-		this.showLabels(BasemapHelper.LabelType.BASE)
-	}
 }
+
 /**
  * @desc The URL of the New York City base map tiles
  * @private
@@ -226,42 +213,40 @@ Basemap.LABEL_URLS = {
 	photo: 'https://maps{s}.nyc.gov/tms/1.0.0/carto/label-lt/{z}/{x}/{y}.png8'
 }
 
-if (L.latLngBounds) {
-	/**
-	 * @private
-	 * @const
-	 * @type {L.LatLngBounds}
-	 */
-	Basemap.UNIVERSE_EXTENT = L.latLngBounds([39.3682, -75.9374], [42.0329, -71.7187])
-	/**
-	 * @desc The bounds of New York City
-	 * @public
-	 * @const
-	 * @type {L.LatLngBounds}
-	 */
-	Basemap.EXTENT = L.latLngBounds([40.4931, -74.2594], [40.9181, -73.6958])
-	/**
-	 * @desc The center of New York City
-	 * @public
-	 * @const
-	 * @type {L.LatLng}
-	 */
-	Basemap.CENTER = L.latLng ? L.latLng([40.7033127, -73.979681]) : null
-	/**
-	 * @private
-	 * @const
-	 * @type {L.LatLngBounds}
-	 */
-	Basemap.LABEL_EXTENT = L.latLngBounds([40.0341, -74.2727], [41.2919, -71.9101])
+/**
+ * @private
+ * @const
+ * @type {L.LatLngBounds}
+ */
+Basemap.UNIVERSE_EXTENT = L.latLngBounds([39.3682, -75.9374], [42.0329, -71.7187])
+/**
+ * @desc The bounds of New York City
+ * @public
+ * @const
+ * @type {L.LatLngBounds}
+ */
+Basemap.EXTENT = L.latLngBounds([40.4931, -74.2594], [40.9181, -73.6958])
+/**
+ * @desc The center of New York City
+ * @public
+ * @const
+ * @type {L.LatLng}
+ */
+Basemap.CENTER = L.latLng([40.7033127, -73.979681])
+/**
+ * @private
+ * @const
+ * @type {L.LatLngBounds}
+ */
+Basemap.LABEL_EXTENT = L.latLngBounds([40.0341, -74.2727], [41.2919, -71.9101])
 
-	/**
-	 * @private
-	 * @const
-	 * @type {L.LatLngBounds}
-	 */
-	Basemap.PHOTO_EXTENT = L.latLngBounds([40.4888, -74.2759], [40.9279, -73.6896])
+/**
+ * @private
+ * @const
+ * @type {L.LatLngBounds}
+ */
+Basemap.PHOTO_EXTENT = L.latLngBounds([40.4888, -74.2759], [40.9279, -73.6896])
 
-	nyc.inherits(L.Map, Basemap)
-}
+nyc.inherits(L.Map, Basemap)
 
 export default Basemap

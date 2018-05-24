@@ -31,7 +31,7 @@ describe('constrcutor tests', () => {
   })
 
   test('constructor', () => {
-    expect.assertions(272)
+    expect.assertions(270)
     const options = {target: 'map0'}
     const basemap = new Basemap(options)
     const lMap = L.map('map1')
@@ -81,15 +81,15 @@ describe('constrcutor tests', () => {
   })
 })
 
-test('get storage', () => {
+test('getStorage', () => {
   expect.assertions(1)
 
   const basemap = new Basemap({target: 'map0'})
   expect(basemap.getStorage()).toEqual(null)
 })
 
-test('show photos', () => {
-  expect.assertions(5)
+test('showPhoto', () => {
+  expect.assertions(10)
   const basemap = new Basemap({target: 'map0'})
 
   basemap.hidePhoto = jest.fn()
@@ -104,7 +104,16 @@ test('show photos', () => {
   
   expect(basemap.showLabels).toHaveBeenCalledTimes(1)
   expect(basemap.showLabels.mock.calls[0][0]).toBe('photo')
+  
+  basemap.showPhoto()
 
+  expect(basemap.hidePhoto).toHaveBeenCalledTimes(2)
+
+  expect(basemap.addLayer).toHaveBeenCalledTimes(2)
+  expect(basemap.addLayer.mock.calls[1][0].name).toBe(basemap.latestPhoto)
+  
+  expect(basemap.showLabels).toHaveBeenCalledTimes(2)
+  expect(basemap.showLabels.mock.calls[1][0]).toBe('photo')
 })
 
 test('showLabels', () => {
@@ -157,25 +166,6 @@ test('getBaseLayers', () => {
   expect(getBaseLayersName[0]).toEqual('base')
   expect(getBaseLayersName[1]).toEqual('labels')
   expect(getBaseLayersName[2]).toEqual('photos')
-})
-
-test('photoChange', () => {
-  expect.assertions(4)
-  const basemap = new Basemap({target: 'map0'})
-
-  basemap.photoChange = jest.fn()
-  basemap.showLabels = jest.fn()
-  
-  basemap.photoChange()
-
-  expect(typeof basemap.photoChange).toBe('function')
-
-  expect(basemap.showLabels).toHaveBeenCalledTimes(0) // it doesn't get call because there's photos in the basemap
-
-  basemap.hidePhoto()
-  expect(basemap.showLabels).toHaveBeenCalledTimes(1)
-  expect(basemap.showLabels.mock.calls[0][0]).toBe('base')
-
 })
 
 test('setupLayers', () => {
