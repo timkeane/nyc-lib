@@ -75,17 +75,17 @@ test('constructor provided zoom and style', () => {
 })
 
 test('FeatureTip created', () => {
-  expect.assertions(3)
+  expect.assertions(2)
 
   const mapLocator = new MapLocator({map: map})
   expect(mapLocator.tip instanceof FeatureTip).toBe(true)
-  expect(mapLocator.tip.labelFunction({
+  expect(mapLocator.layer.nycTip({
     getName: () => {
       return 'Fred'
     }
   })).toEqual({
-    text: 'Fred', 
-    cssClass: 'nyc-user-location'
+    html: 'Fred', 
+    css: 'nyc-user-location'
   })
 })
 
