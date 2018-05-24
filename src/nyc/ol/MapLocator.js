@@ -126,15 +126,18 @@ constructor(options) {
 			zIndex: 10000
 		})
 		this.map.addLayer(this.layer)
-		new FeatureTip(this.map, [{
-			layer: this.layer,
-			labelFunction: () => {
-				return {
-					cssClass: 'nyc-user-location',
-					text: this.getName()
+		new FeatureTip({
+			map: this.map, 
+			tips: [{
+				layer: this.layer,
+				labelFunction: () => {
+					return {
+						cssClass: 'nyc-user-location',
+						text: this.getName()
+					}
 				}
-			}
-		}])
+			}]
+		})
 	}
 }
 
