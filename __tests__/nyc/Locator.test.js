@@ -48,21 +48,21 @@ test('hookupEvents/proxyEvent', () => {
   expect(locator.geocoder instanceof Geocoder).toBe(true)
   expect(locator.geocoder instanceof EventHandling).toBe(true)
 
-  locator.on(Locator.EventType.GEOCODE, handler)
-  locator.on(Locator.EventType.AMBIGUOUS, handler)
-  locator.on(Locator.EventType.ERROR, handler)
+  locator.on('geocoded', handler)
+  locator.on('ambiguous', handler)
+  locator.on('error', handler)
 
-  locator.geocoder.trigger(Locator.EventType.GEOCODE, {type: Locator.EventType.GEOCODE})
+  locator.geocoder.trigger('geocoded', {type: 'geocoded'})
   expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0].type).toBe(Locator.EventType.GEOCODE)
+  expect(handler.mock.calls[0][0].type).toBe('geocoded')
 
-  locator.geocoder.trigger(Locator.EventType.AMBIGUOUS, {type: Locator.EventType.AMBIGUOUS})
+  locator.geocoder.trigger('ambiguous', {type: 'ambiguous'})
   expect(handler).toHaveBeenCalledTimes(2)
-  expect(handler.mock.calls[1][0].type).toBe(Locator.EventType.AMBIGUOUS)
+  expect(handler.mock.calls[1][0].type).toBe('ambiguous')
 
-  locator.geocoder.trigger(Locator.EventType.ERROR, {type: Locator.EventType.ERROR})
+  locator.geocoder.trigger('error', {type: 'error'})
   expect(handler).toHaveBeenCalledTimes(3)
-  expect(handler.mock.calls[2][0].type).toBe(Locator.EventType.ERROR)
+  expect(handler.mock.calls[2][0].type).toBe('error')
 })
 
 test('not implemented methods', () => {

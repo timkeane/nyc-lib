@@ -10,18 +10,16 @@ import Container from 'nyc/Container'
  * @desc Class for language translation using the Google Translate Gadget
  * @public
  * @class
- * @extends {nyc.Container}
- * @constructor
- * @param {Translate.Options} options Constructor options
- * @fires Translate.EventType#ready
- * @fires Translate.EventType#change
+ * @extends module:nyc/lang/Container~Container
+ * @fires module:nyc/lang/Translate~Translate#ready
+ * @fires module:nyc/lang/Translate~Translate#change
  */
 class Translate extends Container {
   /**
-   * @desc Class for language translation using the Google Translate Gadget
+   * @desc Create an instance of Translate
    * @public
    * @constructor
-   * @param {Translate.Options} options Constructor options
+   * @param {module:nyc/lang/Translate~Translate.Options} options Constructor options
    */
    constructor(options) {
      super(options.target)
@@ -100,7 +98,7 @@ class Translate extends Container {
 		   })
      })
 	   this.css('translated')
-	   this.trigger(Translate.EventType.CHANGE, this)
+	   this.trigger('change', this)
    }
 	/**
 	 * @desc Get the currently chosen language code
@@ -112,6 +110,7 @@ class Translate extends Container {
 		return this.code
 	}
 	/**
+   * @desc Gets a cookie value
 	 * @access protected
 	 * @method
 	 * @return {string}
@@ -144,7 +143,7 @@ class Translate extends Container {
     if (this.button) {
       $('#lng').addClass('button')
     }
-    this.trigger(Translate.EventType.READY, this)
+    this.trigger('ready', this)
   }
   /**
 	 * @private
@@ -163,6 +162,7 @@ class Translate extends Container {
 	/**
 	 * @private
 	 * @method
+   * @return {string}
 	 */
 	defaultLang() {
 		return navigator.language.split('-')[0]
@@ -205,7 +205,7 @@ class Translate extends Container {
 }
 
 /**
- * @desc Constructor for {@link Translate}
+ * @desc Constructor options for {@link module:nyc/lang/Translate~Translate}
  * @public
  * @typedef {Object}
  * @property {(String|Element|JQuery)} target The HTML DOM element that will provide language choices
@@ -217,26 +217,28 @@ class Translate extends Container {
 Translate.Options
 
 /**
- * @desc Enumeration for Translate event types
+ * @desc A language choice for {@link module:nyc/lang/Translate~Translate.Choices}
  * @public
- * @enum {string}
+ * @typedef {Object}
+ * @property {string} code The language code
+ * @property {string} name The language name
+ * @property {string} native The display value for the language
+ * @property {string=} hint The translation of the word 'Translate' in the language
  */
-Translate.EventType = {
-	/**
-	 * @desc The ready event type
-	 */
-	READY: 'ready',
-	/**
-	 * @desc The change event type
-	 */
-	CHANGE: 'change'
-}
+Translate.Choice
+
+/**
+ * @desc A mapping of {@link Translate.Choice} objects to language codes
+ * @public
+ * @typedef {Object<string, module:nyc/lang/Translate~Translate.Choice>}
+ */
+Translate.Choices
 
 /**
  * @desc Default languages for NYC
  * @public
  * @const
- * @type {Object<string, Object<string, string>>}
+ * @type {module:nyc/lang/Translate~Translate.Choices}
  */
 Translate.DEFAULT_LANGUAGES = {
   en: {code: 'en', name: 'English', native: 'English', hint: 'Translate'},
@@ -252,32 +254,14 @@ Translate.DEFAULT_LANGUAGES = {
 }
 
 /**
- * @desc A language choice for {@link Translate.Choices}
- * @public
- * @typedef {Object}
- * @property {string} code The language code
- * @property {string} name The language name
- * @property {string} native The display value for the language
- * @property {string=} hint The translation of the word 'Translate' in the language
- */
-Translate.Choice
-
-/**
- * @desc A mapping of {@link Translate.Choice} objects to language codes
- * @public
- * @typedef {Object<string, Translate.Choice>}
- */
-Translate.Choices
-
-/**
  * @desc The class has completed initialization
- * @event Translate#ready
+ * @event module:nyc/lang/Translate~Translate#ready
  * @type {boolean}
  */
 
 /**
  * @desc The language value has changed
- * @event Translate#change
+ * @event module:nyc/lang/Translate~Translate#change
  * @type {string}
  */
 

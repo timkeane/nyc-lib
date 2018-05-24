@@ -236,7 +236,7 @@ test('translate needs to wait for google to load', () => {
 
   $('iframe').remove()
 
-  translate.on(Translate.EventType.CHANGE, handler)
+  translate.on('change', handler)
 
   const test = async () => {
     return new Promise(resolve => {

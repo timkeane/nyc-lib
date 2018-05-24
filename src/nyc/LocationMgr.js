@@ -11,9 +11,9 @@ import Dialog from 'nyc/Dialog'
  * @desc A class for managing user-specified location information
  * @public
  * @class
- * @extends {module:nyc/EventHandling~EventHandling}
- * @fires module:nyc/Locator#geocode
- * @fires module:nyc/Locator#geolocation
+ * @extends module:nyc/EventHandling~EventHandling
+ * @fires module:nyc/Locator~Locator#geocode
+ * @fires module:nyc/Locator~Locator#geolocate
  */
 class LocationMgr extends EventHandling {
   /**
@@ -67,13 +67,13 @@ class LocationMgr extends EventHandling {
 	 * @method
 	 */
    hookupEvents() {
-     this.locator.on(Locator.EventType.GEOCODE, this.located, this)
-     this.locator.on(Locator.EventType.GEOLOCATION, this.located, this)
-     this.locator.on(Locator.EventType.AMBIGUOUS, this.ambiguous, this)
-     this.locator.on(Locator.EventType.ERROR, this.error, this)
-     this.zoomSearch.on(ZoomSearch.EventType.DISAMBIGUATED, this.located, this)
-     this.zoomSearch.on(ZoomSearch.EventType.SEARCH, this.locator.search, this.locator)
-     this.zoomSearch.on(ZoomSearch.EventType.GEOLOCATE, this.locator.locate, this.locator)
+     this.locator.on('geocoded', this.located, this)
+     this.locator.on('geolocated', this.located, this)
+     this.locator.on('ambiguous', this.ambiguous, this)
+     this.locator.on('error', this.error, this)
+     this.zoomSearch.on('disambiguated', this.located, this)
+     this.zoomSearch.on('search', this.locator.search, this.locator)
+     this.zoomSearch.on('geolocate', this.locator.locate, this.locator)
    }
    /**
  	 * @private
@@ -100,7 +100,7 @@ class LocationMgr extends EventHandling {
 	 * @param {module:nyc/Locator~Locator.Result} data
 	 */
 	located(data) {
-		this.zoomSearch.val(data.type === Locator.EventType.GEOLOCATION ? '' : data.name)
+		this.zoomSearch.val(data.type === 'geolocated' ? '' : data.name)
 		this.mapLocator.zoomLocation(data, () => {
 			this.trigger(data.type, data)
 		})
@@ -127,7 +127,7 @@ class LocationMgr extends EventHandling {
 }
 
 /**
- * @desc Object type to hold constructor options for {@link LocationMgr}
+ * @desc Constructor options for {@link module:nyc/LocationMgr~LocationMgr}
  * @public
  * @typedef {Object}
  * @property {module:nyc/ZoomSearch~ZoomSearch} zoomSearch The UX zoom search controls for user input

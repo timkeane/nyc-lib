@@ -311,12 +311,12 @@ test('showList without focus', () => {
   })
 })
 
-test('geolocate', () => {
+test('geolocated', () => {
   const handler = jest.fn()
 
   const zoomSearch = new ZoomSearch(container)
 
-  zoomSearch.on(ZoomSearch.EventType.GEOLOCATE, handler)
+  zoomSearch.on('geolocate', handler)
   zoomSearch.val('something')
 
   zoomSearch.geolocate()
@@ -331,7 +331,7 @@ test('triggerSearch has value', () => {
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.input.val('an address')
-  zoomSearch.on(ZoomSearch.EventType.SEARCH, handler)
+  zoomSearch.on('search', handler)
 
   zoomSearch.triggerSearch()
 
@@ -345,7 +345,7 @@ test('triggerSearch no value', () => {
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.input.val('')
-  zoomSearch.on(ZoomSearch.EventType.SEARCH, handler)
+  zoomSearch.on('search', handler)
 
   zoomSearch.triggerSearch()
 
@@ -622,7 +622,7 @@ test('disambiguated is LI', () => {
 
   zoomSearch.emptyList = jest.fn()
   zoomSearch.list.append(li).show()
-  zoomSearch.on(ZoomSearch.EventType.DISAMBIGUATED, handler)
+  zoomSearch.on('disambiguated', handler)
 
   zoomSearch.disambiguated({target: li.get(0)})
 
@@ -655,7 +655,7 @@ test('disambiguated is child of LI', () => {
 
   zoomSearch.emptyList = jest.fn()
   zoomSearch.list.append(li).show()
-  zoomSearch.on(ZoomSearch.EventType.DISAMBIGUATED, handler)
+  zoomSearch.on('disambiguated', handler)
 
   zoomSearch.disambiguated({target: li.children().get(0)})
 

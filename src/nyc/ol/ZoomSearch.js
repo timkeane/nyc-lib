@@ -58,7 +58,7 @@ class ZoomSearch extends NycZoomSearch {
 			coordinate: olExtent.getCenter(geom.getExtent()),
 			geometry: JSON.parse(this.geoJson.writeGeometry(geom)),
 			data: feature.getProperties(),
-			type: NycLocator.EventType.GEOCODE,
+			type: 'geocoded',
 			accuracy: NycLocator.Accuracy.HIGH
 		}
 	}

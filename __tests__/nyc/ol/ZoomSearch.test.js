@@ -89,7 +89,7 @@ test('featureAsLocation', () => {
     coordinate: olExtent.getCenter(geom.getExtent()),
     geometry: JSON.parse(zoomSearch.geoJson.writeGeometry(geom)),
     data: feature.getProperties(),
-    type: NycLocator.EventType.GEOCODE,
+    type: 'geocoded',
     accuracy: NycLocator.Accuracy.HIGH
   })
 })
@@ -117,7 +117,7 @@ test('featureAsLocation feature has getName', () => {
     coordinate: olExtent.getCenter(geom.getExtent()),
     geometry: JSON.parse(zoomSearch.geoJson.writeGeometry(geom)),
     data: feature.getProperties(),
-    type: NycLocator.EventType.GEOCODE,
+    type: 'geocoded',
     accuracy: NycLocator.Accuracy.HIGH
   })
 })

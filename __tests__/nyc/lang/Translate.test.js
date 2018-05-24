@@ -179,7 +179,7 @@ test('translate', () => {
     messages: messages
   })
 
-  translate.on(Translate.EventType.CHANGE, handler)
+  translate.on('change', handler)
 
   translate.find('select').val('es').trigger('change')
 

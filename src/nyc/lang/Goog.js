@@ -10,18 +10,17 @@ import Translate from 'nyc/lang/Translate'
  * @desc Class for language translation using the Google Translate Gadget
  * @public
  * @class
- * @extends {nyc.Translate}
+ * @extends module:nyc/lang/Translate~Translate
  * @constructor
- * @param {Translate.Options} options Constructor options
- * @fires Translate.EventType#ready
- * @fires Translate.EventType#change
+ * @fires module:nyc/lang/Translate~Translate#ready
+ * @fires module:nyc/lang/Translate~Translate#change
  */
-export default class Goog extends Translate {
+class Goog extends Translate {
   /**
-   * @desc Class for language translation using the Google Translate Gadget
+   * @desc Create an instance of Goog
    * @public
    * @constructor
-   * @param {Translate.Options} options Constructor options
+   * @param {module:nyc/lang/Translate~Translate.Options} options Constructor options
    */
   constructor(options) {
     super(options)
@@ -40,7 +39,7 @@ export default class Goog extends Translate {
 			autoDisplay: false
 		}, 'lng-goog')
 		nycTranslateInstance.hack()
-		nycTranslateInstance.trigger(Translate.EventType.READY, nycTranslateInstance)
+		nycTranslateInstance.trigger('ready', nycTranslateInstance)
 	}
   /**
 	 * @desc Sets the chosen language and initiates Google Translation
@@ -66,7 +65,7 @@ export default class Goog extends Translate {
 			}
 			this.code = this.namedCodes[lang] || 'en'
 			this.css('goog-tranlated')
-			this.trigger(Translate.EventType.CHANGE, this)
+			this.trigger('change', this)
 		} else {
 			nycTranslateInstance.timeout = setTimeout(() => {nycTranslateInstance.translate(event)}, 200)
 		}
@@ -149,3 +148,5 @@ export default class Goog extends Translate {
     })
   }
 }
+
+export default Goog

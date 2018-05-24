@@ -26,7 +26,7 @@ class Basemap extends OlMap {
    * @desc Class that provides an ol.Map with base layers and labels
    * @public
    * @constructor
-   * @param {Object} options Constructor options
+   * @param {module:nyc/Basemap~Basemap.Options} options Constructor options
    * @param {number} [preload=0] Preload option for base layer
    * @see http://openlayers.org/en/latest/apidoc/ol.Map.html
    */

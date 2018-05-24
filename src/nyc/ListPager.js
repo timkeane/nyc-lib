@@ -7,17 +7,17 @@ import $ from 'jquery'
 import Container from 'nyc/Container'
 
 /**
- * @desc A class to generate legend HTML
+ * @desc A class to page through sub-lists of a list of objects rendered as HTML
  * @public
  * @class
- * @extends {Container}
+ * @extends module:nyc/Container~Container
  */
 class ListPager extends Container {
   /**
-   * @desc A class to generate legend HTML
+   * @desc Create an instance of ListPager
    * @public
    * @constructor
-   * @param {ListPager.Options} options The constructor options
+   * @param {module:nyc/ListPager~ListPager.Options} options Constructor options
    */
   constructor(options) {
     super(options.target)
@@ -50,10 +50,10 @@ class ListPager extends Container {
     this.reset(this.items)
   }
 	/**
-	 * @desc Resets the pager with a new items
+	 * @desc Resets the pager with new items and show the first page
 	 * @public
 	 * @method
-	 * @param {Array<ListPager.Item>=} items The items to page through
+	 * @param {Array<module:nyc/ListPager~ListPager.Item>=} items The items to page through
 	 */
 	reset(items) {
     this.list.empty()
@@ -63,11 +63,11 @@ class ListPager extends Container {
     this.next()
 	}
 	/**
-	 * @desc Returns next page from the items
+	 * @desc Renders and returns next page of items
 	 * @public
 	 * @method
 	 * @param {number} [pageSize=10] The length of the items for the next page
-	 * @return {Array<ListPager.Item>} List of items on the next page
+	 * @return {Array<module:nyc/ListPager~ListPager.Item>} List of items on the next page
 	 */
 	next(pageSize) {
     pageSize = pageSize || this.pageSize
@@ -80,10 +80,9 @@ class ListPager extends Container {
     return result
   }
 	/**
-	 * @desc Returns next page from the items
-	 * @public
+	 * @private
 	 * @method
-	 * @param {Array<ListPager.Item>} items List of items
+	 * @param {Array<module:nyc/ListPager~ListPager.Item>} items List of items
 	 */
 	render(items) {
     items.forEach(item => {
@@ -92,13 +91,17 @@ class ListPager extends Container {
       )
     })
   }
+  /**
+	 * @private
+	 * @method
+   */
   more() {
     this.next()
   }
 }
 
 /**
- * @desc Options for ListPager constructor
+ * @desc Constructor options for {@link module:nyc/ListPager~ListPager}
  * @public
  * @typedef {Object}
  * @property {jQuery|Element|string} target The DOM node in which to create the ListPager
@@ -110,8 +113,8 @@ ListPager.Options
 /**
  * @desc ListPager.Item type
  * @public
- * @typedef {ListPager.Item}
- * @property {function()} html The renderinf function for the item
+ * @typedef {module:nyc/ListPager~ListPager.Item}
+ * @property {function()} html The rendering function for the item
  */
 ListPager.Item
 

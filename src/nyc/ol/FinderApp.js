@@ -98,8 +98,8 @@ class FinderApp {
       map: this.map,
       url: options.geoclientUrl
     })
-    this.locationMgr.on('geocode', this.located, this)
-    this.locationMgr.on('geolocate', this.located, this)
+    this.locationMgr.on('geocoded', this.located, this)
+    this.locationMgr.on('geolocated', this.located, this)
     /**
      * @public
      * @member {nyc.Filters}

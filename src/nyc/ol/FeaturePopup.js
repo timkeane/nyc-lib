@@ -22,7 +22,7 @@ class FeaturePopup extends Popup {
    * @desc Create an instance of FeaturePopup
    * @public
    * @constructor
-   * @param {FeaturePopup.Options} options Constructor options
+   * @param {module:nyc/FeaturePopup~FeaturePopup.Options} options Constructor options
    * @see http://www.openlayers.org/
    */
   constructor(options) {
@@ -87,7 +87,7 @@ class FeaturePopup extends Popup {
 }
 
 /**
- * @desc Object to hold constructor option for FeaturePopup
+ * @desc Constructor option for {@link module:nyc/FeaturePopup~FeaturePopup}
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The map

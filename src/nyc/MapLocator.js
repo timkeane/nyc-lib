@@ -15,8 +15,8 @@ class MapLocator {
 	 * @public
 	 * @abstract
 	 * @method
-	 * @param {Locator.Result} data The location to which the map will be oriented
-	 * @param {function()} callback The function to call after the locator has zoomed to the location
+	 * @param {module:nyc/Locator~Locator.Result} data The location to which the map will be oriented
+	 * @param {module:nyc/MapLocator~MapLocator#zoomLocationCallback=} callback The function to call after the locator has zoomed to the location
 	 */
 	zoomLocation(data, callback) {
 		throw 'Not implemented'
@@ -25,14 +25,24 @@ class MapLocator {
 	 * @public
 	 * @abstract
 	 * @method
-	 * @param {Locator.Result} data The location to which the map will be oriented
-	 * @param {function()} callback The function to call after the locator has zoomed to the location
+	 * @param {module:nyc/Locator~Locator.Result} data The location to which the map will be oriented
 	 */
-	setLocation(data, callback) {
+	setLocation(data) {
 		throw 'Not implemented'
 	}
 }
 
+/**
+ * @desc Callback for {@link module:nyc/MapLocator~MapLocator#zoomLocation}
+ * @public
+ * @callback module:nyc/MapLocator~MapLocator#zoomLocationCallback
+ */
+
+/**
+ * @desc The default zoom level when zooming to locations
+ * @const
+ * @type {number}
+ */
 MapLocator.ZOOM_LEVEL = 17
 
 export default  MapLocator

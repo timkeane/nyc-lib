@@ -10,12 +10,13 @@ import Container from 'nyc/Container'
   * @desc  A class for creating and managing tabs
   * @public
   * @class
+  * @extends module:nyc/Container~Container
   */
 class Tabs extends Container {
   /**
-	 * @desc  Creates an instance of Tabs
+	 * @desc  Create an instance of Tabs
 	 * @constructor
-	 * @param {Tabs.Options} options Constructor options
+	 * @param {module:nyc/Tabs~Tabs.Options} options Constructor options
 	 */
   constructor(options) {
     super(options.target)
@@ -51,7 +52,7 @@ class Tabs extends Container {
   /**
    * @private
    * @method
-   * @param {Array<Tabs.Tab>} tabs The tabs
+   * @param {Array<module:nyc/Tabs~Tabs.Tab>} tabs The tabs
    */
 render(tabs){
     let opened = false
@@ -85,11 +86,11 @@ render(tabs){
 }
 
 /**
- * @desc Object type to hold contructor options for Tabs
+ * @desc Contructor options for {@link module:nyc/Tabs~Tabs}
  * @public
  * @typedef {Object}
  * @property {jQuery|Element|string} target The target DOM node for Tabs
- * @property {Array<Tabs.Tab>} tabs The tabs
+ * @property {Array<module:nyc/Tabs~Tabs.Tab>} tabs The tabs
  */
 Tabs.Options
 

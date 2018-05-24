@@ -16,7 +16,7 @@ import L from 'leaflet'
  * @class
  * @extends {L.Map}
  * @mixes nyc.BasemapHelper
- * @param {Basemap.Options} options Constructor options
+ * @param {module:nyc/Basemap~Basemap.Options} options Constructor options
  * @constructor
  * @see http://leafletjs.com/
  */

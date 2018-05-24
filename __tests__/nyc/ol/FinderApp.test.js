@@ -137,10 +137,10 @@ test('constructor', () => {
   expect(LocationMgr.mock.calls[0][0].map).toBe(finderApp.map)
   expect(LocationMgr.mock.calls[0][0].url).toBe('http://geoclient')
   expect(finderApp.locationMgr.on).toHaveBeenCalledTimes(2)
-  expect(finderApp.locationMgr.on.mock.calls[0][0]).toBe('geocode')
+  expect(finderApp.locationMgr.on.mock.calls[0][0]).toBe('geocoded')
   expect(finderApp.locationMgr.on.mock.calls[0][1]).toBe(finderApp.located)
   expect(finderApp.locationMgr.on.mock.calls[0][2]).toBe(finderApp)
-  expect(finderApp.locationMgr.on.mock.calls[1][0]).toBe('geolocate')
+  expect(finderApp.locationMgr.on.mock.calls[1][0]).toBe('geolocated')
   expect(finderApp.locationMgr.on.mock.calls[1][1]).toBe(finderApp.located)
   expect(finderApp.locationMgr.on.mock.calls[1][2]).toBe(finderApp)
 

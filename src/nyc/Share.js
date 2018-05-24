@@ -14,14 +14,14 @@ require('isomorphic-fetch')
  * @desc Class for providing a set of buttons for social media sharing
  * @public
  * @class
- * @extends {Container}
+ * @extends module:nyc/Container~Container
  */
 class Share extends Container {
 	/**
-	 * @desc Class for providing a set of buttons for social media sharing
+	 * @desc Create an instance of Share
 	 * @public
 	 * @constructor
-	 * @property {Share.Options} options Constructor options
+	 * @param {module:nyc/Share~Share.Options} options Constructor options
 	 */
 	constructor(options) {
 		super(options.target)
@@ -34,6 +34,10 @@ class Share extends Container {
 			share.hookupEvents()
 		})
 	}
+	/**
+	 * @private
+	 * @method
+	 */
 	hookupEvents() {
 		const btns = this.find('.btns')
 	 	this.find('.btn-shr').click(event => {
@@ -52,13 +56,14 @@ class Share extends Container {
 
 
 /**
- * @desc Constructor options
+ * @desc Constructor options for {@link module:nyc/Share~Share}
  * @public
  * @typedef {Object}
  * @property {jQuery|Element|string} target The HTML DOM element that will provide share buttons
  * @property {string} url Manifest URL
  */
 Share.Options
+
 /**
  * @private
  * @const

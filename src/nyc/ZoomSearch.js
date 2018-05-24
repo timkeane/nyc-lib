@@ -9,18 +9,18 @@ import Locator from 'nyc/Locator'
 import AutoComplete from 'nyc/AutoComplete'
 
 /**
- * @desc  Abstract class for zoom and search controls
+ * @desc Abstract class for zoom and search controls
  * @public
  * @abstract
  * @class
- * @extends nyc/Container
+ * @extends module:nyc/Container~Container
  * @fires nyc/ZoomSearch#search
  * @fires nyc/ZoomSearch#geolocate
  * @fires nyc/ZoomSearch#disambiguated
  */
 class ZoomSearch extends Container {
 	/**
-	 * @desc  Creates an instance of search controls
+	 * @desc  Create an instance of ZoomSearch
 	 * @access protected
 	 * @constructor
 	 * @param {jQuery|Element|string} target The target
@@ -69,7 +69,7 @@ class ZoomSearch extends Container {
 	 * @public
 	 * @abstract
 	 * @method
-	 * @param event The DOM event triggered by the zoom buttons
+	 * @param {jQuery.Event} event The event triggered by the zoom buttons
 	 */
 	zoom(event) {
 		throw 'Not implemented'
@@ -79,106 +79,11 @@ class ZoomSearch extends Container {
 	 * @abstract
 	 * @method
 	 * @param {Object} feature The feature object
-	 * @param {ZoomSearch.FeatureSearchOptions} options The options passed to setFeature
-	 * @return {Locate.Result}
+	 * @param {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions} options The options passed to setFeature
+	 * @return {module:nyc/Locate~Locate.Result}
 	 */
 	featureAsLocation(feature, options) {
 		throw 'Not implemented'
-	}
-	/**
-	 * @private
-   * @method
-	 * @param {jQuery} input
-	 */
-	hookupEvents(input) {
-		input.on('keyup change', $.proxy(this.key, this))
-		input.focus($.proxy(this.select, this))
-		this.find('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))
-		this.find('.btn-geo').click($.proxy(this.geolocate, this))
-		this.clear.click($.proxy(this.clearTxt, this))
-		$(document).mouseup($.proxy(this.listClick, this))
-	}
-	/**
-	 * @private
-	 * @method
-	 */
-	select() {
-		this.input.select()
-	}
-	/**
-	 * @private
-	 * @method
-	 * @param {Object} event
-	 */
-	key(event) {
-		if (event.keyCode === 13 && this.isAddrSrch) {
-			this.triggerSearch()
-			this.list.slideUp()
-		} else {
-			this.filterList()
-		}
-		this.clearBtn()
-	}
-	/**
-	 * @private
-	 * @method
-	 */
-	clearTxt() {
-		this.val('')
-		this.clearBtn()
-	}
-	/**
-	 * @private
-	 * @method
-	 * @param {Object} event
-	 */
-	clearBtn() {
-		this.clear[this.val() ? 'show' : 'hide']()
-	}
-	/**
-	 * @private
-	 * @method
-	 * @param {Object} event
-	 */
-	filterList() {
-		const typed = this.val().trim()
-		if (this.autoComplete && typed) {
-			this.autoComplete.filter(this.retention, this.list, typed)
-		} else {
-			this.emptyList()
-		}
-		this.showList(false)
-	}
-	/**
-	 * @private
-	 * @method
-	 * @param {boolean}
-	 */
-	showList(focus) {
-		this.list.slideDown(() => {
-			if (focus) {
-				this.list.children().first().attr('tabindex', 0).focus()
-			}
-		})
-	}
-	/**
-	 * @private
-	 * @method
-	 */
-	geolocate() {
-		this.val('')
-		this.trigger(ZoomSearch.EventType.GEOLOCATE)
-	}
-	/**
-	 * @private
-	 * @method
-	 */
-	triggerSearch() {
-		const input = this.val().trim()
-		if (input.length) {
-			this.input.blur()
-			this.trigger(ZoomSearch.EventType.SEARCH, input)
-		}
 	}
 	/**
 	 * @desc Set or get the value of the search field
@@ -198,7 +103,7 @@ class ZoomSearch extends Container {
 	 * @desc Displays possible address matches
 	 * @public
 	 * @method
-	 * @param {Locator.Ambiguous} ambiguous Possible locations resulting from a geocoder search to display to the user
+	 * @param {module:nyc/Locator~Locator.Ambiguous} ambiguous Possible locations resulting from a geocoder search to display to the user
 	 */
 	disambiguate(ambiguous) {
 		const possible = ambiguous.possible
@@ -215,7 +120,7 @@ class ZoomSearch extends Container {
 	 * @desc Add searchable features
 	 * @public
 	 * @method
-	 * @param {ZoomSearch.FeatureSearchOptions} options The options for creating a feature search
+	 * @param {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions} options The options for creating a feature search
 	 */
 	setFeatures(options) {
 		this.autoComplete = this.autoComplete || new AutoComplete()
@@ -232,9 +137,18 @@ class ZoomSearch extends Container {
 		this.emptyList()
 	}
 	/**
+	 * @desc Remove searchable features
+	 * @public
+	 * @method
+	 * @param {string} featureTypeName The featureTypeName used when the features were set
+	 */
+	removeFeatures(featureTypeName) {
+		this.find('li.' + featureTypeName).remove()
+	}
+	/**
 	 * @private
 	 * @method
-	 * @param {ZoomSearch.FeatureSearchOptions} options The options for creating a feature search
+	 * @param {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions} options
 	 * @return {Array<Object>} features
 	 */
 	sortAlphapetically(options) {
@@ -259,19 +173,10 @@ class ZoomSearch extends Container {
 		return features
 	}
 	/**
-	 * @desc Remove searchable features
-	 * @public
-	 * @method
-	 * @param {string} featureTypeName The featureTypeName used when the features were set
-	 */
-	removeFeatures(featureTypeName) {
-		this.find('li.' + featureTypeName).remove()
-	}
-	/**
 	 * @private
 	 * @method
-	 * @param {ZoomSearch.FeatureSearchOptions} options The options for creating a feature search
-	 * @param {Locator.Result} data
+	 * @param {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions} options
+	 * @param {module:nyc/Locator~Locator.Result} data
 	 * @return {jQuery}
 	 */
 	listItem(options, data) {
@@ -310,7 +215,7 @@ class ZoomSearch extends Container {
 		const data = li.data('location')
 		this.val(data.name)
 		data.isFeature = li.hasClass('feature')
-		this.trigger(ZoomSearch.EventType.DISAMBIGUATED, data)
+		this.trigger('disambiguated', data)
 		li.parent().slideUp()
 		this.emptyList()
 	}
@@ -332,10 +237,103 @@ class ZoomSearch extends Container {
 			 }
 		 }
 	 }
+	/**
+	 * @private
+   * @method
+	 * @param {jQuery} input
+	 */
+	hookupEvents(input) {
+		input.on('keyup change', $.proxy(this.key, this))
+		input.focus($.proxy(this.select, this))
+		this.find('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))
+		this.find('.btn-geo').click($.proxy(this.geolocate, this))
+		this.clear.click($.proxy(this.clearTxt, this))
+		$(document).mouseup($.proxy(this.listClick, this))
+	}
+	/**
+	 * @private
+	 * @method
+	 */
+	select() {
+		this.input.select()
+	}
+	/**
+	 * @private
+	 * @method
+	 * @param {jQuery.Event} event
+	 */
+	key(event) {
+		if (event.keyCode === 13 && this.isAddrSrch) {
+			this.triggerSearch()
+			this.list.slideUp()
+		} else {
+			this.filterList()
+		}
+		this.clearBtn()
+	}
+	/**
+	 * @private
+	 * @method
+	 */
+	clearTxt() {
+		this.val('')
+		this.clearBtn()
+	}
+	/**
+	 * @private
+	 * @method
+	 */
+	clearBtn() {
+		this.clear[this.val() ? 'show' : 'hide']()
+	}
+	/**
+	 * @private
+	 * @method
+	 */
+	filterList() {
+		const typed = this.val().trim()
+		if (this.autoComplete && typed) {
+			this.autoComplete.filter(this.retention, this.list, typed)
+		} else {
+			this.emptyList()
+		}
+		this.showList(false)
+	}
+	/**
+	 * @private
+	 * @method
+	 * @param {boolean}
+	 */
+	showList(focus) {
+		this.list.slideDown(() => {
+			if (focus) {
+				this.list.children().first().attr('tabindex', 0).focus()
+			}
+		})
+	}
+	/**
+	 * @private
+	 * @method
+	 */
+	geolocate() {
+		this.val('')
+		this.trigger('geolocate')
+	}
+	/**
+	 * @private
+	 * @method
+	 */
+	triggerSearch() {
+		const input = this.val().trim()
+		if (input.length) {
+			this.input.blur()
+			this.trigger('search', input)
+		}
+	}
 }
 
 /**
- * @desc Object type to hold data about possible locations resulting from a geocoder search
+ * @desc Object type to hold data about how to search features
  * @public
  * @typedef {Object}
  * @property {Array<Object|ol.Feature>} features The features to be searched
@@ -347,40 +345,20 @@ class ZoomSearch extends Container {
 ZoomSearch.FeatureSearchOptions
 
 /**
- * @desc Enumeration for control action event type
- * @public
- * @enum {string}
- */
-ZoomSearch.EventType = {
-	/**
-	 * The search event type
-	 */
-	SEARCH: 'search',
-	/**
-	 * The geolocate event type
-	 */
-	GEOLOCATE: 'geolocate',
-	/**
-	 * The disambiguated event type
-	 */
-	DISAMBIGUATED: 'disambiguated'
-}
-
-/**
- * @desc The value enterd in the search field
+ * @desc The user has requested a search based on their text input
  * @event ZoomSearch#search
  * @type {string}
  */
 
 /**
- * @desc A geolcation determination is requested
+ * @desc The user has requested their geolcation
  * @event ZoomSearch#geolocate
  */
 
 /**
  * @desc The user has chosen a location from a list of possible locations
  * @event ZoomSearch#disambiguated
- * @type {Locate.EventType}
+ * @type {module:nyc/Locate~Locate.Result}
  */
 
 /**

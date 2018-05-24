@@ -115,31 +115,31 @@ describe('hookupEvents', () => {
 
     const locationMgr = new LocationMgr(options)
 
-    options.locator.trigger(Locator.EventType.GEOCODE, 'mock-geocode-event')
+    options.locator.trigger('geocoded', 'mock-geocode-event')
     expect(LocationMgr.prototype.located).toHaveBeenCalledTimes(1)
     expect(LocationMgr.prototype.located.mock.calls[0][0]).toBe('mock-geocode-event')
 
-    options.locator.trigger(Locator.EventType.GEOLOCATION, 'mock-geolocation-event')
+    options.locator.trigger('geolocated', 'mock-geolocation-event')
     expect(LocationMgr.prototype.located).toHaveBeenCalledTimes(2)
     expect(LocationMgr.prototype.located.mock.calls[1][0]).toBe('mock-geolocation-event')
 
-    options.locator.trigger(Locator.EventType.AMBIGUOUS, 'mock-ambiguous-event')
+    options.locator.trigger('ambiguous', 'mock-ambiguous-event')
     expect(LocationMgr.prototype.ambiguous).toHaveBeenCalledTimes(1)
     expect(LocationMgr.prototype.ambiguous.mock.calls[0][0]).toBe('mock-ambiguous-event')
 
-    options.locator.trigger(Locator.EventType.ERROR, 'mock-error-event')
+    options.locator.trigger('error', 'mock-error-event')
     expect(LocationMgr.prototype.error).toHaveBeenCalledTimes(1)
     expect(LocationMgr.prototype.error.mock.calls[0][0]).toBe('mock-error-event')
 
-    options.zoomSearch.trigger(ZoomSearch.EventType.DISAMBIGUATED, 'mock-disambiguated-event')
+    options.zoomSearch.trigger('disambiguated', 'mock-disambiguated-event')
     expect(LocationMgr.prototype.located).toHaveBeenCalledTimes(3)
     expect(LocationMgr.prototype.located.mock.calls[2][0]).toBe('mock-disambiguated-event')
 
-    options.zoomSearch.trigger(ZoomSearch.EventType.SEARCH, 'mock-search-event')
+    options.zoomSearch.trigger('search', 'mock-search-event')
     expect(options.locator.search).toHaveBeenCalledTimes(1)
     expect(options.locator.search.mock.calls[0][0]).toBe('mock-search-event')
 
-    options.zoomSearch.trigger(ZoomSearch.EventType.GEOLOCATE, 'mock-geolocate-event')
+    options.zoomSearch.trigger('geolocate', 'mock-geolocate-event')
     expect(options.locator.locate).toHaveBeenCalledTimes(1)
     expect(options.locator.locate.mock.calls[0][0]).toBe('mock-geolocate-event')
   })
@@ -200,11 +200,11 @@ test('located GEOCODE', () => {
   const locationMgr = new LocationMgr(options)
 
   const data = {
-    type: Locator.EventType.GEOCODE,
+    type: 'geocoded',
     name: 'a name'
   }
 
-  locationMgr.on(Locator.EventType.GEOCODE, handler)
+  locationMgr.on('geocoded', handler)
 
   locationMgr.located(data)
 
@@ -225,11 +225,11 @@ test('located GEOLOCATION', () => {
   const locationMgr = new LocationMgr(options)
 
   const data = {
-    type: Locator.EventType.GEOLOCATION,
+    type: 'geolocated',
     name: 'a name'
   }
 
-  locationMgr.on(Locator.EventType.GEOLOCATION, handler)
+  locationMgr.on('geolocated', handler)
 
   locationMgr.located(data)
 

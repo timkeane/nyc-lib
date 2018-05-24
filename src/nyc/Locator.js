@@ -11,8 +11,8 @@ import EventHandling from 'nyc/EventHandling'
  * @abstract
  * @class
  * @extends {module:nyc/EventHandling~EventHandling}
- * @fires module:nyc/Locator~Locator#geocode
- * @fires module:nyc/Locator~Locator#geolocate
+ * @fires module:nyc/Locator~Locator#geocoded
+ * @fires module:nyc/Locator~Locator#geolocated
  * @fires module:nyc/Locator~Locator#ambiguous
  * @fires module:nyc/Locator~Locator#error
  */
@@ -102,14 +102,14 @@ class Locator extends EventHandling {
 		* @method
 	  */
    hookupEvents() {
-     this.geocoder.on(Locator.EventType.GEOCODE, this.proxyEvent, this)
-     this.geocoder.on(Locator.EventType.AMBIGUOUS, this.proxyEvent, this)
-     this.geocoder.on(Locator.EventType.ERROR, this.proxyEvent, this)
+     this.geocoder.on('geocoded', this.proxyEvent, this)
+     this.geocoder.on('ambiguous', this.proxyEvent, this)
+     this.geocoder.on('error', this.proxyEvent, this)
    }
 }
 
 /**
- * @desc constructor options for {nyc/Locator}
+ * @desc Constructor options for {@link nyc/Locator~Locator}
  * @public
  * @typedef {Object}
  * @property {module:nyc/Geocoder~Geocoder} geocoder A geocoder
@@ -118,31 +118,7 @@ class Locator extends EventHandling {
 Locator.Options
 
 /**
- * @desc Enumeration for locate event type
- * @public
- * @enum {string}
- */
- Locator.EventType = {
-	/**
-	 * @desc The geocode event type
-	 */
-	GEOCODE: 'geocode',
-	/**
-	 * @desc The geolocation event type
-	 */
-	GEOLOCATION: 'geolocation',
-	/**
-	 * @desc The ambiguous event type
-	 */
-	AMBIGUOUS: 'ambiguous',
-	/**
-	 * @desc The error event type
-	 */
-	ERROR: 'error'
-}
-
-/**
- * @desc Enumeration for Geocoder accuracy
+ * @desc Enumeration for approximate Geocoder accuracy in meters
  * @public
  * @enum {number}
  */
@@ -154,15 +130,15 @@ Locator.Accuracy = {
 	/**
 	 * @desc Medium accuracy
 	 */
-	MEDIUM: 30,
+	MEDIUM: 50,
 	/**
 	 * @desc Low accuracy
 	 */
-	LOW: 300,
+	LOW: 500,
 	/**
 	 * @desc ZIP Code accuracy
 	 */
-	ZIP_CODE: 600
+	ZIP_CODE: 1000
 }
 
 /**
@@ -170,6 +146,7 @@ Locator.Accuracy = {
  * @public
  * @typedef {Object}
  * @property {string} name The formatted name of the geocoded location
+ * @property {string} type The event type
  * @property {(Array<number>|undefined)} coordinate The geocoded location coordinate
  * @property {number} accuracy The accuracy of the geocoded location in meters or units of a specified projection
  * @property {module:nyc/Locator~Locator.EventType} type They type of result
@@ -190,14 +167,14 @@ Locator.Ambiguous
 
 /**
  * @desc The result of a search request
- * @event module:nyc/Locator~Locator#geocode
- * @type {module:nyc/Locator~Locator.EventType}
+ * @event module:nyc/Locator~Locator#geocoded
+ * @type {module:nyc/Locator~Locator.Location}
  */
 
 /**
  * @desc The result of a locate request
- * @event module:nyc/Locator~Locator#geolocate
- * @type {module:nyc/Locator~Locator.EventType}
+ * @event module:nyc/Locator~Locator#geolocated
+ * @type {module:nyc/Locator~Locator.Location}
  */
 
 /**

@@ -52,8 +52,8 @@ constructor(options) {
 		if (input.length === 5 && !isNaN(input)) {
 			var p = this.project(Geoclient.ZIP_CODE_POINTS[input])
 			this.trigger(
-				p ? Locator.EventType.GEOCODE : Locator.EventType.AMBIGUOUS,
-				p ? {coordinate: p, accuracy: Locator.Accuracy.ZIP_CODE, type: Locator.EventType.GEOCODE, zip: true, name: input} : {input: input, possible: []}
+				p ? 'geocoded' : 'ambiguous',
+				p ? {coordinate: p, accuracy: Locator.Accuracy.ZIP_CODE, type: 'geocoded', zip: true, name: input} : {input: input, possible: []}
 			)
 		} else if (input.length) {
 			input = input.replace(/"/g, '').replace(/'/g, '').replace(/&/g, ' and ')
@@ -89,25 +89,25 @@ constructor(options) {
         const result = results[0]
         const location = this.parse(result)
 				if (location) {
-          location.type = Locator.EventType.GEOCODE
-					this.trigger(Locator.EventType.GEOCODE, location)
+          location.type = 'geocoded'
+					this.trigger('geocoded', location)
 				} else {
-					this.trigger(Locator.EventType.AMBIGUOUS, {
-            type: Locator.EventType.AMBIGUOUS,
+					this.trigger('ambiguous', {
+            type: 'ambiguous',
             input: response.input,
             possible: []
           })
 				}
 			} else {
-				this.trigger(Locator.EventType.AMBIGUOUS, {
-          type: Locator.EventType.AMBIGUOUS,
+				this.trigger('ambiguous', {
+          type: 'ambiguous',
           input: response.input,
           possible: this.possible(results)
         })
 			}
 		} else {
-			this.trigger(Locator.EventType.AMBIGUOUS, {
-        type: Locator.EventType.AMBIGUOUS,
+			this.trigger('ambiguous', {
+        type: 'ambiguous',
         input: response.input,
         possible: []
       })
@@ -154,7 +154,7 @@ constructor(options) {
 		}
     try {
       return {
-  			type: Locator.EventType.GEOCODE,
+  			type: 'geocoded',
   			coordinate: this.project(p),
   			data: r,
   			accuracy: a, /* approximation */
@@ -171,15 +171,15 @@ constructor(options) {
    */
    error() {
      console.error('Geoclient error', arguments)
-     this.trigger(Locator.EventType.ERROR, {
-       type: Locator.EventType.ERROR,
+     this.trigger('error', {
+       type: 'error',
        error: arguments
      })
    }
 }
 
 /**
- * @desc constructor options for {@link module:nyc/Geoclient~Geoclient}
+ * @desc Constructor options for {@link module:nyc/Geoclient~Geoclient}
  * @public
  * @typedef {Object}
  * @property {string} url The URL for accessing the Geoclient API {@link https://developer.cityofnewyork.us/api/geoclient-api}

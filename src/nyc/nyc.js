@@ -168,6 +168,11 @@ const nyc = {
 	 uniqueIds: {}
 }
 
+/**
+ * @private
+ * @const
+ * @type {string}
+ */
 nyc.LOADING_HTML = '<div id="loading">' +
 	'<div>' +
 	  '<svg xmlns="http://www.w3.org/2000/svg" width="152" height="52">' +

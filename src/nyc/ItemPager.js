@@ -8,17 +8,18 @@ import nyc from 'nyc/nyc'
 import Container from 'nyc/Container'
 
 /**
- * @desc A class to generate legend HTML
+ * @desc A class to page through a list of objects rendered as HTML
  * @public
  * @class
  * @extends module:nyc/Container~Container
+ * @fires module:nyc/ItemPager~ItemPager#change
  */
 class ItemPager extends Container {
   /**
-   * @desc A class to generate legend HTML
+   * @desc Create an instance of ItemPager
    * @public
    * @constructor
-   * @param {ItemPager.Options} options The constructor options
+   * @param {module:nyc/ItemPager~ItemPager.Options} options Constructor options
    */
   constructor(options) {
     super($(ItemPager.HTML))
@@ -53,6 +54,7 @@ class ItemPager extends Container {
     if (options.items) this.show(options.items)
   }
   /**
+   * @desc Set the items and Show the first item
    * @public
    * @method
    * @param {Array<Object>} items The items
@@ -83,7 +85,13 @@ class ItemPager extends Container {
 }
 
 /**
- * @desc Options for ListPager constructor
+ * @desc The change event
+ * @event module:nyc/ItemPager~ItemPager#change
+ * @type {module:nyc/ItemPager~ItemPager} 
+ */
+
+/**
+ * @desc Construtor options for {@link module:nyc/ItemPager~ItemPager}
  * @public
  * @typedef {Object}
  * @property {jQuery|Element|string=} target The DOM node in which to create the ListPager

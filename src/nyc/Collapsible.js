@@ -62,7 +62,7 @@ class Collapsible extends Container {
 }
 
 /**
- * @desc Object constructor options for {@link module:nyc/Collapsible~Collapsible}
+ * @desc Constructor options for {@link module:nyc/Collapsible~Collapsible}
  * @public
  * @typedef {Object}
  * @property {jQuery|Element|string} target The target element for the collapsible container

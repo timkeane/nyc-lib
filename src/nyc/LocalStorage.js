@@ -22,7 +22,7 @@ class LocalStorage {
 	  return 'download' in $('<a></a>').get(0)
   }
   /**
-   * @desc Save data to a file prompting the user with a file dialog
+   * @desc Save JSON data to a file prompting the user with a file dialog
    * @public
    * @method
    * @param {string} name File name
@@ -36,7 +36,7 @@ class LocalStorage {
     a.remove()
   }
   /**
-   * @desc Set data in localStorage if available
+   * @desc Set data in browser's localStorage if available
    * @public
    * @method
    * @param {string} key Storage key
@@ -48,7 +48,7 @@ class LocalStorage {
     }
   }
   /**
-	 * @desc Get data from localStorage if available
+	 * @desc Get data from browser's localStorage if available
 	 * @public
 	 * @method
 	 * @param {string} key Storage key
@@ -60,7 +60,7 @@ class LocalStorage {
 		}
   }
   /**
-	 * @desc Remove data from localStorage if available
+	 * @desc Remove data from browser's localStorage if available
 	 * @public
 	 * @method
 	 * @param {string} key Storage key
@@ -75,8 +75,8 @@ class LocalStorage {
 	 * @desc Open a text file from local disk
 	 * @public
 	 * @method
-	 * @param {function} callback The callback function to receive file content
-	 * @param {File=} file File
+	 * @param {module:nyc/LocalStorage~LocalStorage#readTextFileCallback} callback The callback function to receive file content
+	 * @param {File=} file File - if not provided the user will be prompted with a file dialog
 	 */
 	readTextFile(callback, file) {
 		const reader = new FileReader()
@@ -100,8 +100,8 @@ class LocalStorage {
 	 * @public
 	 * @method
 	 * @param {ol.Map|L.Map} map The map in which the data will be displayed
-	 * @param {function=} callback The callback function to receive the added ol.vector.Layer
-	 * @param {File=} file File
+	 * @param {module:nyc/LocalStorage~LocalStorage#loadGeoJsonFileCallback} callback The callback function to receive the new layer
+	 * @param {File=} file File - if not provided the user will be prompted with a file dialog
 	 */
 	loadGeoJsonFile(map, callback, file) {
 		this.readTextFile(geoJson => {
@@ -114,8 +114,8 @@ class LocalStorage {
 	 * @public
 	 * @method
 	 * @param {ol.Map|L.Map} map The map in which the data will be displayed
-	 * @param {function=} callback The callback function to receive the added ol.vector.Layer
-	 * @param {FileList=} files Files (.shp, .dbf, .prj)
+	 * @param {module:nyc/LocalStorage~LocalStorage#loadShapeFileCallback} callback The callback function to receive the new layer
+	 * @param {FileList=} files Files (.shp, .dbf, .prj) - if not provided the user will be prompted with a file dialog
 	 * @see https://github.com/mbostock/shapefile
 	 */
 	loadShapeFile(map, callback, files) {
@@ -251,6 +251,27 @@ class LocalStorage {
 		}
 	}
 }
+
+/**
+ * @desc Callback for {@link module:nyc/LocalStorage~LocalStorage#readTextFile}
+ * @public
+ * @callback module:nyc/LocalStorage~LocalStorage#readTextFileCallback
+ * @param {string} fileContents The string contained in the file
+ */
+
+/**
+ * @desc Callback for {@link module:nyc/LocalStorage~LocalStorage#loadGeoJsonFile}
+ * @public
+ * @callback module:nyc/LocalStorage~LocalStorage#loadGeoJsonFileCallback
+ * @param {ol.layer.Vector|L.Layer} layer The layer created from the GeoJSON file
+ */
+
+/**
+ * @desc Callback for {@link module:nyc/LocalStorage~LocalStorage#loadShapeFile}
+ * @public
+ * @callback module:nyc/LocalStorage~LocalStorage#loadShapeFileCallback
+ * @param {ol.layer.Vector|L.Layer} layer The layer created from the shapefile
+ */
 
 LocalStorage.shapefile = require('shapefile')
 

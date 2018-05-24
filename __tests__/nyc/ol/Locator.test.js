@@ -157,7 +157,7 @@ test('geolocationChange not currently locating, no limit', () => {
   locator.track = jest.fn()
 
   const handler = jest.fn()
-  locator.on(NycLocator.EventType.GEOLOCATION, handler)
+  locator.on('geolocated', handler)
 
   locator.geolocation.getPosition = () => { return [0, 0] }
   locator.geolocation.getHeading = () => { return 90 }
@@ -173,7 +173,7 @@ test('geolocationChange not currently locating, no limit', () => {
   expect(handler.mock.calls[0][0].coordinate).toEqual(proj4('EPSG:4326', locator.projection, [0, 0]))
   expect(handler.mock.calls[0][0].heading).toBe(90)
   expect(handler.mock.calls[0][0].accuracy).toBe(500 / locator.metersPerUnit())
-  expect(handler.mock.calls[0][0].type).toBe(NycLocator.EventType.GEOLOCATION)
+  expect(handler.mock.calls[0][0].type).toBe('geolocated')
   expect(handler.mock.calls[0][0].name).toBe('0° 00′ 00″ 0° 00′ 00″')
 })
 
@@ -189,7 +189,7 @@ test('geolocationChange not currently locating, within limit', () => {
   locator.track = jest.fn()
 
   const handler = jest.fn()
-  locator.on(NycLocator.EventType.GEOLOCATION, handler)
+  locator.on('geolocated', handler)
 
   locator.geolocation.getPosition = () => { return [0, 0] }
   locator.geolocation.getHeading = () => { return 90 }
@@ -205,7 +205,7 @@ test('geolocationChange not currently locating, within limit', () => {
   expect(handler.mock.calls[0][0].coordinate).toEqual(proj4('EPSG:4326', locator.projection, [0, 0]))
   expect(handler.mock.calls[0][0].heading).toBe(90)
   expect(handler.mock.calls[0][0].accuracy).toBe(500 / locator.metersPerUnit())
-  expect(handler.mock.calls[0][0].type).toBe(NycLocator.EventType.GEOLOCATION)
+  expect(handler.mock.calls[0][0].type).toBe('geolocated')
   expect(handler.mock.calls[0][0].name).toBe('0° 00′ 00″ 0° 00′ 00″')
 })
 
@@ -221,7 +221,7 @@ test('geolocationChange not currently locating, not within limit', () => {
   locator.track = jest.fn()
 
   const handler = jest.fn()
-  locator.on(NycLocator.EventType.GEOLOCATION, handler)
+  locator.on('geolocated', handler)
 
   locator.geolocation.getPosition = () => { return [0, 0] }
   locator.geolocation.getHeading = () => { return 90 }
@@ -246,7 +246,7 @@ test('geolocationChange is currently locating, not within limit', () => {
   locator.track = jest.fn()
 
   const handler = jest.fn()
-  locator.on(NycLocator.EventType.GEOLOCATION, handler)
+  locator.on('geolocated', handler)
 
   locator.geolocation.getPosition = () => { return [0, 0] }
   locator.geolocation.getHeading = () => { return 90 }
@@ -272,7 +272,7 @@ test('geolocationChange IS currently locating, within limit', () => {
   locator.locating = true
 
   const handler = jest.fn()
-  locator.on(NycLocator.EventType.GEOLOCATION, handler)
+  locator.on('geolocated', handler)
 
   locator.geolocation.getPosition = () => { return [0, 0] }
   locator.geolocation.getHeading = () => { return 90 }
@@ -288,6 +288,6 @@ test('geolocationChange IS currently locating, within limit', () => {
   expect(handler.mock.calls[0][0].coordinate).toEqual(proj4('EPSG:4326', locator.projection, [0, 0]))
   expect(handler.mock.calls[0][0].heading).toBe(90)
   expect(handler.mock.calls[0][0].accuracy).toBe(500 / locator.metersPerUnit())
-  expect(handler.mock.calls[0][0].type).toBe(NycLocator.EventType.GEOLOCATION)
+  expect(handler.mock.calls[0][0].type).toBe('geolocated')
   expect(handler.mock.calls[0][0].name).toBe('0° 00′ 00″ 0° 00′ 00″')
 })

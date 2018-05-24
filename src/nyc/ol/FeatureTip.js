@@ -15,7 +15,7 @@ class FeatureTip extends OlOverlay {
    * @desc Create an instance of FeatureTip
    * @public
    * @constructor
-   * @param {FeatureTip.Options} options Constructor options
+   * @param {module:nyc/FeatureTip~FeatureTip.Options} options Constructor options
    */
   constructor(options) {
     const element = $(options.map.getTargetElement()).find('f-tip').get(0)
@@ -107,7 +107,7 @@ FeatureTip.LabelFunction
 FeatureTip.Label
 
 /**
- * @desc Object to hold constructor option for FeatureTip
+ * @desc Constructor options for {@link module:nyc/FeatureTip~FeatureTip}
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The map

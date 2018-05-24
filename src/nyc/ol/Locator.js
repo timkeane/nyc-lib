@@ -89,11 +89,11 @@ class Locator extends NycLocator {
         this.track(false)
         this.locating = false
       }
-      this.trigger(NycLocator.EventType.GEOLOCATION, {
+      this.trigger('geolocated', {
         coordinate: p,
         heading: geo.getHeading(),
         accuracy: geo.getAccuracy() / this.metersPerUnit(),
-        type: NycLocator.EventType.GEOLOCATION,
+        type: 'geolocated',
         name: name
       })
     }

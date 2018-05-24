@@ -49,8 +49,8 @@ test('search for nothing', () => {
   const geoclient = new Geoclient({url: URL})
 
   const handler = jest.fn()
-  geoclient.one(Locator.EventType.GEOCODE, handler)
-  geoclient.one(Locator.EventType.AMBIGUOUS, handler)
+  geoclient.one('geocoded', handler)
+  geoclient.one('ambiguous', handler)
 
   geoclient.search('')
 
@@ -63,13 +63,13 @@ test('search for good ZIP', () => {
   const geoclient = new Geoclient({url: URL})
 
   const handler = jest.fn()
-  geoclient.one(Locator.EventType.GEOCODE, handler)
+  geoclient.one('geocoded', handler)
 
   geoclient.search('10038')
 
   expect(handler).toHaveBeenCalledTimes(1)
   expect(handler.mock.calls[0][0]).toEqual({
-    type: Locator.EventType.GEOCODE,
+    type: 'geocoded',
     coordinate: proj4('EPSG:2263', 'EPSG:3857', Geoclient.ZIP_CODE_POINTS['10038']),
     accuracy: Locator.Accuracy.ZIP_CODE,
     name: '10038',
@@ -83,7 +83,7 @@ test('search for bad ZIP', () => {
   const geoclient = new Geoclient({url: URL})
 
   const handler = jest.fn()
-  geoclient.one(Locator.EventType.AMBIGUOUS, handler)
+  geoclient.one('ambiguous', handler)
 
   geoclient.search('00000')
 
@@ -99,7 +99,7 @@ test('search for address', () => {
   const geoclient = new Geoclient({url: URL})
 
   const handler = jest.fn()
-  geoclient.one(Locator.EventType.GEOCODE, handler)
+  geoclient.one('geocoded', handler)
 
   geoclient.search('59 maiden mn')
 
@@ -116,7 +116,7 @@ test('search for address', () => {
   expect($.proxy.mock.calls[1][1]).toBe(geoclient)
 
   expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0].type).toBe(Locator.EventType.GEOCODE)
+  expect(handler.mock.calls[0][0].type).toBe('geocoded')
   expect(handler.mock.calls[0][0].coordinate).toEqual(proj4('EPSG:2263', 'EPSG:3857', [982037, 197460]))
   expect(handler.mock.calls[0][0].accuracy).toBe(Locator.Accuracy.HIGH)
   expect(handler.mock.calls[0][0].name).toBe('59 Maiden Lane, Manhattan, NY 10038')
@@ -131,7 +131,7 @@ test('search error', () => {
   const geoclient = new Geoclient({url: URL})
 
   const handler = jest.fn()
-  geoclient.one(Locator.EventType.ERROR, handler)
+  geoclient.one('error', handler)
 
   geoclient.search('59 maiden mn')
 
@@ -148,7 +148,7 @@ test('search error', () => {
   expect($.proxy.mock.calls[1][1]).toBe(geoclient)
 
   expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0].type).toBe(Locator.EventType.ERROR)
+  expect(handler.mock.calls[0][0].type).toBe('error')
 })
 
 test('project', () => {
@@ -175,12 +175,12 @@ test('geoclient GEOCLIENT_OK_ADDRESS_RESPONSE', () => {
 
   const geoclient = new Geoclient({url: URL})
 
-  geoclient.on(Locator.EventType.GEOCODE, handler)
+  geoclient.on('geocoded', handler)
 
   geoclient.geoclient(response);
 
   expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0].type).toBe(Locator.EventType.GEOCODE)
+  expect(handler.mock.calls[0][0].type).toBe('geocoded')
   expect(handler.mock.calls[0][0].coordinate).toEqual(proj4('EPSG:2263','EPSG:3857', [982037, 197460]))
   expect(handler.mock.calls[0][0].name).toBe('59 Maiden Lane, Manhattan, NY 10038')
   expect(handler.mock.calls[0][0].data).toBe(response.results[0].response)
@@ -195,13 +195,13 @@ test('geoclient GEOCLIENT_OK_PLACE_RESPONSE', () => {
 
   const geoclient = new Geoclient({url: URL})
 
-  geoclient.on(Locator.EventType.GEOCODE, handler)
+  geoclient.on('geocoded', handler)
 
   geoclient.geoclient(response)
 
   expect(handler).toHaveBeenCalledTimes(1)
   expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0].type).toBe(Locator.EventType.GEOCODE)
+  expect(handler.mock.calls[0][0].type).toBe('geocoded')
   expect(handler.mock.calls[0][0].accuracy).toBe(Locator.Accuracy.MEDIUM)
   expect(handler.mock.calls[0][0].coordinate).toEqual(proj4('EPSG:2263','EPSG:3857', [984432, 197236]))
   expect(handler.mock.calls[0][0].name).toBe('Brooklyn Bridge, Manhattan, NY 10038')
@@ -217,7 +217,7 @@ test('geoclient GEOCLIENT_AMBIGUOUS_RESPONSE', () => {
 
   const geoclient = new Geoclient({url: URL})
 
-  geoclient.on(Locator.EventType.AMBIGUOUS, handler)
+  geoclient.on('ambiguous', handler)
 
   geoclient.geoclient(response)
 
@@ -225,19 +225,19 @@ test('geoclient GEOCLIENT_AMBIGUOUS_RESPONSE', () => {
   expect(handler.mock.calls[0][0].input).toBe('2 metrotech, ny')
   expect(handler.mock.calls[0][0].possible.length).toBe(3)
 
-  expect(handler.mock.calls[0][0].possible[0].type).toBe(Locator.EventType.GEOCODE)
+  expect(handler.mock.calls[0][0].possible[0].type).toBe('geocoded')
   expect(handler.mock.calls[0][0].possible[0].accuracy).toBe(Locator.Accuracy.MEDIUM)
   expect(handler.mock.calls[0][0].possible[0].coordinate).toEqual(proj4('EPSG:2263','EPSG:3857', [1002691, 234811]))
   expect(handler.mock.calls[0][0].possible[0].name).toBe('Metro North Bridge, Manhattan, NY ')
   expect(handler.mock.calls[0][0].possible[0].data).toBe(response.results[1].response)
 
-  expect(handler.mock.calls[0][0].possible[1].type).toBe(Locator.EventType.GEOCODE)
+  expect(handler.mock.calls[0][0].possible[1].type).toBe('geocoded')
   expect(handler.mock.calls[0][0].possible[1].accuracy).toBe(Locator.Accuracy.HIGH)
   expect(handler.mock.calls[0][0].possible[1].coordinate).toEqual(proj4('EPSG:2263','EPSG:3857', [999682, 226174]))
   expect(handler.mock.calls[0][0].possible[1].name).toBe('Metro North Complex, Manhattan, NY 10029')
   expect(handler.mock.calls[0][0].possible[1].data).toBe(response.results[2].response)
 
-  expect(handler.mock.calls[0][0].possible[2].type).toBe(Locator.EventType.GEOCODE)
+  expect(handler.mock.calls[0][0].possible[2].type).toBe('geocoded')
   expect(handler.mock.calls[0][0].possible[2].accuracy).toBe(Locator.Accuracy.HIGH)
   expect(handler.mock.calls[0][0].possible[2].coordinate).toEqual(proj4('EPSG:2263','EPSG:3857', [999796, 225883]))
   expect(handler.mock.calls[0][0].possible[2].name).toBe('Metro North Park, Manhattan, NY 10029')
@@ -253,12 +253,12 @@ test('geoclient GEOCLIENT_OK_BLOCKFACE_RESPONSE', () => {
 
   const geoclient = new Geoclient({url: URL})
 
-  geoclient.on(Locator.EventType.GEOCODE, handler)
+  geoclient.on('geocoded', handler)
 
   geoclient.geoclient(response)
 
   expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0].type).toBe(Locator.EventType.GEOCODE)
+  expect(handler.mock.calls[0][0].type).toBe('geocoded')
   expect(handler.mock.calls[0][0].accuracy).toBe(Locator.Accuracy.LOW)
   expect(handler.mock.calls[0][0].coordinate).toEqual(proj4('EPSG:2263','EPSG:3857', [986033.5, 216057]))
   expect(handler.mock.calls[0][0].name).toBe('West 43 Street Btwn 9 Avenue & 10 Avenue, Manhattan, NY 10036')
@@ -274,12 +274,12 @@ test('geoclient GEOCLIENT_OK_INTERSECTION_RESPONSE', () => {
 
   const geoclient = new Geoclient({url: URL})
 
-  geoclient.on(Locator.EventType.GEOCODE, handler)
+  geoclient.on('geocoded', handler)
 
   geoclient.geoclient(response)
 
   expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0].type).toBe(Locator.EventType.GEOCODE)
+  expect(handler.mock.calls[0][0].type).toBe('geocoded')
   expect(handler.mock.calls[0][0].accuracy).toBe(Locator.Accuracy.MEDIUM)
   expect(handler.mock.calls[0][0].coordinate).toEqual(proj4('EPSG:2263','EPSG:3857', [986427, 215839]))
   expect(handler.mock.calls[0][0].name).toBe('9 Avenue And West 43 Street, Manhattan, NY 10036')
@@ -295,12 +295,12 @@ test('geoclient GEOCLIENT_REJECTED_RESPONSE', () => {
 
   const geoclient = new Geoclient({url: URL})
 
-  geoclient.on(Locator.EventType.AMBIGUOUS, handler)
+  geoclient.on('ambiguous', handler)
 
   geoclient.geoclient(response)
 
   expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0].type).toBe(Locator.EventType.AMBIGUOUS)
+  expect(handler.mock.calls[0][0].type).toBe('ambiguous')
   expect(handler.mock.calls[0][0].input).toBe('junk')
   expect(handler.mock.calls[0][0].possible).toEqual([])
 })
@@ -314,12 +314,12 @@ test('geoclient GEOCLIENT_NON_ADDRESSABLE_RESPONSE', () => {
 
   const geoclient = new Geoclient({url: URL})
 
-  geoclient.on(Locator.EventType.AMBIGUOUS, handler)
+  geoclient.on('ambiguous', handler)
 
   geoclient.geoclient(response)
 
   expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0].type).toBe(Locator.EventType.AMBIGUOUS)
+  expect(handler.mock.calls[0][0].type).toBe('ambiguous')
   expect(handler.mock.calls[0][0].input).toBe('METRO NORTH  125 STREET, mn')
   expect(handler.mock.calls[0][0].possible).toEqual([])
 })
