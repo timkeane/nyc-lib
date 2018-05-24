@@ -86,7 +86,7 @@ class Translate extends Container {
 	 * @desc Sets the chosen language and performs message substitution
 	 * @public
 	 * @method
-   * @param {JQuery.Event} event
+   * @param {jQuery.Event} event
 	 */
    translate(event) {
 	   const lang = $(event.target).val()
@@ -122,7 +122,7 @@ class Translate extends Container {
   /**
 	 * @private
 	 * @method
-   * @param {JQuery|Element|string}
+   * @param {jQuery|Element|string}
 	 */
   render(target) {
     const codes = []

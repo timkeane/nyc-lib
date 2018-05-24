@@ -11,7 +11,7 @@ import Container from 'nyc/Container'
  * @desc A class to generate legend HTML
  * @public
  * @class
- * @extends {Container}
+ * @extends module:nyc/Container~Container
  */
 class ItemPager extends Container {
   /**
@@ -26,22 +26,22 @@ class ItemPager extends Container {
     $(options.target).append(this.getContainer())
     /**
      * @private
-     * @member {JQuery}
+     * @member {jQuery}
      */
     this.current = this.find('.current')
     /**
      * @private
-     * @member {JQuery}
+     * @member {jQuery}
      */
     this.total = this.find('.total')
     /**
      * @private
-     * @member {JQuery}
+     * @member {jQuery}
      */
     this.currentItem = this.find('.it')
     /**
      * @private
-     * @member {JQuery}
+     * @member {jQuery}
      */
     this.btns = this.find('.btns')
     /**
@@ -68,7 +68,7 @@ class ItemPager extends Container {
   /**
    * @private
    * @method
-   * @param {JQuery.Event} event
+   * @param {jQuery.Event} event
    */
   navigate(event) {
     const incr = $(event.target).data('incr') - 0;
@@ -86,7 +86,7 @@ class ItemPager extends Container {
  * @desc Options for ListPager constructor
  * @public
  * @typedef {Object}
- * @property {JQuery|Element|string=} target The DOM node in which to create the ListPager
+ * @property {jQuery|Element|string=} target The DOM node in which to create the ListPager
  * @param {Array<Object>=} items The items to page through
  */
 ItemPager.Options

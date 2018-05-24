@@ -37,7 +37,7 @@ class Popup extends OlOverlay {
     this.margin = [10, 10, 10, 10]
     /**
      * @private
-     * @member {JQuery}
+     * @member {jQuery}
      */
     this.popup = $(this.getElement())
     /**
@@ -48,7 +48,7 @@ class Popup extends OlOverlay {
     this.setMap(this.map)
     /**
      * @private
-     * @member {JQuery}
+     * @member {jQuery}
      */
     this.content = this.popup.find('.content')
     this.popup.find('.btn-x').on('click tap', $.proxy(this.hide, this))
@@ -80,7 +80,7 @@ class Popup extends OlOverlay {
   /**
    * @private
    * @method
-   * @param {JQuery.Event}
+   * @param {jQuery.Event}
    */
   hideTip(event) {
     event.stopPropagation()
@@ -129,7 +129,7 @@ class Popup extends OlOverlay {
  * @desc Object to hold options for showing the popup
  * @public
  * @typedef {Object}
- * @property {JQuery|Element|string} html The popup content
+ * @property {jQuery|Element|string} html The popup content
  * @property {ol.coordinate} html The popup location
  */
 Popup.ShowOptions

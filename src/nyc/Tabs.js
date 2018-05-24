@@ -24,12 +24,12 @@ class Tabs extends Container {
     this.tabs = this.find('.container')
     /**
      * @public
-     * @member {JQuery}
+     * @member {jQuery}
      */
     this.active = null
     /**
      * @private
-     * @member {JQuery}
+     * @member {jQuery}
      */
     this.ready = false
     this.render(options.tabs)
@@ -37,7 +37,7 @@ class Tabs extends Container {
   /**
    * @public
    * @method
-   * @param {JQuery|Element|string} tab
+   * @param {jQuery|Element|string} tab
    */
   open(tab) {
     tab = this.find(tab)
@@ -77,7 +77,7 @@ render(tabs){
   /**
    * @private
    * @method
-   * @param {JQuery.Event} event
+   * @param {jQuery.Event} event
    */
   btnClick(event) {
     this.open($(event.currentTarget).data('tab'))
@@ -88,7 +88,7 @@ render(tabs){
  * @desc Object type to hold contructor options for Tabs
  * @public
  * @typedef {Object}
- * @property {JQuery|Element|string} target The target DOM node for Tabs
+ * @property {jQuery|Element|string} target The target DOM node for Tabs
  * @property {Array<Tabs.Tab>} tabs The tabs
  */
 Tabs.Options
@@ -97,7 +97,7 @@ Tabs.Options
  * @desc Object type to hold a tab definition
  * @public
  * @typedef {Object}
- * @property {JQuery|Element|string} tab The target DOM node for tab
+ * @property {jQuery|Element|string} tab The target DOM node for tab
  * @property {string} title The tab title
  * @property {boolean} [active=false] Active state of the tab
  */

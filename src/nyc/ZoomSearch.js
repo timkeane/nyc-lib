@@ -23,7 +23,7 @@ class ZoomSearch extends Container {
 	 * @desc  Creates an instance of search controls
 	 * @access protected
 	 * @constructor
-	 * @param {JQuery|Element|string} target The target
+	 * @param {jQuery|Element|string} target The target
 	 */
 	constructor(target) {
 		super($(ZoomSearch.HTML))
@@ -35,22 +35,22 @@ class ZoomSearch extends Container {
 		this.isAddrSrch = true
 		/**
 		 * @private
-		 * @member {JQuery}
+		 * @member {jQuery}
 		 */
 		this.input = null
 		/**
 		 * @private
-		 * @member {JQuery}
+		 * @member {jQuery}
 		 */
 		this.list = null
 		/**
 		 * @private
-		 * @member {JQuery}
+		 * @member {jQuery}
 		 */
 		this.retention = null
 		/**
 		 * @private
-		 * @member {JQuery}
+		 * @member {jQuery}
 		 */
 		this.clear = null
 		/**
@@ -88,7 +88,7 @@ class ZoomSearch extends Container {
 	/**
 	 * @private
    * @method
-	 * @param {JQuery} input
+	 * @param {jQuery} input
 	 */
 	hookupEvents(input) {
 		input.on('keyup change', $.proxy(this.key, this))
@@ -272,7 +272,7 @@ class ZoomSearch extends Container {
 	 * @method
 	 * @param {ZoomSearch.FeatureSearchOptions} options The options for creating a feature search
 	 * @param {Locator.Result} data
-	 * @return {JQuery}
+	 * @return {jQuery}
 	 */
 	listItem(options, data) {
 		const li = $('<li></li>')

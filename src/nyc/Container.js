@@ -11,13 +11,14 @@ import EventHandling from 'nyc/EventHandling'
   * @public
   * @abstract
   * @class
+	* @extends module:nyc/EventHandling~EventHandling
   */
-export default class Container extends EventHandling {
+class Container extends EventHandling {
   /**
-   * @desc  Create an instance of Container
+   * @desc Create an instance of Container
    * @access protected
    * @constructor
-   * @param {JQuery|Element|string} container The container node
+   * @param {jQuery|Element|string} container The container node
    */
   constructor(container) {
     super()
@@ -27,7 +28,7 @@ export default class Container extends EventHandling {
 	 * @desc A method to return a control container HTML element wrapped in a JQuery
 	 * @public
 	 * @method
-	 * @return {JQuery} The the control container HTML element wrapped in a JQuery
+	 * @return {jQuery} The the control container HTML element wrapped in a JQuery
 	 */
 	getContainer() {
     return this.container
@@ -36,7 +37,7 @@ export default class Container extends EventHandling {
 	 * @desc A method to return elements in the container
 	 * @public
 	 * @method
-	 * @return {JQuery} The element
+	 * @return {jQuery} The element
 	 */
 	find(selector) {
 		return this.getContainer().find(selector)
@@ -45,9 +46,11 @@ export default class Container extends EventHandling {
 	 * @desc A method to append elements to the container
 	 * @public
 	 * @method
-	 * @param {JQuery|Element|Array<Element>|string} elements The element to append
+	 * @param {jQuery|Element|Array<Element>|string} elements The element to append
 	 */
 	append(elements) {
 		return this.getContainer().append($(elements))
 	}
 }
+
+export default Container

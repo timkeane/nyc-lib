@@ -12,8 +12,8 @@ import EventHandling from 'nyc/EventHandling'
  * @class
  * @extends {module:nyc/EventHandling~EventHandling}
  * @fires module:nyc/Locator~Locator#geocode
+ * @fires module:nyc/Locator~Locator#geolocate
  * @fires module:nyc/Locator~Locator#ambiguous
- * @fires module:nyc/Locator~Locator#geolocation
  * @fires module:nyc/Locator~Locator#error
  */
 class Locator extends EventHandling {
@@ -190,25 +190,25 @@ Locator.Ambiguous
 
 /**
  * @desc The result of a search request
- * @event Locator#geocode
+ * @event module:nyc/Locator~Locator#geocode
  * @type {module:nyc/Locator~Locator.EventType}
  */
 
 /**
  * @desc The result of a locate request
- * @event Locator#geolocation
+ * @event module:nyc/Locator~Locator#geolocate
  * @type {module:nyc/Locator~Locator.EventType}
  */
 
 /**
  * @desc The result of an inconclusive search request
- * @event Locator#ambiguous
+ * @event module:nyc/Locator~Locator#ambiguous
  * @type {module:nyc/Locator~Locator.Ambiguous}
  */
 
 /**
  * @desc The error object from a locate request error
- * @event Locator#error
+ * @event module:nyc/Locator~Locator#error
  * @type {Object}
  */
 

@@ -122,7 +122,7 @@ const nyc = {
    * @static
 	 * @function
 	 * @param {Object} object An object
-	 * @return {JQuery}
+	 * @return {jQuery}
 	 */
 	 html(object) {
 		 if (typeof object.html === 'function') {
@@ -142,7 +142,7 @@ const nyc = {
 	  * @public
 		* @static
 		* @function
-		* @param {JQuery} target Target elements
+		* @param {jQuery} target Target elements
 	  */
 	 loading(target) {
 		 if (target.hasClass('loading')) {
@@ -154,7 +154,7 @@ const nyc = {
 	  * @public
 		* @static
 		* @function
-		* @param {JQuery} [target=body] Target elements
+		* @param {jQuery} [target=body] Target elements
 	  */
 	 ready(target) {
 		 $(target || $('body')).removeClass('loading').attr('aria-hidden', false)

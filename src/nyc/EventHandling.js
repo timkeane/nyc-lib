@@ -9,10 +9,14 @@
  * @public
  * @abstract
  * @class
- * @constructor
  */
 class EventHandling {
-	constructor() {
+/**
+ * @desc Create an instance of EventHandling
+ * @public
+ * @constructor
+ */
+constructor() {
 		/**
 		* @private
 		* @type {Object<string, Array<EventHandling.Handler>>}
@@ -102,7 +106,7 @@ class EventHandling {
  * @desc Object type to hold event handlers
  * @private
  * @typedef {Object}
- * @property {function()} handler The event handler
+ * @property {function(Object)} handler The event handler
  * @property {Object} scope The event handler scope
  * @property {boolean} [remove=false] Remove after one execution
  */

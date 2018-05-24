@@ -13,11 +13,11 @@ require('isomorphic-fetch')
  * @desc A class to provide messages with substitution values
  * @public
  * @class
- * @extends {nyc.ReplaceTokens}
+ * @extends module:nyc/ReplaceTokens~ReplaceTokens
  */
 class Content extends ReplaceTokens {
 	/**
-	 * @desc A class to provide messages with substitution values
+	 * @desc Create an instance of Content
 	 * @public
 	 * @constructor
 	 * @param {Array<Object<string, string>>} messages The messages with optional tokens mapped by message id
@@ -59,7 +59,7 @@ class Content extends ReplaceTokens {
  * @public
  * @static
  * @method
- * @param {Content.LoadOptions} options The load options
+ * @param {module:nyc/Content~Content.LoadOptions} options The load options
  * @return {Promise} The promise that will return the content
  */
 Content.loadCsv = (options) => {
@@ -83,7 +83,7 @@ Content.loadCsv = (options) => {
 }
 
 /**
- * @desc Options for loading CSV content
+ * @desc Options for loading CSV content using {@link module:nyc/Content~Content.loadCsv}
  * @public
  * @typedef {Object}
  * @property {string} url The URL to a CSV source

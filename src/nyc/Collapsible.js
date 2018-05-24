@@ -9,14 +9,14 @@ import Container from 'nyc/Container'
  * @desc Class for creating collapsible containers
  * @public
  * @class
- * @extends {Container}
+ * @extends module:nyc/Container~Container
  */
 class Collapsible extends Container {
   /**
-   * @desc Class for creating collapsible containers
+   * @desc Create an instance of Collapsible
    * @public
    * @constructor
-   * @param {Collapsible.Options}
+   * @param {module:nyc/Collapsible~Collapsible.Options}
    */
   constructor(options) {
     super(options.target)
@@ -62,12 +62,12 @@ class Collapsible extends Container {
 }
 
 /**
- * @desc Object constructor options for {@see Collapsible}
+ * @desc Object constructor options for {@link module:nyc/Collapsible~Collapsible}
  * @public
  * @typedef {Object}
- * @property {JQuery|Element|string} target The target element for the collapsible container
- * @property {JQuery|Element|string} title The title for the collapsible container
- * @property {JQuery|Element|string=} content The content for the body of the collapsible container
+ * @property {jQuery|Element|string} target The target element for the collapsible container
+ * @property {jQuery|Element|string} title The title for the collapsible container
+ * @property {jQuery|Element|string=} content The content for the body of the collapsible container
  * @property {boolean} [collapsed=false] The starting state of the collapsible container
  */
 Collapsible.Options

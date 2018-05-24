@@ -12,7 +12,7 @@ import $ from 'jquery'
 const BasemapHelper = {
   /**
  	 * @desc Hook up events
-   * @access protected
+   * @public
  	 * @method
    * @param {Element} target The DOM node for the map
    */
@@ -24,9 +24,9 @@ const BasemapHelper = {
   },
 	/**
 	 * @desc Returns the base layers
-   * @access protected
+   * @public
 	 * @method
-	 * @return {Basemap.BaseLayers}
+	 * @return {jQuery.Event}
 	 */
 	 loadLayer(event) {
 		 const transfer = event.originalEvent.dataTransfer
@@ -44,9 +44,9 @@ const BasemapHelper = {
 	 },
 	/**
 	 * @desc Returns the base layers
-	 * @access protected
+	 * @public
 	 * @method
-	 * @return {Basemap.BaseLayers}
+	 * @return {Array<ol.layer.Base|L.Layer>}
 	 */
 	sortedPhotos() {
 		const sorted = []

@@ -101,7 +101,7 @@ FeatureTip.LabelFunction
  * @desc Object type to return from a feature's label function
  * @public
  * @typedef {Object}
- * @property {JQuery|Element|string} html The tip inner html
+ * @property {jQuery|Element|string} html The tip inner html
  * @property {string=} css A CSS class to apply to the tip
  */
 FeatureTip.Label

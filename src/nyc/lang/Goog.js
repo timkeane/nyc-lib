@@ -47,7 +47,7 @@ export default class Goog extends Translate {
 	 * @public
    * @override
 	 * @method
-   * @param {JQuery.Event} event
+   * @param {jQuery.Event} event
 	 */
    translate(event) {
 		const choices = $('iframe.goog-te-menu-frame:first').contents().find('.goog-te-menu2-item span.text')

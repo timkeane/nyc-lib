@@ -73,7 +73,7 @@ class Filters extends Container {
  * @desc Object type to hold constructor options for
  * @public
  * @typedef {Object}
- * @property {JQuery|Element|string} target
+ * @property {jQuery|Element|string} target
  * @property {Array<Filters.ChoiceOptions>} choiceOptions
  * @property {nyc.ol.source.FilterAndSort} source The source to filter
  */

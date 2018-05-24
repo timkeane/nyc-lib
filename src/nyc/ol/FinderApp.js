@@ -288,7 +288,7 @@ class FinderApp {
  * @public
  * @static
  * @function
- * @param {JQuery.Event}
+ * @param {jQuery.Event}
  */
 FinderApp.handleButton = (event) => {
   const target = $(event.currentTarget)
@@ -312,7 +312,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns HTML rendering of a facility feature
    * @public
    * @method
-   * @return {JQuery}
+   * @return {jQuery}
    */
   html() {
     return $('<div class="facility"></div>')
@@ -394,14 +394,14 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns the website URL for a facility feature
    * @public
    * @method
-   * @param {JQuery|Element|string}
+   * @param {jQuery|Element|string}
    */
   detailsHtml() {},
   /**
    * @desc Returns the name of a facility feature to append to HTML
    * @public
    * @method
-   * @return {JQuery}
+   * @return {jQuery}
    */
   nameHtml() {
     return $('<div class="name notranslate"></div>').html(this.getName())
@@ -410,7 +410,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns the full address of a facility feature to append to HTML
    * @public
    * @method
-   * @return {JQuery}
+   * @return {jQuery}
    */
   addressHtml() {
     const html = $('<div class="addr"></div>')
@@ -424,7 +424,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns an HTML button that when clicked will zoom to the facility
    * @public
    * @method
-   * @return {JQuery}
+   * @return {jQuery}
    */
   mapButton() {
     return $('<a class="btn rad-all map" role="button">Map</a>')
@@ -435,7 +435,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns an HTML button that when clicked will provide directions to the facility
    * @public
    * @method
-   * @return {JQuery}
+   * @return {jQuery}
    */
   directionsButton() {
     return $('<a class="btn rad-all dir" role="button">Directions</a>')
@@ -446,7 +446,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns an HTML button that when clicked will call the provided phone number
    * @public
    * @method
-   * @return {JQuery}
+   * @return {jQuery}
    */
   phoneButton() {
     const phone = this.getPhone()
@@ -459,7 +459,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns an HTML button that when clicked will open email editor for the provided email
    * @public
    * @method
-   * @return {JQuery}
+   * @return {jQuery}
    */
   emailButton() {
     const email = this.getEmail()
@@ -472,7 +472,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns an HTML button that when clicked will open the facility web site
    * @public
    * @method
-   * @return {JQuery}
+   * @return {jQuery}
    */
   websiteButton() {
     const url = this.getWebsite()
@@ -485,7 +485,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns HTML rendering of the distance from the user location to the facility
    * @public
    * @method
-   * @return {JQuery}
+   * @return {jQuery}
    */
   distanceHtml() {
     if (this.getDistance) {
@@ -500,7 +500,7 @@ FinderApp.FEATURE_DECORATIONS = {
   /**
    * @desc Returns an HTML button that when clicked will display the provided details
    * @method
-   * @return {JQuery}
+   * @return {jQuery}
    */
   detailsCollapsible() {
     const details = this.detailsHtml()
@@ -520,7 +520,7 @@ FinderApp.FEATURE_DECORATIONS = {
  * @public
  * @typedef {Object}
  * @property {string} title
- * @property {JQuery|Element|String=} splashContent
+ * @property {jQuery|Element|String=} splashContent
  * @property {string=} facilityTabTitle
  * @property {string} facilityUrl
  * @property {ol.format.Feature=} facilityFormat

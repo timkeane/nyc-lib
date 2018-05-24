@@ -10,10 +10,11 @@ import Container from 'nyc/Container'
  * @desc Class for alert, yes/no and input dialogs
  * @public
  * @class
+ * @extends module:nyc/Container~Container
  */
 class Dialog extends Container {
 	/**
-	 * @desc Creates an instance of Dialog
+	 * @desc Create an instance of Dialog
 	 * @public
 	 * @constructor
 	 */
@@ -22,27 +23,27 @@ class Dialog extends Container {
 		$('body').append(this.getContainer().addClass(css))
 		/**
 		 * @private
-		 * @member {JQuery}
+		 * @member {jQuery}
 		 */
 		this.okBtn = this.find('.btn-ok')
 		/**
 		 * @private
-		 * @member {JQuery}
+		 * @member {jQuery}
 		 */
 		this.yesNoBtns = this.find('.btn-yes, .btn-no')
 		/**
 		 * @private
-		 * @member {JQuery}
+		 * @member {jQuery}
 		 */
 	 	this.inputBtns = this.find('.btn-submit, .btn-cancel')
 		/**
 		 * @private
-		 * @member {JQuery}
+		 * @member {jQuery}
 		 */
 	 	this.field = this.find('input')
 		/**
 		 * @private
-		 * @member {JQuery}
+		 * @member {jQuery}
 		 */
 		this.msg = this.find('.dia-msg')
 	}
@@ -50,7 +51,8 @@ class Dialog extends Container {
 	 * @desc Show the ok dialog
 	 * @public
 	 * @method
-	 * @param {Dialog.Options} options Dialog options
+	 * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
+	 * @returns {Promise<boolean>} The async result of the user action
 	 */
 	ok(options) {
 		this.buttons(Dialog.Type.OK, options)
@@ -59,7 +61,7 @@ class Dialog extends Container {
 
 		const dia = this
 		const ok = this.okBtn
-		return new Promise((resolve) => {
+		return new Promise(resolve => {
 			ok.one('click', () => {
 				dia.hide()
 				resolve(true)
@@ -70,7 +72,8 @@ class Dialog extends Container {
 	 * @desc Show the input dialog
 	 * @public
 	 * @method
-	 * @param {Dialog.Options} options Dialog options
+	 * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
+	 * @returns {Promise<string|boolean|undefined>} The async result of the user action
 	 */
 	input(options) {
 		const field = this.field
@@ -81,7 +84,7 @@ class Dialog extends Container {
 
 		const dia = this
 		const input = this.inputBtns
-		return new Promise((resolve) => {
+		return new Promise(resolve => {
 			const keyup = (event) => {
 				dia.hndlKey(resolve, dia, event)
 			}
@@ -98,7 +101,8 @@ class Dialog extends Container {
 	 * @desc Show the yes-no dialog
 	 * @public
 	 * @method
-	 * @param {Dialog.Options} options Dialog options
+	 * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
+	 * @returns {Promise<boolean>} The async result of the user action
 	 */
 	yesNo(options) {
 		this.buttons(Dialog.Type.YES_NO, options)
@@ -107,7 +111,7 @@ class Dialog extends Container {
 
 		const dia = this
 		const yesNo = this.yesNoBtns
-		return new Promise((resolve) => {
+		return new Promise(resolve => {
 			yesNo.one('click', (event) => {
 				dia.hide()
 				resolve($(event.target).hasClass('btn-yes'))
@@ -118,7 +122,8 @@ class Dialog extends Container {
 	 * @desc Show the yes-no dialog
 	 * @public
 	 * @method
-	 * @param {Dialog.Options} options Dialog options
+	 * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
+ 	 * @returns {Promise<boolean|undefined>} The async result of the user action
 	 */
 	yesNoCancel(options) {
 		this.buttons(Dialog.Type.YES_NO_CANCEL, options)
@@ -128,7 +133,7 @@ class Dialog extends Container {
 		const dia = this
 		const yesNo = this.yesNoBtns
 		const cancel = this.find('.btn-cancel')
-		return new Promise((resolve) => {
+		return new Promise(resolve => {
 			const keyup = (event) => {
 				dia.hndlKey(resolve, dia, event)
 			}
@@ -148,7 +153,7 @@ class Dialog extends Container {
 	/**
 	 * @private
 	 * @method
-	 * @param {Dialog.Type} type
+	 * @param {module:nyc/Dialog~Dialog.Type} type
 	 * @param {Array<string>=} buttonText
 	 * @param {Array<string>=} buttonHref
 	 */
@@ -184,8 +189,8 @@ class Dialog extends Container {
 	/**
 	 * @private
 	 * @method
-	 * @param {Dialog.Type} type
-	 * @param {Dialog.Options} options
+	 * @param {module:nyc/Dialog~Dialog.Type} type
+	 * @param {module:nyc/Dialog~Dialog.Options} options
 	 */
 	show(type, options) {
 		this.currentType = type
@@ -217,8 +222,8 @@ class Dialog extends Container {
 	 * @private
 	 * @method
 	 * @param {function()} resolve
-	 * @param {Dialog} dia
-	 * @param {JQuery.Event} event
+	 * @param {module:nyc/Dialog~Dialog} dia
+	 * @param {jQuery.Event} event
 	 */
 	hndlKey(resolve, dia, event) {
 		if (event.keyCode === 13 && $(event.target).get(0) === dia.field.get(0)) {

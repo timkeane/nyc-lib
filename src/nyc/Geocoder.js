@@ -13,7 +13,7 @@
  */
 class Geocoder extends EventHandling {
   /**
-   * @desc Create an instance of {@see module:nyc/Geocoder~Geocoder}
+   * @desc Create an instance of Geocoder
    * @public
    * @constructor
    */

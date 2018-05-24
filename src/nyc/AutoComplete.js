@@ -14,8 +14,8 @@ export default class AutoComplete {
    * @desc Find matching li elements from inUl and move them to outUl
    * @public
    * @method
-   * @param {JQuery|Element} inUl The ul element to search
-   * @param {JQuery|Element} outUl The ul element to receive results
+   * @param {jQuery|Element|string} inUl The ul element to search
+   * @param {jQuery|Element|string} outUl The ul element to receive results
    * @param {string} type The text for searching
    */
   filter(inUl, outUl, typed) {
@@ -40,7 +40,7 @@ export default class AutoComplete {
    * @private
    * @method
    * @param {Object<string,RegExp>} matchers
-   * @param {JQuery|string|number} item
+   * @param {jQuery|string|number} item
    * @param {Object<string,Array<JQuery|string|number>>} filtered
    * @param {boolean} long
    */

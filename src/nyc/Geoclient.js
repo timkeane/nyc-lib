@@ -11,15 +11,22 @@ import Geocoder from 'nyc/Geocoder'
 /**
  * @desc A class for geocoding using the New York City Geoclient API
  * @public
- * @abstract
  * @class
- * @extends nyc/Geocoder
- * @constructor
- * @param {nyc/Geoclient/Options} options Constructor options
+ * @extends module:nyc/Geocoder~Geocoder
+ * @fires module:nyc/Locator~Locator#geocode
+ * @fires module:nyc/Locator~Locator#geolocate
+ * @fires module:nyc/Locator~Locator#ambiguous
+ * @fires module:nyc/Locator~Locator#error
  * @see https://developer.cityofnewyork.us/api/geoclient-api
  */
 class Geoclient extends Geocoder {
-  constructor(options) {
+/**
+ * @desc Create an instance of Geoclient
+ * @public
+ * @constructor
+ * @param {module:nyc/Geoclient~Geoclient.Options} options Constructor options
+ */
+constructor(options) {
     super(options)
     /**
   	 * @private
@@ -61,8 +68,8 @@ class Geoclient extends Geocoder {
 	/**
 	 * @private
 	 * @method
-	 * @param {ol.Coordinate} coordinate
-	 * return {ol.Coordinate}
+	 * @param {Array<number>} coordinate
+	 * @return {Array<number>}
 	 */
 	project(coordinate) {
     if (coordinate && this.projection !== 'EPSG:2263') {
@@ -109,7 +116,7 @@ class Geoclient extends Geocoder {
 	/**
 	 * @private
 	 * @method
-	 * @param {Array<Locator.Ambiguous>} response
+	 * @param {Array<module:nyc.Locator~Locator.Ambiguous>} response
 	 */
 	possible(results) {
 		const possible = []
@@ -172,10 +179,10 @@ class Geoclient extends Geocoder {
 }
 
 /**
- * @desc constructor options for {nyc/Geoclient}
+ * @desc constructor options for {@link module:nyc/Geoclient~Geoclient}
  * @public
  * @typedef {Object}
- * @property {string} url The URL for accessing the Geoclient API
+ * @property {string} url The URL for accessing the Geoclient API {@link https://developer.cityofnewyork.us/api/geoclient-api}
  * @property {string} [projection=EPSG:3857] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
  */
 Geoclient.Options

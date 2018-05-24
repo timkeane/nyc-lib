@@ -11,14 +11,14 @@ import Container from 'nyc/Container'
  * @desc Class for creating collapsible containers
  * @public
  * @class
- * @extends {Container}
+ * @extends {module:nyc/Container~Container}
  */
 class Choice extends Container {
   /**
-   * @desc Class for creating choice control
+   * @desc Create an instance of Choice
    * @public
    * @constructor
-   * @param {Choice.Options}
+   * @param {module:nyc/Choice~Choice.Options}
    */
   constructor(options) {
     super(options.target)
@@ -35,7 +35,7 @@ class Choice extends Container {
     this.inputs = null
     /**
      * @private
-     * @member {Array<Choice.Choice>}
+     * @member {Array<module:nyc/Choice~Choice.Choice>}
      */
     this.choices = options.choices
     this.setChoices(this.choices)
@@ -44,7 +44,7 @@ class Choice extends Container {
    * @desc Set the available choices
    * @public
    * @method
-   * @param {Array<Choice.Choice>} choices The choices
+   * @param {Array<module:nyc/Choice~Choice.Choice>} choices The choices
    */
   setChoices(choices) {
     this.getContainer().empty()
@@ -71,7 +71,7 @@ class Choice extends Container {
    * @desc Get or set the seleced choices
    * @public
    * @method
-   * @param {Array<Choice.Choice>} choices The choices
+   * @param {Array<module:nyc/Choice~Choice.Choice>} choices The choices
    */
   val(choices) {
     if (choices) {
@@ -99,7 +99,7 @@ class Choice extends Container {
   /**
    * @private
    * @method
-   * @param {JQuery.Event} event
+   * @param {jQuery.Event} event
    */
   change(event) {
     this.trigger('change', this)
@@ -107,7 +107,7 @@ class Choice extends Container {
   /**
    * @private
    * @method
-   * @param {Choice.Choice}
+   * @param {module:nyc/Choice~Choice.Choice}
    */
   extend(choice) {
     $.extend(choice, {
@@ -121,22 +121,22 @@ class Choice extends Container {
 }
 
 /**
- * @desc A choice for {@link Choice.Options}
+ * @desc A choice for {@link module:nyc/Choice~Choice}
  * @public
  * @typedef {Object}
  * @property {string} name The name for the choice
  * @property {string} label The label for the choice
- * @property {Array<Object>} value The value of the choice
+ * @property {Array<module:nyc/Choice~Choice.Choice>} value The value of the choice
  * @property {boolean} [checked=false] The value of the checked state of the choice
  */
 Choice.Choice;
 
 /**
- * @desc Constructor options for {@link Choice}
+ * @desc Constructor options for {@link module:nyc/Choice~Choice}
  * @public
  * @typedef {Object}
- * @property {JQuery|Element|string} target The target DOM node for creating the collapsible choice control
- * @property {Array<Choice.Choice>} choices The choices
+ * @property {jQuery|Element|string} target The target DOM node for creating the collapsible choice control
+ * @property {Array<module:nyc/Choice~Choice.Choice>} choices The choices
  * @property {boolean} [radio=false] Checkbox or radio button
  */
 Choice.Options;

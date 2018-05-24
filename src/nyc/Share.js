@@ -55,7 +55,7 @@ class Share extends Container {
  * @desc Constructor options
  * @public
  * @typedef {Object}
- * @property {JQuery|Element|string} target The HTML DOM element that will provide share buttons
+ * @property {jQuery|Element|string} target The HTML DOM element that will provide share buttons
  * @property {string} url Manifest URL
  */
 Share.Options

@@ -29,7 +29,7 @@ class ListPager extends Container {
     this.items = options.items || []
     /**
      * @private
-     * @member {JQuery}
+     * @member {jQuery}
      */
     this.list = this.find('.list')
     /**
@@ -44,7 +44,7 @@ class ListPager extends Container {
     this.pageSize = options.pageSize || 10
     /**
      * @private
-     * @member {JQuery}
+     * @member {jQuery}
      */
     this.moreBtn = this.find('button').click($.proxy(this.more, this))
     this.reset(this.items)
@@ -101,7 +101,7 @@ class ListPager extends Container {
  * @desc Options for ListPager constructor
  * @public
  * @typedef {Object}
- * @property {JQuery|Element|string} target The DOM node in which to create the ListPager
+ * @property {jQuery|Element|string} target The DOM node in which to create the ListPager
  * @param {Array<ListPager.Item>=} items The items to page through
  * @param {number} [pageSize=10] The number of items per page
  */

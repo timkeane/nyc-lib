@@ -9,7 +9,7 @@
  * @class
  * @constructor
  */
-export default class ReplaceTokens {
+class ReplaceTokens {
 	/**
 	 * @desc Replace tokens in a string with values from a provided object
 	 * @public
@@ -25,3 +25,5 @@ export default class ReplaceTokens {
 		return str
 	}
 }
+
+export default ReplaceTokens
