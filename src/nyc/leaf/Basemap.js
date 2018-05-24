@@ -6,6 +6,7 @@ import $ from 'jquery'
 
 import nyc from 'nyc/nyc'
 import BasemapHelper from 'nyc/BasemapHelper'
+import LocalStorage from 'nyc/leaf/LocalStorage'
 
 import L from 'leaflet'
 
@@ -50,7 +51,7 @@ class Basemap {
 		 * @private
 		 * @member {storage.Local}
 		 */
-		map.storage = null //new LocalStorage()
+		map.storage = new LocalStorage()
 		this.setupLayers(map, options)
 		map.fitBounds(Basemap.EXTENT)
 		map.hookupEvents(map.getContainer())

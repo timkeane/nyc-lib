@@ -17,21 +17,22 @@ export default class LocalStorage extends NycLocalStorage {
 	}
 	/**
 	 * @public
-	 * @abstract
+	 * @override
 	 * @method
-	 * @param {Object} map
+	 * @param {ol.Map} map
 	 * @param {string|Array<Object>} features
 	 * @param {string} projcs
-	 * @return {Object}
-	*/
+	 * @return {ol.layer.Vector}
+	 */
 	addToMap (map, features, projcs) {
 		const options = {
 			featureProjection: map.getView().getProjection(),
 			dataProjection: this.customProj(projcs)
 		}
-		features = new OlFormatGeoJSON().readFeatures({
-			type: 'FeatureCollection', features: features
-		}, options)
+		if (typeof features === 'object') {
+			features = {type: 'FeatureCollection', features: features}
+		}
+		features = new OlFormatGeoJSON().readFeatures(features, options)
 		const source = new OlSourceVector()
 		const layer = new OlLayerVector({source: source})
 		source.addFeatures(features)

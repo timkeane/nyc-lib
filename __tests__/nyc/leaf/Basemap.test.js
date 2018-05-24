@@ -1,8 +1,9 @@
 import $ from 'jquery'
 
 import nyc from 'nyc/nyc'
-import Basemap from 'nyc/leaf/Basemap'
 import BasemapHelper from 'nyc/BasemapHelper'
+import Basemap from 'nyc/leaf/Basemap'
+import LocalStorage from 'nyc/leaf/LocalStorage'
 
 import L from 'leaflet'
 
@@ -85,7 +86,7 @@ test('getStorage', () => {
   expect.assertions(1)
 
   const basemap = new Basemap({target: 'map0'})
-  expect(basemap.getStorage()).toEqual(null)
+  expect(basemap.getStorage() instanceof LocalStorage).toBe(true)
 })
 
 test('showPhoto', () => {
