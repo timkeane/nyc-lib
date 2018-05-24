@@ -9,6 +9,7 @@ import OlFeature from 'ol/feature'
 
 import NycMapLocator from 'nyc/MapLocator'
 import MapLocator from 'nyc/ol/MapLocator'
+import FeatureTip from 'nyc/ol/FeatureTip'
 
 let container
 let view
@@ -71,6 +72,21 @@ test('constructor provided zoom and style', () => {
   expect(mapLocator.source instanceof OlSourceVector).toBe(true)
   expect(mapLocator.source.getFeatures().length).toBe(0)
   expect(mapLocator.source.getFeatures().length).toBe(0)
+})
+
+test('FeatureTip created', () => {
+  expect.assertions(3)
+
+  const mapLocator = new MapLocator({map: map})
+  expect(mapLocator.tip instanceof FeatureTip).toBe(true)
+  expect(mapLocator.tip.labelFunction({
+    getName: () => {
+      return 'Fred'
+    }
+  })).toEqual({
+    text: 'Fred', 
+    cssClass: 'nyc-user-location'
+  })
 })
 
 test('setLocation', () => {

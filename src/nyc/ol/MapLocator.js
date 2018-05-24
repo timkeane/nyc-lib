@@ -61,6 +61,11 @@ constructor(options) {
      * @member {ol.format.GeoJSON}
      */
     this.format = new OlFormatGeoJson()
+    /**
+     * @private
+     * @member {module:nyc/ol/FeatureTip~FeatureTip}
+     */
+    this.tip = null
     this.createLayer(options.style)
   }
 	/**
@@ -126,14 +131,14 @@ constructor(options) {
 			zIndex: 10000
 		})
 		this.map.addLayer(this.layer)
-		new FeatureTip({
+		this.map.tip = new FeatureTip({
 			map: this.map, 
 			tips: [{
 				layer: this.layer,
-				labelFunction: () => {
+				labelFunction: (feature) => {
 					return {
 						cssClass: 'nyc-user-location',
-						text: this.getName()
+						text: feature.getName()
 					}
 				}
 			}]
