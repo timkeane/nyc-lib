@@ -122,7 +122,6 @@ class Basemap extends OlMap {
    * @return {nyc.ol.storage.Local} srorage
    */
   getStorage() {
-    console.warn('!!!!!!!!!! getStorage !!!!!!!!!!')
   	return this.storage
   }
   /**
