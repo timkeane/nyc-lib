@@ -200,7 +200,7 @@ class Directions extends EventHandling {
 	zoomBtns() {
 		$(this.mapTarget).append(nyc.Directions.BUTTONS_HTML).trigger('create')
 		$(this.mapTarget).find('.ui-btn').click($.proxy(this.zoom, this))
-	},
+	}
 	/**
 	 * @private
 	 * @method
@@ -209,7 +209,7 @@ class Directions extends EventHandling {
 	zoom(event) {
 		var z = this.map.getZoom() || 0
 		this.map.setZoom(z + ($(event.target).data('zoom-incr') * 1))
-	},
+	}
 	/**
 	 * @private
 	 * @method
