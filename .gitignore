@@ -76,3 +76,5 @@ typings/
 .vscode/
 
 replace-hosts.sh
+
+./etc/css/build
