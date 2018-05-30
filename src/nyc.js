@@ -7,6 +7,7 @@ import _nyc_Choice from 'nyc/Choice'
 import _nyc_Collapsible from 'nyc/Collapsible'
 import _nyc_Container from 'nyc/Container'
 import _nyc_Dialog from 'nyc/Dialog'
+import _nyc_Directions from 'nyc/Directions'
 import _nyc_EventHandling from 'nyc/EventHandling'
 import _nyc_Geoclient from 'nyc/Geoclient'
 import _nyc_Geocoder from 'nyc/Geocoder'
@@ -27,6 +28,7 @@ window.nyc.Choice = _nyc_Choice
 window.nyc.Collapsible = _nyc_Collapsible
 window.nyc.Container = _nyc_Container
 window.nyc.Dialog = _nyc_Dialog
+window.nyc.Directions = _nyc_Directions
 window.nyc.EventHandling = _nyc_EventHandling
 window.nyc.Geoclient = _nyc_Geoclient
 window.nyc.Geocoder = _nyc_Geocoder

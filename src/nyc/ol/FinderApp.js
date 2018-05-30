@@ -11,6 +11,7 @@ import Share from 'nyc/Share'
 import Tabs from 'nyc/Tabs'
 import ListPager from 'nyc/ListPager'
 import MapLocator from 'nyc/MapLocator'
+import Directions from 'nyc/Directions'
 
 import Translate from 'nyc/lang/Translate'
 import Goog from 'nyc/lang/Goog'
@@ -133,6 +134,16 @@ class FinderApp {
       languages: options.languages || Translate.DEFAULT_LANGUAGES,
       button: true
     })
+    /**
+     * @private
+     * @member {module:nyc/Directions~Directions}
+     */
+    this.directions = null    
+    /**
+     * @private
+     * @member {string}
+     */
+    this.directionsUrl = options.directionsUrl    
   }
   /**
    * @desc Centers and zooms the map on the provided feature
@@ -161,7 +172,9 @@ class FinderApp {
    * @param {ol.Feature} feature
    */
   directionsTo(feature) {
+    this.directions = this.directions || new Directions(this.directionsUrl)
 
+    
   }
   /**
    * @private
@@ -533,16 +546,17 @@ FinderApp.FEATURE_DECORATIONS = {
  * @desc Constructor options for {@link module:nyc/ol/FinderApp~FinderApp}
  * @public
  * @typedef {Object}
- * @property {string} title
- * @property {jQuery|Element|String=} splashContent
- * @property {string=} facilityTabTitle
- * @property {string} facilityUrl
- * @property {ol.format.Feature=} facilityFormat
- * @property {ol.style.Style} facilityStyle
- * @property {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions=} facilitySearchOptions
- * @property {string=} filterTabTitle
- * @property {Array<module:nyc/ol/Filters~Filters.ChoiceOptions>=} filterChoiceOptions
- * @property {string} geoclientUrl
+ * @property {string} title The app title
+ * @property {jQuery|Element|String=} splashContent Content to display as a splash page
+ * @property {string} [facilityTabTitle=Facilities] Title for the facilites list
+ * @property {string} facilityUrl The URL for the facility features data
+ * @property {ol.format.Feature=} facilityFormat The format of the facilities data
+ * @property {ol.style.Style} facilityStyle The styling for the facilities layer
+ * @property {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions=} facilitySearchOptions Search options for feature searches
+ * @property {string} [filterTabTitle=Filters] Title for the filters tab
+ * @property {Array<module:nyc/ol/Filters~Filters.ChoiceOptions>=} filterChoiceOptions Filter definitions
+ * @property {string} geoclientUrl The URL for the Geoclient geocoder with approriate keys
+ * @property {string} directionsUrl The URL for the Google directions API with approriate keys
  */
 FinderApp.Options
 

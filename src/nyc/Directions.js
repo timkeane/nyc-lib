@@ -21,7 +21,7 @@ class Directions extends Contanier {
    */
   constructor(url) {
 		super($('body'))
-		this.container.append($(Directions.HTML))
+		this.append($(Directions.HTML))
     /**
      * @private
      * @member {google.maps.Map}
@@ -93,7 +93,7 @@ class Directions extends Contanier {
 		}
 	}
 	handleResp(response, status) {
-		if (status == google.maps.DirectionsStatus.OK) {
+		if (status === google.maps.DirectionsStatus.OK) {
 			const leg = response.routes[0].legs[0],
 				addrA = leg.start_address.replace(/\, USA/, ''),
 				addrB = leg.end_address.replace(/\, USA/, '')
@@ -107,7 +107,7 @@ class Directions extends Contanier {
 		} else {
 			$(this.routeTarget).empty()
 		}
-		$('.dir-mode-btn').removeClass('active')
+		$('.mode button').removeClass('active')
 		$(this.modeBtn).addClass('active')
 		this.trigger('change', {response: response, status: status})
 	}
@@ -276,7 +276,7 @@ Directions.Response
 		 '<div id="fld-from"><input placeholder="Enter an address..."></div>' +
 		 '<div class="fld-lbl">To <span id="fld-facility"></span>:</div>' +
 		 '<div id="fld-to"></div>' +
-		 '<table id="dir-mode">' +
+		 '<table id="mode">' +
 			 '<tbody><tr>' +
 				 '<td><button id="transit" class="btn-sq rad-all active" data-mode="TRANSIT" title="Get transit directions">' +
 					 '<span class="screen-reader-only">get transit directions</span>' +
@@ -307,3 +307,5 @@ Directions.Response
 	 '</button>' +    
  '</div>' +
 '</div>'
+
+export default Directions
