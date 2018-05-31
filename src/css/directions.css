@@ -133,3 +133,21 @@ button[title="Toggle fullscreen view"] {
 #directions .btn-z-out {
   top: 40px;
 }
+@media only screen and (max-width : 750px), screen and (max-device-height: 350px) {
+  #dir-tabs {
+    width: 100%;
+  }
+  #directions .tabs .btns {
+	display: table;
+  }
+  #directions .tab {
+    position: absolute;
+    left: 0;
+		right: 0;
+		width: auto;
+    display: none;
+  }
+  #directions .tab.active {
+		display: block;
+	}
+}
