@@ -597,6 +597,7 @@ FinderApp.Options
  * @type {string}
  */
 FinderApp.HTML = '<h1 id="banner"></h1>' +
+'<div id="home" onclick="document.location.reload()"></div>' +
 '<div id="map"></div>' +
 '<div id="tabs"></div>' +
 '<div id="facilities"></div>' +

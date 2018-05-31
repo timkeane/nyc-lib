@@ -3,6 +3,14 @@ html, body.fnd, .fnd #map {
   margin: 0;
   overflow: hidden;
 }
+.fnd #home {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 34px;
+  width: 80px;
+  cursor: pointer;
+}
 .fnd #banner {
   position: fixed;
   top: 0;
