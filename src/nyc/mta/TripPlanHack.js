@@ -17,12 +17,8 @@ class TripPlanHack {
     const qstr = $.param(args)
     window.open().document.write(TripPlanHack.JUMP_PAGE.replace(/%QSTR%/, qstr))
   }
-  jsonpcket(request) {
+  jsonpacket(request) {
     return JSON.stringify(this.insanifyRequest(request))
-  }
-  html(args) {
-    const url = TripPlanHack.REQUEST_URL + args + this.randomParamCopiedFromMtaCode()
-    return this.replace(TripPlanHack.HTML, {request: url})
   }
   randomParamCopiedFromMtaCode() {
     return Math.floor(Math.random() * 11)
@@ -41,7 +37,7 @@ class TripPlanHack {
     return {1: 'MN', 2: 'BX', 3: 'BK', 4: 'QN', 5: 'SI'}[data.boroughCode1In] || ''
   }
   insanifyLocation(location, projection) {
-    const coord = proj4(projection || 'EPSG:3857', 'EPSG:4326', location.coordinates)
+    const coord = proj4(projection || 'EPSG:3857', 'EPSG:4326', location.coordinate)
     return coord[1] + '$' + coord[0] + '$' + location.name + '$0'
   }
   insanifyRequest(request) {
@@ -189,8 +185,10 @@ TripPlanHack.JUMP_PAGE = '<!DOCTYPE html>' +
       'iframe.load(function(){' +
         'document.location = RESPONSE_URL;' +
       '});' +
-      'iframe.attr("src", REQUEST_URL + %QSTR%);' +
+      'iframe.attr("src", REQUEST_URL + "%QSTR%");' +
     '};' +
   '</script>' +
 '</body>' +
 '</html>'
+
+export default TripPlanHack

@@ -179,7 +179,13 @@ class FinderApp {
     this.directions.directions({
       from: from,
       to: to,
-      facility: name
+      facility: name,
+      origin: this.location,
+      destination: {
+        name: feature.getName(),
+        coordinate: feature.getGeometry().getCoordinates(),
+        data: {}
+      }
     })
   }
     /**

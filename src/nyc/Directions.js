@@ -3,8 +3,11 @@
  */
 
 import $ from 'jquery'
+
 import Contanier from 'nyc/Container'
 import Tabs from 'nyc/Tabs'
+
+import TripPlanHack from 'nyc/mta/TripPlanHack'
 
 /**
  * @desc Provides directions using google maps
@@ -84,6 +87,7 @@ class Directions extends Contanier {
      * @member {Array<Object<string, Object>>}
      */
 		this.styles = styles || Directions.DEFAULT_STYLES
+		$('#mta').click($.proxy(this.tripPlanHack, this))
   }
 	/**
 	 * @desc Get directions
@@ -199,6 +203,10 @@ class Directions extends Contanier {
 			this.args.from = $('#fld-from input').val()
 			this.directions(this.args)
 		}
+	}
+	tripPlanHack() {
+		const origin = this.args
+		new TripPlanHack().directions(this.args)
 	}
 }
 
