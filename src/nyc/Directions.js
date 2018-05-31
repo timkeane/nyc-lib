@@ -292,19 +292,18 @@ Directions.Response
  * @type {Array<Object<string, Object>>}
  */
 Directions.DEFAULT_STYLES = [
-	{elementType: 'geometry', stylers: [{color: '#ececec'}]},
-	{elementType: 'geometry.stroke', stylers: [{color: '#d8d8d8'}]},
-	{elementType: 'labels.text', stylers: [{color: '#585858'}]},
-	{featureType: 'landscape.man_made', stylers: [{color: '#dbdbdb'}]},
-	{featureType: 'poi.park', elementType: 'geometry', stylers: [{color: '#e8e8e8'}]},
+	{elementType: 'geometry.fill', stylers: [{color: '#ececec'}]},
+	{elementType: 'geometry.stroke', stylers: [{color: '#dcdcdc'}]},
+	{elementType: 'labels.text.fill', stylers: [{color: '#585858'}]},
+	{featureType: 'poi.park', elementType: 'geometry.fill', stylers: [{color: '#e8e8e8'}]},
 	{featureType: 'water', elementType: 'geometry', stylers: [{color: '#d8d8d8'}]},
 	{featureType: 'road', elementType: 'geometry.fill', stylers: [{color: '#ffffff'}]},
+	{featureType: 'landscape.man_made', stylers: [{visibility: 'off'}]},
 	{featureType: 'transit.line', stylers: [{visibility: 'off'}]},
 	{featureType: 'administrative', stylers:[{visibility: 'off'}]},
-	{featureType: 'poi.attraction', stylers: [{visibility: 'off'}]},
-	{featureType: 'poi.business', stylers: [{visibility: 'off'}]},
-	{featureType: 'poi.place_of_worship', stylers: [{visibility: 'off'}]},
-	{featureType: 'poi.school', stylers: [{ visibility: 'off'}]}
+	{featureType: 'poi', stylers: [{visibility: 'off'}]},
+	{featureType: 'poi.government', stylers: [{visibility: 'on'}]},
+	{featureType: 'poi.park', stylers: [{visibility: 'on'}]}
 ]
 
 export default Directions

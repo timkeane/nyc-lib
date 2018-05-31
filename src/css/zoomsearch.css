@@ -42,7 +42,7 @@
 .srch input {
 	width: calc(100% - 28px);
 	margin: 0;
-	padding: 0 3px 0 23px;
+	padding-left: 23px;
 }
 .srch ul {
 	display: none;

@@ -97,7 +97,7 @@ a.btn, h3.btn, div.btn {
 }
 input {
 	height: 33px;
-	padding: 3px;
+	padding: 0 3px;
 }
 .nyc-html {
 	display: table;
