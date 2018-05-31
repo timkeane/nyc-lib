@@ -87,8 +87,9 @@ class Directions extends Contanier {
 		this.styles = styles || Directions.DEFAULT_STYLES
 		$('#mta').click($.proxy(this.tripPlanHack, this))
     $('#mode button').click($.proxy(this.mode, this))
-		$('#fld-from input').keypress($.proxy(this.key, this))
-			.click(() => $(this).select())
+
+		const input = $('#fld-from input')
+		input.keypress($.proxy(this.key, this)).focus(() => input.select())
   }
 	/**
 	 * @desc Get directions
@@ -189,7 +190,7 @@ class Directions extends Contanier {
 	mode(event) {
 		this.args = this.args || {}
 		this.modeBtn = event.target
-		if (this.modeBtn.attr('id') !== 'mta') {
+		if (this.modeBtn.id !== 'mta') {
 			$('#mode button').removeClass('active')
 			$(this.modeBtn).addClass('active')
 			this.args.mode = $(this.modeBtn).data('mode')

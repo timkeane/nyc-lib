@@ -152,11 +152,12 @@ TripPlanHack.JUMP_PAGE = '<!DOCTYPE html>' +
         'color: #0039A6;' +
       '}' +
       'h1 {' +
-        'margin: 120px 0 -7px 0;' +
+        'margin: 120px 0 -6px 0;' +
         'overflow: hidden;' +
       '}' +
       'button {' +
         'background-color: rgba(181,181,181,.1);' +
+        'border: 1px solid rgb(221,221,221);' +
         'border-radius: 3px;' +
         'margin: 120px auto 0 auto;' +
         'padding: 10px;' +

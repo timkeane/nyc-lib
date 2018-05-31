@@ -96,14 +96,15 @@
 	background-image: var(--bike-icon-light);
 }
 #mta {
-	width: 143px;
+	width: 139px;
 	background-image: var(--mta-icon-light);
 	background-position: 1px 3px;
-	padding-left: 30px
+	padding-left: 27px;
+	background-size: 26px;
 }
 #mta img {
-	width: 22px;
-	height: 22px;
+	width: 20px;
+	height: 20px;
 	margin: -6px 0;
 }
 #fld-from input {
