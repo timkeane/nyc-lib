@@ -173,9 +173,31 @@ class FinderApp {
    */
   directionsTo(feature) {
     this.directions = this.directions || new Directions(this.directionsUrl)
-
-    
+    const to = feature.getFullAddress()
+    const name = feature.getName()
+    const from = this.origin()
+    this.directions.directions({
+      from: from,
+      to: to,
+      facility: name
+    })
   }
+    /**
+   * @desc Convert current user location into usalbe form for Google directions API
+   * @private
+   * @method
+   * @return {string|Array<number>}
+   */
+  origin() {
+		const location = this.location
+		if (location.type == 'geolocation') {
+			const coordinates = proj4(
+        this.view.getProjection().getCode(), 
+        'EPSG:4326', location.coordinate);
+			return [coordinates[1], coordinates[0]]
+		}
+		return location.name || ''
+	}
   /**
    * @private
    * @method
@@ -375,7 +397,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @return {string}
    */
   getAddress1() {
-    throw 'A getAddress1 decoration must be provided to use default html method'
+    throw 'A getAddress1 decoration must be provided to use default html method and directions'
   },
   /**
    * @desc Returns the address line 2 of a facility feature
@@ -393,7 +415,16 @@ FinderApp.FEATURE_DECORATIONS = {
    * @return {string}
    */
   getCityStateZip() {
-    throw 'A getCityStateZip decoration must be provided to use default html method'
+    throw 'A getCityStateZip decoration must be provided to use default html method and directions'
+  },
+  /**
+   * @desc Returns full address for use with Google directions API
+   * @public
+   * @method
+   * @return {string}
+   */
+  getFullAddress() {
+    return `${this.getAddress1()}\n${this.getAddress2()},\n${this.getCityStateZip()}`
   },
   /**
    * @desc Returns the phone number for a facility feature
