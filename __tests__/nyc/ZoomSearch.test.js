@@ -28,20 +28,17 @@ test('abstract methods', () => {
 
 describe('hookupEvents called from constructor', () => {
   const key = ZoomSearch.prototype.key
-  const select = ZoomSearch.prototype.select
   const zoom = ZoomSearch.prototype.zoom
   const geolocate = ZoomSearch.prototype.geolocate
   const listClick = ZoomSearch.prototype.listClick
   beforeEach(() => {
     ZoomSearch.prototype.key = jest.fn()
-    ZoomSearch.prototype.select = jest.fn()
     ZoomSearch.prototype.zoom = jest.fn()
     ZoomSearch.prototype.geolocate = jest.fn()
     ZoomSearch.prototype.listClick = jest.fn()
   })
   afterEach(() => {
     ZoomSearch.prototype.key = key
-    ZoomSearch.prototype.select = select
     ZoomSearch.prototype.zoom = zoom
     ZoomSearch.prototype.geolocate = geolocate
     ZoomSearch.prototype.listClick = listClick
@@ -69,7 +66,6 @@ describe('hookupEvents called from constructor', () => {
     expect(ZoomSearch.prototype.key.mock.calls[1][0].target).toBe(zoomSearch.input.get(0))
 
     zoomSearch.input.trigger('focus')
-    expect(ZoomSearch.prototype.select).toHaveBeenCalledTimes(1)
 
     container.find('.btn-z-in, .btn-z-out').trigger('click')
     expect(ZoomSearch.prototype.zoom).toHaveBeenCalledTimes(2)
@@ -86,20 +82,6 @@ describe('hookupEvents called from constructor', () => {
     $(document).trigger('mouseup')
     expect(ZoomSearch.prototype.listClick).toHaveBeenCalledTimes(1)
   })
-})
-test('select', () => {
-  const handler = jest.fn()
-
-  const zoomSearch = new ZoomSearch(container)
-
-  zoomSearch.input.on('select', handler)
-  zoomSearch.input.val('1234')
-
-  zoomSearch.select()
-
-  expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0].type).toBe('select')
-  expect(handler.mock.calls[0][0].currentTarget).toBe(zoomSearch.input.get(0))
 })
 
 test('key keyCode is 13 and isAddrSrch is true', () => {

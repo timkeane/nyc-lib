@@ -55,6 +55,7 @@
 #back-to-map.btn:hover:before {
 	background-color: var(--color-light);
 	background-image: var(--left-icon-dark);
+	border-color: transparent;
 }
 #directions .tabs {
 	top: 35px;
@@ -97,7 +98,7 @@
 #mta {
 	width: 143px;
 	background-image: var(--mta-icon-light);
-	background-position: 1px 2px;
+	background-position: 1px 3px;
 	padding-left: 30px
 }
 #mta img {

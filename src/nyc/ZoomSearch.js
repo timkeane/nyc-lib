@@ -244,18 +244,11 @@ class ZoomSearch extends Container {
 	 */
 	hookupEvents(input) {
 		input.on('keyup change', $.proxy(this.key, this))
-		input.focus($.proxy(this.select, this))
+		input.focus(() => input.select())
 		this.find('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))
 		this.find('.btn-geo').click($.proxy(this.geolocate, this))
 		this.clear.click($.proxy(this.clearTxt, this))
 		$(document).mouseup($.proxy(this.listClick, this))
-	}
-	/**
-	 * @private
-	 * @method
-	 */
-	select() {
-		this.input.select()
 	}
 	/**
 	 * @private

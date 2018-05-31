@@ -25,7 +25,8 @@ class Directions extends Contanier {
    * @param {Array<Object<strng, Object>>=} styles The Google Maps styles use {@see https://developers.google.com/maps/documentation/javascript/style-reference}
    */
   constructor(url, styles) {
-		super($('body'))
+		super('body')
+		global.directions = this
 		this.append(Directions.HTML)
     /**
      * @private
@@ -79,15 +80,15 @@ class Directions extends Contanier {
      * @member {string}
      */
 		this.lastDir = ''
-    global.directions = this
-    $('#mode button').click($.proxy(this.mode, this))
-		$('#fld-from input').keypress($.proxy(this.key, this))
 		/**
      * @private
      * @member {Array<Object<string, Object>>}
      */
 		this.styles = styles || Directions.DEFAULT_STYLES
 		$('#mta').click($.proxy(this.tripPlanHack, this))
+    $('#mode button').click($.proxy(this.mode, this))
+		$('#fld-from input').keypress($.proxy(this.key, this))
+			.click(() => $(this).select())
   }
 	/**
 	 * @desc Get directions
@@ -188,10 +189,12 @@ class Directions extends Contanier {
 	mode(event) {
 		this.args = this.args || {}
 		this.modeBtn = event.target
-		$('#mode button').removeClass('active')
-		$(this.modeBtn).addClass('active')
-		this.args.mode = $(this.modeBtn).data('mode')
-		this.directions(this.args)
+		if (this.modeBtn.attr('id') !== 'mta') {
+			$('#mode button').removeClass('active')
+			$(this.modeBtn).addClass('active')
+			this.args.mode = $(this.modeBtn).data('mode')
+			this.directions(this.args)
+		}
 	}
 	/**
 	 * @private
