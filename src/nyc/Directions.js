@@ -19,8 +19,9 @@ class Directions extends Contanier {
    * @public
    * @constructor
    * @param {string} [url={@link module:nyc/Directions~Directions.DEFAULT_GOOGLE_URL}] The Google Maps URL to use
+   * @param {Array<Object<strng, Object>>=} styles The Google Maps styles use {@see https://developers.google.com/maps/documentation/javascript/style-reference}
    */
-  constructor(url) {
+  constructor(url, styles) {
 		super($('body'))
 		this.append(Directions.HTML)
     /**
@@ -30,8 +31,8 @@ class Directions extends Contanier {
 		this.tabs = new Tabs({
       target: '#dir-tabs',
       tabs: [
-        {tab: '#dir-map', title: 'Map'},
-        {tab: '#dir-content', title: 'Directions'}
+        {tab: '#map-tab', title: 'Map'},
+        {tab: '#route-tab', title: 'Directions'}
       ]
     })
     $(window).resize($.proxy(this.adjustTabs, this))
@@ -69,7 +70,7 @@ class Directions extends Contanier {
      * @private
      * @member {jQuery.Event}
      */
-		this.routeTarget = this.find('#route')
+		this.routeTarget = this.find('#route-tab div.route')
 		/**
      * @private
      * @member {string}
@@ -78,6 +79,11 @@ class Directions extends Contanier {
     global.directions = this
     $('#mode button').click($.proxy(this.mode, this))
 		$('#fld-from input').keypress($.proxy(this.key, this))
+		/**
+     * @private
+     * @member {Array<Object<string, Object>>}
+     */
+		this.styles = styles || Directions.DEFAULT_STYLES
   }
 	/**
 	 * @desc Get directions
@@ -135,7 +141,7 @@ class Directions extends Contanier {
 	 * @method
 	 */
 	init() {
-		this.map = new google.maps.Map($('#dir-map div').get(0), {
+		this.map = new google.maps.Map($('#map-tab div.map').get(0), {
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
 			backgroundColor: '#D3D3D3',
 			panControl: false,
@@ -143,69 +149,7 @@ class Directions extends Contanier {
 			mapTypeControl: false,
 			zoomControl: false,
 			maxZoom: 18,
-				styles: [
-				{
-					featureType: 'administrative.country',
-					stylers:[{visibility: 'off'}]
-				},
-				{
-					featureType: 'administrative.province',
-					stylers: [{visibility: 'off'}]},
-				{
-					featureType: 'administrative.land_parcel',
-					stylers: [{visibility: 'off'}]
-				},
-				{
-					featureType: 'landscape.man_made',
-					stylers: [{visibility: 'on'}]
-				},
-				{
-					featureType: 'poi.attraction',
-					stylers: [{visibility: 'off'}]
-				},
-				{
-					featureType: 'poi.business',
-					stylers: [{visibility: 'off' }]
-				},
-				{
-					featureType: 'poi.place_of_worship',
-					stylers: [{visibility: 'off'}]
-				},
-				{
-					featureType: 	'water',
-					elementType: 'geometry',
-					stylers: [{hue: '#A1D5F1'}, {saturation: 55}, {lightness: 13}, {visibility: 'on'}]
-				},
-				{
-					featureType: 'transit.line',
-					stylers: [{visibility: 'off'}]
-				},
-				{
-					featureType: 'road.arterial',
-					elementType: 'all',
-					stylers: [{hue: '#d4d4d4'}, {saturation: -100}, {lightness: 27}, {visibility: 'on'}]
-				},
-				{
-					featureType: 'road.local',
-					elementType: 'all',
-					stylers: [{hue: '#e8e8e8'}, {saturation: -100}, {lightness: -9}, {visibility: 'on'}]
-				},
-				{
-					featureType: 'road.highway',
-					elementType: 'all',
-					stylers: [{hue: '#bababa'}, {saturation: -100}, {lightness: 25}, {visibility: 'on'}]
-				},
-				{
-					featureType: 'poi.park',
-					elementType: 'all',
-					stylers: [{hue: '#D6DDD5'}, {saturation: -76}, {lightness: 32}, {visibility: 'on'}]
-				},
-				{
-					featureType: 'poi.school',
-					elementType: 'all',
-					stylers: [{hue: '#DAD4C3'}, {saturation: -51}, {lightness: -2}, { visibility: 'on'}]
-				}
-			]
+			styles: this.styles
 		})
 		this.service = new google.maps.DirectionsService()
 		this.renderer = new google.maps.DirectionsRenderer()
@@ -218,9 +162,9 @@ class Directions extends Contanier {
    */
   adjustTabs() {  
     if (Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1) {
-      this.tabs.open('#dir-map')
+      this.tabs.open('#map-tab')
     } else {
-      this.tabs.open('#dir-content')
+      this.tabs.open('#route-tab')
     }
   }
 	/**
@@ -302,7 +246,7 @@ Directions.Response
 		'Back to finder' +
  	'</button>' +
  	'<div id="dir-tabs">' +
-		'<div id="dir-content">' +
+		'<div id="route-tab">' +
 			'<div class="fld-lbl">From my location:</div>' +
 			'<div id="fld-from"><input class="rad-all" placeholder="Enter an address..."></div>' +
 			'<div class="fld-lbl">To <span id="fld-facility"></span>:</div>' +
@@ -327,10 +271,10 @@ Directions.Response
 					'</td>' +
 			 	'</tr></tbody>' +
 			'</table>' +
-			'<div id="route"></div>' +
+			'<div class="route"></div>' +
 		'</div>' +
-		'<div id="dir-map">' +
-			'<div></div>' +
+		'<div id="map-tab">' +
+			'<div class="map"></div>' +
 			'<button class="btn-z-in btn-sq rad-all" data-zoom-incr="1" title="Zoom in">' +
 				'<span class="screen-reader-only">Zoom in</span>' +
 	 		'</button>' +
@@ -340,5 +284,27 @@ Directions.Response
 		 '</div>' +
 	'</div>' +
 '</div>'
+
+/**
+ * @desc Default styles used for Google Maps API
+ * @public
+ * @static
+ * @type {Array<Object<string, Object>>}
+ */
+Directions.DEFAULT_STYLES = [
+	{elementType: 'geometry', stylers: [{color: '#ececec'}]},
+	{elementType: 'geometry.stroke', stylers: [{color: '#d8d8d8'}]},
+	{elementType: 'labels.text', stylers: [{color: '#585858'}]},
+	{featureType: 'landscape.man_made', stylers: [{color: '#dbdbdb'}]},
+	{featureType: 'poi.park', elementType: 'geometry', stylers: [{color: '#e8e8e8'}]},
+	{featureType: 'water', elementType: 'geometry', stylers: [{color: '#d8d8d8'}]},
+	{featureType: 'road', elementType: 'geometry.fill', stylers: [{color: '#ffffff'}]},
+	{featureType: 'transit.line', stylers: [{visibility: 'off'}]},
+	{featureType: 'administrative', stylers:[{visibility: 'off'}]},
+	{featureType: 'poi.attraction', stylers: [{visibility: 'off'}]},
+	{featureType: 'poi.business', stylers: [{visibility: 'off'}]},
+	{featureType: 'poi.place_of_worship', stylers: [{visibility: 'off'}]},
+	{featureType: 'poi.school', stylers: [{ visibility: 'off'}]}
+]
 
 export default Directions
