@@ -9,6 +9,12 @@
  * @constructor
  */
 class TripPlanHack {
+  /**
+   * @desc Intiate jump to MTA TripFinder
+   * @public
+   * @method
+   * @param {module:nyc/mta/TripPlanHack~TripPlanHack.SaneRequest} request The trip request
+   */
   directions(request) {
     const args = {
       jsonpacket: this.jsonpacket(request),
@@ -17,29 +23,53 @@ class TripPlanHack {
     const qstr = $.param(args)
     window.open().document.write(TripPlanHack.JUMP_PAGE.replace(/%QSTR%/, qstr))
   }
+  /**
+   * @private
+   * @method
+   * @param {module:nyc/mta/TripPlanHack~TripPlanHack.SaneRequest} request
+   * @returns {string}
+   */
   jsonpacket(request) {
     return JSON.stringify(this.insanifyRequest(request))
   }
+  /**
+   * @private
+   * @method
+   * @returns {number}
+   */
   randomParamCopiedFromMtaCode() {
     return Math.floor(Math.random() * 11)
   }
+  /**
+   * @private
+   * @method
+   * @returns {Object<string, Object>}
+   */
   now() {
     const now = new Date()
     const hour = now.getHours()
     return {
-      date: (now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getFullYear(),
+      date: `${(now.getMonth() + 1)}/${now.getDate()}/${now.getFullYear()}`,
       hour: hour < 13 ? hour : hour - 12,
       minute: now.getMinutes(),
       ampm: hour < 12 ? 'am' : 'pm'
     }
   }
-  borough(data) {
-    return {1: 'MN', 2: 'BX', 3: 'BK', 4: 'QN', 5: 'SI'}[data.boroughCode1In] || ''
+  /**
+   * @private
+   * @method
+   * @returns {string}
+   */
+  insanifyLocation(location) {
+    const coord = proj4(location.projection || 'EPSG:3857', 'EPSG:4326', location.coordinate)
+    return `${coord[1]}$${coord[0]}$${location.name}$0`
   }
-  insanifyLocation(location, projection) {
-    const coord = proj4(projection || 'EPSG:3857', 'EPSG:4326', location.coordinate)
-    return coord[1] + '$' + coord[0] + '$' + location.name + '$0'
-  }
+  /**
+   * @private
+   * @method
+   * @param {module:nyc/mta/TripPlanHack~TripPlanHack.SaneRequest} request
+   * @returns {Object<string, Object>}
+   */
   insanifyRequest(request) {
     const origin = request.origin
     const destination = request.destination
@@ -60,13 +90,13 @@ class TripPlanHack {
       LineStart: '',
       LineEnd: '',
       Accessible: request.accessible ? 'Y' : 'N',
-      OriginCoordinates: this.insanifyLocation(origin, projection),
-      DestinationCoordinates: this.insanifyLocation(destination, projection),
+      OriginCoordinates: this.insanifyLocation(origin),
+      DestinationCoordinates: this.insanifyLocation(destination),
       LocationType: '',
       StartServiceType: 'train',
       StartTrainType: 'subway',
-      StartBorough: this.borough(origin.data),
-      EndBorough: this.borough(destination.data),
+      StartBorough: '',
+      EndBorough: '',
       Walkincrease: '',
       Maxinitialwait: '',
       Maxtriptime: '',
@@ -76,12 +106,21 @@ class TripPlanHack {
 }
 
 /**
+ * @desc Object to define TripPlanHack locations
+ * @public
+ * @typedef {Object}
+ * @property {string} name
+ * @property {Array<number>} coordinate projection
+ * @property {string} [projection=EPSG:3857]
+ */
+TripPlanHack.Location
+
+/**
  * @desc Object to pass reasonable parameters to TripPlanHack
  * @public
  * @typedef {Object}
- * @property {Locate.Result} origin
- * @property {Locate.Result} destination
- * @property {string} inputProjection
+ * @property {TripPlanHack.Location} origin
+ * @property {TripPlanHack.Location} destination
  * @property {boolean} accessible
  */
 TripPlanHack.SaneRequest

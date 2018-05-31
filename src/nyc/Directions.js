@@ -29,6 +29,11 @@ class Directions extends Contanier {
 		global.directions = this
 		this.append(Directions.HTML)
     /**
+     * @public
+     * @member {google.maps.Map}
+     */
+    this.map = null
+    /**
      * @private
      * @member {module:nyc/Tabs~Tabs}
      */
@@ -40,11 +45,6 @@ class Directions extends Contanier {
       ]
     })
     $(window).resize($.proxy(this.adjustTabs, this))
-    /**
-     * @private
-     * @member {google.maps.Map}
-     */
-    this.map = null
     /**
      * @private
      * @member {google.maps.DirectionsService}
@@ -101,6 +101,7 @@ class Directions extends Contanier {
 		const mode = args.mode || 'TRANSIT'
 		const url = this.url
 		this.args = args
+		this.adjustTabs()
 		if (!this.map) {
 			setTimeout(function() {
 				$.getScript(url)
@@ -129,6 +130,14 @@ class Directions extends Contanier {
 			const leg = response.routes[0].legs[0]
 			const addrA = leg.start_address.replace(/\, USA/, '')
 			const addrB = leg.end_address.replace(/\, USA/, '')
+			if (!this.args.origin.coordinate) {
+				const start = leg.start_location
+				this.args.origin = {
+					name: addrA,
+					coordinate: [start.lng(), start.lat()],
+					projection: 'EPSG:4326'
+				}
+			}
 			this.renderer.setOptions({
 				map: this.map,
 				panel: $(this.routeTarget).get(0),
@@ -167,7 +176,8 @@ class Directions extends Contanier {
    * @method
    */
   adjustTabs() {  
-    if (Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1) {
+		const fullscreen = Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1
+		if (this.args.origin.coordinate && fullscreen) {
       this.tabs.open('#map-tab')
     } else {
       this.tabs.open('#route-tab')
@@ -209,7 +219,7 @@ class Directions extends Contanier {
 		}
 	}
 	tripPlanHack() {
-		const origin = this.args
+		this.args.accessible = true
 		new TripPlanHack().directions(this.args)
 	}
 }
