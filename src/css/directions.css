@@ -30,7 +30,7 @@
 	width: 100%;
 	height: 100%;
 }
-#back-to-map.btn {
+#back-to-map {
 	left: auto;
 	padding: 5px 3px 0 3px;
 	background-color:transparent;
@@ -74,8 +74,12 @@
 #mode td {
 	height: 35px;
 	vertical-align: middle;
-	text-align: center;
-	width: 20%;
+	text-align: left;
+	width: 36px;
+}
+#mode td:last-child {
+	width: calc(100% - 144px);
+	text-align: right;
 }
 #mode td .btn-sq {
 	position: relative;
@@ -150,5 +154,10 @@ button[title="Toggle fullscreen view"] {
   }
   #directions .tab.active {
 		display: block;
+	}
+}
+@media only screen and (max-width : 360px) {
+	#back-to-map {
+		width: 90px;
 	}
 }
