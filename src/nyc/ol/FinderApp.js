@@ -84,20 +84,6 @@ class FinderApp {
       layers: [this.layer]
     })
     /**
-     * @private
-     * @member {module:nyc/Locator~Locator.Result}
-     */
-    this.location = {}
-    new FeatureTip({
-      map: this.map,
-      tips: [{
-        layer: this.layer,
-        label: (feature) => {
-          return {html: feature.getName()}
-        }
-      }]
-    })
-    /**
      * @public
      * @member {ol.View}
      */
@@ -127,7 +113,21 @@ class FinderApp {
       size: this.map.getSize(),
       duration: 500
     })
-    this.showSplash(options.splashContent)
+    /**
+     * @private
+     * @member {module:nyc/Locator~Locator.Result}
+     */
+    this.location = {}
+    new FeatureTip({
+      map: this.map,
+      tips: [{
+        layer: this.layer,
+        label: (feature) => {
+          return {html: feature.getName()}
+        }
+      }]
+    })
+    this.showSplash(options.splashOptions)
     new Share({target: '#map'})
     new Goog({
       target: '#map',
@@ -144,6 +144,21 @@ class FinderApp {
      * @member {string}
      */
     this.directionsUrl = options.directionsUrl    
+  }
+  /**
+   * @public
+   * @method
+   * @param {Object} event
+   */
+  resetList(event) {
+    if (event instanceof Filters) {
+      $('#tabs .btns h3.btn-2').addClass('filtered')
+    }
+    const coordinate = this.location.coordinate
+    this.popup.hide()
+    this.pager.reset(
+      coordinate ? this.source.sort(coordinate) : this.source.getFeatures()
+    )
   }
   /**
    * @desc Centers and zooms the map on the provided feature
@@ -225,13 +240,11 @@ class FinderApp {
    * @method
    * @param {jQuery|Element|string} content
    */
-  showSplash(content) {
-    if (content) {
-      new Dialog('splash').ok({
-        message: content,
-        buttonText: ['Continue...']
-      })
-      $('.dia-msg').attr('tabindex', 0).focus()
+  showSplash(options) {
+    if (options) {
+      options.buttonText = options.buttonText || ['Continue...']
+      new Dialog('splash').ok(options)
+      $('.splash .dia-msg').attr('tabindex', 0).focus()
     }
   }
   /**
@@ -278,21 +291,6 @@ class FinderApp {
   located(location) {
     this.location = location
     this.resetList()
-  }
-  /**
-   * @private
-   * @method
-   * @param {Object} event
-   */
-  resetList(event) {
-    if (event instanceof Filters) {
-      $('#tabs .btns h3.btn-2').addClass('filtered')
-    }
-    const coordinate = this.location.coordinate
-    this.popup.hide()
-    this.pager.reset(
-      coordinate ? this.source.sort(coordinate) : this.source.getFeatures()
-    )
   }
   /**
    * @private
@@ -379,6 +377,7 @@ FinderApp.FEATURE_DECORATIONS = {
       .append(this.websiteButton())
       .append(this.mapButton())
       .append(this.directionsButton())
+      .append(this.detailsCollapsible())
   },
   /**
    * @desc Returns the name of a facility feature
@@ -571,7 +570,7 @@ FinderApp.FEATURE_DECORATIONS = {
     if (details) {
       return new Collapsible({
         target: $('<div class="details"></div>'),
-        title: 'Details...',
+        title: this.detailButtonText || 'Details...',
         content: details,
         collapsed: true
       }).getContainer()
@@ -584,7 +583,7 @@ FinderApp.FEATURE_DECORATIONS = {
  * @public
  * @typedef {Object}
  * @property {string} title The app title
- * @property {jQuery|Element|String=} splashContent Content to display as a splash page
+ * @property {module:nyc/Dialog~Dialog.Options} splashOptions Content to display as a splash page
  * @property {string} [facilityTabTitle=Facilities] Title for the facilites list
  * @property {string} facilityUrl The URL for the facility features data
  * @property {ol.format.Feature=} facilityFormat The format of the facilities data

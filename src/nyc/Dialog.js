@@ -205,7 +205,13 @@ class Dialog extends Container {
 			this.yesNoBtns.css('display', 'inline-block')
 			this.find('.btn-cancel').css('display', 'inline-block')
 		}
-		this.msg.html(options.message)
+		let message 
+		try {message = $(options.message)} catch (ignore) {}
+		if (message && message.length) {
+			this.msg.html(message)
+		} else {
+			this.msg.html(options.message)
+		}
 		this.getContainer().fadeIn()
 	}
 	/**
@@ -264,7 +270,7 @@ Dialog.Type = {
  * @desc Dialog options.
  * @public
  * @typedef {Object}
- * @property {string} message Message text
+ * @property {jQuery|Element|string} message Message content
  * @property {Array<string>=} buttonText Button text list
  * @property {Array<string>=} buttonHref Button href list
  * @property {string=} placeholder Placeholder text for input dialog

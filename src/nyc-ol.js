@@ -4,6 +4,7 @@ import _nyc_ol from 'nyc/ol/ol'
 import _nyc_ol_Basemap from 'nyc/ol/Basemap'
 import _nyc_ol_FeaturePopup from 'nyc/ol/FeaturePopup'
 import _nyc_ol_FeatureTip from 'nyc/ol/FeatureTip'
+import _nyc_ol_Filters from 'nyc/ol/Filters'
 import _nyc_ol_FinderApp from 'nyc/ol/FinderApp'
 import _nyc_ol_LocalStorage from 'nyc/ol/LocalStorage'
 import _nyc_ol_LocationMgr from 'nyc/ol/LocationMgr'
@@ -17,6 +18,7 @@ window.nyc.ol = _nyc_ol
 window.nyc.ol.Basemap = _nyc_ol_Basemap
 window.nyc.ol.FeaturePopup = _nyc_ol_FeaturePopup
 window.nyc.ol.FeatureTip = _nyc_ol_FeatureTip
+window.nyc.ol.Filters = _nyc_ol_Filters
 window.nyc.ol.FinderApp = _nyc_ol_FinderApp
 window.nyc.ol.LocalStorage = _nyc_ol_LocalStorage
 window.nyc.ol.LocationMgr = _nyc_ol_LocationMgr

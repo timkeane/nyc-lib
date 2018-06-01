@@ -53,7 +53,7 @@ class Choice extends Container {
       const div = $(Choice.HTML)
       const id = nyc.nextId('chc-chc')
       const input = div.find('input')
-      div.find('.lbl').addClass(this.radio ? `${choice.name}-${i}` : choice.name)
+      div.addClass(this.radio ? `${choice.name}-${i}` : choice.name)
       input.attr('id', id)
         .attr('name', choice.name)
         .attr('type', this.radio ? 'radio' : 'checkbox')
@@ -152,9 +152,6 @@ Choice.Options;
   * @const
   * @type {string}
   */
-Choice.HTML = '<div class="chc-chc">' +
-  '<div><input></div>' +
-  '<div class="lbl"><label></label></div>' +
-'</div>'
+Choice.HTML = '<div class="chc-chc"><input><label></label></div>'
 
 export default Choice

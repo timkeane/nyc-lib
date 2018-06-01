@@ -1,6 +1,6 @@
 {
   "name": "@timkeane/nyc-lib",
-  "version": "0.8.5",
+  "version": "0.8.6-SNAPSHOT",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "prebuild": "yarn test",
@@ -17,6 +17,7 @@
     "replace-hosts": "bash -c 'if [ -f replace-hosts.sh ]; then ./replace-hosts.sh; fi'",
     "test": "jest"
   },
+  "main": "index.js",
   "jest": {
     "verbose": true,
     "automock": false,

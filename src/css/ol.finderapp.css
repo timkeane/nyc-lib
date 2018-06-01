@@ -111,6 +111,14 @@ html, body.fnd, .fnd #map {
   display: block;
   width: auto;
 }
+.fnd .details .btn {
+  display: block;
+  width: calc(100% - 5px);
+  margin-bottom: 0;
+}
+.fnd .details .content {
+  width: calc(100% - 15px);
+}
 .lst-it .name, .pop .name {
   font-weight: bold;
 }
