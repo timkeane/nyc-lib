@@ -3,21 +3,24 @@
   "version": "0.8.6-SNAPSHOT",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
-    "prebuild": "yarn test",
-    "build": "webpack",
-    "build-no-test": "webpack",
-    "postbuild-no-test": "yarn replace-hosts && yarn copy-examples && yarn css",
-    "postbuild": "yarn jsdoc && yarn replace-hosts && yarn copy-examples && yarn css",
+    "build": "babel src -d dist",
+    "prebuild": "rm -rf ./dist",
+    "postbuild": "yarn jsdoc && yarn raw-css && yarn nyc-css && yarn nyc-ol-css",
+    "webpack": "webpack",
+    "prewebpack": "yarn test",
+    "postwebpack": "yarn jsdoc && yarn replace-hosts && yarn copy-examples && yarn css",
+    "webpack-no-test": "webpack",
+    "postwebpack-no-test": "yarn replace-hosts && yarn copy-examples && yarn css",
     "jsdoc": "jsdoc -c ./jsdoc/conf.json",
     "css": "yarn dev-css && yarn nyc-css && yarn nyc-ol-css",
-    "dev-css": "bash -c 'if [ \"`printenv NODE_ENV`\" = \"dev\" ]; then cp -r ./src/css/ ./dist/css/; fi'",
+    "dev-css": "bash -c 'if [ \"`printenv NODE_ENV`\" = \"dev\" ]; then yarn raw-css; fi'",
+    "raw-css": "cp -r ./src/css/ ./dist/css/",
     "nyc-css": "postcss ./src/css/nyc-ol-lib.css --o ./dist/css/nyc-ol-lib.css --no-map --config postcss.config.js",
     "nyc-ol-css": "postcss ./src/css/nyc-lib.css --o ./dist/css/nyc-lib.css --no-map --config postcss.config.js",
     "copy-examples": "cp -r ./examples ./dist/examples",
     "replace-hosts": "bash -c 'if [ -f replace-hosts.sh ]; then ./replace-hosts.sh; fi'",
     "test": "jest"
   },
-  "main": "index.js",
   "jest": {
     "verbose": true,
     "automock": false,
@@ -97,7 +100,7 @@
   "config": {
     "ghooks": {
       "pre-commit": "yarn test",
-      "pre-push": "yarn build"
+      "pre-push": "yarn webpack && yarn build"
     }
   }
 }
