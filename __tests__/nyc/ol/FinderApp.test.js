@@ -926,7 +926,7 @@ describe('FEATURE_DECORATIONS', () => {
     const html = extendedDecorations.nameHtml()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<div class="name notranslate">A Name</div>'
+      '<h2 class="name notranslate">A Name</h2>'
     )
   })
 
@@ -1059,7 +1059,7 @@ describe('FEATURE_DECORATIONS', () => {
     const html = extendedDecorations.html()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<div class="facility css-class"><div class="name notranslate">A Name</div><div class="addr"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a><a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a><a class="btn rad-all map" role="button">Map</a><a class="btn rad-all dir" role="button">Directions</a><div class="details"><div class="clps rad-all"><h3 class="btn rad-all" role="button"><button class="btn-rnd expd"><span class="screen-reader-only">show/hide</span></button>Details...</h3><div class="content rad-bot" style="display: none;"></div></div></div></div>'
+      '<div class="facility css-class"><h2 class="name notranslate">A Name</h2><div class="addr"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a><a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a><a class="btn rad-all map" role="button">Map</a><a class="btn rad-all dir" role="button">Directions</a><div class="details"><div class="clps rad-all"><h3 class="btn rad-all" role="button"><button class="btn-rnd expd"><span class="screen-reader-only">show/hide</span></button>Details...</h3><div class="content rad-bot" style="display: none;"></div></div></div></div>'
     )
   })
 })

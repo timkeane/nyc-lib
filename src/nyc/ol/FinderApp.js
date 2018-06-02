@@ -466,7 +466,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @return {jQuery}
    */
   nameHtml() {
-    return $('<div class="name notranslate"></div>').html(this.getName())
+    return $('<h2 class="name notranslate"></h2>').html(this.getName())
   },
   /**
    * @desc Returns the full address of a facility feature to append to HTML

@@ -121,6 +121,7 @@ html, body.fnd, .fnd #map {
 }
 .lst-it .name, .pop .name {
   font-weight: bold;
+  margin: 0;
 }
 .fnd .btn.map {
   background-image: var(--map-icon-medium);
