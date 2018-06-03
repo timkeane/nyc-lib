@@ -203,7 +203,52 @@ class FinderApp {
       }
     })
   }
-    /**
+  /**
+   * @access protected
+   * @method
+   * @param {module:nycLocator~Locator.Result} location
+   */
+  located(location) {
+    this.location = location
+    this.resetList()
+  }
+  /**
+   * @access protected
+   * @method
+   * @param {Array<module:nyc/ol/Filters~Filters.ChoiceOptions>=} choiceOptions
+   * @returns {module:nyc/ol/Filters~Filters}
+   */
+  createFilters(choiceOptions) {
+    if (choiceOptions) {
+      const filters = new Filters({
+        target: '#filters',
+        source: this.source,
+        choiceOptions: choiceOptions
+      })
+      filters.on('change', this.resetList, this)
+      return filters
+    }
+  }
+  /**
+   * @access protected
+   * @method
+   * @param {module:nyc/ol/FinderApp~FinderApp.Options} options
+   * @returns {module:nyc/Tabs~Tabs}
+   */
+  createTabs(options) {
+    const pages = [
+      {tab: '#map', title: 'Map'},
+      {tab: '#facilities', title: options.facilityTabTitle || 'Facilities'}
+    ]
+    if (this.filters) {
+      pages.push({tab: '#filters', title: options.filterTabTitle || 'Filters'})
+    }
+    const tabs = new Tabs({target: '#tabs', tabs: pages})
+    tabs.on('change', this.resizeMap, this)
+    $(window).resize($.proxy(this.adjustTabs, this))
+    return tabs
+  }
+  /**
    * @desc Convert current user location into usalbe form for Google directions API
    * @private
    * @method
@@ -222,22 +267,6 @@ class FinderApp {
   /**
    * @private
    * @method
-   * @param {Array<module:nyc/ol/Filters~Filters.ChoiceOptions>=} choiceOptions
-   */
-  createFilters(choiceOptions) {
-    if (choiceOptions) {
-      const filters = new Filters({
-        target: '#filters',
-        source: this.source,
-        choiceOptions: choiceOptions
-      })
-      filters.on('change', this.resetList, this)
-      return filters
-    }
-  }
-  /**
-   * @private
-   * @method
    * @param {jQuery|Element|string} content
    */
   showSplash(options) {
@@ -246,24 +275,6 @@ class FinderApp {
       new Dialog('splash').ok(options)
       $('.splash .dia-msg').attr('tabindex', 0).focus()
     }
-  }
-  /**
-   * @private
-   * @method
-   * @param {module:nyc/ol/FinderApp~FinderApp.Options} options
-   */
-  createTabs(options) {
-    const pages = [
-      {tab: '#map', title: 'Map'},
-      {tab: '#facilities', title: options.facilityTabTitle || 'Facilities'}
-    ]
-    if (this.filters) {
-      pages.push({tab: '#filters', title: options.filterTabTitle || 'Filters'})
-    }
-    const tabs = new Tabs({target: '#tabs', tabs: pages})
-    tabs.on('change', this.resizeMap, this)
-    $(window).resize($.proxy(this.adjustTabs, this))
-    return tabs
   }
   /**
    * @private
@@ -282,15 +293,6 @@ class FinderApp {
    */
   resizeMap() {
     this.map.setSize([$('#map').width(), $('#map').height()])
-  }
-  /**
-   * @private
-   * @method
-   * @param {Locator.Result} location
-   */
-  located(location) {
-    this.location = location
-    this.resetList()
   }
   /**
    * @private
