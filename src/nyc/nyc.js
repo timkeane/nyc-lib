@@ -124,19 +124,19 @@ const nyc = {
 	 * @param {Object} object An object
 	 * @return {jQuery}
 	 */
-	 html(object) {
-		 if (typeof object.html === 'function') {
-       return $(object.html())
-     } else {
-       const html = $('<div class="nyc-html"></div>')
-       if (object.getProperties) object = object.getProperties()
-			 else if (object.properties) object = object.properties
-       Object.keys(object).forEach(prop => {
-         html.append(`<div><span class="fld">${prop}</span><span class="val">${object[prop]}</span></div>`)
-       })
-			 return html
-		 }
-	 },
+	html(object) {
+		if (typeof object.html === 'function') {
+			return $(object.html())
+		} else {
+			const html = $('<div class="nyc-html"></div>')
+			if (object.getProperties) object = object.getProperties()
+			else if (object.properties) object = object.properties
+			Object.keys(object).forEach(prop => {
+				html.append(`<div><span class="fld">${prop}</span><span class="val">${object[prop]}</span></div>`)
+			})
+			return html
+		}
+	},
 	 /**
 	  * @desc Shows the loading splash screen on eleents with loading class
 	  * @public
@@ -144,28 +144,40 @@ const nyc = {
 		* @function
 		* @param {jQuery} target Target elements
 	  */
-	 loading(target) {
-		 if (target.hasClass('loading')) {
-			 target.append($('#loading').get(0) || nyc.LOADING_HTML)
-		 }
-	 },
-	 /**
-	  * @desc Clears the loading splash screen
-	  * @public
-		* @static
-		* @function
-		* @param {jQuery} [target=body] Target elements
-	  */
-	 ready(target) {
-		 $(target || $('body')).removeClass('loading').attr('aria-hidden', false)
-		 $('#loading').fadeOut()
-	 },
+	loading(target) {
+		if (target.hasClass('loading')) {
+			target.append($('#loading').get(0) || nyc.LOADING_HTML)
+		}
+	},
+	/**
+	* @desc Clears the loading splash screen
+	* @public
+	* @static
+	* @function
+	* @param {jQuery} [target=body] Target elements
+	*/
+	ready(target) {
+		$(target || $('body')).removeClass('loading').attr('aria-hidden', false)
+		$('#loading').fadeOut()
+	},
+	/**
+	 * @desc Returns a cache bust param for query strings
+	 * @public
+	 * @static
+	 * @function
+	 * @param {number} minutes Minutes
+	 * @returns {number} Time in milliseconds
+	 */
+	cacheBust(minutes) {
+		const offset = 1000 * 60 *  minutes;
+		return Math.round(new Date().getTime() / offset) * offset;
+	},
 	/**
 	 * @private
 	 * @static
 	 * @member {Object<string, number>}
 	 */
-	 uniqueIds: {}
+	uniqueIds: {}
 }
 
 /**
