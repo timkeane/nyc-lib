@@ -1,7 +1,11 @@
 __tests__/
-__mocks__/
+**/node_modules/
+**/__mocks__/
 examples/
-etc/
+etc/img/
+etc/css/build/
 coverage/
 jsdoc/
 .babelrc
+backlog.txt
+*.tgz

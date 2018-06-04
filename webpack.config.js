@@ -40,6 +40,7 @@ module.exports = {
   },
   externals: {
     jquery: 'jQuery',
+    
     'ol/extent': 'ol.extent',
     'ol/coordinate': 'ol.coordinate',
     'ol/tilegrid': 'ol.tilegrid',
@@ -63,10 +64,10 @@ module.exports = {
     'ol/proj/projection': 'ol.proj.Projection',
 
     'text-encoding': 'window',
-    'leaflet': 'L',
-    'shapefile': '(window.shapefile || {})',
-    'papaparse': '(window.Papa || {})',
-    'proj4': '(window.proj4 || {defs: function(){}})'
+    leaflet: 'L',
+    shapefile: '(window.shapefile || {})',
+    papaparse: '(window.Papa || {})',
+    proj4: '(window.proj4 || {defs: function(){}})'
   },
   resolve: {
     alias: {
