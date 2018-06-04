@@ -17,7 +17,7 @@ import OlGeomPoint from 'ol/geom/point'
  * @extends ol.format.Feature
  * @see http://openlayers.org/en/latest/apidoc/ol.format.Feature.html
  */
-class Decorate extends OlFeature {
+class Decorate extends OlFormatFeature {
   /**
 	 * @desc Create an instance of CsvPoint
 	 * @public
