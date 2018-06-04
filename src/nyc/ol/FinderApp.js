@@ -44,6 +44,7 @@ class FinderApp {
     global.finderApp = this
     $('body').append(FinderApp.HTML).addClass('fnd')
     $('#banner').html(options.title)
+    $('#home').attr('title', options.title)		
     /**
      * @private
      * @member {module:nyc/ListPager~ListPager}
@@ -211,6 +212,7 @@ class FinderApp {
   located(location) {
     this.location = location
     this.resetList()
+    this.focusFacilities()
   }
   /**
    * @access protected
@@ -220,12 +222,15 @@ class FinderApp {
    */
   createFilters(choiceOptions) {
     if (choiceOptions) {
+      const apply = $('<button class="screen-reader-only">Apply</button>')
       const filters = new Filters({
         target: '#filters',
         source: this.source,
         choiceOptions: choiceOptions
       })
       filters.on('change', this.resetList, this)
+      $('#filters').append(apply)
+      apply.click($.proxy(this.focusFacilities, this))
       return filters
     }
   }
@@ -267,13 +272,25 @@ class FinderApp {
   /**
    * @private
    * @method
-   * @param {jQuery|Element|string} content
+   */
+  focusFacilities() {
+    this.tabs.find('.tab-1').attr('tabindex', 0).focus()
+  }
+  /**
+   * @private
+   * @method
+   * @param {module:nyc/Dialog~Dialog.Options} options
    */
   showSplash(options) {
+    const input = this.locationMgr.zoomSearch.input
     if (options) {
       options.buttonText = options.buttonText || ['Continue...']
-      new Dialog('splash').ok(options)
+      new Dialog('splash').ok(options).then(() => {
+        input.focus()
+      })
       $('.splash .dia-msg').attr('tabindex', 0).focus()
+    } else {
+      input.focus()
     }
   }
   /**

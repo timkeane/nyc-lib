@@ -12,6 +12,7 @@ import Container from 'nyc/Container'
  * @public
  * @class
  * @extends {module:nyc/Container~Container}
+ * @fires module:nyc/Choice~Choice#change
  */
 class Choice extends Container {
   /**
@@ -135,7 +136,7 @@ Choice.Choice;
  * @desc Constructor options for {@link module:nyc/Choice~Choice}
  * @public
  * @typedef {Object}
- * @property {jQuery|Element|string} target The target DOM node for creating the collapsible choice control
+ * @property {jQuery|Element|string} target The target DOM node for creating the choice control
  * @property {Array<module:nyc/Choice~Choice.Choice>} choices The choices
  * @property {boolean} [radio=false] Checkbox or radio button
  */
@@ -143,8 +144,8 @@ Choice.Options;
 
 /**
  * @desc The change event
- * @event Choice#change
- * @type {Choice}
+ * @event module:nyc/Choice~Choice#change
+ * @type {module:nyc/Choice~Choice}
  */
 
  /**

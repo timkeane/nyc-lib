@@ -145,8 +145,8 @@ Popup.Options
  * @const {string}
  */
 Popup.HTML = '<div class="pop">' +
-  '<button class="btn-rnd btn-x"><span class="screen-reader-only">Close</span></button>' +
   '<div class="content"></div>' +
+  '<button class="btn-rnd btn-x"><span class="screen-reader-only">Close</span></button>' +
 '</div>'
 
 export default Popup

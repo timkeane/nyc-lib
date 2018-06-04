@@ -1,0 +1,14 @@
+.sld {
+  display: table-row;
+}
+.sld input, .sld span {
+  display: table-cell;
+  vertical-align: middle;
+}
+.sld input[type="text"] {
+  width: 28px;
+  text-align: right;
+}
+.sld label {
+  margin-right: 5px; 
+}

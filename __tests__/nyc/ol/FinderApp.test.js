@@ -747,9 +747,6 @@ describe('ready', () => {
 
     nyc.ready = jest.fn()
     finderApp.pager.reset = jest.fn()
-    finderApp.locationMgr.zoomSearch = {
-      setFeatures: jest.fn()
-    }
 
     finderApp.ready('mock-features')
 
@@ -779,9 +776,6 @@ describe('ready', () => {
 
     nyc.ready = jest.fn()
     finderApp.pager.reset = jest.fn()
-    finderApp.locationMgr.zoomSearch = {
-      setFeatures: jest.fn()
-    }
     finderApp.facilitySearchOptions = {}
     finderApp.ready('mock-features')
 

@@ -73,8 +73,8 @@ class Filters extends Container {
  * @desc Constructor options for {@link module:nyc/ol/Filters~Filters}
  * @public
  * @typedef {Object}
- * @property {jQuery|Element|string} target
- * @property {Array<Filters.ChoiceOptions>} choiceOptions
+ * @property {jQuery|Element|string} target The DOM node in which to create the Filters
+ * @property {Array<Filters.ChoiceOptions>} choiceOptions The filter choices
  * @property {nyc.ol.source.FilterAndSort} source The source to filter
  */
 Filters.Options

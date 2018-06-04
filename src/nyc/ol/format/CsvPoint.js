@@ -111,6 +111,27 @@ class CsvPoint extends OlFormatFeature {
     return features
   }
   /**
+   * @desc Read the projection from a source
+   * @public
+   * @override
+   * @method
+   * @param {Document|Node|Object|string} source Source
+   * @return {ol.proj.Projection} Projection
+   */
+  readProjection(source) {
+    return this.defaultDataProjection
+  }
+  /**
+   * @desc Get the extent from the source of the last readFeatures call
+   * @public
+   * @override
+   * @method
+   * @return {ol.Extent} Tile extent
+   */
+  getLastExtent() {
+    return null
+  }
+  /**
    * @desc Return format type
    * @public
    * @override

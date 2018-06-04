@@ -30,7 +30,7 @@
   appearance: none;
   background-color: transparent;
 }
-input:before, input:before {
+.chc-chc input:before {
   content: " ";
   display: block;
   position: relative;
