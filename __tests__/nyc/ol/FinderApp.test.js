@@ -1014,7 +1014,7 @@ describe('FEATURE_DECORATIONS', () => {
     const html = extendedDecorations.distanceHtml()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<div class="dist">• 0.19 mi •</div>'
+      '<div class="dist" aria-hidden="true">• 0.19 mi •</div>'
     )
   })
 
@@ -1024,7 +1024,7 @@ describe('FEATURE_DECORATIONS', () => {
     const html = extendedDecorations.distanceHtml()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<div class="dist">• 1.00 km •</div>'
+      '<div class="dist" aria-hidden="true">• 1.00 km •</div>'
     )
   })
 

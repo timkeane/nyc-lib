@@ -581,6 +581,7 @@ FinderApp.FEATURE_DECORATIONS = {
         }
         return html.html(`${(distance.distance / 1000).toFixed(2)} kilometers`)  
       }
+      html.attr('aria-hidden', true)
       if (distance.units === 'ft') {
         return html.html(`&bull; ${(distance.distance / 5280).toFixed(2)} mi &bull;`)
       }
