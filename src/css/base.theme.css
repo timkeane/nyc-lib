@@ -2,13 +2,13 @@
   --font-family:                    'Helvetica Neue',Helvetica,Arial,sans-serif;
   
   /* colors */
-  --color-dark:                     #000;
+  --color-dark:                     rgba(0,0,0);
   --color-shadow:                   rgba(0,0,0,.1);
   --color-dark-translucent:         rgba(0,0,0,.5); 
-  --color-medium-translucent:       rgba(100,100,100,.1);
-  --color-medium:                   rgb(221,221,221);
-  --color-medium-light-translucent: rgba(180,180,180,.1);
-  --color-light:                    #fff;
+  --color-button:                   rgb(239,239,239);
+  --color-border:                   rgb(221,221,221);
+  --color-medium:                   rgb(247,247,247);
+  --color-light:                    rgb(255,255,255);
   --color-light-translucent:        rgba(255,255,255,.9);
 
   /* icons */

@@ -1,5 +1,5 @@
 .chc {
-	border: 1px solid var(--color-medium);
+	border: 1px solid var(--color-border);
 	display: table;
 }
 .chc-chc {
@@ -7,11 +7,11 @@
 	height: 33px;
 	padding: 3px;
 	width: 100%;
-	background-color: var(--color-medium-light-translucent);
+	background-color: var(--color-medium);
 }
 .chc-chc input, .chc-chc label {
 	display: table-cell;
-	border-bottom: 1px solid var(--color-medium);
+	border-bottom: 1px solid var(--color-border);
 	line-height: 35px;
 	padding: 0 5px;
 }
@@ -19,7 +19,7 @@
 	border: none;
 }
 .chc-chc:hover {
-	background-color: var(--color-medium);
+	background-color: var(--color-border);
 }
 .chc-chc input {
 	margin: 0 8px;

@@ -10,7 +10,7 @@ html, body, body * {
 }
 .rad-all, .rad-top, .rad-bot {
 	border-radius: var(--border-radius);
-	border: 1px solid var(--color-medium);
+	border: 1px solid var(--color-border);
 }
 .rad-top {
 	border-bottom-left-radius: 0;
@@ -46,7 +46,7 @@ html, body, body * {
 	background-size: 28px;
 }
 .btn {
-	background-color: var(--color-medium-translucent);
+	background-color: var(--color-button);
 	color: var(--color-dark);
 	height: 35px;
 	white-space: nowrap;
@@ -70,7 +70,7 @@ a.btn, h3.btn, div.btn {
 	padding: 0;
 }
 .btn:hover {
-	background-color: var(--color-medium);
+	background-color: var(--color-border);
 }
 .btn-sq:hover, .btn-rnd:hover {
 	background-color: var(--color-dark);
@@ -101,7 +101,7 @@ input {
 }
 .nyc-html {
 	display: table;
-	border: 1px solid var(--color-medium);
+	border: 1px solid var(--color-border);
 	border-radius: var(--border-radius);
 }
 .nyc-html div {
@@ -112,7 +112,7 @@ input {
 	display: table-cell;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	border-bottom: 1px solid var(--color-medium);
+	border-bottom: 1px solid var(--color-border);
 	padding: 0 3px;
 	overflow-wrap: break-word;
   word-wrap: break-word;
@@ -125,5 +125,5 @@ input {
 }
 .nyc-html .fld {
 	font-weight: bold;
-	border-right: 1px solid var(--color-medium);
+	border-right: 1px solid var(--color-border);
 }

@@ -1,6 +1,6 @@
 .tabs {
   background-color: var(--color-light);
-  border: 1px solid var(--color-medium);
+  border: 1px solid var(--color-border);
   overflow: hidden;
 }
 .tabs>.btns {
@@ -12,8 +12,8 @@
 .tabs .btns h3 {
   display: table-cell;
   margin: 0;
-  border-right: 1px solid var(--color-medium);
-  border-bottom: 1px solid var(--color-medium);
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
   text-align: center;
 }
 .tabs .btns h3.active, .tabs .btns h3.active * {

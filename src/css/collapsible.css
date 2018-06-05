@@ -14,7 +14,7 @@
   background-image: var(--down-icon-light);
 }
 .clps div.content {
-  border: 1px solid var(--color-medium);
+  border: 1px solid var(--color-border);
   border-top: none;
   padding: 5px;
 }

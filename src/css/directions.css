@@ -20,7 +20,7 @@
   left: 0;
   right: 400px;
   overflow: hidden;
-  border-top: 1px solid var(--color-medium)
+  border-top: 1px solid var(--color-border)
 }
 #route-tab.tab {
   margin: 5px;
@@ -106,10 +106,11 @@
 	padding-left: 27px;
 	background-size: 26px;
 }
-#mta img {
+#mta svg {
 	width: 20px;
 	height: 20px;
-	margin: -6px 0;
+	margin: -5px 0;
+	fill: var(--color-light);
 }
 #fld-from input {
 	width: calc(100% - 9px);
@@ -129,6 +130,36 @@ button[title="Toggle fullscreen view"] {
 	overflow-y: auto;
 	overflow-x: hidden;
 }
+#directions div.map *, div.route * {
+	font-family: var(--font-family) !important;
+	color: var(--color-dark);
+	font-size: 16px;
+	font-weight: normal;
+}
+div.route b {
+	font-weight: bold;
+}
+div.route .adp-placemark {
+	padding: 3px 3px 0 3px;
+}
+div.route .adp-placemark, div.route .adp-placemark * {
+	background-color: var(--color-dark);
+	font-weight: 500;
+	color: var(--color-light);
+}
+div.route .warnbox-content, div.route .adp-agencies, div.route .adp-agencies * {
+	background-color: var(--color-button);
+}
+div.route .warnbox-c1, div.route .warnbox-c2 {
+	display: none;
+}
+div.route .adp-placemark, div.route .warnbox-content, div.route .adp-agencies {
+	border: 1px solid var(--color-border);
+	border-radius: 3px;
+}
+div.route .warnbox-content, div.route .adp-agencies {
+	padding: 5px;
+}
 #directions .btn-z-in, #directions .btn-z-out {
   left: 3px;
 }
@@ -137,6 +168,47 @@ button[title="Toggle fullscreen view"] {
 }
 #directions .btn-z-out {
   top: 40px;
+}
+#directions div.gm-style-iw+div, #directions div.gm-style-iw+div:hover {
+	background-color: var(--color-dark-translucent);
+	position: unset !important;
+	float: right !important;
+	width: 22px !important;
+	height: 22px !important;
+	border-radius: 50% !important;
+	margin: 5px !important;
+	background-image: var(--x-icon-light) !important;
+	background-repeat: no-repeat !important;
+	background-position: center !important;
+	opacity: .99999 !important;
+}
+#directions div.gm-style-iw+div:hover {
+	background-color: var(--color-dark);
+}
+#directions div.gm-style-iw+div>img {
+	visibility: hidden;
+}
+#directions .adp-directions tr {
+	border: 1px solid var(--color-border);
+}
+#directions .adp-directions tr:nth-child(odd) {
+	background-color: var(--color-medium);
+}
+#directions .adp-legal {
+	font-size: 50% !important;
+}
+#directions .gm-style-cc, #directions .gm-style-cc * {
+	font-size: 80% !important;
+	width: auto !important;
+}
+a[title="Click to see this area on Google Maps"] {
+	position: absolute !important;
+	bottom: 0;
+	height: 15px;
+}
+img[src="https://maps.gstatic.com/mapfiles/api-3/images/google_white5_hdpi.png"] {
+	width: 38px !important;
+	height: 15px !important;
 }
 @media only screen and (max-width : 750px), screen and (max-device-height: 350px) {
   #dir-tabs {

@@ -1,6 +1,6 @@
 {
   "name": "@timkeane/nyc-lib",
-  "version": "0.8.52-SNAPSHOT",
+  "version": "0.8.58-SNAPSHOT",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "test": "jest",
@@ -12,7 +12,7 @@
     "prebuild": "yarn test",
     "postbuild": "yarn jsdoc && yarn replace-hosts && yarn copy-examples && yarn css",
     "build-no-test": "webpack",
-    "postwebpack-no-test": "yarn replace-hosts && yarn copy-examples && yarn css",
+    "postbuild-no-test": "yarn replace-hosts && yarn copy-examples && yarn css",
     "jsdoc": "jsdoc -c ./jsdoc/conf.json",
     "pack-css": "yarn raw-css && yarn nyc-css && yarn nyc-ol-css",
     "css": "yarn dev-css && yarn nyc-css && yarn nyc-ol-css",

@@ -4,6 +4,7 @@
 
 import $ from 'jquery'
 
+import nyc from 'nyc/nyc'
 import Container from 'nyc/Container'
 
  /**
@@ -14,7 +15,7 @@ import Container from 'nyc/Container'
   */
 class Tabs extends Container {
   /**
-	 * @desc  Create an instance of Tabs
+	 * @desc Create an instance of Tabs
 	 * @constructor
 	 * @param {module:nyc/Tabs~Tabs.Options} options Constructor options
 	 */
@@ -42,10 +43,16 @@ class Tabs extends Container {
    */
   open(tab) {
     tab = this.find(tab)
-    this.find('.btns h3, .tab').removeClass('active')
-      .not('.tab').attr('aria-pressed', false)
+    this.find('.tab')
+      .attr('aria-hidden', true)
+      .removeClass('active')
+    this.find('.btns h3')
+      .removeClass('active')
+      .attr('aria-selected', false)
     tab.addClass('active')
-    tab.data('btn').addClass('active').attr('aria-pressed', true)
+      .attr('aria-hidden', true)
+    tab.data('btn').addClass('active')
+      .attr('aria-selected', true)
     this.active = tab
     this.trigger('change', this)
   }
@@ -57,13 +64,17 @@ class Tabs extends Container {
 render(tabs){
     let opened = false
     tabs.forEach((tab, i) => {
+      const id = nyc.nextId('tab-label')
       const tb = $(tab.tab)
         .addClass(`tab tab-${i}`)
+        .attr('role', 'tabpanel')
+        .attr('aria-labelledby', id)
       const btn = $(Tabs.BTN_HTML)
-        .append(tab.title)
+        .attr('id', id)
         .click($.proxy(this.btnClick, this))
         .addClass(`btn-tab btn-${i}`)
         .data('tab', tb)
+        .append(tab.title)
       tb.data('btn', btn)
       this.btns.append(btn)
       this.tabs.append(tb)
@@ -110,7 +121,7 @@ Tabs.Tab
  * @type {string}
  */
 Tabs.HTML = '<div class="btns" role="tablist"></div>' +
-  '<div class="container" role="tabpanel"></div>'
+  '<div class="container"></div>'
 
 /**
  * @private
@@ -118,6 +129,7 @@ Tabs.HTML = '<div class="btns" role="tablist"></div>' +
  * @type {string}
  */
 Tabs.BTN_HTML = '<h3 class="btn" role="tab">' +
-  '<span class="screen-reader-only">show </span></h3>'
+  '<span class="screen-reader-only">show </span>' +
+'</h3>'
 
 export default Tabs

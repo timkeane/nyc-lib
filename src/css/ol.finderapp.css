@@ -77,7 +77,7 @@ html, body.fnd, .fnd #map {
   background-position: center;
   background-image: var(--filter-icon-light);
   margin: -3px 5px -3px 3px;
-  border: 1px solid var(--color-medium);
+  border: 1px solid var(--color-border);
 }
 .fnd #map.tab, .fnd #facilities.tab {
   margin: 0;
@@ -90,7 +90,7 @@ html, body.fnd, .fnd #map {
   top: 35px;
   right: 400px;
   overflow: hidden;
-  border-top: 1px solid var(--color-medium)
+  border-top: 1px solid var(--color-border)
 }
 .fnd #filters .clps {
   margin-bottom: 5px;
