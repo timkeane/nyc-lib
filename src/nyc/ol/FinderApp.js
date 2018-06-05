@@ -390,6 +390,7 @@ FinderApp.FEATURE_DECORATIONS = {
       .addClass(this.cssClass())
       .append(this.distanceHtml())
       .append(this.nameHtml())
+      .append(this.distanceHtml(true))
       .append(this.addressHtml())
       .append(this.phoneButton())
       .append(this.emailButton())
@@ -566,17 +567,25 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns HTML rendering of the distance from the user location to the facility
    * @public
    * @method
+   * @param {boolean} screenReaderOnly Return distance for screen readers
    * @return {jQuery}
    */
-  distanceHtml() {
+  distanceHtml(screenReaderOnly) {
     if (this.getDistance) {
       const html = $('<div class="dist"></div>')
       const distance = this.getDistance()
+      if (screenReaderOnly) {
+        html.addClass('screen-reader-only')
+        if (distance.units === 'ft') {
+          return html.html(`${(distance.distance / 5280).toFixed(2)} miles`)
+        }
+        return html.html(`${(distance.distance / 1000).toFixed(2)} kilometers`)  
+      }
       if (distance.units === 'ft') {
         return html.html(`&bull; ${(distance.distance / 5280).toFixed(2)} mi &bull;`)
       }
-      return html.html(`&bull; ${(distance.distance / 1000).toFixed(2)} km &bull;`)
-    }
+      return html.html(`&bull; ${(distance.distance / 1000).toFixed(2)} km &bull;`)  
+  }
   },
   /**
    * @desc Returns an HTML button that when clicked will display the provided details

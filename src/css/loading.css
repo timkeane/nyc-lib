@@ -6,7 +6,7 @@
   top: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(-90deg, #7f7f7f, #c8c8c8, #1e1e1e, #7f7f7f, #c8c8c8);
+  background: var(--loading-gradient);
   background-size: 800% 800%;
   -webkit-animation: loading 10s ease infinite;
   -moz-animation: loading 10s ease infinite;
@@ -34,9 +34,10 @@
   left: calc(50% - 76px);
 }
 #loading svg {
-  stroke: #fff;
+  stroke: var(--color-light);
   stroke-width: 1.5;
-  fill: rgba(255,255,255,0.2)
+  fill: var(--color-light);
+  fill-opacity: .2;
 }
 #loading div h1 {
   font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
