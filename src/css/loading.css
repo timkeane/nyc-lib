@@ -42,7 +42,7 @@
 #loading div h1 {
   font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
   font-size: 23px;
-  color: #fff;
+  color: var(--color-light);
   font-weight: bold;
   margin: -10px 0 0 -1px;
 }

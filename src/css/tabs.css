@@ -35,3 +35,7 @@
 .tabs .container .tab.active {
   display: block;
 }
+.tabs .container .tab:focus {
+  outline: none;
+  box-shadow: none;
+}
