@@ -269,11 +269,11 @@ class FinderApp {
    */
   origin() {
 		const location = this.location
-		if (location.type == 'geolocation') {
+		if (location.type === 'geolocated') {
 			const coordinates = proj4(
         this.view.getProjection().getCode(), 
         'EPSG:4326', location.coordinate);
-			return [coordinates[1], coordinates[0]]
+			return `${coordinates[1]},${coordinates[0]}`
 		}
 		return location.name || ''
 	}
