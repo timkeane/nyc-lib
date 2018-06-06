@@ -1,6 +1,6 @@
 {
   "name": "@timkeane/nyc-lib",
-  "version": "0.8.63-SNAPSHOT",
+  "version": "0.8.84-SNAPSHOT",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "test": "jest",

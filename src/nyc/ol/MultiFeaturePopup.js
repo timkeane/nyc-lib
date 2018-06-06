@@ -39,7 +39,7 @@ class MultiFeaturePopup extends FeaturePopup {
       target: this.content
     })
     this.addLayers(options.layers)
-    this.pager.on('change', this.pan, this)
+    this.pager.on('change', this.paged, this)
   }
   /**
    * @desc Show the popup
@@ -66,6 +66,15 @@ class MultiFeaturePopup extends FeaturePopup {
       }
     })
     if (features.length) this.showFeatures(features, event.coordinate)
+  }
+  /**
+   * @private
+   * @method
+   * @param {module:nyc:ItemPager~ItemPager} pager
+   */
+  paged(pager) {
+    this.cssClass(pager.item.cssClass ? pager.item.cssClass() : '')
+    this.pan()
   }
 }
 

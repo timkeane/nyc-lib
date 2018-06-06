@@ -26,6 +26,12 @@ class ItemPager extends Container {
     options = options || {}
     $(options.target).append(this.getContainer())
     /**
+     * @desc The current item
+     * @public
+     * @member {Object}
+     */
+    this.item = null
+    /**
      * @private
      * @member {jQuery}
      */
@@ -61,6 +67,7 @@ class ItemPager extends Container {
    */
   show(items) {
     this.items = items
+    this.item = items[0]
     this.btns[items.length > 1 ? 'show' : 'hide']()
     this.current.data('current', 0).html(1)
     this.total.html(items.length)
@@ -78,7 +85,7 @@ class ItemPager extends Container {
     if (idx >= 0 && idx < this.items.length){
       this.current.data('current', idx).html(idx + 1);
       this.currentItem.html(nyc.html(this.items[idx]))
-      this.feature = this.items[idx]
+      this.item = this.items[idx]
       this.trigger('change', this)
     }
   }

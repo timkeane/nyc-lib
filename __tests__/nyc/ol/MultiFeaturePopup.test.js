@@ -61,7 +61,8 @@ test('constructor', () => {
   expect(popup.layers[1]).toBe(mockLayers[1])
   expect(popup.layers[1]['popup-id']).toBe(popup.getId())
 
-  popup.pager.trigger('change')
+  popup.pager.item = {}
+  popup.pager.trigger('change', popup.pager)
 
   expect(Popup.prototype.pan).toHaveBeenCalledTimes(1)
 })

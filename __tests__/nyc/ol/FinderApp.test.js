@@ -570,7 +570,7 @@ test('parentFomat', () => {
 
 describe('decorations', () => {
   test('decorations none supplied', () => {
-    expect.assertions(2)
+    expect.assertions(3)
 
     const finderApp = new FinderApp({
       title: 'Finder App',
@@ -585,12 +585,13 @@ describe('decorations', () => {
 
     const decorations = finderApp.decorations({}, {})
 
-    expect(decorations.length).toBe(1)
+    expect(decorations.length).toBe(2)
     expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
+    expect(decorations[1]).toEqual({finderApp: finderApp})
   })
 
   test('decorations supplied on parentFormat', () => {
-    expect.assertions(3)
+    expect.assertions(4)
 
     const finderApp = new FinderApp({
       title: 'Finder App',
@@ -610,13 +611,14 @@ describe('decorations', () => {
   }
     const decorations = finderApp.decorations({}, decoratedFormat)
 
-    expect(decorations.length).toBe(2)
+    expect(decorations.length).toBe(3)
     expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
-    expect(decorations[1]).toBe(decoratedFormat.parentFomat.decorations[0])
+    expect(decorations[1]).toEqual({finderApp: finderApp})
+    expect(decorations[2]).toBe(decoratedFormat.parentFomat.decorations[0])
   })
 
   test('decorations supplied on format', () => {
-    expect.assertions(3)
+    expect.assertions(4)
 
     const finderApp = new FinderApp({
       title: 'Finder App',
@@ -635,13 +637,14 @@ describe('decorations', () => {
 
     const decorations = finderApp.decorations({}, decoratedFormat)
 
-    expect(decorations.length).toBe(2)
+    expect(decorations.length).toBe(3)
     expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
-    expect(decorations[1]).toBe(decoratedFormat.decorations[0])
+    expect(decorations[1]).toEqual({finderApp: finderApp})
+    expect(decorations[2]).toBe(decoratedFormat.decorations[0])
   })
 
   test('decorations supplied on parentFormat', () => {
-    expect.assertions(3)
+    expect.assertions(4)
 
     const finderApp = new FinderApp({
       title: 'Finder App',
@@ -661,13 +664,14 @@ describe('decorations', () => {
   }
     const decorations = finderApp.decorations({}, decoratedFormat)
 
-    expect(decorations.length).toBe(2)
+    expect(decorations.length).toBe(3)
     expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
-    expect(decorations[1]).toBe(decoratedFormat.parentFomat.decorations[0])
+    expect(decorations[1]).toEqual({finderApp: finderApp})
+    expect(decorations[2]).toBe(decoratedFormat.parentFomat.decorations[0])
   })
 
   test('decorations supplied on options', () => {
-    expect.assertions(3)
+    expect.assertions(4)
 
     const finderApp = new FinderApp({
       title: 'Finder App',
@@ -686,13 +690,14 @@ describe('decorations', () => {
 
     const decorations = finderApp.decorations(options, {})
 
-    expect(decorations.length).toBe(2)
+    expect(decorations.length).toBe(3)
     expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
-    expect(decorations[1]).toBe(options.decorations[0])
+    expect(decorations[1]).toEqual({finderApp: finderApp})
+    expect(decorations[2]).toBe(options.decorations[0])
   })
 
   test('decorations supplied on all the things', () => {
-    expect.assertions(5)
+    expect.assertions(6)
 
     const finderApp = new FinderApp({
       title: 'Finder App',
@@ -717,11 +722,12 @@ describe('decorations', () => {
 
     const decorations = finderApp.decorations(options, decoratedFormat)
 
-    expect(decorations.length).toBe(4)
+    expect(decorations.length).toBe(5)
     expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
-    expect(decorations[1]).toBe(decoratedFormat.parentFomat.decorations[0])
-    expect(decorations[2]).toBe(decoratedFormat.decorations[0])
-    expect(decorations[3]).toBe(options.decorations[0])
+    expect(decorations[1]).toEqual({finderApp: finderApp})
+    expect(decorations[2]).toBe(decoratedFormat.parentFomat.decorations[0])
+    expect(decorations[3]).toBe(decoratedFormat.decorations[0])
+    expect(decorations[4]).toBe(options.decorations[0])
   })
 })
 
@@ -830,9 +836,9 @@ describe('handleButton', () => {
 })
 
 describe('FEATURE_DECORATIONS', () => {
-  let extendedDecorations = {}
+  let extendedDecorations
   beforeEach(() => {
-    extendedDecorations = {}
+    extendedDecorations = {finderApp: {expandDetail: jest.fn()}}
     $.extend(extendedDecorations, FinderApp.FEATURE_DECORATIONS, {
       getName() {
         return 'A Name'
@@ -1038,11 +1044,11 @@ describe('FEATURE_DECORATIONS', () => {
     const html = extendedDecorations.detailsCollapsible()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<div class="details"><div class="clps rad-all"><h3 class="btn rad-all" role="button"><button class="btn-rnd expd"><span class="screen-reader-only">show/hide</span></button>Details...</h3><div class="content rad-bot" style="display: none;"></div></div></div>'
+      '<div class="dtl"><div class="clps rad-all"><h3 class="btn rad-all" role="button"><button class="btn-rnd expd"><span class="screen-reader-only">show/hide</span></button>Details...</h3><div class="content rad-bot" style="display: none;"></div></div></div>'
     )
   })
 
-  test('detailsCollapsible no details', () => {
+  test('detailsCollapsible no dtl', () => {
     expect.assertions(1)
     extendedDecorations.detailsHtml = () => {}
     expect(extendedDecorations.detailsCollapsible()).toBe(undefined)
@@ -1053,7 +1059,7 @@ describe('FEATURE_DECORATIONS', () => {
     const html = extendedDecorations.html()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<div class="facility css-class"><h2 class="name notranslate">A Name</h2><div class="addr"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a><a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a><a class="btn rad-all map" role="button">Map</a><a class="btn rad-all dir" role="button">Directions</a><div class="details"><div class="clps rad-all"><h3 class="btn rad-all" role="button"><button class="btn-rnd expd"><span class="screen-reader-only">show/hide</span></button>Details...</h3><div class="content rad-bot" style="display: none;"></div></div></div></div>'
+      '<div class="facility css-class"><h2 class="name notranslate">A Name</h2><div class="addr"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a><a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a><a class="btn rad-all map" role="button">Map</a><a class="btn rad-all dir" role="button">Directions</a><div class="dtl"><div class="clps rad-all"><h3 class="btn rad-all" role="button"><button class="btn-rnd expd"><span class="screen-reader-only">show/hide</span></button>Details...</h3><div class="content rad-bot" style="display: none;"></div></div></div></div>'
     )
   })
 })

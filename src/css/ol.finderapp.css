@@ -90,7 +90,6 @@ html, body.fnd, .fnd #map {
   top: 35px;
   right: 400px;
   overflow: hidden;
-  border-top: 1px solid var(--color-border)
 }
 .fnd #filters .clps {
   margin-bottom: 5px;
@@ -110,12 +109,12 @@ html, body.fnd, .fnd #map {
   display: block;
   width: auto;
 }
-.fnd .details .btn {
+.fnd .dtl .btn {
   display: block;
   width: calc(100% - 5px);
   margin-bottom: 0;
 }
-.fnd .details .content {
+.fnd .dtl .content {
   width: calc(100% - 15px);
 }
 .lst-it .name, .pop .name {

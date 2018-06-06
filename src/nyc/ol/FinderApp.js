@@ -254,6 +254,14 @@ class FinderApp {
     return tabs
   }
   /**
+   * @access protected
+   * @method
+   * @param {Object} event
+   */
+  expandDetail(event) {
+    this.popup.pan()
+  }
+  /**
    * @desc Convert current user location into usalbe form for Google directions API
    * @private
    * @method
@@ -328,7 +336,7 @@ class FinderApp {
    * @return {Array<Object<string, fuction>>}
    */
   decorations(options, format) {
-    let decorations = [FinderApp.FEATURE_DECORATIONS]
+    let decorations = [FinderApp.FEATURE_DECORATIONS, {finderApp: this}]
     if (format.parentFomat && format.parentFomat.decorations) {
       decorations = decorations.concat(format.parentFomat.decorations)
     }
@@ -597,12 +605,14 @@ FinderApp.FEATURE_DECORATIONS = {
   detailsCollapsible() {
     const details = this.detailsHtml()
     if (details) {
-      return new Collapsible({
-        target: $('<div class="details"></div>'),
+      const collapsible = new Collapsible({
+        target: $('<div class="dtl"></div>'),
         title: this.detailButtonText || 'Details...',
         content: details,
         collapsed: true
-      }).getContainer()
+      })
+      collapsible.on('change', this.finderApp.expandDetail, this.finderApp)
+      return collapsible.getContainer()
     }
   }
 }

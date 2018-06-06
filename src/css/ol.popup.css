@@ -46,3 +46,25 @@
 	right: 3px;
 	z-index: 2;
 }
+.pop.fullscreen {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: calc(100% - 10px);
+	height: calc(100% - 10px);
+	padding: 5px;
+	background-color: var(--color-light);
+	border: none;
+	border-radius: 0;
+	z-index: 1000;
+	overflow: auto;
+}
+.pop.fullscreen .content {
+	width: unset;
+	max-width: unset;
+	max-height: unset;
+}
+.pop.fullscreen .btn {
+	margin: 5px 1.5px;
+}

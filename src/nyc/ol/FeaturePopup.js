@@ -64,7 +64,8 @@ class FeaturePopup extends Popup {
     coordinate = coordinate || olExtent.getCenter(feature.getGeometry().getExtent())
     this.show({
       coordinate: coordinate,
-      html: nyc.html(feature)
+      html: nyc.html(feature),
+      css: feature.cssClass ? feature.cssClass() : ''
     })
   }
   /**

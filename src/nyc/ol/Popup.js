@@ -62,10 +62,21 @@ class Popup extends OlOverlay {
     this.setPosition(options.coordinate)
     if (options.html) {
       this.content.html(options.html)
+      this.cssClass(options.css)
     }
     this.popup.fadeIn()
     $('.f-tip').fadeOut()
     this.pan()
+  }
+  /**
+   * @desc Add a css class to the popup content
+   * @public
+   * @method
+   * @param {string} css A css class
+   */
+  cssClass(css) {
+    this.content.get(0).className = 'content'
+    this.content.addClass(css)
   }
   /**
    * @desc Hide the popup
@@ -118,7 +129,31 @@ class Popup extends OlOverlay {
       } else if (fromBottom < 0) {
         px[1] -= fromBottom
       }
-      view.animate({center: this.map.getCoordinateFromPixel(px)})
+      if (!this.fullscreen()) {
+        view.animate({center: this.map.getCoordinateFromPixel(px)})
+      }
+    }
+  }
+  fullscreen() {
+    const map = $(this.map.getTargetElement())
+    const pop = $(this.getElement())
+    const content = this.content
+    const clone = content.clone()
+    if (pop.height() > map.height()) {
+      const fullscreen = $('<div class="pop fullscreen"></div>').append(content)
+      pop.append(clone)
+      const btn = $('<button class="btn-rnd btn-x"><span class="screen-reader-only">Close</span></button>')
+        .click(() => {
+          fullscreen.fadeOut(() => {
+            clone.remove()
+            content.find('.dtl').not('.btn').slideUp()
+            pop.append(content)
+            fullscreen.remove()
+          })
+        })
+      map.append(fullscreen.append(btn))
+      fullscreen.fadeIn()
+      return true
     }
   }
 }
@@ -128,7 +163,8 @@ class Popup extends OlOverlay {
  * @public
  * @typedef {Object}
  * @property {jQuery|Element|string} html The popup content
- * @property {ol.coordinate} html The popup location
+ * @property {ol.coordinate} coordinate The popup location
+ * @property {string=} css A css class
  */
 Popup.ShowOptions
 

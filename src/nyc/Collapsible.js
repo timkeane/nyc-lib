@@ -47,14 +47,16 @@ class Collapsible extends Container {
    */
   toggle() {
     const collapsed = this.content.css('display') === 'none'
-    const btn = this.btn
+    const me = this
     if (collapsed) {
       this.content.slideDown(() => {
-        btn.addClass('rad-top')
+        me.btn.addClass('rad-top')
+        me.trigger('change', me)
       })
     } else {
       this.content.slideUp(() => {
-        btn.removeClass('rad-top')
+        me.btn.removeClass('rad-top')
+        me.trigger('change', me)
       })
     }
     this.find('h3 button').toggleClass('expd')
