@@ -431,7 +431,7 @@ describe('adjustTabs', () => {
   })
 })
 
-test('resizeMap', () => {
+test('tabChange', () => {
   expect.assertions(2)
 
   const finderApp = new FinderApp({
@@ -448,7 +448,7 @@ test('resizeMap', () => {
   $('#map').width(500)
   $('#map').height(400)
 
-  finderApp.resizeMap()
+  finderApp.tabChange()
 
   expect(finderApp.map.setSize).toHaveBeenCalledTimes(2)
   expect(finderApp.map.setSize.mock.calls[1][0]).toEqual([500, 400])

@@ -9,3 +9,8 @@ jsdoc/
 .babelrc
 backlog.txt
 *.tgz
+*.yml
+postcss.config.js
+!etc/css/postcss.config.js
+webpack.config.js
+yarn.lock

@@ -50,9 +50,9 @@ class Tabs extends Container {
       .removeClass('active')
       .attr('aria-selected', false)
     tab.addClass('active')
-      .attr('aria-hidden', true)
+      .attr('aria-hidden', false)
     tab.data('btn').addClass('active')
-      .attr('aria-selected', true)
+      .attr('aria-selected', false)
     this.active = tab
     this.trigger('change', this)
   }

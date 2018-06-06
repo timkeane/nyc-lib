@@ -249,7 +249,7 @@ class FinderApp {
       pages.push({tab: '#filters', title: options.filterTabTitle || 'Filters'})
     }
     const tabs = new Tabs({target: '#tabs', tabs: pages})
-    tabs.on('change', this.resizeMap, this)
+    tabs.on('change', this.tabChange, this)
     $(window).resize($.proxy(this.adjustTabs, this))
     return tabs
   }
@@ -304,19 +304,28 @@ class FinderApp {
   /**
    * @private
    * @method
+   * @returns {boolean}
    */
-  adjustTabs() {  
-    if (Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1) {
-      this.tabs.open('#map')
-    } else {
-      this.tabs.open('#facilities')
-    }
+  tabsFillScreen() {
+    return Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1
   }
   /**
    * @private
    * @method
    */
-  resizeMap() {
+  adjustTabs() {  
+    this.tabs.open(this.tabsFillScreen() ? '#map' : '#facilities')
+  }
+  /**
+   * @access protected
+   * @method
+   * @param {module:nyc/Tabs~Tabs}
+   */
+  tabChange(tabs) {
+    if (!this.tabsFillScreen()) {
+      console.warn('NOT FULL SCREEN');
+      $('#map').attr('aria-hidden', false)
+    }
     this.map.setSize([$('#map').width(), $('#map').height()])
   }
   /**

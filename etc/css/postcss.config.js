@@ -1,5 +1,5 @@
 module.exports = {
-  plugins: process.env.NODE_ENV === 'dev' ? [] : [
+  plugins: [
     require('postcss-import')({}),
     require('postcss-css-variables')({}),
     require('postcss-clean')({})
