@@ -323,7 +323,6 @@ class FinderApp {
    */
   tabChange(tabs) {
     if (!this.tabsFillScreen()) {
-      console.warn('NOT FULL SCREEN');
       $('#map').attr('aria-hidden', false)
     }
     this.map.setSize([$('#map').width(), $('#map').height()])
