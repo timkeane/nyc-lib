@@ -4,7 +4,7 @@
 
 import $ from 'jquery'
 
-import nyc from 'nyc/nyc'
+import nyc from 'nyc'
 import Collapsible from 'nyc/Collapsible'
 import Dialog from 'nyc/Dialog'
 import Share from 'nyc/Share'

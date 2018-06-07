@@ -2,7 +2,7 @@
  * @module nyc/Locator
  */
 
-import nyc from 'nyc/nyc'
+import nyc from 'nyc'
 import EventHandling from 'nyc/EventHandling'
 
 /**

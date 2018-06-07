@@ -1,10 +1,10 @@
 {
-  "name": "@timkeane/nyc-lib",
-  "version": "0.9.1-SNAPSHOT",
+  "name": "nyc-lib",
+  "version": "0.9.6-SNAPSHOT",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "test": "jest",
-    "prepack": "rm -rf ./dist && babel src/nyc -d ./dist/nyc && yarn jsdoc && yarn pack-css",
+    "prepack": "rm -rf ./dist && babel src/nyc -d ./dist/nyc && yarn jsdoc && yarn pack-css && yarn roll-css",
     "build": "webpack",
     "prebuild": "yarn test",
     "postbuild": "yarn jsdoc && yarn replace-hosts && yarn copy-examples && yarn css",
@@ -17,6 +17,7 @@
     "raw-css": "cp -r ./src/css/ ./dist/css/",
     "nyc-css": "postcss ./src/css/nyc-ol-lib.css --o ./dist/css/nyc-ol-lib.css --no-map --config postcss.config.js",
     "nyc-ol-css": "postcss ./src/css/nyc-lib.css --o ./dist/css/nyc-lib.css --no-map --config postcss.config.js",
+    "roll-css": "cp ./etc/css/*.* ./dist/css/",
     "copy-examples": "cp -r ./examples ./dist/examples",
     "replace-hosts": "bash -c 'if [ -f replace-hosts.sh ]; then ./replace-hosts.sh; fi'"
   },

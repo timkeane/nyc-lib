@@ -1,6 +1,6 @@
-import nyc from './nyc'
+import nyc from './nyc-index'
 
-import _nyc_ol from 'nyc/ol/ol'
+import _nyc_ol from 'nyc/ol'
 import _nyc_ol_Basemap from 'nyc/ol/Basemap'
 import _nyc_ol_FeaturePopup from 'nyc/ol/FeaturePopup'
 import _nyc_ol_FeatureTip from 'nyc/ol/FeatureTip'

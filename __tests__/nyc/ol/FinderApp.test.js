@@ -1,4 +1,4 @@
-import nyc from 'nyc/nyc'
+import nyc from 'nyc'
 
 import Dialog from '../../../src/nyc/Dialog'
 import Share from '../../../src/nyc/Share'

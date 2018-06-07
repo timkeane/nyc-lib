@@ -11,6 +11,6 @@ backlog.txt
 *.tgz
 *.yml
 postcss.config.js
-!etc/css/postcss.config.js
+!dist/css/postcss.config.js
 webpack.config.js
 yarn.lock

@@ -6,7 +6,7 @@ import $ from 'jquery'
 
 import olExtent from 'ol/extent'
 
-import nyc from 'nyc/nyc'
+import nyc from 'nyc'
 import Popup from 'nyc/ol/Popup'
 
 /**

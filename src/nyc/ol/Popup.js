@@ -6,7 +6,7 @@ import $ from 'jquery'
 
 import OlOverlay from 'ol/overlay'
 
-import nyc from 'nyc/nyc'
+import nyc from 'nyc'
 
 /**
  * @desc A class to display popups on a map

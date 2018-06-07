@@ -4,7 +4,7 @@ import OlGeomPoint from 'ol/geom/point'
 import OlGeomLineString from 'ol/geom/linestring'
 import OlProjProjection from 'ol/proj/projection'
 
-import nyc from 'nyc/nyc'
+import nyc from 'nyc'
 import AutoLoad from 'nyc/ol/source/AutoLoad'
 
 const FilterAndSort = require('nyc/ol/source/FilterAndSort').default

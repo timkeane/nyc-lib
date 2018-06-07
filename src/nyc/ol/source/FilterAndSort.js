@@ -7,7 +7,7 @@ import $ from 'jquery'
 import OlGeomLineString from 'ol/geom/linestring'
 import OlProjProjection from 'ol/proj/projection'
 
-import nyc from 'nyc/nyc'
+import nyc from 'nyc'
 import AutoLoad from 'nyc/ol/source/AutoLoad'
 
 /**

@@ -1,5 +1,5 @@
 
-import leaf from 'nyc/leaf/leaf'
+import leaf from 'nyc/leaf'
 
 test('leaf', () => {
   expect.assertions(1)

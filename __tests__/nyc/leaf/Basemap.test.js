@@ -1,6 +1,6 @@
 import $ from 'jquery'
 
-import nyc from 'nyc/nyc'
+import nyc from 'nyc'
 import BasemapHelper from 'nyc/BasemapHelper'
 import Basemap from 'nyc/leaf/Basemap'
 import LocalStorage from 'nyc/leaf/LocalStorage'

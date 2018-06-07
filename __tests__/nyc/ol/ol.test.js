@@ -1,4 +1,4 @@
-import ol from 'nyc/ol/ol'
+import ol from 'nyc/ol'
 
 import olTilegrid from 'ol/tilegrid'
 

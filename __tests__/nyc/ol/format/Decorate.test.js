@@ -1,6 +1,6 @@
 import proj4 from 'proj4'
 
-import nyc from 'nyc/nyc'
+import nyc from 'nyc'
 
 import OlFeature from 'ol/feature'
 import OlGeomPoint from 'ol/geom/point'

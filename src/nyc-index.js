@@ -1,6 +1,6 @@
 import $ from 'jquery'
 
-import _nyc from 'nyc/nyc'
+import _nyc from 'nyc'
 import _nyc_AutoComplete from 'nyc/AutoComplete'
 import _nyc_BasemapHelper from 'nyc/BasemapHelper'
 import _nyc_Choice from 'nyc/Choice'
@@ -44,7 +44,7 @@ window.nyc.Slider = _nyc_Slider
 window.nyc.Tabs = _nyc_Tabs
 window.nyc.ZoomSearch = _nyc_ZoomSearch
 
-import _nyc_lang from 'nyc/lang/lang'
+import _nyc_lang from 'nyc/lang'
 import _nyc_lang_Translate from 'nyc/lang/Translate'
 import _nyc_lang_Goog from 'nyc/lang/Goog'
 
@@ -52,7 +52,7 @@ window.nyc.lang = _nyc_lang
 window.nyc.lang.Translate = _nyc_lang_Translate
 window.nyc.lang.Goog = _nyc_lang_Goog
 
-import _nyc_mta from 'nyc/mta/mta'
+import _nyc_mta from 'nyc/mta'
 import _nyc_mta_TripPlanHack from 'nyc/mta/TripPlanHack'
 
 window.nyc.mta = _nyc_mta

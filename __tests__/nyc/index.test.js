@@ -1,4 +1,4 @@
-import nyc from 'nyc/nyc'
+import nyc from 'nyc'
 
 beforeEach(() => {
   $.resetMocks()

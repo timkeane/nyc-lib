@@ -1,6 +1,6 @@
 import proj4 from 'proj4'
 
-import nyc from 'nyc/nyc'
+import nyc from 'nyc'
 import Basemap from 'nyc/ol/Basemap'
 import LocalStorage from 'nyc/ol/LocalStorage'
 import BasemapHelper from 'nyc/BasemapHelper'
