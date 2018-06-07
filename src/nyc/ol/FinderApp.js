@@ -245,6 +245,9 @@ class FinderApp {
       {tab: '#map', title: 'Map'},
       {tab: '#facilities', title: options.facilityTabTitle || 'Facilities'}
     ]
+    if (options.splashOptions) {
+      $('#tabs').attr('aria-hidden', true)
+    }
     if (this.filters) {
       pages.push({tab: '#filters', title: options.filterTabTitle || 'Filters'})
     }
@@ -294,6 +297,7 @@ class FinderApp {
     if (options) {
       options.buttonText = options.buttonText || ['Continue...']
       new Dialog('splash').ok(options).then(() => {
+        $('#tabs').attr('aria-hidden', false)
         input.focus()
       })
       $('.splash .dia-msg').attr('tabindex', 0).focus()
