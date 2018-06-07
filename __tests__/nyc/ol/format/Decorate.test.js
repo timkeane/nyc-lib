@@ -176,3 +176,25 @@ test('getType', () => {
 
   expect(decorating.getType()).toBe(parentFormat.getType())
 })
+
+test('readProjection', () => {
+  expect.assertions(1)
+
+  const decorating = new Decorate({
+    parentFormat: parentFormat,
+    decorations: featureDecorations
+  })
+
+  expect(decorating.readProjection('anything')).toBe(decorating.parentFormat.defaultDataProjection)
+})
+
+test('getLastExtent', () => {
+  expect.assertions(1)
+
+  const decorating = new Decorate({
+    parentFormat: parentFormat,
+    decorations: featureDecorations
+  })
+
+  expect(decorating.getLastExtent()).toBeNull()
+})

@@ -328,3 +328,16 @@ test('loading/loaded', () => {
   expect($.mocks.fadeOut.mock.instances[0].get(0)).toBe(body.children().get(0))
   expect(body.children().first().css('display')).toBe('none')
 })
+
+test('cacheBust', () => {
+  expect.assertions(1)
+
+  const minutes = 10
+
+  expect(nyc.cacheBust(minutes)).toBe(
+    (() => {
+      const offset = 1000 * 60 *  minutes;
+      return Math.round(new Date().getTime() / offset) * offset;    
+    })()
+  )
+})

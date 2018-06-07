@@ -148,4 +148,26 @@ describe('hookupEvents called from constructor', () => {
     expect(console.error.mock.calls[0][0]).toBe('Invalid coordinate [123, NaN] for id 0')
     expect(console.error.mock.calls[0][1]).toBe(source[0])
   })
+
+  test('readProjection', () => {
+    expect.assertions(1)
+
+    const csvpoint = new CsvPoint({
+      x: 'x',
+      y: 'y'
+    })
+    
+    expect(csvpoint.readProjection('anything')).toBe(csvpoint.defaultDataProjection)
+  })
+
+  test('getLastExtent', () => {
+    expect.assertions(1)
+
+    const csvpoint = new CsvPoint({
+      x: 'x',
+      y: 'y'
+    })
+
+    expect(csvpoint.getLastExtent()).toBeNull()
+  })
 })
