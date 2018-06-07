@@ -1,6 +1,7 @@
 .chc {
 	border: 1px solid var(--color-border);
 	display: table;
+	width: 100%;
 }
 .chc-chc {
 	display: table-row;
