@@ -3,7 +3,7 @@ rm -rf $DIR/tmp
 rm -rf $DIR/build
 mkdir $DIR/tmp
 mkdir $DIR/build
-cp $DIR/../../src/css/* $DIR/tmp/
+cp $DIR/*.css $DIR/tmp/
 cp $1 $DIR/tmp/
 cp $2 $DIR/tmp/
 theme=$(basename $1)

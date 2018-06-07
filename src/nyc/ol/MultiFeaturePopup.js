@@ -44,6 +44,16 @@ class MultiFeaturePopup extends FeaturePopup {
   /**
    * @desc Show the popup
    * @public
+   * @override
+   * @method
+   * @param {ol.Feature} feature The feature
+   */
+  showFeature(feature) {
+    this.showFeatures([feature])
+  }
+  /**
+   * @desc Show the popup
+   * @public
    * @method
    * @param {Array<ol.Feature>} features The features
    */
