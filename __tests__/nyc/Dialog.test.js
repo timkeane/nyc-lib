@@ -46,13 +46,13 @@ test('ok check buttons', () => {
         expect(dialog.find('.btn-submit').css('display')).toBe('none')
         expect(dialog.find('.btn-cancel').css('display')).toBe('none')
         expect(dialog.field.css('display')).toBe('none')
-        expect(dialog.msg.html()).toBe('a message')
+        expect(dialog.msg.html()).toBe('<div>a message</div>')
         resolve(true)
       }, 500)
     })
   }
 
-  dialog.ok({message: 'a message'})
+  dialog.ok({message: '<div>a message</div>'})
 
   return test().then(result => expect(result).toBe(true))
 })

@@ -1,10 +1,12 @@
 import $ from 'jquery'
+import { SubjectSubscriber } from 'rxjs/Subject';
 
 $.originalFunctions = {
   width: $.fn.width,
   height: $.fn.height,
   proxy: $.proxy,
-  ajax: $.ajax
+  ajax: $.ajax,
+  getScript: $.getScript
 }
 
 $.resetMocks = () => {
@@ -72,6 +74,8 @@ $.resetMocks = () => {
     }
   })
 
+  $.fn.select = jest.fn()
+  
   $.proxy = jest.fn()
   $.proxy.returnedValues = []
   $.proxy.mockImplementation((fn, scope) => {
@@ -90,6 +94,18 @@ $.resetMocks = () => {
     }
   })
 
+  $.getScript = jest.fn()
+  $.getScript.result = {text: '', status: 200, xhr: {}}
+  $.getScript.mockImplementation((url, success) => {
+    const idx = url.indexOf('callback')
+    if (idx > -1) {
+      let cb = url.substr(idx).split('=')[1]
+      cb = cb.split('&')[0]
+      eval(`${cb}()`)
+    }
+    if (success) success($.getScript.result.text, $.getScript.result.status, $.getScript.result.xhr)
+  })
+
   $.mocks = {
     slideDown: $.fn.slideDown,
     slideUp: $.fn.slideUp,
@@ -100,8 +116,10 @@ $.resetMocks = () => {
     resize: $.fn.resize,
     width: $.fn.width,
     height: $.fn.height,
+    select: $.fn.select,
     proxy: $.proxy,
-    ajax: $.ajax
+    ajax: $.ajax,
+    getScript: $.getScript
   }
 }
 

@@ -5,6 +5,7 @@
 import $ from 'jquery'
 
 import Contanier from 'nyc/Container'
+import Dialog from 'nyc/Dialog'
 import Tabs from 'nyc/Tabs'
 
 import TripPlanHack from 'nyc/mta/TripPlanHack'
@@ -29,11 +30,6 @@ class Directions extends Contanier {
 		global.directions = this
 		this.append(Directions.HTML)
     /**
-     * @public
-     * @member {google.maps.Map}
-     */
-    this.map = null
-    /**
      * @private
      * @member {module:nyc/Tabs~Tabs}
      */
@@ -44,8 +40,12 @@ class Directions extends Contanier {
         {tab: '#route-tab', title: 'Directions'}
       ]
 		})
-		$()
     $(window).resize($.proxy(this.adjustTabs, this))
+	  /**
+     * @public
+     * @member {google.maps.Map}
+     */
+    this.map = null
     /**
      * @private
      * @member {google.maps.DirectionsService}
@@ -70,7 +70,7 @@ class Directions extends Contanier {
      * @private
      * @member {string}
      */
-    this.url = (url || Directions.GOOGLE_URL) + '&callback=directions.init'
+    this.url = `${(url || Directions.GOOGLE_URL)}&callback=directions.init`
     /**
      * @private
      * @member {jQuery.Event}
@@ -104,10 +104,7 @@ class Directions extends Contanier {
 		this.args = args
 		this.adjustTabs()
 		if (!this.map) {
-			setTimeout(function() {
-				$.getScript(url)
-			}, 200)
-			return
+			return $.getScript(url)
 		}
 		args.from = args.from || $('#fld-from input').val()
 		$('#fld-from input').val(args.from)
@@ -148,6 +145,9 @@ class Directions extends Contanier {
 			$('#fld-to').html(addrB)
 		} else {
 			$(this.routeTarget).empty()
+			new Dialog().ok({
+				message: `Could not determine directions from '${this.args.from}' to '${this.args.to}'`
+			})
 		}
 		this.trigger('change', {response: response, status: status})
 	}
@@ -178,7 +178,8 @@ class Directions extends Contanier {
    */
   adjustTabs() {  
 		const fullscreen = Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1
-		if (this.args.origin.coordinate && fullscreen) {
+		const args = this.args || {origin: {}}
+		if (args.origin.coordinate && fullscreen) {
       this.tabs.open('#map-tab')
     } else {
       this.tabs.open('#route-tab')
@@ -190,7 +191,7 @@ class Directions extends Contanier {
 	 * @param {jQuery.Event} event
 	 */
 	zoom(event) {
-		const z = this.map.getZoom() || 0
+		const z = this.map.getZoom()
 		this.map.setZoom(z + ($(event.target).data('zoom-incr') * 1))
 	}
 	/**
