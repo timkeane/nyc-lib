@@ -4,6 +4,7 @@
 
 import $ from 'jquery'
 import Container from 'nyc/Container'
+import { ENETUNREACH } from 'constants';
 
 /**
  * @desc Class for creating collapsible containers
@@ -37,7 +38,10 @@ class Collapsible extends Container {
     if (options.collapsed) {
       this.content.hide()
       this.btn.removeClass('rad-top')
-      this.find('h3 button').addClass('expd')
+      this.find('h3 button').attr('aria-collapsed', true)
+        .addClass('expd')
+    } else {
+      this.find('h3 button').attr('aria-collapsed', false)
     }
   }
   /**
@@ -47,6 +51,7 @@ class Collapsible extends Container {
    */
   toggle() {
     const collapsed = this.content.css('display') === 'none'
+    const btn = this.find('h3 button')
     const me = this
     if (collapsed) {
       this.content.slideDown(() => {
@@ -59,7 +64,8 @@ class Collapsible extends Container {
         me.trigger('change', me)
       })
     }
-    this.find('h3 button').toggleClass('expd')
+    btn.toggleClass('expd')
+      .attr('aria-collapsed', btn.hasClass('expd'))
   }
 }
 

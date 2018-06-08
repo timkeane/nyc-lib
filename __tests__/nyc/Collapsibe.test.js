@@ -15,6 +15,8 @@ afterEach(() => {
 })
 
 test('constructor expanded', () => {
+  expect.assertions(11)
+
   const collapsible = new Collapsible({
     target: target,
     title: 'Collapsible Title',
@@ -31,10 +33,13 @@ test('constructor expanded', () => {
   expect(collapsible.content.get(0)).toBe(collapsible.find('.content').get(0))
   expect(collapsible.content.css('display')).toBe('block')
   expect(collapsible.find('h3 button').hasClass('expd')).toBe(false)
+  expect(collapsible.find('h3 button').attr('aria-collapsed')).toBe('false')
   expect(collapsible.find('h3:contains("Collapsible Title")').get(0)).toBe(collapsible.btn.get(0))
 })
 
 test('constructor collapsed', () => {
+  expect.assertions(11)
+
   const collapsible = new Collapsible({
     target: target,
     title: 'Collapsible Title',
@@ -52,10 +57,13 @@ test('constructor collapsed', () => {
   expect(collapsible.content.get(0)).toBe(collapsible.find('.content').get(0))
   expect(collapsible.content.css('display')).toBe('none')
   expect(collapsible.find('h3 button').hasClass('expd')).toBe(true)
+  expect(collapsible.find('h3 button').attr('aria-collapsed')).toBe('true')
   expect(collapsible.find('h3:contains("Collapsible Title")').get(0)).toBe(collapsible.btn.get(0))
 })
 
 test('toggle', () => {
+  expect.assertions(13)
+
   const collapsible = new Collapsible({
     target: target,
     title: 'Collapsible Title',
@@ -63,6 +71,7 @@ test('toggle', () => {
   })
 
   expect(collapsible.find('h3 button').hasClass('expd')).toBe(false)
+  expect(collapsible.find('h3 button').attr('aria-collapsed')).toBe('false')
   expect(collapsible.content.css('display')).toBe('block')
 
   collapsible.toggle()
@@ -70,6 +79,7 @@ test('toggle', () => {
   expect($.mocks.slideUp).toHaveBeenCalledTimes(1)
   expect($.mocks.slideUp.mock.instances[0].get(0)).toBe(collapsible.content.get(0))
   expect(collapsible.find('h3 button').hasClass('expd')).toBe(true)
+  expect(collapsible.find('h3 button').attr('aria-collapsed')).toBe('true')
   expect(collapsible.content.css('display')).toBe('none')
 
   collapsible.toggle()
@@ -77,5 +87,6 @@ test('toggle', () => {
   expect($.mocks.slideDown).toHaveBeenCalledTimes(1)
   expect($.mocks.slideDown.mock.instances[0].get(0)).toBe(collapsible.content.get(0))
   expect(collapsible.find('h3 button').hasClass('expd')).toBe(false)
+  expect(collapsible.find('h3 button').attr('aria-collapsed')).toBe('false')
   expect(collapsible.content.css('display')).toBe('block')
 })
