@@ -57,7 +57,7 @@ class ZoomSearch extends NycZoomSearch {
 	featureAsLocation(feature, options) {
 		const geom = feature.getGeometry()
 		return {
-			name: feature.getName ? feature.getName() : feature.get(options.nameField),
+			name: options.nameField ? feature.get(options.nameField) : feature.getName(),
 			coordinate: olExtent.getCenter(geom.getExtent()),
 			geometry: JSON.parse(this.geoJson.writeGeometry(geom)),
 			data: feature.getProperties(),

@@ -51,6 +51,11 @@ class FinderApp {
      */
     this.pager = new ListPager({target: '#facilities'})
     /**
+     * @private
+     * @member {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions}
+     */
+    this.facilitySearchOptions = options.facilitySearchOptions
+    /**
      * @public
      * @member {ol.Map}
      */
