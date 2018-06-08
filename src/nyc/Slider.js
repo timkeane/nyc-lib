@@ -40,7 +40,7 @@ class Slider extends Container {
       .attr('value', this.text.val())
       .change($.proxy(this.change, this))
     units = units ? $(`<span>${units}</span>`) : undefined
-      this.append(label)
+    this.append(label)
       .append(this.text)
       .append(units)
       .append(this.range)
@@ -53,7 +53,7 @@ class Slider extends Container {
    */
   val(value) {
     if (typeof value === 'undefined') {
-      return this.range.val()
+      return this.range.val() * 1
     }
     this.range.val(value)
     this.change()
