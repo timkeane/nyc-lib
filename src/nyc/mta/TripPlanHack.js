@@ -2,6 +2,8 @@
  * @module nyc/mta/TripPlanHack
  */
 
+import nyc from 'nyc'
+
 /**
  * @desc Class to hack calls to MTA TripPlanner
  * @public
@@ -21,7 +23,8 @@ class TripPlanHack {
       rand: this.randomParamCopiedFromMtaCode()
     }
     const qstr = $.param(args)
-    window.open().document.write(TripPlanHack.JUMP_PAGE.replace(/%QSTR%/, qstr))
+    this.window = window.open()
+    this.window.document.write(TripPlanHack.JUMP_PAGE.replace(/%QSTR%/, qstr))
   }
   /**
    * @private
@@ -223,7 +226,7 @@ TripPlanHack.JUMP_PAGE = '<!DOCTYPE html>' +
   '<div id="container">' +
     '<button onclick="redirect();">Click to be redirected to the MTA TripPlanner</button>' +
     '<h1 id="msg" onclick="redirect();">Redirecting to the MTA TripPlanner<br>&bull;</h1>' +
-    '<h2>Depending on your browser settings you may be required to reenter your trip information</h2>' +
+    '<h2>Depending on your browser settings you may be required&nbsp;to&nbsp;reenter your trip information</h2>' +
   '</div>' +
   '<script>' +
     'var REQUEST_URL = "http://tripplanner.mta.info/MyTrip/handler/customplannerHandler.ashx?";' +
