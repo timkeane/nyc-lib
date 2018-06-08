@@ -36,6 +36,6 @@
   display: block;
 }
 .tabs .container .tab:focus {
-  outline: none;
+  outline-color: transparent;
   box-shadow: none;
 }

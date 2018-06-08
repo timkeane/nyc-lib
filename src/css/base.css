@@ -4,7 +4,7 @@ html, body, body * {
 	color: var(--color-dark);
 }
 *:focus {
-	outline: none;
+	outline-color: transparent;
 	box-shadow: 0px 1px 7px 3px var(--color-shadow);
 	z-index: 100000;
 }
@@ -84,7 +84,7 @@ a.btn, h3.btn, div.btn {
 	border: none;
 }
 .btn-rnd:focus {
-	outline: none;
+	outline-color: transparent;
 }
 .btn-x {
 	background-image: var(--x-icon-light);

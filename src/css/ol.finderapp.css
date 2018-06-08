@@ -41,7 +41,7 @@ html, body.fnd, .fnd #map {
   text-align: left;
 }
 .fnd .splash .dia-msg:focus {
-  outline: none;
+  outline-color: transparent;
 }
 .fnd .splash .dia .btn-ok {
   width: 100px;
