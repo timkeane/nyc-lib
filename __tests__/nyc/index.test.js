@@ -341,3 +341,39 @@ test('cacheBust', () => {
     })()
   )
 })
+
+describe('activeElement', () => {
+  beforeEach(() => {
+    $('body').empty()
+    $('body').append('<div tabindex="0"></div><input>')
+  })
+  afterEach(() => {
+    $('body').empty()
+  })
+
+  test('activeElement is not text input', () => {
+    expect.assertions(4)
+    
+    $('div').focus()
+
+    const activeElement = nyc.activeElement()
+
+    expect($('body').find('div').length).toBe(1)
+    expect($('body').find('input').length).toBe(1)
+    expect(activeElement.activeElement).toBe($('body').find('div').get(0))
+    expect(activeElement.isTextInput).toBe(false)
+  })
+
+  test('activeElement is text input', () => {
+    expect.assertions(4)
+    
+    $('input').focus()
+
+    const activeElement = nyc.activeElement()
+
+    expect($('body').find('div').length).toBe(1)
+    expect($('body').find('input').length).toBe(1)
+    expect(activeElement.activeElement).toBe($('body').find('input').get(0))
+    expect(activeElement.isTextInput).toBe(true)
+  })
+})

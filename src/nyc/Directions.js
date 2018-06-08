@@ -4,6 +4,7 @@
 
 import $ from 'jquery'
 
+import nyc from 'nyc'
 import Contanier from 'nyc/Container'
 import Dialog from 'nyc/Dialog'
 import Tabs from 'nyc/Tabs'
@@ -177,13 +178,20 @@ class Directions extends Contanier {
    * @method
    */
   adjustTabs() {  
-		const fullscreen = Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1
-		const args = this.args || {origin: {}}
-		if (args.origin.coordinate && fullscreen) {
-      this.tabs.open('#map-tab')
-    } else {
-      this.tabs.open('#route-tab')
-    }
+		/* 
+		 * when input gets focus screen resizes on android 
+		 * causing input to lose focus when tabs are adjusted
+		 * so we don't adjust tabs when input has focus
+		 */
+    if (!nyc.activeElement().isTextInput) {
+			const fullscreen = Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1
+			const args = this.args || {origin: {}}
+			if (args.origin.coordinate && fullscreen) {
+				this.tabs.open('#map-tab')
+			} else {
+				this.tabs.open('#route-tab')
+			}
+		}
   }
 	/**
 	 * @private

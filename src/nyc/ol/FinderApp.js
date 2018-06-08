@@ -317,8 +317,15 @@ class FinderApp {
    * @private
    * @method
    */
-  adjustTabs() {  
-    this.tabs.open(this.tabsFillScreen() ? '#map' : '#facilities')
+  adjustTabs() {
+		/* 
+		 * when input gets focus screen resizes on android 
+		 * causing input to lose focus when tabs are adjusted
+		 * so we don't adjust tabs when input has focus
+		 */
+    if (!nyc.activeElement().isTextInput) {
+      this.tabs.open(this.tabsFillScreen() ? '#map' : '#facilities')
+    }
   }
   /**
    * @access protected

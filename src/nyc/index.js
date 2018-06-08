@@ -173,6 +173,20 @@ const nyc = {
 		return Math.round(new Date().getTime() / offset) * offset;
 	},
 	/**
+	 * @desc Returns an object describing the element that currently has focus
+	 * @public
+	 * @static
+	 * @function
+	 * @returns {Object} An object containing the element and a boolean indicating if it is a text input
+	 */
+	activeElement() {
+		const activeElement = document.activeElement
+		return {
+			activeElement: activeElement,
+			isTextInput: activeElement.tagName === 'INPUT' && activeElement.type === 'text'
+		}
+	},
+	/**
 	 * @private
 	 * @static
 	 * @member {Object<string, number>}
