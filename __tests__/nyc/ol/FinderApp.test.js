@@ -449,27 +449,60 @@ describe('adjustTabs', () => {
   })
 })
 
-test('tabChange', () => {
-  expect.assertions(2)
-
-  const finderApp = new FinderApp({
-    title: 'Finder App',
-    facilityTabTitle: 'Facility Title',
-    facilityUrl: 'http://facility',
-    facilityFormat: format,
-    facilityStyle: style,
-    filterTabTitle: 'Filter Title',
-    filterChoiceOptions: filterChoiceOptions,
-    geoclientUrl: 'http://geoclient'
+describe('tabChange', () => {
+  test('tabChange tabs do not fill screen', () => {
+    expect.assertions(3)
+  
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+  
+    $('#map').attr('aria-hidden', true)
+    finderApp.tabs.getContainer().width(400)
+    $(window).width(900)
+    $('#map').width(500)
+    $('#map').height(400)
+  
+    finderApp.tabChange()
+  
+    expect($('#map').attr('aria-hidden')).toBe('false')
+    expect(finderApp.map.setSize).toHaveBeenCalledTimes(2)
+    expect(finderApp.map.setSize.mock.calls[1][0]).toEqual([500, 400])
   })
 
-  $('#map').width(500)
-  $('#map').height(400)
-
-  finderApp.tabChange()
-
-  expect(finderApp.map.setSize).toHaveBeenCalledTimes(2)
-  expect(finderApp.map.setSize.mock.calls[1][0]).toEqual([500, 400])
+  test('tabChange tabs do fill screen', () => {
+    expect.assertions(3)
+  
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+  
+    $('#map').attr('aria-hidden', true)
+    finderApp.tabs.getContainer().width(500)
+    $(window).width(500)
+    $('#map').width(500)
+    $('#map').height(400)
+  
+    finderApp.tabChange()
+  
+    expect($('#map').attr('aria-hidden')).toBe('true')
+    expect(finderApp.map.setSize).toHaveBeenCalledTimes(2)
+    expect(finderApp.map.setSize.mock.calls[1][0]).toEqual([500, 400])
+  })
 })
 
 test('located', () => {
