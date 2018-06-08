@@ -2,17 +2,18 @@ import Directions from 'nyc/Directions'
 import Contanier from 'nyc/Container'
 import Tabs from 'nyc/Tabs'
 import Dialog from '../../src/nyc/Dialog'
-
-import TripPlanHack from 'nyc/mta/TripPlanHack'
+import TripPlanHack from '../../src/nyc/mta/TripPlanHack'
 
 import googleMock from '../google.mock'
 
 jest.mock('../../src/nyc/Dialog')
+jest.mock('../../src/nyc/mta/TripPlanHack')
 
 beforeEach(() => {
   $.resetMocks()
   googleMock.resetMocks()
   Dialog.mockClear()
+  TripPlanHack.mockClear()
 })
 afterEach(() => {
   $('body').empty()
@@ -453,4 +454,85 @@ test('zoom', () => {
   expect(dir.map.getZoom).toHaveBeenCalledTimes(2)
   expect(dir.map.setZoom).toHaveBeenCalledTimes(2)
   expect(dir.map.setZoom.mock.calls[1][0]).toBe(9)
+})
+
+test('mode', () => {
+  expect.assertions(28)
+
+  const dir = new Directions()
+  
+  dir.directions =jest.fn()
+
+  expect($('#transit').hasClass('active')).toBe(true)
+  expect($('#bike').hasClass('active')).toBe(false)
+  expect($('#walk').hasClass('active')).toBe(false)
+  expect($('#car').hasClass('active')).toBe(false)
+
+  dir.mode({target: dir.find('#bike').get(0)})
+
+  expect($('#transit').hasClass('active')).toBe(false)
+  expect($('#bike').hasClass('active')).toBe(true)
+  expect($('#walk').hasClass('active')).toBe(false)
+  expect($('#car').hasClass('active')).toBe(false)
+  expect(dir.directions).toHaveBeenCalledTimes(1)
+  expect(dir.directions.mock.calls[0][0].mode).toBe('BICYCLING')
+
+  dir.mode({target: dir.find('#walk').get(0)})
+
+  expect($('#transit').hasClass('active')).toBe(false)
+  expect($('#bike').hasClass('active')).toBe(false)
+  expect($('#walk').hasClass('active')).toBe(true)
+  expect($('#car').hasClass('active')).toBe(false)
+  expect(dir.directions).toHaveBeenCalledTimes(2)
+  expect(dir.directions.mock.calls[0][0].mode).toBe('WALKING')
+
+  dir.mode({target: dir.find('#car').get(0)})
+
+  expect($('#transit').hasClass('active')).toBe(false)
+  expect($('#bike').hasClass('active')).toBe(false)
+  expect($('#walk').hasClass('active')).toBe(false)
+  expect($('#car').hasClass('active')).toBe(true)
+  expect(dir.directions).toHaveBeenCalledTimes(3)
+  expect(dir.directions.mock.calls[0][0].mode).toBe('DRIVING')
+
+  dir.mode({target: dir.find('#transit').get(0)})
+
+  expect($('#transit').hasClass('active')).toBe(true)
+  expect($('#bike').hasClass('active')).toBe(false)
+  expect($('#walk').hasClass('active')).toBe(false)
+  expect($('#car').hasClass('active')).toBe(false)
+  expect(dir.directions).toHaveBeenCalledTimes(4)
+  expect(dir.directions.mock.calls[0][0].mode).toBe('TRANSIT')
+})
+
+test('key', () => {
+  expect.assertions(4)
+
+  const dir = new Directions()
+  dir.args = {from: null}
+
+  dir.directions =jest.fn()
+  $('#fld-from input').val('from addr')
+
+  dir.key({keyCode: 39})
+  expect(dir.args.from).toBeNull()
+
+  dir.key({keyCode: 13})
+  expect(dir.args.from).toBe('from addr')
+  expect(dir.directions).toHaveBeenCalledTimes(1)
+  expect(dir.directions.mock.calls[0][0]).toBe(dir.args)
+})
+
+test('tripPlanHack', () => {
+  expect.assertions(4)
+
+  const dir = new Directions()
+  dir.args = {}
+
+  dir.tripPlanHack()
+
+  expect(dir.args.accessible).toBe(true)
+  expect(TripPlanHack).toHaveBeenCalledTimes(1)
+  expect(TripPlanHack.mock.instances[0].directions).toHaveBeenCalledTimes(1)
+  expect(TripPlanHack.mock.instances[0].directions.mock.calls[0][0]).toBe(dir.args)
 })
