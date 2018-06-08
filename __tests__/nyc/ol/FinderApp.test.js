@@ -298,7 +298,7 @@ test('directionsTo without from', () => {
 })
 
 test('showSplash', () => {
-  expect.assertions(4)
+  expect.assertions(7)
   
   const finderApp = new FinderApp({
     title: 'Finder App',
@@ -309,7 +309,18 @@ test('showSplash', () => {
     geoclientUrl: 'http://geoclient'
   })
 
+  finderApp.locationMgr.zoomSearch.input.focus.mockReset()
   $('#tabs').attr('aria-hidden', true)
+
+  const test = async () => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        expect($('#tabs').attr('aria-hidden')).toBe('false')
+        expect(finderApp.locationMgr.zoomSearch.input.focus).toHaveBeenCalledTimes(1)
+        resolve(true)
+      }, 500)
+    })
+  }
 
   finderApp.showSplash({message: 'splash page message'})
   
@@ -317,7 +328,8 @@ test('showSplash', () => {
   expect(Dialog.mock.calls[0][0]).toBe('splash')
   expect(Dialog.mock.instances[0].ok.mock.calls[0][0].message).toBe('splash page message')
   expect(Dialog.mock.instances[0].ok.mock.calls[0][0].buttonText[0]).toBe('Continue...')
-  // expect($('#tabs').attr('aria-hidden')).toBe('false')
+  
+  return test().then(success => {expect(success).toBe(true)})
 })
 
 describe('createTabs', () => {
