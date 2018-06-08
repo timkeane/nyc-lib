@@ -309,17 +309,20 @@ test('showSplash', () => {
     geoclientUrl: 'http://geoclient'
   })
 
-  finderApp.showSplash({message: 'splash page message'})
+  $('#tabs').attr('aria-hidden', true)
 
+  finderApp.showSplash({message: 'splash page message'})
+  
   expect(Dialog).toHaveBeenCalledTimes(1)
   expect(Dialog.mock.calls[0][0]).toBe('splash')
   expect(Dialog.mock.instances[0].ok.mock.calls[0][0].message).toBe('splash page message')
   expect(Dialog.mock.instances[0].ok.mock.calls[0][0].buttonText[0]).toBe('Continue...')
+  // expect($('#tabs').attr('aria-hidden')).toBe('false')
 })
 
 describe('createTabs', () => {
-  test('createTabs called from constructor no filters tiles provided', () => {
-    expect.assertions(12)
+  test('createTabs called from constructor no filters titles provided no splash', () => {
+    expect.assertions(13)
 
     const finderApp = new FinderApp({
       title: 'Finder App',
@@ -331,6 +334,7 @@ describe('createTabs', () => {
     })
 
     expect(finderApp.tabs instanceof Tabs).toBe(true)
+    expect($('#tabs').attr('aria-hidden')).toBe(undefined)
     expect(finderApp.tabs.tabs.children().length).toBe(2)
     expect(finderApp.tabs.tabs.find('#map').length).toBe(1)
     expect(finderApp.tabs.tabs.find('#map').data('btn').html()).toBe('<span class="screen-reader-only">show </span>Map')
@@ -348,8 +352,8 @@ describe('createTabs', () => {
     expect($.mocks.resize.mock.calls[0][0]).toBe($.mocks.proxy.returnedValues[lastCall])
   })
 
-  test('createTabs called from constructor has filters tiles not provided', () => {
-    expect.assertions(14)
+  test('createTabs called from constructor has filters titles not provided has splash', () => {
+    expect.assertions(15)
 
     const finderApp = new FinderApp({
       title: 'Finder App',
@@ -357,10 +361,12 @@ describe('createTabs', () => {
       facilityFormat: format,
       facilityStyle: style,
       filterChoiceOptions: filterChoiceOptions,
-      geoclientUrl: 'http://geoclient'
+      geoclientUrl: 'http://geoclient',
+      splashOptions: {}
     })
 
     expect(finderApp.tabs instanceof Tabs).toBe(true)
+    expect($('#tabs').attr('aria-hidden')).toBe('true')
     expect(finderApp.tabs.tabs.children().length).toBe(3)
     expect(finderApp.tabs.tabs.find('#map').length).toBe(1)
     expect(finderApp.tabs.tabs.find('#map').data('btn').html()).toBe('<span class="screen-reader-only">show </span>Map')
