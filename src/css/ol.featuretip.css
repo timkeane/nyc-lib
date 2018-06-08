@@ -7,4 +7,5 @@
 	text-align: center;
 	background-color: var(--color-light-translucent);
 	box-shadow: var(--box-shadow);
+	margin: 2px !important; /* without this margin map clicks may get blocked by the feature tip */
 }
