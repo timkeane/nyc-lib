@@ -216,7 +216,7 @@ describe('pan', () => {
 
     popup.pan()
 
-    popup.popup.hide()
+    popup.fullscreen = () => {return true}
 
     popup.pan()
   })
@@ -251,5 +251,37 @@ describe('pan', () => {
     popup.popup.hide()
 
     popup.pan()
+  })
+})
+
+describe('fullscreen', () => {
+  test('is fullscreen', () => {
+    expect.assertions(5)
+    
+    const popup = new Popup({map: map})
+
+    $(map.getTargetElement()).data('height', 500)
+    $(popup.getElement()).data('height', 510)
+
+    
+    expect(popup.fullscreen()).toBe(true)
+    expect($(map.getTargetElement()).children().last().hasClass('fullscreen')).toBe(true)
+    expect($(map.getTargetElement()).children().last().children().first().get(0)).toBe(popup.content.get(0))
+  
+    $(map.getTargetElement()).children().last().children().last().trigger('click')
+  
+    expect($('.fullscreen').length).toBe(0)
+    expect($(popup.getElement()).find('.content').get(0)).toBe(popup.content.get(0))
+  })
+
+  test('not fullscreen', () => {
+    expect.assertions(1)
+    
+    const popup = new Popup({map: map})
+
+    $(popup.map.getTargetElement()).data('height', 500)
+    $(popup.getElement()).data('height', 410)
+
+    expect(popup.fullscreen()).toBe(undefined)
   })
 })

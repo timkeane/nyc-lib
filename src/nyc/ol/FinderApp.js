@@ -196,7 +196,7 @@ class FinderApp {
     this.directions = this.directions || new Directions(this.directionsUrl)
     const to = feature.getFullAddress()
     const name = feature.getName()
-    const from = this.origin()
+    const from = this.getFromAddr()
     this.directions.directions({
       from: from,
       to: to,
@@ -204,8 +204,7 @@ class FinderApp {
       origin: this.location,
       destination: {
         name: feature.getName(),
-        coordinate: feature.getGeometry().getCoordinates(),
-        data: {}
+        coordinate: feature.getGeometry().getCoordinates()
       }
     })
   }
@@ -275,7 +274,7 @@ class FinderApp {
    * @method
    * @return {string|Array<number>}
    */
-  origin() {
+  getFromAddr() {
 		const location = this.location
 		if (location.type === 'geolocated') {
 			const coordinates = proj4(
@@ -328,7 +327,7 @@ class FinderApp {
 		 * causing input to lose focus when tabs are adjusted
 		 * so we don't adjust tabs when input has focus
 		 */
-    if (!nyc.activeElement().isTextInput) {
+    if ($('#directions').css('display') !== 'block' && !nyc.activeElement().isTextInput) {
       this.tabs.open(this.tabsFillScreen() ? '#map' : '#facilities')
     }
   }

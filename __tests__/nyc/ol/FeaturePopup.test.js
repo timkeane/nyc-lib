@@ -72,11 +72,14 @@ describe('constructor', () => {
 })
 
 test('showFeature has coordinate', () => {
-  expect.assertions(3)
+  expect.assertions(4)
   
   const feature = new OlFeature({
     geometry: new OlGeomPoint([0, 0])
   })
+  feature.cssClass = () => {
+    return 'css'
+  }
   feature.html = () => {
     return '<div>html</div>'
   }
@@ -90,6 +93,7 @@ test('showFeature has coordinate', () => {
   popup.showFeature(feature, [1, 1])
 
   expect(popup.show).toHaveBeenCalledTimes(1)
+  expect(popup.show.mock.calls[0][0].css).toBe('css')
   expect(popup.show.mock.calls[0][0].html.html()).toBe('html')
   expect(popup.show.mock.calls[0][0].coordinate).toEqual([1, 1])
 })

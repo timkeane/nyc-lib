@@ -1,3 +1,4 @@
+import nyc from 'nyc'
 import Directions from 'nyc/Directions'
 import Contanier from 'nyc/Container'
 import Tabs from 'nyc/Tabs'
@@ -390,6 +391,11 @@ describe('handleResp', () => {
 })
 
 describe('adjustTabs', () => {
+  const activeElement = nyc.activeElement
+  afterEach(() => {
+    nyc.activeElement = activeElement
+  })
+
   test('adjustTabs fullscreen origin no coordinate', () => {
     expect.assertions(2)
     
@@ -435,6 +441,34 @@ describe('adjustTabs', () => {
 
     expect(dir.tabs.open).toHaveBeenCalledTimes(1)
     expect(dir.tabs.open.mock.calls[0][0]).toBe('#route-tab')
+  })
+
+  test('adjustTabs not visible', () => {
+    expect.assertions(1)
+    
+    const dir = new Directions()
+
+    dir.tabs.open = jest.fn()
+    $('#directions').hide()
+
+    dir.adjustTabs()
+
+    expect(dir.tabs.open).toHaveBeenCalledTimes(0)
+  })
+
+  test('adjustTabs activeElement isTextInput', () => {
+    expect.assertions(1)
+    
+    const dir = new Directions()
+
+    dir.tabs.open = jest.fn()
+    nyc.activeElement = () => {
+      return {isTextInput: true}
+    }
+
+    dir.adjustTabs()
+
+    expect(dir.tabs.open).toHaveBeenCalledTimes(0)
   })
 })
 

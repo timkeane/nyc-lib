@@ -115,6 +115,27 @@ test('showFeatures has coordinate', () => {
   expect(Popup.prototype.show.mock.calls[0][0].coordinate).toEqual([1, 1])
 })
 
+test('paged', () => {
+  expect.assertions(4)
+
+  const popup = new MultiFeaturePopup({
+    map: map,
+    layers: mockLayers
+  })
+
+  popup.cssClass = jest.fn()
+
+  popup.paged({item: {}})
+
+  expect(popup.cssClass).toHaveBeenCalledTimes(1)
+  expect(popup.cssClass.mock.calls[0][0]).toBe('')
+  
+  popup.paged({item: {cssClass: () => {return 'css'}}})
+
+  expect(popup.cssClass).toHaveBeenCalledTimes(2)
+  expect(popup.cssClass.mock.calls[1][0]).toBe('css')
+})
+
 test('mapClick has features', () => {
   expect.assertions(3)
 
@@ -159,3 +180,20 @@ test('mapClick no features', () => {
 
   expect(popup.showFeatures).toHaveBeenCalledTimes(0)
 })
+
+test('showFeature', () => {
+  expect.assertions(2)
+
+  const popup = new MultiFeaturePopup({
+    map: map,
+    layers: mockLayers
+  })
+
+  popup.showFeatures = jest.fn()
+
+  popup.showFeature('mock-feature')
+
+  expect(popup.showFeatures).toHaveBeenCalledTimes(1)
+  expect(popup.showFeatures.mock.calls[0][0]).toEqual(['mock-feature'])
+})
+

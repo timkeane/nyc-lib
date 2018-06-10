@@ -101,7 +101,7 @@ class Popup extends OlOverlay {
    */
   pan() {
     const popup = this.popup
-    if (popup.css('display') !== 'none') {
+    if (!this.fullscreen() && popup.css('display') !== 'none') {
       const view = this.map.getView()
       const tailHeight = parseInt(popup.css('bottom'))
       const tailOffsetLeft = -parseInt(popup.css('left'))
@@ -129,9 +129,7 @@ class Popup extends OlOverlay {
       } else if (fromBottom < 0) {
         px[1] -= fromBottom
       }
-      if (!this.fullscreen()) {
-        view.animate({center: this.map.getCoordinateFromPixel(px)})
-      }
+      view.animate({center: this.map.getCoordinateFromPixel(px)})
     }
   }
   fullscreen() {

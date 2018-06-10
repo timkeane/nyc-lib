@@ -183,7 +183,7 @@ class Directions extends Contanier {
 		 * causing input to lose focus when tabs are adjusted
 		 * so we don't adjust tabs when input has focus
 		 */
-    if (!nyc.activeElement().isTextInput) {
+    if ($('#directions').css('display') === 'block' && !nyc.activeElement().isTextInput) {
 			const fullscreen = Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1
 			const args = this.args || {origin: {}}
 			if (args.origin.coordinate && fullscreen) {

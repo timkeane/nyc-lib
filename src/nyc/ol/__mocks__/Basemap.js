@@ -1,3 +1,5 @@
+import OlProjProjection from 'ol/proj/projection'
+
 const mock = jest.fn().mockImplementation(() => {
   return {
     getView: () => {
@@ -5,7 +7,7 @@ const mock = jest.fn().mockImplementation(() => {
         fit: jest.fn(),
         animate: jest.fn(),
         getProjection: jest.fn(() => {
-          return 'EPSG:3857'
+          return new OlProjProjection({code: 'EPSG:3857'})
         })
       }
     },

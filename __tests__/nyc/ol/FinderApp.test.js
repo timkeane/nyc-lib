@@ -1,6 +1,7 @@
 import nyc from 'nyc'
 
 import Dialog from '../../../src/nyc/Dialog'
+import Directions from '../../../src/nyc/Directions'
 import Share from '../../../src/nyc/Share'
 import Tabs from '../../../src/nyc/Tabs'
 import ListPager from '../../../src/nyc/ListPager'
@@ -28,6 +29,7 @@ import OlStyleStyle from 'ol/style/style'
 import FinderApp from 'nyc/ol/FinderApp'
 
 jest.mock('../../../src/nyc/Dialog')
+jest.mock('../../../src/nyc/Directions')
 jest.mock('../../../src/nyc/Share')
 // jest.mock('../../../src/nyc/Tabs')
 // jest.mock('../../../src/nyc/ListPager')
@@ -248,30 +250,60 @@ describe('zoomTo', () => {
   })  
 })
 
-describe('directionsTo', () => {
-  test('directionsTo without from', () => {
-    expect.assertions(0)
-    const feature = new OlFeature({geometry: new OlGeomPoint([0, 0])})
-    
-    const finderApp = new FinderApp({
-      title: 'Finder App',
-      splashOptions: {message: 'splash page message'},
-      facilityTabTitle: 'Facility Title',
-      facilityUrl: 'http://facility',
-      facilityFormat: format,
-      facilityStyle: style,
-      filterTabTitle: 'Filter Title',
-      filterChoiceOptions: filterChoiceOptions,
-      geoclientUrl: 'http://geoclient'
-    })
-
-    console.warn('write this test!!!!');
-    
-    //finderApp.directionsTo(feature)
+test('directionsTo', () => {
+  expect.assertions(17)
+  
+  const feature = new OlFeature({geometry: new OlGeomPoint([0, 1])})
+  feature.getName = () => {
+    return 'feature name'
+  }
+  feature.getFullAddress = () => {
+    return 'feature address'
+  }
+  const finderApp = new FinderApp({
+    title: 'Finder App',
+    splashOptions: {message: 'splash page message'},
+    facilityTabTitle: 'Facility Title',
+    facilityUrl: 'http://facility',
+    facilityFormat: format,
+    facilityStyle: style,
+    filterTabTitle: 'Filter Title',
+    filterChoiceOptions: filterChoiceOptions,
+    geoclientUrl: 'http://geoclient',
+    directionsUrl: 'http://directions'
   })
+
+  finderApp.directionsTo(feature)
+
+  expect(Directions).toHaveBeenCalledTimes(1)
+  expect(finderApp.directions.directions).toHaveBeenCalledTimes(1)
+  expect(finderApp.directions.directions.mock.calls[0][0].from).toBe('')
+  expect(finderApp.directions.directions.mock.calls[0][0].to).toBe('feature address')
+  expect(finderApp.directions.directions.mock.calls[0][0].facility).toBe('feature name')
+  expect(finderApp.directions.directions.mock.calls[0][0].origin).toEqual({})
+  expect(finderApp.directions.directions.mock.calls[0][0].destination.name).toBe('feature name')
+  expect(finderApp.directions.directions.mock.calls[0][0].destination.coordinate).toEqual([0, 1])
+
+  finderApp.location = {
+    name: 'user location',
+    type: 'geolocated',
+    coordinate: [1, 0]
+  }
+
+  finderApp.directionsTo(feature)
+
+  expect(Directions).toHaveBeenCalledTimes(1)
+  expect(finderApp.directions.directions).toHaveBeenCalledTimes(2)
+  expect(finderApp.directions.directions.mock.calls[1][0].from).toBe('0,0.000008983152841195214')
+  expect(finderApp.directions.directions.mock.calls[1][0].to).toBe('feature address')
+  expect(finderApp.directions.directions.mock.calls[1][0].facility).toBe('feature name')
+  expect(finderApp.directions.directions.mock.calls[1][0].origin.name).toBe('user location')
+  expect(finderApp.directions.directions.mock.calls[1][0].origin.coordinate).toEqual([1, 0])
+  expect(finderApp.directions.directions.mock.calls[1][0].destination.name).toBe('feature name')
+  expect(finderApp.directions.directions.mock.calls[1][0].destination.coordinate).toEqual([0, 1])
 })
 
-test('directionsTo without from', () => {
+test('createFilters', () => {
   expect.assertions(8)
   
   const finderApp = new FinderApp({
@@ -399,7 +431,35 @@ describe('createTabs', () => {
   })
 })
 
+test('expandDetail', () => {
+  expect.assertions(1)
+
+  const finderApp = new FinderApp({
+    title: 'Finder App',
+    facilityTabTitle: 'Facility Title',
+    facilityUrl: 'http://facility',
+    facilityFormat: format,
+    facilityStyle: style,
+    geoclientUrl: 'http://geoclient'
+  })
+
+  finderApp.popup.pan = jest.fn()
+
+  finderApp.expandDetail()
+  
+  expect(finderApp.popup.pan).toHaveBeenCalledTimes(1)
+})
+
 describe('adjustTabs', () => {
+  const activeElement = nyc.activeElement
+  beforeEach(() => {
+    $('body').append('<div id="directions" style="display:none"></div>')
+  })
+  afterEach(() => {
+    nyc.activeElement = activeElement
+    $('#directions').remove()
+  })
+
   test('adjustTabs full width', () => {
     expect.assertions(2)
 
@@ -446,6 +506,59 @@ describe('adjustTabs', () => {
 
     expect(finderApp.tabs.open).toHaveBeenCalledTimes(1)
     expect(finderApp.tabs.open.mock.calls[0][0]).toBe('#facilities')
+  })
+
+  test('adjustTabs activeElement isTextInput', () => {
+    expect.assertions(1)
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    finderApp.tabs.open = jest.fn()
+
+    $(window).width(500)
+    finderApp.tabs.getContainer().width(400)
+
+    nyc.activeElement = () => {
+      return {isTextInput: true}
+    }
+
+    finderApp.adjustTabs()
+
+    expect(finderApp.tabs.open).toHaveBeenCalledTimes(0)
+  })
+
+  test('adjustTabs directions visible', () => {
+    expect.assertions(1)
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      geoclientUrl: 'http://geoclient',
+      directionsUrl: 'http://directions'
+    })
+
+    finderApp.tabs.open = jest.fn()
+
+    $(window).width(500)
+    finderApp.tabs.getContainer().width(500)
+
+    $('#directions').show()
+
+    finderApp.adjustTabs()
+
+    expect(finderApp.tabs.open).toHaveBeenCalledTimes(0)
   })
 })
 
@@ -1000,6 +1113,14 @@ describe('FEATURE_DECORATIONS', () => {
     )
   })
 
+  test('getFullAddress', () => {
+    expect.assertions(1)
+    const html = extendedDecorations.addressHtml()
+    expect(extendedDecorations.getFullAddress()).toBe(
+      'Address line 1\nAddress line 2,\nCity, State Zip'
+    )
+  })
+
   test('mapButton', () => {
     expect.assertions(3)
     const html = extendedDecorations.mapButton()
@@ -1082,6 +1203,26 @@ describe('FEATURE_DECORATIONS', () => {
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
       '<div class="dist" aria-hidden="true">• 1.00 km •</div>'
+    )
+  })
+
+  test('sreen reader distanceHtml has distance in feet', () => {
+    expect.assertions(2)
+    extendedDecorations.getDistance = () => {return {distance: 1000, units: 'ft'}}
+    const html = extendedDecorations.distanceHtml(true)
+    expect(html.length).toBe(1)
+    expect($('<div></div>').append(html).html()).toBe(
+      '<div class="dist screen-reader-only">0.19 miles</div>'
+    )
+  })
+
+  test('sreen reader distanceHtml has distance in meters', () => {
+    expect.assertions(2)
+    extendedDecorations.getDistance = () => {return {distance: 1000, units: 'm'}}
+    const html = extendedDecorations.distanceHtml(true)
+    expect(html.length).toBe(1)
+    expect($('<div></div>').append(html).html()).toBe(
+      '<div class="dist screen-reader-only">1.00 kilometers</div>'
     )
   })
 
