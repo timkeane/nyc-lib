@@ -6,7 +6,6 @@ import Papa from 'papaparse'
 
 import ReplaceTokens from 'nyc/ReplaceTokens'
 
-require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
 /**

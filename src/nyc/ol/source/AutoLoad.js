@@ -6,7 +6,6 @@ import $ from 'jquery'
 
 import OlSourceVector from 'ol/source/vector'
 
-require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
 /**

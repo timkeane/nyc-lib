@@ -7,7 +7,6 @@ import $ from 'jquery'
 import Container from 'nyc/Container'
 import ReplaceTokens from 'nyc/ReplaceTokens'
 
-require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
 /**
