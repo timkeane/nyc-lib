@@ -24,6 +24,7 @@ html, body.fnd, .fnd #map {
   background-position: 3px 6px;
   background-size: 71px 24px;
   background-repeat: no-repeat;
+  text-transform: capitalize;
 }
 .fnd #banner, .fnd #banner * {
   font-size: 24px;

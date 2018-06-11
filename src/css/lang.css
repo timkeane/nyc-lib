@@ -10,7 +10,7 @@
 	background-position: 3px center;
 	background-image: var(--translate-icon-light);
 }
-#lng button:after {
+#lng div.btn-sq:after {
 	content: " ";
     display: block;
     width: 22px;
@@ -24,12 +24,18 @@
     background-position: center;
     background-image: var(--down-icon-medium);
 }
-#lng button:hover:after {
+#lng div.btn-sq:hover:after {
 	background-image: var(--down-icon-dark);
 }
-#lng .btn-sq .hint {
+#lng.button div.btn-sq:after {
+	display: none;
+}
+#lng .hint {
 	color: var(--color-light);
 	line-height: 30px;
+	width: 100%;
+	display: inline-block;
+	text-align: center;
 }
 #lng select {
 	position: absolute;
@@ -40,14 +46,11 @@
 	height: 35px;
 	opacity: 0;
 }
-#lng.button button:after {
-	display: none;
-}
 #lng.button .btn-sq, #lng.button select {
 	padding: 0;
 	width: 35px;
 }
-#lng.button .btn-sq .hint {
+#lng.button .hint {
 	position: absolute;
 	left: -1000px;
 }

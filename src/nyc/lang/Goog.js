@@ -64,7 +64,7 @@ class Goog extends Translate {
 				})
 			}
 			this.code = this.namedCodes[lang] || 'en'
-			this.css('goog-tranlated')
+			this.css('goog')
 			this.trigger('change', this)
 		} else {
 			nycTranslateInstance.timeout = setTimeout(() => {nycTranslateInstance.translate(event)}, 200)

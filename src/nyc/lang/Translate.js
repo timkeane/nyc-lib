@@ -136,7 +136,7 @@ class Translate extends Container {
       this.namedCodes[code] = lang
     })
     this.codes = codes.toString()
-    $('body').addClass('lang-en')
+    $('body').addClass('lang en')
     this.find('select').change($.proxy(this.translate, this))
     this.selectDefault()
     this.showHint()
@@ -156,7 +156,7 @@ class Translate extends Container {
 			body.removeClass('lang-' + code)
 		})
 		body[this.code === this.defaultLanguage ? 'removeClass' : 'addClass'](css)
-		body.addClass('lang-' + this.code)
+		body.addClass(`lang ${this.code}`)
 		body.addClass(css)
 	}
 	/**
@@ -194,9 +194,10 @@ class Translate extends Container {
   showHint() {
     if (!this.button) {
       const hints = this.hints
+      const hint = this.find('.hint')
       let h = 0
     	setInterval(() => {
-        this.find('.hint').html(hints[h] || 'Translate')
+        hint.html(hints[h] || 'Translate')
     		h++
     		if (h === hints.length) h = 0
     	}, 1000)
@@ -271,10 +272,10 @@ Translate.DEFAULT_LANGUAGES = {
  * @type {string}
  */
 Translate.HTML = '<div id="lng">' +
-  '<button class="btn-sq rad-all">' +
+  '<div class="btn-sq rad-all">' +
     '<span class ="hint notranslate">Translate</span>' +
     '<select class="notranslate" translate="no" title="Translate..." araia-label="Translate..."></select>' +
-  '</button>' +
+  '</div>' +
   '<div id="lng-goog"></div>' +
 '</div>'
 
