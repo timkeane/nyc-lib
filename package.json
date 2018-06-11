@@ -1,6 +1,6 @@
 {
   "name": "nyc-lib",
-  "version": "0.9.993-SNAPSHOT",
+  "version": "0.9.994-SNAPSHOT",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "test": "jest",

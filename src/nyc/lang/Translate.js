@@ -136,7 +136,7 @@ class Translate extends Container {
       this.namedCodes[code] = lang
     })
     this.codes = codes.toString()
-    $('body').addClass('lang en')
+    $('body').addClass('lang-en')
     this.find('select').change($.proxy(this.translate, this))
     this.selectDefault()
     this.showHint()
@@ -156,7 +156,7 @@ class Translate extends Container {
 			body.removeClass('lang-' + code)
 		})
 		body[this.code === this.defaultLanguage ? 'removeClass' : 'addClass'](css)
-		body.addClass(`lang ${this.code}`)
+		body.addClass(`lang-${this.code}`)
 		body.addClass(css)
 	}
 	/**
