@@ -19,13 +19,13 @@ if (isProd) {
 
 module.exports = {
   entry: {
-    "nyc": './src/nyc-index.js',
-    "nyc-ol": './src/nyc-ol.js',
-    "nyc-leaf": './src/nyc-leaf.js'
+    "nyc-lib": './src/nyc-index.js',
+    "nyc-ol-lib": './src/nyc-ol.js',
+    "babel-polyfill": "babel-polyfill"
   },
   output: {
      path: path.resolve(__dirname, 'dist/js'),
-     filename: '[name]-lib.js'
+     filename: '[name].js'
   },
   devtool: isProd ? false : "cheap-module-eval-source-map",
   module: {

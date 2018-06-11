@@ -88,7 +88,7 @@
         getAddress1: function() {
           return this.get('ADDRESS')
         },
-        getBorough() {
+        getBorough: function() {
           return {
             M: 'Manhattan',
             X: 'Bronx',
@@ -98,7 +98,7 @@
           }[this.get('BOROUGH')]
         },
         getCityStateZip: function() {
-          return `${this.getBorough()}, NY ${this.get('ZIP')}`
+          return this.getBorough() + ', NY ' + this.get('ZIP')
         },
         getPhone: function() {
           return this.get('PHONE')

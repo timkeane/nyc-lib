@@ -2,7 +2,7 @@
   --font-family:                    'Helvetica Neue',Helvetica,Arial,sans-serif;
   
   /* colors */
-  --color-dark:                     rgba(0,0,0);
+  --color-dark:                     rgb(0,0,0);
   --color-shadow:                   rgba(0,0,0,.1);
   --color-dark-translucent:         rgba(0,0,0,.5); 
   --color-button:                   rgb(239,239,239);

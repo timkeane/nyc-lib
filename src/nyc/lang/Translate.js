@@ -97,7 +97,7 @@ class Translate extends Container {
 			   $(element).attr($(element).data('msg-attr'), msg)
 		   })
      })
-	   this.css('translated')
+	   this.css()
 	   this.trigger('change', this)
    }
 	/**
@@ -136,7 +136,6 @@ class Translate extends Container {
       this.namedCodes[code] = lang
     })
     this.codes = codes.toString()
-    $('body').addClass('lang-en')
     this.find('select').change($.proxy(this.translate, this))
     this.selectDefault()
     this.showHint()
@@ -148,16 +147,9 @@ class Translate extends Container {
   /**
 	 * @private
 	 * @method
-   * @param {string}
 	 */
-	css(css) {
-    const body = $('body')
-		this.codes.split(',').forEach(code => {
-			body.removeClass('lang-' + code)
-		})
-		body[this.code === this.defaultLanguage ? 'removeClass' : 'addClass'](css)
-		body.addClass(`lang-${this.code}`)
-		body.addClass(css)
+	css() {
+		$('body')[this.code === this.defaultLanguage ? 'removeClass' : 'addClass']('translated')
 	}
 	/**
 	 * @private

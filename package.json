@@ -1,6 +1,6 @@
 {
   "name": "nyc-lib",
-  "version": "0.9.994-SNAPSHOT",
+  "version": "1.0.001-SNAPSHOT",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "test": "jest",
@@ -89,6 +89,7 @@
     "webpack-cli": "^2.0.14"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "es6-promise": "^4.2.4",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.3.1",

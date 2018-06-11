@@ -52,7 +52,8 @@ class Goog extends Translate {
 		const choices = $('iframe.goog-te-menu-frame:first').contents().find('.goog-te-menu2-item span.text')
 		clearTimeout(nycTranslateInstance.timeout)
 		if (event && choices.length) {
-			const lang =  this.languages[$(event.target).val()].name
+			this.code = $(event.target).val()
+			const lang =  this.languages[this.code].name
 			if (lang === 'English') {
 				this.showOriginalText()
 			} else {
@@ -63,7 +64,6 @@ class Goog extends Translate {
 					}
 				})
 			}
-			this.code = this.namedCodes[lang] || 'en'
 			this.css('goog')
 			this.trigger('change', this)
 		} else {
