@@ -77,3 +77,6 @@ body .goog-text-highlight {
 	-moz-box-sizing: inherit;
 	position: inherit;
 }
+font {
+	color: inherit;
+}
