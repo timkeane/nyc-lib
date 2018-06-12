@@ -23,7 +23,7 @@ import OlGeomPolygon from 'ol/geom/polygon'
  */
 class Basemap extends OlMap {
   /**
-   * @desc Class that provides an ol.Map with base layers and labels
+   * @desc Create an instance of Basemap
    * @public
    * @constructor
    * @param {olx.MapOptions} options Constructor options

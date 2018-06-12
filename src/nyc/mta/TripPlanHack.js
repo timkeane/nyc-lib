@@ -12,6 +12,19 @@ import nyc from 'nyc'
  */
 class TripPlanHack {
   /**
+   * @desc Create an instance of TripPlanHack
+   * @public
+   * @constructor
+   * @param {string} url URL to the MTA jump page
+   */
+  constructor(url) {
+    /**
+     * @private
+     * @member {string}
+     */
+    this.url = url
+  }
+  /**
    * @desc Intiate jump to MTA TripFinder
    * @public
    * @method
@@ -22,7 +35,21 @@ class TripPlanHack {
       jsonpacket: this.jsonpacket(request),
       rand: this.randomParamCopiedFromMtaCode()
     }
-    this.window = window.open(`./mta.html?${$.param(args)}`)
+    this.window = window.open(`${this.getUrl()}?${$.param(args)}`)
+  }
+  /**
+   * @private
+   * @method
+   * @returns {strinfg}
+   */
+  getUrl() {
+    if (this.url) return this.url
+    const host = document.location.hostname
+    const path = document.location.pathname
+    let port = document.location.port
+    port = port ? `:${port}` : ''
+    return `http://${host}${port}${path}/mta.html`
+
   }
   /**
    * @private
