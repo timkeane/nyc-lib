@@ -5,7 +5,8 @@
   "scripts": {
     "test": "jest",
     "pkg": "cp ./package.json ./dist/ && cd dist && npm pack && mv *.tgz ../",
-    "prepkg": "rm -rf ./dist && babel src/nyc -d ./dist/nyc && yarn jsdoc && yarn raw-css && yarn roll-css",
+    "prepkg": "yarn transpl && yarn jsdoc && yarn raw-css && yarn roll-css",
+    "transpl": "rm -rf ./dist && babel src/nyc -d ./dist/nyc --ignore __mocks__",
     "build": "webpack",
     "prebuild": "yarn test",
     "postbuild": "yarn jsdoc && yarn replace-hosts && yarn copy-examples && yarn css",
