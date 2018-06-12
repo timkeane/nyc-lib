@@ -36,6 +36,7 @@ html, body, body * {
 	cursor: pointer;
 	font-weight: bold;
 	background-position: center;
+	padding: 0;
 }
 .btn {
 	background-position: 3px center;
