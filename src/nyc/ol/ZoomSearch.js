@@ -43,7 +43,7 @@ class ZoomSearch extends NycZoomSearch {
   	 */
   	this.geoJson = new OlGeoJSON()
   	this.getContainer().on('click dblclick mouseover mousemove', () => {
-      $('.feature-tip').hide()
+      $('.f-tip').hide()
     })
   }
 	/**

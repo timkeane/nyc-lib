@@ -45,7 +45,7 @@ afterEach(() => {
 test('constructor', () => {
   expect.assertions(8)
   
-  const tip = $('<div class="feature-tip"></div>')
+  const tip = $('<div class="f-tip"></div>')
   $('body').append(tip)
   tip.show()
 
