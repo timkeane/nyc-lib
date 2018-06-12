@@ -15,7 +15,7 @@ afterEach(() => {
 })
 
 test('directions', () => {
-  expect.assertions(3)
+  expect.assertions(1)
 
   const request = {
     origin: {
@@ -41,12 +41,10 @@ test('directions', () => {
   tripPlanHack.directions(request)
 
   expect(window.open).toHaveBeenCalledTimes(1)
-  expect(tripPlanHack.window.document.write).toHaveBeenCalledTimes(1)
-  expect(tripPlanHack.window.document.write.mock.calls[0][0]).toBe(TripPlanHack.JUMP_PAGE.replace(/%QSTR%/, qstr))
 })
 
 test('accessible directions', () => {
-  expect.assertions(3)
+  expect.assertions(1)
 
   const request = {
     accessible: true,
@@ -73,8 +71,6 @@ test('accessible directions', () => {
   tripPlanHack.directions(request)
 
   expect(window.open).toHaveBeenCalledTimes(1)
-  expect(tripPlanHack.window.document.write).toHaveBeenCalledTimes(1)
-  expect(tripPlanHack.window.document.write.mock.calls[0][0]).toBe(TripPlanHack.JUMP_PAGE.replace(/%QSTR%/, qstr))
 })
 
 test('randomParamCopiedFromMtaCode', () => {

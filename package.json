@@ -1,12 +1,13 @@
 {
   "name": "nyc-lib",
-  "version": "1.0.6-SNAPSHOT",
+  "version": "1.0.8-SNAPSHOT",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "test": "jest",
     "pkg": "cp ./package.json ./dist/ && cd dist && npm pack && mv *.tgz ../",
-    "prepkg": "yarn transpl && yarn jsdoc && yarn raw-css && yarn roll-css",
+    "prepkg": "yarn transpl && yarn mta-hack && yarn jsdoc && yarn raw-css && yarn roll-css",
     "transpl": "rm -rf ./dist && babel src/nyc -d ./dist/nyc --ignore __mocks__",
+    "mta-hack": "cp ./src/nyc/mta/mta.html ./dist/nyc/mta/",
     "build": "webpack",
     "prebuild": "yarn test",
     "postbuild": "yarn jsdoc && yarn replace-hosts && yarn copy-examples && yarn css",
