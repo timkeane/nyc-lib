@@ -1,6 +1,7 @@
 {
   "source": {
-    "include": ["./src/nyc"]
+    "include": ["./src/nyc"],
+    "excludePattern": ".__mocks__."
   },
   "sourceType": "module",
   "opts": {
