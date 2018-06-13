@@ -194,7 +194,7 @@ describe('zoomTo', () => {
       geoclientUrl: 'http://geoclient'
     })
 
-    $('h3.btn-0').hide()
+    $('h2.btn-0').hide()
     finderApp.zoomTo(feature)
 
     expect(finderApp.popup.hide).toHaveBeenCalledTimes(1)
@@ -229,7 +229,7 @@ describe('zoomTo', () => {
 
     finderApp.tabs.open = jest.fn()
 
-    $('h3.btn-0').show()
+    $('h2.btn-0').show()
     finderApp.zoomTo(feature)
 
     expect(finderApp.tabs.open).toHaveBeenCalledTimes(1)
@@ -663,7 +663,7 @@ describe('resetList', () => {
 
     finderApp.resetList(finderApp.filters)
 
-    expect($('#tabs .btns h3.btn-2').hasClass('filtered')).toBe(true)
+    expect($('#tabs .btns h2.btn-2').hasClass('filtered')).toBe(true)
 
     expect(finderApp.popup.hide).toHaveBeenCalledTimes(1)
 
@@ -696,7 +696,7 @@ describe('resetList', () => {
 
     finderApp.resetList()
 
-    expect($('#tabs .btns h3.btn-2').hasClass('filtered')).toBe(false)
+    expect($('#tabs .btns h2.btn-2').hasClass('filtered')).toBe(false)
 
     expect(finderApp.popup.hide).toHaveBeenCalledTimes(1)
 
@@ -1090,7 +1090,7 @@ describe('FEATURE_DECORATIONS', () => {
     const html = extendedDecorations.nameHtml()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<h2 class="name notranslate">A Name</h2>'
+      '<h3 class="name notranslate">A Name</h3>'
     )
   })
 
@@ -1251,7 +1251,7 @@ describe('FEATURE_DECORATIONS', () => {
     const html = extendedDecorations.html()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<div class="facility css-class"><h2 class="name notranslate">A Name</h2><div class="addr"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a><a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a><a class="btn rad-all map" role="button" href="#">Map</a><a class="btn rad-all dir" role="button" href="#">Directions</a><div class="dtl"><div class="clps rad-all"><h3 class="btn rad-all" role="button" id="clsp-lbl-1"><button class="btn-rnd expd" aria-collapsed="true" aria-expanded="false"></button>Details<span aria-hidden="true">...</span></h3><div class="content rad-bot" aria-labelledby="clsp-lbl-1" style="display: none;"></div></div></div></div>'
+      '<div class="facility css-class"><h3 class="name notranslate">A Name</h3><div class="addr"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a><a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a><a class="btn rad-all map" role="button" href="#">Map</a><a class="btn rad-all dir" role="button" href="#">Directions</a><div class="dtl"><div class="clps rad-all"><h3 class="btn rad-all" role="button" id="clsp-lbl-1"><button class="btn-rnd expd" aria-collapsed="true" aria-expanded="false"></button>Details<span aria-hidden="true">...</span></h3><div class="content rad-bot" aria-labelledby="clsp-lbl-1" style="display: none;"></div></div></div></div>'
     )
   })
 })

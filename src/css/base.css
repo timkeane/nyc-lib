@@ -54,7 +54,7 @@ html, body, body * {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-a.btn, h3.btn, div.btn {
+h2.btn, h3.btn, a.btn, div.btn {
 	padding-top: 9px;
 	height: 26px;
 	text-decoration: none;

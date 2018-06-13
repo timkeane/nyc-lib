@@ -158,7 +158,7 @@ class FinderApp {
    */
   resetList(event) {
     if (event instanceof Filters) {
-      $('#tabs .btns h3.btn-2').addClass('filtered')
+      $('#tabs .btns h2.btn-2').addClass('filtered')
     }
     const coordinate = this.location.coordinate
     this.popup.hide()
@@ -517,7 +517,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @return {jQuery}
    */
   nameHtml() {
-    return $('<h2 class="name notranslate"></h2>').html(this.getName())
+    return $('<h3 class="name notranslate"></h3>').html(this.getName())
   },
   /**
    * @desc Returns the full address of a facility feature to append to HTML

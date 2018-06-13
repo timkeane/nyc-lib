@@ -132,8 +132,8 @@ Tabs.HTML = '<div class="btns" role="tablist"></div>' +
  * @const
  * @type {string}
  */
-Tabs.BTN_HTML = '<h3 class="btn" role="tab">' +
+Tabs.BTN_HTML = '<h2 class="btn" role="tab">' +
   '<span class="screen-reader-only">show </span>' +
-'</h3>'
+'</h2>'
 
 export default Tabs
