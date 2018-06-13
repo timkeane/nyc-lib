@@ -62,7 +62,7 @@ module.exports = {
   },
   output: {
      path: path.resolve(__dirname, 'dist/js'),
-     filename: `[name]-v${version}.js`
+     filename: '[name].js'
   },
   devtool: devtools,
   module: {
