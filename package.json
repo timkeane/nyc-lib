@@ -10,9 +10,9 @@
     "mta-hack": "cp ./src/nyc/mta/mta.html ./dist/nyc/mta/",
     "build": "webpack",
     "prebuild": "yarn test",
-    "postbuild": "yarn jsdoc && yarn copy-examples && yarn css",
+    "postbuild": "yarn jsdoc && yarn examples && yarn css",
     "build-no-test": "webpack",
-    "postbuild-no-test": "yarn copy-examples && yarn css",
+    "postbuild-no-test": "yarn examples && yarn css",
     "jsdoc": "jsdoc -c ./jsdoc/conf.json",
     "css": "yarn dev-css && yarn nyc-css && yarn nyc-ol-css",
     "dev-css": "bash -c 'if [ \"`printenv NODE_ENV`\" = \"dev\" ]; then yarn raw-css; fi'",
@@ -20,7 +20,7 @@
     "nyc-css": "postcss ./src/css/nyc-ol-lib.css --o ./dist/css/nyc-ol-lib.css --no-map --config postcss.config.js",
     "nyc-ol-css": "postcss ./src/css/nyc-lib.css --o ./dist/css/nyc-lib.css --no-map --config postcss.config.js",
     "roll-css": "cp ./etc/css/*.* ./dist/css/",
-    "copy-examples": "cp -r ./examples ./dist/examples"
+    "examples": "cp -r ./examples ./dist/examples"
   },
   "jest": {
     "verbose": true,
