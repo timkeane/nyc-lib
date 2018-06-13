@@ -9,14 +9,15 @@ import olTilegrid from 'ol/tilegrid'
  * @public
  * @namespace
  */
-const ol = {}
-
-/**
-* @desc The tile grid for NYC tiled layers
-* @public
-* @type {ol.tilegrid.TileGrid}
-*/
-ol.TILE_GRID = olTilegrid.createXYZ({minZoom: 8, maxZoom: 21}) 
+const ol = {
+  TILE_HOSTS: 'maps{1-4}.nyc.gov',
+  /**
+  * @desc The tile grid for NYC tiled layers
+  * @public
+  * @const {ol.tilegrid.TileGrid}
+  */
+  TILE_GRID: olTilegrid.createXYZ({minZoom: 8, maxZoom: 21}) 
+}
 
 export default ol
 

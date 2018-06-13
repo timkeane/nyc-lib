@@ -5,6 +5,7 @@
 import $ from 'jquery'
 
 import nyc from 'nyc'
+import nycOl from 'nyc/ol'
 import BasemapHelper from 'nyc/BasemapHelper'
 import LocalStorage from 'nyc/ol/LocalStorage'
 
@@ -241,7 +242,7 @@ Basemap.setupView = (options) => {
  * @const
  * @type {string}
  */
-Basemap.BASE_URL = 'https://maps{1-4}.nyc.gov/tms/1.0.0/carto/basemap/{z}/{x}/{-y}.jpg'
+Basemap.BASE_URL = `https://${nycOl.TILE_HOSTS}/tms/1.0.0/carto/basemap/{z}/{x}/{-y}.jpg`
 
 /**
  * @desc The URLs of the New York City aerial imagery map tiles
@@ -250,17 +251,17 @@ Basemap.BASE_URL = 'https://maps{1-4}.nyc.gov/tms/1.0.0/carto/basemap/{z}/{x}/{-
  * @type {Object<string, string>}
  */
 Basemap.PHOTO_URLS = {
-	'1924': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/1924/{z}/{x}/{-y}.png8',
-	'1951': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/1951/{z}/{x}/{-y}.png8',
-	'1996': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/1996/{z}/{x}/{-y}.png8',
-	'2001-2': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/2001-2/{z}/{x}/{-y}.png8',
-	'2004': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/2004/{z}/{x}/{-y}.png8',
-	'2006': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/2006/{z}/{x}/{-y}.png8',
-	'2008': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/2008/{z}/{x}/{-y}.png8',
-	'2010': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/2010/{z}/{x}/{-y}.png8',
-	'2012': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/2012/{z}/{x}/{-y}.png8',
-	'2014': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/2014/{z}/{x}/{-y}.png8',
-	'2016': 'https://maps{1-4}.nyc.gov/tms/1.0.0/photo/2016/{z}/{x}/{-y}.png8'
+	'1924': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/1924/{z}/{x}/{-y}.png8`,
+	'1951': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/1951/{z}/{x}/{-y}.png8`,
+	'1996': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/1996/{z}/{x}/{-y}.png8`,
+	'2001-2': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2001-2/{z}/{x}/{-y}.png8`,
+	'2004': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2004/{z}/{x}/{-y}.png8`,
+	'2006': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2006/{z}/{x}/{-y}.png8`,
+	'2008': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2008/{z}/{x}/{-y}.png8`,
+	'2010': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2010/{z}/{x}/{-y}.png8`,
+	'2012': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2012/{z}/{x}/{-y}.png8`,
+	'2014': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2014/{z}/{x}/{-y}.png8`,
+	'2016': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2016/{z}/{x}/{-y}.png8`
 }
 
 /**
@@ -270,8 +271,8 @@ Basemap.PHOTO_URLS = {
  * @type {Object<string, string>}
  */
 Basemap.LABEL_URLS = {
-	base: 'https://maps{1-4}.nyc.gov/tms/1.0.0/carto/label/{z}/{x}/{-y}.png8',
-	photo: 'https://maps{1-4}.nyc.gov/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8'
+	base: `https://${nycOl.TILE_HOSTS}/tms/1.0.0/carto/label/{z}/{x}/{-y}.png8`,
+	photo: `https://${nycOl.TILE_HOSTS}/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8`
 }
 
 /**

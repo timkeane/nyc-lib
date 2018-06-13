@@ -3,6 +3,13 @@
  * @public
  * @namespace
  */
-const leaf = {}
+const leaf = {
+  /**
+   * @desc The NYC host serving map tiles
+   * @public
+   * @const {string}
+   */
+  TILE_HOSTS: 'maps{s}.nyc.gov'  
+}
 
 export default leaf
