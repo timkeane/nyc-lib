@@ -53,6 +53,7 @@ html, body, body * {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	text-transform: capitalize;
 }
 h2.btn, h3.btn, a.btn, div.btn {
 	padding-top: 9px;

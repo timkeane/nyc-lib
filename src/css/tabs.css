@@ -9,18 +9,18 @@
   display: table;
   white-space: nowrap;
 }
-.tabs .btns h3 {
+.tabs .btns h2 {
   display: table-cell;
   margin: 0;
   border-right: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
   text-align: center;
 }
-.tabs .btns h3.active, .tabs .btns h3.active * {
+.tabs .btns h2.active, .tabs .btns h2.active * {
   background-color: var(--color-dark);
   color: var(--color-light);
 }
-.tabs .btns h3:last-of-type {
+.tabs .btns h2:last-of-type {
   border-right: none;
 }
 .tabs .container {

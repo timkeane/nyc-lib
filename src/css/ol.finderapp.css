@@ -58,13 +58,13 @@ html, body.fnd, .fnd #map {
   bottom: 0;
   width: 400px;
 }
-.fnd #tabs .btns h3 {
+.fnd #tabs .btns h2 {
   width: 33%;
 }
-.fnd #tabs .btns h3.btn-0 {
+.fnd #tabs .btns h2.btn-0 {
   display: none;
 }
-.fnd #tabs .btns h3.btn-2.filtered:before {
+.fnd #tabs .btns h2.btn-2.filtered:before {
   display: block;
   position: absolute;
   right: 0;
@@ -148,7 +148,7 @@ html, body.fnd, .fnd #map {
   .fnd #tabs {
     width: 100%;
   }
-  .fnd #tabs .btns h3.btn-0 {
+  .fnd #tabs .btns h2.btn-0 {
     display: table-cell;
   }
   .fnd #map.tab {

@@ -37,7 +37,7 @@ class Directions extends Contanier {
 		this.tabs = new Tabs({
       target: '#dir-tabs',
       tabs: [
-        {tab: '#map-tab', title: 'Map'},
+        {tab: '#map-tab', title: 'Route Map'},
         {tab: '#route-tab', title: 'Directions'}
       ]
 		})
