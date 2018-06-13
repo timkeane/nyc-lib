@@ -66,19 +66,25 @@ class Tabs extends Container {
 render(tabs){
     let opened = false
     tabs.forEach((tab, i) => {
-      const id = nyc.nextId('tab-lbl')
+      const btnId = nyc.nextId('tab-btn')
       const tb = $(tab.tab)
         .addClass(`tab tab-${i}`)
+        .attr('aria-labelledby', btnId)
         .attr('role', 'tabpanel')
-        .attr('aria-labelledby', id)
         .attr('aria-hidden', true)
+        
+      const pnlId = tb.attr('id') || nyc.nextId('tab-pnl')
+      tb.attr('id', pnlId)
+    
       const btn = $(Tabs.BTN_HTML)
-        .attr('id', id)
+        .attr('id', btnId)
+        .attr('aria-controls', pnlId)
         .attr('aria-selected', false)
         .click($.proxy(this.btnClick, this))
         .addClass(`btn-tab btn-${i}`)
         .data('tab', tb)
         .append(tab.title)
+        
       tb.data('btn', btn)
       this.btns.append(btn)
       this.tabs.append(tb)

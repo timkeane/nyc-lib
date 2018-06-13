@@ -23,22 +23,24 @@ class Collapsible extends Container {
   constructor(options) {
     super(options.target)
     this.getContainer().append(Collapsible.HTML)
-    const id = nyc.nextId('clsp-lbl')
+    const btnId = nyc.nextId('clsp-btn')
+    const pnlId = nyc.nextId('clsp-pnl')
     /**
      * @private
      * @member {jQuery}
      */
     this.btn = this.find('h3')
-      .attr('id', id)
+      .attr('id', btnId)
+      .attr('aria-controls', pnlId)
       .append(options.title)
       .click($.proxy(this.toggle, this))
-
     /**
      * @private
      * @member {jQuery}
      */
     this.content = this.find('.content').append($(options.content))
-      .attr('aria-labelledby', id)
+      .attr('id', pnlId)
+      .attr('aria-labelledby', btnId)
     if (options.collapsed) {
       this.content.hide()
       this.btn.removeClass('rad-top')
