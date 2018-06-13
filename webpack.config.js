@@ -10,6 +10,7 @@ let devtools = 'cheap-module-eval-source-map'
 const isProd = ['production', 'prod', 'prd'].indexOf(nodeEnv) > -1
 const isStg = 'stg' === nodeEnv
 const webpack = require('webpack')
+const Copy = require('copy-webpack-plugin')
 const Clean = require('clean-webpack-plugin')
 const Minify = require('babel-minify-webpack-plugin')
 const Replace = require('replace-in-file-webpack-plugin')
@@ -19,6 +20,15 @@ const Replace = require('replace-in-file-webpack-plugin')
 const plugins = [
   // new BundleAnalyzerPlugin({analyzerMode: 'static'}),
   new Clean(['dist']),
+  new Copy([{
+    from: path.resolve(__dirname, 'examples'), 
+    to: path.resolve(__dirname, 'dist/examples'),
+    toType: 'dir'
+  }, {
+    from: path.resolve(__dirname, 'tmp/css'), 
+    to: path.resolve(__dirname, 'dist/css'),
+    toType: 'dir'
+  }]),
   new webpack.optimize.ModuleConcatenationPlugin()
 ]
 
@@ -37,6 +47,7 @@ if (isStg) {
     }])    
   )
 }
+
 if (isProd || isStg) {
   devtools = false
   plugins.push(new Minify())
@@ -51,7 +62,7 @@ module.exports = {
   },
   output: {
      path: path.resolve(__dirname, 'dist/js'),
-     filename: '[name].js'
+     filename: `[name]-v${version}.js`
   },
   devtool: devtools,
   module: {
