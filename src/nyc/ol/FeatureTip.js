@@ -61,7 +61,8 @@ class FeatureTip extends OlOverlay {
 			return layer.getVisible() && layer.nycTip ? layer.nycTip(feature) : null
 		})
 		if (label) {
-			this.tip.html(label.html).addClass(label.css || '')
+			this.tip.html(label.html)
+			this.tip.get(0).className = `f-tip ${label.css || ""}`
       this.setPosition(event.coordinate)
       this.tip.show()
 			this.position()
