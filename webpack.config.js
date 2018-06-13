@@ -1,33 +1,59 @@
-console.warn(`process.env.NODE_ENV=${process.env.NODE_ENV}`)
-
-const isProd = ['production', 'prod', 'prd'].indexOf(process.env.NODE_ENV) > -1
-const webpack = require('webpack');
+const nodeEnv = process.env.NODE_ENV
+const version = require('./package.json').version
+require('dotenv').config()
 const path = require('path')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-const MinifyPlugin = require('babel-minify-webpack-plugin')
+
+console.warn(`process.env.NODE_ENV=${nodeEnv}`)
+console.warn(`version=${version}`)
+
+let devtools = 'cheap-module-eval-source-map'
+const isProd = ['production', 'prod', 'prd'].indexOf(nodeEnv) > -1
+const isStg = 'stg' === nodeEnv
+const webpack = require('webpack')
+const Clean = require('clean-webpack-plugin')
+const Minify = require('babel-minify-webpack-plugin')
+const Replace = require('replace-in-file-webpack-plugin')
+
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const plugins = [
   // new BundleAnalyzerPlugin({analyzerMode: 'static'}),
-  new CleanWebpackPlugin(['dist']),
+  new Clean(['dist']),
   new webpack.optimize.ModuleConcatenationPlugin()
 ]
 
-if (isProd) {
-  plugins.push(new MinifyPlugin())
+if (isStg) {
+  plugins.push(
+    new Replace([{
+      dir: 'dist/js',
+      files: ['nyc-ol-lib.js', 'nyc-leaf-lib.js'],
+      rules: [{
+        search: 'maps{1-4}.nyc.gov',
+        replace: process.env.STG_OL_TILE_HOSTS
+      }, {
+        search: 'maps{s}.nyc.gov',
+        replace: process.env.STG_LEAF_TILE_HOSTS
+      }]
+    }])    
+  )
+}
+if (isProd || isStg) {
+  devtools = false
+  plugins.push(new Minify())
 }
 
 module.exports = {
   entry: {
     "nyc-lib": './src/nyc-index.js',
     "nyc-ol-lib": './src/nyc-ol.js',
+    "nyc-leaf-lib": './src/nyc-leaf.js',
     "babel-polyfill": "babel-polyfill"
   },
   output: {
      path: path.resolve(__dirname, 'dist/js'),
      filename: '[name].js'
   },
-  devtool: isProd ? false : "cheap-module-eval-source-map",
+  devtool: devtools,
   module: {
     rules: [{
       test: /\.js$/,

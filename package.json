@@ -10,9 +10,9 @@
     "mta-hack": "cp ./src/nyc/mta/mta.html ./dist/nyc/mta/",
     "build": "webpack",
     "prebuild": "yarn test",
-    "postbuild": "yarn jsdoc && yarn replace-hosts && yarn copy-examples && yarn css",
+    "postbuild": "yarn jsdoc && yarn copy-examples && yarn css",
     "build-no-test": "webpack",
-    "postbuild-no-test": "yarn replace-hosts && yarn copy-examples && yarn css",
+    "postbuild-no-test": "yarn copy-examples && yarn css",
     "jsdoc": "jsdoc -c ./jsdoc/conf.json",
     "css": "yarn dev-css && yarn nyc-css && yarn nyc-ol-css",
     "dev-css": "bash -c 'if [ \"`printenv NODE_ENV`\" = \"dev\" ]; then yarn raw-css; fi'",
@@ -20,8 +20,7 @@
     "nyc-css": "postcss ./src/css/nyc-ol-lib.css --o ./dist/css/nyc-ol-lib.css --no-map --config postcss.config.js",
     "nyc-ol-css": "postcss ./src/css/nyc-lib.css --o ./dist/css/nyc-lib.css --no-map --config postcss.config.js",
     "roll-css": "cp ./etc/css/*.* ./dist/css/",
-    "copy-examples": "cp -r ./examples ./dist/examples",
-    "replace-hosts": "bash -c 'if [ -f replace-hosts.sh ]; then ./replace-hosts.sh; fi'"
+    "copy-examples": "cp -r ./examples ./dist/examples"
   },
   "jest": {
     "verbose": true,
@@ -74,6 +73,7 @@
     "canvas-prebuilt": "^1.6.5-prerelease.1",
     "clean-webpack-plugin": "^0.1.19",
     "coveralls": "^3.0.0",
+    "dotenv": "^6.0.0",
     "eslint": "^4.19.1",
     "eslint-loader": "^2.0.0",
     "ghooks": "^2.0.4",
@@ -85,6 +85,7 @@
     "postcss-clean": "^1.1.0",
     "postcss-css-variables": "^0.8.1",
     "postcss-import": "^11.1.0",
+    "replace-in-file-webpack-plugin": "^1.0.6",
     "strict-mode": "^1.1.2",
     "webpack": "^4.8.3",
     "webpack-bundle-analyzer": "^2.11.1",
