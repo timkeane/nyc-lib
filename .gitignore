@@ -47,6 +47,7 @@ build/Release
 build/
 dist/
 out/
+tmp/
 
 # Dependency directories
 node_modules/
