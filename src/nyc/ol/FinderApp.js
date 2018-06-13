@@ -299,7 +299,7 @@ class FinderApp {
   showSplash(options) {
     const input = this.locationMgr.zoomSearch.input
     if (options) {
-      options.buttonText = options.buttonText || ['Continue...']
+      options.buttonText = options.buttonText || ['Continue<span aria-hidden="true">...</span>']
       new Dialog('splash').ok(options).then(() => {
         $('#tabs').attr('aria-hidden', false)
         input.focus()
@@ -630,7 +630,7 @@ FinderApp.FEATURE_DECORATIONS = {
     if (details) {
       const collapsible = new Collapsible({
         target: $('<div class="dtl"></div>'),
-        title: this.detailButtonText || 'Details...',
+        title: this.detailButtonText || 'Details<span aria-hidden="true">...</span>',
         content: details,
         collapsed: true
       })

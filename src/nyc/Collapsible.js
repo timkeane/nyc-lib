@@ -3,8 +3,9 @@
  */
 
 import $ from 'jquery'
+
+import nyc from 'nyc'
 import Container from 'nyc/Container'
-import { ENETUNREACH } from 'constants';
 
 /**
  * @desc Class for creating collapsible containers
@@ -22,11 +23,13 @@ class Collapsible extends Container {
   constructor(options) {
     super(options.target)
     this.getContainer().append(Collapsible.HTML)
+    const id = nyc.nextId('clsp-lbl')
     /**
      * @private
      * @member {jQuery}
      */
     this.btn = this.find('h3')
+      .attr('id', id)
       .append(options.title)
       .click($.proxy(this.toggle, this))
 
@@ -35,13 +38,16 @@ class Collapsible extends Container {
      * @member {jQuery}
      */
     this.content = this.find('.content').append($(options.content))
+      .attr('aria-labelledby', id)
     if (options.collapsed) {
       this.content.hide()
       this.btn.removeClass('rad-top')
       this.find('h3 button').attr('aria-collapsed', true)
+        .attr('aria-expanded', false)
         .addClass('expd')
     } else {
       this.find('h3 button').attr('aria-collapsed', false)
+        .attr('aria-expanded', true)
     }
   }
   /**
@@ -65,7 +71,8 @@ class Collapsible extends Container {
       })
     }
     btn.toggleClass('expd')
-      .attr('aria-collapsed', btn.hasClass('expd'))
+      .attr('aria-collapsed', !collapsed)
+      .attr('aria-expanded', collapsed)
   }
 }
 
@@ -87,9 +94,7 @@ Collapsible.Options
  */
 Collapsible.HTML = '<div class="clps rad-all">' +
   '<h3 class="btn rad-all rad-top" role="button">' +
-    '<button class="btn-rnd">' +
-      '<span class="screen-reader-only">show/hide</span>' +
-    '</button>' +
+    '<button class="btn-rnd"></button>' +
   '</h3>' +
   '<div class="content rad-bot"></div>' +
 '</div>'

@@ -166,7 +166,7 @@ test('constructor', () => {
   expect(Dialog).toHaveBeenCalledTimes(1)
   expect(Dialog.mock.calls[0][0]).toBe('splash')
   expect(Dialog.mock.instances[0].ok.mock.calls[0][0].message).toBe('splash page message')
-  expect(Dialog.mock.instances[0].ok.mock.calls[0][0].buttonText[0]).toBe('Continue...')
+  expect(Dialog.mock.instances[0].ok.mock.calls[0][0].buttonText[0]).toBe('Continue<span aria-hidden="true">...</span>')
 
   expect(Share).toHaveBeenCalledTimes(1)
   expect(Share.mock.calls[0][0].target).toBe('#map')
@@ -359,7 +359,7 @@ test('showSplash', () => {
   expect(Dialog).toHaveBeenCalledTimes(1)
   expect(Dialog.mock.calls[0][0]).toBe('splash')
   expect(Dialog.mock.instances[0].ok.mock.calls[0][0].message).toBe('splash page message')
-  expect(Dialog.mock.instances[0].ok.mock.calls[0][0].buttonText[0]).toBe('Continue...')
+  expect(Dialog.mock.instances[0].ok.mock.calls[0][0].buttonText[0]).toBe('Continue<span aria-hidden="true">...</span>')
   
   return test().then(success => {expect(success).toBe(true)})
 })
@@ -1236,7 +1236,7 @@ describe('FEATURE_DECORATIONS', () => {
     const html = extendedDecorations.detailsCollapsible()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<div class="dtl"><div class="clps rad-all"><h3 class="btn rad-all" role="button"><button class="btn-rnd expd" aria-collapsed="true"><span class="screen-reader-only">show/hide</span></button>Details...</h3><div class="content rad-bot" style="display: none;"></div></div></div>'
+      '<div class="dtl"><div class="clps rad-all"><h3 class="btn rad-all" role="button" id="clsp-lbl-0"><button class="btn-rnd expd" aria-collapsed="true" aria-expanded="false"></button>Details<span aria-hidden="true">...</span></h3><div class="content rad-bot" aria-labelledby="clsp-lbl-0" style="display: none;"></div></div></div>'
     )
   })
 
@@ -1251,7 +1251,7 @@ describe('FEATURE_DECORATIONS', () => {
     const html = extendedDecorations.html()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<div class="facility css-class"><h2 class="name notranslate">A Name</h2><div class="addr"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a><a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a><a class="btn rad-all map" role="button" href="#">Map</a><a class="btn rad-all dir" role="button" href="#">Directions</a><div class="dtl"><div class="clps rad-all"><h3 class="btn rad-all" role="button"><button class="btn-rnd expd" aria-collapsed="true"><span class="screen-reader-only">show/hide</span></button>Details...</h3><div class="content rad-bot" style="display: none;"></div></div></div></div>'
+      '<div class="facility css-class"><h2 class="name notranslate">A Name</h2><div class="addr"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a><a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a><a class="btn rad-all map" role="button" href="#">Map</a><a class="btn rad-all dir" role="button" href="#">Directions</a><div class="dtl"><div class="clps rad-all"><h3 class="btn rad-all" role="button" id="clsp-lbl-1"><button class="btn-rnd expd" aria-collapsed="true" aria-expanded="false"></button>Details<span aria-hidden="true">...</span></h3><div class="content rad-bot" aria-labelledby="clsp-lbl-1" style="display: none;"></div></div></div></div>'
     )
   })
 })

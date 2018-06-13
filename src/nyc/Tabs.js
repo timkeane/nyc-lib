@@ -66,7 +66,7 @@ class Tabs extends Container {
 render(tabs){
     let opened = false
     tabs.forEach((tab, i) => {
-      const id = nyc.nextId('tab-label')
+      const id = nyc.nextId('tab-lbl')
       const tb = $(tab.tab)
         .addClass(`tab tab-${i}`)
         .attr('role', 'tabpanel')
