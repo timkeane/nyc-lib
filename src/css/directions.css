@@ -206,7 +206,8 @@ a[title="Click to see this area on Google Maps"] {
 	bottom: 0;
 	height: 15px;
 }
-img[src="https://maps.gstatic.com/mapfiles/api-3/images/google_white5_hdpi.png"] {
+img[src="https://maps.gstatic.com/mapfiles/api-3/images/google_white5_hdpi.png"],
+img[src="https://maps.gstatic.com/mapfiles/api-3/images/google_white5.png"] {
 	width: 38px !important;
 	height: 15px !important;
 }
