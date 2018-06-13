@@ -6,9 +6,10 @@ const path = require('path')
 console.warn(`process.env.NODE_ENV=${nodeEnv}`)
 console.warn(`version=${version}`)
 
-let devtools = 'cheap-module-eval-source-map'
+let devtools = false
 const isProd = ['production', 'prod', 'prd'].indexOf(nodeEnv) > -1
 const isStg = 'stg' === nodeEnv
+const isDev = !isStg && !isProd
 const webpack = require('webpack')
 const Copy = require('copy-webpack-plugin')
 const Clean = require('clean-webpack-plugin')
@@ -17,18 +18,29 @@ const Replace = require('replace-in-file-webpack-plugin')
 
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
+const copyFiles = [{
+  from: path.resolve(__dirname, 'examples'), 
+  to: path.resolve(__dirname, 'dist/examples'),
+  toType: 'dir'
+}, {
+  from: path.resolve(__dirname, 'tmp/css'), 
+  to: path.resolve(__dirname, 'dist/css'),
+  toType: 'dir'
+}]
+
+if (isDev) {
+  devtools = 'cheap-module-eval-source-map'
+  copyFiles.push({
+    from: path.resolve(__dirname, 'src/css'), 
+    to: path.resolve(__dirname, 'dist/css'),
+    toType: 'dir'
+  })
+}
+
 const plugins = [
   // new BundleAnalyzerPlugin({analyzerMode: 'static'}),
   new Clean(['dist']),
-  new Copy([{
-    from: path.resolve(__dirname, 'examples'), 
-    to: path.resolve(__dirname, 'dist/examples'),
-    toType: 'dir'
-  }, {
-    from: path.resolve(__dirname, 'tmp/css'), 
-    to: path.resolve(__dirname, 'dist/css'),
-    toType: 'dir'
-  }]),
+  new Copy(copyFiles),
   new webpack.optimize.ModuleConcatenationPlugin()
 ]
 
@@ -48,8 +60,7 @@ if (isStg) {
   )
 }
 
-if (isProd || isStg) {
-  devtools = false
+if (!isDev) {
   plugins.push(new Minify())
 }
 
