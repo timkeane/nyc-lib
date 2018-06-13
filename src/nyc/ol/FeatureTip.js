@@ -22,7 +22,8 @@ class FeatureTip extends OlOverlay {
     const element = $(options.map.getTargetElement()).find('f-tip').get(0)
     super({
       id: nyc.nextId('FeatureTip'),
-      element: element || $(FeatureTip.HTML).get(0)
+			element: element || $(FeatureTip.HTML).get(0),
+			stopEvent: false
     })
     this.setMap(options.map)
     this.map = this.getMap()
