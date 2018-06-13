@@ -6,10 +6,10 @@ const path = require('path')
 console.warn(`process.env.NODE_ENV=${nodeEnv}`)
 console.warn(`version=${version}`)
 
-let devtools = false
 const isProd = ['production', 'prod', 'prd'].indexOf(nodeEnv) > -1
 const isStg = 'stg' === nodeEnv
 const isDev = !isStg && !isProd
+let devtools = isDev ? 'cheap-module-eval-source-map' : false
 const webpack = require('webpack')
 const Copy = require('copy-webpack-plugin')
 const Clean = require('clean-webpack-plugin')
@@ -23,19 +23,10 @@ const copyFiles = [{
   to: path.resolve(__dirname, 'dist/examples'),
   toType: 'dir'
 }, {
-  from: path.resolve(__dirname, 'tmp/css'), 
+  from: isDev ? path.resolve(__dirname, 'src/css') : path.resolve(__dirname, 'tmp/css'), 
   to: path.resolve(__dirname, 'dist/css'),
   toType: 'dir'
 }]
-
-if (isDev) {
-  devtools = 'cheap-module-eval-source-map'
-  copyFiles.push({
-    from: path.resolve(__dirname, 'src/css'), 
-    to: path.resolve(__dirname, 'dist/css'),
-    toType: 'dir'
-  })
-}
 
 const plugins = [
   // new BundleAnalyzerPlugin({analyzerMode: 'static'}),
