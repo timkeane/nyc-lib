@@ -1,7 +1,6 @@
 .tabs {
   background-color: var(--color-light);
   border: 1px solid var(--color-border);
-  overflow: hidden;
 }
 .tabs>.btns {
   height: 35px;
