@@ -543,6 +543,7 @@ FinderApp.FEATURE_DECORATIONS = {
    */
   mapButton() {
     return $('<a class="btn rad-all map" role="button" href="#">Map</a>')
+      .prepend('<span class="screen-reader-only">Locate this facility on the <span>')
       .data('feature', this)
       .click(FinderApp.handleButton)
   },

@@ -1127,7 +1127,7 @@ describe('FEATURE_DECORATIONS', () => {
     expect(html.length).toBe(1)
     expect(html.data('feature')).toBe(extendedDecorations)
     expect($('<div></div>').append(html).html()).toBe(
-      '<a class="btn rad-all map" role="button" href="#">Map</a>'
+      '<a class="btn rad-all map" role="button" href="#"><span class="screen-reader-only">Locate this facility on the <span></span></span>Map</a>'
     )
   })
 
@@ -1251,7 +1251,7 @@ describe('FEATURE_DECORATIONS', () => {
     const html = extendedDecorations.html()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<div class="facility css-class"><h3 class="name notranslate">A Name</h3><div class="addr"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a><a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a><a class="btn rad-all map" role="button" href="#">Map</a><a class="btn rad-all dir" role="button" href="#">Directions</a><div class="dtl"><div class="clps rad-all"><h3 class="btn rad-all" role="button" id="clsp-btn-1" aria-controls="clsp-pnl-1"><button class="btn-rnd expd" aria-collapsed="true" aria-expanded="false"></button>Details<span aria-hidden="true">...</span></h3><div class="content rad-bot" id="clsp-pnl-1" aria-labelledby="clsp-btn-1" style="display: none;"></div></div></div></div>'
+      '<div class="facility css-class"><h3 class="name notranslate">A Name</h3><div class="addr"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a><a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a><a class="btn rad-all map" role="button" href="#"><span class="screen-reader-only">Locate this facility on the <span></span></span>Map</a><a class="btn rad-all dir" role="button" href="#">Directions</a><div class="dtl"><div class="clps rad-all"><h3 class="btn rad-all" role="button" id="clsp-btn-1" aria-controls="clsp-pnl-1"><button class="btn-rnd expd" aria-collapsed="true" aria-expanded="false"></button>Details<span aria-hidden="true">...</span></h3><div class="content rad-bot" id="clsp-pnl-1" aria-labelledby="clsp-btn-1" style="display: none;"></div></div></div></div>'
     )
   })
 })

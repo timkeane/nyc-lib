@@ -41,7 +41,8 @@ class Directions extends Contanier {
         {tab: '#route-tab', title: 'Directions'}
       ]
 		})
-    $(window).resize($.proxy(this.adjustTabs, this))
+		this.tabs.find('.btn-0').attr('aria-hidden', true)
+		this.tabs.on('change', this.tabChange, this)
 	  /**
      * @public
      * @member {google.maps.Map}
@@ -103,7 +104,8 @@ class Directions extends Contanier {
 		const mode = args.mode || 'TRANSIT'
 		const url = this.url
 		this.args = args
-		this.adjustTabs()
+		// this.adjustTabs()
+		this.tabs.open('#route-tab')
 		if (!this.map) {
 			return $.getScript(url)
 		}
@@ -124,6 +126,12 @@ class Directions extends Contanier {
 			)
 		}
 	}
+	/**
+	 * @private
+	 * @method
+	 * @param {Object} response
+	 * @param {string} status
+	 */
 	handleResp(response, status) {
 		if (status === google.maps.DirectionsStatus.OK) {
 			const leg = response.routes[0].legs[0]
@@ -153,6 +161,15 @@ class Directions extends Contanier {
 		this.trigger('change', {response: response, status: status})
 	}
 	/**
+	 * @private
+	 * @method
+	 */
+	tabChange() {
+		if (this.renderer) {
+			this.renderer.setOptions({map: this.map})
+		}
+	}
+	/**
 	 * @desc Initializes the class on callback from the Google Maps
 	 * @public
 	 * @method
@@ -173,26 +190,6 @@ class Directions extends Contanier {
 		this.find('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))		
 		this.directions(this.args)
 	}
-  /**
-   * @private
-   * @method
-   */
-  adjustTabs() {  
-		/* 
-		 * when input gets focus screen resizes on android 
-		 * causing input to lose focus when tabs are adjusted
-		 * so we don't adjust tabs when input has focus
-		 */
-    if ($('#directions').css('display') === 'block' && !nyc.activeElement().isTextInput) {
-			const fullscreen = Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1
-			const args = this.args || {origin: {}}
-			if (args.origin.coordinate && fullscreen) {
-				this.tabs.open('#map-tab')
-			} else {
-				this.tabs.open('#route-tab')
-			}
-		}
-  }
 	/**
 	 * @private
 	 * @method
@@ -210,8 +207,8 @@ class Directions extends Contanier {
 	mode(event) {
 		this.args = this.args || {}
 		this.modeBtn = event.target
-		$('#mode button').removeClass('active')
-		$(this.modeBtn).addClass('active')
+		$('#mode button').removeClass('active').attr('aria-selected', false)
+		$(this.modeBtn).addClass('active').attr('aria-selected', true)
 		this.args.mode = $(this.modeBtn).data('mode')
 		this.directions(this.args)
 	}
@@ -304,7 +301,7 @@ Directions.Response
 			'</table>' +
 			'<div class="route"></div>' +
 		'</div>' +
-		'<div id="map-tab">' +
+		'<div id="map-tab" aria-hidden="true">' +
 			'<div class="map"></div>' +
 			'<button class="btn-z-in btn-sq rad-all" data-zoom-incr="1" title="Zoom in">' +
 				'<span class="screen-reader-only">Zoom in</span>' +

@@ -180,7 +180,7 @@ Popup.Options
  */
 Popup.HTML = '<div class="pop">' +
   '<div class="content"></div>' +
-  '<button class="btn-rnd btn-x"><span class="screen-reader-only">Close</span></button>' +
+  '<button class="btn-rnd btn-x"><span class="screen-reader-only">Dismiss popup</span></button>' +
 '</div>'
 
 export default Popup

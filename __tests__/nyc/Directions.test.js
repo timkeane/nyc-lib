@@ -22,13 +22,12 @@ afterEach(() => {
 })
 
 describe('constructor', () => {
-  const adjustTabs = Directions.prototype.adjustTabs
   const tripPlanHack = Directions.prototype.tripPlanHack
   const mode = Directions.prototype.mode
   const key = Directions.prototype.key
   
   test('constructor no args', () => {
-    expect.assertions(28)
+    expect.assertions(26)
 
     const dir = new Directions()
 
@@ -54,19 +53,16 @@ describe('constructor', () => {
     expect(dir.lastDir).toBe('')
     
     expect(dir.styles).toBe(Directions.DEFAULT_STYLES)
-    expect($.mocks.proxy).toHaveBeenCalledTimes(6)
+    expect($.mocks.proxy).toHaveBeenCalledTimes(5)
     
-    expect($.mocks.proxy.mock.calls[2][0]).toBe(dir.adjustTabs)
+    expect($.mocks.proxy.mock.calls[2][0]).toBe(dir.tripPlanHack)
     expect($.mocks.proxy.mock.calls[2][1]).toBe(dir)
 
-    expect($.mocks.proxy.mock.calls[3][0]).toBe(dir.tripPlanHack)
+    expect($.mocks.proxy.mock.calls[3][0]).toBe(dir.mode)
     expect($.mocks.proxy.mock.calls[3][1]).toBe(dir)
 
-    expect($.mocks.proxy.mock.calls[4][0]).toBe(dir.mode)
+    expect($.mocks.proxy.mock.calls[4][0]).toBe(dir.key)
     expect($.mocks.proxy.mock.calls[4][1]).toBe(dir)
-
-    expect($.mocks.proxy.mock.calls[5][0]).toBe(dir.key)
-    expect($.mocks.proxy.mock.calls[5][1]).toBe(dir)
 
     dir.find('#fld-from input').focus()
     expect($.mocks.select).toHaveBeenCalledTimes(1)
@@ -74,7 +70,7 @@ describe('constructor', () => {
   })
 
   test('constructor with args', () => {
-    expect.assertions(26)
+    expect.assertions(24)
 
     const dir = new Directions('http://directions.url', 'mock-styles')
 
@@ -100,19 +96,16 @@ describe('constructor', () => {
     expect(dir.lastDir).toBe('')
     
     expect(dir.styles).toBe('mock-styles')
-    expect($.mocks.proxy).toHaveBeenCalledTimes(6)
+    expect($.mocks.proxy).toHaveBeenCalledTimes(5)
     
-    expect($.mocks.proxy.mock.calls[2][0]).toBe(dir.adjustTabs)
+    expect($.mocks.proxy.mock.calls[2][0]).toBe(dir.tripPlanHack)
     expect($.mocks.proxy.mock.calls[2][1]).toBe(dir)
 
-    expect($.mocks.proxy.mock.calls[3][0]).toBe(dir.tripPlanHack)
+    expect($.mocks.proxy.mock.calls[3][0]).toBe(dir.mode)
     expect($.mocks.proxy.mock.calls[3][1]).toBe(dir)
 
-    expect($.mocks.proxy.mock.calls[4][0]).toBe(dir.mode)
+    expect($.mocks.proxy.mock.calls[4][0]).toBe(dir.key)
     expect($.mocks.proxy.mock.calls[4][1]).toBe(dir)
-
-    expect($.mocks.proxy.mock.calls[5][0]).toBe(dir.key)
-    expect($.mocks.proxy.mock.calls[5][1]).toBe(dir)
   })
 })
 
@@ -160,13 +153,12 @@ test('init', () => {
 
 describe('directions', () => {
   test('directions no map', () => {
-    expect.assertions(18)
+    expect.assertions(17)
 
     const dir = new Directions()
 
     $('#directions').hide()
 
-    dir.adjustTabs = jest.fn()
     dir.handleResp = jest.fn()
 
     const args = {
@@ -179,7 +171,6 @@ describe('directions', () => {
 
     expect($.mocks.getScript).toHaveBeenCalledTimes(1)
     expect(dir.map.type).toBe('mock-map')
-    expect(dir.adjustTabs).toHaveBeenCalledTimes(2)
     expect($('#fld-from input').val()).toBe(args.from)
     expect($('#fld-to').html()).toBe(args.to)
     expect($('#fld-facility').html()).toBe(args.facility)
@@ -200,7 +191,7 @@ describe('directions', () => {
   })
 
   test('directions has map', () => {
-    expect.assertions(14)
+    expect.assertions(13)
 
     const dir = new Directions()
 
@@ -209,7 +200,6 @@ describe('directions', () => {
 
     $('#directions').hide()
 
-    dir.adjustTabs = jest.fn()
     dir.handleResp = jest.fn()
 
     const args = {
@@ -221,7 +211,6 @@ describe('directions', () => {
     dir.directions(args)
 
     expect($.mocks.getScript).toHaveBeenCalledTimes(0)
-    expect(dir.adjustTabs).toHaveBeenCalledTimes(1)
     expect($('#fld-from input').val()).toBe(args.from)
     expect($('#fld-to').html()).toBe(args.to)
     expect($('#fld-facility').html()).toBe(args.facility)
@@ -237,7 +226,7 @@ describe('directions', () => {
   })
 
   test('directions from in input no mode', () => {
-    expect.assertions(14)
+    expect.assertions(13)
 
     const dir = new Directions()
 
@@ -247,7 +236,6 @@ describe('directions', () => {
     $('#directions').hide()
     $('#fld-from input').val('from addr')
 
-    dir.adjustTabs = jest.fn()
     dir.handleResp = jest.fn()
 
     const args = {
@@ -257,7 +245,6 @@ describe('directions', () => {
     dir.directions(args)
 
     expect($.mocks.getScript).toHaveBeenCalledTimes(0)
-    expect(dir.adjustTabs).toHaveBeenCalledTimes(1)
     expect(args.from).toBe($('#fld-from input').val())
     expect($('#fld-to').html()).toBe(args.to)
     expect($('#fld-facility').html()).toBe(args.facility)
@@ -273,7 +260,7 @@ describe('directions', () => {
   })
 
   test('directions no from', () => {
-    expect.assertions(10)
+    expect.assertions(9)
 
     const dir = new Directions()
 
@@ -282,7 +269,6 @@ describe('directions', () => {
 
     $('#directions').hide()
 
-    dir.adjustTabs = jest.fn()
     dir.handleResp = jest.fn()
 
     const args = {
@@ -293,7 +279,6 @@ describe('directions', () => {
     dir.directions(args)
 
     expect($.mocks.getScript).toHaveBeenCalledTimes(0)
-    expect(dir.adjustTabs).toHaveBeenCalledTimes(1)
     expect($('#fld-from input').val()).toBe('')
     expect($('#fld-to').html()).toBe(args.to)
     expect($('#fld-facility').html()).toBe(args.facility)
@@ -387,88 +372,6 @@ describe('handleResp', () => {
     expect(Dialog.mock.instances[0].ok.mock.calls[0][0].message).toBe(
       `Could not determine directions from '${dir.args.from}' to '${dir.args.to}'`
     )
-  })
-})
-
-describe('adjustTabs', () => {
-  const activeElement = nyc.activeElement
-  afterEach(() => {
-    nyc.activeElement = activeElement
-  })
-
-  test('adjustTabs fullscreen origin no coordinate', () => {
-    expect.assertions(2)
-    
-    const dir = new Directions()
-
-    dir.tabs.open = jest.fn()
-    $(window).data('width', 300)
-    $(dir.tabs.getContainer()).data('width', 300)
-
-    dir.adjustTabs()
-
-    expect(dir.tabs.open).toHaveBeenCalledTimes(1)
-    expect(dir.tabs.open.mock.calls[0][0]).toBe('#route-tab')
-  })
-
-  test('adjustTabs fullscreen origin has coordinate', () => {
-    expect.assertions(2)
-    
-    const dir = new Directions()
-
-    dir.args = {origin: {coordinate: [1, 0]}}
-    dir.tabs.open = jest.fn()
-    $(window).data('width', 300)
-    $(dir.tabs.getContainer()).data('width', 300)
-
-    dir.adjustTabs()
-
-    expect(dir.tabs.open).toHaveBeenCalledTimes(1)
-    expect(dir.tabs.open.mock.calls[0][0]).toBe('#map-tab')
-  })
-
-  test('adjustTabs not fullscreen', () => {
-    expect.assertions(2)
-    
-    const dir = new Directions()
-
-    dir.args = {origin: {coordinate: [1, 0]}}
-    dir.tabs.open = jest.fn()
-    $(window).data('width', 500)
-    $(dir.tabs.getContainer()).data('width', 300)
-
-    dir.adjustTabs()
-
-    expect(dir.tabs.open).toHaveBeenCalledTimes(1)
-    expect(dir.tabs.open.mock.calls[0][0]).toBe('#route-tab')
-  })
-
-  test('adjustTabs not visible', () => {
-    expect.assertions(1)
-    
-    const dir = new Directions()
-
-    dir.tabs.open = jest.fn()
-    $('#directions').hide()
-
-    dir.adjustTabs()
-
-    expect(dir.tabs.open).toHaveBeenCalledTimes(0)
-  })
-
-  test('adjustTabs activeElement isTextInput', () => {
-    expect.assertions(1)
-    
-    const dir = new Directions()
-
-    dir.tabs.open = jest.fn()
-    nyc.activeElement = () => {
-      return {isTextInput: true}
-    }
-
-    dir.adjustTabs()
-
-    expect(dir.tabs.open).toHaveBeenCalledTimes(0)
   })
 })
 
