@@ -27,7 +27,7 @@ class Slider extends Container {
     const label = $('<label></label>')
       .html(options.label || '')
       .attr('for', id)
-    this.text = $('<input type="text">')
+    this.text = $('<input type="text" class="rad-all">')
       .attr('value', options.value || options.min)
       .change($.proxy(this.change, this))
       .keydown($.proxy(this.key, this))

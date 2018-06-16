@@ -125,6 +125,7 @@ class Directions extends Contanier {
 				$.proxy(this.handleResp, this)
 			)
 		}
+		setInterval(this.subwayAlt, 200)
 	}
 	/**
 	 * @private
@@ -159,6 +160,18 @@ class Directions extends Contanier {
 			})
 		}
 		this.trigger('change', {response: response, status: status})
+	}
+	/**
+	 * @private
+	 * @method
+	 */
+	subwayAlt() {
+		global.directions.find('.route img').each((_, img) => {
+			const src = img.src
+			if (src.indexOf('us-ny-mta') > -1) {
+				img.alt = `Take the ${src.match(/([^\/]+)(?=\.\w+$)/)[0]} train `
+			}
+		})
 	}
 	/**
 	 * @private
