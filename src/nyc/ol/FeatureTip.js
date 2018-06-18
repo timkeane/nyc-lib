@@ -30,7 +30,7 @@ class FeatureTip extends OlOverlay {
     this.tip = $(this.getElement())
 		this.addTips(options.tips)
 		this.map.on('pointermove', $.proxy(this.label, this))
-		$(this.map.getTargetElement()).mouseout($.proxy(this.hide, this))
+		$(document).mouseover($.proxy(this.out, this))
   }
 	/**
 	 * @desc Hide the feature tip
@@ -38,7 +38,7 @@ class FeatureTip extends OlOverlay {
 	 * @method
 	 */
 	hide() {
-		this.tip.fadeOut(5000)
+		this.tip.fadeOut()
 	}
 	/**
 	 * @desc Adds tip definitions
@@ -50,6 +50,15 @@ class FeatureTip extends OlOverlay {
 		tips.forEach(def => {
 			def.layer.nycTip = def.label
 		})
+	}
+	/**
+	 * @private
+	 * @method
+	 */
+	out(event) {
+		if (!$.contains(this.map.getTargetElement(), event.target)) {
+			this.hide()
+		}
 	}
 	/**
 	 * @private
@@ -66,7 +75,7 @@ class FeatureTip extends OlOverlay {
       this.setPosition(event.coordinate)
       this.tip.show()
 			this.position()
-		}else{
+		} else {
 			this.hide()
 		}
 	}
