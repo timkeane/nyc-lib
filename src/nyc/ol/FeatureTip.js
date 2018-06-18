@@ -28,9 +28,9 @@ class FeatureTip extends OlOverlay {
     this.setMap(options.map)
     this.map = this.getMap()
     this.tip = $(this.getElement())
-  	this.addTips(options.tips)
-  	options.map.on('pointermove', $.proxy(this.label, this))
-  	$(options.map.getViewport()).mouseout($.proxy(this.hide, this))
+		this.addTips(options.tips)
+		this.map.on('pointermove', $.proxy(this.label, this))
+		$(this.map.getTargetElement()).mouseout($.proxy(this.hide, this))
   }
 	/**
 	 * @desc Hide the feature tip
@@ -38,7 +38,7 @@ class FeatureTip extends OlOverlay {
 	 * @method
 	 */
 	hide() {
-		this.tip.fadeOut()
+		this.tip.fadeOut(5000)
 	}
 	/**
 	 * @desc Adds tip definitions

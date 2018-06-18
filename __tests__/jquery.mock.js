@@ -1,5 +1,4 @@
 import $ from 'jquery'
-import { SubjectSubscriber } from 'rxjs/Subject';
 
 $.originalFunctions = {
   width: $.fn.width,
@@ -10,42 +9,48 @@ $.originalFunctions = {
 }
 
 $.resetMocks = () => {
-  $.fn.slideUp = jest.fn().mockImplementation(callback => {
+  $.fn.slideUp = jest.fn().mockImplementation((arg0, arg1) => {
     const instances = $.mocks.slideUp.mock.instances
     instances[instances.length - 1].hide()
-    if (callback) callback()
+    if (typeof arg0 === 'function') arg0()
+    else if (typeof arg1 === 'function') arg1()
   })
 
-  $.fn.slideDown = jest.fn().mockImplementation(callback => {
+  $.fn.slideDown = jest.fn().mockImplementation((arg0, arg1) => {
     const instances = $.mocks.slideDown.mock.instances
     instances[instances.length - 1].show()
-    if (callback) callback()
+    if (typeof arg0 === 'function') arg0()
+    else if (typeof arg1 === 'function') arg1()
   })
 
-  $.fn.slideToggle = jest.fn().mockImplementation(callback => {
+  $.fn.slideToggle = jest.fn().mockImplementation((arg0, arg1)  => {
     const instances = $.mocks.slideToggle.mock.instances
     const hidden = instances[instances.length - 1].css('display') === 'none'
     instances[instances.length - 1][hidden ? 'show' : 'hide']()
-    if (callback) callback()
+    if (typeof arg0 === 'function') arg0()
+    else if (typeof arg1 === 'function') arg1()
   })
 
-  $.fn.fadeIn = jest.fn().mockImplementation(callback => {
+  $.fn.fadeIn = jest.fn().mockImplementation((arg0, arg1)  => {
     const instances = $.mocks.fadeIn.mock.instances
     instances[instances.length - 1].show()
-    if (callback) callback()
+    if (typeof arg0 === 'function') arg0()
+    else if (typeof arg1 === 'function') arg1()
   })
 
-  $.fn.fadeOut = jest.fn().mockImplementation(callback => {
+  $.fn.fadeOut = jest.fn().mockImplementation((arg0, arg1)  => {
     const instances = $.mocks.fadeOut.mock.instances
     instances[instances.length - 1].hide()
-    if (callback) callback()
+    if (typeof arg0 === 'function') arg0()
+    else if (typeof arg1 === 'function') arg1()
   })
 
-  $.fn.fadeToggle = jest.fn().mockImplementation(callback => {
+  $.fn.fadeToggle = jest.fn().mockImplementation((arg0, arg1)  => {
     const instances = $.mocks.fadeToggle.mock.instances
     const hidden = instances[instances.length - 1].css('display') === 'none'
     instances[instances.length - 1][hidden ? 'show' : 'hide']()
-    if (callback) callback()
+    if (typeof arg0 === 'function') arg0()
+    else if (typeof arg1 === 'function') arg1()
   })
 
   $.fn.resize = jest.fn()

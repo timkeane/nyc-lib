@@ -37,12 +37,13 @@
 	max-width: 400px;
 }
 .srch input, .srch ul {
-	opacity: 0.7;
+	background-color: var(--color-light-translucent);
 }
 .srch input {
 	width: calc(100% - 28px);
 	margin: 0;
 	padding-left: 23px;
+  border-color: var(--color-dark);
 }
 .srch ul {
 	display: none;
