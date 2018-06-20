@@ -88,6 +88,11 @@ class Directions extends Contanier {
      * @member {Array<Object<string, Object>>}
      */
 		this.styles = styles || Directions.DEFAULT_STYLES
+		/**
+     * @private
+     * @member {boolean}
+     */
+		this.moitoring = false
 		$('#mta').click($.proxy(this.tripPlanHack, this))
     $('#mode button').not('#mta').click($.proxy(this.mode, this))
 
@@ -104,7 +109,7 @@ class Directions extends Contanier {
 		const mode = args.mode || 'TRANSIT'
 		const url = this.url
 		this.args = args
-		// this.adjustTabs()
+		this.monitor()
 		this.tabs.open('#route-tab')
 		if (!this.map) {
 			return $.getScript(url)
@@ -125,7 +130,21 @@ class Directions extends Contanier {
 				$.proxy(this.handleResp, this)
 			)
 		}
-		setInterval(this.subwayAlt, 200)
+	}
+	/**
+	 * @private
+	 * @method
+	 */
+	monitor() {
+		if (!this.moitoring) {
+			this.moitoring = true
+			if ('MutationObserver' in window) {
+				new MutationObserver(this.subwayAlt)
+					.observe(this.find('.route').get(0), {childList: true})
+			} else {
+				setInterval(this.subwayAlt, 500)
+			}
+		}
 	}
 	/**
 	 * @private

@@ -56,7 +56,7 @@ class Slider extends Container {
       return this.range.val() * 1
     }
     this.range.val(value)
-    this.change()
+    this.text.val(value)
     return this
   }
   /**
@@ -66,7 +66,7 @@ class Slider extends Container {
    */
   badKey(event) {
     const key = event.keyCode
-    return $.inArray(key, [8, 9, 37, 39, 46]) === -1 &&
+    return $.inArray(key, [8, 9, 37, 38, 39, 40, 46]) === -1 &&
       isNaN(String.fromCharCode(event.which || key))
   }
   /**
@@ -75,14 +75,17 @@ class Slider extends Container {
    * @param {jQuery.Event}
    */
   key(event) {
-    if (event.keyCode === 38) {
-      this.val((this.val() * 1) + (this.range.attr('step') * 1))
-    } else if (event.keyCode === 40) {
-      this.val(this.val() - this.range.attr('step'))
-    } else if (this.badKey(event)) {
+    if (this.badKey(event)) {
       event.preventDefault()
-    } else if (event.keyCode === 13) {
-      this.val(this.text.val())
+    } else {
+      if (event.keyCode === 38) {
+        this.val((this.val() * 1) + (this.range.attr('step') * 1))
+      } else if (event.keyCode === 40) {
+        this.val(this.val() - this.range.attr('step'))
+      } else if (event.keyCode === 13) {
+        this.val(this.text.val())
+        this.change()
+      }
     }
   }
   /**
