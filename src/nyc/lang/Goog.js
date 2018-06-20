@@ -24,6 +24,11 @@ class Goog extends Translate {
    */
   constructor(options) {
     super(options)
+		/**
+     * @private
+     * @member {boolean}
+     */
+		this.moitoring = false
     $.getScript('https://translate.google.com/translate_a/element.js?cb=nycTranslateInstance.init')
   }
   /**
@@ -60,6 +65,7 @@ class Goog extends Translate {
 				$(choices).each((_, choice) => {
 					if ($(choice).text() === lang) {
 						$(choice).trigger('click')
+						nycTranslateInstance.monitor()
 						return false
 					}
 				})
@@ -85,6 +91,21 @@ class Goog extends Translate {
 			return cookie
 		}
     return ''
+	}
+	/**
+	 * @private
+	 * @method
+	 */
+	monitor() {
+		if (!this.moitoring) {
+			this.moitoring = true
+			if ('MutationObserver' in window) {
+				new MutationObserver(this.hack)
+					.observe(document.body, {childList: true})
+			} else {
+				setInterval(this.hack, 500)
+			}
+		}
 	}
   /**
    * @private
@@ -128,7 +149,6 @@ class Goog extends Translate {
 		})
 		$('body').css('top', 'auto')
 		$('#goog-gt-tt').remove()
-		setTimeout($.proxy(this.hack, this), 200)
 	}
   /**
    * @private
