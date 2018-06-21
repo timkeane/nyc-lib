@@ -139,10 +139,10 @@ class Directions extends Contanier {
 		if (!this.moitoring) {
 			this.moitoring = true
 			if ('MutationObserver' in window) {
-				new MutationObserver(this.subwayAlt)
+				new MutationObserver(this.routeAlt)
 					.observe(this.find('.route').get(0), {childList: true})
 			} else {
-				setInterval(this.subwayAlt, 500)
+				setInterval(this.routeAlt, 500)
 			}
 		}
 	}
@@ -184,11 +184,19 @@ class Directions extends Contanier {
 	 * @private
 	 * @method
 	 */
-	subwayAlt() {
+	routeAlt() {
+		let first = true
 		global.directions.find('.route img').each((_, img) => {
 			const src = img.src
+			let imgName = src.match(/([^\/]+)(?=\.\w+$)/)
+			imgName = imgName ? imgName[0] : ''
 			if (src.indexOf('us-ny-mta') > -1) {
-				img.alt = `Take the ${src.match(/([^\/]+)(?=\.\w+$)/)[0]} train `
+				img.alt = `Take the ${imgName} train `
+			} else if (imgName === 'walk') {
+				img.alt = 'Walk '
+			} else if ($(img).hasClass('adp-marker2')) {
+				img.alt = first ? 'Start location ' : 'End location '
+				first = false
 			}
 		})
 	}
