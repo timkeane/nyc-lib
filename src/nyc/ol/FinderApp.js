@@ -175,7 +175,7 @@ class FinderApp {
   zoomTo(feature) {
     const popup = this.popup
     popup.hide()
-    if ($('h3.btn-0').css('display') !== 'none') {
+    if ($('h2.btn-0').css('display') !== 'none') {
       this.tabs.open('#map')
     }
     this.map.once('moveend', () => {
