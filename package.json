@@ -80,6 +80,7 @@
     "jest": "^22.4.3",
     "jest-fetch-mock": "^1.5.0",
     "jsdoc": "^3.5.5",
+    "jszip": "^3.1.5",
     "papaparse": "^4.4.0",
     "postcss-clean": "^1.1.0",
     "postcss-css-variables": "^0.8.1",
@@ -89,7 +90,8 @@
     "strict-mode": "^1.1.2",
     "webpack": "^4.8.3",
     "webpack-bundle-analyzer": "^2.11.1",
-    "webpack-cli": "^2.0.14"
+    "webpack-cli": "^2.0.14",
+    "zip-folder": "^1.0.0"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
