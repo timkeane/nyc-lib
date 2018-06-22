@@ -1,18 +1,7 @@
 const package = require('./package.json')
 const name = package.name
 const version = `v${package.version}`
-
-const zip = require('zip-folder')
-const archiveFile = `${name}-${version}.zip`
-
-zip('dist', `./${archiveFile}`, (err) => {
-  if (err) {
-      console.log('zip error', err)
-      process.exit(1)
-  } else {
-    deploy()
-  }
-})
+const fs = require('fs')
 
 const deploy = () => {
   require('dotenv').config()
@@ -20,9 +9,8 @@ const deploy = () => {
   const isProd = ['production', 'prod', 'prd'].indexOf(nodeEnv) > -1
 
   const Client = require('ssh2').Client
-  const fs = require('fs')
-  const archiveDir = `${process.env.DEPLOY_DIR}/${name}/archive`
-  const deployDir = `${process.env.DEPLOY_DIR}/${name}/${version}`
+  const archiveDir = `${process.env.DEPLOY_DIR}/${name}/archive/`
+  const deployDir = `${process.env.DEPLOY_DIR}/${name}/${version}/`
 
   const callback = function(err, stream) {
     if (err) throw err
@@ -57,13 +45,14 @@ const deploy = () => {
       write.on('close', () => {
         console.log(archiveFile, 'transferred to', `${archiveDir}/${archiveFile}`)
         sftp.end()
-        conn.exec(`cp -R ${deployDir} ${deployDir}.bak`, callback)
-        conn.exec(`rm -rf ${deployDir}`, callback)
-        conn.exec(`unzip ${archiveDir}/${archiveFile} -d ${deployDir}`, callback)
-        conn.exec(`rm -rf ${deployDir}.bak`, (err, stream) => {
-          callback(err, stream)
-          conn.end()
-        })
+        // conn.exec(`mv ${deployDir} ${deployDir}.bak`, callback)
+        conn.exec(`tar -xvzf ${archiveDir}/${archiveFile} -C ${deployDir}`, callback)
+        // conn.exec(`rm -rf ${deployDir}.bak`, (err, stream) => {
+        //   callback(err, stream)
+        //   conn.end()
+        // })
+        // conn.end()
+        
       })
       read.pipe(write)
     })
@@ -76,3 +65,13 @@ const deploy = () => {
     port: 22
   })
 }
+
+const archiveFile = `${name}-${version}.zip`
+const zipdir = require('zip-dir')
+zipdir('./dist', {saveTo: './myzip.zip'}, (err, buffer) => {
+  if (err) {
+    console.error(err)
+    process.exit(1)
+  }
+})
+ 
