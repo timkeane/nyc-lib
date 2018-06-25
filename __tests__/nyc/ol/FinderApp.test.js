@@ -902,7 +902,7 @@ describe('ready', () => {
   })
 
   test('ready no search options', () => {
-    expect.assertions(6)
+    expect.assertions(5)
 
     const finderApp = new FinderApp({
       title: 'Finder App',
@@ -923,8 +923,7 @@ describe('ready', () => {
     expect(finderApp.pager.reset).toHaveBeenCalledTimes(1)
     expect(finderApp.pager.reset.mock.calls[0][0]).toBe('mock-features')
 
-    expect(finderApp.locationMgr.zoomSearch.setFeatures).toHaveBeenCalledTimes(1)
-    expect(finderApp.locationMgr.zoomSearch.setFeatures.mock.calls[0][0].features).toBe('mock-features')
+    expect(finderApp.locationMgr.zoomSearch.setFeatures).toHaveBeenCalledTimes(0)
 
     expect(nyc.ready).toHaveBeenCalledTimes(1)
     expect(nyc.ready.mock.calls[0][0].get(0)).toBe(document.body)
@@ -946,14 +945,14 @@ describe('ready', () => {
 
     nyc.ready = jest.fn()
     finderApp.pager.reset = jest.fn()
-    finderApp.facilitySearchOptions = {}
+    finderApp.facilitySearch = {}
     finderApp.ready('mock-features')
 
     expect(finderApp.pager.reset).toHaveBeenCalledTimes(1)
     expect(finderApp.pager.reset.mock.calls[0][0]).toBe('mock-features')
 
     expect(finderApp.locationMgr.zoomSearch.setFeatures).toHaveBeenCalledTimes(1)
-    expect(finderApp.locationMgr.zoomSearch.setFeatures.mock.calls[0][0]).toBe(finderApp.facilitySearchOptions)
+    expect(finderApp.locationMgr.zoomSearch.setFeatures.mock.calls[0][0]).toBe(finderApp.facilitySearch)
     expect(finderApp.locationMgr.zoomSearch.setFeatures.mock.calls[0][0].features).toBe('mock-features')
 
     expect(nyc.ready).toHaveBeenCalledTimes(1)
