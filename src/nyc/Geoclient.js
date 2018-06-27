@@ -158,7 +158,7 @@ constructor(options) {
   			coordinate: this.project(p),
   			data: r,
   			accuracy: a, /* approximation */
-  			name: nyc.capitalize(`${ln1.replace(/  /, ' ').replace(/  /, ' ')}, ${r.firstBoroughName}`) +
+  			name: nyc.capitalize(`${ln1.replace(/  +/g, ' ')}, ${r.firstBoroughName}`) +
           `, NY ${(r.zipCode || r.leftSegmentZipCode || '')}`
   		}
     } catch (badCoord) {
