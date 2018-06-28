@@ -66,8 +66,9 @@ class Slider extends Container {
    */
   badKey(event) {
     const key = event.keyCode
-    return $.inArray(key, [8, 9, 37, 38, 39, 40, 46]) === -1 &&
-      isNaN(String.fromCharCode(event.which || key))
+    return (key < 96 || key > 105) && /* not a number from num keypad with num lock on */
+      ($.inArray(key, [8, 9, 37, 38, 39, 40, 46]) === -1 && /* not backspace, tab, arrows or delete */
+      isNaN(String.fromCharCode(event.which || key))) /* not a number */
   }
   /**
    * @private
