@@ -215,8 +215,8 @@ class FinderApp {
    */
   located(location) {
     this.location = location
-    this.resetList()
     this.focusFacilities()
+    this.resetList()
   }
   /**
    * @access protected
@@ -306,7 +306,6 @@ class FinderApp {
         $('#tabs').attr('aria-hidden', false)
         input.focus()
       })
-      $('.splash .dia-msg').attr('tabindex', 0).focus()
     } else {
       input.focus()
     }
@@ -386,6 +385,7 @@ class FinderApp {
       this.locationMgr.zoomSearch.setFeatures(options)
     }
     this.pager.reset(features)
+    $('.splash .dia-msg').attr('tabindex', 0).focus()
     nyc.ready($('body'))
   }
 }

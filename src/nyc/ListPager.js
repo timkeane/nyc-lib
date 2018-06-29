@@ -54,29 +54,37 @@ class ListPager extends Container {
 	 * @public
 	 * @method
 	 * @param {Array<module:nyc/ListPager~ListPager.Item>=} items The items to page through
+	 * @return {Array<module:nyc/ListPager~ListPager.Item>} List of items on the next page
 	 */
 	reset(items) {
     this.list.empty()
     this.items = items
     this.index = 0
     this.moreBtn.fadeIn()
-    this.next()
+    return this.next(true)
 	}
 	/**
 	 * @desc Renders and returns next page of items
 	 * @public
 	 * @method
+	 * @param {boolean} [first=false] Transfer focus to the first item
 	 * @param {number} [pageSize=10] The length of the items for the next page
 	 * @return {Array<module:nyc/ListPager~ListPager.Item>} List of items on the next page
 	 */
-	next(pageSize) {
+	next(first, pageSize) {
     pageSize = pageSize || this.pageSize
     const result = this.items.slice(this.index, this.index + pageSize)
+    const last = this.find('.lst-it').last()
     this.index = this.index + pageSize
     if (this.index >= this.items.length - 1) {
       this.moreBtn.fadeOut()
     }
     this.render(result)
+    if (first) {
+      this.find('.lst-it').first().attr('tabindex', 0).focus()
+    } else {
+      last.next().attr('tabindex', 0).focus()
+    }
     return result
   }
 	/**
