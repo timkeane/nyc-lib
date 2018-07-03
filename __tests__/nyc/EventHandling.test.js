@@ -112,14 +112,13 @@ test('one', () => {
 test('trigger a single stand alone function for a single event', () => {
 	const handling = new EventHandling()
 
-	const aHandler = jest.fn(data => {
-		expect(data).toBe('data1')
-	})
+	const aHandler = jest.fn()
 
 	handling.on('event1', aHandler)
 
 	handling.trigger('event1', 'data1')
 	expect(aHandler).toHaveBeenCalledTimes(1)
+	expect(aHandler.mock.calls[0][0]).toBe('data1')
 })
 
 test('trigger stand alone function from many for a single event', () => {
