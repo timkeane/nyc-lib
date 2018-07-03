@@ -42,9 +42,12 @@ class FinderApp {
    */
   constructor(options) {
     global.finderApp = this
-    $('body').append(FinderApp.HTML).addClass('fnd')
+    $('body').append(FinderApp.HTML)
+      .addClass('fnd')
+      .attr('role', 'main')
+      .attr('aria-labelledby', 'banner')
     $('#banner').html(options.title)
-    $('#home').attr('title', options.title)		
+    $('#home').attr('title', options.title)
     /**
      * @private
      * @member {module:nyc/ListPager~ListPager}
@@ -669,8 +672,10 @@ FinderApp.Options
  * @const
  * @type {string}
  */
-FinderApp.HTML = '<h1 id="banner"></h1>' +
-'<div id="home" onclick="document.location.reload()"></div>' +
+FinderApp.HTML = '<h1 id="banner" role="banner"></h1>' +
+'<a id="home" role="navigation" href="#" onclick="document.location.reload()">' +
+  '<span class="screen-reader-only">Reload page</span>' +
+'</a>' +
 '<div id="map"></div>' +
 '<div id="tabs"></div>' +
 '<div id="facilities"></div>' +

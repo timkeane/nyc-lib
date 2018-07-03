@@ -102,9 +102,10 @@ class ListPager extends Container {
   /**
 	 * @private
 	 * @method
+	 * @return {Array<module:nyc/ListPager~ListPager.Item>} List of items on the next page
    */
   more() {
-    this.next()
+    return this.next()
   }
 }
 
