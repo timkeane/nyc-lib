@@ -42,14 +42,7 @@ class Collapsible extends Container {
       .attr('id', pnlId)
       .attr('aria-labelledby', btnId)
     if (options.collapsed) {
-      this.content.hide()
-      this.btn.removeClass('rad-top')
-      this.find('h3 button').attr('aria-collapsed', true)
-        .attr('aria-expanded', false)
-        .addClass('expd')
-    } else {
-      this.find('h3 button').attr('aria-collapsed', false)
-        .attr('aria-expanded', true)
+      this.toggle()
     }
   }
   /**
@@ -59,23 +52,17 @@ class Collapsible extends Container {
    */
   toggle() {
     const collapsed = this.content.css('display') === 'none'
-    const btn = this.find('h3 button')
     const me = this
-    if (collapsed) {
-      this.content.slideDown(() => {
-        me.btn.addClass('rad-top')
-        me.trigger('change', me)
-      })
-    } else {
-      this.content.slideUp(() => {
-        me.btn.removeClass('rad-top')
-        me.trigger('change', me)
-      })
+    const callback = () => {
+      me.trigger('change', me)
     }
-    btn.toggleClass('expd')
-      .attr('aria-collapsed', !collapsed)
+    this.btn.toggleClass('rad-all')
+      .toggleClass('rad-top')
+      .attr('aria-pressed', collapsed)
+    this.content.attr('aria-hidden', !collapsed)        
       .attr('aria-expanded', collapsed)
-  }
+      [collapsed ? 'slideDown' : 'slideUp'](callback)
+    }
 }
 
 /**
@@ -95,10 +82,8 @@ Collapsible.Options
  * @type {string}
  */
 Collapsible.HTML = '<div class="clps rad-all">' +
-  '<h3 class="btn rad-all rad-top" role="button">' +
-    '<button class="btn-rnd"></button>' +
-  '</h3>' +
-  '<div class="content rad-bot"></div>' +
+  '<h3 class="btn rad-top" role="button" aria-pressed="true"></h3>' +
+  '<div class="content rad-bot" aria-expanded="true" aria-hidden="false"></div>' +
 '</div>'
 
 export default Collapsible

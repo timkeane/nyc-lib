@@ -46,15 +46,17 @@ class Tabs extends Container {
     this.find('.tab')
       .attr('aria-hidden', true)
       .removeClass('active')
+      .attr('aria-selected', false)
     this.btns.find('.btn')
       .removeClass('active')
-      .attr('aria-selected', false)
+      .attr('aria-pressed', false)
     tab.addClass('active')
-      .attr('aria-hidden', false)
+    .attr('aria-selected', true)
+    .attr('aria-hidden', false)
       .attr('tabindex', 0)
       .focus()
     tab.data('btn').addClass('active')
-      .attr('aria-selected', true)
+    .attr('aria-pressed', true)
     this.active = tab
     this.trigger('change', this)
   }
@@ -71,6 +73,7 @@ render(tabs){
         .addClass(`tab tab-${i}`)
         .attr('aria-labelledby', btnId)
         .attr('role', 'tabpanel')
+        .attr('aria-selected', false)
         .attr('aria-hidden', true)
         
       const pnlId = tb.attr('id') || nyc.nextId('tab-pnl')
@@ -79,7 +82,7 @@ render(tabs){
       const btn = $(Tabs.BTN_HTML)
         .attr('id', btnId)
         .attr('aria-controls', pnlId)
-        .attr('aria-selected', false)
+        .attr('aria-pressed', false)
         .click($.proxy(this.btnClick, this))
         .addClass(`btn-tab btn-${i}`)
         .data('tab', tb)
@@ -138,8 +141,6 @@ Tabs.HTML = '<div class="btns" role="tablist"></div>' +
  * @const
  * @type {string}
  */
-Tabs.BTN_HTML = '<h2 class="btn" role="tab">' +
-  '<span class="screen-reader-only">Interact to show </span>' +
-'</h2>'
+Tabs.BTN_HTML = '<h2 class="btn" role="tab"></h2>'
 
 export default Tabs

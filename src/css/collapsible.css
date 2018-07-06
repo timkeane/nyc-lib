@@ -5,13 +5,25 @@
   margin: 0;
   text-align: left;
 }
-.clps h3 .btn-rnd {
+.clps h3:before {
+  display: block;
+  content: ' ';
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  background-size: 14px;
   background-image: var(--up-icon-light);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: var(--color-dark-translucent);
   float: left;
-  margin: -3px 5px 0 3px;
+  margin: -3px 3px;
 }
-.clps h3 .btn-rnd.expd {
+.clps h3.rad-all:before {
   background-image: var(--down-icon-light);
+}
+.clps h3:hover:before {
+  background-color: var(--color-dark);
 }
 .clps div.content {
   border: 1px solid var(--color-border);
