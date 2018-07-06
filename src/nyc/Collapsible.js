@@ -60,6 +60,7 @@ class Collapsible extends Container {
       .toggleClass('rad-top')
       .attr('aria-pressed', collapsed)
     this.content.attr('aria-hidden', !collapsed)        
+      .attr('aria-collapsed', !collapsed)
       .attr('aria-expanded', collapsed)
       [collapsed ? 'slideDown' : 'slideUp'](callback)
     }
@@ -83,7 +84,7 @@ Collapsible.Options
  */
 Collapsible.HTML = '<div class="clps rad-all">' +
   '<h3 class="btn rad-top" role="button" aria-pressed="true"></h3>' +
-  '<div class="content rad-bot" aria-expanded="true" aria-hidden="false"></div>' +
+  '<div class="content rad-bot" aria-expanded="true" aria-collapsed="false" aria-hidden="false"></div>' +
 '</div>'
 
 export default Collapsible

@@ -15,7 +15,7 @@ afterEach(() => {
 })
 
 test('constructor expanded', () => {
-  expect.assertions(13)
+  expect.assertions(14)
 
   const collapsible = new Collapsible({
     target: target,
@@ -35,12 +35,13 @@ test('constructor expanded', () => {
   expect(collapsible.content.get(0)).toBe(collapsible.find('.content').get(0))
   expect(collapsible.content.css('display')).toBe('block')
   expect(collapsible.content.attr('aria-expanded')).toBe('true')
+  expect(collapsible.content.attr('aria-collapsed')).toBe('false')
   expect(collapsible.content.attr('aria-hidden')).toBe('false')
   expect(collapsible.find('h3:contains("Collapsible Title")').get(0)).toBe(collapsible.btn.get(0))
 })
 
 test('constructor collapsed', () => {
-  expect.assertions(13)
+  expect.assertions(14)
 
   const collapsible = new Collapsible({
     target: target,
@@ -61,6 +62,7 @@ test('constructor collapsed', () => {
   expect(collapsible.content.get(0)).toBe(collapsible.find('.content').get(0))
   expect(collapsible.content.css('display')).toBe('none')
   expect(collapsible.content.attr('aria-expanded')).toBe('false')
+  expect(collapsible.content.attr('aria-collapsed')).toBe('true')
   expect(collapsible.content.attr('aria-hidden')).toBe('true')
   expect(collapsible.find('h3:contains("Collapsible Title")').get(0)).toBe(collapsible.btn.get(0))
 })
