@@ -25,13 +25,14 @@ class LocationMgr extends EventHandling {
   constructor(options) {
     super()
     /**
-     * @desc The zoomSearch
+     * @desc The ZoomSearch
      * @public
      * @member {module:nyc/ZoomSearch~ZoomSearch}
      */
     this.zoomSearch = options.zoomSearch
     /**
-     * @public The locator
+     * @desc The Locator
+     * @public 
      * @member {module:nyc/Locator~Locator}
      */
     this.locator = options.locator
