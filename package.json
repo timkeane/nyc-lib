@@ -1,0 +1,112 @@
+{
+  "name": "nyc-lib",
+  "version": "1.1.0",
+  "description": "A set of common libraries used to develop NYC mapping applications",
+  "scripts": {
+    "test": "jest",
+    "pkg": "cp ./package.json ./dist/ && cd dist && npm pack && mv *.tgz ../",
+    "prepkg": "yarn transpl && yarn mta-hack && yarn jsdoc && yarn pkg-css && yarn roll-css",
+    "transpl": "rm -rf ./dist && babel src/nyc -d ./dist/nyc --ignore __mocks__",
+    "mta-hack": "cp ./src/nyc/mta/mta.html ./dist/nyc/mta/",
+    "build": "webpack",
+    "prebuild": "yarn test && yarn postcss",
+    "prebuild-no-test": "yarn postcss",
+    "postbuild": "yarn jsdoc && rm -rf ./tmp",
+    "build-no-test": "webpack",
+    "jsdoc": "jsdoc -c ./jsdoc/conf.json",
+    "pkg-css": "cp -r ./src/css/ ./dist/css/",
+    "postcss": "rm -rf ./tmp && mkdir tmp && yarn nyc-css && yarn nyc-ol-css",
+    "nyc-css": "postcss ./src/css/nyc-ol-lib.css --o ./tmp/css/nyc-ol-lib.css --no-map --config postcss.config.js",
+    "nyc-ol-css": "postcss ./src/css/nyc-lib.css --o ./tmp/css/nyc-lib.css --no-map --config postcss.config.js",
+    "roll-css": "cp ./etc/css/*.* ./dist/css/"
+  },
+  "jest": {
+    "verbose": true,
+    "automock": false,
+    "testMatch": [
+      "**/__tests__/**/*.test.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(ol)/)"
+    ],
+    "moduleNameMapper": {
+      "^nyc(.*)$": "<rootDir>/src/nyc/$1"
+    },
+    "setupFiles": [
+      "./__tests__/jest-setup.js"
+    ],
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage/",
+    "collectCoverageFrom": [
+      "src/nyc/**/*.js"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timkeane/nyc-lib.git"
+  },
+  "keywords": [
+    "mapping",
+    "openlayers",
+    "leaflet",
+    "nyc",
+    "New York"
+  ],
+  "author": "Tim Keane <t.d.keane@gmail.com> (https://timkeane.github.io/)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/timkeane/nyc-lib/issues"
+  },
+  "homepage": "https://github.com/timkeane/nyc-lib#readme",
+  "engines": {
+    "node": ">=4.2.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-minify-webpack-plugin": "^0.3.1",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-preset-env": "^1.6.1",
+    "canvas-prebuilt": "^1.6.5-prerelease.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.1",
+    "coveralls": "^3.0.0",
+    "dotenv": "^6.0.0",
+    "eslint": "^4.19.1",
+    "eslint-loader": "^2.0.0",
+    "ghooks": "^2.0.4",
+    "ink-docstrap": "^1.3.2",
+    "jest": "^22.4.3",
+    "jest-fetch-mock": "^1.5.0",
+    "jsdoc": "^3.5.5",
+    "jszip": "^3.1.5",
+    "papaparse": "^4.4.0",
+    "postcss-clean": "^1.1.0",
+    "postcss-css-variables": "^0.8.1",
+    "postcss-import": "^11.1.0",
+    "replace-in-file-webpack-plugin": "^1.0.6",
+    "ssh2": "^0.6.1",
+    "strict-mode": "^1.1.2",
+    "webpack": "^4.8.3",
+    "webpack-bundle-analyzer": "^2.11.1",
+    "webpack-cli": "^2.0.14",
+    "zip-folder": "^1.0.0"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "es6-promise": "^4.2.4",
+    "jquery": "^3.3.1",
+    "leaflet": "^1.3.1",
+    "ol": "^4.6.5",
+    "proj4": "^2.4.4",
+    "shapefile": "^0.6.6",
+    "text-encoding": "^0.6.4"
+  },
+  "config": {
+    "ghooks": {
+      "pre-commit": "yarn test",
+      "pre-push": "yarn build"
+    }
+  }
+}

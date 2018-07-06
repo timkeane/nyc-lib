@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>nyc.lang.Translate Hint Button Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="../../js/nyc-lib.js"></script>
+  <link href="../../css/nyc-lib.css" rel="stylesheet">
+  <style>
+    #content {
+      top: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div id="lang"></div>
+  <div id="content">
+    <h3>Hello</h3>
+    <div>How are you?</a>
+    <div>Glad to here it!</div>
+  </div>
+  <script>
+    var translate = new nyc.lang.Goog({
+      target: '#lang',
+      languages: {
+        en: {code: 'en', name: 'English', native: 'English', hint: 'Translate'},
+        ar: {code: 'ar', name: 'Arabic' , native: '&#x627;&#x644;&#x639;&#x631;&#x628;&#x64A;&#x629;', hint: '&#x62A;&#x631;&#x62C;&#x645;'},
+        bn: {code: 'bn', name: 'Bengali', native: '&#x9AC;&#x9BE;&#x999;&#x9BE;&#x9B2;&#x9BF;', hint: '&#x9AC;&#x9BE;&#x999;&#x9BE;&#x9B2;&#x9BF;', hint: '&#x985;&#x9A8;&#x9C1;&#x9AC;&#x9BE;&#x9A6; &#x995;&#x9B0;&#x9BE;'},
+        cn: {code: 'cn', name: 'Chinese', native: '&#x4E2D;&#x56FD;', hint: '&#x7FFB;&#x8BD1;'},
+        fr: {code: 'fr', name: 'French', native: 'Fran&#231;ais', hint: 'Traduire'},
+        ht: {code: 'ht', name: 'Hatian', native: 'Krey&#242;l Ayisyen', hint: 'Tradui'},
+        ko: {code: 'ko', name: 'Korean' , native: '&#xD55C;&#xAD6D;&#xC758;', hint: '&#xBC88;&#xC5ED;'},
+        ru: {code: 'ru', name: 'Russian', native: 'P&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439;', hint: '&#x43F;&#x435;&#x440;&#x435;&#x432;&#x435;&#x441;&#x442;&#x438;'},
+        es: {code: 'es', name: 'Spanish', native: 'Espa&#241;ol', hint: 'Traducir'},
+        ur: {code: 'ur', name: 'Urdu', native: '&#x627;&#x631;&#x62F;&#x648;', hint: '&#x62A;&#x631;&#x62C;&#x645;&#x6C1; &#x6A9;&#x631;&#x6CC;&#x6BA;'}
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>nyc.Tabs Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="../js/nyc-lib.js"></script>
+  <link href="../css/nyc-lib.css" rel="stylesheet">
+	<style>
+    #tabs {
+      margin: 30px auto;
+      display: block;
+      width: 60%;
+      height: 500px;
+    }
+	</style>
+</head>
+<body>
+  <div id="tabs"></div>
+  <div id="lorem">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lobortis, massa id consequat lacinia, massa enim semper nunc, sit amet dapibus ex mi posuere tellus. Aenean vulputate iaculis lorem elementum finibus. Fusce mauris libero, lacinia sed ultricies nec, imperdiet vel diam. Vivamus diam magna, facilisis sed ipsum eu, rhoncus elementum ipsum. Sed vel orci sit amet mi semper feugiat dictum at diam. Vivamus ut accumsan est, porttitor venenatis dolor. In hac habitasse platea dictumst.
+  </div>
+  <div id="bender">
+    <h3>Come, Comrade Bender! We must take to the streets!</h3><p>It doesn't look so shiny to me. Hey, tell me something. You've got all this money. How come you always dress like you're doing your laundry? I'll tell them you went down prying the wedding ring off his cold, dead finger.</p><p>Stop it, stop it.  It's fine.  I will 'destroy' you!  Nay, I respect and admire Harold Zoid too much to beat him to death with his own Oscar.  Good man. <strong> Nixon's pro-war and pro-family.</strong> <em> Why am I sticky and naked?</em>  Did I miss something fun?</p><h2>That's right, baby. I ain't your loverboy Flexo, the guy you love so much. You even love anyone pretending to be him!</h2><p>No! The cat shelter's on to me. We're also Santa Claus! I'm sure those windmills will keep them cool. I just told you! You've killed me! It's a T. It goes "tuh". Ow, my spirit!</p><ol><li>You won't have time for sleeping, soldier, not with all the bed making you'll be doing.</li><li>Large bet on myself in round one.</li><li>I'm sure those windmills will keep them cool.</li></ol><h3>Ow, my spirit!</h3><p>Noooooo! That's right, baby. I ain't your loverboy Flexo, the guy you love so much. You even love anyone pretending to be him! And until then, I can never die? If rubbin' frozen dirt in your crotch is wrong, hey I don't wanna be right.</p><ul><li>Come, Comrade Bender! We must take to the streets!</li><li>Michelle, I don't regret this, but I both rue and lament it.</li><li>Yeah, I do that with my stupidness.</li></ul><p>Kif, I have mated with a woman. Inform the men. Ow, my spirit! Oh Leela! You're the only person I could turn to; you're the only person who ever loved me. Morbo can't understand his teleprompter because he forgot how you say that letter that's shaped like a man wearing a hat.</p><p>Yes. You gave me a dollar and some candy. Well, let's just dump it in the sewer and say we delivered it. With gusto. You don't know how to do any of those. You can see how I lived before I met you.</p><p>This is the worst kind of discrimination: the kind against me! Okay, I like a challenge. No argument here. You know the worst thing about being a slave? They make you work, but they don't pay you or let you go.</p><p>With gusto. Enough about your promiscuous mother, Hermes! We have bigger problems. Too much work. Let's burn it and say we dumped it in the sewer. Perhaps, but perhaps your civilization is merely the sewer of an even greater society above you!</p><p>No, just a regular mistake. Wow, you got that off the Internet? In my day, the Internet was only used to download pornography. Hey! I'm a porno-dealing monster, what do I care what you think? What are you hacking off? Is it my torso?! 'It is!' My precious torso!</p><p>Throw her in the brig. A sexy mistake. Who are you, my warranty?! Interesting. No, wait, the other thing: tedious. Meh.</p><p>Actually, that's still true. Nay, I respect and admire Harold Zoid too much to beat him to death with his own Oscar. Doomsday device? Ah, now the ball's in Farnsworth's court! I love you, buddy!</p><p>I love this planet! I've got wealth, fame, and access to the depths of sleaze that those things bring. Is that a cooking show? Fatal. And so we say goodbye to our beloved pet, Nibbler, who's gone to a place where I, too, hope one day to go. The toilet.</p><p>For one beautiful night I knew what it was like to be a grandmother. Subjugated, yet honored. I am the man with no name, Zapp Brannigan! Ow, my spirit! A sexy mistake. Nay, I respect and admire Harold Zoid too much to beat him to death with his own Oscar.</p><p>Hey, whatcha watching? That's not soon enough! Why would a robot need to drink? Stop it, stop it. It's fine. I will 'destroy' you! We'll go deliver this crate like professionals, and then we'll go home.</p><p>Oh, how awful. Did he at least die painlessly? …To shreds, you say. Well, how is his wife holding up? …To shreds, you say. Well I'da done better, but it's plum hard pleading a case while awaiting trial for that there incompetence.</p>
+  </div>
+  <div id="zombie">
+    Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora quaeritis. Summus brains sit​​, morbo vel maleficia? De apocalypsi gorger omero undead survivor dictum mauris. Hi mindless mortuis soulless creaturas, imo evil stalking monstra adventus resi dentevil vultus comedat cerebella viventium. Qui animated corpse, cricket bat max brucks terribilem incessu zomby. The voodoo sacerdos flesh eater, suscitat mortuos comedere carnem virus. Zonbi tattered for solum oculi eorum defunctis go lum cerebro. Nescio brains an Undead zombies. Sicut malus putrid voodoo horror. Nigh tofth eliv ingdead.
+  </div>
+  <script>
+		var tabs = new nyc.Tabs({
+      target: '#tabs',
+      tabs: [
+        {tab: '#lorem', title: 'Lorem'},
+        {tab: '#bender', title: 'Bender'},
+        {tab: '#zombie', title: 'Zombie', active: true}
+      ]
+    });
+    tabs.on('change', function(event) {console.log(event)});
+	</script>
+</body>
+</html>

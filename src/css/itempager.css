@@ -1,0 +1,15 @@
+.it-pg .btns {
+	width: 135px;
+	padding-top: 15px;
+	height: 20px;
+	text-align: center;
+}
+.it-pg .btns button {
+	margin-top: -3px
+}
+.it-pg .btns .btn-prv {
+	float: left;
+}
+.it-pg .btns .btn-nxt {
+	float: right;
+}

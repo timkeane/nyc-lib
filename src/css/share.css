@@ -1,0 +1,37 @@
+.shr {
+	position: absolute;
+	left: 3px;
+	bottom: 3px;
+	height: 35px;
+}
+.btn-shr {
+	background-image: var(--share-icon-light);
+}
+.shr .btns {
+	display: none;
+	position: fixed;
+	left: 43px;
+}
+.shr .btns a {
+	position: relative;
+	display: inline-block;
+	margin: 0 3px 0 0;
+}
+.shr .btns .facebook {
+	background-image: var(--facebook-icon-light);
+}
+.shr .btns .twitter {
+	background-image: var(--twitter-icon-light);
+}
+.shr .btns .google {
+	background-image: var(--google-icon-light);
+}
+.shr .btns .linkedin {
+	background-image: var(--linkedin-icon-light);
+}
+.shr .btns .tumblr {
+	background-image: var(--tumblr-icon-light);
+}
+.shr .btns .email {
+	background-image: var(--email-icon-light);
+}

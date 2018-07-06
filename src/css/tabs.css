@@ -1,0 +1,40 @@
+.tabs {
+  background-color: var(--color-light);
+  border: 1px solid var(--color-border);
+}
+.tabs>.btns {
+  height: 35px;
+  width: 100%;
+  display: table;
+  white-space: nowrap;
+}
+.tabs .btns h2 {
+  display: table-cell;
+  margin: 0;
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  text-align: center;
+}
+.tabs .btns h2.active, .tabs .btns h2.active * {
+  background-color: var(--color-dark);
+  color: var(--color-light);
+}
+.tabs .btns h2:last-of-type {
+  border-right: none;
+}
+.tabs .container {
+  height: calc(100% - 35px);
+  overflow: auto;
+}
+.tabs .container .tab {
+  display: none;
+  margin: 5px;
+  z-index: 0;
+}
+.tabs .container .tab.active {
+  display: block;
+}
+.tabs .container .tab:focus {
+  outline: 0;
+  box-shadow: none;
+}

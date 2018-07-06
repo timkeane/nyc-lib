@@ -1,0 +1,16 @@
+__tests__/
+**/node_modules/
+**/__mocks__/
+examples/
+etc/img/
+etc/css/build/
+coverage/
+jsdoc/
+.babelrc
+backlog.txt
+*.tgz
+*.yml
+postcss.config.js
+!dist/css/postcss.config.js
+webpack.config.js
+yarn.lock

@@ -1,0 +1,168 @@
+html, body.fnd, .fnd #map {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+.fnd #home {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 34px;
+  width: 80px;
+  cursor: pointer;
+}
+.fnd #banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  margin: 0;
+  padding: 4px 0 0 80px;
+  background-color: var(--color-dark);
+  background-image: var(--nyc-icon-light);
+  background-position: 3px 6px;
+  background-size: 71px 24px;
+  background-repeat: no-repeat;
+  text-transform: capitalize;
+}
+.fnd #banner, .fnd #banner * {
+  font-size: 24px;
+  color: var(--color-light);
+}
+.fnd .splash .dia {
+  background-color: var(--color-dark);
+  width: 400px;
+  top: 30%;
+  left: calc(50% - 208px);
+  margin: 0;
+}
+.fnd .splash .dia-msg, .fnd .splash .dia-msg * {
+  color: var(--color-light);
+  text-align: left;
+}
+.fnd .splash .dia-msg:focus {
+  outline: 0;
+}
+.fnd .splash .dia .btn-ok {
+  width: 100px;
+  background-color: rgba(255,255,255,.9);
+}
+.fnd .splash .dia .btn-ok:hover {
+  background-color: #fff;
+}
+.fnd #tabs {
+  position: fixed;
+  top: 35px;
+  right: 0;
+  bottom: 0;
+  width: 400px;
+}
+.fnd #tabs .btns h2 {
+  width: 33%;
+}
+.fnd #tabs .btns h2.btn-0 {
+  display: none;
+}
+.fnd #tabs .btns h2.btn-2.filtered:before {
+  display: block;
+  position: absolute;
+  right: 0;
+  content: " ";
+  width: 22px;
+  height: 22px;
+  background-color: var(--color-dark);
+  border-radius: 50%;
+  background-size: 18px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: var(--filter-icon-light);
+  margin: -3px 5px -3px 3px;
+  border: 1px solid var(--color-border);
+}
+.fnd #map.tab, .fnd #facilities.tab {
+  margin: 0;
+  bottom: 0;
+}
+.fnd #map {
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 35px;
+  right: 400px;
+  overflow: hidden;
+}
+.fnd #filters .clps {
+  margin-bottom: 5px;
+}
+.fnd .lst-it .btn, .fnd .pop .btn {
+  margin: 0 3px 0 0;
+  width: calc(50% - 5px);
+  display: inline-block;
+}
+.fnd .lst-it .btn:first-of-type, .fnd .pop .btn:first-of-type {
+  margin-top: 3px;
+}
+.fnd .pop .btn.map {
+  display: none;
+}
+.fnd .pop .btn.dir {
+  display: block;
+  width: auto;
+}
+.fnd .dtl .btn {
+  display: block;
+  width: calc(100% - 5px);
+  margin-bottom: 0;
+}
+.fnd .dtl .content {
+  width: calc(100% - 15px);
+}
+.lst-it .name, .pop .name {
+  font-weight: bold;
+  margin: 0;
+}
+.fnd .btn.map {
+  background-image: var(--map-icon-medium);
+}
+.fnd .btn.dir {
+  background-size: 24px;
+  background-image: var(--directions-icon-medium);
+}
+.fnd .btn.phone {
+  background-image: var(--phone-icon-medium);
+}
+.fnd .btn.email {
+  background-image: var(--email-icon-medium);
+}
+.fnd .btn.web {
+  background-size: 24px;
+  background-image: var(--web-icon-medium);
+}
+#lng {
+  position: absolute;
+  left: 3px;
+  bottom: 40px;
+}
+@media only screen and (max-width : 750px), screen and (max-device-height: 350px) {
+  .fnd #tabs {
+    width: 100%;
+  }
+  .fnd #tabs .btns h2.btn-0 {
+    display: table-cell;
+  }
+  .fnd #map.tab {
+    position: absolute;
+    width: 100%;
+    display: none;
+  }
+  .fnd #map.tab.active {
+    display: block;
+  }
+}
+@media only screen and (max-width : 400px) {
+  .fnd .splash .dia {
+    width: 370px;
+    left: calc(50% - 194px)
+  }
+}

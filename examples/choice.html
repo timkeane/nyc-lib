@@ -1,69 +1,93 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-
-	<title>nyc.Check and nyc.Radio Example</title>
-
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.css">
-	<!-- nyc css -->
-	<link rel="stylesheet" href="../src/main/css/nyc-base.css"> 
-	<link rel="stylesheet" href="../src/main/css/collapsible.css"> 
-	<!-- nyc css -->
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.2/leaflet.js"></script>
-	<!-- nyc js -->
-	<script src="../src/main/js/nyc/nyc.js"></script>
-	<script src="../src/main/js/nyc/collapsible.js"></script>
-	<script src="../src/main/js/nyc/collapsible-choice.js"></script>
-	<script src="../src/main/js/nyc/collapsible-check.js"></script>
-	<script src="../src/main/js/nyc/collapsible-radio.js"></script>
-	<!-- nyc js -->
-	
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>nyc.Choice Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="../js/nyc-lib.js"></script>
+  <link href="../css/nyc-lib.css" rel="stylesheet">
 	<style>
-		 button.open-dia.ui-btn {
-		 	width: 60%;
-		 	margin: 10px 20%;
-		 }
+    #check, #radio {
+      margin: 30px auto 0;
+      width: 200px;
+    }
+    .chc-chc label:before {
+      content: " ";
+      display: block;
+      width: 22px;
+      height: 22px;
+      float: left;
+      background-repeat: no-repeat;
+      background-size: 22px;
+      margin:  5px 7px 0 -3px;
+    }
+    .chc-chc.dog label:before {
+      background-image: url("img/dog.svg");
+    }
+    .chc-chc.cat label:before {
+      background-image: url("img/cat.svg");
+    }
+    .chc-chc.robot label:before {
+      background-image: url("img/robot.svg");
+    }
+    .chc-chc.plant-0 label:before {
+      background-image: url("img/tree.svg");
+    }
+    .chc-chc.plant-1 label:before {
+      background-image: url("img/flower.svg");
+    }
+    .chc-chc.plant-2 label:before {
+      background-image: url("img/leaf.svg");
+    }
+    .chc-chc:hover.dog label:before {
+      background-image: url("img/dog-white.svg");
+    }
+    .chc-chc:hover.cat label:before {
+      background-image: url("img/cat-white.svg");
+    }
+    .chc-chc:hover.robot label:before {
+      background-image: url("img/robot-white.svg");
+    }
+    .chc-chc:hover.plant-0 label:before {
+      background-image: url("img/tree-white.svg");
+    }
+    .chc-chc:hover.plant-1 label:before {
+      background-image: url("img/flower-white.svg");
+    }
+    .chc-chc:hover.plant-2 label:before {
+      background-image: url("img/leaf-white.svg");
+    }
 	</style>
 </head>
 <body>
-	<div id="check"></div>
-	<div id="radio"></div>
+  <div>
+    <div id="check"></div>
+    <div id="radio"></div>
+  </div>
 	<script>
-		var check, radio;
-		$(document).ready(function(){
-			check = new nyc.Check({
-				target: '#check',
-				title: 'My Good Choices',
-				choices: [
-					{name: 'g1', value: 'choice1', label: 'First Choice'},
-					{name: 'g2', value: 'choice2', label: 'Second Choice', checked: true},
-					{name: 'g3', value: 'choice3', label: 'Third Choice', checked: true}
-				]
-			});
-			radio = new nyc.Radio({
-				target: '#radio',
-				title: 'My Bad Choices',
-				choices: [
-					{name: 'b1', value: 'choice1', label: 'First Choice', checked: true},
-					{name: 'b2', value: 'choice2', label: 'Second Choice'},
-					{name: 'b3', value: 'choice3', label: 'Third Choice'}
-				]
-			});
-			
-			check.on('change', function(event){
-				console.info(check, event);
-			});
-			
-			radio.on('change', function(event){
-				console.info(radio, event);
-			});
-			
-		});
+    var check = new nyc.Choice({
+      target: '#check',
+      choices: [
+        {name: 'dog', label: 'Dog', values: [1]},
+        {name: 'cat', label: 'Cat', values: [2, 3, 4]},
+        {name: 'robot', label: 'Robot', values: [5]}
+      ]
+    });
+    var radio = new nyc.Choice({
+      target: '#radio',
+      radio: true,
+      choices: [
+        {name: 'plant', label: 'Tree', values: ['a']},
+        {name: 'plant', label: 'Flower', values: ['b', 'c', 'd']},
+        {name: 'plant', label: 'Leaf', values: ['z', 'q']}
+      ]
+    });
+    function hadler(event) {
+      console.info(event, event.val())
+    };
+    check.on('change', hadler);
+    radio.on('change', hadler);
 	</script>
 </body>
 </html>

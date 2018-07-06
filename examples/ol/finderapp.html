@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>nyc.ol.FinderApp with nyc.Directions Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.4.0/papaparse.min.js"></script>
+  <script src="../../js/nyc-ol-lib.js"></script>
+  <link href="../../css/nyc-ol-lib.css" rel="stylesheet">
+	<style>
+    .facility .name, .filter-chc-0 label {
+      padding-left: 25px;
+      background-position: 0 center;
+      background-repeat: no-repeat;
+      background-size: 20px;
+    }
+    .fnd .pop .btn.dir {
+      display: inline-block;
+      width: calc(50% - 5px);
+    }
+    .facility.DOE .name, label[for="chc-chc-0"] {
+      background-image: url("../img/DOE.png")
+    }
+    .facility.NYCEEC .name, label[for="chc-chc-1"] {
+      background-image: url("../img/NYCEEC.png")
+    }
+    .facility.PKC .name, label[for="chc-chc-3"] {
+      background-image: url("../img/PKC.png")
+    }
+    .facility.CHARTER .name, label[for="chc-chc-2"] {
+      background-image: url("../img/CHARTER.png")
+    }
+    .facility .btn.phone {
+      display: block;
+      margin-bottom: 3px;
+      width: auto;
+    }
+	</style>
+</head>
+<body class="loading">
+	<script>
+    new nyc.ol.FinderApp({
+      title: 'Pre-K Finder',
+      splashOptions: {message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lobortis, massa id consequat lacinia, massa enim semper nunc, sit amet dapibus ex mi posuere tellus. Aenean vulputate iaculis lorem elementum finibus. Fusce mauris libero, lacinia sed ultricies nec, imperdiet vel diam.'},
+      geoclientUrl: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example',
+      facilityTabTitle: 'Schools',
+      facilityUrl: '../data/pka.csv',
+      facilityFormat: new nyc.ol.format.CsvPoint({
+        x: 'X',
+        y: 'Y',
+        defaultDataProjection: 'EPSG:2263'
+      }),
+      facilityStyle: function(feature, resolution) {
+        return new ol.style.Style({
+          image: new ol.style.Icon({
+            src: '../img/' + feature.get('TYPE') + '.png',
+            scale: 24 / 64
+          })
+        });
+      },
+      filterChoiceOptions: [
+        {
+          title: 'School Type',
+          radio: true,
+          choices: [
+            {name: 'TYPE', values: ['DOE'], label: 'District School', checked: true},
+            {name: 'TYPE', values: ['NYCEEC'], label: 'Early Ed Center', checked: true},
+            {name: 'TYPE', values: ['CHARTER'], label: 'Charter School', checked: true},
+            {name: 'TYPE', values: ['PKC'], label: 'Pre-K Center', checked: true}
+          ]
+        },
+        {
+          title: 'Day Length',
+          choices: [
+            {name: 'DAY_LENGTH', values: ['1', '2', '5', '7'], label: 'Full Day', checked: true},
+      			{name: 'DAY_LENGTH', values: ['3', '6', '7'], label: 'Half Day', checked: true},
+      			{name: 'DAY_LENGTH', values: ['4', '5', '6', '7'], label: '5-hour', checked: true}
+          ]
+        }
+      ],
+      facilitySearch: true,
+      decorations: [{
+        getName: function() {
+          return this.get('NAME')
+        },
+        getAddress1: function() {
+          return this.get('ADDRESS')
+        },
+        getBorough: function() {
+          return {
+            M: 'Manhattan',
+            X: 'Bronx',
+            Q: 'Queens',
+            K: 'Brooklyn',
+            R: 'Staten Island'
+          }[this.get('BOROUGH')]
+        },
+        getCityStateZip: function() {
+          return this.getBorough() + ', NY ' + this.get('ZIP')
+        },
+        getPhone: function() {
+          return this.get('PHONE')
+        },
+        getEmail: function() {
+          return this.get('EMAIL')
+        },
+        getWebsite: function() {
+          return this.get('WEBSITE')
+        },
+        cssClass: function() {
+          return this.get('TYPE')
+        }
+      }],
+      directionsUrl: 'https://maps.googleapis.com/maps/api/js?client=gme-newyorkcitydepartment&channel=pka&sensor=false&libraries=visualization'
+    });
+	</script>
+</body>
+</html>

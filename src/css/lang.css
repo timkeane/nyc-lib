@@ -1,0 +1,82 @@
+#lng {
+	overflow: visible;
+}
+#lng .btn-sq {
+	position: relative;
+	display: block;
+	padding-left: 35px;
+	padding-right: 35px;
+	width: 200px;
+	background-position: 3px center;
+	background-image: var(--translate-icon-light);
+}
+#lng div.btn-sq:after {
+	content: " ";
+    display: block;
+    width: 22px;
+    height: 22px;
+    float: right;
+    margin: 4px -31px 0 0;
+    background-color: #fff;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-size: 14px;
+    background-position: center;
+    background-image: var(--down-icon-medium);
+}
+#lng div.btn-sq:hover:after {
+	background-image: var(--down-icon-dark);
+}
+#lng.button div.btn-sq:after {
+	display: none;
+}
+#lng .hint {
+	color: var(--color-light);
+	line-height: 30px;
+	width: 100%;
+	display: inline-block;
+	text-align: center;
+}
+#lng select {
+	position: absolute;
+	display: block;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 35px;
+	opacity: 0;
+}
+#lng.button .btn-sq, #lng.button select {
+	padding: 0;
+	width: 35px;
+}
+#lng.button .hint {
+	position: absolute;
+	left: -1000px;
+}
+.lng-placeholder {
+	visibility: hidden;
+	position: fixed;
+	left: -10000px;
+}
+
+#lng .goog-te-gadget-icon, #lng-goog, .skiptranslate, .goog-te-banner-frame {
+	display: none;
+	height: 0;
+	position: absolute;
+	left: -1000px;
+	top: -1000px;
+}
+body .goog-text-highlight {
+	background-color: inherit;
+	-webkit-box-shadow: inherit;
+	-moz-box-shadow: inherit;
+	box-shadow: inherit;
+	box-sizing: inherit;
+	-webkit-box-sizing: inherit;
+	-moz-box-sizing: inherit;
+	position: inherit;
+}
+font {
+	color: inherit;
+}

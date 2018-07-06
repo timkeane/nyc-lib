@@ -1,0 +1,62 @@
+.chc {
+	border: 1px solid var(--color-border);
+	display: table;
+	width: 100%;
+}
+.chc-chc {
+	display: table-row;
+	height: 33px;
+	padding: 3px;
+	width: 100%;
+	background-color: var(--color-medium);
+}
+.chc-chc input, .chc-chc label {
+	display: table-cell;
+	border-bottom: 1px solid var(--color-border);
+	line-height: 35px;
+	padding: 0 5px;
+}
+.chc-chc:last-of-type input, .chc-chc:last-of-type label {
+	border: none;
+}
+.chc-chc:hover {
+	background-color: var(--color-border);
+}
+.chc-chc input {
+	margin: 0 8px;
+	width: 14px;
+	height: 14px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+}
+.chc-chc input:before {
+  content: " ";
+  display: block;
+  position: relative;
+  margin: -3px 2px;
+  font-size: 14px;
+  background-color: var(--color-light);
+  border: 1px solid var(--color-dark);
+  color: transparent;
+  text-align: center;
+  width: 15px;
+  height: 15px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+input[type="checkbox"]:before {
+  border-radius: 3px;
+}
+input[type="radio"]:before {
+  border-radius: 50%;
+}
+input[type="checkbox"]:checked:before {
+  background-image: var(--check-icon-dark);
+  background-size: 13px;
+}
+input[type="radio"]:checked:before {
+  background-image: var(--dot-icon-dark);
+  background-size: 9px;
+}

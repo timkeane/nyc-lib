@@ -1,0 +1,70 @@
+.pop {
+	background-color: var(--color-light);
+	border-radius: var(--border-radius);
+	border: 1px solid var(--color-shadow);
+	box-shadow: var(--box-shadow);
+	display: none;
+	position: absolute;
+	bottom: 12px;
+	left: -50px;
+	z-index: 200;
+}
+.pop:after, .pop:before {
+	top: 100%;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+.pop:after {
+	border: solid transparent;
+	border-top-color: var(--color-light);
+	border-width: 10px;
+	left: 48px;
+	margin-left: -10px;
+}
+.pop:before {
+	border-top: 1px solid var(--color-shadow);
+	border-left-color: transparent;
+	border-right-color: transparent;
+	border-bottom-color: transparent;
+	border-width: 12px;
+	left: 48px;
+	margin-left: -12px;
+	margin-top: .4px;
+}
+.pop .content {
+	margin: 10px;
+	width: 330px;
+	max-height: 500px;
+	overflow: auto;
+}
+.pop .btn-x {
+	position: absolute;
+	top: 3px;
+	right: 3px;
+	z-index: 2;
+}
+.pop.fullscreen {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: calc(100% - 10px);
+	height: calc(100% - 10px);
+	padding: 5px;
+	background-color: var(--color-light);
+	border: none;
+	border-radius: 0;
+	z-index: 1000;
+	overflow: auto;
+}
+.pop.fullscreen .content {
+	width: unset;
+	max-width: unset;
+	max-height: unset;
+}
+.pop.fullscreen .btn {
+	margin: 5px 1.5px;
+}

@@ -1,0 +1,12 @@
+.f-tip {
+	border-radius: var(--border-radius);
+	padding: 3px;
+	min-width: 100px;
+	max-width: 150px;
+	text-align: center;
+	background-color: var(--color-light-translucent);
+	box-shadow: var(--box-shadow);
+}
+.f-tip, .f-tip * {
+	font-size: 12px;
+}

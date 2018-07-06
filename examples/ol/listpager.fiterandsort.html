@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>nyc.ol.source.FilterAndSort and nyc.ListPager Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.4.0/papaparse.min.js"></script>
+  <script src="../../js/nyc-ol-lib.js"></script>
+  <link href="../../css/nyc-ol-lib.css" rel="stylesheet">
+  <style>
+    html, body, #map {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    #map {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: calc(100% - 300px);
+    }
+    #nearest {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 300px;
+    }
+  </style>
+</head>
+<body class="loading" aria-hidden="true">
+  <div id="map"></div>
+  <div id="nearest"></div>
+  <script>
+    var listPager = new nyc.ListPager({target: '#nearest'});
+    var map = new nyc.ol.Basemap({target: 'map'});
+
+    var decorations = [
+      {
+        extendFeature() {
+          this.set('full-address',
+            this.get('NAME') + '\n' +
+            this.get('ADDRESS') + '\n' +
+            this.getBorough() + ', NY ' +
+            this.get('ZIP')
+          )
+        },
+        getBorough() {
+          return {
+            M: 'Manhattan',
+            X: 'Bronx',
+            K: 'Brooklyn',
+            Q: 'Queens',
+            R: 'Staten Island'
+          }[this.get('BOROUGH')]
+        }
+      },
+      {
+        getAddress() {
+          return this.get('full-address')
+        },
+        html() {
+          var html = $('<div></div>')
+          var distance = this.get('distance')
+          if (distance) {
+            var div = $('<div></div>')
+              .append(distance.distance.toFixed(2))
+              .append(' ' + distance.units);
+            html.append(div);
+          }
+          return html.append(this.getAddress().replace(/\n/g, '<br>'))
+        }
+      }
+    ];
+    var csv = new nyc.ol.format.CsvPoint({
+      defaultDataProjection: 'EPSG:2263',
+      x: 'X',
+      y: 'Y'
+    });
+    var source = new nyc.ol.source.FilterAndSort({
+      url: '../data/pka.csv',
+      format: new nyc.ol.format.Decorate({
+        parentFormat: csv,
+        decorations: decorations
+      })
+    });
+    source.autoLoad().then(function(features) {
+      listPager.reset(features)
+      nyc.ready()
+    });
+
+    map.addLayer(new ol.layer.Vector({source: source}));
+
+    var url = 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example';
+    var locationMgr = new nyc.LocationMgr({
+      zoomSearch: new nyc.ol.ZoomSearch(map),
+      locator: new nyc.ol.Locator({
+        geocoder: new nyc.Geoclient({url: url})
+      }),
+      mapLocator: new nyc.ol.MapLocator({map: map})
+    });
+    locationMgr.on(nyc.ol.'geocoded', function(location) {
+      var features = source.sort(location.coordinate);
+      listPager.reset(features);
+      for (var i = 0; i < 10; i++) {
+        console.log(features[i].get('distance'))
+        console.log(features[i].getAddress())
+      }
+    });
+  </script>
+</body>
+</html>

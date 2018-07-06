@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>nyc.Collapsible and nyc.Choice Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="../js/nyc-lib.js"></script>
+  <link href="../css/nyc-lib.css" rel="stylesheet">
+	<style>
+    #collapsible {
+      margin: 30px auto;
+      display: block;
+      width: 200px;
+    }
+    .chc-chc .lbl:before {
+      content: " ";
+      display: block;
+      width: 22px;
+      height: 22px;
+      background-repeat: no-repeat;
+      background-size: 22px;
+      float: left;
+      margin: -2px 6px 0 0;
+    }
+    .chc-chc .lbl.dog:before {
+      background-image: url("img/dog.svg");
+    }
+    .chc-chc .lbl.cat:before {
+      background-image: url("img/cat.svg");
+    }
+    .chc-chc .lbl.robot:before {
+      background-image: url("img/robot.svg");
+    }
+    .chc-chc:hover .lbl.dog:before {
+      background-image: url("img/dog-white.svg");
+    }
+    .chc-chc:hover .lbl.cat:before {
+      background-image: url("img/cat-white.svg");
+    }
+    .chc-chc:hover .lbl.robot:before {
+      background-image: url("img/robot-white.svg");
+    }
+	</style>
+</head>
+<body>
+  <div id="collapsible"></div>
+  <div id="check"></div>
+	<script>
+    var check = new nyc.Choice({
+      target: '#check',
+      choices: [
+        {name: 'dog', label: 'Dog', values: [1]},
+        {name: 'cat', label: 'Cat', values: [2, 3, 4]},
+        {name: 'robot', label: 'Robot', values: [5]}
+      ]
+    });
+    var collapsible = new nyc.Collapsible({
+      target: '#collapsible',
+      title: 'Pets',
+      content: '#check'
+    });
+    function hadler(event) {
+      console.info(event, event.val())
+    };
+    check.on('change', hadler);
+	</script>
+</body>
+</html>

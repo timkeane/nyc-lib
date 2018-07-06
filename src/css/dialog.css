@@ -1,0 +1,52 @@
+.dia-container {
+	display: none;
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 5000;
+	background-color: transparent;
+}
+.dia {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 240px;
+	min-height: 80px;
+	padding: 8px;
+	margin-top: -80px;
+	margin-left: -128px;
+	background-color: var(--color-light);
+	border-radius: var(--border-radius);
+	border: 1px solid var(--color-shadow);
+	box-shadow: var(--box-shadow);
+}
+.dia input {
+	display: none;
+	width: calc(100% - 8px);
+	margin-top: 8px;
+}
+.dia-btns a {
+	width: 80px;
+	margin: 5px 2px 2px 2px;
+}
+.dia-btns, .dia-msg {
+	text-align: center;
+	margin-top: 5px;
+}
+@media only screen and (min-width : 500px) {
+	.dia-3-btns .dia {
+		width: 360px;
+		margin-left: -188px;
+	}
+}
+@media only screen and (max-width : 499px) {
+	.dia-3-btns .dia {
+		width: 300px;
+		margin-left: -158px;
+	}
+	.dia-3-btns .dia-btns a {
+		width: 60px;
+	}
+}
