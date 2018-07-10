@@ -102,7 +102,7 @@ test('constructor', () => {
 
   expect(finderApp.pager instanceof ListPager).toBe(true)
   expect(finderApp.pager.getContainer().length).toBe(1)
-  expect(finderApp.pager.getContainer().get(0)).toBe($('#facilities').get(0))
+  expect(finderApp.pager.getContainer().get(0)).toBe($('#facilities div[role="region"]').get(0))
 
   expect(Basemap).toHaveBeenCalledTimes(1)
   expect(Basemap.mock.calls[0][0]).toEqual({target: 'map'})

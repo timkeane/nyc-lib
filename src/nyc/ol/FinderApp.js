@@ -48,12 +48,14 @@ class FinderApp {
       .attr('aria-labelledby', 'banner')
     $('#banner').html(options.title)
     $('#home').attr('title', options.title)
-    $('#facilities').attr('region', 'main')
     /**
      * @private
      * @member {module:nyc/ListPager~ListPager}
      */
-    this.pager = new ListPager({target: '#facilities'})
+    this.pager = new ListPager({
+      target: '#facilities div', 
+      itemType: options.facilityTabTitle
+    })
     /**
      * @private
      * @member {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions}
@@ -679,7 +681,7 @@ FinderApp.HTML = '<h1 id="banner" role="banner"></h1>' +
 '</a>' +
 '<div id="map"></div>' +
 '<div id="tabs"></div>' +
-'<div id="facilities"></div>' +
+'<div id="facilities"><div role="region"></div></div>' +
 '<div id="filters"></div>'
 
 export default FinderApp

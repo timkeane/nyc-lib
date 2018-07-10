@@ -40,7 +40,7 @@ test('constructor without items and pageSize', () => {
   expect(pager.getContainer().get(0)).toBe(target.get(0))
   expect(pager.list.length).toBe(1)
   expect(pager.list.get(0)).toBe(target.find('.list').get(0))
-  expect(pager.list.children().length).toBe(0)
+  expect(pager.list.find('.lst-it').length).toBe(0)
   expect(pager.moreBtn.length).toBe(1)
   expect(pager.moreBtn.get(0)).toBe(target.find('button').get(0))
 })
@@ -65,23 +65,23 @@ test('everything constructed with items and pageSize', () => {
   expect(pager.moreBtn.get(0)).toBe(target.find('button').get(0))
   expect(pager.moreBtn.css('display')).toBe('inline-block')
   expect(pager.list.get(0)).toBe(target.find('.list').get(0))
-  expect(pager.list.children().length).toBe(5)
+  expect(pager.list.find('.lst-it').length).toBe(5)
 
-  pager.list.children().each((i, item) => {
+  pager.list.find('.lst-it').each((i, item) => {
     expect($(item).html()).toBe(items[i].html())
   })
 
   pager.moreBtn.trigger('click')
 
-  expect(pager.list.children().length).toBe(10)
-  pager.list.children().each((i, item) => {
+  expect(pager.list.find('.lst-it').length).toBe(10)
+  pager.list.find('.lst-it').each((i, item) => {
     expect($(item).html()).toBe(items[i].html())
   })
 
   pager.moreBtn.trigger('click')
 
-  expect(pager.list.children().length).toBe(12)
-  pager.list.children().each((i, item) => {
+  expect(pager.list.find('.lst-it').length).toBe(12)
+  pager.list.find('.lst-it').each((i, item) => {
     expect($(item).html()).toBe(items[i].html())
   })
 

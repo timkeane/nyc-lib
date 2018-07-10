@@ -29,11 +29,16 @@ class ListPager extends Container {
     this.items = options.items || []
     /**
      * @private
+     * @member {string}
+     */
+    this.itemType = options.itemType || 'facilities'
+    /**
+     * @private
      * @member {jQuery}
      */
     this.list = this.find('.list')
     /**
-     * @private
+     * @priva
      * @member {number}
      */
     this.index = 0
@@ -80,14 +85,29 @@ class ListPager extends Container {
       this.moreBtn.fadeOut()
     }
     this.render(result)
+    
+    const info = this.info()
     if (first) {
-      this.find('.lst-it').first().attr('tabindex', 0).focus()
+      info.focus()
     } else {
       last.next().attr('tabindex', 0).focus()
     }
     return result
   }
-	/**
+  /**
+   * @private
+   * @method
+   * @returns {jQuery}
+   */
+  info() {
+    let info = this.find('h2.info.screen-reader-only')
+    if (!info.length) {
+      info = $('<h2 class="info screen-reader-only"></h2>')
+      this.list.prepend(info)      
+    }
+    return info.html(`Showing ${this.find('.lst-it').length} of ${this.items.length} ${this.itemType}`)
+  }
+  /**
 	 * @private
 	 * @method
 	 * @param {Array<module:nyc/ListPager~ListPager.Item>} items List of items
@@ -115,6 +135,7 @@ class ListPager extends Container {
  * @typedef {Object}
  * @property {jQuery|Element|string} target The DOM node in which to create the ListPager
  * @param {Array<ListPager.Item>=} items The items to page through
+ * @param {string} [itemType=Facilities] The name for the type of items
  * @param {number} [pageSize=10] The number of items per page
  */
 ListPager.Options
@@ -132,6 +153,7 @@ ListPager.Item
  * @const
  * @type {string}
  */
-ListPager.HTML = '<div class="list" role="list"></div><button class="btn rad-all btn-more">More...</button>'
+ListPager.HTML = '<div class="list" role="list"></div>' +
+'<button class="btn rad-all btn-more">More...</button>'
 
 export default ListPager
