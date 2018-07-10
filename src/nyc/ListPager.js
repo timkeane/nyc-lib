@@ -21,17 +21,20 @@ class ListPager extends Container {
    */
   constructor(options) {
     super(options.target)
-    this.getContainer().addClass('lst-pg').append($(ListPager.HTML))
-    /**
-     * @private
-     * @member {Array<ListPager.Item>}
-     */
-    this.items = options.items || []
     /**
      * @private
      * @member {string}
      */
     this.itemType = options.itemType || 'facilities'
+    this.getContainer().addClass('lst-pg')
+      .append($(ListPager.HTML))
+      .attr('role', 'region')
+      .attr('aria-label', `Showing 0 of 0 ${this.itemType}`)
+      /**
+     * @private
+     * @member {Array<ListPager.Item>}
+     */
+    this.items = options.items || []
     /**
      * @private
      * @member {jQuery}
@@ -85,27 +88,14 @@ class ListPager extends Container {
       this.moreBtn.fadeOut()
     }
     this.render(result)
-    
-    const info = this.info()
+    this.getContainer()
+      .attr('aria-label', `Showing ${this.find('.lst-it').length} of ${this.items.length} ${this.itemType}`)
     if (first) {
-      info.focus()
+      this.find('.lst-it').first().focus()
     } else {
       last.next().attr('tabindex', 0).focus()
     }
     return result
-  }
-  /**
-   * @private
-   * @method
-   * @returns {jQuery}
-   */
-  info() {
-    let info = this.find('h2.info.screen-reader-only')
-    if (!info.length) {
-      info = $('<h2 class="info screen-reader-only"></h2>')
-      this.list.prepend(info)      
-    }
-    return info.html(`Showing ${this.find('.lst-it').length} of ${this.items.length} ${this.itemType}`)
   }
   /**
 	 * @private
