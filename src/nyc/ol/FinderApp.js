@@ -48,6 +48,7 @@ class FinderApp {
       .attr('aria-labelledby', 'banner')
     $('#banner').html(options.title)
     $('#home').attr('title', options.title)
+    $('#facilities').attr('region', 'main')
     /**
      * @private
      * @member {module:nyc/ListPager~ListPager}
@@ -673,7 +674,7 @@ FinderApp.Options
  * @type {string}
  */
 FinderApp.HTML = '<h1 id="banner" role="banner"></h1>' +
-'<a id="home" role="navigation" href="#" onclick="document.location.reload()">' +
+'<a id="home" role="button" href="#" onclick="document.location.reload()">' +
   '<span class="screen-reader-only">Reload page</span>' +
 '</a>' +
 '<div id="map"></div>' +

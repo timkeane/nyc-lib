@@ -14,7 +14,6 @@ const webpack = require('webpack')
 const Copy = require('copy-webpack-plugin')
 const Clean = require('clean-webpack-plugin')
 const Minify = require('babel-minify-webpack-plugin')
-const Replace = require('replace-in-file-webpack-plugin')
 
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
@@ -35,20 +34,12 @@ const plugins = [
   new webpack.optimize.ModuleConcatenationPlugin()
 ]
 
-if (isStg) {
+try {
   plugins.push(
-    new Replace([{
-      dir: 'dist/js',
-      files: ['nyc-ol-lib.js', 'nyc-leaf-lib.js'],
-      rules: [{
-        search: 'maps{1-4}.nyc.gov',
-        replace: process.env.STG_OL_TILE_HOSTS
-      }, {
-        search: 'maps{s}.nyc.gov',
-        replace: process.env.STG_LEAF_TILE_HOSTS
-      }]
-    }])    
+    require(`${process.env.HOME}/.replace.js`).replacePlugin(__dirname)  
   )
+} catch (err) {
+  console.error(err)
 }
 
 if (!isDev) {
