@@ -43,10 +43,21 @@ class Container extends EventHandling {
 		return this.getContainer().find(selector)
 	}
   /**
+	 * @desc A method to prepend elements to the container
+	 * @public
+	 * @method
+	 * @param {jQuery|Element|Array<Element>|string} elements The element to append
+	 * @return {jQuery} The container
+	 */
+	prepend(elements) {
+		return this.getContainer().prepend($(elements))
+	}
+  /**
 	 * @desc A method to append elements to the container
 	 * @public
 	 * @method
 	 * @param {jQuery|Element|Array<Element>|string} elements The element to append
+	 * @return {jQuery} The container
 	 */
 	append(elements) {
 		return this.getContainer().append($(elements))

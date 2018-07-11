@@ -42,10 +42,7 @@ class FinderApp {
    */
   constructor(options) {
     global.finderApp = this
-    $('body').append(FinderApp.HTML)
-      .addClass('fnd')
-      .attr('role', 'main')
-      .attr('aria-labelledby', 'banner')
+    $('body').append(FinderApp.HTML).addClass('fnd')
     $('#banner').html(options.title)
     $('#home').attr('title', options.title)
     /**

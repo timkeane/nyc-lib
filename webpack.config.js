@@ -2,9 +2,10 @@ const nodeEnv = process.env.NODE_ENV
 const version = require('./package.json').version
 require('dotenv').config()
 const path = require('path')
+const replace = require('nyc-build-helper').replace
 
-console.warn(`process.env.NODE_ENV=${nodeEnv}`)
-console.warn(`version=${version}`)
+console.log(`process.env.NODE_ENV=${nodeEnv}`)
+console.log(`version=${version}`)
 
 const isProd = ['production', 'prod', 'prd'].indexOf(nodeEnv) > -1
 const isStg = 'stg' === nodeEnv
@@ -31,16 +32,9 @@ const plugins = [
   // new BundleAnalyzerPlugin({analyzerMode: 'static'}),
   new Clean(['dist']),
   new Copy(copyFiles),
-  new webpack.optimize.ModuleConcatenationPlugin()
+  new webpack.optimize.ModuleConcatenationPlugin(),
+  replace.replacePlugin()
 ]
-
-try {
-  plugins.push(
-    require(`${process.env.HOME}/.replace.js`).replacePlugin(__dirname)  
-  )
-} catch (err) {
-  console.error(err)
-}
 
 if (!isDev) {
   plugins.push(new Minify())
