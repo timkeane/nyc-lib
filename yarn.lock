@@ -5288,6 +5288,14 @@ nwmatcher@^1.4.3:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/nwmatcher/-/nwmatcher-1.4.4.tgz#2285631f34a95f0d0395cd900c96ed39b58f346e"
 
+nyc-build-helper@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/nyc-build-helper/-/nyc-build-helper-0.0.7.tgz#c2e013a89ff73c7569ac9ac0077557e427c0d531"
+  dependencies:
+    replace-in-file-webpack-plugin "^1.0.6"
+    ssh2 "^0.6.1"
+    zip-dir "^1.0.2"
+
 oauth-sign@~0.8.1, oauth-sign@~0.8.2:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
