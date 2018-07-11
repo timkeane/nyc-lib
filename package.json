@@ -1,6 +1,6 @@
 {
   "name": "nyc-lib",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "test": "jest",
@@ -18,7 +18,9 @@
     "postcss": "rm -rf ./tmp && mkdir tmp && yarn nyc-css && yarn nyc-ol-css",
     "nyc-css": "postcss ./src/css/nyc-ol-lib.css --o ./tmp/css/nyc-ol-lib.css --no-map --config postcss.config.js",
     "nyc-ol-css": "postcss ./src/css/nyc-lib.css --o ./tmp/css/nyc-lib.css --no-map --config postcss.config.js",
-    "roll-css": "cp ./etc/css/*.* ./dist/css/"
+    "roll-css": "cp ./etc/css/*.* ./dist/css/",
+    "predeploy": "yarn build",
+    "deploy": "node deploy"
   },
   "jest": {
     "verbose": true,
