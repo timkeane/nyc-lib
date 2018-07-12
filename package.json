@@ -4,7 +4,7 @@
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "test": "jest",
-    "pkg": "cp ./package.json ./dist/ && cd dist && npm pack && mv *.tgz ../",
+    "pkg": "cp ./package.json ./dist/ && cd dist && npm pack",
     "prepkg": "yarn transpl && yarn mta-hack && yarn jsdoc && yarn pkg-css && yarn roll-css",
     "transpl": "rm -rf ./dist && babel src/nyc -d ./dist/nyc --ignore __mocks__",
     "mta-hack": "cp ./src/nyc/mta/mta.html ./dist/nyc/mta/",
