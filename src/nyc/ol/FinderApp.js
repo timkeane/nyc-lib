@@ -196,7 +196,10 @@ class FinderApp {
    * @param {ol.Feature} feature
    */
   directionsTo(feature) {
-    this.directions = this.directions || new Directions(this.directionsUrl)
+    this.directions = this.directions || new Directions({
+      url: this.directionsUrl, 
+      toggle: '#tabs'
+    })
     const to = feature.getFullAddress()
     const name = feature.getName()
     const from = this.getFromAddr()

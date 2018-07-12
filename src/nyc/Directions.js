@@ -23,11 +23,11 @@ class Directions extends Contanier {
    * @desc Provides directions using google maps
    * @public
    * @constructor
-   * @param {string} [url={@link module:nyc/Directions~Directions.DEFAULT_GOOGLE_URL}] The Google Maps URL to use
-   * @param {Array<Object<strng, Object>>=} styles The Google Maps styles use {@see https://developers.google.com/maps/documentation/javascript/style-reference}
+   * @param {module:nyc/Directions~Directions.Options=} options Constructor options
    */
-  constructor(url, styles) {
+  constructor(options) {
 		super('body')
+		options = options || {}
 		global.directions = this
 		this.append(Directions.HTML)
     /**
@@ -72,7 +72,7 @@ class Directions extends Contanier {
      * @private
      * @member {string}
      */
-    this.url = `${(url || Directions.GOOGLE_URL)}&callback=directions.init`
+    this.url = `${(options.url || Directions.GOOGLE_URL)}&callback=directions.init`
     /**
      * @private
      * @member {jQuery.Event}
@@ -85,9 +85,14 @@ class Directions extends Contanier {
 		this.lastDir = ''
 		/**
      * @private
+     * @member {jQuery}
+     */
+		this.toggle = $(options.toggle)
+		/**
+     * @private
      * @member {Array<Object<string, Object>>}
      */
-		this.styles = styles || Directions.DEFAULT_STYLES
+		this.styles = options.styles || Directions.DEFAULT_STYLES
 		/**
      * @private
      * @member {boolean}
@@ -98,6 +103,11 @@ class Directions extends Contanier {
 
 		const input = $('#fld-from input')
 		input.keypress($.proxy(this.key, this)).focus(() => input.select())
+
+		$('#back-to-map').click(() => {
+			$('#directions').slideUp()
+			this.toggle.attr('aria-hidden', false)
+		})
   }
 	/**
 	 * @desc Get directions
@@ -130,6 +140,7 @@ class Directions extends Contanier {
 				$.proxy(this.handleResp, this)
 			)
 		}
+		this.toggle.attr('aria-hidden', true)
 	}
 	/**
 	 * @private
@@ -303,13 +314,22 @@ Directions.Response
  * @type {module:nyc/Directions~Directions.Response}
  */
 
+/**
+ * @desc Constructor options for {@link module:nyc/Directions~Directions}
+ * @public
+ * @typedef {Object}
+ * @property {string} [url={@link module:nyc/Directions~Directions.DEFAULT_GOOGLE_URL}] The Google Maps URL to use
+ * @property {Array<Object<strng, Object>>=} styles The Google Maps styles use {@see https://developers.google.com/maps/documentation/javascript/style-reference}
+ * @property {jQuery|string=} toggle Elements to hide from screen readers when directions are shown
+ */
+Directions.Options 
  /**
   * @private
   * @const
   * @type {string}
   */
  Directions.HTML = '<div id="directions">' +
-	'<button id="back-to-map" class="btn rad-all" onclick="$(\'#directions\').slideUp()">' +
+	'<button id="back-to-map" class="btn rad-all">' +
 		'Back to finder' +
  	'</button>' +
  	'<div id="dir-tabs">' +

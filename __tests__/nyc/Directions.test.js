@@ -72,7 +72,10 @@ describe('constructor', () => {
   test('constructor with args', () => {
     expect.assertions(24)
 
-    const dir = new Directions('http://directions.url', 'mock-styles')
+    const dir = new Directions({
+      url: 'http://directions.url', 
+      styles: 'mock-styles'
+    })
 
     expect(dir instanceof Contanier).toBe(true)
     expect(dir instanceof Directions).toBe(true)
