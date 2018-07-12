@@ -83,7 +83,7 @@
     "jest-fetch-mock": "^1.5.0",
     "jsdoc": "^3.5.5",
     "jszip": "^3.1.5",
-    "nyc-build-helper": "^0.0.7",
+    "nyc-build-helper": "^0.0.9",
     "papaparse": "^4.4.0",
     "postcss-clean": "^1.1.0",
     "postcss-css-variables": "^0.8.1",
