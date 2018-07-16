@@ -379,9 +379,10 @@ class FinderApp {
     return decorations
   }
   /**
-   * @private
+   * @desc Handles features after they are loaded
+   * @public
    * @method
-   * @param {Array<ol.Feature>}
+   * @param {Array<ol.Feature>} features The facility features
    */
   ready(features) {
     features = features || []
