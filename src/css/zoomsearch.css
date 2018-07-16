@@ -88,6 +88,9 @@
 .srch ul li:focus {
 	outline: 0;
 }
+.srch ul li a {
+	text-decoration: none;
+}
 .srch ul li:hover {
 	background-color: var(--color-dark-translucent);
 }
