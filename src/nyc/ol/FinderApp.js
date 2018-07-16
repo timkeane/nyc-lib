@@ -232,6 +232,7 @@ class FinderApp {
    */
   createFilters(choiceOptions) {
     if (choiceOptions) {
+      $('#filters').empty()
       const apply = $('<button class="screen-reader-only">Apply</button>')
       const filters = new Filters({
         target: '#filters',
@@ -297,7 +298,7 @@ class FinderApp {
    * @method
    */
   focusFacilities() {
-    this.tabs.find('.tab-1').attr('tabindex', 0).focus()
+    $('#tab-btn-1').trigger('click')
   }
   /**
    * @private
