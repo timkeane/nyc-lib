@@ -104,9 +104,10 @@ class Directions extends Contanier {
 		const input = $('#fld-from input')
 		input.keypress($.proxy(this.key, this)).focus(() => input.select())
 
+		const tog = this.toggle
 		$('#back-to-map').click(() => {
 			$('#directions').slideUp()
-			this.toggle.attr('aria-hidden', false)
+			tog.show().attr('aria-hidden', false)
 		})
   }
 	/**
@@ -118,7 +119,8 @@ class Directions extends Contanier {
 	directions(args) {
 		const mode = args.mode || 'TRANSIT'
 		const url = this.url
-		this.args = args
+		const tog = this.toggle
+		this.args = args		
 		this.monitor()
 		this.tabs.open('#route-tab')
 		if (!this.map) {
@@ -128,7 +130,10 @@ class Directions extends Contanier {
 		$('#fld-from input').val(args.from)
 		$('#fld-to').html(args.to)
 		$('#fld-facility').html(args.facility)
-		$('#directions').slideDown()
+		$('#directions').slideDown(() => {
+			tog.hide()
+		})
+		tog.attr('aria-hidden', true)
 		if (args.from && this.lastDir !== `${args.from}|${args.to}|${mode}`) {
 			this.lastDir = `${args.from}|${args.to}|${mode}`
 			this.service.route(
@@ -140,7 +145,6 @@ class Directions extends Contanier {
 				$.proxy(this.handleResp, this)
 			)
 		}
-		this.toggle.attr('aria-hidden', true)
 	}
 	/**
 	 * @private
