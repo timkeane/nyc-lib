@@ -1,6 +1,5 @@
 const nodeEnv = process.env.NODE_ENV
 const version = require('./package.json').version
-require('dotenv').config()
 const path = require('path')
 const replace = require('nyc-build-helper').replace
 
@@ -33,7 +32,7 @@ const plugins = [
   new Clean(['dist']),
   new Copy(copyFiles),
   new webpack.optimize.ModuleConcatenationPlugin(),
-  replace.replacePlugin()
+  replace.replacePlugin(__dirname)
 ]
 
 if (!isDev) {
