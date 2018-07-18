@@ -5457,9 +5457,9 @@ nwmatcher@^1.4.3:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/nwmatcher/-/nwmatcher-1.4.4.tgz#2285631f34a95f0d0395cd900c96ed39b58f346e"
 
-nyc-build-helper@^0.0.16:
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/nyc-build-helper/-/nyc-build-helper-0.0.16.tgz#940b3dc8f719458fe5bc355af0595701fab9c923"
+nyc-build-helper@^0.0.18:
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/nyc-build-helper/-/nyc-build-helper-0.0.18.tgz#709a671e202af1f04a75cfeb8a51830c38a5a2ff"
   dependencies:
     babel-minify-webpack-plugin "^0.3.1"
     clean-webpack-plugin "^0.1.19"

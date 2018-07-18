@@ -298,7 +298,7 @@ class FinderApp {
    * @method
    */
   focusFacilities() {
-    $('#tab-btn-1').trigger('click')
+    this.tabs.open('#facilities')
   }
   /**
    * @private
