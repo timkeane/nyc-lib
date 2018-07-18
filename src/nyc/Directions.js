@@ -97,7 +97,7 @@ class Directions extends Contanier {
      * @private
      * @member {boolean}
      */
-		this.moitoring = false
+		this.monitoring = false
 		$('#mta').click($.proxy(this.tripPlanHack, this))
     $('#mode button').not('#mta').click($.proxy(this.mode, this))
 
@@ -151,8 +151,8 @@ class Directions extends Contanier {
 	 * @method
 	 */
 	monitor() {
-		if (!this.moitoring) {
-			this.moitoring = true
+		if (!this.monitoring) {
+			this.monitoring = true
 			if ('MutationObserver' in window) {
 				new MutationObserver(this.routeAlt)
 					.observe(this.find('.route').get(0), {childList: true})

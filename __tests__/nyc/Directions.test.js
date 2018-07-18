@@ -4,6 +4,7 @@ import Contanier from 'nyc/Container'
 import Tabs from 'nyc/Tabs'
 import Dialog from '../../src/nyc/Dialog'
 import TripPlanHack from '../../src/nyc/mta/TripPlanHack'
+import MockMutationObserver from '../MutationObserver.mock'
 
 import googleMock from '../google.mock'
 
@@ -109,6 +110,31 @@ describe('constructor', () => {
 
     expect($.mocks.proxy.mock.calls[4][0]).toBe(dir.key)
     expect($.mocks.proxy.mock.calls[4][1]).toBe(dir)
+  })
+})
+
+describe('back to finder', () => {
+  const tog = $('<div aria-hidden="true"></div>')
+  beforeEach(() => {
+    $('body').append(tog)
+    tog.hide()
+  })
+  afterEach(() => {
+    tog.remove()
+  })
+
+  test('back to finder', () => {
+    expect.assertions(3)
+  
+    const dir = new Directions({toggle: tog})
+  
+    $('#directions').show()
+
+    $('#back-to-map').trigger('click')
+
+    expect(tog.css('display')).toBe('block')
+    expect(tog.attr('aria-hidden')).toBe('false')
+    expect($('#directions').css('display')).toBe('none')
   })
 })
 
@@ -290,6 +316,88 @@ describe('directions', () => {
     expect($('#directions').css('display')).toBe('block')
     expect(dir.lastDir).toBe('')
     expect(dir.service.route).toHaveBeenCalledTimes(0)
+  })
+})
+
+describe('monitor', () => {
+  const mutationObserver = window.MutationObserver
+  const interval = window.setInterval
+  beforeEach(() => {
+    window.setInterval = jest.fn()
+  })
+  afterEach(() => {
+    MockMutationObserver.resetMock()
+    window.setInterval = interval
+    window.MutationObserver = mutationObserver
+  })
+
+  test('monitor has MutationObserver', () => {
+    expect.assertions(8)
+
+    window.MutationObserver = MockMutationObserver
+
+    const dir = new Directions()
+
+    expect(dir.monitoring).toBe(false)
+
+    dir.monitor()
+
+    expect(dir.monitoring).toBe(true)
+
+    expect(MockMutationObserver.constructorCalls.length).toBe(1)
+    expect(MockMutationObserver.constructorCalls[0]).toBe(dir.routeAlt)
+
+    expect(MockMutationObserver.observeCalls.length).toBe(1)
+    expect(MockMutationObserver.observeCalls[0][0]).toBe(dir.find('.route').get(0))
+    expect(MockMutationObserver.observeCalls[0][1]).toEqual({childList: true})
+  
+    expect(window.setInterval).toHaveBeenCalledTimes(0)
+  })
+
+  test('monitor no MutationObserver', () => {
+    expect.assertions(4)
+
+    delete window.MutationObserver
+
+    const dir = new Directions()
+
+    expect(dir.monitoring).toBe(false)
+
+    dir.monitor()
+
+    expect(dir.monitoring).toBe(true)
+
+    expect(window.setInterval).toHaveBeenCalledTimes(1)
+    expect(window.setInterval.mock.calls[0][0]).toBe(dir.routeAlt)
+  })
+})
+
+describe('routeAlt', () => {
+  let imgs
+  beforeEach(() => {
+    imgs = $('<img><img><img><img><img>')
+    imgs.get(0).className = 'adp-marker2'
+    imgs.get(1).src = 'http://google.com/us-ny-mta/A.png'
+    imgs.get(2).src = 'http://google.com/mode/walk.png'
+    imgs.get(3).className = 'adp-marker2'
+  })
+  afterEach(() => {
+    imgs.remove()
+  })
+
+  test('routeAlt', () => {
+    expect.assertions(4)
+
+    const dir = new Directions()
+
+    $('.route').append(imgs)
+
+    dir.routeAlt()
+
+    expect(imgs.get(0).alt).toBe('Start location ')
+    expect(imgs.get(1).alt).toBe('Take the A train ')
+    expect(imgs.get(2).alt).toBe('Walk ')
+    expect(imgs.get(3).alt).toBe('End location ')
   })
 })
 
