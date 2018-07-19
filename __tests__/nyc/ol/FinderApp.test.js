@@ -901,7 +901,7 @@ describe('ready', () => {
     nyc.ready = ready
   })
 
-  test('ready no search options', () => {
+  test('ready facilitySearch false', () => {
     expect.assertions(5)
 
     const finderApp = new FinderApp({
@@ -910,6 +910,7 @@ describe('ready', () => {
       facilityUrl: 'http://facility',
       facilityFormat: format,
       facilityStyle: style,
+      facilitySearch: false,
       filterTabTitle: 'Filter Title',
       filterChoiceOptions: filterChoiceOptions,
       geoclientUrl: 'http://geoclient'
@@ -929,7 +930,37 @@ describe('ready', () => {
     expect(nyc.ready.mock.calls[0][0].get(0)).toBe(document.body)
   })
 
-  test('ready has search options', () => {
+  test('ready facilitySearch true', () => {
+    expect.assertions(6)
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    nyc.ready = jest.fn()
+    finderApp.pager.reset = jest.fn()
+    finderApp.facilitySearch = true
+
+    finderApp.ready('mock-features')
+
+    expect(finderApp.pager.reset).toHaveBeenCalledTimes(1)
+    expect(finderApp.pager.reset.mock.calls[0][0]).toBe('mock-features')
+
+    expect(finderApp.locationMgr.zoomSearch.setFeatures).toHaveBeenCalledTimes(1)
+    expect(finderApp.locationMgr.zoomSearch.setFeatures.mock.calls[0][0]).toEqual({features: 'mock-features'})
+
+    expect(nyc.ready).toHaveBeenCalledTimes(1)
+    expect(nyc.ready.mock.calls[0][0].get(0)).toBe(document.body)
+  })
+
+  test('ready has facilitySearch options', () => {
     expect.assertions(7)
 
     const finderApp = new FinderApp({
@@ -945,7 +976,7 @@ describe('ready', () => {
 
     nyc.ready = jest.fn()
     finderApp.pager.reset = jest.fn()
-    finderApp.facilitySearch = {}
+    finderApp.facilitySearch = {name: 'mock-options'}
     finderApp.ready('mock-features')
 
     expect(finderApp.pager.reset).toHaveBeenCalledTimes(1)
