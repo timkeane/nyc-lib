@@ -115,7 +115,7 @@ test('val', () => {
 })
 
 test('badKey', () => {
-  expect.assertions(15)
+  expect.assertions(16)
 
   const slider = new Slider({
     target: target,
@@ -141,6 +141,8 @@ test('badKey', () => {
   expect(slider.badKey({keyCode: 57})).toBe(false) //9
   
   expect(slider.badKey({keyCode: 65})).toBe(true) //a
+
+  expect(slider.badKey({keyCode: 106})).toBe(true) //j
 
 })
 
