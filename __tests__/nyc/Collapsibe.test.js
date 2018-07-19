@@ -66,3 +66,41 @@ test('constructor collapsed', () => {
   expect(collapsible.content.attr('aria-hidden')).toBe('true')
   expect(collapsible.find('h3:contains("Collapsible Title")').get(0)).toBe(collapsible.btn.get(0))
 })
+
+test('toggle via button click', () => {
+  expect.assertions(18)
+
+  const collapsible = new Collapsible({
+    target: target,
+    title: 'Collapsible Title',
+    content: content
+  })
+
+  expect(collapsible.content.css('display')).toBe('block')
+  expect(collapsible.content.attr('aria-hidden')).toBe('false')
+  expect(collapsible.content.attr('aria-collapsed')).toBe('false')
+  expect(collapsible.content.attr('aria-expanded')).toBe('true')
+
+  expect(collapsible.btn.hasClass('rad-all')).toBe(false)
+  expect(collapsible.btn.hasClass('rad-top')).toBe(true)
+
+  collapsible.btn.trigger('click')
+
+  expect(collapsible.content.css('display')).toBe('none')
+  expect(collapsible.content.attr('aria-hidden')).toBe('true')
+  expect(collapsible.content.attr('aria-collapsed')).toBe('true')
+  expect(collapsible.content.attr('aria-expanded')).toBe('false')
+
+  expect(collapsible.btn.hasClass('rad-all')).toBe(true)
+  expect(collapsible.btn.hasClass('rad-top')).toBe(false)
+
+  collapsible.btn.trigger('click')
+
+  expect(collapsible.content.css('display')).toBe('block')
+  expect(collapsible.content.attr('aria-hidden')).toBe('false')
+  expect(collapsible.content.attr('aria-collapsed')).toBe('false')
+  expect(collapsible.content.attr('aria-expanded')).toBe('true')
+
+  expect(collapsible.btn.hasClass('rad-all')).toBe(false)
+  expect(collapsible.btn.hasClass('rad-top')).toBe(true)
+})
