@@ -1,5 +1,6 @@
 import Translate from 'nyc/lang/Translate'
 import Goog from 'nyc/lang/Goog'
+import MockMutationObserver from '../../MutationObserver.mock'
 
 const languages = {
     en: {code: 'en', name: 'English'},
@@ -155,7 +156,65 @@ test('getCookie', () => {
 
   expect(translate.getCookie()).toBe('/en/ar')
 })
+/*
+describe('monitor', () => {
+  const mutationObserver = window.MutationObserver
+  const interval = window.setInterval
+  beforeEach(() => {
+    window.setInterval = jest.fn()
+  })
+  afterEach(() => {
+    MockMutationObserver.resetMock()
+    window.setInterval = interval
+    window.MutationObserver = mutationObserver
+  })
 
+  test('monitor has MutationObserver', () => {
+    expect.assertions(8)
+
+    window.MutationObserver = MockMutationObserver
+
+    const translate = new Goog({
+      target: target,
+      languages: languages
+    })
+  
+    expect(translate.monitoring).toBe(false)
+
+    translate.monitor()
+
+    expect(translate.monitoring).toBe(true)
+
+    expect(MockMutationObserver.constructorCalls.length).toBe(1)
+    expect(MockMutationObserver.constructorCalls[0]).toBe(translate.hack)
+
+    expect(MockMutationObserver.observeCalls.length).toBe(1)
+    expect(MockMutationObserver.observeCalls[0][0]).toBe(document.body)
+    expect(MockMutationObserver.observeCalls[0][1]).toEqual({childList: true})
+  
+    expect(window.setInterval).toHaveBeenCalledTimes(0)
+  })
+  test('monitor no MutationObserver', () => {
+    expect.assertions(4)
+
+    delete window.MutationObserver
+
+    const translate = new Goog({
+      target: target,
+      languages: languages
+    })
+
+    expect(translate.monitoring).toBe(false)
+
+    translate.monitor()
+
+    expect(translate.monitoring).toBe(true)
+
+    expect(window.setInterval).toHaveBeenCalledTimes(1)
+    expect(window.setInterval.mock.calls[0][0]).toBe(translate.hack)
+  })
+})
+*/
 describe('hack', () => {
   let inputs
   afterEach(() => {

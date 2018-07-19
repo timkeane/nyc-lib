@@ -28,7 +28,7 @@ class Goog extends Translate {
      * @private
      * @member {boolean}
      */
-		this.moitoring = false
+		this.monitoring = false
     $.getScript('https://translate.google.com/translate_a/element.js?cb=nycTranslateInstance.init')
   }
   /**
@@ -97,8 +97,8 @@ class Goog extends Translate {
 	 * @method
 	 */
 	monitor() {
-		if (!this.moitoring) {
-			this.moitoring = true
+		if (!this.monitoring) {
+			this.monitoring = true
 			if ('MutationObserver' in window) {
 				new MutationObserver(this.hack)
 					.observe(document.body, {childList: true})
