@@ -266,3 +266,34 @@ test('position bottom-right', () => {
 
   expect(tip.getPositioning()).toBe('bottom-left')
 })
+
+describe('out', () => {
+  let inMap
+  let notInMap
+  beforeEach(() => {
+    inMap = $('<div>in</div>')
+    notInMap = $('<div>out</div>')
+    $(map.getTargetElement()).append(inMap)
+    $('body').append(notInMap)
+  })
+  afterEach(() => {
+    inMap.remove()
+    notInMap.remove()
+  })
+
+  test('out triggered by document mouseover', () => {
+    expect.assertions(2)
+  
+    const tip = new FeatureTip({map: map, tips: tips})
+  
+    $(tip.getElement()).show()
+
+    $(document).trigger({type: 'mouseover', target: inMap.get(0)})
+
+    expect($(tip.getElement()).css('display')).toBe('block')
+
+    $(document).trigger({type: 'mouseover', target: notInMap.get(0)})
+
+    expect($(tip.getElement()).css('display')).toBe('none')
+  })
+})
