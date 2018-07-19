@@ -5,7 +5,7 @@ html, body, body * {
 }
 *:focus {
 	outline: 0;
-	box-shadow: 0px 1px 7px 3px var(--color-shadow);
+	box-shadow: 0px 1px 7px 3px var(--focus-ring-color);
 	z-index: 100000;
 }
 .rad-all, .rad-top, .rad-bot {

@@ -42,7 +42,7 @@ html, body.fnd, .fnd #map {
   text-align: left;
 }
 .fnd .splash .dia-msg:focus {
-  outline: 0;
+  box-shadow: none;
 }
 .fnd .splash .dia .btn-ok {
   width: 100px;
