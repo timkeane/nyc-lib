@@ -137,7 +137,7 @@ class Goog extends Translate {
 		$('input[placeholder]').each(function(_, input) {
 			const next = $(input).next()
 			if (!next.hasClass('lng-placeholder')) {
-				$(input).after('<span class="lng-placeholder">' + $(input).attr('placeholder') + '</span>')
+				$(input).after(`<span class="lng-placeholder">${$(input).attr('placeholder')}</span>`)
 			} else {
 				const fonts = next.find('font')
 				let text = next.html()

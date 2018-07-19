@@ -1,3 +1,4 @@
+
 import Translate from 'nyc/lang/Translate'
 import Goog from 'nyc/lang/Goog'
 import MockMutationObserver from '../../MutationObserver.mock'
@@ -41,11 +42,14 @@ const createIframes = () => {
   googleIframeMenu.get(0).contentDocument.write(html)
 }
 
+
 let target
+const mutationObserver = window.MutationObserver
 const getScript = $.getScript
 const google = window.google
 beforeEach(() => {
   $.resetMocks()
+  window.window.MutationObserver = MockMutationObserver
   window.google = googleMock
   target = $('<div></div>')
   $('body').append(target)
@@ -60,6 +64,8 @@ afterEach(() => {
   googleIframeMenu.remove()
   googleIframeButton.remove()
   $.getScript = getScript
+  MockMutationObserver.resetMock()
+  window.MutationObserver = mutationObserver
 })
 
 test('constructor is button', () => {
@@ -156,29 +162,26 @@ test('getCookie', () => {
 
   expect(translate.getCookie()).toBe('/en/ar')
 })
-/*
+
 describe('monitor', () => {
-  const mutationObserver = window.MutationObserver
   const interval = window.setInterval
   beforeEach(() => {
     window.setInterval = jest.fn()
   })
   afterEach(() => {
-    MockMutationObserver.resetMock()
     window.setInterval = interval
-    window.MutationObserver = mutationObserver
   })
 
   test('monitor has MutationObserver', () => {
     expect.assertions(8)
-
-    window.MutationObserver = MockMutationObserver
 
     const translate = new Goog({
       target: target,
       languages: languages
     })
   
+    window.setInterval.mockReset()
+
     expect(translate.monitoring).toBe(false)
 
     translate.monitor()
@@ -194,6 +197,7 @@ describe('monitor', () => {
   
     expect(window.setInterval).toHaveBeenCalledTimes(0)
   })
+
   test('monitor no MutationObserver', () => {
     expect.assertions(4)
 
@@ -203,6 +207,8 @@ describe('monitor', () => {
       target: target,
       languages: languages
     })
+
+    window.setInterval.mockReset()
 
     expect(translate.monitoring).toBe(false)
 
@@ -214,7 +220,7 @@ describe('monitor', () => {
     expect(window.setInterval.mock.calls[0][0]).toBe(translate.hack)
   })
 })
-*/
+
 describe('hack', () => {
   let inputs
   afterEach(() => {
