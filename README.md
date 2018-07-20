@@ -17,7 +17,7 @@
 * ol
 * jquery
 
-#### The following libraries are extenal requiremnets that may be optionally included separately depending on desired functionality:
+#### The following libraries are extenal requiremnents that may be optionally included separately depending on desired functionality:
 * shapefile
 * papaparse
 * leaflet
