@@ -8,7 +8,8 @@ A set of common libraries used to develop NYC mapping applications
 
 ### Using with Node
 
-`yarn install nyc-lib`
+* `yarn add nyc-lib`
+* `npm install nyc-lib`
 
 The following libraries are extenal requiremnents that must be included separately in your build or in your HTML page:
 * proj4
