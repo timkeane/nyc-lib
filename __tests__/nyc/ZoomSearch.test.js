@@ -248,7 +248,7 @@ test('showList with focus', () => {
 
   const zoomSearch = new ZoomSearch(container)
 
-  zoomSearch.list.append('<li>one</li><li>two</li>').hide()
+  zoomSearch.list.append('<li><a href="#" title="one">one</li><li href="#" title="two">two</li>').hide()
 
   const test = async () => {
     return new Promise(resolve => {
@@ -263,8 +263,8 @@ test('showList with focus', () => {
   return test().then(visible => {
     expect(visible).toBe('block')
     expect(zoomSearch.list.children().length).toBe(2)
-    expect(zoomSearch.list.children().first().attr('tabindex')).toBe('0')
-    expect(zoomSearch.list.children().first().is(':focus')).toBe(true)
+    expect(zoomSearch.list.children().first().find('a').attr('tabindex')).toBe('0')
+    expect(zoomSearch.list.children().first().find('a').is(':focus')).toBe(true)
   })
 })
 

@@ -182,13 +182,15 @@ class ZoomSearch extends Container {
 	listItem(options, data) {
 		const li = $('<li></li>')
 		const displayField = options.displayField
+		const name = `${data.data[displayField] || data.name}`
 		li.addClass(options.layerName)
 		if (options.layerName !== 'addr') {
 			li.addClass('feature')
 		}
 		return li.addClass('notranslate')
 			.attr('translate', 'no')
-			.html(`<a href="#">${data.data[displayField] || data.name}</a>`)
+			.attr('title', name)
+			.html(`<a href="#">${name}</a>`)
 			.data('nameField', options.nameField)
 			.data('displayField', displayField)
 			.data('location', data)
@@ -199,7 +201,12 @@ class ZoomSearch extends Container {
 	 * @method
 	 */
 	emptyList() {
-		this.retention.append(this.find('.srch li'))
+		const retention = this.retention
+		this.find('.srch li').each((i, item) => {
+			if (retention.find(`li[title="${item.title}"]`).length === 0) {
+				retention.append(item)
+			}
+		})
 		this.list.empty()
 	}
 	/**
@@ -300,7 +307,7 @@ class ZoomSearch extends Container {
 	showList(focus) {
 		this.list.slideDown(() => {
 			if (focus) {
-				this.list.children().first().attr('tabindex', 0).focus()
+				this.list.children().first().find('a').attr('tabindex', 0).focus()
 			}
 		})
 	}
@@ -363,7 +370,7 @@ ZoomSearch.HTML = '<div class="z-srch" role="toolbar">' +
 	'<div class="srch" role="search">' +
 		'<input class="rad-all" placeholder="Search for an address...">' +
 		'<button class="btn-rnd btn-x"><span class="screen-reader-only">Clear</span></button>' +
-		'<ul class="rad-all"></ul>' +
+		'<ul class="rad-all" role="region" label="Possible matches for your search"></ul>' +
 	'</div>' +
 	'<button class="btn-z-in btn-sq rad-all" data-zoom-incr="1" title="Zoom in">' +
 		'<span class="screen-reader-only">Zoom in</span>' +
