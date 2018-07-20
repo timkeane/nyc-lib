@@ -26,39 +26,56 @@ const writeIndexHtml = (latest) => {
         if (err) throw err
         
         const versions = []
+        const versionsMap = {}
         const recent = []
         const old = []
         list.forEach(file => {
           if (file.filename.indexOf('v') === 0 && file.filename.indexOf('SNAPSHOT') === -1) {
-            versions.push(file.filename)
+            const ver = new Number(file.filename.substr(0))
+            console.warn(file.filename.substr(0))
+            versions.push(ver)
+            versionsMap[ver] = file.filename
           }
           versions.sort()
           versions.reverse()
         })
 
+
+
         let envPostfix = isPrd ? '-prd' : '-stg'
-        for (let i = 1; i < 5; i++) {
+        let stable = ''
+        let foundStable = false
+        for (let i = 0; i < 4; i++) {
+          const ver = versions[i]
+          if (foundStable) {
+            stable = ''
+          } else if (versionsMap[ver].indexOf('-') === -1) {
+            stable = '<span class="latest-stable">(latest stable)</span>'
+            foundStable = true
+          }
           recent.push(
-            `<h3>${versions[i]}</h3>
+            `<h3>${versionsMap[ver]} ${stable}</h3>
             <ul>
-            <li><a href="${versions[i]}/doc/">Documentation</a></li>
-            <li><a href="${versions[i]}/examples/index.html">Examples</a></li>
-            <li><a href="archive/nyc-lib-${versions[i]}${envPostfix}.zip">nyc-lib-${versions[i]}${envPostfix}.zip</a></li>
+            <li><a href="${versionsMap[ver]}/doc/">Documentation</a></li>
+            <li><a href="${versionsMap[ver]}/examples/index.html">Examples</a></li>
+            <li><a href="archive/nyc-lib-${versionsMap[ver]}${envPostfix}.zip">nyc-lib-${versionsMap[ver]}${envPostfix}.zip</a></li>
             </ul>
             `
           )
         }
-        for (let i = 5; i < versions.length; i++) {
+
+        for (let i = 4; i < versions.length; i++) {
+          const ver = versions[i]
           envPostfix = isPrd ? '-prd' : '-stg'
-          if (versions[i].substr(1).split('.')[0] * 1 < 1) {
+          if (versionsMap[ver].substr(1).split('.')[0] * 1 < 1) {
             envPostfix = ''
           }
           old.push(
-            `<h3>${versions[i]}</h3>
+            `<h3>${versionsMap[ver]}</h3>
             <ul>
-            <li><a href="${versions[i]}/doc/">Documentation</a></li>
-            <li><a href="${versions[i]}/examples/index.html">Examples</a></li>
-            <li><a href="archive/nyc-lib-${versions[i]}${envPostfix}.zip">nyc-lib-${versions[i]}${envPostfix}.zip</a></li>
+            <li><a href="${versionsMap[ver]}/doc/">Documentation</a></li>
+            <li><a href="${versionsMap[ver]}/examples/index.html">Examples</a></li>
+            <li><a href="archive/nyc-lib-${versionsMap[ver]}${envPostfix}.zip">nyc-lib-${versionsMap[ver]}${envPostfix}.zip</a></li>
             </ul>
             `
           )
@@ -119,13 +136,6 @@ const writeIndexHtml = (latest) => {
           </head>
           <body>
             <h1 id="banner"><span>maps.nyc.gov</span>&nbsp;</h1>  
-            <h1>nyc-lib</h1>  
-            <h3>${latest} <span class='latest-stable'>(latest stable)</span></h3>
-            <ul>
-              <li><a href="${latest}/doc/">Documentation</a></li>
-              <li><a href="${latest}/examples/index.html">Examples</a></li>
-              <li><a href="archive/nyc-lib-${latest}${envPostfix}.zip">nyc-lib-${latest}${envPostfix}.zip</a></li>
-            </ul>
             ${recent.join(' ')}
             <a href="#" onclick="toggle(this);">Show older versions...</a>
             <div id="older" style="display:none;">

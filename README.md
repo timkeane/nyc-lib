@@ -24,6 +24,8 @@
 
 ### Using in an HTML page
 
+Note: If you plan on load testing an application that uses this library you must do so using a staging URL provided by the DoITT GIS Unit 
+
 #### OpenLayers
 ```
 <link href="https://maps.nyc.gov/nyc-lib/vX.X.X/css/nyc-ol-lib.css" rel="stylesheet">
