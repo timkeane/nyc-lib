@@ -7,7 +7,7 @@
 
 ### [Documentation and Examples](https://maps.nyc.gov/nyc-lib/)
 
-### Using with Node.js®
+### Using with Node.js
 
 * `yarn add nyc-lib`
 * `npm install nyc-lib`

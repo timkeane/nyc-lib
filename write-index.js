@@ -140,9 +140,7 @@ const writeIndexHtml = (latest) => {
           </head>
           <body>
             <h1 id="banner"><span>maps.nyc.gov</span>&nbsp;</h1>
-            <h3>${latest}
-            <span class="latest-stable">(latest stable)</span>
-            </h3>
+            <h3>${latest}</h3>
             <ul>
             <li><a href="${latest}/doc/">Documentation</a></li>
             <li><a href="${latest}/examples/index.html">Examples</a></li>
