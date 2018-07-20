@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/timkeane/nyc-lib.svg?branch=master)](https://travis-ci.org/timkeane/nyc-lib) [![Coverage Status](https://coveralls.io/repos/github/timkeane/nyc-lib/badge.svg?branch=master)](https://coveralls.io/github/timkeane/nyc-lib?branch=node) 
 #### [GitHub Repo](https://github.com/timkeane/nyc-lib)
 
-#### *nyc-lib* is a set of common libraries used to develop NYC mapping applications
+*nyc-lib* is a set of common libraries used to develop NYC mapping applications
 
 ### [Documentation and Examples](https://maps.nyc.gov/nyc-lib/)
 
@@ -12,12 +12,16 @@
 * `yarn add nyc-lib`
 * `npm install nyc-lib`
 
-#### The following libraries are extenal requiremnents that must be included separately in your build or in your HTML page:
+#### Required external dependencies
+
+The following libraries are extenal requiremnents that must be included separately in your build or in your HTML page:
 * proj4
 * ol
 * jquery
 
-#### The following libraries are extenal requiremnents that may be optionally included separately depending on desired functionality:
+#### Optional external dependencies 
+
+The following libraries are extenal requiremnents that may be optionally included separately depending on desired functionality:
 * shapefile
 * papaparse
 * leaflet
