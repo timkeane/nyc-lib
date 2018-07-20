@@ -26,7 +26,7 @@ const sortVersions = (a, b) => {
 const nodeEnv = process.env.NODE_ENV
 const isPrd = ['production', 'prod', 'prd'].indexOf(nodeEnv) > -1
 
-const writeIndexHtml = (latest) => {
+const writeIndexHtml = () => {
   const conn = new Client()
   const host = isPrd ? process.env.PRD_DEPLOY_HOST : process.env.STG_DEPLOY_HOST
   const deployDir = `${process.env.DEPLOY_DIR}/nyc-lib`    
@@ -49,14 +49,9 @@ const writeIndexHtml = (latest) => {
         })
         versions.sort(sortVersions)
 
-        if (latest.indexOf('-') > -1) {
-          latest = versions[0]
-        }
-
         let envPostfix = isPrd ? '-prd' : '-stg'
-        for (let i = 0; i < 4; i++) {
-          if (versions[i] !== latest) {
-            recent.push(
+        for (let i = 0; i < 5; i++) {
+          recent.push(
               `<h3>${versions[i]}</h3>
               <ul>
               <li><a href="${versions[i]}/doc/">Documentation</a></li>
@@ -66,9 +61,8 @@ const writeIndexHtml = (latest) => {
               `
             )
           }
-        }
 
-        for (let i = 4; i < versions.length; i++) {
+        for (let i = 5; i < versions.length; i++) {
           const ver = versions[i]
           envPostfix = isPrd ? '-prd' : '-stg'
           if (versions[i].substr(1).split('.')[0] * 1 < 1) {
@@ -85,7 +79,6 @@ const writeIndexHtml = (latest) => {
           )
         }
 
-        envPostfix = isPrd ? '-prd' : '-stg'
         const indexHtml = `<!DOCTYPE html>
           <html>
           <head>
@@ -140,12 +133,6 @@ const writeIndexHtml = (latest) => {
           </head>
           <body>
             <h1 id="banner"><span>maps.nyc.gov</span>&nbsp;</h1>
-            <h3>${latest}</h3>
-            <ul>
-            <li><a href="${latest}/doc/">Documentation</a></li>
-            <li><a href="${latest}/examples/index.html">Examples</a></li>
-            <li><a href="archive/nyc-lib-${latest}${envPostfix}.zip">nyc-lib-${latest}${envPostfix}.zip</a></li>
-            </ul>
             ${recent.join(' ')}
             <a href="#" onclick="toggle(this);">Show older versions...</a>
             <div id="older" style="display:none;">
@@ -176,4 +163,4 @@ const writeIndexHtml = (latest) => {
   })
 }
 
-writeIndexHtml(`v${require('./package.json').version}`)
+writeIndexHtml()
