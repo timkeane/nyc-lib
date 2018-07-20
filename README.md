@@ -6,7 +6,7 @@ A set of common libraries used to develop NYC mapping applications
 
 [Documentation and Examples](https://maps.nyc.gov/nyc-lib/)
 
-### Using with Node
+### Using with Node.js®
 
 * `yarn add nyc-lib`
 * `npm install nyc-lib`
