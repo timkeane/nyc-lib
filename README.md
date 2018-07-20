@@ -1,6 +1,7 @@
 # nyc-lib
 
-[![Build Status](https://travis-ci.org/timkeane/nyc-lib.svg?branch=master)](https://travis-ci.org/timkeane/nyc-lib) [![Coverage Status](https://coveralls.io/repos/github/timkeane/nyc-lib/badge.svg?branch=master)](https://coveralls.io/github/timkeane/nyc-lib?branch=node)                 [GitHub Repo](https://github.com/timkeane/nyc-lib)
+[![Build Status](https://travis-ci.org/timkeane/nyc-lib.svg?branch=master)](https://travis-ci.org/timkeane/nyc-lib) [![Coverage Status](https://coveralls.io/repos/github/timkeane/nyc-lib/badge.svg?branch=master)](https://coveralls.io/github/timkeane/nyc-lib?branch=node
+[GitHub Repo](https://github.com/timkeane/nyc-lib)
 
 A set of common libraries used to develop NYC mapping applications
 
