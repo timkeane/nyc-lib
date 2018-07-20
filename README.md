@@ -4,26 +4,26 @@
 
 A set of common libraries used to develop NYC mapping applications
 
-[Documentation and Examples](https://maps.nyc.gov/nyc-lib/)
+### [Documentation and Examples](https://maps.nyc.gov/nyc-lib/)
 
 ### Using with Node.js®
 
 * `yarn add nyc-lib`
 * `npm install nyc-lib`
 
-The following libraries are extenal requiremnents that must be included separately in your build or in your HTML page:
+#### The following libraries are extenal requiremnents that must be included separately in your build or in your HTML page:
 * proj4
 * ol
 * jquery
 
-The following libraries are extenal requiremnets that may be optionally included separately depending on desired functionality:
+#### The following libraries are extenal requiremnets that may be optionally included separately depending on desired functionality:
 * shapefile
 * papaparse
 * leaflet
 
 ### Using in an HTML page
 
-OpenLayers
+#### OpenLayers
 ```
 <link href="https://maps.nyc.gov/nyc-lib/vX.X.X/css/nyc-ol-lib.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
@@ -32,7 +32,7 @@ OpenLayers
 <script src="https://maps.nyc.gov/nyc-lib/vX.X.X/js/nyc-ol-lib.js"></script>
 ```
 
-Leaflet
+#### Leaflet
 ```
 <link href="https://maps.nyc.gov/nyc-lib/vX.X.X/css/nyc-lib.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
