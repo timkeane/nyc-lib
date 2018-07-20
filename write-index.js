@@ -37,7 +37,7 @@ const writeIndexHtml = (latest) => {
         })
 
         let envPostfix = isPrd ? '-prd' : '-stg'
-        for (let i = 0; i < 4; i++) {
+        for (let i = 1; i < 5; i++) {
           recent.push(
             `<h3>${versions[i]}</h3>
             <ul>
@@ -48,7 +48,7 @@ const writeIndexHtml = (latest) => {
             `
           )
         }
-        for (let i = 4; i < versions.length; i++) {
+        for (let i = 5; i < versions.length; i++) {
           envPostfix = isPrd ? '-prd' : '-stg'
           if (versions[i].substr(1).split('.')[0] * 1 < 1) {
             envPostfix = ''

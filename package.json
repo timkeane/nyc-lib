@@ -1,8 +1,9 @@
 {
   "name": "nyc-lib",
-  "version": "1.1.26",
+  "version": "1.1.27",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
+    "pretest": "rm -rf ./dist",
     "test": "jest",
     "pkg": "cp ./package.json ./dist/ && cd dist && npm pack",
     "prepkg": "yarn transpl && yarn mta-hack && yarn jsdoc && yarn pkg-css && yarn roll-css",
