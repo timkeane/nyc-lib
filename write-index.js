@@ -10,6 +10,19 @@ const error = (err) => {
   }
 }
 
+const pad = (part) => {
+  return part.length >= 3 ? n : new Array(3 - part.length + 1).join('0') + part;
+}
+const sortVersions = (a, b) => {
+  const aParts = a.substr(1).split('.')
+  const bParts = b.substr(1).split('.')
+  for (let i = 0; i < 3; i++) {
+    aParts[i] = pad(aParts[i])
+    bParts[i] = pad(bParts[i])
+  }
+  return aParts.join('.') < bParts.join('.') ? 1 : -1
+}
+
 const nodeEnv = process.env.NODE_ENV
 const isPrd = ['production', 'prod', 'prd'].indexOf(nodeEnv) > -1
 
@@ -24,64 +37,55 @@ const writeIndexHtml = (latest) => {
       if (err) throw err
       sftp.readdir(deployDir, function(err, list) {
         if (err) throw err
-        
+
         const versions = []
         const versionsMap = {}
         const recent = []
         const old = []
         list.forEach(file => {
-          if (file.filename.indexOf('v') === 0 && file.filename.indexOf('SNAPSHOT') === -1) {
-            const ver = new Number(file.filename.substr(0))
-            console.warn(file.filename.substr(0))
-            versions.push(ver)
-            versionsMap[ver] = file.filename
+          if (file.filename.indexOf('v') === 0 && file.filename.indexOf('-') === -1) {
+            versions.push(file.filename)
           }
-          versions.sort()
-          versions.reverse()
         })
+        versions.sort(sortVersions)
 
-
+        if (latest.indexOf('-') > -1) {
+          latest = versions[0]
+        }
 
         let envPostfix = isPrd ? '-prd' : '-stg'
-        let stable = ''
-        let foundStable = false
         for (let i = 0; i < 4; i++) {
-          const ver = versions[i]
-          if (foundStable) {
-            stable = ''
-          } else if (versionsMap[ver].indexOf('-') === -1) {
-            stable = '<span class="latest-stable">(latest stable)</span>'
-            foundStable = true
+          if (versions[i] !== latest) {
+            recent.push(
+              `<h3>${versions[i]}</h3>
+              <ul>
+              <li><a href="${versions[i]}/doc/">Documentation</a></li>
+              <li><a href="${versions[i]}/examples/index.html">Examples</a></li>
+              <li><a href="archive/nyc-lib-${versions[i]}${envPostfix}.zip">nyc-lib-${versions[i]}${envPostfix}.zip</a></li>
+              </ul>
+              `
+            )
           }
-          recent.push(
-            `<h3>${versionsMap[ver]} ${stable}</h3>
-            <ul>
-            <li><a href="${versionsMap[ver]}/doc/">Documentation</a></li>
-            <li><a href="${versionsMap[ver]}/examples/index.html">Examples</a></li>
-            <li><a href="archive/nyc-lib-${versionsMap[ver]}${envPostfix}.zip">nyc-lib-${versionsMap[ver]}${envPostfix}.zip</a></li>
-            </ul>
-            `
-          )
         }
 
         for (let i = 4; i < versions.length; i++) {
           const ver = versions[i]
           envPostfix = isPrd ? '-prd' : '-stg'
-          if (versionsMap[ver].substr(1).split('.')[0] * 1 < 1) {
+          if (versions[i].substr(1).split('.')[0] * 1 < 1) {
             envPostfix = ''
           }
           old.push(
-            `<h3>${versionsMap[ver]}</h3>
+            `<h3>${versions[i]}</h3>
             <ul>
-            <li><a href="${versionsMap[ver]}/doc/">Documentation</a></li>
-            <li><a href="${versionsMap[ver]}/examples/index.html">Examples</a></li>
-            <li><a href="archive/nyc-lib-${versionsMap[ver]}${envPostfix}.zip">nyc-lib-${versionsMap[ver]}${envPostfix}.zip</a></li>
+            <li><a href="${versions[i]}/doc/">Documentation</a></li>
+            <li><a href="${versions[i]}/examples/index.html">Examples</a></li>
+            <li><a href="archive/nyc-lib-${versions[i]}${envPostfix}.zip">nyc-lib-${versions[i]}${envPostfix}.zip</a></li>
             </ul>
             `
           )
         }
 
-        envPostfix = isPrd ? '-prd' : 'stg-'
+        envPostfix = isPrd ? '-prd' : '-stg'
         const indexHtml = `<!DOCTYPE html>
           <html>
           <head>
@@ -135,7 +139,15 @@ const writeIndexHtml = (latest) => {
           <script>function toggle(a){$("#older").slideToggle(function(){$(a).html($("#older").css("display") == "block" ? "Hide older versions..." : "Show older versions...");});}</script>
           </head>
           <body>
-            <h1 id="banner"><span>maps.nyc.gov</span>&nbsp;</h1>  
+            <h1 id="banner"><span>maps.nyc.gov</span>&nbsp;</h1>
+            <h3>${latest}
+            <span class="latest-stable">(latest stable)</span>
+            </h3>
+            <ul>
+            <li><a href="${latest}/doc/">Documentation</a></li>
+            <li><a href="${latest}/examples/index.html">Examples</a></li>
+            <li><a href="archive/nyc-lib-${latest}${envPostfix}.zip">nyc-lib-${latest}${envPostfix}.zip</a></li>
+            </ul>
             ${recent.join(' ')}
             <a href="#" onclick="toggle(this);">Show older versions...</a>
             <div id="older" style="display:none;">
