@@ -1,6 +1,6 @@
 {
   "name": "nyc-lib",
-  "version": "1.1.23",
+  "version": "1.1.24",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "test": "jest",
@@ -20,7 +20,7 @@
     "nyc-ol-css": "postcss ./src/css/nyc-lib.css --o ./tmp/css/nyc-lib.css --no-map --config postcss.config.js",
     "roll-css": "cp ./etc/css/*.* ./dist/css/",
     "predeploy": "yarn build",
-    "deploy": "node deploy"
+    "deploy": "node deploy && node write-index"
   },
   "jest": {
     "verbose": true,
@@ -81,7 +81,7 @@
     "jest-fetch-mock": "^1.5.0",
     "jsdoc": "^3.5.5",
     "jszip": "^3.1.5",
-    "nyc-build-helper": "^0.0.19",
+    "nyc-build-helper": "^0.0.21",
     "strict-mode": "^1.1.2",
     "webpack": "^4.8.3",
     "webpack-bundle-analyzer": "^2.11.1",
