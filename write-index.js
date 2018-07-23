@@ -34,9 +34,9 @@ const writeIndexHtml = () => {
   conn.on('ready', function() {
     console.log('CONNECTED')
     conn.sftp(function(err, sftp) {
-      if (err) throw err
+      error(err)
       sftp.readdir(deployDir, function(err, list) {
-        if (err) throw err
+        error(err)
 
         const versions = []
         const versionsMap = {}
