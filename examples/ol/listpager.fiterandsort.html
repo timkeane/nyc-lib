@@ -103,7 +103,7 @@
       }),
       mapLocator: new nyc.ol.MapLocator({map: map})
     });
-    locationMgr.on(nyc.ol.'geocoded', function(location) {
+    locationMgr.on('geocoded', function(location) {
       var features = source.sort(location.coordinate);
       listPager.reset(features);
       for (var i = 0; i < 10; i++) {
