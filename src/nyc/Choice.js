@@ -127,7 +127,7 @@ class Choice extends Container {
  * @typedef {Object}
  * @property {string} name The name for the choice
  * @property {string} label The label for the choice
- * @property {Array<module:nyc/Choice~Choice.Choice>} value The value of the choice
+ * @property {Array<Object>} value The value of the choice
  * @property {boolean} [checked=false] The value of the checked state of the choice
  */
 Choice.Choice;
