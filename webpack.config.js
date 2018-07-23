@@ -29,7 +29,7 @@ const copyFiles = [{
 
 const plugins = [
   // new BundleAnalyzerPlugin({analyzerMode: 'static'}),
-  new Clean(['dist']),
+  new Clean(['dist'], {root: __dirname}),
   new Copy(copyFiles),
   new webpack.optimize.ModuleConcatenationPlugin(),
   replace.replacePlugin(__dirname)
