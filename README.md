@@ -10,7 +10,6 @@
 ### Using with Node.js
 
 * `yarn add nyc-lib`
-* `npm install nyc-lib`
 
 #### Required external dependencies
 
@@ -53,6 +52,7 @@ Note: If you plan on load testing an application that uses this library you must
 * Set environment variable `NODE_ENV` to `dev`, `stg`, or `prd`
 * Contact author for addition evnvironment variables that should be included in your `.env` file
 * If you plan on load testing an application that uses this library you must do so using a staging build
+* Once the environment is set run `yarn build`
 
 ### Geocoding
 
