@@ -8,7 +8,7 @@ import nyc from 'nyc'
 import Container from 'nyc/Container'
 
 /**
- * @desc Class for creating collapsible containers
+ * @desc Class for creating checkbox and radio input widgets
  * @public
  * @class
  * @extends {module:nyc/Container~Container}
