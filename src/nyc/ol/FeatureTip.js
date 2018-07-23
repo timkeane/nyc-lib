@@ -1,3 +1,7 @@
+/**
+ * @module nyc/ol/FeatureTip
+ */
+
 import $ from 'jquery'
 
 import OlOverlay from 'ol/overlay'

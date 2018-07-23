@@ -9,7 +9,7 @@ import $ from 'jquery'
  * @public
  * @class
  */
-export default class AutoComplete {
+class AutoComplete {
   /**
    * @desc Find matching li elements from inUl and move them to outUl
    * @public
@@ -76,3 +76,5 @@ export default class AutoComplete {
     }
   }
 }
+
+export default AutoComplete
