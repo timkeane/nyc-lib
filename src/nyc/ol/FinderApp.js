@@ -217,7 +217,7 @@ class FinderApp {
   /**
    * @access protected
    * @method
-   * @param {module:nycLocator~Locator.Result} location
+   * @param {module:nyc/Locator~Locator.Result} location
    */
   located(location) {
     this.location = location
