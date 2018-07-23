@@ -53,6 +53,8 @@ describe('constructor', () => {
   })
 
   test('constructor', () => {
+    expect.assertions(7)
+
     const popup = new FeaturePopup({
       map: map,
       layers: mockLayers

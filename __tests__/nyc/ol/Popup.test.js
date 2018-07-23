@@ -132,6 +132,8 @@ test('hide', () => {
 })
 
 test('hideTip', () => {
+  expect.assertions(4)
+
   const event = {
       stopPropagation: jest.fn()
   }

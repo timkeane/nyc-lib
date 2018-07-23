@@ -110,6 +110,8 @@ test('one', () => {
 })
 
 test('trigger a single stand alone function for a single event', () => {
+	expect.assertions(2)
+
 	const handling = new EventHandling()
 
 	const aHandler = jest.fn()
@@ -122,6 +124,8 @@ test('trigger a single stand alone function for a single event', () => {
 })
 
 test('trigger stand alone function from many for a single event', () => {
+	expect.assertions(3)
+
 	const handling = new EventHandling()
 
 	const aHandlerNotToCall = jest.fn(data => {})
@@ -139,6 +143,8 @@ test('trigger stand alone function from many for a single event', () => {
 })
 
 test('trigger multiple stand alone function for a single event', () => {
+	expect.assertions(4)
+
 	const handling = new EventHandling()
 
 	const handler1 = jest.fn(data => {
@@ -158,6 +164,8 @@ test('trigger multiple stand alone function for a single event', () => {
 })
 
 test('trigger function within scope', () => {
+	expect.assertions(2)
+
 	const handling = new EventHandling()
 
 	const scope = {
@@ -173,11 +181,13 @@ test('trigger function within scope', () => {
 })
 
 test('trigger non-event', () => {
+  expect.assertions(1)
+
 	const handling = new EventHandling()
 
 	const scope = {
 		handler: jest.fn(data => {
-			expect(data).toBe('data1')
+			expect(true).toBe(false)
 		})
 	}
 
@@ -186,6 +196,8 @@ test('trigger non-event', () => {
 })
 
 test('off single handler', () => {
+  expect.assertions(2)
+
 	const handling = new EventHandling()
 
 	const aHandler = jest.fn()
@@ -198,6 +210,8 @@ test('off single handler', () => {
 })
 
 test('off multiple handlers remove from middle', () => {
+  expect.assertions(4)
+
 	const handling = new EventHandling()
 
 	const handler1 = jest.fn()
@@ -217,6 +231,8 @@ test('off multiple handlers remove from middle', () => {
 })
 
 test('off multiple handlers remove from beginnig', () => {
+  expect.assertions(4)
+
 	const handling = new EventHandling()
 
 	const handler1 = jest.fn()
@@ -236,6 +252,8 @@ test('off multiple handlers remove from beginnig', () => {
 })
 
 test('off multiple handlers remove from end', () => {
+  expect.assertions(4)
+
 	const handling = new EventHandling()
 
 	const handler1 = jest.fn()

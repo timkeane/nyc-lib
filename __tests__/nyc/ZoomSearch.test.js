@@ -13,6 +13,8 @@ afterEach(() => {
 })
 
 test('constructor', () => {
+  expect.assertions(4)
+
   const zoomSearch = new ZoomSearch(container)
   expect(zoomSearch instanceof Container).toBe(true)
   expect(zoomSearch instanceof ZoomSearch).toBe(true)
@@ -21,6 +23,8 @@ test('constructor', () => {
 })
 
 test('abstract methods', () => {
+  expect.assertions(2)
+
   const zoomSearch = new ZoomSearch(container)
   expect(() => {zoomSearch.zoom('event')}).toThrow('Not implemented')
   expect(() => {zoomSearch.featureAsLocation('feature', 'options')}).toThrow('Not implemented')
@@ -45,6 +49,8 @@ describe('hookupEvents called from constructor', () => {
   })
 
   test('hookupEvents', () => {
+    expect.assertions(21)
+
     const zoomSearch = new ZoomSearch(container)
 
     expect(zoomSearch.getContainer().html()).toBe($(ZoomSearch.HTML).html())
@@ -187,6 +193,8 @@ test('key keyCode is 13 and isAddrSrch is false', () => {
 })
 
 test('clearTxt', () => {
+  expect.assertions(3)
+
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.val = jest.fn()
@@ -200,6 +208,8 @@ test('clearTxt', () => {
 })
 
 test('filterList no autoComplete', () => {
+  expect.assertions(2)
+
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.emptyList = jest.fn()
@@ -213,6 +223,8 @@ test('filterList no autoComplete', () => {
 
 
 test('filterList no input', () => {
+  expect.assertions(2)
+
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.autoComplete = 'mock-auto-complete'
@@ -226,6 +238,8 @@ test('filterList no input', () => {
 })
 
 test('filterList has autoComplete and input', () => {
+  expect.assertions(6)
+
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.val('typed')
@@ -248,7 +262,7 @@ test('showList with focus', () => {
 
   const zoomSearch = new ZoomSearch(container)
 
-  zoomSearch.list.append('<li><a href="#" title="one">one</li><li href="#" title="two">two</li>').hide()
+  zoomSearch.list.append('<li><a href="#" title="one">one</li><li title="two"><a href="#">two</a></li>').hide()
 
   const test = async () => {
     return new Promise(resolve => {
@@ -294,6 +308,8 @@ test('showList without focus', () => {
 })
 
 test('geolocated', () => {
+  expect.assertions(2)
+
   const handler = jest.fn()
 
   const zoomSearch = new ZoomSearch(container)
@@ -308,6 +324,8 @@ test('geolocated', () => {
 })
 
 test('triggerSearch has value', () => {
+  expect.assertions(2)
+
   const handler = jest.fn()
 
   const zoomSearch = new ZoomSearch(container)
@@ -322,6 +340,8 @@ test('triggerSearch has value', () => {
 })
 
 test('triggerSearch no value', () => {
+  expect.assertions(1)
+
   const handler = jest.fn()
 
   const zoomSearch = new ZoomSearch(container)
@@ -339,6 +359,8 @@ test('triggerSearch no value', () => {
 })
 
 test('val', () => {
+  expect.assertions(4)
+
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.input.val('an address')
@@ -351,6 +373,8 @@ test('val', () => {
 })
 
 test('disambiguate no possible', () => {
+  expect.assertions(1)
+
   const ambiguous = {
     input: 'an address',
     possible: []
@@ -366,6 +390,8 @@ test('disambiguate no possible', () => {
 })
 
 test('disambiguate has possible', () => {
+  expect.assertions(9)
+
   const ambiguous = {
     input: 'an address',
     possible: [{name: 'possible 1'}, {name: 'possible 2'}]
@@ -395,6 +421,8 @@ test('disambiguate has possible', () => {
 })
 
 test('setFeatures/sortAlphapetically no nameField no displayField has placeholder', () => {
+  expect.assertions(26)
+
   const options = {
     layerName: 'a-layer',
     placeholder: 'a placeholder...',
@@ -447,6 +475,8 @@ test('setFeatures/sortAlphapetically no nameField no displayField has placeholde
 })
 
 test('setFeatures/sortAlphapetically has nameField has displayField no placeholder', () => {
+  expect.assertions(18)
+
   const options = {
     layerName: 'a-layer',
     nameField: 'label',
@@ -503,6 +533,8 @@ test('setFeatures/sortAlphapetically has nameField has displayField no placehold
 })
 
 test('removeFeatures', () => {
+  expect.assertions(4)
+
   const zoomSearch = new ZoomSearch(container)
 
   zoomSearch.list.html('<li class="a-layer"></li><li class="b-layer"></li><li class="a-layer"></li>')
@@ -517,6 +549,8 @@ test('removeFeatures', () => {
 })
 
 test('listItem addr no displayField', () => {
+  expect.assertions(13)
+
   const options = {
     layerName: 'addr',
     nameField: 'name',
@@ -548,6 +582,8 @@ test('listItem addr no displayField', () => {
 })
 
 test('listItem not addr has displayField', () => {
+  expect.assertions(13)
+
   const options = {
     layerName: 'a-layer',
     nameField: 'name',
@@ -580,16 +616,27 @@ test('listItem not addr has displayField', () => {
 })
 
 test('emptyList', () => {
+  expect.assertions(9)
   const zoomSearch = new ZoomSearch(container)
 
-  zoomSearch.list.append('<li>one</li><li>two</li>')
+  zoomSearch.list.append('<li title="one"><a href="#">one</li><li title="two"><a href="#">two</a></li>')
 
   zoomSearch.emptyList()
 
   expect(zoomSearch.list.children().length).toBe(0)
   expect(zoomSearch.retention.children().length).toBe(2)
-  expect(zoomSearch.retention.children().get(0).innerHTML).toBe('one')
-  expect(zoomSearch.retention.children().get(1).innerHTML).toBe('two')
+  expect($(zoomSearch.retention.children().get(0)).find('a').html()).toBe('one')
+  expect($(zoomSearch.retention.children().get(1)).find('a').html()).toBe('two')
+
+  zoomSearch.list.append('<li title="one"><a href="#">one</li><li title="three"><a href="#">three</a></li>')
+  
+  zoomSearch.emptyList()
+
+  expect(zoomSearch.list.children().length).toBe(0)
+  expect(zoomSearch.retention.children().length).toBe(3)
+  expect($(zoomSearch.retention.children().get(0)).find('a').html()).toBe('one')
+  expect($(zoomSearch.retention.children().get(1)).find('a').html()).toBe('two')
+  expect($(zoomSearch.retention.children().get(2)).find('a').html()).toBe('three')
 })
 
 test('disambiguated is LI', () => {
@@ -660,6 +707,8 @@ test('disambiguated is child of LI', () => {
 })
 
 test('listClick list closed', () => {
+  expect.assertions(1)
+
   const handler = jest.fn()
 
   const zoomSearch = new ZoomSearch(container)

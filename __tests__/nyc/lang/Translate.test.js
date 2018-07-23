@@ -106,6 +106,8 @@ test('constructor (is button, defaultLanguage in messages)', () => {
 })
 
 test('constructor (is button, defaultLanguage not messages)', () => {
+  expect.assertions(2)
+
   const translate = new Translate({
 		target: target,
 		languages: languages,
