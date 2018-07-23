@@ -1,4 +1,8 @@
 /**
+ * @module nyc/leaf
+ */
+
+/**
  * @desc Namespace for NYC mapping functionality for Leaflet
  * @public
  * @namespace

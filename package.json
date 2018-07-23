@@ -1,6 +1,6 @@
 {
   "name": "nyc-lib",
-  "version": "1.1.35",
+  "version": "1.1.36",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "pretest": "rm -rf ./dist",
