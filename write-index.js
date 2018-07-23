@@ -133,6 +133,7 @@ const writeIndexHtml = () => {
           </head>
           <body>
             <h1 id="banner"><span>maps.nyc.gov</span>&nbsp;</h1>
+            <h2>nyc-lib</h>
             ${recent.join(' ')}
             <a href="#" onclick="toggle(this);">Show older versions...</a>
             <div id="older" style="display:none;">
