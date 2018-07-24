@@ -29,7 +29,7 @@ import FilterAndSort from 'nyc/ol/source/FilterAndSort'
 import OlLayerVector from 'ol/layer/vector'
 
 /**
- * @desc A template for creating basic finder apps
+ * @desc A class that provides a template for creating basic finder apps
  * @public
  * @class
  */
@@ -59,11 +59,13 @@ class FinderApp {
      */
     this.facilitySearch = options.facilitySearch
     /**
+     * @desc The map
      * @public
      * @member {ol.Map}
      */
     this.map = new Basemap({target: 'map'})
     /**
+     * @desc The vector data source for facilities
      * @public
      * @member {module:nyc/ol/source/FilterAndSort~FilterAndSort}
      */
@@ -76,6 +78,7 @@ class FinderApp {
     })
     this.source.autoLoad().then($.proxy(this.ready, this))
     /**
+     * @desc The vector layer for facilities
      * @public
      * @member {ol.layer.Vector}
      */
@@ -85,6 +88,7 @@ class FinderApp {
     })
     this.map.addLayer(this.layer)
     /**
+     * @desc The popup
      * @public
      * @member {module:nyc/ol/MultiFeaturePopup~MultiFeaturePopup}
      */
@@ -93,11 +97,13 @@ class FinderApp {
       layers: [this.layer]
     })
     /**
+     * @desc The view
      * @public
      * @member {ol.View}
      */
     this.view = this.map.getView()
     /**
+     * @desc The location manager
      * @public
      * @member {module:nyc/ol/LocationMgr~LocationMgr}
      */
@@ -108,11 +114,13 @@ class FinderApp {
     this.locationMgr.on('geocoded', this.located, this)
     this.locationMgr.on('geolocated', this.located, this)
     /**
+     * @desc The filters for filtering the facilities
      * @public
      * @member {module:nyc/ol/Filters~Filters}
      */
     this.filters = this.createFilters(options.filterChoiceOptions)
     /**
+     * @desc The tabs containing the map, facilities and filters
      * @public
      * @member {module:nyc/Tabs~Tabs}
      */
@@ -155,6 +163,7 @@ class FinderApp {
     this.directionsUrl = options.directionsUrl    
   }
   /**
+   * @desc Reset the facilities list
    * @public
    * @method
    * @param {Object} event
@@ -170,7 +179,7 @@ class FinderApp {
     )
   }
   /**
-   * @desc Centers and zooms the map on the provided feature
+   * @desc Centers and zooms to the provided feature
    * @public
    * @method
    * @param {ol.Feature} feature
@@ -215,6 +224,7 @@ class FinderApp {
     })
   }
   /**
+   * @desc Handles geocoded and geolocated events
    * @access protected
    * @method
    * @param {module:nyc/Locator~Locator.Result} location
@@ -225,6 +235,7 @@ class FinderApp {
     this.resetList()
   }
   /**
+   * @desc Creates the filters for the facility features
    * @access protected
    * @method
    * @param {Array<module:nyc/ol/Filters~Filters.ChoiceOptions>=} choiceOptions
@@ -246,6 +257,7 @@ class FinderApp {
     }
   }
   /**
+   * @desc Creates the tabs for the map, facilities and filters
    * @access protected
    * @method
    * @param {module:nyc/ol/FinderApp~FinderApp.Options} options
@@ -268,6 +280,7 @@ class FinderApp {
     return tabs
   }
   /**
+   * @desc Handles the event triggered when a rendered feature's collapsible details is expanded
    * @access protected
    * @method
    * @param {Object} event
@@ -340,6 +353,7 @@ class FinderApp {
     }
   }
   /**
+   * @desc Handles the tab change event
    * @access protected
    * @method
    * @param {module:nyc/Tabs~Tabs}
@@ -381,7 +395,7 @@ class FinderApp {
   }
   /**
    * @desc Handles features after they are loaded
-   * @public
+   * @access protected
    * @method
    * @param {Array<ol.Feature>} features The facility features
    */
@@ -424,10 +438,10 @@ FinderApp.handleButton = (event) => {
  */
 FinderApp.FEATURE_DECORATIONS = {
   /**
-   * @desc Returns HTML rendering of a facility feature
+   * @desc Returns a facility feature rendered as a jQuery
    * @public
    * @method
-   * @return {jQuery}
+   * @return {jQuery} The rendered feature
    */
   html() {
     return $('<div class="facility"></div>')
@@ -447,23 +461,23 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns the name of a facility feature
    * @public
    * @method
-   * @return {string}
+   * @return {string} The name of the facility feature
    */
   getName() {
     throw 'A getName decoration must be provided'
   },
   /**
-   * @desc Returns a css class for the facility feature HTML
+   * @desc Returns a CSS class for the rendered facility feature 
    * @public
    * @method
-   * @return {string}
+   * @return {string} The CSS class
    */
   cssClass() {},
   /**
    * @desc Returns the address line 1 of a facility feature
    * @public
    * @method
-   * @return {string}
+   * @return {string} The address line 1
    */
   getAddress1() {
     throw 'A getAddress1 decoration must be provided to use default html method and directions'
@@ -472,7 +486,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns the address line 2 of a facility feature
    * @public
    * @method
-   * @return {string}
+   * @return {string} The address line 2
    */
   getAddress2() {
     return ''
@@ -481,7 +495,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns the city, state zip line of a facility feature
    * @public
    * @method
-   * @return {string}
+   * @return {string} The city, state zip line
    */
   getCityStateZip() {
     throw 'A getCityStateZip decoration must be provided to use default html method and directions'
@@ -490,7 +504,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns full address for use with Google directions API
    * @public
    * @method
-   * @return {string}
+   * @return {string} The full address
    */
   getFullAddress() {
     return `${this.getAddress1()}\n${this.getAddress2()},\n${this.getCityStateZip()}`
@@ -499,44 +513,44 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns the phone number for a facility feature
    * @public
    * @method
-   * @return {string}
+   * @return {string} The phone number
    */
   getPhone() {},
   /**
    * @desc Returns the email for a facility feature
    * @public
    * @method
-   * @return {string}
+   * @return {string} The email
    */
   getEmail() {},
   /**
    * @desc Returns the website URL for a facility feature
    * @public
    * @method
-   * @return {string}
+   * @return {string} The website URL
    */
   getWebsite() {},
   /**
-   * @desc Returns the website URL for a facility feature
+   * @desc Returns additional details for the facility feature
    * @public
    * @method
    * @param {jQuery|Element|string}
    */
   detailsHtml() {},
   /**
-   * @desc Returns the name of a facility feature to append to HTML
+   * @desc Returns the name of a facility feature as jQuery
    * @public
    * @method
-   * @return {jQuery}
+   * @return {jQuery} The name of a facility feature as jQuery
    */
   nameHtml() {
     return $('<h3 class="name notranslate"></h3>').html(this.getName())
   },
   /**
-   * @desc Returns the full address of a facility feature to append to HTML
+   * @desc Returns the full address of a facility feature as jQuery
    * @public
    * @method
-   * @return {jQuery}
+   * @return {jQuery} The full address of a facility feature as jQuery
    */
   addressHtml() {
     const html = $('<div class="addr"></div>')
@@ -547,10 +561,10 @@ FinderApp.FEATURE_DECORATIONS = {
     return html.append(`<div class="ln3">${this.getCityStateZip()}</div>`)
   },
   /**
-   * @desc Returns an HTML button that when clicked will zoom to the facility
+   * @desc Returns a button as jQuery that when clicked will zoom to the facility
    * @public
    * @method
-   * @return {jQuery}
+   * @return {jQuery} The map button as jQuery
    */
   mapButton() {
     return $('<a class="btn rad-all map" role="button" href="#">Map</a>')
@@ -559,10 +573,10 @@ FinderApp.FEATURE_DECORATIONS = {
       .click(FinderApp.handleButton)
   },
   /**
-   * @desc Returns an HTML button that when clicked will provide directions to the facility
+   * @desc Returns a button as jQuery that when clicked will provide directions to the facility
    * @public
    * @method
-   * @return {jQuery}
+   * @return {jQuery} The directions button as jQuery
    */
   directionsButton() {
     return $('<a class="btn rad-all dir" role="button" href="#">Directions</a>')
@@ -570,10 +584,10 @@ FinderApp.FEATURE_DECORATIONS = {
       .click(FinderApp.handleButton)
   },
   /**
-   * @desc Returns an HTML button that when clicked will call the provided phone number
+   * @desc Returns a button as jQuery that when clicked will call the provided phone number
    * @public
    * @method
-   * @return {jQuery}
+   * @return {jQuery} The phone button as jQuery
    */
   phoneButton() {
     const phone = this.getPhone()
@@ -583,10 +597,10 @@ FinderApp.FEATURE_DECORATIONS = {
     }
   },
   /**
-   * @desc Returns an HTML button that when clicked will open email editor for the provided email
+   * @desc Returns a button as jQuery that when clicked will open email editor for the provided email
    * @public
    * @method
-   * @return {jQuery}
+   * @return {jQuery} The email button as jQuery
    */
   emailButton() {
     const email = this.getEmail()
@@ -596,10 +610,10 @@ FinderApp.FEATURE_DECORATIONS = {
     }
   },
   /**
-   * @desc Returns an HTML button that when clicked will open the facility web site
+   * @desc Returns a button as jQuery that when clicked will open the facility web site
    * @public
    * @method
-   * @return {jQuery}
+   * @return {jQuery} The website button as jQuery
    */
   websiteButton() {
     const url = this.getWebsite()
@@ -609,11 +623,11 @@ FinderApp.FEATURE_DECORATIONS = {
     }
   },
   /**
-   * @desc Returns HTML rendering of the distance from the user location to the facility
+   * @desc Returns the distance from the user location to the facility as jQuery
    * @public
    * @method
    * @param {boolean} screenReaderOnly Return distance for screen readers
-   * @return {jQuery}
+   * @return {jQuery} The distance from the user location to the facility as jQuery
    */
   distanceHtml(screenReaderOnly) {
     if (this.getDistance) {
@@ -634,10 +648,10 @@ FinderApp.FEATURE_DECORATIONS = {
   }
   },
   /**
-   * @desc Returns an HTML button that when clicked will display the provided details
+   * @desc Returns collapsible details for the facility features as jQuery
    * @public
    * @method
-   * @return {jQuery}
+   * @return {jQuery} The collapsible details as jQuery
    */
   detailsCollapsible() {
     const details = this.detailsHtml()

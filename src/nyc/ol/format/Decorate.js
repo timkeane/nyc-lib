@@ -22,7 +22,7 @@ class Decorate extends OlFormatFeature {
 	 * @desc Create an instance of CsvPoint
 	 * @public
 	 * @constructor
-   * @param {module:nyc/ol/Decorate~Decorate.Options} options Constructor options
+   * @param {module:nyc/ol/format/Decorate~Decorate.Options} options Constructor options
 	 */
   constructor(options) {
     super()
@@ -41,7 +41,7 @@ class Decorate extends OlFormatFeature {
    * @desc Read a single feature from a source
    * @public
    * @method
-   * @param {Object} source A row from a {@see nyc.ol.source.CsvPoint} data source
+   * @param {Object} source A row from a vector data source
    * @param {olx.format.ReadOptions=} options Read options
    * @return {ol.Feature} Feature
    */
@@ -52,7 +52,7 @@ class Decorate extends OlFormatFeature {
    * @desc Read all features from a source
    * @public
    * @method
-   * @param {Array<Object>} source Rows from a {@see nyc.ol.source.CsvPoint} data source
+   * @param {Array<Object>} source Rows from a vector data source
    * @param {olx.format.ReadOptions=} options Read options
    * @return {Array.<ol.Feature>} Features
    */
@@ -69,7 +69,7 @@ class Decorate extends OlFormatFeature {
    * @override
    * @method
    * @param {Document|Node|Object|string} source Source
-   * @return {ol.proj.Projection} Projection
+   * @return {ol.proj.Projection} The projection
    */
   readProjection(source) {
     return this.parentFormat.readProjection(source)
@@ -79,7 +79,7 @@ class Decorate extends OlFormatFeature {
    * @public
    * @override
    * @method
-   * @return {ol.Extent} Tile extent
+   * @return {ol.Extent} The extent
    */
   getLastExtent() {
     return null
@@ -89,7 +89,7 @@ class Decorate extends OlFormatFeature {
    * @public
    * @override
    * @method
-   * @return {ol.format.FormatType}
+   * @return {ol.format.FormatType} The format type
    */
   getType() {
     return this.parentFormat.getType()
@@ -112,7 +112,7 @@ class Decorate extends OlFormatFeature {
 }
 
 /**
-* @desc Constructor options for {@link module:nyc/Decorate~Decorate}
+* @desc Constructor options for {@link module:nyc/ol/format/Decorate~Decorate}
 * @public
 * @typedef {Object}
 * @property {ol.format.Feature} parentFormat The parent format for creating features to decorate

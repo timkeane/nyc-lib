@@ -103,14 +103,14 @@ class FeatureTip extends OlOverlay {
  * @public
  * @typedef {Object}
  * @property {ol.layer.Vector} layer The layer whose features will have tips
- * @property {FeatureTip.LabelFunction} label A function to generate tips
+ * @property {module:nyc/ol/FeatureTip~FeatureTip.LabelFunction} label A function to generate tips
  */
 FeatureTip.TipDef
 
 /**
- * @desc Label function that returns a {@link FeatureTip.Label}
+ * @desc Label function that returns a {@link module:nyc/ol/FeatureTip~FeatureTip.Label}
  * @public
- * @typedef {function(ol.Feature):module:nyc/FeatureTip~FeatureTip.Label}
+ * @typedef {function(ol.Feature):module:nyc/ol/FeatureTip~FeatureTip.Label}
  */
 FeatureTip.LabelFunction
 
@@ -118,17 +118,17 @@ FeatureTip.LabelFunction
  * @desc Object type to return from a feature's label function
  * @public
  * @typedef {Object}
- * @property {jQuery|Element|string} html The tip inner html
+ * @property {jQuery|Element|string} html The tip content
  * @property {string=} css A CSS class to apply to the tip
  */
 FeatureTip.Label
 
 /**
- * @desc Constructor options for {@link module:nyc/FeatureTip~FeatureTip}
+ * @desc Constructor options for {@link module:nyc/ol/FeatureTip~FeatureTip}
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The map
- * @property {Array<FeatureTip.TipDef>} tips The tip definitions
+ * @property {Array<module:nyc/ol/FeatureTip~FeatureTip.TipDef>} tips The tip definitions
  */
 FeatureTip.Options
 

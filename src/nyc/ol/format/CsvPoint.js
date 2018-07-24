@@ -25,7 +25,7 @@ class CsvPoint extends OlFormatFeature {
 	 * @desc Create an instance of CsvPoint
 	 * @public
 	 * @constructor
-   * @param {module:nyc/ol/CsvPoint~CsvPoint.Options} options Constructor options
+   * @param {module:nyc/ol/format/CsvPoint~CsvPoint.Options} options Constructor options
 	 */
   constructor(options) {
     super()
@@ -116,7 +116,7 @@ class CsvPoint extends OlFormatFeature {
    * @override
    * @method
    * @param {Document|Node|Object|string} source Source
-   * @return {ol.proj.Projection} Projection
+   * @return {ol.proj.Projection} The projection
    */
   readProjection(source) {
     return this.defaultDataProjection
@@ -126,7 +126,7 @@ class CsvPoint extends OlFormatFeature {
    * @public
    * @override
    * @method
-   * @return {ol.Extent} Tile extent
+   * @return {ol.Extent} The extent
    */
   getLastExtent() {
     return null
@@ -136,7 +136,7 @@ class CsvPoint extends OlFormatFeature {
    * @public
    * @override
    * @method
-   * @return {ol.format.FormatType}
+   * @return {ol.format.FormatType} The format type
    */
   getType() {
     return OlFormatFormatType.ARRAY_BUFFER
@@ -144,7 +144,7 @@ class CsvPoint extends OlFormatFeature {
 }
 
 /**
-* @desc Constructor options for {@link module:nyc/ol/CsvPoint~CsvPoint}
+* @desc Constructor options for {@link module:nyc/ol/format/CsvPoint~CsvPoint}
 * @public
 * @typedef {Object}
 * @property {string} x The name of the field containing the x ordinate of the point

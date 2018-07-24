@@ -10,7 +10,7 @@ import Collapsible from 'nyc/Collapsible'
 import Choice from 'nyc/Choice'
 
 /**
- * @desc Class for managing controls for filtering a FilterAndSort source
+ * @desc Class for managing controls for filtering a {@link module:nyc/ol/source/FilterAndSort~FilterAndSort} vector data source
  * @public
  * @class
  * @extends module:nyc/Container~Container
@@ -74,8 +74,8 @@ class Filters extends Container {
  * @public
  * @typedef {Object}
  * @property {jQuery|Element|string} target The DOM node in which to create the Filters
- * @property {Array<Filters.ChoiceOptions>} choiceOptions The filter choices
- * @property {nyc.ol.source.FilterAndSort} source The source to filter
+ * @property {Array<module:nyc/ol/Filters~Filters.ChoiceOptions>} choiceOptions The filter choices
+ * @property {module:nyc/ol/source/FilterAndSort~FilterAndSort} source The source to filter
  */
 Filters.Options
 
@@ -84,7 +84,7 @@ Filters.Options
  * @public
  * @typedef {Object}
  * @property {string} title
- * @property {Array<Choice.Options>} choiceOptions
+ * @property {Array<module:nyc/Choice~Choice.Options>} choiceOptions
  */
 Filters.ChoiceOptions
 

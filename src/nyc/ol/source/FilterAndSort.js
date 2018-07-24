@@ -1,5 +1,5 @@
 /**
- * @module nyc/ol/source/FilteringAndSorting
+ * @module nyc/ol/source/FilterAndSort
  */
 
 import $ from 'jquery'
