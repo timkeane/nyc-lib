@@ -20,7 +20,7 @@ class FeatureTip extends OlOverlay {
    * @desc Create an instance of FeatureTip
    * @public
    * @constructor
-   * @param {module:nyc/FeatureTip~FeatureTip.Options} options Constructor options
+   * @param {module:nyc/ol/FeatureTip~FeatureTip.Options} options Constructor options
    */
   constructor(options) {
     const element = $(options.map.getTargetElement()).find('f-tip').get(0)
@@ -48,7 +48,7 @@ class FeatureTip extends OlOverlay {
 	 * @desc Adds tip definitions
 	 * @public
 	 * @method
-	 * @param {Array<module:nyc/FeatureTip~FeatureTip.TipDef>} tips The tip definitions to add
+	 * @param {Array<module:nyc/ol/FeatureTip~FeatureTip.TipDef>} tips The tip definitions to add
 	 */
 	addTips(tips) {
 		tips.forEach(def => {
@@ -85,6 +85,7 @@ class FeatureTip extends OlOverlay {
 	}
 	/**
 	 * @private
+	 * @method
 	 */
 	position() {
 		const size = this.map.getSize()
