@@ -48,7 +48,7 @@ class Locator extends EventHandling {
     return proj4.defs[this.projection].to_meter
  	}
   /**
-   * @desc Get a distance for an accuracy enumerator based on the projections
+   * @desc Get a distance for an accuracy enumerator based on the Locator projection
    * @access protected
    * @method
    * @param {module:nyc/Locator~Locator.Accuracy} accuracy
@@ -71,7 +71,7 @@ class Locator extends EventHandling {
     this.geocoder.search(input)
   }
   /**
- 	 * @desc Locator once using device geolocation
+ 	 * @desc Locate once using device geolocation
  	 * @public
  	 * @abstract
  	 * @method
@@ -109,7 +109,7 @@ class Locator extends EventHandling {
 }
 
 /**
- * @desc Constructor options for {@link nyc/Locator~Locator}
+ * @desc Constructor options for {@link module:nyc/Locator~Locator}
  * @public
  * @typedef {Object}
  * @property {module:nyc/Geocoder~Geocoder} geocoder A geocoder
@@ -149,7 +149,7 @@ Locator.Accuracy = {
  * @property {string} type The event type
  * @property {(Array<number>|undefined)} coordinate The geocoded location coordinate
  * @property {number} accuracy The accuracy of the geocoded location in meters or units of a specified projection
- * @property {module:nyc/Locator~Locator.EventType} type They type of result
+ * @property {string} type They type of result (geocoded or geolocated)
  * @property {boolean=} zip Is this the geocoded location a ZIP Code center point
  * @property {Object=} geometry A geoJSON representation of the geocoded location coordinates
  * @property {Object=} data Additional properties provided by the geocoder
@@ -157,7 +157,7 @@ Locator.Accuracy = {
 Locator.Result
 
 /**
- * @desc Object type to hold data about possible locations resulting from a geocoder search
+ * @desc Object type to hold data about possible locations resulting from a search request
  * @public
  * @typedef {Object}
  * @property {string} input The input string on which the geocoding attempt was made
