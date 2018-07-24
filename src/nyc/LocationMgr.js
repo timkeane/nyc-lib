@@ -12,8 +12,8 @@ import Dialog from 'nyc/Dialog'
  * @public
  * @class
  * @extends module:nyc/EventHandling~EventHandling
- * @fires module:nyc/Locator~Locator#geocode
- * @fires module:nyc/Locator~Locator#geolocate
+ * @fires module:nyc/Locator~Locator#geocoded
+ * @fires module:nyc/Locator~Locator#geolocated
  */
 class LocationMgr extends EventHandling {
   /**

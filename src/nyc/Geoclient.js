@@ -13,8 +13,8 @@ import Geocoder from 'nyc/Geocoder'
  * @public
  * @class
  * @extends module:nyc/Geocoder~Geocoder
- * @fires module:nyc/Locator~Locator#geocode
- * @fires module:nyc/Locator~Locator#geolocate
+ * @fires module:nyc/Locator~Locator#geocoded
+ * @fires module:nyc/Locator~Locator#geolocated
  * @fires module:nyc/Locator~Locator#ambiguous
  * @fires module:nyc/Locator~Locator#error
  * @see https://developer.cityofnewyork.us/api/geoclient-api
