@@ -15,7 +15,7 @@ require('isomorphic-fetch')
  * @extends {ol.source.Vector}
  * @see http://openlayers.org/en/latest/apidoc/ol.source.Vector.html
  */
-export default class AutoLoad extends OlSourceVector {
+class AutoLoad extends OlSourceVector {
   /**
    * @desc Create an instance of AutoLoad
    * @public
@@ -51,3 +51,5 @@ export default class AutoLoad extends OlSourceVector {
     })
   }
 }
+
+export default AutoLoad

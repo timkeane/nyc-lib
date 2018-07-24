@@ -29,6 +29,7 @@ class Popup extends OlOverlay {
       stopEvent: true
     })
     /**
+     * @desc Margin to maintain from the edges of the map
      * @public
      * @member {Array<number>}
      */
@@ -69,7 +70,7 @@ class Popup extends OlOverlay {
     this.pan()
   }
   /**
-   * @desc Add a css class to the popup content
+   * @desc Set a CSS class for the popup content
    * @public
    * @method
    * @param {string} css A css class

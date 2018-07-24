@@ -15,11 +15,10 @@ import FeaturePopup from 'nyc/ol/FeaturePopup'
  * @public
  * @class
  * @extends module:nyc/ol/FeaturePopup~FeaturePopup
- * @see http://www.openlayers.org/
  */
 class MultiFeaturePopup extends FeaturePopup {
   /**
-   * @desc Create an instance of FeaturePopup
+   * @desc Create an instance of MultiFeaturePopup
    * @public
    * @constructor
    * @param {module:nyc/ol/FeaturePopup~FeaturePopup.Options} options Constructor options
@@ -52,7 +51,7 @@ class MultiFeaturePopup extends FeaturePopup {
     this.showFeatures([feature])
   }
   /**
-   * @desc Show the HTML remdered features in the popup
+   * @desc Show the HTML rendered features in the popup
    * @public
    * @method
    * @param {Array<ol.Feature>} features The features

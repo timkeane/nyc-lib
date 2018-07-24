@@ -37,8 +37,8 @@ class FilterAndSort extends AutoLoad {
    * @desc Filters the features of this source
    * @public
    * @method
-   * @param {Array<module:nyc/FilterAndSort~FilterAndSort.Filter>} filters Used to filter features by attributes
-   * @return {Array<ol.Feature>} An array of features contained in this source that are the result is the intersection of the applied filters
+   * @param {Array<module:nyc/ol/source/FilterAndSort~FilterAndSort.Filter>} filters Used to filter features by attributes
+   * @return {Array<ol.Feature>} An array of features contained in this source that are the result of the intersection of the applied filters
    */
   filter(filters) {
     const filteredFeatures = []
@@ -62,7 +62,8 @@ class FilterAndSort extends AutoLoad {
    * @desc Sort features by distance from a coordinate
    * @public
    * @method
-   * @return {Array<ol.Feature>} features
+   * @param {ol.Coordinate} coordinate The coordinate from which to measure distance to features
+   * @return {Array<ol.Feature>} The features, each decorated with a getDistance function that returns a {@link module:nyc/ol/source/FilterAndSort~FilterAndSort.Distance} object
    */
   sort(coordinate) {
     const features = this.getFeatures()
@@ -142,7 +143,7 @@ class FilterAndSort extends AutoLoad {
 FilterAndSort.Distance
 
 /**
- * @desc Object to use for filtering the features of an instance of {@see FilterAndSort}
+ * @desc Argument object for {@link module:nyc/ol/source/FilterAndSort~FilterAndSort#filter}
  * @public
  * @typedef {Object}
  * @property {string} property The property name on which to filter features

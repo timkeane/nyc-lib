@@ -32,6 +32,7 @@ class MapLocator extends NycMapLocator {
 constructor(options) {
     super()
     /**
+		 * @desc The layer on which to render locations
      * @public
      * @member {ol.layer.Vector}
      */
@@ -146,7 +147,7 @@ constructor(options) {
 }
 
 /**
- * @desc Object type to hold constructor options for {@link MapLocator}
+ * @desc Object type to hold constructor options for {@link module:nyc/ol/MapLocator~MapLocator}
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The map on which location will be managed

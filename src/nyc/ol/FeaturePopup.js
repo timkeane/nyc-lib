@@ -54,7 +54,7 @@ class FeaturePopup extends Popup {
     layer.set('popup-id', this.getId())
   }
   /**
-   * @desc Show the HTML remdered feature in the popup
+   * @desc Show the HTML rendered feature in the popup
    * @public
    * @method
    * @param {ol.Feature} feature The feature

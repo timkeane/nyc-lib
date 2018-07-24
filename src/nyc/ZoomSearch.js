@@ -79,8 +79,8 @@ class ZoomSearch extends Container {
 	 * @abstract
 	 * @method
 	 * @param {Object} feature The feature object
-	 * @param {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions} options The options passed to setFeature
-	 * @return {module:nyc/Locate~Locate.Result}
+	 * @param {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions} options Describes how to convert feature
+	 * @return {module:nyc/Locator~Locator.Result} The location
 	 */
 	featureAsLocation(feature, options) {
 		throw 'Not implemented'

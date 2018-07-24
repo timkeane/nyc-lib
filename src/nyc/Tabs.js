@@ -25,6 +25,7 @@ class Tabs extends Container {
     this.btns = this.find('.btns')
     this.tabs = this.find('.container')
     /**
+     * @desc The active tab
      * @public
      * @member {jQuery}
      */
@@ -37,6 +38,7 @@ class Tabs extends Container {
     this.render(options.tabs)
   }
   /**
+   * @desc Open a tab
    * @public
    * @method
    * @param {jQuery|Element|string} tab

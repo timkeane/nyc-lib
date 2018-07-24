@@ -23,7 +23,7 @@ class Locator extends NycLocator {
  * @desc Create an instance of Locator
  * @public
  * @constructor
- * @param {module:nyc/ol/Locator~LocatorOptions} options Constructor options
+ * @param {module:nyc/ol/Locator~Locator.Options} options Constructor options
  */
 constructor(options) {
     super(options)
