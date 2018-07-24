@@ -22,7 +22,7 @@ class LocalStorage {
 	  return 'download' in $('<a></a>').get(0)
   }
   /**
-   * @desc Save JSON data to a file prompting the user with a file dialog
+   * @desc Save GeoJSON data to a file prompting the user with a file dialog
    * @public
    * @method
    * @param {string} name File name
@@ -72,7 +72,7 @@ class LocalStorage {
 		}
   }
   /**
-	 * @desc Open a text file from local disk
+	 * @desc Open a text file from filesystem
 	 * @public
 	 * @method
 	 * @param {module:nyc/LocalStorage~LocalStorage#readTextFileCallback} callback The callback function to receive file content
@@ -96,7 +96,7 @@ class LocalStorage {
 		}
   }
 	/**
-	 * @desc Open a GeoJSON file from local disk
+	 * @desc Open a GeoJSON file from filesystem
 	 * @public
 	 * @method
 	 * @param {ol.Map|L.Map} map The map in which the data will be displayed
@@ -110,7 +110,7 @@ class LocalStorage {
 		}, file)
   }
 	/**
-	 * @desc Open a shapefile from local disk
+	 * @desc Open a shapefile from filesystem
 	 * @public
 	 * @method
 	 * @param {ol.Map|L.Map} map The map in which the data will be displayed
@@ -256,7 +256,7 @@ class LocalStorage {
  * @desc Callback for {@link module:nyc/LocalStorage~LocalStorage#readTextFile}
  * @public
  * @callback module:nyc/LocalStorage~LocalStorage#readTextFileCallback
- * @param {string} fileContents The string contained in the file
+ * @param {string} fileContents The text contained in the file
  */
 
 /**
