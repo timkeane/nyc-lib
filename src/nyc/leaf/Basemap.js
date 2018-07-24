@@ -15,7 +15,7 @@ import L from 'leaflet'
  * @desc Class that provides an L.Map with base layers and labels
  * @public
  * @class
- * @extends {L.Map}
+ * @extends L.Map
  * @mixes module:nyc/BasemapHelper~BasemapHelper
  * @see http://leafletjs.com/
  */

@@ -20,7 +20,7 @@ class FeaturePopup extends Popup {
    * @desc Create an instance of FeaturePopup
    * @public
    * @constructor
-   * @param {module:nyc/FeaturePopup~FeaturePopup.Options} options Constructor options
+   * @param {module:nyc/ol/FeaturePopup~FeaturePopup.Options} options Constructor options
    */
   constructor(options) {
     super(options)
@@ -33,7 +33,7 @@ class FeaturePopup extends Popup {
     this.map.on('click', $.proxy(this.mapClick, this))
   }
   /**
-   * @desc Add a layer
+   * @desc Add layers
    * @public
    * @method
    * @param {Array<ol.layer.Vector>} layers The layers to add
@@ -54,7 +54,7 @@ class FeaturePopup extends Popup {
     layer.set('popup-id', this.getId())
   }
   /**
-   * @desc Show the popup
+   * @desc Show the HTML remdered feature in the popup
    * @public
    * @method
    * @param {ol.Feature} feature The feature
@@ -69,6 +69,7 @@ class FeaturePopup extends Popup {
     })
   }
   /**
+   * @desc Handles map click events
    * @method
    * @access protected
    * @param {ol.MapBrowserEvent} event
@@ -85,7 +86,7 @@ class FeaturePopup extends Popup {
 }
 
 /**
- * @desc Constructor option for {@link module:nyc/FeaturePopup~FeaturePopup}
+ * @desc Constructor option for {@link module:nyc/ol/FeaturePopup~FeaturePopup}
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The map

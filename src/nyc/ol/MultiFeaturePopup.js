@@ -52,7 +52,7 @@ class MultiFeaturePopup extends FeaturePopup {
     this.showFeatures([feature])
   }
   /**
-   * @desc Show the popup
+   * @desc Show the HTML remdered features in the popup
    * @public
    * @method
    * @param {Array<ol.Feature>} features The features
@@ -63,6 +63,7 @@ class MultiFeaturePopup extends FeaturePopup {
     this.show({coordinate: coordinate})
   }
   /**
+   * @desc Handles map click events
    * @method
    * @override
    * @param {ol.MapBrowserEvent} event

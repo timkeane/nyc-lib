@@ -43,7 +43,7 @@ const BasemapHelper = {
 		 }
 	 },
 	/**
-	 * @desc Returns the phot layers ordered by year
+	 * @desc Returns the photo layers ordered by year
 	 * @public
 	 * @method
 	 * @return {Array<ol.layer.Base|L.Layer>}
