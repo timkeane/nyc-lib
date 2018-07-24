@@ -25,7 +25,7 @@ class TripPlanHack {
     this.url = url
   }
   /**
-   * @desc Intiate jump to MTA TripFinder
+   * @desc Intiate jump to MTA TripPlanner
    * @public
    * @method
    * @param {module:nyc/mta/TripPlanHack~TripPlanHack.SaneRequest} request The trip request
