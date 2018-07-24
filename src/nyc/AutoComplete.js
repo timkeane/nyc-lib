@@ -59,7 +59,7 @@ class AutoComplete {
    * @private
    * @method
    * @param {string} typed
-   * @returns {Object<string,RegExp>}
+   * @return {Object<string,RegExp>}
    */
   regexp(typed) {
     const possibleMatch = new String(typed.replace(/[^a-zA-Z0-9]/g, ''))

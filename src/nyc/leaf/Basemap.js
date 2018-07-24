@@ -135,7 +135,7 @@ constructor(options) {
 		this.showLabels('photo')
 	}
 	/**
-	 * @desc Show photo layer
+	 * @desc Show labels by type
 	 * @public
 	 * @override
 	 * @method

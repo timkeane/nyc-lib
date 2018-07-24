@@ -89,7 +89,7 @@ class FilterAndSort extends AutoLoad {
    * @method
    * @param {ol.Coordinate} coordinate 
    * @param {ol.geom.Geometry} geom 
-   * @returns {module:nyc/FilterAndSort~FilterAndSort.Distance}
+   * @return {module:nyc/FilterAndSort~FilterAndSort.Distance}
    */
   distance(coordinate, geom) {
     const line = new OlGeomLineString([coordinate, geom.getClosestPoint(coordinate)])
@@ -106,7 +106,7 @@ class FilterAndSort extends AutoLoad {
    * @private
    * @method
    * @param {ol.format.Feature} format 
-   * @returns {Array<ol.proj.Projection>}
+   * @return {Array<ol.proj.Projection>}
    */
   projections(format) {
     const parentFormat = format ? format.parentFormat : null
@@ -160,7 +160,7 @@ FilterAndSort.DistanceDecoration = {
    * @desc Mixin for features
    * @private
    * @method 
-   * @returns {module:nyc/FilterAndSort~FilterAndSort.Distance}
+   * @return {module:nyc/FilterAndSort~FilterAndSort.Distance}
    */
   getDistance() {
     return this.get('__distance')

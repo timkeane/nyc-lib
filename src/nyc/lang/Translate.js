@@ -10,7 +10,7 @@ import Container from 'nyc/Container'
  * @desc Class for language translation using the Google Translate Gadget
  * @public
  * @class
- * @extends module:nyc/lang/Container~Container
+ * @extends module:nyc/Container~Container
  * @fires module:nyc/lang/Translate~Translate#ready
  * @fires module:nyc/lang/Translate~Translate#change
  */
@@ -113,7 +113,7 @@ class Translate extends Container {
    * @desc Gets a cookie value
 	 * @access protected
 	 * @method
-	 * @return {string}
+	 * @return {string} cookie
 	 */
 	getCookieValue() {
     return ''
@@ -201,7 +201,7 @@ class Translate extends Container {
  * @desc Constructor options for {@link module:nyc/lang/Translate~Translate}
  * @public
  * @typedef {Object}
- * @property {(String|Element|JQuery)} target The HTML DOM element that will provide language choices
+ * @property {(String|Element|JQuery)} target The DOM element that will provide language choices
  * @property {Translate.Choices} languages The languages to provide
  * @property {Object<string,Object<string,string>>} messages The language-specific message bundles
  * @property {string} [defaultLanguage='en'] The default language
@@ -221,7 +221,7 @@ Translate.Options
 Translate.Choice
 
 /**
- * @desc A mapping of {@link Translate.Choice} objects to language codes
+ * @desc A mapping of {@link  module:nyc/lang/Translate~Translate.Choice} objects to language codes
  * @public
  * @typedef {Object<string, module:nyc/lang/Translate~Translate.Choice>}
  */

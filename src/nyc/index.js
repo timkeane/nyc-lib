@@ -166,7 +166,7 @@ const nyc = {
 	 * @static
 	 * @function
 	 * @param {number} minutes Minutes
-	 * @returns {number} Time in milliseconds
+	 * @return {number} Time in milliseconds
 	 */
 	cacheBust(minutes) {
 		const offset = 1000 * 60 *  minutes;
@@ -177,7 +177,7 @@ const nyc = {
 	 * @public
 	 * @static
 	 * @function
-	 * @returns {Object} An object containing the element and a boolean indicating if it is a text input
+	 * @return {Object} An object containing the element and a boolean indicating if it is a text input
 	 */
 	activeElement() {
 		const activeElement = document.activeElement

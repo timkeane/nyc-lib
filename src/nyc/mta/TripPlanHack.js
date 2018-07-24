@@ -40,7 +40,7 @@ class TripPlanHack {
   /**
    * @private
    * @method
-   * @returns {strinfg}
+   * @return {strinfg}
    */
   getUrl() {
     if (this.url) return this.url
@@ -55,7 +55,7 @@ class TripPlanHack {
    * @private
    * @method
    * @param {module:nyc/mta/TripPlanHack~TripPlanHack.SaneRequest} request
-   * @returns {string}
+   * @return {string}
    */
   jsonpacket(request) {
     return JSON.stringify(this.insanifyRequest(request))
@@ -63,7 +63,7 @@ class TripPlanHack {
   /**
    * @private
    * @method
-   * @returns {number}
+   * @return {number}
    */
   randomParamCopiedFromMtaCode() {
     return Math.floor(Math.random() * 11)
@@ -71,7 +71,7 @@ class TripPlanHack {
   /**
    * @private
    * @method
-   * @returns {Object<string, Object>}
+   * @return {Object<string, Object>}
    */
   now() {
     const now = new Date()
@@ -86,7 +86,7 @@ class TripPlanHack {
   /**
    * @private
    * @method
-   * @returns {string}
+   * @return {string}
    */
   insanifyLocation(location) {
     const coord = proj4(location.projection || 'EPSG:3857', 'EPSG:4326', location.coordinate)
@@ -96,7 +96,7 @@ class TripPlanHack {
    * @private
    * @method
    * @param {module:nyc/mta/TripPlanHack~TripPlanHack.SaneRequest} request
-   * @returns {Object<string, Object>}
+   * @return {Object<string, Object>}
    */
   insanifyRequest(request) {
     const origin = request.origin

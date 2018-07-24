@@ -228,7 +228,7 @@ class FinderApp {
    * @access protected
    * @method
    * @param {Array<module:nyc/ol/Filters~Filters.ChoiceOptions>=} choiceOptions
-   * @returns {module:nyc/ol/Filters~Filters}
+   * @return {module:nyc/ol/Filters~Filters}
    */
   createFilters(choiceOptions) {
     if (choiceOptions) {
@@ -249,7 +249,7 @@ class FinderApp {
    * @access protected
    * @method
    * @param {module:nyc/ol/FinderApp~FinderApp.Options} options
-   * @returns {module:nyc/Tabs~Tabs}
+   * @return {module:nyc/Tabs~Tabs}
    */
   createTabs(options) {
     const pages = [
@@ -320,7 +320,7 @@ class FinderApp {
   /**
    * @private
    * @method
-   * @returns {boolean}
+   * @return {boolean}
    */
   tabsFillScreen() {
     return Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1

@@ -52,7 +52,7 @@ class Dialog extends Container {
 	 * @public
 	 * @method
 	 * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
-	 * @returns {Promise<boolean>} The async result of the user action
+	 * @return {Promise<boolean>} The async result of the user action
 	 */
 	ok(options) {
 		this.buttons(Dialog.Type.OK, options)
@@ -73,7 +73,7 @@ class Dialog extends Container {
 	 * @public
 	 * @method
 	 * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
-	 * @returns {Promise<string|boolean|undefined>} The async result of the user action
+	 * @return {Promise<string|boolean|undefined>} The async result of the user action
 	 */
 	input(options) {
 		const field = this.field
@@ -102,7 +102,7 @@ class Dialog extends Container {
 	 * @public
 	 * @method
 	 * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
-	 * @returns {Promise<boolean>} The async result of the user action
+	 * @return {Promise<boolean>} The async result of the user action
 	 */
 	yesNo(options) {
 		this.buttons(Dialog.Type.YES_NO, options)
@@ -123,7 +123,7 @@ class Dialog extends Container {
 	 * @public
 	 * @method
 	 * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
- 	 * @returns {Promise<boolean|undefined>} The async result of the user action
+ 	 * @return {Promise<boolean|undefined>} The async result of the user action
 	 */
 	yesNoCancel(options) {
 		this.buttons(Dialog.Type.YES_NO_CANCEL, options)
