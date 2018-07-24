@@ -55,7 +55,7 @@ class LocationMgr extends EventHandling {
     this.locateFromQueryString(document.location.search)
   }
 	/**
-	 * @desc Geocode an input string representing a location
+	 * @desc Zomm and center on the provided location
 	 * @public
 	 * @method
 	 * @param {module:nyc/Locator~Locator.Result} data The location
