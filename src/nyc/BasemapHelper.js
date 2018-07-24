@@ -23,10 +23,10 @@ const BasemapHelper = {
     })
   },
 	/**
-	 * @desc Returns the base layers
+	 * @desc Loads a layer from a file
    * @public
 	 * @method
-	 * @return {jQuery.Event}
+	 * @param {jQuery.Event}
 	 */
 	 loadLayer(event) {
 		 const transfer = event.originalEvent.dataTransfer
@@ -43,7 +43,7 @@ const BasemapHelper = {
 		 }
 	 },
 	/**
-	 * @desc Returns the base layers
+	 * @desc Returns the phot layers ordered by year
 	 * @public
 	 * @method
 	 * @return {Array<ol.layer.Base|L.Layer>}

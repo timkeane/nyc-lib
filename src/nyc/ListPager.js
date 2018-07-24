@@ -41,7 +41,7 @@ class ListPager extends Container {
      */
     this.list = this.find('.list')
     /**
-     * @priva
+     * @private
      * @member {number}
      */
     this.index = 0
@@ -142,7 +142,7 @@ class ListPager extends Container {
 ListPager.Options
 
 /**
- * @desc ListPager.Item type
+ * @desc Object containing a rendering function for an item
  * @public
  * @typedef {module:nyc/ListPager~ListPager.Item}
  * @property {function()} html The rendering function for the item

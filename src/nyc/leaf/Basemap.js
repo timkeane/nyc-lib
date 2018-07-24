@@ -111,7 +111,7 @@ constructor(options) {
 		})
 	}
 	/**
-	 * @desc Get the storage used for laoding and saving data
+	 * @desc Get the storage used for loading and saving data
 	 * @public
 	 * @override
 	 * @method
