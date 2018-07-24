@@ -182,7 +182,7 @@ constructor(options) {
  * @desc Constructor options for {@link module:nyc/Geoclient~Geoclient}
  * @public
  * @typedef {Object}
- * @property {string} url The URL for accessing the Geoclient API {@link https://developer.cityofnewyork.us/api/geoclient-api}
+ * @property {string} url The URL for accessing the Geoclient API (see {@link https://developer.cityofnewyork.us/api/geoclient-api})
  * @property {string} [projection=EPSG:3857] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
  */
 Geoclient.Options

@@ -60,7 +60,7 @@ class ItemPager extends Container {
     if (options.items) this.show(options.items)
   }
   /**
-   * @desc Set the items and Show the first item
+   * @desc Set the items and show the first item
    * @public
    * @method
    * @param {Array<Object>} items The items
@@ -101,7 +101,7 @@ class ItemPager extends Container {
  * @desc Construtor options for {@link module:nyc/ItemPager~ItemPager}
  * @public
  * @typedef {Object}
- * @property {jQuery|Element|string=} target The DOM node in which to create the ListPager
+ * @property {jQuery|Element|string=} target The DOM node in which to create the ItemPager
  * @param {Array<Object>=} items The items to page through
  */
 ItemPager.Options

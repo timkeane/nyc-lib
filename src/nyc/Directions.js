@@ -323,7 +323,7 @@ Directions.Response
  * @public
  * @typedef {Object}
  * @property {string} [url={@link module:nyc/Directions~Directions.DEFAULT_GOOGLE_URL}] The Google Maps URL to use
- * @property {Array<Object<strng, Object>>=} styles The Google Maps styles use {@see https://developers.google.com/maps/documentation/javascript/style-reference}
+ * @property {Array<Object<strng, Object>>=} styles The Google Maps styles to use (see {@link https://developers.google.com/maps/documentation/javascript/style-reference})
  * @property {jQuery|string=} toggle Elements to hide from screen readers when directions are shown
  */
 Directions.Options 

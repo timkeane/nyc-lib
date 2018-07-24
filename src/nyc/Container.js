@@ -37,6 +37,7 @@ class Container extends EventHandling {
 	 * @desc A method to return elements in the container
 	 * @public
 	 * @method
+	 * @param {string} selector jQuery selector
 	 * @return {jQuery} The element
 	 */
 	find(selector) {

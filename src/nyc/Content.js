@@ -38,7 +38,7 @@ class Content extends ReplaceTokens {
 		})
 	}
 	/**
-	 * @desc Returns a content message with substituted valeus
+	 * @desc Returns a content message with substituted values
 	 * @public
 	 * @method
 	 * @param {string} msgId The id for the message
@@ -54,12 +54,12 @@ class Content extends ReplaceTokens {
 }
 
 /**
- * @desc Returns a content message with substituted valeus
+ * @desc Loads messages from a CSV file
  * @public
  * @static
  * @method
  * @param {module:nyc/Content~Content.LoadOptions} options The load options
- * @return {Promise} The promise that will return the content
+ * @return {Promise} The promise that will resolve to an instance of {@link module:nyc/Content~Content}
  */
 Content.loadCsv = (options) => {
 	const messages = options.messages || [{}]

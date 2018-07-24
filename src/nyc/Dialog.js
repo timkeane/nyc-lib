@@ -119,7 +119,7 @@ class Dialog extends Container {
 		})
 	}
 	/**
-	 * @desc Show the yes-no dialog
+	 * @desc Show the yes-no-cancel dialog
 	 * @public
 	 * @method
 	 * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
