@@ -20,7 +20,8 @@ import OlGeomPolygon from 'ol/geom/polygon'
  * @public
  * @class
  * @extends ol.Map
- * @mixes nyc/Basemap
+ * @mixes module:nyc/BasemapHelper~BasemapHelper
+ * @see http://openlayers.org/en/latest/apidoc/ol.Map.html
  */
 class Basemap extends OlMap {
   /**
@@ -29,7 +30,6 @@ class Basemap extends OlMap {
    * @constructor
    * @param {olx.MapOptions} options Constructor options
    * @param {number} [preload=0] Preload option for base layer
-   * @see http://openlayers.org/en/latest/apidoc/ol.Map.html
    */
   constructor(options, preload) {
     const viewProvided = options.view instanceof OlView
@@ -116,7 +116,7 @@ class Basemap extends OlMap {
   	}
   }
   /**
-   * @desc Get the storage used for laoding and saving data
+	 * @desc Get the storage used for loading and saving data
    * @access protected
    * @override
    * @method
