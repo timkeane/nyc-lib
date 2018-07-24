@@ -69,6 +69,7 @@ constructor(options) {
     this.createLayer(options.style)
   }
 	/**
+	 * @desc Zoom to the provided loacation then optionally invoke a callback function
 	 * @public
 	 * @override
 	 * @method
@@ -93,6 +94,7 @@ constructor(options) {
 		}
 	}
 	/**
+	 * @desc Set the location to the provided loacation without moving the map
 	 * @public
 	 * @override
 	 * @method
