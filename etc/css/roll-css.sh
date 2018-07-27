@@ -1,3 +1,4 @@
+#!/bin/bash
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 rm -rf $DIR/tmp
 rm -rf $DIR/build
