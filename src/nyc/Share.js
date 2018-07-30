@@ -4,6 +4,7 @@
 
 import $ from 'jquery'
 
+import nyc from 'nyc'
 import Container from 'nyc/Container'
 import ReplaceTokens from 'nyc/ReplaceTokens'
 
@@ -30,26 +31,42 @@ class Share extends Container {
 		}).then(manifest => {
 			manifest.url = document.location.href
 			share.append(new ReplaceTokens().replace(Share.HTML, manifest))
-			share.hookupEvents()
+			const id = nyc.nextId('share')
+			share.btn = share.find('.btn-shr')
+				.attr('aria-controls', id)
+				.one('click', $.proxy(share.show, share))
+			share.btns = share.btn.next()
+				.attr('id', id)
 		})
 	}
 	/**
 	 * @private
 	 * @method
+	 * @param {jQuery.Event} event
 	 */
-	hookupEvents() {
-		const btns = this.find('.btns')
-	 	this.find('.btn-shr').click(event => {
-			event.stopPropagation()
-			btns.fadeToggle(() => {
-				$('*').one('click', event => {
-					event.stopPropagation()
-					if (btns.css('opacity') * 1 === 1) {
-						btns.fadeOut()
-					}
-				})
+	show(event) {
+		const share = this
+		event.stopImmediatePropagation()
+		this.btn.attr('aria-pressed', true)
+		this.btns.attr('aria-collapsed', false)
+			.attr('aria-expanded', true)
+			.fadeIn(() => {
+				$('*').one('click', $.proxy(share.hide, share))
 			})
-		})
+	}
+	/**
+	 * @private
+	 * @method
+	 * @param {jQuery.Event} event
+	 */
+	hide(event) {
+		const share = this
+		this.btn.attr('aria-pressed', false)
+		this.btns.attr('aria-collapsed', true)
+			.attr('aria-expanded', false)
+			.fadeOut(() => {
+				share.btn.one('click', $.proxy(share.show, share))
+			})
 	}
 }
 
@@ -67,11 +84,11 @@ Share.Options
  * @const
  * @type {string}
  */
-Share.HTML = '<div class="shr">' +
-	'<a class="btn-shr btn-sq rad-all" role="button" title="Share...">' +
+Share.HTML = '<div class="shr" role="region" aria-label="Share this page via social media or email">' +
+	'<a class="btn-shr btn-sq rad-all" role="button" href="#" title="Share..." aria-pressed="false">' +
 		'<span class="screen-reader-only">Share...</span>' +
 	'</a>' +
-	'<div class="btns">' +
+	'<div class="btns" aria-expanded="false" aria-collapsed="true">' +
 		'<a class="btn-sq rad-all facebook" role="button" href="https://www.facebook.com/sharer/sharer.php?u=${url}" target="_blank" rel="noopener noreferrer" title="Facebook">' +
 			'<span class="screen-reader-only">Facebook</span>' +
 		'</a>' +
