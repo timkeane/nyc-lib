@@ -173,6 +173,33 @@ const nyc = {
 		return Math.round(new Date().getTime() / offset) * offset;
 	},
 	/**
+	 * @desc Disables scrolling on keypress when user presses the space bar on a button or a link by adding a kepress event handler to the document.  The click event is triggered on buttons and links without and href attribute or with an href value of #.  If a link has an href the browser will navigate to that location.  If a link also has a target attribute the navigation will take place in a new tab.
+	 * @public
+	 * @static
+	 */
+	noSpaceBarScroll() {
+		$(document).keypress(event => {
+			const tag = event.target.tagName
+			if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
+				if (event.key === ' ' || event.key === 'Enter') {
+					const elem = $(event.target)
+					const href = elem.attr('href')
+					event.preventDefault()
+					if (!href || href === '#') {
+						elem.trigger('click')
+					} else if (href) {
+						const target = elem.attr('target')
+						if (target) {
+							window.open(href)  
+						} else {
+							document.location = href
+						}
+					}
+				}
+			}
+		})
+	},
+	/**
 	 * @desc Returns an object describing the element that currently has focus
 	 * @public
 	 * @static

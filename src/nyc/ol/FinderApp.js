@@ -42,6 +42,7 @@ class FinderApp {
    */
   constructor(options) {
     global.finderApp = this
+    nyc.noSpaceBarScroll()
     $('body').append(FinderApp.HTML).addClass('fnd')
     $('#banner').html(options.title)
     $('#home').attr('title', options.title)
@@ -125,6 +126,7 @@ class FinderApp {
      * @member {module:nyc/Tabs~Tabs}
      */
     this.tabs = this.createTabs(options)
+    $('#map').attr('tabindex', -1)
     this.adjustTabs()
     this.view.fit(Basemap.EXTENT, {
       size: this.map.getSize(),
@@ -276,7 +278,6 @@ class FinderApp {
     }
     const tabs = new Tabs({target: '#tabs', tabs: pages})
     tabs.on('change', this.tabChange, this)
-    $('#map').attr('tabindex', -1)
     $(window).resize($.proxy(this.adjustTabs, this))
     return tabs
   }
