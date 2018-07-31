@@ -7,10 +7,14 @@
 .btn-shr {
 	background-image: var(--share-icon-light);
 }
+.btn-shr, .shr .btns a {
+	width: 33px;
+	height: 33px;
+}
 .shr .btns {
 	display: none;
 	position: fixed;
-	left: 43px;
+	left: 39px;
 }
 .shr .btns a {
 	position: relative;

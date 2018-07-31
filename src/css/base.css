@@ -3,7 +3,7 @@ html, body, body * {
 	font-family: var(--font-family);
 	color: var(--color-dark);
 }
-*:focus {
+*:focus, .focused {
 	outline: 0;
 	box-shadow: 0px 1px 7px 3px var(--focus-ring-color);
 	z-index: 100000;

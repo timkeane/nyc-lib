@@ -310,3 +310,22 @@ test('showHint not button', () => {
 
   return test().then(success => expect(success).toBe(true))
 })
+
+test('focus/blur', () => {
+  expect.assertions(3)
+
+  const translate = new Translate({
+    target: target,
+    languages: languages,
+    messages: messages,
+    button: true
+  })
+
+  expect(translate.find('.btn-sq').hasClass('focused')).toBe(false)
+
+  translate.find('select').focus()
+  expect(translate.find('.btn-sq').hasClass('focused')).toBe(true)
+
+  translate.find('select').blur()
+  expect(translate.find('.btn-sq').hasClass('focused')).toBe(false)
+})

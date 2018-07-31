@@ -127,10 +127,11 @@ class Translate extends Container {
     const codes = []
     const div = $(Translate.HTML)
     $(target).append(div)
+    const select = this.find('select')
     Object.keys(this.languages).forEach(lang => {
       const code = this.languages[lang].code
       const opt = $('<option></option>').attr('value', code).html(this.languages[lang].native)
-      this.find('select').append(opt)
+      select.append(opt)
       codes.push(lang)
       this.hints.push(this.languages[lang].hint)
       this.namedCodes[code] = lang
@@ -142,6 +143,8 @@ class Translate extends Container {
     if (this.button) {
       $('#lng').addClass('button')
     }
+    select.focus(() => {select.prev().addClass('focused')})
+    select.blur(() => {select.prev().removeClass('focused')})
     this.trigger('ready', this)
   }
   /**
@@ -264,10 +267,8 @@ Translate.DEFAULT_LANGUAGES = {
  * @type {string}
  */
 Translate.HTML = '<div id="lng" role="region" aria-label="Translate this page into another language">' +
-  '<a class="btn-sq rad-all" href="#">' +
-    '<span class ="hint notranslate">Translate</span>' +
-    '<select class="notranslate" translate="no" title="Translate..." araia-label="Translate..."></select>' +
-  '</a>' +
+  '<div class="btn-sq rad-all"><span class ="hint notranslate">Translate</span></div>' +
+  '<select class="notranslate" translate="no" title="Translate..." araia-label="Translate..."></select>' +
   '<div id="lng-goog"></div>' +
 '</div>'
 
