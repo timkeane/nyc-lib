@@ -9,21 +9,35 @@ html, body.fnd, .fnd #map {
   top: 0;
   height: 34px;
   width: 80px;
-  cursor: pointer;
+  opacity: 0;
+}
+.fnd #home:focus {
+  opacity: 1;
+	outline: 0;
+	box-shadow: none;
+}
+.fnd #home:focus svg {
+  stroke: var(--focus-ring-color);
+  stroke-width: 3px;
+  fill: var(--focus-ring-color);
+  fill-opacity: .2;
+  transform: scale(0.48);
+  margin-top: -8px;
+  margin-left: -37.5px;
 }
 .fnd #banner {
+  height: 32px;
+  background-position: 3px 6px;
+  background-size: 71px 24px;
+  background-repeat: no-repeat;
+  background-image: var(--nyc-icon-light);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 32px;
   margin: 0;
   padding: 4px 0 0 80px;
   background-color: var(--color-dark);
-  background-image: var(--nyc-icon-light);
-  background-position: 3px 6px;
-  background-size: 71px 24px;
-  background-repeat: no-repeat;
   text-transform: capitalize;
 }
 .fnd #banner, .fnd #banner * {
