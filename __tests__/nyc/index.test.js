@@ -525,3 +525,8 @@ describe('noSpaceBarScroll', () => {
     expect(nyc.location).toHaveBeenCalledTimes(0)
   })
 })
+
+test('location', () => {
+  expect.assertions(0)
+  nyc.location('')
+})
