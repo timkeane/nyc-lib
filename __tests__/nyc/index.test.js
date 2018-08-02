@@ -377,3 +377,151 @@ describe('activeElement', () => {
     expect(activeElement.isTextInput).toBe(true)
   })
 })
+
+describe('noSpaceBarScroll', () => {
+  let div
+  let a
+  let input
+  let textarea
+  let event
+  const open = window.open
+  const location = nyc.location
+  beforeEach(() => {
+    nyc.noSpaceBarScroll()
+    window.open = jest.fn()
+    nyc.location = jest.fn()
+    event = {type: 'keypress', preventDefault: jest.fn()}
+    div = $('<div></div>')
+    a = $('<a></a>')
+    div = $('<select></select>')
+    input = $('<input>')
+    textarea = $('<textarea></textarea>')
+    $('body').append([div, a, input, textarea])
+  })
+  afterEach(() => {
+    $(document).off('keypress', nyc.noSpaceBarHandler)
+    window.open = open
+    nyc.location = location
+    $('body').empty()
+  })
+
+  test('noSpaceBarScroll div', () => {
+    expect.assertions(5)
+    
+    event.target = div.get(0)
+    event.key = ' '
+    div.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(1)
+
+    event.key = 'Enter'
+    div.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(2)
+
+    event.key = 'foo'
+    div.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(2)
+    
+    expect(nyc.location).toHaveBeenCalledTimes(0)
+    expect(window.open).toHaveBeenCalledTimes(0)
+  })
+
+  test('noSpaceBarScroll a href #', () => {
+    expect.assertions(8)
+    
+    const handler = jest.fn()
+
+    event.target = a.click(handler).attr('href', '#').get(0)
+    event.key = ' '
+    a.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(1)
+    expect(handler).toHaveBeenCalledTimes(1)
+
+    event.key = 'Enter'
+    a.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(2)
+    expect(handler).toHaveBeenCalledTimes(2)
+
+    event.key = 'foo'
+    a.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(2)
+    expect(handler).toHaveBeenCalledTimes(2)
+
+    expect(nyc.location).toHaveBeenCalledTimes(0)
+    expect(window.open).toHaveBeenCalledTimes(0)    
+  })
+
+  test('noSpaceBarScroll a no href', () => {
+    expect.assertions(8)
+    
+    const handler = jest.fn()
+
+    event.target = a.click(handler).get(0)
+    event.key = ' '
+    a.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(1)
+    expect(handler).toHaveBeenCalledTimes(1)
+
+    event.key = 'Enter'
+    a.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(2)
+    expect(handler).toHaveBeenCalledTimes(2)
+
+    event.key = 'foo'
+    a.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(2)
+    expect(handler).toHaveBeenCalledTimes(2)
+
+    expect(nyc.location).toHaveBeenCalledTimes(0)
+    expect(window.open).toHaveBeenCalledTimes(0)
+  })
+
+  test('noSpaceBarScroll a has href', () => {
+    expect.assertions(9)
+    
+    event.target = a.attr('href', 'https://maps.nyc.gov').get(0)
+    event.key = ' '
+    a.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(1)
+    expect(nyc.location).toHaveBeenCalledTimes(1)
+    expect(nyc.location.mock.calls[0][0]).toBe('https://maps.nyc.gov')
+
+    event.key = 'Enter'
+    a.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(2)
+    expect(nyc.location).toHaveBeenCalledTimes(2)
+    expect(nyc.location.mock.calls[1][0]).toBe('https://maps.nyc.gov')
+
+
+    event.key = 'foo'
+    a.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(2)
+    expect(nyc.location).toHaveBeenCalledTimes(2)
+
+    expect(window.open).toHaveBeenCalledTimes(0)
+  })
+
+  test('noSpaceBarScroll a has href and target', () => {
+    expect.assertions(9)
+    
+    event.target = a.attr({href: 'https://maps.nyc.gov', target: 'blank'}).get(0)
+    event.key = ' '
+    a.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(1)
+    expect(window.open).toHaveBeenCalledTimes(1)
+    expect(window.open.mock.calls[0][0]).toBe('https://maps.nyc.gov')
+
+    event.key = 'Enter'
+    a.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(2)
+    expect(window.open).toHaveBeenCalledTimes(2)
+    expect(window.open.mock.calls[1][0]).toBe('https://maps.nyc.gov')
+
+
+    event.key = 'foo'
+    a.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(2)
+    expect(window.open).toHaveBeenCalledTimes(2)
+
+    expect(nyc.location).toHaveBeenCalledTimes(0)
+  })
+})

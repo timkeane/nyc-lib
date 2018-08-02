@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>nyc.ol.FinderApp with nyc.Directions Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.4.0/papaparse.min.js"></script>
+  <script src="../../js/nyc-ol-lib.js"></script>
+  <link href="../../css/nyc-ol-lib.css" rel="stylesheet">
+	<style>
+    .facility .dtl h3.btn {
+      text-align: center;
+      padding-right: 22px;
+      width: calc(100% - 27px);
+    }
+    .fnd .lst-it .dtl h3.btn:first-of-type {
+      margin-top: 0;
+  }
+    #filters label {
+      line-height: 21px;
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
+  </style>
+</head>
+<body class="loading">
+	<script>
+    const format = new nyc.ol.format.CartoSqlPoint({from: 'orr_projects_points'});
+    new nyc.ol.FinderApp({
+      title: 'Pre-K Finder',
+      splashOptions: {message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lobortis, massa id consequat lacinia, massa enim semper nunc, sit amet dapibus ex mi posuere tellus. Aenean vulputate iaculis lorem elementum finibus. Fusce mauris libero, lacinia sed ultricies nec, imperdiet vel diam.'},
+      geoclientUrl: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example',
+      facilityTabTitle: 'Schools',
+      facilityUrl: `https://nycmap.carto.com/api/v2/sql?q=${encodeURIComponent(format.getSql())}`,
+      facilityFormat: format,
+      filterChoiceOptions: [{
+        title: 'Phase',
+        choices: [
+          {name: 'schedule', values: ['Planning'], label: 'Planning', checked: true},
+          {name: 'schedule', values: ['Design'], label: 'Design', checked: true},
+          {name: 'schedule', values: ['Construction'], label: 'Construction', checked: true},
+          {name: 'schedule', values: ['Completed'], label: 'Completed', checked: true}
+        ]
+      } , {
+        title: 'Managing agency',
+        choices: [
+          {name: 'mangagen', values: ['Mayor\'s Office of Recovery and Resiliency'], label: 'Mayor\'s Office of Recovery and Resiliency', checked: true},
+          {name: 'mangagen', values: ['Teachers\' Retirement System of NYC'], label: 'Teachers\' Retirement System of NYC', checked: true},
+          {name: 'mangagen', values: ['New York City Economic Development Corporation'], label: 'New York City Economic Development Corporation', checked: true},
+          {name: 'mangagen', values: ['Board of Elections'], label: 'Board of Elections', checked: true},
+          {name: 'mangagen', values: ['Department of Health and Mental Hygiene'], label: 'Department of Health and Mental Hygiene', checked: true},
+          {name: 'mangagen', values: ['Department of Cultural Affairs'], label: 'Department of Cultural Affairs', checked: true},
+          {name: 'mangagen', values: ['Trust for Governors Island'], label: 'Trust for Governors Island', checked: true},
+          {name: 'mangagen', values: ['Office of the Mayor'], label: 'Office of the Mayor', checked: true},
+          {name: 'mangagen', values: ['Department of Sanitation'], label: 'Department of Sanitation', checked: true},
+          {name: 'mangagen', values: ['Department of Parks and Recreation'], label: 'Department of Parks and Recreation', checked: true},
+          {name: 'mangagen', values: ['United States Army Corps of Engineers'], label: 'United States Army Corps of Engineers', checked: true},
+          {name: 'mangagen', values: ['Administration for Children\'s Services'], label: 'Administration for Children\'s Services', checked: true},
+          {name: 'mangagen', values: ['NYC Health + Hospitals'], label: 'NYC Health + Hospitals', checked: true},
+          {name: 'mangagen', values: ['New York City Department of Transportation'], label: 'New York City Department of Transportation', checked: true},
+          {name: 'mangagen', values: ['New York City Police Department'], label: 'New York City Police Department', checked: true},
+          {name: 'mangagen', values: ['New York Public Library'], label: 'New York Public Library', checked: true},
+          {name: 'mangagen', values: ['Fire Department of the City of New York'], label: 'Fire Department of the City of New York', checked: true},
+          {name: 'mangagen', values: ['Department of Investigation'], label: 'Department of Investigation', checked: true},
+          {name: 'mangagen', values: ['Brooklyn Public Library'], label: 'Brooklyn Public Library', checked: true},
+          {name: 'mangagen', values: ['School Construction Authority'], label: 'School Construction Authority', checked: true},
+          {name: 'mangagen', values: ['Department of Environmental Protection'], label: 'Department of Environmental Protection', checked: true},
+          {name: 'mangagen', values: ['Department of Citywide Administrative Services'], label: 'Department of Citywide Administrative Services', checked: true},
+          {name: 'mangagen', values: ['Department of Education'], label: 'Department of Education', checked: true},
+          {name: 'mangagen', values: ['Queens Borough Public Library'], label: 'Queens Borough Public Library', checked: true},
+          {name: 'mangagen', values: ['Department of Correction'], label: 'Department of Correction', checked: true},
+          {name: 'mangagen', values: ['Brooklyn Navy Yard Development Corporation'], label: 'Brooklyn Navy Yard Development Corporation', checked: true},
+          {name: 'mangagen', values: ['Brooklyn Bridge Park Corporation'], label: 'Brooklyn Bridge Park Corporation', checked: true},
+          {name: 'mangagen', values: ['City University of New York'], label: 'City University of New York', checked: true}          
+        ]
+      }],
+      facilitySearch: {nameField: 'projname'},
+      decorations: [{
+        getName: function() {
+          return this.get('projname')
+        },
+        getAddress1: function() {
+          return ''
+        },
+        getCityStateZip: function() {
+          return ''
+        },
+        getWebsite: function() {
+          return this.get('link')
+        },
+        detailsHtml: function() {
+          const compl = this.get('compdate') ? ('<div><b>Completion:</b><span>' + this.get('compdate') + '</span></div>') : ''
+          return $('<div></div>')
+            .append('<div>' + this.get('moreinfo') + '</div>')
+            .append('<div><b>Dept:</b><span>' + this.get('mangagen') + '</span></div>')
+            .append('<div><b>Type:</b><span>' + this.get('onenyc') + '</span></div>')
+            .append('<div><b>Phase:</b><span>' + this.get('schedule') + '</span></div>')
+            .append(compl)
+        },
+        cbHtml: function() {
+          const cb = this.get('commbord').split(',')[0].split('-');
+          const boro = {MN: 'Manhattan', BX: 'Bronx', BK: 'Brooklyn', QN: 'Queens', SI: 'Staten Island'}[cb[0]];
+          return this.websiteButton()
+            .attr('href', 
+              'https://www1.nyc.gov/site/' + boro.toLowerCase() + 'cb' +  cb[1] + '/index.page')
+            .html(boro + ' ' + cb[1]); 
+        },
+        html: function() {
+          const html = nyc.ol.FinderApp.FEATURE_DECORATIONS.html.call(this)          
+          this.cbHtml().insertAfter(html.find('.web'))
+          return html
+        }
+      }],
+      directionsUrl: 'https://maps.googleapis.com/maps/api/js?client=gme-newyorkcitydepartment&channel=pka&sensor=false&libraries=visualization'
+    });
+	</script>
+</body>
+</html>

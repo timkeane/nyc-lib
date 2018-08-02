@@ -178,26 +178,40 @@ const nyc = {
 	 * @static
 	 */
 	noSpaceBarScroll() {
-		$(document).keypress(event => {
-			const tag = event.target.tagName
-			if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
-				if (event.key === ' ' || event.key === 'Enter') {
-					const elem = $(event.target)
-					const href = elem.attr('href')
-					event.preventDefault()
-					if (!href || href === '#') {
-						elem.trigger('click')
-					} else if (href) {
-						const target = elem.attr('target')
-						if (target) {
-							window.open(href)  
-						} else {
-							document.location = href
-						}
+		$(document).keypress(nyc.noSpaceBarHandler)
+	},
+	/**
+	 * @private
+	 * @const
+	 * @type {function}
+	 */
+	noSpaceBarHandler(event) {
+		const tag = event.target.tagName
+		if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
+			if (event.key === ' ' || event.key === 'Enter') {
+				const elem = $(event.target)
+				const href = elem.attr('href')
+				event.preventDefault()
+				if (!href || href === '#') {
+					elem.trigger('click')
+				} else if (href) {
+					const target = elem.attr('target')
+					if (target) {
+						window.open(href)  
+					} else {
+						nyc.location(href)
 					}
 				}
 			}
-		})
+		}
+	},	
+	/**
+	 * @private
+	 * @method
+	 * @param {string} href
+	 */
+	location(href) {
+		window.location = href
 	},
 	/**
 	 * @desc Returns an object describing the element that currently has focus
