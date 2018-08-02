@@ -194,7 +194,7 @@ const nyc = {
 				event.preventDefault()
 				if (!href || href === '#') {
 					elem.trigger('click')
-				} else if (href) {
+				} else {
 					const target = elem.attr('target')
 					if (target) {
 						window.open(href)  

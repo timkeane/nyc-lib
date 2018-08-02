@@ -524,6 +524,48 @@ describe('noSpaceBarScroll', () => {
 
     expect(nyc.location).toHaveBeenCalledTimes(0)
   })
+
+  test('noSpaceBarScroll input', () => {
+    expect.assertions(5)
+    
+    event.target = input.get(0)
+    event.key = ' '
+    input.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(0)
+
+    event.key = 'Enter'
+    input.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(0)
+
+
+    event.key = 'foo'
+    input.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(0)
+    
+    expect(window.open).toHaveBeenCalledTimes(0)
+    expect(nyc.location).toHaveBeenCalledTimes(0)
+  })
+
+  test('noSpaceBarScroll textarea', () => {
+    expect.assertions(5)
+    
+    event.target = textarea.get(0)
+    event.key = ' '
+    textarea.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(0)
+
+    event.key = 'Enter'
+    textarea.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(0)
+
+
+    event.key = 'foo'
+    textarea.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(0)
+    
+    expect(window.open).toHaveBeenCalledTimes(0)
+    expect(nyc.location).toHaveBeenCalledTimes(0)
+  })
 })
 
 test('location', () => {
