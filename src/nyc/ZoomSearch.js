@@ -188,8 +188,7 @@ class ZoomSearch extends Container {
 			li.addClass('feature')
 		}
 		return li.addClass('notranslate')
-			.attr('translate', 'no')
-			.attr('title', name)
+			.attr({translate: 'no', title: name})
 			.html(`<a href="#">${name}</a>`)
 			.data('nameField', options.nameField)
 			.data('displayField', displayField)

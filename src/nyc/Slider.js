@@ -32,13 +32,13 @@ class Slider extends Container {
       .change($.proxy(this.change, this))
       .keydown($.proxy(this.key, this))
       .focus(event => $(event.target).select())
-    this.range = $('<input type="range">')
-      .attr('id', id)
-      .attr('min', options.min)
-      .attr('max', options.max) 
-      .attr('step', options.step || 1) 
-      .attr('value', this.text.val())
-      .change($.proxy(this.change, this))
+    this.range = $('<input type="range">').attr({
+      id: id,
+      min: options.min,
+      max: options.max,
+      step: options.step || 1,
+      value: this.text.val()
+    }).change($.proxy(this.change, this))
     units = units ? $(`<span>${units}</span>`) : undefined
     this.append(label)
       .append(this.text)

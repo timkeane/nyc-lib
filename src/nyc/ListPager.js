@@ -28,8 +28,10 @@ class ListPager extends Container {
     this.itemType = options.itemType || 'facilities'
     this.getContainer().addClass('lst-pg')
       .append($(ListPager.HTML))
-      .attr('role', 'region')
-      .attr('aria-label', `List of ${this.itemType}`)
+      .attr({
+        role: 'region', 
+        'aria-label': `List of ${this.itemType}`
+      })
       /**
      * @private
      * @member {Array<ListPager.Item>}

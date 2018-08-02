@@ -48,8 +48,7 @@ class Share extends Container {
 		const share = this
 		event.stopImmediatePropagation()
 		this.btn.attr('aria-pressed', true)
-		this.btns.attr('aria-collapsed', false)
-			.attr('aria-expanded', true)
+		this.btns.attr({'aria-collapsed': false, 'aria-expanded': true})
 			.fadeIn(() => {
 				$('*').one('click', $.proxy(share.hide, share))
 			})

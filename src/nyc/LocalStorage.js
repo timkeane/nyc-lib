@@ -32,7 +32,7 @@ class LocalStorage {
     const href = `data:application/jsoncharset=utf-8,${encodeURIComponent(data)}`
     const a = $('<a class="file-dwn"><img></a>')
     $('body').append(a)
-    a.attr('href', href).attr('download', name).find('img').trigger('click')
+    a.attr({href: href, download: name}).find('img').trigger('click')
     a.remove()
   }
   /**

@@ -30,8 +30,7 @@ class Collapsible extends Container {
      * @member {jQuery}
      */
     this.btn = this.find('h3')
-      .attr('id', btnId)
-      .attr('aria-controls', pnlId)
+      .attr({id: btnId, 'aria-controls': pnlId})
       .append(options.title)
       .click($.proxy(this.toggle, this))
     /**
@@ -39,8 +38,7 @@ class Collapsible extends Container {
      * @member {jQuery}
      */
     this.content = this.find('.content').append($(options.content))
-      .attr('id', pnlId)
-      .attr('aria-labelledby', btnId)
+      .attr({id: pnlId, 'aria-labelledby': btnId})
     if (options.collapsed) {
       this.toggle()
     }
@@ -59,11 +57,12 @@ class Collapsible extends Container {
     this.btn.toggleClass('rad-all')
       .toggleClass('rad-top')
       .attr('aria-pressed', collapsed)
-    this.content.attr('aria-hidden', !collapsed)        
-      .attr('aria-collapsed', !collapsed)
-      .attr('aria-expanded', collapsed)
-      [collapsed ? 'slideDown' : 'slideUp'](callback)
-    }
+    this.content.attr({
+      'aria-hidden': !collapsed,
+      'aria-collapsed': !collapsed,
+      'aria-expanded': collapsed
+    })[collapsed ? 'slideDown' : 'slideUp'](callback)
+  }
 }
 
 /**

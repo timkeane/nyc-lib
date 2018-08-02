@@ -49,15 +49,19 @@ class Choice extends Container {
    */
   setChoices(choices) {
     this.getContainer().empty()
-    if (this.radio) this.getContainer().attr('role', 'radiogroup')
+    if (this.radio) {
+      this.getContainer().attr('role', 'radiogroup')
+    }
     choices.forEach((choice, i) => {
       const div = $(Choice.HTML)
       const id = nyc.nextId('chc-chc')
       const input = div.find('input')
       div.addClass(this.radio ? `${choice.name}-${i}` : choice.name)
-      input.attr('id', id)
-        .attr('name', choice.name)
-        .attr('type', this.radio ? 'radio' : 'checkbox')
+      input.attr({
+        id: id,
+        name: choice.name,
+        type: this.radio ? 'radio' : 'checkbox'
+      })
         .prop('checked', choice.checked)
         .data('choice', choice)
         .change($.proxy(this.change, this))
