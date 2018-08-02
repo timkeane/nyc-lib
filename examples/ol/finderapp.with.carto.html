@@ -28,13 +28,13 @@
 </head>
 <body class="loading">
 	<script>
-    const format = new nyc.ol.format.CartoSqlPoint({from: 'orr_projects_points'});
+    const format = new nyc.ol.format.CartoSql({from: 'orr_projects_points'});
     new nyc.ol.FinderApp({
-      title: 'Pre-K Finder',
+      title: 'ORR Projects',
       splashOptions: {message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lobortis, massa id consequat lacinia, massa enim semper nunc, sit amet dapibus ex mi posuere tellus. Aenean vulputate iaculis lorem elementum finibus. Fusce mauris libero, lacinia sed ultricies nec, imperdiet vel diam.'},
       geoclientUrl: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example',
-      facilityTabTitle: 'Schools',
-      facilityUrl: `https://nycmap.carto.com/api/v2/sql?q=${encodeURIComponent(format.getSql())}`,
+      facilityTabTitle: 'Projects',
+      facilityUrl: 'https://nycmap.carto.com/api/v2/sql?q=' + encodeURIComponent(format.getSql()),
       facilityFormat: format,
       filterChoiceOptions: [{
         title: 'Phase',
@@ -46,6 +46,7 @@
         ]
       } , {
         title: 'Managing agency',
+        collapsed: true,
         choices: [
           {name: 'mangagen', values: ['Mayor\'s Office of Recovery and Resiliency'], label: 'Mayor\'s Office of Recovery and Resiliency', checked: true},
           {name: 'mangagen', values: ['Teachers\' Retirement System of NYC'], label: 'Teachers\' Retirement System of NYC', checked: true},

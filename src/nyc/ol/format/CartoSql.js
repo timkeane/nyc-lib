@@ -1,13 +1,12 @@
 /**
- * @module nyc/ol/format/CartoSqlPoint
+ * @module nyc/ol/format/CartoSql
  */
 
 import nyc from 'nyc'
 
 import OlFeature from 'ol/feature'
 import OlFormatFeature from 'ol/format/feature'
-import OlFormatFormatType from 'ol/format/formattype'
-import OlGeomPoint from 'ol/geom/point'
+import OlFormatWkt from 'ol/format/wkt'
 
 /**
  * @desc Class to create point features from Carto SQL API data
@@ -16,12 +15,12 @@ import OlGeomPoint from 'ol/geom/point'
  * @extends ol.format.Feature
  * @see http://openlayers.org/en/latest/apidoc/ol.format.Feature.html
  */
-class CartoSqlPoint extends OlFormatFeature {
+class CartoSql extends OlFormatFeature {
 	/**
-	 * @desc Create an instance of CartoSqlPoint
+	 * @desc Create an instance of CartoSql
 	 * @public
 	 * @constructor
-   * @param {module:nyc/ol/format/CartoSqlPoint~CartoSqlPoint.Options} options Constructor options
+   * @param {module:nyc/ol/format/CartoSql~CartoSql.Options} options Constructor options
 	 */
   constructor(options) {
     super()
@@ -40,7 +39,17 @@ class CartoSqlPoint extends OlFormatFeature {
      * @member {string}
      */
     this.sql = this.createSql(options)
-  }
+    /**
+     * @private
+     * @member {ol.format.WKT}
+     */
+    this.wkt = new OlFormatWkt()
+    /**
+     * @private
+     * @member {number}
+     */
+    this.lastId = 0
+}
   /**
    * @public
    * @method
@@ -57,10 +66,9 @@ class CartoSqlPoint extends OlFormatFeature {
    * @return {ol.Feature} Feature
    */
   readFeature(source) {
-    const point = new OlGeomPoint([source.x, source.y])
     const feature = new OlFeature(source)
-    feature.setGeometry(point)
-    feature.setId(source.cartodb_id)
+    feature.setGeometry(this.wkt.readGeometry(source.wkt_geom))
+    feature.setId(source.cartodb_id || this.lastId++)
     return feature
   }
   /**
@@ -102,24 +110,24 @@ class CartoSqlPoint extends OlFormatFeature {
   /**
    * @private
    * @method
-   * @param {module:nyc/ol/format/CartoSqlPoint~CartoSqlPoint.Options} options
+   * @param {module:nyc/ol/format/CartoSql~CartoSql.Options} options
    * @return {string}
    */
   createSql(options) {
-    const select = options.select ? options.select : 'cartodb_id, ST_X(the_geom_webmercator) x, ST_Y(the_geom_webmercator) Y, *'
+    const select = options.select ? options.select : 'cartodb_id, ST_AsText(the_geom_webmercator) wkt_geom, *'
     const where = options.where ? ` WHERE ${options.where}` : ''
     return `SELECT ${select} FROM ${options.from}${where}`    
   }
 }
 
 /**
-* @desc Constructor options for {@link module:nyc/ol/format/CartoSqlPoint~CartoSqlPoint}
+* @desc Constructor options for {@link module:nyc/ol/format/CartoSql~CartoSql}
 * @public
 * @typedef {Object}
 * @property {string=} select The SQL select clause
 * @property {string} from The SQL from clause
 * @property {string=} where The SQL where clause
 */
-CartoSqlPoint.Options
+CartoSql.Options
 
-export default CartoSqlPoint
+export default CartoSql

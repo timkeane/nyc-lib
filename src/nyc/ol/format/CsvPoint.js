@@ -6,8 +6,6 @@ import Papa from 'papaparse'
 
 import Encoding from 'text-encoding'
 
-import nyc from 'nyc'
-
 import OlFeature from 'ol/feature'
 import OlFormatFeature from 'ol/format/feature'
 import OlFormatFormatType from 'ol/format/formattype'

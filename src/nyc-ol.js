@@ -29,12 +29,12 @@ window.nyc.ol.Popup = _nyc_ol_Popup
 window.nyc.ol.ZoomSearch = _nyc_ol_ZoomSearch
 
 import _nyc_ol_format_CsvPoint from 'nyc/ol/format/CsvPoint'
-import _nyc_ol_format_CartoSql from 'nyc/ol/format/CartoSqlPoint'
+import _nyc_ol_format_CartoSql from 'nyc/ol/format/CartoSql'
 import _nyc_ol_format_Decorate from 'nyc/ol/format/Decorate'
 
 window.nyc.ol.format = {}
 window.nyc.ol.format.CsvPoint = _nyc_ol_format_CsvPoint
-window.nyc.ol.format.CartoSqlPoint = _nyc_ol_format_CartoSql
+window.nyc.ol.format.CartoSql = _nyc_ol_format_CartoSql
 window.nyc.ol.format.Decorate = _nyc_ol_format_Decorate
 
 import _nyc_ol_source_AutoLoad from 'nyc/ol/source/AutoLoad'

@@ -75,6 +75,7 @@ module.exports = {
     'ol/format/feature': 'ol.format.Feature',
     'ol/format/geojson': 'ol.format.GeoJSON',
     'ol/format/formattype': 'ol.format.FormatType',
+    'ol/format/wkt': 'ol.format.WKT',
     'ol/source/vector': 'ol.source.Vector',
     'ol/source/xyz': 'ol.source.XYZ',
     'ol/layer/vector': 'ol.layer.Vector',
