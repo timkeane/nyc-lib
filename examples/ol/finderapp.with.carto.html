@@ -24,10 +24,54 @@
       padding-top: 7px;
       padding-bottom: 7px;
     }
+    .chc-chc label:before {
+      content: " ";
+      display: block;
+      width: 16px;
+      height: 16px;
+      float: left;
+      border-radius: 50%;
+      border: 2px solid black;
+      margin: 0 5px 0 -5px;
+    }
+    div.schedule label[for="chc-chc-0"]:before {
+      background-color: red;
+    }
+    div.schedule label[for="chc-chc-1"]:before {
+      background-color: yellow;
+    }
+    div.schedule label[for="chc-chc-2"]:before {
+      background-color: green;
+    }
+    div.schedule label[for="chc-chc-3"]:before {
+      background-color: blue;
+    }    
   </style>
 </head>
 <body class="loading">
 	<script>
+    var colors = {
+      Planning: 'red',
+      Design: 'yellow',
+      Construction: 'green',
+      Completed: 'blue'
+    }
+
+    function style(feature, resolution) {
+      var zoom = nyc.ol.TILE_GRID.getZForResolution(resolution);
+      var color = colors[feature.get('schedule')];
+      return new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: zoom / 2,
+          fill: new ol.style.Fill({color: color}),
+          stroke: new ol.style.Stroke({
+            width: 2,
+            color: 'black'
+          })
+        })
+      })
+    }
+
     new nyc.ol.FinderApp({
       title: 'ORR Projects',
       splashOptions: {message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lobortis, massa id consequat lacinia, massa enim semper nunc, sit amet dapibus ex mi posuere tellus. Aenean vulputate iaculis lorem elementum finibus. Fusce mauris libero, lacinia sed ultricies nec, imperdiet vel diam.'},
@@ -35,6 +79,7 @@
       facilityTabTitle: 'Projects',
       facilityUrl: 'https://nycmap.carto.com/api/v2/sql?q=' + encodeURIComponent(nyc.ol.format.CartoSql.createSql({from: 'orr_projects_points'})),
       facilityFormat: new nyc.ol.format.CartoSql(),
+      facilityStyle: style,
       filterChoiceOptions: [{
         title: 'Phase',
         choices: [
@@ -45,36 +90,35 @@
         ]
       } , {
         title: 'Managing agency',
-        collapsed: true,
         choices: [
-          {name: 'mangagen', values: ['Mayor\'s Office of Recovery and Resiliency'], label: 'Mayor\'s Office of Recovery and Resiliency', checked: true},
-          {name: 'mangagen', values: ['Teachers\' Retirement System of NYC'], label: 'Teachers\' Retirement System of NYC', checked: true},
-          {name: 'mangagen', values: ['New York City Economic Development Corporation'], label: 'New York City Economic Development Corporation', checked: true},
-          {name: 'mangagen', values: ['Board of Elections'], label: 'Board of Elections', checked: true},
-          {name: 'mangagen', values: ['Department of Health and Mental Hygiene'], label: 'Department of Health and Mental Hygiene', checked: true},
-          {name: 'mangagen', values: ['Department of Cultural Affairs'], label: 'Department of Cultural Affairs', checked: true},
-          {name: 'mangagen', values: ['Trust for Governors Island'], label: 'Trust for Governors Island', checked: true},
-          {name: 'mangagen', values: ['Office of the Mayor'], label: 'Office of the Mayor', checked: true},
-          {name: 'mangagen', values: ['Department of Sanitation'], label: 'Department of Sanitation', checked: true},
-          {name: 'mangagen', values: ['Department of Parks and Recreation'], label: 'Department of Parks and Recreation', checked: true},
-          {name: 'mangagen', values: ['United States Army Corps of Engineers'], label: 'United States Army Corps of Engineers', checked: true},
-          {name: 'mangagen', values: ['Administration for Children\'s Services'], label: 'Administration for Children\'s Services', checked: true},
-          {name: 'mangagen', values: ['NYC Health + Hospitals'], label: 'NYC Health + Hospitals', checked: true},
-          {name: 'mangagen', values: ['New York City Department of Transportation'], label: 'New York City Department of Transportation', checked: true},
-          {name: 'mangagen', values: ['New York City Police Department'], label: 'New York City Police Department', checked: true},
-          {name: 'mangagen', values: ['New York Public Library'], label: 'New York Public Library', checked: true},
-          {name: 'mangagen', values: ['Fire Department of the City of New York'], label: 'Fire Department of the City of New York', checked: true},
-          {name: 'mangagen', values: ['Department of Investigation'], label: 'Department of Investigation', checked: true},
-          {name: 'mangagen', values: ['Brooklyn Public Library'], label: 'Brooklyn Public Library', checked: true},
-          {name: 'mangagen', values: ['School Construction Authority'], label: 'School Construction Authority', checked: true},
-          {name: 'mangagen', values: ['Department of Environmental Protection'], label: 'Department of Environmental Protection', checked: true},
-          {name: 'mangagen', values: ['Department of Citywide Administrative Services'], label: 'Department of Citywide Administrative Services', checked: true},
-          {name: 'mangagen', values: ['Department of Education'], label: 'Department of Education', checked: true},
-          {name: 'mangagen', values: ['Queens Borough Public Library'], label: 'Queens Borough Public Library', checked: true},
-          {name: 'mangagen', values: ['Department of Correction'], label: 'Department of Correction', checked: true},
-          {name: 'mangagen', values: ['Brooklyn Navy Yard Development Corporation'], label: 'Brooklyn Navy Yard Development Corporation', checked: true},
-          {name: 'mangagen', values: ['Brooklyn Bridge Park Corporation'], label: 'Brooklyn Bridge Park Corporation', checked: true},
-          {name: 'mangagen', values: ['City University of New York'], label: 'City University of New York', checked: true}          
+          {name: 'mangagen', values: ['Mayor\'s Office of Recovery and Resiliency'], label: 'Mayor\'s Office of Recovery and Resiliency'},
+          {name: 'mangagen', values: ['Teachers\' Retirement System of NYC'], label: 'Teachers\' Retirement System of NYC'},
+          {name: 'mangagen', values: ['New York City Economic Development Corporation'], label: 'New York City Economic Development Corporation'},
+          {name: 'mangagen', values: ['Board of Elections'], label: 'Board of Elections'},
+          {name: 'mangagen', values: ['Department of Health and Mental Hygiene'], label: 'Department of Health and Mental Hygiene'},
+          {name: 'mangagen', values: ['Department of Cultural Affairs'], label: 'Department of Cultural Affairs'},
+          {name: 'mangagen', values: ['Trust for Governors Island'], label: 'Trust for Governors Island'},
+          {name: 'mangagen', values: ['Office of the Mayor'], label: 'Office of the Mayor'},
+          {name: 'mangagen', values: ['Department of Sanitation'], label: 'Department of Sanitation'},
+          {name: 'mangagen', values: ['Department of Parks and Recreation'], label: 'Department of Parks and Recreation'},
+          {name: 'mangagen', values: ['United States Army Corps of Engineers'], label: 'United States Army Corps of Engineers'},
+          {name: 'mangagen', values: ['Administration for Children\'s Services'], label: 'Administration for Children\'s Services'},
+          {name: 'mangagen', values: ['NYC Health + Hospitals'], label: 'NYC Health + Hospitals'},
+          {name: 'mangagen', values: ['New York City Department of Transportation'], label: 'New York City Department of Transportation'},
+          {name: 'mangagen', values: ['New York City Police Department'], label: 'New York City Police Department'},
+          {name: 'mangagen', values: ['New York Public Library'], label: 'New York Public Library'},
+          {name: 'mangagen', values: ['Fire Department of the City of New York'], label: 'Fire Department of the City of New York'},
+          {name: 'mangagen', values: ['Department of Investigation'], label: 'Department of Investigation'},
+          {name: 'mangagen', values: ['Brooklyn Public Library'], label: 'Brooklyn Public Library'},
+          {name: 'mangagen', values: ['School Construction Authority'], label: 'School Construction Authority'},
+          {name: 'mangagen', values: ['Department of Environmental Protection'], label: 'Department of Environmental Protection'},
+          {name: 'mangagen', values: ['Department of Citywide Administrative Services'], label: 'Department of Citywide Administrative Services'},
+          {name: 'mangagen', values: ['Department of Education'], label: 'Department of Education'},
+          {name: 'mangagen', values: ['Queens Borough Public Library'], label: 'Queens Borough Public Library'},
+          {name: 'mangagen', values: ['Department of Correction'], label: 'Department of Correction'},
+          {name: 'mangagen', values: ['Brooklyn Navy Yard Development Corporation'], label: 'Brooklyn Navy Yard Development Corporation'},
+          {name: 'mangagen', values: ['Brooklyn Bridge Park Corporation'], label: 'Brooklyn Bridge Park Corporation'},
+          {name: 'mangagen', values: ['City University of New York'], label: 'City University of New York'}          
         ]
       }],
       facilitySearch: {nameField: 'projname'},
@@ -116,6 +160,11 @@
       }],
       directionsUrl: 'https://maps.googleapis.com/maps/api/js?client=gme-newyorkcitydepartment&channel=pka&sensor=false&libraries=visualization'
     });
+
+    $(document).ready(function() {
+      $('.filter-1 h3').click()
+      finderApp.tabs.open('#filters')
+    })
 	</script>
 </body>
 </html>

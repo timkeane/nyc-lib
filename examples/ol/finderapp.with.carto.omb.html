@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>nyc.ol.FinderApp with nyc.Directions Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.4.0/papaparse.min.js"></script>
+  <script src="../../js/nyc-ol-lib.js"></script>
+  <link href="../../css/nyc-ol-lib.css" rel="stylesheet">
+	<style>
+    .facility .dtl h3.btn {
+      text-align: center;
+      padding-right: 22px;
+      width: calc(100% - 27px);
+    }
+    .fnd .lst-it .dtl h3.btn:first-of-type {
+      margin-top: 0;
+  }
+    #filters label {
+      line-height: 21px;
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
+  </style>
+</head>
+<body class="loading">
+	<script>
+    new nyc.ol.FinderApp({
+      title: 'OMB Projects',
+      splashOptions: {message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lobortis, massa id consequat lacinia, massa enim semper nunc, sit amet dapibus ex mi posuere tellus. Aenean vulputate iaculis lorem elementum finibus. Fusce mauris libero, lacinia sed ultricies nec, imperdiet vel diam.'},
+      geoclientUrl: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example',
+      facilityTabTitle: 'Projects',
+      facilityUrl: 'https://nycmap.carto.com/api/v2/sql?q=' + encodeURIComponent(nyc.ol.format.CartoSql.createSql({from: 'cdbg_dr_beneficiaries_2'})),
+      facilityFormat: new nyc.ol.format.CartoSql(),
+      filterChoiceOptions: [],
+      facilitySearch: {nameField: 'beneficiary_name'},
+      decorations: [{
+        getName: function() {
+          return this.get('beneficiary_name')
+        },
+        getAddress1: function() {
+          return this.get('address').split(',')[0]
+        },
+        getCityStateZip: function() {
+          return this.get('address').split(',')[1]
+        },
+        getFullAddress: function() {
+          return this.get('address')
+        }
+      }],
+      directionsUrl: 'https://maps.googleapis.com/maps/api/js?client=gme-newyorkcitydepartment&channel=pka&sensor=false&libraries=visualization'
+    });
+	</script>
+</body>
+</html>
