@@ -187,8 +187,9 @@ const nyc = {
 	 */
 	noSpaceBarHandler(event) {
 		const tag = event.target.tagName
-		if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
-			if (event.key === ' ' || event.key === 'Enter') {
+		if ($.inArray(tag, ['INPUT', 'TEXTAREA', 'SELECT']) === -1) {
+			const key = event.key
+			if ($.inArray(key, [' ', 'Enter']) > -1) {
 				const elem = $(event.target)
 				const href = elem.attr('href')
 				event.preventDefault()

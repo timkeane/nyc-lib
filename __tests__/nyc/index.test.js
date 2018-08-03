@@ -382,6 +382,7 @@ describe('noSpaceBarScroll', () => {
   let div
   let a
   let input
+  let select
   let textarea
   let event
   const open = window.open
@@ -393,7 +394,7 @@ describe('noSpaceBarScroll', () => {
     event = {type: 'keypress', preventDefault: jest.fn()}
     div = $('<div></div>')
     a = $('<a></a>')
-    div = $('<select></select>')
+    select = $('<select></select>')
     input = $('<input>')
     textarea = $('<textarea></textarea>')
     $('body').append([div, a, input, textarea])
@@ -420,6 +421,26 @@ describe('noSpaceBarScroll', () => {
     event.key = 'foo'
     div.trigger(event)
     expect(event.preventDefault).toHaveBeenCalledTimes(2)
+    
+    expect(nyc.location).toHaveBeenCalledTimes(0)
+    expect(window.open).toHaveBeenCalledTimes(0)
+  })
+
+  test('noSpaceBarScroll select', () => {
+    expect.assertions(5)
+    
+    event.target = select.get(0)
+    event.key = ' '
+    select.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(0)
+
+    event.key = 'Enter'
+    select.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(0)
+
+    event.key = 'foo'
+    select.trigger(event)
+    expect(event.preventDefault).toHaveBeenCalledTimes(0)
     
     expect(nyc.location).toHaveBeenCalledTimes(0)
     expect(window.open).toHaveBeenCalledTimes(0)
