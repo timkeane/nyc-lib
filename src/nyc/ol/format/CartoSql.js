@@ -9,7 +9,7 @@ import OlFormatFeature from 'ol/format/feature'
 import OlFormatWkt from 'ol/format/wkt'
 
 /**
- * @desc Class to create point features from Carto SQL API data
+ * @desc Class to create features from Carto SQL API data.  This format requires the presence of a WTK geometry in the source data with the column name wkt_geom.
  * @public
  * @class
  * @extends ol.format.Feature
@@ -96,6 +96,7 @@ class CartoSql extends OlFormatFeature {
 }
 
 /**
+ * @desc Create a Carto SQL API query.  If a select clause is provided it mist include a wkt_geom column. 
  * @public
  * @static
  * @method
