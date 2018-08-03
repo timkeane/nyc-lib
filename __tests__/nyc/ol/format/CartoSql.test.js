@@ -59,29 +59,24 @@ test('readFeatures without cartodb_id', () => {
   expect(features[2].get('name')).toBe('feature 3')
 })
 
-test('getSql', () => {
+test('createSql', () => {
   expect.assertions(3)
 
-  let cartoPoint = new CartoSql({
-    from: 'table'
-  })
+  let sql = CartoSql.createSql({from: 'table'})
+  expect(sql).toBe('SELECT cartodb_id, ST_AsText(the_geom_webmercator) wkt_geom, * FROM table')
 
-  expect(cartoPoint.getSql()).toBe('SELECT cartodb_id, ST_AsText(the_geom_webmercator) wkt_geom, * FROM table')
-
-  cartoPoint = new CartoSql({
+  sql = CartoSql.createSql({
     select: 'cartodb_id as id, ST_AsText(the_geom_webmercator) wkt_geom, name',
     from: 'table'
   })
+  expect(sql).toBe('SELECT cartodb_id as id, ST_AsText(the_geom_webmercator) wkt_geom, name FROM table')
 
-  expect(cartoPoint.getSql()).toBe('SELECT cartodb_id as id, ST_AsText(the_geom_webmercator) wkt_geom, name FROM table')
-
-  cartoPoint = new CartoSql({
+  sql = CartoSql.createSql({
     select: 'cartodb_id as id, ST_AsText(the_geom_webmercator) wkt_geom, name',
     from: 'table',
     where: "name = 'Fred' and id > 0"
   })
-
-  expect(cartoPoint.getSql()).toBe("SELECT cartodb_id as id, ST_AsText(the_geom_webmercator) wkt_geom, name FROM table WHERE name = 'Fred' and id > 0")
+  expect(sql).toBe("SELECT cartodb_id as id, ST_AsText(the_geom_webmercator) wkt_geom, name FROM table WHERE name = 'Fred' and id > 0")
 })
 
 test('readProjection', () => {

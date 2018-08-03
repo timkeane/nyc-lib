@@ -28,14 +28,13 @@
 </head>
 <body class="loading">
 	<script>
-    const format = new nyc.ol.format.CartoSql({from: 'orr_projects_points'});
     new nyc.ol.FinderApp({
       title: 'ORR Projects',
       splashOptions: {message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lobortis, massa id consequat lacinia, massa enim semper nunc, sit amet dapibus ex mi posuere tellus. Aenean vulputate iaculis lorem elementum finibus. Fusce mauris libero, lacinia sed ultricies nec, imperdiet vel diam.'},
       geoclientUrl: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example',
       facilityTabTitle: 'Projects',
-      facilityUrl: 'https://nycmap.carto.com/api/v2/sql?q=' + encodeURIComponent(format.getSql()),
-      facilityFormat: format,
+      facilityUrl: 'https://nycmap.carto.com/api/v2/sql?q=' + encodeURIComponent(nyc.ol.format.CartoSql.createSql({from: 'orr_projects_points'})),
+      facilityFormat: new nyc.ol.format.CartoSql(),
       filterChoiceOptions: [{
         title: 'Phase',
         choices: [

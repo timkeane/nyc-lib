@@ -20,9 +20,8 @@ class CartoSql extends OlFormatFeature {
 	 * @desc Create an instance of CartoSql
 	 * @public
 	 * @constructor
-   * @param {module:nyc/ol/format/CartoSql~CartoSql.Options} options Constructor options
 	 */
-  constructor(options) {
+  constructor() {
     super()
     /**
      * @private
@@ -36,11 +35,6 @@ class CartoSql extends OlFormatFeature {
     this.defaultFeatureProjection = 'EPSG:3857'
     /**
      * @private
-     * @member {string}
-     */
-    this.sql = this.createSql(options)
-    /**
-     * @private
      * @member {ol.format.WKT}
      */
     this.wkt = new OlFormatWkt()
@@ -49,14 +43,6 @@ class CartoSql extends OlFormatFeature {
      * @member {number}
      */
     this.lastId = 0
-}
-  /**
-   * @public
-   * @method
-   * @returns {string} The SQL
-   */
-  getSql() {
-    return this.sql
   }
   /**
    * @desc Read a single feature from a source
@@ -107,21 +93,23 @@ class CartoSql extends OlFormatFeature {
   getLastExtent() {
     return null
   }
-  /**
-   * @private
-   * @method
-   * @param {module:nyc/ol/format/CartoSql~CartoSql.Options} options
-   * @return {string}
-   */
-  createSql(options) {
-    const select = options.select ? options.select : 'cartodb_id, ST_AsText(the_geom_webmercator) wkt_geom, *'
-    const where = options.where ? ` WHERE ${options.where}` : ''
-    return `SELECT ${select} FROM ${options.from}${where}`    
-  }
 }
 
 /**
-* @desc Constructor options for {@link module:nyc/ol/format/CartoSql~CartoSql}
+ * @public
+ * @static
+ * @method
+ * @param {module:nyc/ol/format/CartoSql~CartoSql.Options} options
+ * @return {string}
+ */
+CartoSql.createSql = options => {
+  const select = options.select ? options.select : 'cartodb_id, ST_AsText(the_geom_webmercator) wkt_geom, *'
+  const where = options.where ? ` WHERE ${options.where}` : ''
+  return `SELECT ${select} FROM ${options.from}${where}`    
+}
+
+/**
+* @desc Options for {@link module:nyc/ol/format/CartoSql~CartoSql#createSql}
 * @public
 * @typedef {Object}
 * @property {string=} select The SQL select clause
