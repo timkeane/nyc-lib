@@ -34,11 +34,17 @@
 	margin-left: -12px;
 	margin-top: .4px;
 }
-.pop .content {
+.pop>.content {
 	margin: 10px;
 	width: 330px;
 	max-height: 500px;
 	overflow: auto;
+}
+.pop>.content .it-pg {
+	max-width: calc(100% - 7px);
+}
+.pop>.content .name {
+	margin-right: 5px;
 }
 .pop .btn-x {
 	position: absolute;
@@ -60,7 +66,7 @@
 	z-index: 1000;
 	overflow: auto;
 }
-.pop.fullscreen .content {
+.pop.fullscreen>.content {
 	width: unset;
 	max-width: unset;
 	max-height: unset;

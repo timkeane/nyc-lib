@@ -1,8 +1,9 @@
 .it-pg .btns {
 	width: 135px;
 	padding-top: 15px;
-	height: 20px;
+	height: 26px;
 	text-align: center;
+	margin-left: 4px;
 }
 .it-pg .btns button {
 	margin-top: -3px
