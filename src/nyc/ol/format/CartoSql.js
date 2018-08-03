@@ -96,7 +96,7 @@ class CartoSql extends OlFormatFeature {
 }
 
 /**
- * @desc Create a Carto SQL API query.  If a select clause is provided it mist include a wkt_geom column. 
+ * @desc Create a Carto SQL API query.  If a select clause is provided it must include a wkt_geom column. 
  * @public
  * @static
  * @method
