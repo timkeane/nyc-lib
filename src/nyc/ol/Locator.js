@@ -9,13 +9,13 @@ import nyc from 'nyc'
 import NycLocator from 'nyc/Locator'
 
 import OlGeolocation from 'ol/Geolocation'
-import {toStringHDMS} from 'ol/coordinate';
+import {toStringHDMS as olCoordinanteToStringHDMS} from 'ol/coordinate';
 import {containsCoordinate} from 'ol/extent'
 
 import proj4 from 'proj4'
-import {register} from 'ol/proj/proj4'
+import {register as olProjRegister} from 'ol/proj/proj4'
 proj4.defs(nyc.projections)
-register(proj4)
+olProjRegister(proj4)
 
 /**
  * @desc A class for geocoding and geolocating in OpenLayers
@@ -91,7 +91,7 @@ constructor(options) {
   geolocationChange() {
     const geo = this.geolocation
     let p = geo.getPosition()
-		const name = toStringHDMS(p)
+		const name = olCoordinanteToStringHDMS(p)
 		p = proj4('EPSG:4326', this.projection, p)
     if (this.withinLimit(p)) {
       if (this.locating) {

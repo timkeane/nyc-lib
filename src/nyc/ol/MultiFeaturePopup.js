@@ -2,7 +2,7 @@
  * @module nyc/ol/MultiFeaturePopup
  */
 
-import {getCenter} from 'ol/extent'
+import {getCenter as olExtentGetCenter} from 'ol/extent'
 
 import ItemPager from 'nyc/ItemPager'
 import FeaturePopup from 'nyc/ol/FeaturePopup'
@@ -54,7 +54,7 @@ class MultiFeaturePopup extends FeaturePopup {
    * @param {Array<ol.Feature>} features The features
    */
   showFeatures(features, coordinate) {
-    coordinate = coordinate || getCenter(features[0].getGeometry().getExtent())
+    coordinate = coordinate || olExtentGetCenter(features[0].getGeometry().getExtent())
     this.pager.show(features)
     this.show({coordinate: coordinate})
   }

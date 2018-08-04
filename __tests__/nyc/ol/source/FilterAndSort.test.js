@@ -7,9 +7,9 @@ import AutoLoad from 'nyc/ol/source/AutoLoad'
 
 import nyc from 'nyc'
 import proj4 from 'proj4'
-import {register} from 'ol/proj/proj4'
+import {register as olProjRegister} from 'ol/proj/proj4'
 proj4.defs(nyc.projections)
-register(proj4)
+olProjRegister(proj4)
 
 const FilterAndSort = require('nyc/ol/source/FilterAndSort').default
 

@@ -15,9 +15,9 @@ import OlSourceXYZ from 'ol/source/XYZ'
 import OlLayerTile from 'ol/layer/Tile'
 
 import proj4 from 'proj4'
-import {register} from 'ol/proj/proj4'
+import {register as olProjRegister} from 'ol/proj/proj4'
 proj4.defs(nyc.projections)
-register(proj4)
+olProjRegister(proj4)
 
 /**
  * @desc Class that provides an ol.Map with base layers, labels, and drag-and-drop

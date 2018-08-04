@@ -6,9 +6,9 @@ import NycLocalStorage from 'nyc/LocalStorage'
 
 import nyc from 'nyc'
 import proj4 from 'proj4'
-import {register} from 'ol/proj/proj4'
+import {register as olProjRegister} from 'ol/proj/proj4'
 proj4.defs(nyc.projections)
-register(proj4)
+olProjRegister(proj4)
 
 /**
  * @desc Class to provide access to localStorage and filesystem
@@ -39,7 +39,7 @@ export default class LocalStorage extends NycLocalStorage {
 			featureProjection: map.getView().getProjection().getCode(),
 			dataProjection: this.customProj(projcs, proj4)
 		}
-		register(proj4)
+		olProjRegister(proj4)
 		if (typeof features === 'object') {
 			features = {type: 'FeatureCollection', features: features}
 		}

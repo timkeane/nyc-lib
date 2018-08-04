@@ -1,5 +1,5 @@
 import OlPolygon from 'ol/geom/polygon'
-import {getCenter} from 'ol/extent'
+import {getCenter as olExtentGetCenter} from 'ol/extent'
 import OlGeoJSON from 'ol/format/GeoJSON'
 import OlFeature from 'ol/Feature'
 
@@ -86,7 +86,7 @@ test('featureAsLocation', () => {
 
   expect(result).toEqual({
     name: 'a name',
-    coordinate: getCenter(geom.getExtent()),
+    coordinate: olExtentGetCenter(geom.getExtent()),
     geometry: JSON.parse(zoomSearch.geoJson.writeGeometry(geom)),
     data: feature.getProperties(),
     type: 'geocoded',
@@ -114,7 +114,7 @@ test('featureAsLocation feature has getName', () => {
 
   expect(result).toEqual({
     name: 'a name',
-    coordinate: getCenter(geom.getExtent()),
+    coordinate: olExtentGetCenter(geom.getExtent()),
     geometry: JSON.parse(zoomSearch.geoJson.writeGeometry(geom)),
     data: feature.getProperties(),
     type: 'geocoded',

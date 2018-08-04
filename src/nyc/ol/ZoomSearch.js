@@ -5,7 +5,7 @@
 import $ from 'jquery'
 
 import OlGeoJSON from 'ol/format/GeoJSON'
-import {getCenter} from 'ol/extent'
+import {getCenter as olExtentGetCenter} from 'ol/extent'
 
 import NycZoomSearch from 'nyc/ZoomSearch'
 import NycLocator from 'nyc/Locator'
@@ -58,7 +58,7 @@ class ZoomSearch extends NycZoomSearch {
 		const geom = feature.getGeometry()
 		return {
 			name: options.nameField ? feature.get(options.nameField) : feature.getName(),
-			coordinate: getCenter(geom.getExtent()),
+			coordinate: olExtentGetCenter(geom.getExtent()),
 			geometry: JSON.parse(this.geoJson.writeGeometry(geom)),
 			data: feature.getProperties(),
 			type: 'geocoded',
