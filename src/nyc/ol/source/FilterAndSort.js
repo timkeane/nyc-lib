@@ -4,11 +4,16 @@
 
 import $ from 'jquery'
 
-import OlGeomLineString from 'ol/geom/linestring'
-import OlProjProjection from 'ol/proj/projection'
+import {get as olProjGetProjection} from 'ol/proj'
+import OlGeomLineString from 'ol/geom/LineString'
+import OlProjProjection from 'ol/proj/Projection'
+import AutoLoad from 'nyc/ol/source/AutoLoad'
 
 import nyc from 'nyc'
-import AutoLoad from 'nyc/ol/source/AutoLoad'
+import proj4 from 'proj4'
+import {register} from 'ol/proj/proj4'
+proj4.defs(nyc.projections)
+register(proj4)
 
 /**
  * @desc Class to auto load all features from a URL
@@ -95,13 +100,12 @@ class FilterAndSort extends AutoLoad {
   distance(coordinate, geom) {
     const line = new OlGeomLineString([coordinate, geom.getClosestPoint(coordinate)])
     const projections = this.projections(this.getFormat())
+    let units
     if (projections[0]) {
       line.transform(projections[1], projections[0])
+      units = projections[0].getUnits() || proj4.defs[projections[0].getCode()].units
     }
-    return {
-      distance: line.getLength(),
-      units: projections[0] ? projections[0].getUnits() : undefined
-    }
+    return {distance: line.getLength(), units: units}
   }
   /**
    * @private
@@ -123,7 +127,7 @@ class FilterAndSort extends AutoLoad {
     if (dataProj) {
       dataProj = dataProj.getCode ? dataProj : new OlProjProjection({code: dataProj})
     }
-    return [dataProj, featureProj]
+    return [olProjGetProjection(dataProj), olProjGetProjection(featureProj)]
   }
   /**
    * @private

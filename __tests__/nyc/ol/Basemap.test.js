@@ -1,15 +1,18 @@
-import proj4 from 'proj4'
-
 import nyc from 'nyc'
 import Basemap from 'nyc/ol/Basemap'
 import LocalStorage from 'nyc/ol/LocalStorage'
 import BasemapHelper from 'nyc/BasemapHelper'
 
-import OlMap from 'ol/map'
-import OlView from 'ol/view'
-import OlLayerTile from 'ol/layer/tile'
-import OlSourceXYZ from 'ol/source/xyz'
-import OlProjection from 'ol/proj/projection'
+import OlMap from 'ol/Map'
+import OlView from 'ol/View'
+import OlLayerTile from 'ol/layer/Tile'
+import OlSourceXYZ from 'ol/source/XYZ'
+import OlProjection from 'ol/proj/Projection'
+
+import proj4 from 'proj4'
+import {register} from 'ol/proj/proj4'
+proj4.defs(nyc.projections)
+register(proj4)
 
 let target
 beforeEach(() => {

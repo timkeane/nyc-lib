@@ -1,6 +1,6 @@
-import OlFormatGeoJson from 'ol/format/geojson'
+import OlFormatGeoJson from 'ol/format/GeoJSON'
 
-import OlSourceVector from 'ol/source/vector'
+import OlSourceVector from 'ol/source/Vector'
 
 import AutoLoad from 'nyc/ol/source/AutoLoad'
 

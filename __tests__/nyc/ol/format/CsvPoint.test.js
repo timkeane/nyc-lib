@@ -1,7 +1,7 @@
 import Encoding from 'text-encoding'
 
-import OlGeomPoint from 'ol/geom/point'
-import OlFormatFormatType from 'ol/format/formattype'
+import OlGeomPoint from 'ol/geom/Point'
+import OlFormatFormatType from 'ol/format/FormatType'
 
 import CsvPoint from 'nyc/ol/format/CsvPoint'
 

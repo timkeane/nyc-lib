@@ -4,13 +4,6 @@ beforeEach(() => {
   $.resetMocks()
 })
 
-test('proj4', () => {
-  expect.assertions(3)
-  expect(typeof proj4).toBe('function')
-  expect(typeof proj4('EPSG:2263')).toBe('object')
-  expect(typeof proj4('EPSG:6539')).toBe('object')
-})
-
 test('inherits', () => {
   expect.assertions(5)
 

@@ -9,11 +9,15 @@ import nycOl from 'nyc/ol'
 import BasemapHelper from 'nyc/BasemapHelper'
 import LocalStorage from 'nyc/ol/LocalStorage'
 
-import OlMap from 'ol/map'
-import OlView from 'ol/view'
-import OlSourceXYZ from 'ol/source/xyz'
-import OlLayerTile from 'ol/layer/tile'
-import OlGeomPolygon from 'ol/geom/polygon'
+import OlMap from 'ol/Map'
+import OlView from 'ol/View'
+import OlSourceXYZ from 'ol/source/XYZ'
+import OlLayerTile from 'ol/layer/Tile'
+
+import proj4 from 'proj4'
+import {register} from 'ol/proj/proj4'
+proj4.defs(nyc.projections)
+register(proj4)
 
 /**
  * @desc Class that provides an ol.Map with base layers, labels, and drag-and-drop

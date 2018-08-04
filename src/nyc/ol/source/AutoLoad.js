@@ -4,7 +4,7 @@
 
 import $ from 'jquery'
 
-import OlSourceVector from 'ol/source/vector'
+import OlSourceVector from 'ol/source/Vector'
 
 require('isomorphic-fetch')
 

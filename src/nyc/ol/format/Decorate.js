@@ -6,9 +6,7 @@ import $ from 'jquery'
 
 import nyc from 'nyc'
 
-import OlFeature from 'ol/feature'
-import OlFormatFeature from 'ol/format/feature'
-import OlGeomPoint from 'ol/geom/point'
+import OlFormatFeature from 'ol/format/Feature'
 
 /**
  * @desc Class to create point features from CSV data

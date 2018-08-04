@@ -1,10 +1,10 @@
-import OlMap from 'ol/map'
-import OlView from 'ol/view'
-import OlFeature from 'ol/feature'
-import OlGeomPoint from 'ol/geom/point'
-import OlSourceVector from 'ol/source/vector'
-import OlLayerVector from 'ol/layer/vector'
-import OlOverlay from 'ol/overlay'
+import OlMap from 'ol/Map'
+import OlView from 'ol/View'
+import OlFeature from 'ol/Feature'
+import OlGeomPoint from 'ol/geom/Point'
+import OlSourceVector from 'ol/source/Vector'
+import OlLayerVector from 'ol/layer/Vector'
+import OlOverlay from 'ol/Overlay'
 
 import FeatureTip from 'nyc/ol/FeatureTip'
 

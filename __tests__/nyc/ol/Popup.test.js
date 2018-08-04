@@ -1,8 +1,8 @@
 import $ from 'jquery'
 
-import OlMap from 'ol/map'
-import OlView from 'ol/view'
-import OlOverlay from 'ol/overlay'
+import OlMap from 'ol/Map'
+import OlView from 'ol/View'
+import OlOverlay from 'ol/Overlay'
 
 import Popup from 'nyc/ol/Popup'
 

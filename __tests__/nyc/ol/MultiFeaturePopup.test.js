@@ -1,7 +1,7 @@
-import OlMap from 'ol/map'
-import OlView from 'ol/view'
-import OlFeature from 'ol/feature'
-import OlGeomPoint from 'ol/geom/point'
+import OlMap from 'ol/Map'
+import OlView from 'ol/View'
+import OlFeature from 'ol/Feature'
+import OlGeomPoint from 'ol/geom/Point'
 
 import ItemPager from 'nyc/ItemPager'
 import Popup from 'nyc/ol/Popup'

@@ -26,7 +26,12 @@ import Decorate from 'nyc/ol/format/Decorate'
 
 import FilterAndSort from 'nyc/ol/source/FilterAndSort'
 
-import OlLayerVector from 'ol/layer/vector'
+import OlLayerVector from 'ol/layer/Vector'
+
+import proj4 from 'proj4'
+import {register} from 'ol/proj/proj4'
+proj4.defs(nyc.projections)
+register(proj4)
 
 /**
  * @desc A class that provides a template for creating basic finder apps

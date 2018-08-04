@@ -6,10 +6,16 @@ import Papa from 'papaparse'
 
 import Encoding from 'text-encoding'
 
-import OlFeature from 'ol/feature'
-import OlFormatFeature from 'ol/format/feature'
-import OlFormatFormatType from 'ol/format/formattype'
-import OlGeomPoint from 'ol/geom/point'
+import OlFeature from 'ol/Feature'
+import OlFormatFeature from 'ol/format/Feature'
+import OlFormatFormatType from 'ol/format/FormatType'
+import OlGeomPoint from 'ol/geom/Point'
+
+import nyc from 'nyc'
+import proj4 from 'proj4'
+import {register} from 'ol/proj/proj4'
+proj4.defs(nyc.projections)
+register(proj4)
 
 /**
  * @desc Class to create point features from CSV data

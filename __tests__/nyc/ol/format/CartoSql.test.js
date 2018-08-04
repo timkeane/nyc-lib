@@ -1,4 +1,4 @@
-import OlGeomPoint from 'ol/geom/point'
+import OlGeomPoint from 'ol/geom/Point'
 
 import CartoSql from 'nyc/ol/format/CartoSql'
 
@@ -11,11 +11,11 @@ const reponseNoId = '{"rows":[{"wkt_geom":"POINT(1 2)","name":"feature 1"},{"wkt
 test('readFeatures with cartodb_id', () => {
   expect.assertions(13)
 
-  const cartoPoint = new CartoSql({
+  const cartoSql = new CartoSql({
     from: 'table'
   })
 
-  const features = cartoPoint.readFeatures(reponseWithId)
+  const features = cartoSql.readFeatures(reponseWithId)
 
   expect(features.length).toBe(3)
 
@@ -38,11 +38,11 @@ test('readFeatures with cartodb_id', () => {
 test('readFeatures without cartodb_id', () => {
   expect.assertions(10)
 
-  const cartoPoint = new CartoSql({
+  const cartoSql = new CartoSql({
     from: 'table'
   })
 
-  const features = cartoPoint.readFeatures(reponseNoId)
+  const features = cartoSql.readFeatures(reponseNoId)
 
   expect(features.length).toBe(3)
 
@@ -82,19 +82,19 @@ test('createSql', () => {
 test('readProjection', () => {
   expect.assertions(1)
 
-  const cartoPoint = new CartoSql({
+  const cartoSql = new CartoSql({
     from: 'table'
   })
 
-  expect(cartoPoint.readProjection()).toBe('EPSG:3857')
+  expect(cartoSql.readProjection()).toBe('EPSG:3857')
 })
 
 test('getLastExtent', () => {
   expect.assertions(1)
 
-  const cartoPoint = new CartoSql({
+  const cartoSql = new CartoSql({
     from: 'table'
   })
 
-  expect(cartoPoint.getLastExtent()).toBeNull()
+  expect(cartoSql.getLastExtent()).toBeNull()
 })

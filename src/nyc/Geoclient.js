@@ -8,6 +8,9 @@ import nyc from 'nyc'
 import Locator from 'nyc/Locator'
 import Geocoder from 'nyc/Geocoder'
 
+import proj4 from 'proj4'
+proj4.defs(nyc.projections)
+
 /**
  * @desc A class for geocoding using the New York City Geoclient API
  * @public

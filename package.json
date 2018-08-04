@@ -1,6 +1,6 @@
 {
   "name": "nyc-lib",
-  "version": "1.1.59",
+  "version": "1.1.60",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "pretest": "rm -rf ./dist",
@@ -96,7 +96,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.3.1",
     "leaflet": "^1.3.1",
-    "ol": "4.6.5",
+    "ol": "^5.1.3",
     "papaparse": "^4.5.0",
     "postcss-clean": "^1.1.0",
     "postcss-css-variables": "^0.9.0",

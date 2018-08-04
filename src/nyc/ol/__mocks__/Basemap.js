@@ -1,4 +1,4 @@
-import OlProjProjection from 'ol/proj/projection'
+import OlProjProjection from 'ol/proj/Projection'
 
 const mock = jest.fn().mockImplementation(() => {
   return {

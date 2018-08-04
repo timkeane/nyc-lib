@@ -4,9 +4,9 @@
 
 import nyc from 'nyc'
 
-import OlFeature from 'ol/feature'
-import OlFormatFeature from 'ol/format/feature'
-import OlFormatWkt from 'ol/format/wkt'
+import OlFeature from 'ol/Feature'
+import OlFormatFeature from 'ol/format/Feature'
+import OlFormatWkt from 'ol/format/WKT'
 
 /**
  * @desc Class to create features from Carto SQL API data.  This format requires the presence of a WTK geometry in the source data with the column name wkt_geom.

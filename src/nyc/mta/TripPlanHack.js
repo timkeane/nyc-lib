@@ -3,6 +3,8 @@
  */
 
 import nyc from 'nyc'
+import proj4 from 'proj4'
+proj4.defs(nyc.projections)
 
 /**
  * @desc Class to hack calls to MTA TripPlanner

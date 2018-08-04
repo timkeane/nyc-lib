@@ -4,7 +4,7 @@
 
 import $ from 'jquery'
 
-import olExtent from 'ol/extent'
+import {getCenter} from 'ol/extent'
 
 import nyc from 'nyc'
 import Popup from 'nyc/ol/Popup'
@@ -61,7 +61,7 @@ class FeaturePopup extends Popup {
    * @param {ol.Coordinate=} coordinate The coordinate
    */
   showFeature(feature, coordinate) {
-    coordinate = coordinate || olExtent.getCenter(feature.getGeometry().getExtent())
+    coordinate = coordinate || getCenter(feature.getGeometry().getExtent())
     this.show({
       coordinate: coordinate,
       html: nyc.html(feature),

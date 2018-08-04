@@ -4,15 +4,14 @@
 
 import $ from 'jquery'
 
-import OlFormatGeoJson from 'ol/format/geojson'
-import OlStyleStyle from 'ol/style/style'
-import OlStyleIcon from 'ol/style/icon'
-import OlSourceVector from 'ol/source/vector'
-import OlLayerVector from 'ol/layer/vector'
-import OlFeature from 'ol/feature'
-import OlGeomPoint from 'ol/geom/point'
+import OlFormatGeoJson from 'ol/format/GeoJSON'
+import OlStyleStyle from 'ol/style/Style'
+import OlStyleIcon from 'ol/style/Icon'
+import OlSourceVector from 'ol/source/Vector'
+import OlLayerVector from 'ol/layer/Vector'
+import OlFeature from 'ol/Feature'
+import OlGeomPoint from 'ol/geom/Point'
 
-import Locator from 'nyc/Locator'
 import NycMapLocator from 'nyc/MapLocator'
 import FeatureTip from 'nyc/ol/FeatureTip'
 
@@ -159,9 +158,9 @@ MapLocator.Options
 /**
  * @desc The marker icon style for user location
  * @public
- * @const {ol.style.Icon}
+ * @const {ol.style.Style}
  */
-MapLocator.LOCATION_STYLE =  new OlStyleStyle({
+MapLocator.LOCATION_STYLE = new OlStyleStyle({
   image: new OlStyleIcon({
     scale: 48 / 512,
     imgSize: [1024, 1024],

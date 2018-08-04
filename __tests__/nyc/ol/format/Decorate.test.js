@@ -1,9 +1,11 @@
-import proj4 from 'proj4'
-
 import nyc from 'nyc'
+import proj4 from 'proj4'
+import {register} from 'ol/proj/proj4'
+proj4.defs(nyc.projections)
+register(proj4)
 
-import OlFeature from 'ol/feature'
-import OlGeomPoint from 'ol/geom/point'
+import OlFeature from 'ol/Feature'
+import OlGeomPoint from 'ol/geom/Point'
 
 import CsvPoint from 'nyc/ol/format/CsvPoint'
 import Decorate from 'nyc/ol/format/Decorate'

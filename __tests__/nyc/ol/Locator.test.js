@@ -1,10 +1,14 @@
-import proj4 from 'proj4'
-
 import NycLocator from 'nyc/Locator'
 import Geocoder from 'nyc/Geocoder'
 import Locator from 'nyc/ol/Locator'
 
-import OlGeolocation from 'ol/geolocation'
+import OlGeolocation from 'ol/Geolocation'
+
+import nyc from 'nyc'
+import proj4 from 'proj4'
+import {register} from 'ol/proj/proj4'
+proj4.defs(nyc.projections)
+register(proj4)
 
 function mockGeolocationEventHandlers() {
   const geolocationChange = Locator.prototype.geolocationChange

@@ -1,5 +1,9 @@
 import NycLocalStorage from 'nyc/LocalStorage'
 
+import nyc from 'nyc'
+import proj4 from 'proj4'
+proj4.defs(nyc.projections)
+
 /**
  * @desc Class to provide access to localStorage and filesystem
  * @public
@@ -26,7 +30,7 @@ export default class LocalStorage extends NycLocalStorage {
 	 * @return {L.Layer}  The new layer
 	 */
 	addToMap(map, features, projcs) {
-		const dataProjection = this.customProj(projcs)
+		const dataProjection = this.customProj(projcs, proj4)
 		if (typeof features === 'string') {
 			features = JSON.parse(features)
 		}

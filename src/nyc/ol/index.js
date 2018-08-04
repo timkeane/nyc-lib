@@ -2,7 +2,7 @@
  * @module nyc/ol
  */
 
-import olTilegrid from 'ol/tilegrid'
+import {createXYZ} from 'ol/tilegrid'
 
 /**
  * @desc Namespace for NYC mapping functionality for OpenLayers
@@ -16,7 +16,7 @@ const ol = {
   * @public
   * @const {ol.tilegrid.TileGrid}
   */
-  TILE_GRID: olTilegrid.createXYZ({minZoom: 8, maxZoom: 21}) 
+  TILE_GRID: createXYZ({minZoom: 8, maxZoom: 21}) 
 }
 
 export default ol

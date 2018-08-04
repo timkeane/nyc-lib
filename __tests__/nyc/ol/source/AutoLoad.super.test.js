@@ -1,7 +1,7 @@
-import OlSourceVector from 'ol/source/vector'
+import OlSourceVector from 'ol/source/Vector'
 import AutoLoad from 'nyc/ol/source/AutoLoad'
 
-jest.mock('ol/source/vector')
+jest.mock('ol/source/Vector')
 
 const warn = console.warn
 beforeEach(() => {

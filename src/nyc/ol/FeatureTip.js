@@ -4,7 +4,7 @@
 
 import $ from 'jquery'
 
-import OlOverlay from 'ol/overlay'
+import OlOverlay from 'ol/Overlay'
 
 import nyc from 'nyc'
 

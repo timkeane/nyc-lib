@@ -21,9 +21,9 @@ import Decorate from '../../../src/nyc/ol/format/Decorate'
 
 import FilterAndSort from '../../../src/nyc/ol/source/FilterAndSort'
 
-import OlFeature from 'ol/feature'
-import OlGeomPoint from 'ol/geom/point'
-import OlLayerVector from 'ol/layer/vector'
+import OlFeature from 'ol/Feature'
+import OlGeomPoint from 'ol/geom/Point'
+import OlLayerVector from 'ol/layer/Vector'
 import OlStyleStyle from 'ol/style/style'
 
 import FinderApp from 'nyc/ol/FinderApp'
@@ -49,7 +49,7 @@ jest.mock('../../../src/nyc/ol/format/CsvPoint')
 
 jest.mock('../../../src/nyc/ol/source/FilterAndSort')
 
-jest.mock('ol/layer/vector')
+jest.mock('ol/layer/Vector')
 jest.mock('ol/style/style')
 
 const format = new CsvPoint({})

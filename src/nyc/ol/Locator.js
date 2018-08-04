@@ -8,9 +8,14 @@ import nyc from 'nyc'
 
 import NycLocator from 'nyc/Locator'
 
-import OlGeolocation from 'ol/geolocation'
-import olCoordinate from 'ol/coordinate'
-import olExtent from 'ol/extent'
+import OlGeolocation from 'ol/Geolocation'
+import {toStringHDMS} from 'ol/coordinate';
+import {containsCoordinate} from 'ol/extent'
+
+import proj4 from 'proj4'
+import {register} from 'ol/proj/proj4'
+proj4.defs(nyc.projections)
+register(proj4)
 
 /**
  * @desc A class for geocoding and geolocating in OpenLayers
@@ -86,7 +91,7 @@ constructor(options) {
   geolocationChange() {
     const geo = this.geolocation
     let p = geo.getPosition()
-		const name = olCoordinate.toStringHDMS(p)
+		const name = toStringHDMS(p)
 		p = proj4('EPSG:4326', this.projection, p)
     if (this.withinLimit(p)) {
       if (this.locating) {
@@ -109,7 +114,7 @@ constructor(options) {
 	 * @return {boolean}
 	 */
 	withinLimit(coordinates){
-		return this.extentLimit ? olExtent.containsCoordinate(this.extentLimit, coordinates) : true
+		return this.extentLimit ? containsCoordinate(this.extentLimit, coordinates) : true
 	}
 }
 

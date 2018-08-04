@@ -1,11 +1,15 @@
-import OlFormatGeoJson from 'ol/format/geojson'
-import OlFeature from 'ol/feature'
-import OlGeomPoint from 'ol/geom/point'
-import OlGeomLineString from 'ol/geom/linestring'
-import OlProjProjection from 'ol/proj/projection'
+import OlFormatGeoJson from 'ol/format/GeoJSON'
+import OlFeature from 'ol/Feature'
+import OlGeomPoint from 'ol/geom/Point'
+import OlGeomLineString from 'ol/geom/LineString'
+import OlProjProjection from 'ol/proj/Projection'
+import AutoLoad from 'nyc/ol/source/AutoLoad'
 
 import nyc from 'nyc'
-import AutoLoad from 'nyc/ol/source/AutoLoad'
+import proj4 from 'proj4'
+import {register} from 'ol/proj/proj4'
+proj4.defs(nyc.projections)
+register(proj4)
 
 const FilterAndSort = require('nyc/ol/source/FilterAndSort').default
 

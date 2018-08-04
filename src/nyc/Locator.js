@@ -2,8 +2,11 @@
  * @module nyc/Locator
  */
 
-import nyc from 'nyc'
 import EventHandling from 'nyc/EventHandling'
+
+import nyc from 'nyc'
+import proj4 from 'proj4'
+proj4.defs(nyc.projections)
 
 /**
  * @desc An abstract class for geocoding and geolocating

@@ -5534,13 +5534,13 @@ object.pick@^1.3.0:
   dependencies:
     isobject "^3.0.1"
 
-ol@4.6.5:
-  version "4.6.5"
-  resolved "https://registry.yarnpkg.com/ol/-/ol-4.6.5.tgz#3b628ffb65885f277ceb24bb0c6eee0a38727442"
+ol@^5.1.3:
+  version "5.1.3"
+  resolved "https://registry.yarnpkg.com/ol/-/ol-5.1.3.tgz#43f8fd796914c0436852cbc2087223943c0d9c7b"
   dependencies:
     pbf "3.1.0"
     pixelworks "1.1.0"
-    rbush "2.0.1"
+    rbush "2.0.2"
 
 on-finished@~2.3.0:
   version "2.3.0"
@@ -6107,7 +6107,7 @@ querystring@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
 
-quickselect@^1.0.0:
+quickselect@^1.0.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/quickselect/-/quickselect-1.1.1.tgz#852e412ce418f237ad5b660d70cffac647ae94c2"
 
@@ -6144,11 +6144,11 @@ raw-body@2.3.2:
     iconv-lite "0.4.19"
     unpipe "1.0.0"
 
-rbush@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/rbush/-/rbush-2.0.1.tgz#4cfaca28c3064bc0ee75431a1b79990e875eefa9"
+rbush@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/rbush/-/rbush-2.0.2.tgz#bb6005c2731b7ba1d5a9a035772927d16a614605"
   dependencies:
-    quickselect "^1.0.0"
+    quickselect "^1.0.1"
 
 rc@^1.1.7:
   version "1.2.7"
@@ -7804,8 +7804,8 @@ window-size@0.1.0:
   resolved "https://registry.yarnpkg.com/window-size/-/window-size-0.1.0.tgz#5438cd2ea93b202efa3a19fe8887aee7c94f9c9d"
 
 wkt-parser@^1.2.0:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/wkt-parser/-/wkt-parser-1.2.1.tgz#3339689dbc549c103fc5c7447543534785ff8d4d"
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/wkt-parser/-/wkt-parser-1.2.2.tgz#fe8d87be682e299f76c9af6f6456bbbd7abbfd3a"
 
 wordwrap@0.0.2:
   version "0.0.2"

@@ -3,7 +3,10 @@ import LocalStorage from 'nyc/LocalStorage'
 import localStorageMock from '../localStorage.mock'
 import FileReaderMock from '../FileReader.mock'
 import shapefileMock from '../shapefile.mock'
-import { resolve } from 'uri-js';
+
+import nyc from 'nyc'
+import proj4 from 'proj4'
+proj4.defs(nyc.projections)
 
 beforeEach(() => {
   localStorageMock.resetMock()
@@ -477,14 +480,9 @@ test('addToMap', () => {
 })
 
 describe('customProj', () => {
-  const prj4 = global.proj4
+  const prj4 = {}
   beforeEach(() => {
-    global.proj4 = {
-      defs: jest.fn()
-    }
-  })
-  afterEach(() => {
-    global.proj4 = prj4
+    proj4.defs = jest.fn()
   })
 
   test('customProj', () => {
@@ -496,7 +494,7 @@ describe('customProj', () => {
 
     expect(proj4.defs).toHaveBeenCalledTimes(0)
 
-    expect(storage.customProj('mock-projcs')).toBe('shp:prj-0')
+    expect(storage.customProj('mock-projcs', proj4)).toBe('shp:prj-0')
 
     expect(proj4.defs).toHaveBeenCalledTimes(1)
     expect(proj4.defs.mock.calls[0][0]).toBe('shp:prj-0')

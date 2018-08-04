@@ -3,7 +3,6 @@
  */
 
 import $ from 'jquery'
-
 import nyc from 'nyc'
 
 /**
@@ -238,12 +237,13 @@ class LocalStorage {
 		throw 'Not implemented'
   }
 	/**
-	 * @private
+	 * @access protected
 	 * @method
 	 * @param {string} projcs
-	  * @return {string|undefined}
+	 * @param {Object} proj4
+	 * @return {string|undefined}
 	*/
-	customProj(projcs) {
+	customProj(projcs, proj4) {
 		if (projcs) {
 			const prj = nyc.nextId('shp:prj')
 			proj4.defs(prj, projcs)
