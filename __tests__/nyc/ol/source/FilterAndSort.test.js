@@ -2,12 +2,12 @@ import OlFormatGeoJson from 'ol/format/GeoJSON'
 import OlFeature from 'ol/Feature'
 import OlGeomPoint from 'ol/geom/Point'
 import OlGeomLineString from 'ol/geom/LineString'
-import OlProjProjection from 'ol/proj/Projection'
 import AutoLoad from 'nyc/ol/source/AutoLoad'
 
 import nyc from 'nyc'
 import proj4 from 'proj4'
 import {register as olProjRegister} from 'ol/proj/proj4'
+
 proj4.defs(nyc.projections)
 olProjRegister(proj4)
 
@@ -135,7 +135,7 @@ test('sort with distance in data projection from parentFormat', () => {
     features: [f0, f4, f2, f1, f3],
     format: {
       parentFormat: {
-        defaultDataProjection: new OlProjProjection({code: 'EPSG:2263'})
+        defaultDataProjection: 'EPSG:2263'
       }
     }
   })

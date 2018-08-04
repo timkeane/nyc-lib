@@ -7,6 +7,7 @@ import NycLocalStorage from 'nyc/LocalStorage'
 import nyc from 'nyc'
 import proj4 from 'proj4'
 import {register as olProjRegister} from 'ol/proj/proj4'
+
 proj4.defs(nyc.projections)
 olProjRegister(proj4)
 

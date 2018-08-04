@@ -11,7 +11,9 @@ import AutoLoad from 'nyc/ol/source/AutoLoad'
 
 import nyc from 'nyc'
 import proj4 from 'proj4'
+import {get as olProjGet} from 'ol/proj'
 import {register as olProjRegister} from 'ol/proj/proj4'
+
 proj4.defs(nyc.projections)
 olProjRegister(proj4)
 
@@ -103,7 +105,7 @@ class FilterAndSort extends AutoLoad {
     let units
     if (projections[0]) {
       line.transform(projections[1], projections[0])
-      units = projections[0].getUnits() || proj4.defs[projections[0].getCode()].units
+      units = projections[0].getUnits()
     }
     return {distance: line.getLength(), units: units}
   }
@@ -118,11 +120,11 @@ class FilterAndSort extends AutoLoad {
     let dataProj
     let featureProj
     if (parentFormat) {
-      dataProj = parentFormat.defaultDataProjection
-      featureProj = parentFormat.defaultFeatureProjection || 'EPSG:3857'
+      dataProj = olProjGet(parentFormat.defaultDataProjection)
+      featureProj = olProjGet(parentFormat.defaultFeatureProjection || 'EPSG:3857')
     } else if (format) {
-      dataProj = format.defaultDataProjection
-      featureProj = format.defaultFeatureProjection || 'EPSG:3857'
+      dataProj = olProjGet(format.defaultDataProjection)
+      featureProj = olProjGet(format.defaultFeatureProjection || 'EPSG:3857')
     }
     if (dataProj) {
       dataProj = dataProj.getCode ? dataProj : new OlProjProjection({code: dataProj})

@@ -4,6 +4,7 @@
 
 import nyc from 'nyc'
 import proj4 from 'proj4'
+
 proj4.defs(nyc.projections)
 
 /**

@@ -4,6 +4,7 @@ import Basemap from 'nyc/leaf/Basemap'
 
 import nyc from 'nyc'
 import proj4 from 'proj4'
+
 proj4.defs(nyc.projections)
 
 let map

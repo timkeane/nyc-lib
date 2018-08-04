@@ -66,6 +66,7 @@ module.exports = {
     
     'ol/extent': 'ol.extent',
     'ol/coordinate': 'ol.coordinate',
+    'ol/proj': 'ol.proj',
     'ol/tilegrid': 'ol.tilegrid',
     'ol/Feature': 'ol.Feature',
     'ol/Map': 'ol.Map',

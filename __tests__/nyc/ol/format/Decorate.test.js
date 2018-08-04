@@ -1,14 +1,15 @@
-import nyc from 'nyc'
-import proj4 from 'proj4'
-import {register as olProjRegister} from 'ol/proj/proj4'
-proj4.defs(nyc.projections)
-olProjRegister(proj4)
-
 import OlFeature from 'ol/Feature'
 import OlGeomPoint from 'ol/geom/Point'
 
 import CsvPoint from 'nyc/ol/format/CsvPoint'
 import Decorate from 'nyc/ol/format/Decorate'
+
+import nyc from 'nyc'
+import proj4 from 'proj4'
+import {register as olProjRegister} from 'ol/proj/proj4'
+
+proj4.defs(nyc.projections)
+olProjRegister(proj4)
 
 const sourceId = [
   {id: 'a', x: 0, y: 0, first: 'foo', last: 'bar'},

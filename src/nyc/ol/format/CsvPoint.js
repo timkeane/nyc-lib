@@ -13,7 +13,9 @@ import OlGeomPoint from 'ol/geom/Point'
 
 import nyc from 'nyc'
 import proj4 from 'proj4'
+import {get as olProjGet} from 'ol/proj'
 import {register as olProjRegister} from 'ol/proj/proj4'
+
 proj4.defs(nyc.projections)
 olProjRegister(proj4)
 
@@ -35,14 +37,14 @@ class CsvPoint extends OlFormatFeature {
     super()
     /**
      * @private
-     * @member {ol.ProjectionLike}
+     * @member {ol.Projection}
      */
-    this.defaultDataProjection = options.defaultDataProjection || 'EPSG:4326'
+    this.defaultDataProjection = olProjGet(options.defaultDataProjection || 'EPSG:4326')
     /**
      * @private
-     * @member {ol.ProjectionLike}
+     * @member {ol.Projection}
      */
-    this.defaultFeatureProjection = options.defaultFeatureProjection || 'EPSG:3857'
+    this.defaultFeatureProjection = olProjGet(options.defaultFeatureProjection || 'EPSG:3857')
     /**
      * @private
      * @member {string}
@@ -82,8 +84,8 @@ class CsvPoint extends OlFormatFeature {
     const point = new OlGeomPoint([x, y])
     const feature = new OlFeature(source)
     options = options || {}
-    options.dataProjection = options.dataProjection || this.defaultDataProjection
-    options.featureProjection = options.featureProjection || this.defaultFeatureProjection
+    options.dataProjection = olProjGet(options.dataProjection || this.defaultDataProjection)
+    options.featureProjection = olProjGet(options.featureProjection || this.defaultFeatureProjection)
     point.transform(options.dataProjection, options.featureProjection)
     feature.setGeometry(point)
     feature.setId(id)
