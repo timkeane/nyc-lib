@@ -125,9 +125,6 @@ class FilterAndSort extends AutoLoad {
       dataProj = olProjGet(format.defaultDataProjection)
       featureProj = olProjGet(format.defaultFeatureProjection || 'EPSG:3857')
     }
-    if (dataProj) {
-      dataProj = dataProj.getCode ? dataProj : new OlProjProjection({code: dataProj})
-    }
     return [olProjGetProjection(dataProj), olProjGetProjection(featureProj)]
   }
   /**
