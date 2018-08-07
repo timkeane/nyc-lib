@@ -3,9 +3,8 @@ import LocalStorage from 'nyc/leaf/LocalStorage'
 import Basemap from 'nyc/leaf/Basemap'
 
 import nyc from 'nyc'
-import proj4 from 'proj4'
 
-proj4.defs(nyc.projections)
+const proj4 = nyc.proj4
 
 let map
 const featureObjects = [

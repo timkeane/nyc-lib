@@ -5,9 +5,8 @@ import FileReaderMock from '../FileReader.mock'
 import shapefileMock from '../shapefile.mock'
 
 import nyc from 'nyc'
-import proj4 from 'proj4'
 
-proj4.defs(nyc.projections)
+const proj4 = nyc.proj4
 
 beforeEach(() => {
   localStorageMock.resetMock()

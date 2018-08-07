@@ -10,11 +10,10 @@ import OlProjProjection from 'ol/proj/Projection'
 import AutoLoad from 'nyc/ol/source/AutoLoad'
 
 import nyc from 'nyc'
-import proj4 from 'proj4'
 import {get as olProjGet} from 'ol/proj'
 import {register as olProjRegister} from 'ol/proj/proj4'
 
-proj4.defs(nyc.projections)
+const proj4 = nyc.proj4
 olProjRegister(proj4)
 
 /**

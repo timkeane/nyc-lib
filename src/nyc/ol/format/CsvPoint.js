@@ -12,11 +12,10 @@ import OlFormatFormatType from 'ol/format/FormatType'
 import OlGeomPoint from 'ol/geom/Point'
 
 import nyc from 'nyc'
-import proj4 from 'proj4'
 import {get as olProjGet} from 'ol/proj'
 import {register as olProjRegister} from 'ol/proj/proj4'
 
-proj4.defs(nyc.projections)
+const proj4 = nyc.proj4
 olProjRegister(proj4)
 
 /**

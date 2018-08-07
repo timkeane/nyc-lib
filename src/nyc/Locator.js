@@ -5,9 +5,8 @@
 import EventHandling from 'nyc/EventHandling'
 
 import nyc from 'nyc'
-import proj4 from 'proj4'
 
-proj4.defs(nyc.projections)
+const proj4 = nyc.proj4
 
 /**
  * @desc An abstract class for geocoding and geolocating

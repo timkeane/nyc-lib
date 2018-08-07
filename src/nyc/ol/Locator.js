@@ -12,10 +12,9 @@ import OlGeolocation from 'ol/Geolocation'
 import {toStringHDMS as olCoordinanteToStringHDMS} from 'ol/coordinate';
 import {containsCoordinate} from 'ol/extent'
 
-import proj4 from 'proj4'
 import {register as olProjRegister} from 'ol/proj/proj4'
 
-proj4.defs(nyc.projections)
+const proj4 = nyc.proj4
 olProjRegister(proj4)
 
 /**

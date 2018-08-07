@@ -1,8 +1,8 @@
 import NycLocalStorage from 'nyc/LocalStorage'
 
 import nyc from 'nyc'
-import proj4 from 'proj4'
-proj4.defs(nyc.projections)
+
+const proj4 = nyc.proj4
 
 /**
  * @desc Class to provide access to localStorage and filesystem
