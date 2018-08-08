@@ -38,6 +38,12 @@
 
     var map = new nyc.ol.Basemap({target: 'map'});
     map.addLayer(new ol.layer.Vector({source: source}));
-  </script>
+
+    map.on('click', function(event) {
+      map.forEachFeatureAtPixel(event.pixel, function(feature) {
+        console.info('Zone', feature.getZone());
+      });
+    });
+</script>
 </body>
 </html>
