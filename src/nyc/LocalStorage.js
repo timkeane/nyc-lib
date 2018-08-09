@@ -242,7 +242,7 @@ class LocalStorage {
 	 * @param {string} projcs
 	 * @param {Object} proj4
 	 * @return {string|undefined}
-	*/
+	 */
 	customProj(projcs, proj4) {
 		if (projcs) {
 			const prj = nyc.nextId('shp:prj')

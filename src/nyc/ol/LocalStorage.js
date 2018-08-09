@@ -40,14 +40,13 @@ export default class LocalStorage extends NycLocalStorage {
 			dataProjection: this.customProj(projcs, proj4)
 		}
 		olProjRegister(proj4)
+		try {ol.proj.proj4.register(proj4)} catch (ignoreHackyBuildFixForNow) {}
 		if (typeof features === 'object') {
 			features = {type: 'FeatureCollection', features: features}
 		}
-		
-		features = new OlFormatGeoJSON().readFeatures(features, options)
 		const source = new OlSourceVector()
 		const layer = new OlLayerVector({source: source})
-		source.addFeatures(features)
+		source.addFeatures(new OlFormatGeoJSON().readFeatures(features, options))
 		map.addLayer(layer)
 		return layer
 	}
