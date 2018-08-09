@@ -44,5 +44,5 @@ window.nyc.ol.source = {}
 window.nyc.ol.source.AutoLoad = _nyc_ol_source_AutoLoad
 window.nyc.ol.source.FilterAndSort = _nyc_ol_source_FilterAndSort
 
-/* attempt to pre-register proj4 with ol */
-try {ol.proj.proj4.register(proj4)} catch (ignore) {}
+/* pre-register nyc projections proj4 with ol */
+ol.proj.proj4.register(window.nyc.proj4)
