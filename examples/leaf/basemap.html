@@ -24,12 +24,40 @@
       bottom: 0;
       right: 0;
     }
+    select {
+      z-index: 1000;
+      position: fixed;
+      left: 50px;
+      top: 10px;
+    }
   </style>
 </head>
 <body>
   <div id="map"></div>
+  <select>
+      <option value="base">Base Map</option>
+    </select>
   <script>
     var map = new nyc.leaf.Basemap({target: 'map'});
+
+    function showPhoto(event) {
+      var year = $(event.target).val()
+      if (year === 'base') {
+        map.hidePhoto()
+      } else {
+        map.showPhoto(year)
+      }
+    };
+
+    var photos = map.sortedPhotos();
+    for (var i = 0; i < photos.length; i++) {
+      var year = photos[i].name;
+      $('select').append(
+        $('<option></option>')
+          .attr('value', year)
+          .html(year + ' Photo')
+      ).change(showPhoto)
+    };
   </script>
 </body>
 </html>

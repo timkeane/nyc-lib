@@ -58,7 +58,9 @@
       }
     };
 
-    for (var year in map.getBaseLayers().photos) {
+    var photos = map.sortedPhotos();
+    for (var i = 0; i < photos.length; i++) {
+      var year = photos[i].get('name');
       $('select').append(
         $('<option></option>')
           .attr('value', year)
