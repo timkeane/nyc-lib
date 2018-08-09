@@ -237,17 +237,18 @@ class LocalStorage {
 		throw 'Not implemented'
   }
 	/**
+	 * @desc Add a new projection to proj4 and return the code
 	 * @access protected
 	 * @method
-	 * @param {string} projcs
-	 * @param {Object} proj4
-	 * @return {string|undefined}
+	 * @param {string} projcs The projecion as defined in a prj file
+	 * @param {Object} proj4 The proj4 instance
+	 * @return {string|undefined} The code for the new projection
 	 */
 	customProj(projcs, proj4) {
 		if (projcs) {
-			const prj = nyc.nextId('shp:prj')
-			proj4.defs(prj, projcs)
-			return prj
+			const code = nyc.nextId('shp:prj')
+			proj4.defs(code, projcs)
+			return code
 		}
 	}
 }
