@@ -128,7 +128,6 @@ class Goog extends Translate {
 	 * @method
 	 */
 	hack() {
-		console.info('hacking')
 		/*
 		 * google translate doesn't translate placeholder attributes
 		 * so we'll add a hidden span after input elements that have placeholders

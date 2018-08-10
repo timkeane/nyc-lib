@@ -37,3 +37,11 @@
 .tabs .container .tab:focus {
   box-shadow: none;
 }
+.tab-focus {
+	left: 0;
+	box-shadow: 0px 1px 7px 3px var(--focus-ring-color) inset;
+	position: absolute;
+	top: 34px;
+	bottom: 0;
+	right: 0;
+}

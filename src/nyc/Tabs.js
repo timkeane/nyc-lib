@@ -36,6 +36,12 @@ class Tabs extends Container {
      */
     this.ready = false
     this.render(options.tabs)
+
+    this.find('.tab').focus((event) => {
+      $(event.target).append('<div class="tab-focus"></div>')
+    }).blur((event) => {
+      $(event.target).find('.tab-focus').remove()
+    })
   }
   /**
    * @desc Open a tab
