@@ -101,7 +101,7 @@ class Goog extends Translate {
 			this.monitoring = true
 			if ('MutationObserver' in window) {
 				new MutationObserver(this.hack)
-					.observe(document.body, {childList: true})
+					.observe(document.body, {childList: true, subtree: true})
 			} else {
 				setInterval(this.hack, 500)
 			}
@@ -128,6 +128,7 @@ class Goog extends Translate {
 	 * @method
 	 */
 	hack() {
+		console.info('hacking')
 		/*
 		 * google translate doesn't translate placeholder attributes
 		 * so we'll add a hidden span after input elements that have placeholders
@@ -162,7 +163,7 @@ class Goog extends Translate {
         $(button).trigger('click')
     		if (this.languages[code].name !== 'English') {
     			this.find('select').val('en')
-    		}
+				}
     		return false
     	}
     })

@@ -193,7 +193,7 @@ describe('monitor', () => {
 
     expect(MockMutationObserver.observeCalls.length).toBe(1)
     expect(MockMutationObserver.observeCalls[0][0]).toBe(document.body)
-    expect(MockMutationObserver.observeCalls[0][1]).toEqual({childList: true})
+    expect(MockMutationObserver.observeCalls[0][1]).toEqual({childList: true, subtree: true})
   
     expect(window.setInterval).toHaveBeenCalledTimes(0)
   })
