@@ -17,13 +17,13 @@
 }
 #map-tab.tab {
   margin: 0;
+  padding: 0;
   left: 0;
   right: 400px;
   overflow: hidden;
   border-top: 1px solid var(--color-border)
 }
 #route-tab.tab {
-  margin: 5px;
   width: 390px;
 }
 #map-tab div.map {
