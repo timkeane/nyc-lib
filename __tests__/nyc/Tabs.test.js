@@ -63,9 +63,9 @@ test('contructor default active', () => {
   expect($(tabs.find('.tab').get(2)).hasClass('tab-2')).toBe(true)
 
   expect(tabs.find('h2.btn').length).toBe(3)
-  expect(tabs.find('h2.btn').get(0).innerHTML).toBe('Tab One')
-  expect(tabs.find('h2.btn').get(1).innerHTML).toBe('Tab Two')
-  expect(tabs.find('h2.btn').get(2).innerHTML).toBe('Tab Three')
+  expect(tabs.find('h2.btn').get(0).innerHTML).toBe('<a href="#">Tab One</a>')
+  expect(tabs.find('h2.btn').get(1).innerHTML).toBe('<a href="#">Tab Two</a>')
+  expect(tabs.find('h2.btn').get(2).innerHTML).toBe('<a href="#">Tab Three</a>')
 
   expect($(tabs.find('h2.btn').get(0)).hasClass('active')).toBe(true)
   expect($(tabs.find('h2.btn').get(1)).hasClass('active')).toBe(false)
@@ -118,9 +118,9 @@ test('contructor provide active', () => {
   expect($(tabs.find('.tab').get(2)).hasClass('tab-2')).toBe(true)
 
   expect(tabs.find('h2.btn').length).toBe(3)
-  expect(tabs.find('h2.btn').get(0).innerHTML).toBe('Tab One')
-  expect(tabs.find('h2.btn').get(1).innerHTML).toBe('Tab Two')
-  expect(tabs.find('h2.btn').get(2).innerHTML).toBe('Tab Three')
+  expect(tabs.find('h2.btn').get(0).innerHTML).toBe('<a href="#">Tab One</a>')
+  expect(tabs.find('h2.btn').get(1).innerHTML).toBe('<a href="#">Tab Two</a>')
+  expect(tabs.find('h2.btn').get(2).innerHTML).toBe('<a href="#">Tab Three</a>')
 
   expect($(tabs.find('h2.btn').get(0)).hasClass('active')).toBe(false)
   expect($(tabs.find('h2.btn').get(1)).hasClass('active')).toBe(true)
@@ -170,9 +170,9 @@ test('open', () => {
   expect($(tabs.find('.tab').get(2)).hasClass('tab-2')).toBe(true)
 
   expect(tabs.find('h2.btn').length).toBe(3)
-  expect(tabs.find('h2.btn').get(0).innerHTML).toBe('Tab One')
-  expect(tabs.find('h2.btn').get(1).innerHTML).toBe('Tab Two')
-  expect(tabs.find('h2.btn').get(2).innerHTML).toBe('Tab Three')
+  expect(tabs.find('h2.btn').get(0).innerHTML).toBe('<a href="#">Tab One</a>')
+  expect(tabs.find('h2.btn').get(1).innerHTML).toBe('<a href="#">Tab Two</a>')
+  expect(tabs.find('h2.btn').get(2).innerHTML).toBe('<a href="#">Tab Three</a>')
 
   expect($(tabs.find('h2.btn').get(0)).hasClass('active')).toBe(false)
   expect($(tabs.find('h2.btn').get(1)).hasClass('active')).toBe(false)

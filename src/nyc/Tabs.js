@@ -55,7 +55,7 @@ class Tabs extends Container {
     tab.addClass('active')
     .attr('aria-selected', true)
     .attr('aria-hidden', false)
-      .attr('tabindex', 0)
+      .attr('tabindex', 1000)
       .focus()
     tab.data('btn').addClass('active')
     .attr('aria-pressed', true)
@@ -88,7 +88,7 @@ render(tabs){
         .click($.proxy(this.btnClick, this))
         .addClass(`btn-tab btn-${i}`)
         .data('tab', tb)
-        .append(tab.title)
+        .append(`<a href="#">${tab.title}</a>`)
         
       tb.data('btn', btn)
       this.btns.append(btn)
