@@ -48,5 +48,5 @@
 	box-shadow: inset 0px 1px 7px 3px var(--focus-ring-color);
 }
 .tabs h2[role="tab"].active a:focus {
-	box-shadow: inset 0px 1px 7px 3px var(--focus-ring-color-light);
+	background-color: var(--focus-ring-color);
 }
