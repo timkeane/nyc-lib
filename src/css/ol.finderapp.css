@@ -75,7 +75,7 @@ html, body.fnd, .fnd #map {
 .fnd #tabs .btns h2 {
   width: 33%;
 }
-.fnd #tabs .btns h2.btn-0 {
+.fnd #tabs .btns h2:first-of-type {
   display: none;
 }
 .fnd #tabs .btns .btn-2.filtered:before {
@@ -179,7 +179,7 @@ html, body.fnd, .fnd #map {
   .fnd #tabs {
     width: 100%;
   }
-  .fnd #tabs .btns h2.btn-0 {
+  .fnd #tabs .btns h2:first-of-type {
     display: table-cell;
   }
   .fnd #map.tab {
