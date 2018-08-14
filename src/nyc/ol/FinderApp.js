@@ -177,7 +177,7 @@ class FinderApp {
    */
   resetList(event) {
     if (event instanceof Filters) {
-      $('#tabs .btns h2.btn-2').addClass('filtered')
+      $('#tabs .btns .btn-2').addClass('filtered')
     }
     const coordinate = this.location.coordinate
     this.popup.hide()

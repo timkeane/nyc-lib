@@ -62,22 +62,22 @@ test('contructor default active', () => {
   expect($(tabs.find('.tab').get(1)).hasClass('tab-1')).toBe(true)
   expect($(tabs.find('.tab').get(2)).hasClass('tab-2')).toBe(true)
 
-  expect(tabs.find('h2.btn').length).toBe(3)
-  expect(tabs.find('h2.btn').get(0).innerHTML).toBe('<a href="#">Tab One</a>')
-  expect(tabs.find('h2.btn').get(1).innerHTML).toBe('<a href="#">Tab Two</a>')
-  expect(tabs.find('h2.btn').get(2).innerHTML).toBe('<a href="#">Tab Three</a>')
+  expect(tabs.find('h2>button').length).toBe(3)
+  expect(tabs.find('h2>button').get(0).innerHTML).toBe('Tab One')
+  expect(tabs.find('h2>button').get(1).innerHTML).toBe('Tab Two')
+  expect(tabs.find('h2>button').get(2).innerHTML).toBe('Tab Three')
 
-  expect($(tabs.find('h2.btn').get(0)).hasClass('active')).toBe(true)
-  expect($(tabs.find('h2.btn').get(1)).hasClass('active')).toBe(false)
-  expect($(tabs.find('h2.btn').get(2)).hasClass('active')).toBe(false)
+  expect($(tabs.find('h2>button').get(0)).hasClass('active')).toBe(true)
+  expect($(tabs.find('h2>button').get(1)).hasClass('active')).toBe(false)
+  expect($(tabs.find('h2>button').get(2)).hasClass('active')).toBe(false)
 
-  expect($(tabs.find('h2.btn').get(0)).attr('aria-pressed')).toBe('true')
-  expect($(tabs.find('h2.btn').get(1)).attr('aria-pressed')).toBe('false')
-  expect($(tabs.find('h2.btn').get(2)).attr('aria-pressed')).toBe('false')
+  expect($(tabs.find('h2>button').get(0)).attr('aria-pressed')).toBe('true')
+  expect($(tabs.find('h2>button').get(1)).attr('aria-pressed')).toBe('false')
+  expect($(tabs.find('h2>button').get(2)).attr('aria-pressed')).toBe('false')
 
-  expect($(tabs.find('h2.btn').get(0)).hasClass('btn-0')).toBe(true)
-  expect($(tabs.find('h2.btn').get(1)).hasClass('btn-1')).toBe(true)
-  expect($(tabs.find('h2.btn').get(2)).hasClass('btn-2')).toBe(true)
+  expect($(tabs.find('h2>button').get(0)).hasClass('btn-0')).toBe(true)
+  expect($(tabs.find('h2>button').get(1)).hasClass('btn-1')).toBe(true)
+  expect($(tabs.find('h2>button').get(2)).hasClass('btn-2')).toBe(true)
 })
 
 test('contructor provide active', () => {
@@ -117,22 +117,22 @@ test('contructor provide active', () => {
   expect($(tabs.find('.tab').get(1)).hasClass('tab-1')).toBe(true)
   expect($(tabs.find('.tab').get(2)).hasClass('tab-2')).toBe(true)
 
-  expect(tabs.find('h2.btn').length).toBe(3)
-  expect(tabs.find('h2.btn').get(0).innerHTML).toBe('<a href="#">Tab One</a>')
-  expect(tabs.find('h2.btn').get(1).innerHTML).toBe('<a href="#">Tab Two</a>')
-  expect(tabs.find('h2.btn').get(2).innerHTML).toBe('<a href="#">Tab Three</a>')
+  expect(tabs.find('h2>button').length).toBe(3)
+  expect(tabs.find('h2>button').get(0).innerHTML).toBe('Tab One')
+  expect(tabs.find('h2>button').get(1).innerHTML).toBe('Tab Two')
+  expect(tabs.find('h2>button').get(2).innerHTML).toBe('Tab Three')
 
-  expect($(tabs.find('h2.btn').get(0)).hasClass('active')).toBe(false)
-  expect($(tabs.find('h2.btn').get(1)).hasClass('active')).toBe(true)
-  expect($(tabs.find('h2.btn').get(2)).hasClass('active')).toBe(false)
+  expect($(tabs.find('h2>button').get(0)).hasClass('active')).toBe(false)
+  expect($(tabs.find('h2>button').get(1)).hasClass('active')).toBe(true)
+  expect($(tabs.find('h2>button').get(2)).hasClass('active')).toBe(false)
 
-  expect($(tabs.find('h2.btn').get(0)).attr('aria-pressed')).toBe('false')
-  expect($(tabs.find('h2.btn').get(1)).attr('aria-pressed')).toBe('true')
-  expect($(tabs.find('h2.btn').get(2)).attr('aria-pressed')).toBe('false')
+  expect($(tabs.find('h2>button').get(0)).attr('aria-pressed')).toBe('false')
+  expect($(tabs.find('h2>button').get(1)).attr('aria-pressed')).toBe('true')
+  expect($(tabs.find('h2>button').get(2)).attr('aria-pressed')).toBe('false')
 
-  expect($(tabs.find('h2.btn').get(0)).hasClass('btn-0')).toBe(true)
-  expect($(tabs.find('h2.btn').get(1)).hasClass('btn-1')).toBe(true)
-  expect($(tabs.find('h2.btn').get(2)).hasClass('btn-2')).toBe(true)
+  expect($(tabs.find('h2>button').get(0)).hasClass('btn-0')).toBe(true)
+  expect($(tabs.find('h2>button').get(1)).hasClass('btn-1')).toBe(true)
+  expect($(tabs.find('h2>button').get(2)).hasClass('btn-2')).toBe(true)
 })
 
 test('open', () => {
@@ -169,22 +169,22 @@ test('open', () => {
   expect($(tabs.find('.tab').get(1)).hasClass('tab-1')).toBe(true)
   expect($(tabs.find('.tab').get(2)).hasClass('tab-2')).toBe(true)
 
-  expect(tabs.find('h2.btn').length).toBe(3)
-  expect(tabs.find('h2.btn').get(0).innerHTML).toBe('<a href="#">Tab One</a>')
-  expect(tabs.find('h2.btn').get(1).innerHTML).toBe('<a href="#">Tab Two</a>')
-  expect(tabs.find('h2.btn').get(2).innerHTML).toBe('<a href="#">Tab Three</a>')
+  expect(tabs.find('h2>button').length).toBe(3)
+  expect(tabs.find('h2>button').get(0).innerHTML).toBe('Tab One')
+  expect(tabs.find('h2>button').get(1).innerHTML).toBe('Tab Two')
+  expect(tabs.find('h2>button').get(2).innerHTML).toBe('Tab Three')
 
-  expect($(tabs.find('h2.btn').get(0)).hasClass('active')).toBe(false)
-  expect($(tabs.find('h2.btn').get(1)).hasClass('active')).toBe(false)
-  expect($(tabs.find('h2.btn').get(2)).hasClass('active')).toBe(true)
+  expect($(tabs.find('h2>button').get(0)).hasClass('active')).toBe(false)
+  expect($(tabs.find('h2>button').get(1)).hasClass('active')).toBe(false)
+  expect($(tabs.find('h2>button').get(2)).hasClass('active')).toBe(true)
 
-  expect($(tabs.find('h2.btn').get(0)).attr('aria-pressed')).toBe('false')
-  expect($(tabs.find('h2.btn').get(1)).attr('aria-pressed')).toBe('false')
-  expect($(tabs.find('h2.btn').get(2)).attr('aria-pressed')).toBe('true')
+  expect($(tabs.find('h2>button').get(0)).attr('aria-pressed')).toBe('false')
+  expect($(tabs.find('h2>button').get(1)).attr('aria-pressed')).toBe('false')
+  expect($(tabs.find('h2>button').get(2)).attr('aria-pressed')).toBe('true')
 
-  expect($(tabs.find('h2.btn').get(0)).hasClass('btn-0')).toBe(true)
-  expect($(tabs.find('h2.btn').get(1)).hasClass('btn-1')).toBe(true)
-  expect($(tabs.find('h2.btn').get(2)).hasClass('btn-2')).toBe(true)
+  expect($(tabs.find('h2>button').get(0)).hasClass('btn-0')).toBe(true)
+  expect($(tabs.find('h2>button').get(1)).hasClass('btn-1')).toBe(true)
+  expect($(tabs.find('h2>button').get(2)).hasClass('btn-2')).toBe(true)
 })
 
 test('btnClick', () => {
@@ -194,7 +194,7 @@ test('btnClick', () => {
 
   expect(tabs.active.get(0)).toBe(tab0.get(0))
 
-  $(tabs.find('h2.btn').get(1)).trigger('click')
+  $(tabs.find('h2>button').get(1)).trigger('click')
 
   expect(tabs.active.get(0)).toBe(tab1.get(0))
 })

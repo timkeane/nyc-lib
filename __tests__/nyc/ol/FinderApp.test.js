@@ -381,9 +381,9 @@ describe('createTabs', () => {
     expect($('#tabs').attr('aria-hidden')).toBe(undefined)
     expect(finderApp.tabs.tabs.children().length).toBe(2)
     expect(finderApp.tabs.tabs.find('#map').length).toBe(1)
-    expect(finderApp.tabs.tabs.find('#map').data('btn').html()).toBe('<a href="#">Map</a>')
+    expect(finderApp.tabs.tabs.find('#map').data('btn').html()).toBe('Map')
     expect(finderApp.tabs.tabs.find('#facilities').length).toBe(1)
-    expect(finderApp.tabs.tabs.find('#facilities').data('btn').html()).toBe('<a href="#">Facility Title</a>')
+    expect(finderApp.tabs.tabs.find('#facilities').data('btn').html()).toBe('Facility Title')
   
     expect($.mocks.resize).toHaveBeenCalledTimes(1)
     expect($.mocks.resize.mock.instances[0].get(0)).toBe(window)
@@ -413,11 +413,11 @@ describe('createTabs', () => {
     expect($('#tabs').attr('aria-hidden')).toBe('true')
     expect(finderApp.tabs.tabs.children().length).toBe(3)
     expect(finderApp.tabs.tabs.find('#map').length).toBe(1)
-    expect(finderApp.tabs.tabs.find('#map').data('btn').html()).toBe('<a href="#">Map</a>')
+    expect(finderApp.tabs.tabs.find('#map').data('btn').html()).toBe('Map')
     expect(finderApp.tabs.tabs.find('#facilities').length).toBe(1)
-    expect(finderApp.tabs.tabs.find('#facilities').data('btn').html()).toBe('<a href="#">Facilities</a>')
+    expect(finderApp.tabs.tabs.find('#facilities').data('btn').html()).toBe('Facilities')
     expect(finderApp.tabs.tabs.find('#filters').length).toBe(1)
-    expect(finderApp.tabs.tabs.find('#filters').data('btn').html()).toBe('<a href="#">Filters</a>')
+    expect(finderApp.tabs.tabs.find('#filters').data('btn').html()).toBe('Filters')
   
     expect($.mocks.resize).toHaveBeenCalledTimes(1)
     expect($.mocks.resize.mock.instances[0].get(0)).toBe(window)
@@ -663,7 +663,7 @@ describe('resetList', () => {
 
     finderApp.resetList(finderApp.filters)
 
-    expect($('#tabs .btns h2.btn-2').hasClass('filtered')).toBe(true)
+    expect($('#tabs .btns .btn-2').hasClass('filtered')).toBe(true)
 
     expect(finderApp.popup.hide).toHaveBeenCalledTimes(1)
 

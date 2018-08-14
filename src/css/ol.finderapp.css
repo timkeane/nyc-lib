@@ -78,7 +78,7 @@ html, body.fnd, .fnd #map {
 .fnd #tabs .btns h2.btn-0 {
   display: none;
 }
-.fnd #tabs .btns h2.btn-2.filtered:before {
+.fnd #tabs .btns .btn-2.filtered:before {
   display: block;
   position: absolute;
   right: 0;

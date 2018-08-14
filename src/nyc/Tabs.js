@@ -88,10 +88,10 @@ render(tabs){
         .click($.proxy(this.btnClick, this))
         .addClass(`btn-tab btn-${i}`)
         .data('tab', tb)
-        .append(`<a href="#">${tab.title}</a>`)
+        .append(tab.title)
         
       tb.data('btn', btn)
-      this.btns.append(btn)
+      this.btns.append($('<h2></h2>').append(btn))
       this.tabs.append(tb)
       if (tab.active) {
         this.open(tb)
@@ -143,6 +143,6 @@ Tabs.HTML = '<div class="btns" role="tablist"></div>' +
  * @const
  * @type {string}
  */
-Tabs.BTN_HTML = '<h2 class="btn" role="tab"></h2>'
+Tabs.BTN_HTML = '<button class="btn" role="tab" href="#"></button>'
 
 export default Tabs

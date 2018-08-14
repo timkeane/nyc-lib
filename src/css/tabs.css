@@ -8,19 +8,23 @@
   display: table;
   white-space: nowrap;
 }
-.tabs .btns h2 {
+.tabs>.btns h2 {
   display: table-cell;
+	margin: 0;
+	padding: 0;
+}
+.tabs .btns button.btn {
+  display: block;
+  width: 100%;
   margin: 0;
+  border: none;
   border-right: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
   text-align: center;
 }
-.tabs .btns h2.active, .tabs .btns h2.active * {
+.tabs .btns button.btn.active, .tabs .btns button.btn.active * {
   background-color: var(--color-dark);
   color: var(--color-light);
-}
-.tabs .btns h2:last-of-type {
-  border-right: none;
 }
 .tabs .container {
   height: calc(100% - 35px);
@@ -34,19 +38,9 @@
 .tabs .container .tab.active {
   display: block;
 }
-.tabs h2[role="tab"] a {
-  text-decoration: none;
-  width: 100%;
-  height: 100%;
-  display: block;
-  padding-top: 9px;
-}
-.tabs h2[role="tab"].btn {
-  padding: 0;
-}   
-.tabs h2[role="tab"] a:focus, .tab.active:focus {
+.tabs button.btn:focus, .tab.active:focus {
 	box-shadow: inset 0px 1px 7px 3px var(--focus-ring-color);
 }
-.tabs h2[role="tab"].active a:focus {
+.tabs button.btn.active:focus, .tabs button.btn.active:focus * {
 	background-color: var(--focus-ring-color);
 }
