@@ -39,7 +39,7 @@ test('contructor default active', () => {
   expect(tabs.active.get(0)).toBe(tab0.get(0))
   expect(tabs.active.hasClass('active')).toBe(true)
   expect(tabs.active.attr('aria-hidden')).toBe('false')
-  expect(tabs.active.attr('aria-selected')).toBe('true')
+  expect(tabs.active.data('btn').attr('aria-selected')).toBe('true')
 
   expect(tabs.find('.tab').length).toBe(3)
   expect(tabs.find('.tab').get(0)).toBe(tab0.get(0))
@@ -54,9 +54,9 @@ test('contructor default active', () => {
   expect($(tabs.find('.tab').get(1)).attr('aria-hidden')).toBe('true')
   expect($(tabs.find('.tab').get(2)).attr('aria-hidden')).toBe('true')
 
-  expect($(tabs.find('.tab').get(0)).attr('aria-selected')).toBe('true')
-  expect($(tabs.find('.tab').get(1)).attr('aria-selected')).toBe('false')
-  expect($(tabs.find('.tab').get(2)).attr('aria-selected')).toBe('false')
+  expect($(tabs.find('.btn').get(0)).attr('aria-selected')).toBe('true')
+  expect($(tabs.find('.btn').get(1)).attr('aria-selected')).toBe('false')
+  expect($(tabs.find('.btn').get(2)).attr('aria-selected')).toBe('false')
   
   expect($(tabs.find('.tab').get(0)).hasClass('tab-0')).toBe(true)
   expect($(tabs.find('.tab').get(1)).hasClass('tab-1')).toBe(true)
@@ -71,9 +71,9 @@ test('contructor default active', () => {
   expect($(tabs.find('h2>button').get(1)).hasClass('active')).toBe(false)
   expect($(tabs.find('h2>button').get(2)).hasClass('active')).toBe(false)
 
-  expect($(tabs.find('h2>button').get(0)).attr('aria-pressed')).toBe('true')
-  expect($(tabs.find('h2>button').get(1)).attr('aria-pressed')).toBe('false')
-  expect($(tabs.find('h2>button').get(2)).attr('aria-pressed')).toBe('false')
+  expect($(tabs.find('h2>button').get(0)).attr('aria-selected')).toBe('true')
+  expect($(tabs.find('h2>button').get(1)).attr('aria-selected')).toBe('false')
+  expect($(tabs.find('h2>button').get(2)).attr('aria-selected')).toBe('false')
 
   expect($(tabs.find('h2>button').get(0)).hasClass('btn-0')).toBe(true)
   expect($(tabs.find('h2>button').get(1)).hasClass('btn-1')).toBe(true)
@@ -94,7 +94,7 @@ test('contructor provide active', () => {
   expect(tabs.active.get(0)).toBe(tab1.get(0))
   expect(tabs.active.hasClass('active')).toBe(true)
   expect(tabs.active.attr('aria-hidden')).toBe('false')
-  expect(tabs.active.attr('aria-selected')).toBe('true')
+  expect(tabs.active.data('btn').attr('aria-selected')).toBe('true')
 
   expect(tabs.find('.tab').length).toBe(3)
   expect(tabs.find('.tab').get(0)).toBe(tab0.get(0))
@@ -109,9 +109,9 @@ test('contructor provide active', () => {
   expect($(tabs.find('.tab').get(1)).attr('aria-hidden')).toBe('false')
   expect($(tabs.find('.tab').get(2)).attr('aria-hidden')).toBe('true')
 
-  expect($(tabs.find('.tab').get(0)).attr('aria-selected')).toBe('false')
-  expect($(tabs.find('.tab').get(1)).attr('aria-selected')).toBe('true')
-  expect($(tabs.find('.tab').get(2)).attr('aria-selected')).toBe('false')
+  expect($(tabs.find('.tab').get(0)).data('btn').attr('aria-selected')).toBe('false')
+  expect($(tabs.find('.tab').get(1)).data('btn').attr('aria-selected')).toBe('true')
+  expect($(tabs.find('.tab').get(2)).data('btn').attr('aria-selected')).toBe('false')
   
   expect($(tabs.find('.tab').get(0)).hasClass('tab-0')).toBe(true)
   expect($(tabs.find('.tab').get(1)).hasClass('tab-1')).toBe(true)
@@ -126,9 +126,9 @@ test('contructor provide active', () => {
   expect($(tabs.find('h2>button').get(1)).hasClass('active')).toBe(true)
   expect($(tabs.find('h2>button').get(2)).hasClass('active')).toBe(false)
 
-  expect($(tabs.find('h2>button').get(0)).attr('aria-pressed')).toBe('false')
-  expect($(tabs.find('h2>button').get(1)).attr('aria-pressed')).toBe('true')
-  expect($(tabs.find('h2>button').get(2)).attr('aria-pressed')).toBe('false')
+  expect($(tabs.find('h2>button').get(0)).attr('aria-selected')).toBe('false')
+  expect($(tabs.find('h2>button').get(1)).attr('aria-selected')).toBe('true')
+  expect($(tabs.find('h2>button').get(2)).attr('aria-selected')).toBe('false')
 
   expect($(tabs.find('h2>button').get(0)).hasClass('btn-0')).toBe(true)
   expect($(tabs.find('h2>button').get(1)).hasClass('btn-1')).toBe(true)
@@ -146,7 +146,7 @@ test('open', () => {
   expect(tabs.active.get(0)).toBe(tab2.get(0))
   expect(tabs.active.hasClass('active')).toBe(true)
   expect(tabs.active.attr('aria-hidden')).toBe('false')
-  expect(tabs.active.attr('aria-selected')).toBe('true')
+  expect(tabs.active.data('btn').attr('aria-selected')).toBe('true')
 
   expect(tabs.find('.tab').length).toBe(3)
   expect(tabs.find('.tab').get(0)).toBe(tab0.get(0))
@@ -161,9 +161,9 @@ test('open', () => {
   expect($(tabs.find('.tab').get(1)).attr('aria-hidden')).toBe('true')
   expect($(tabs.find('.tab').get(2)).attr('aria-hidden')).toBe('false')
 
-  expect($(tabs.find('.tab').get(0)).attr('aria-selected')).toBe('false')
-  expect($(tabs.find('.tab').get(1)).attr('aria-selected')).toBe('false')
-  expect($(tabs.find('.tab').get(2)).attr('aria-selected')).toBe('true')
+  expect($(tabs.find('.tab').get(0)).data('btn').attr('aria-selected')).toBe('false')
+  expect($(tabs.find('.tab').get(1)).data('btn').attr('aria-selected')).toBe('false')
+  expect($(tabs.find('.tab').get(2)).data('btn').attr('aria-selected')).toBe('true')
   
   expect($(tabs.find('.tab').get(0)).hasClass('tab-0')).toBe(true)
   expect($(tabs.find('.tab').get(1)).hasClass('tab-1')).toBe(true)
@@ -178,9 +178,9 @@ test('open', () => {
   expect($(tabs.find('h2>button').get(1)).hasClass('active')).toBe(false)
   expect($(tabs.find('h2>button').get(2)).hasClass('active')).toBe(true)
 
-  expect($(tabs.find('h2>button').get(0)).attr('aria-pressed')).toBe('false')
-  expect($(tabs.find('h2>button').get(1)).attr('aria-pressed')).toBe('false')
-  expect($(tabs.find('h2>button').get(2)).attr('aria-pressed')).toBe('true')
+  expect($(tabs.find('h2>button').get(0)).attr('aria-selected')).toBe('false')
+  expect($(tabs.find('h2>button').get(1)).attr('aria-selected')).toBe('false')
+  expect($(tabs.find('h2>button').get(2)).attr('aria-selected')).toBe('true')
 
   expect($(tabs.find('h2>button').get(0)).hasClass('btn-0')).toBe(true)
   expect($(tabs.find('h2>button').get(1)).hasClass('btn-1')).toBe(true)
