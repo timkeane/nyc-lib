@@ -179,7 +179,7 @@ test('constructor', () => {
 
 describe('zoomTo', () => {
   test('zoomTo map tab button hidden', () => {
-    expect.assertions(9)
+    expect.assertions(10)
     const feature = new OlFeature({geometry: new OlGeomPoint([0, 0])})
     
     const finderApp = new FinderApp({
@@ -194,7 +194,8 @@ describe('zoomTo', () => {
       geoclientUrl: 'http://geoclient'
     })
 
-    $('h2.btn-0').hide()
+    expect($('#tabs .btns h2:first-of-type').length).toBe(1)
+    $('#tabs .btns h2:first-of-type').hide()
     finderApp.zoomTo(feature)
 
     expect(finderApp.popup.hide).toHaveBeenCalledTimes(1)
@@ -212,7 +213,7 @@ describe('zoomTo', () => {
   })
 
   test('zoomTo map tab button visible', () => {
-    expect.assertions(11)
+    expect.assertions(12)
     const feature = new OlFeature({geometry: new OlGeomPoint([0, 0])})
     
     const finderApp = new FinderApp({
@@ -229,7 +230,8 @@ describe('zoomTo', () => {
 
     finderApp.tabs.open = jest.fn()
 
-    $('h2.btn-0').show()
+    expect($('#tabs .btns h2:first-of-type').length).toBe(1)
+    $('#tabs .btns h2:first-of-type').show()
     finderApp.zoomTo(feature)
 
     expect(finderApp.tabs.open).toHaveBeenCalledTimes(1)
