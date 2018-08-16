@@ -133,7 +133,7 @@ Tabs.Tab
  * @type {string}
  */
 Tabs.HTML = '<div class="btns" role="tablist"></div>' +
-  '<div class="container"></div>'
+  '<div class="container" tabindex="-1"></div>'
 
 /**
  * @private
