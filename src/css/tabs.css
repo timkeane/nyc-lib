@@ -42,5 +42,6 @@
 	box-shadow: inset 0px 1px 7px 3px var(--focus-ring-color);
 }
 .tabs button.btn.active:focus, .tabs button.btn.active:focus * {
-	background-color: var(--focus-ring-color);
+  background-color: var(--focus-ring-color);
+  color: var(--color-dark);
 }
