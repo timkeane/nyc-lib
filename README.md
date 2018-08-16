@@ -9,7 +9,7 @@
 
 ### Using with Node.js
 
-* `yarn add nyc-lib`
+* `yarn add nyc-lib && yarn global add postcss-cli`
 
 #### Required external dependencies
 
