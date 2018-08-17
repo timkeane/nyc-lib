@@ -21,7 +21,6 @@ class Dialog extends Container {
 	constructor(css) {
 		super($(Dialog.HTML))
 		$('body').append(this.getContainer().addClass(css))
-		$('*').focus($.proxy(this.trapFocus, this))
 		/**
 		 * @private
 		 * @member {boolean}
@@ -200,6 +199,7 @@ class Dialog extends Container {
 	 */
 	show(type, options) {
 		this.open = true
+		$('*').on('focus', $.proxy(this.trapFocus, this))
 		this.currentType = type
 		this.getContainer().removeClass('dia-3-btns')
 		this.find('.ui-link').removeClass('ui-link')
@@ -239,6 +239,7 @@ class Dialog extends Container {
 	hide() {
 		const field = this.field
 		this.open = false
+		$('*').off('focus', $.proxy(this.trapFocus, this))
 		this.getContainer().fadeOut(() => {
 			field.val('')
 		})
