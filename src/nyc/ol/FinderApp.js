@@ -238,7 +238,6 @@ class FinderApp {
    */
   located(location) {
     this.location = location
-    this.focusFacilities()
     this.resetList()
   }
   /**
