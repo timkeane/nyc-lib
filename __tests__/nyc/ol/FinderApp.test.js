@@ -1287,3 +1287,25 @@ describe('FEATURE_DECORATIONS', () => {
     )
   })
 })
+
+  test('filter apply button focuses facilities', () => {
+    expect.assertions(2)
+
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    finderApp.tabs.open = jest.fn()
+
+    $('#filters button.screen-reader-only').trigger('click')
+
+    expect(finderApp.tabs.open).toHaveBeenCalledTimes(1)
+    expect(finderApp.tabs.open.mock.calls[0][0]).toBe('#facilities')
+  })
