@@ -1,6 +1,6 @@
 {
   "name": "nyc-lib",
-  "version": "1.1.81",
+  "version": "1.1.82",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "pretest": "rm -rf ./dist",
@@ -16,9 +16,10 @@
     "build-no-test": "webpack",
     "jsdoc": "jsdoc -c ./jsdoc/conf.json",
     "pkg-css": "cp -r ./src/css/ ./dist/css/",
-    "postcss": "rm -rf ./tmp && mkdir tmp && yarn nyc-css && yarn nyc-ol-css",
-    "nyc-css": "postcss ./src/css/nyc-ol-lib.css --o ./tmp/css/nyc-ol-lib.css --no-map --config postcss.config.js",
-    "nyc-ol-css": "postcss ./src/css/nyc-lib.css --o ./tmp/css/nyc-lib.css --no-map --config postcss.config.js",
+    "postcss": "rm -rf ./tmp && mkdir tmp && yarn nyc-css && yarn nyc-ol-css && yarn nyc-ol-fullscreen-css",
+    "nyc-css": "postcss ./src/css/nyc-lib.css --o ./tmp/css/nyc-lib.css --no-map --config postcss.config.js",
+    "nyc-ol-css": "postcss ./src/css/nyc-ol-lib.css --o ./tmp/css/nyc-ol-lib.css --no-map --config postcss.config.js",
+    "nyc-ol-fullscreen-css": "postcss ./src/css/nyc-ol-fullscreen-lib.css --o ./tmp/css/nyc-ol-fullscreen-lib.css --no-map --config postcss.config.js",
     "roll-css": "cp ./etc/css/*.* ./dist/css/",
     "predeploy": "yarn build",
     "deploy": "node deploy && node write-index"
