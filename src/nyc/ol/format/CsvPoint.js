@@ -8,8 +8,8 @@ import Encoding from 'text-encoding'
 
 import OlFeature from 'ol/Feature'
 import OlFormatFeature from 'ol/format/Feature'
-import OlFormatFormatType from 'ol/format/FormatType'
 import OlGeomPoint from 'ol/geom/Point'
+import OlFormatFormatType from 'ol/format/FormatType'
 
 import nyc from 'nyc'
 import {get as olProjGet} from 'ol/proj'
