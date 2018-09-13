@@ -22,6 +22,7 @@ import _nyc_Share from 'nyc/Share'
 import _nyc_Slider from 'nyc/Slider'
 import _nyc_ZoomSearch from 'nyc/ZoomSearch'
 
+
 window.nyc = _nyc
 window.nyc.AutoComplete = _nyc_AutoComplete
 window.nyc.BasemapHelper = _nyc_BasemapHelper
@@ -57,3 +58,9 @@ import _nyc_mta_TripPlanHack from 'nyc/mta/TripPlanHack'
 
 window.nyc.mta = _nyc_mta
 window.nyc.mta.TripPlanHack = _nyc_mta_TripPlanHack
+
+import _nyc_soda from 'nyc/soda'
+import _nyc_soda_Query from 'nyc/soda/Query'
+
+window.nyc.soda = _nyc_soda
+window.nyc.soda.Query = _nyc_soda_Query
