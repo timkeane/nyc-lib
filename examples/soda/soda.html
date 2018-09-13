@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>nyc.soda.Query Example</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="../../js/babel-polyfill.js"></script>
+  <script src="../../js/nyc-lib.js"></script>
+
+</head>
+<body>
+	<script>
+				var sodaUrl = 'https://data.cityofnewyork.us/resource/fhrw-4uyv.csv';
+				var sodaFilters = {}
+				var sodaAppToken = 'NwNjHSDEkdJ2mvFMm1zSNrNAf';
+				var sodaQuery =
+				{
+					select: 'count(unique_key) AS sr_count, community_board, complaint_type',
+					// where: x_coordinate_state_plane IS NOT NULL AND y_coordinate_state_plane IS NOT NULL AND community_board NOT IN ('QNA',+'Unspecified+MANHATTAN',+'Unspecified+BRONX',+'Unspecified+BROOKLYN',+'Unspecified+QUEENS',+'Unspecified+STATEN+ISLAND',+'0+Unspecified') AND created_date+>=+'2018-09-05'+AND+created_date+<=+'2018-09-12'+AND+community_board+=+'17+BROOKLYN'+AND+complaint_type+IN+('Noise+-+Residential')&
+					group: "community_board, complaint_type",
+					order: "sr_count DESC"
+				};
+			window.q =	new nyc.soda.Query({
+					url: sodaUrl,
+					query: sodaQuery,
+					filters: sodaFilters,
+					appToken: sodaAppToken
+				});
+				//create query object
+				console.log(q);
+
+				//AND+community_board+=+'17+BROOKLYN'+AND+complaint_type+IN+('Noise+-+Residential')&
+
+				q.addFilter('community_board', {
+					op: 'NOT IN',
+					value: ['Unspecified MANHATTAN', 'Unspecified+BRONX', 'Unspecified BROOKLYN', 'Unspecified QUEENS', 'Unspecified STATEN ISLAND', '0 Unspecified']
+				});
+				q.addFilter('created_date', {
+					op: 'BETWEEN',
+					value: ['2018-09-05', '2018-09-12']
+				});
+	</script>
+</body>
+</html>
