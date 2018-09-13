@@ -9,7 +9,7 @@ import Encoding from 'text-encoding'
 import OlFeature from 'ol/Feature'
 import OlFormatFeature from 'ol/format/Feature'
 import OlGeomPoint from 'ol/geom/Point'
-//import OlFormatFormatType from 'ol/format/FormatType'
+import OlFormatFormatType from 'ol/format/FormatType'
 
 import nyc from 'nyc'
 import {get as olProjGet} from 'ol/proj'
@@ -144,7 +144,7 @@ class CsvPoint extends OlFormatFeature {
    * @return {ol.format.FormatType} The format type
    */
   getType() {
-    return 'arraybuffer' //OlFormatFormatType.ARRAY_BUFFER
+    return OlFormatFormatType.ARRAY_BUFFER
   }
 }
 

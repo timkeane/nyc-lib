@@ -7,7 +7,7 @@ import nyc from 'nyc'
 import OlFeature from 'ol/Feature'
 import OlFormatFeature from 'ol/format/Feature'
 import OlFormatWkt from 'ol/format/WKT'
-//import OlFormatFormatType from 'ol/format/FormatType'
+import OlFormatFormatType from 'ol/format/FormatType'
 
 /**
  * @desc Class to create features from Carto SQL API data.  This format requires the presence of a WTK geometry in the source data with the column name wkt_geom.
@@ -102,7 +102,7 @@ class CartoSql extends OlFormatFeature {
    * @return {ol.format.FormatType} The format type
    */
   getType() {
-    return 'text' //OlFormatFormatType.TEXT
+    return OlFormatFormatType.TEXT
   }
 }
 

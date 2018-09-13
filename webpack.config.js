@@ -75,7 +75,7 @@ module.exports = {
     'ol/Geolocation': 'ol.Geolocation',
     'ol/format/Feature': 'ol.format.Feature',
     'ol/format/GeoJSON': 'ol.format.GeoJSON',
-    'ol/format/FormatType': 'ol.format.FormatType',
+//    'ol/format/FormatType': 'ol.format.FormatType',
     'ol/format/WKT': 'ol.format.WKT',
     'ol/source/Vector': 'ol.source.Vector',
     'ol/source/XYZ': 'ol.source.XYZ',
