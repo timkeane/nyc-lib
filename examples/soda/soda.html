@@ -5,20 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <title>nyc.soda.Query Example</title>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.4.0/papaparse.min.js"></script>
 	<script src="../../js/babel-polyfill.js"></script>
   <script src="../../js/nyc-lib.js"></script>
-
 </head>
 <body>
+	<div class="graphcontainer">CSV Results</div>
 	<script>
-				var sodaUrl = 'https://data.cityofnewyork.us/resource/fhrw-4uyv.csv';
+				var sodaUrl = 'https://data.cityofnewyork.us/resource/fhrw-4uyv.json';
 				var sodaFilters = {}
 				var sodaAppToken = 'NwNjHSDEkdJ2mvFMm1zSNrNAf';
 				var sodaQuery =
 				{
-					select: 'count(unique_key) AS sr_count, community_board, complaint_type',
+					select: 'count(unique_key) AS sr_count, community_board, complaint_type, created_date',
 					// where: x_coordinate_state_plane IS NOT NULL AND y_coordinate_state_plane IS NOT NULL AND community_board NOT IN ('QNA',+'Unspecified+MANHATTAN',+'Unspecified+BRONX',+'Unspecified+BROOKLYN',+'Unspecified+QUEENS',+'Unspecified+STATEN+ISLAND',+'0+Unspecified') AND created_date+>=+'2018-09-05'+AND+created_date+<=+'2018-09-12'+AND+community_board+=+'17+BROOKLYN'+AND+complaint_type+IN+('Noise+-+Residential')&
-					group: "community_board, complaint_type",
+					group: "community_board, complaint_type, created_date",
 					order: "sr_count DESC"
 				};
 			window.q =	new nyc.soda.Query({
@@ -34,12 +35,28 @@
 
 				q.addFilter('community_board', {
 					op: 'NOT IN',
-					value: ['Unspecified MANHATTAN', 'Unspecified+BRONX', 'Unspecified BROOKLYN', 'Unspecified QUEENS', 'Unspecified STATEN ISLAND', '0 Unspecified']
+					value: ['Unspecified MANHATTAN', 'Unspecified BRONX', 'Unspecified BROOKLYN', 'Unspecified QUEENS', 'Unspecified STATEN ISLAND', '0 Unspecified']
+				});
+				console.log("added filter to community board")
+				console.log(q.filters)
+				q.addFilter('created_date', {
+					op: '>=',
+					value: ['2018-09-05']
 				});
 				q.addFilter('created_date', {
-					op: 'BETWEEN',
-					value: ['2018-09-05', '2018-09-12']
+					op: '<=',
+					value: ['2018-09-12']
 				});
+				console.log("added filter to created_date")
+				console.log(q.filters)
+				const options  = q.options                
+				q.execute(options, function(data) {
+					console.warn(q.getUrlAndQuery())
+					console.warn(data)
+				})
+				// var w  = 'x_coordinate_state_plane IS NOT NULL AND y_coordinate_state_plane IS NOT NULL AND community_board NOT IN ('QNA',+'Unspecified+MANHATTAN',+'Unspecified+BRONX',+'Unspecified+BROOKLYN',+'Unspecified+QUEENS',+'Unspecified+STATEN+ISLAND',+'0+Unspecified') AND created_date+>=+'2018-09-05'+AND+created_date+<=+'2018-09-12'+AND+community_board+=+'17+BROOKLYN'+AND+complaint_type+IN+('Noise+-+Residential')'
+				// q.appendFilter('where', 'community_board', 'NOT IN QUEENS')
+
 	</script>
 </body>
 </html>
