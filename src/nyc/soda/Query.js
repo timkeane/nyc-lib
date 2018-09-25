@@ -100,17 +100,21 @@ class Query {
 		let value = filter.value || '';
 		filter.op = filter.op.toUpperCase();
 		if (typeof value === 'string'){
-			if (value.toUpperCase() === 'NULL'){
+			if (value.toUpperCase() === 'NULL' || value === ''){
 				value = 'NULL';
-			}else{
+			}
+			else{
 				value = `'${value}'`;
 			}
-		}else if (typeof value === 'number'){
+		}
+		else if (typeof value === 'number'){
 			value = value + '';
-		}else if ($.isArray(value)){
+		}
+		else if ($.isArray(value)){
 			if (typeof value[0] === 'number'){
 				value = `(${value.join(', ')})`
-			}else{
+			}
+			else{
 				value = `('${value.join("', '")}')`
 			}
 		}
@@ -144,11 +148,11 @@ class Query {
 	 */
 	setQuery(q){
 		q = q || {};
-		this.query.select = q.select || this.query.select
+		this.query.select = q.select || this.query.select || '*'
 		this.query.where = q.where || this.query.where || ''
-		this.query.group = q.group || this.query.group
-		this.query.order = q.order || this.query.order
-		this.query.limit = q.limit || this.query.limit
+		this.query.group = q.group || this.query.group || ''
+		this.query.order = q.order || this.query.order || ''
+		this.query.limit = q.limit || this.query.limit || ''
 	}
 
 	/** 
@@ -179,46 +183,43 @@ class Query {
 	 * @param {function(Object<string, Object>, nyc.soda.Query)} callback A callback function to receive the data and a reference to this query
 	 */
 	execute(options, callback){
-		let me = this, filters, csv;
 		options = options || {};
-		filters = options.filters || {};
-		me.setUrl(options.url);
-		me.setQuery(options.query);
-		me.setAppToken(options.appToken);
+		this.setFilters(options.filters)
+		this.setUrl(options.url);
+		this.setQuery(options.query);
+		this.setAppToken(options.appToken);
 
-		Object.keys(filters).forEach(field => {
-			me.filters[`$${field}`] = filters[field]
-		})
+		const url = this.url + '?' + this.qstr()
 
-		const url = me.url + '?' + me.qstr()
-
-
-		fetch(url).then(response => {
+		return new Promise((resolve, reject) => {
+			fetch(url).then(response => {
 				return response.text()
-		}).then(text => {
-			me.callback(text, callback)
+			})
+				.then(text => {
+					this.parseResponse(text, resolve)
+				})
+				.catch(err => {
+					reject(err)
+				})
 		})
-
 	}
 
 	/** 
-	 * @desc Parses response from query depending on file type, and executes passed-in callback
+	 * @desc Parses response from query depending on file type, and resolves promise if successful
 	 * @private
 	 * @method
-	 * @param data {Object}
-	 * @param {function(Object<string, Object>, nyc.soda.Query)} callback
+	 * @param data {string}
+	 * @param {function()} resolve
 	 */
-	callback(text, callback) {
+	parseResponse(text, resolve){
 		let data
-		if (this.csv()) {
+		if (this.csv()){
 			data = Papa.parse(text, {header: true}).data
-		} else {
-			data = JSON.parse(text)
+		} 
+		else{
+			data = JSON.parse(text).rows
 		}
-		//if callback function is passed, executes it
-		if (callback) {
-			callback(data, this);
-		}
+		resolve(data)
 	}
 
 	/** 
@@ -227,7 +228,7 @@ class Query {
 	 * @method
 	 * @return {boolean}
 	 */
-	csv(){
+	csv() {
 		let idxCsv = this.url.indexOf('.csv');
 		let idxQstr = this.url.indexOf('?');
 		let len = this.url.length;
@@ -235,6 +236,7 @@ class Query {
 		let qstrPos = len - idxQstr;
 		return idxCsv > -1 && (csvPos === 4 || (qstrPos === csvPos - 4));
 	}
+
 
 	/** 
 	 * @desc Generates query string to be appended to url
@@ -247,14 +249,12 @@ class Query {
 		Object.keys(this.query).forEach(clause => {
 			qry[`$${clause}`] = this.query[clause]
 		})
-		if(this.filters.length > 0){
-			Object.keys(this.filters).forEach(field => {
-				this.filters[field].forEach(filter => {
-					qry.$where = this.appendFilter(qry.$where, field, filter)
-				})
+		Object.keys(this.filters).forEach(field => {
+			this.filters[field].forEach(filter => {					
+				qry.$where = this.appendFilter(qry.$where, field, filter)
 			})
-		}
-		if (this.appToken) {
+		})
+		if (this.appToken){
 			qry.$$app_token = this.appToken
 		}
 		return $.param(qry)
@@ -273,7 +273,7 @@ class Query {
 Query.and = (where, clause) => {
 	if (where) {
 		if (clause) {
-			return `${where}  AND ${clause}`
+			return `${where} AND ${clause}`
 		}
 		return where
 	}

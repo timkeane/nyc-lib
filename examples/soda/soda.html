@@ -17,9 +17,9 @@
 				var sodaAppToken = 'NwNjHSDEkdJ2mvFMm1zSNrNAf';
 				var sodaQuery =
 				{
-					select: 'count(unique_key) AS sr_count, community_board, complaint_type, created_date',
-					// where: x_coordinate_state_plane IS NOT NULL AND y_coordinate_state_plane IS NOT NULL AND community_board NOT IN ('QNA',+'Unspecified+MANHATTAN',+'Unspecified+BRONX',+'Unspecified+BROOKLYN',+'Unspecified+QUEENS',+'Unspecified+STATEN+ISLAND',+'0+Unspecified') AND created_date+>=+'2018-09-05'+AND+created_date+<=+'2018-09-12'+AND+community_board+=+'17+BROOKLYN'+AND+complaint_type+IN+('Noise+-+Residential')&
-					group: "community_board, complaint_type, created_date",
+					select: 'count(unique_key) AS sr_count, community_board, complaint_type',
+					where: '',
+					group: "community_board, complaint_type",
 					order: "sr_count DESC"
 				};
 			window.q =	new nyc.soda.Query({
@@ -49,7 +49,7 @@
 				});
 				console.log("added filter to created_date")
 				console.log(q.filters)
-				const options  = q.options                
+				let options  = {}             
 				q.execute(options, function(data) {
 					console.warn(q.getUrlAndQuery())
 					console.warn(data)
