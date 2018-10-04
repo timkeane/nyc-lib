@@ -18,9 +18,9 @@ class Query {
    * @desc Create an instance of Query
    * @public
    * @constructor
-   * @param {Object} options Constructor options
+   * @param {module:nyc/soda/Query~Query.Options} options Constructor options
    */
-  constructor(options){
+  constructor(options) {
 		/**
 		 * @private
 		 * @member {string}
@@ -33,12 +33,12 @@ class Query {
 		this.appToken = options.appToken
 		/**
 		 * @private
-		 * @member {nyc.soda.Query.Query}
+		 * @member {module:nyc/soda/Query~Query.Query}
 		 */
 		this.query = options.query
 		/**
 		 * @private
-		 * @member {Object<string, Array<nyc.soda.Query.Filter>>} 
+		 * @member {Object<string, Array<module:nyc/soda/Query~Query.Filter>>} 
 		 */
 		this.filters = {}
 		this.setFilters(options.filters)
@@ -50,7 +50,7 @@ class Query {
 	 * @method
 	 * @param {string} appToken Authentication token for SODA api
 	 */
-	setAppToken(appToken){
+	setAppToken(appToken) {
 		this.appToken = appToken || this.appToken
 	}
 	
@@ -59,9 +59,9 @@ class Query {
 	 * @public
 	 * @method
 	 * @param {string} field The field to which the filter will be applied
-	 * @param {nyc.soda.Query.Filter} filter The filter to apply to the field
+	 * @param {module:nyc/soda/Query~Query.Filter} filter The filter to apply to the field
 	 */
-	setFilter(field, filter){
+	setFilter(field, filter) {
 		this.filters[field] = [filter]
 	}
 
@@ -69,9 +69,9 @@ class Query {
 	 * @desc Overwrite all filters for the query
 	 * @public
 	 * @method
-	 * @param {Object<string, Array<nyc.soda.Query.Filter>>} filters Filter arrays mapped to field names
+	 * @param {Object<string, Array<module:nyc/soda/Query~Query.Filter>>} filters Filter arrays mapped to field names
 	 */
-	setFilters(filters){
+	setFilters(filters) {
 		this.filters = filters || {}
 	}
 	
@@ -80,9 +80,9 @@ class Query {
 	 * @public
 	 * @method
 	 * @param {string} field The field to which the filter will be applied
-	 * @param {nyc.soda.Query.Filter} filters The filter to apply to the field
+	 * @param {module:nyc/soda/Query~Query.Filter} filter The filter to apply to the field
 	 */
-	addFilter(field, filter){
+	addFilter(field, filter) {
 		this.filters[field] = this.filters[field] || []
 		this.filters[field].push(filter)
 	}
@@ -93,32 +93,28 @@ class Query {
 	 * @method
 	 * @param {string} where The current where clause
 	 * @param {string} field The field where filters will be applied 
-	 * @param {nyc.soda.Query.Filter} filter The filter to be applied to field
+	 * @param {module:nyc/soda/Query~Query.Filter} filter The filter to be applied to field
 	 * @return {string}
 	 */
-	appendFilter(where, field, filter){
-		let value = filter.value || '';
-		filter.op = filter.op.toUpperCase();
-		if (typeof value === 'string'){
-			if (value.toUpperCase() === 'NULL' || value === ''){
-				value = 'NULL';
+	appendFilter(where, field, filter) {
+		let value = filter.value || ''
+		filter.op = filter.op.toUpperCase()
+		if (typeof value === 'string') {
+			if (value.toUpperCase() === 'NULL' || value === '') {
+				value = 'NULL'
+			} else {
+				value = `'${value}'`
 			}
-			else{
-				value = `'${value}'`;
-			}
-		}
-		else if (typeof value === 'number'){
-			value = value + '';
-		}
-		else if ($.isArray(value)){
-			if (typeof value[0] === 'number'){
+		} else if (typeof value === 'number') {
+			value = `${value}`
+		} else {
+			if (typeof value[0] === 'number') {
 				value = `(${value.join(', ')})`
-			}
-			else{
+			}	else {
 				value = `('${value.join("', '")}')`
 			}
 		}
-		return Query.and(where, `${field} ${filter.op} ${value}`);
+		return Query.and(where, `${field} ${filter.op} ${value}`)
 	}
 
 	/**
@@ -127,8 +123,8 @@ class Query {
 	 * @method
 	 * @param {string} field The field to which the filter will be cleared 
 	 */
-	clearFilters(field){
-		delete this.filters[field];
+	clearFilters(field) {
+		delete this.filters[field]
 	}	
 
 	/**
@@ -136,18 +132,18 @@ class Query {
 	 * @public
 	 * @method
 	 */
-	clearAllFilters(){
-		this.filters = {};
+	clearAllFilters() {
+		this.filters = {}
 	}
 
 	/**
 	 * @desc Set the base query to which filters can be added
 	 * @public
 	 * @method
-	 * @param {nyc.soda.Query.Query} query the query
+	 * @param {module:nyc/soda/Query~Query.Query} q the query
 	 */
-	setQuery(q){
-		q = q || {};
+	setQuery(q) {
+		q = q || {}
 		this.query.select = q.select || this.query.select || '*'
 		this.query.where = q.where || this.query.where || ''
 		this.query.group = q.group || this.query.group || ''
@@ -161,7 +157,7 @@ class Query {
 	 * @method
 	 * @param {string} url
 	 */
-	setUrl(url){
+	setUrl(url) {
 		this.url = url || this.url
 	}
 
@@ -171,25 +167,24 @@ class Query {
 	 * @method
 	 * @return {string} The SODA API call URL
 	 */
-	getUrlAndQuery(){
-		return this.url + '?' + this.qstr();
+	getUrlAndQuery() {
+		return `${this.url}?${this.qstr()}`
 	}
 
 	/**
 	 * @desc Execute the query
 	 * @public
 	 * @method
-	 * @param {nyc.soda.Query.Options} options The execution options
-	 * @param {function(Object<string, Object>, nyc.soda.Query)} callback A callback function to receive the data and a reference to this query
+	 * @param {module:nyc/soda/Query~Query.Options} options The execution options
 	 */
-	execute(options, callback){
-		options = options || {};
+	execute(options) {
+		options = options || {}
 		this.setFilters(options.filters)
-		this.setUrl(options.url);
-		this.setQuery(options.query);
-		this.setAppToken(options.appToken);
+		this.setUrl(options.url)
+		this.setQuery(options.query)
+		this.setAppToken(options.appToken)
 
-		const url = this.url + '?' + this.qstr()
+		const url = `${this.url}?${this.qstr()}`
 
 		return new Promise((resolve, reject) => {
 			fetch(url).then(response => {
@@ -209,14 +204,13 @@ class Query {
 	 * @private
 	 * @method
 	 * @param data {string}
-	 * @param {function()} resolve
+	 * @param {function(Array<Object<string, Object>>)} resolve
 	 */
-	parseResponse(text, resolve){
+	parseResponse(text, resolve) {
 		let data
-		if (this.csv()){
+		if (this.csv()) {
 			data = Papa.parse(text, {header: true}).data
-		} 
-		else{
+		} else {
 			data = JSON.parse(text).rows
 		}
 		resolve(data)
@@ -229,12 +223,12 @@ class Query {
 	 * @return {boolean}
 	 */
 	csv() {
-		let idxCsv = this.url.indexOf('.csv');
-		let idxQstr = this.url.indexOf('?');
-		let len = this.url.length;
-		let csvPos = len - idxCsv;
-		let qstrPos = len - idxQstr;
-		return idxCsv > -1 && (csvPos === 4 || (qstrPos === csvPos - 4));
+		let idxCsv = this.url.indexOf('.csv')
+		let idxQstr = this.url.indexOf('?')
+		let len = this.url.length
+		let csvPos = len - idxCsv
+		let qstrPos = len - idxQstr
+		return idxCsv > -1 && (csvPos === 4 || (qstrPos === csvPos - 4))
 	}
 
 
@@ -254,7 +248,7 @@ class Query {
 				qry.$where = this.appendFilter(qry.$where, field, filter)
 			})
 		})
-		if (this.appToken){
+		if (this.appToken) {
 			qry.$$app_token = this.appToken
 		}
 		return $.param(qry)
@@ -266,8 +260,8 @@ class Query {
  * @public
  * @static
  * @function
- * @param where {string} The current where clause
- * @param clause {string} The new clause to append to the current where clause
+ * @param {string} where The current where clause
+ * @param {string} clause The new clause to append to the current where clause
  * @return {string} The modified where clause
  */
 Query.and = (where, clause) => {
@@ -282,16 +276,16 @@ Query.and = (where, clause) => {
 
 
 /**
- * @desc Filter object for {nyc.soda.Query}
+ * @desc Filter object for {@link module:nyc/soda/Query~Query}
  * @public
  * @typedef {Object}
  * @property {string} op Filter operator (=, !=, >, <, >=, <=, IN, NOT IN, BETWEEN, NOT BETWEEN)
  * @property {string|number|Array<string>|Array<number>} value Filter value
  */
-Query.Filter;
+Query.Filter
 
 /**
- * @desc Query object for {nyc.soda.Query}
+ * @desc Query object for {@link module:nyc/soda/Query~Query}
  * @public
  * @typedef {Object}
  * @property {string=} select SODA $select parameter
@@ -300,18 +294,18 @@ Query.Filter;
  * @property {string=} order SODA $order parameter
  * @property {number=} limit SODA $limit parameter
  */
-Query.Query;
+Query.Query
 
 /**
- * @desc Constructor options for {nyc.soda.Query}
+ * @desc Constructor options for {@link module:nyc/soda/Query~Query}
  * @public
  * @typedef {Object}
  * @property {string=} url SODA URL
  * @property {string=} appToken SODA $$app_token parameter
- * @property {nyc.soda.Query.Query=} query Query options
- * @property {Object<string, Array<nyc.soda.Query.Filter>>=} filters Filter arrays mapped to field names
+ * @property {module:nyc/soda/Query~Query.Query=} query Query options
+ * @property {Object<string, Array<module:nyc/soda/Query~Query.Filter>>=} filters Filter arrays mapped to field names
  */
-Query.Options;
+Query.Options
 
  
  export default Query

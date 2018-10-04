@@ -3,7 +3,7 @@
  */
 
 /**
- * @desc Namespace for soda api
+ * @desc Namespace for classes that interact with Socrata SODA api
  * @public
  * @namespace
  */
