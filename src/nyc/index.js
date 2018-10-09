@@ -229,6 +229,25 @@ const nyc = {
 		}
 	},
 	/**
+	 * @desc Returns an object describing the element that currently has focus
+	 * @public
+	 * @static
+	 * @function
+	 * @param {Array<string>|Array<number>} arr An array with possible duplicates
+	 * @return {Array<string>|Array<number>} An array without duplicates
+	 */
+	removeDups(arr) {
+		const noDups = {}
+		const result = []
+		arr.forEach(v => {
+			noDups[v] = typeof v
+		})
+		Object.keys(noDups).forEach(v => {
+			result.push(noDups[v] === 'number' ? v * 1 : v)
+		})
+		return result
+ 	},	
+	/**
 	 * @private
 	 * @static
 	 * @member {Object<string, number>}

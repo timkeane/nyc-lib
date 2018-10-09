@@ -582,6 +582,12 @@ describe('noSpaceBarScroll', () => {
   })
 })
 
+test('removeDups', () => {
+  expect.assertions(2)
+  expect(nyc.removeDups([1,2,3,4,4,5,6,6])).toEqual([1,2,3,4,5,6])
+  expect(nyc.removeDups(['1','2','3','4','4','5','6','6'])).toEqual(['1','2','3','4','5','6'])
+})
+
 test('location', () => {
   expect.assertions(0)
   nyc.location('')

@@ -62,7 +62,7 @@ class Filters extends Container {
       })
     })
     Object.keys(namedFilters).forEach(name => {
-      filters.push({property: name, values: namedFilters[name]})
+      filters.push({property: name, values: nyc.removeDups(namedFilters[name])})
     })
     this.source.filter(filters)
     this.trigger('change', this)
