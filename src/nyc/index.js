@@ -229,7 +229,7 @@ const nyc = {
 		}
 	},
 	/**
-	 * @desc Returns an object describing the element that currently has focus
+	 * @desc Returns an array with duplicates removed
 	 * @public
 	 * @static
 	 * @function
