@@ -82,14 +82,14 @@ test('filter', () => {
   filters.choiceControls[0].trigger('change')
 
   expect(filters.source.filter).toHaveBeenCalledTimes(1)
-  expect(filters.source.filter.mock.calls[0][0].length).toBe(3)
+  expect(filters.source.filter.mock.calls[0][0].length).toBe(2)
 
-  expect(filters.source.filter.mock.calls[0][0][0].property).toBe('field1')
-  expect(filters.source.filter.mock.calls[0][0][0].values).toEqual([1, 2, 3, 4])
+  expect(filters.source.filter.mock.calls[0][0][0][0].property).toBe('field1')
+  expect(filters.source.filter.mock.calls[0][0][0][0].values).toEqual([1, 2, 3, 4])
 
-  expect(filters.source.filter.mock.calls[0][0][1].property).toBe('field2')
-  expect(filters.source.filter.mock.calls[0][0][1].values).toEqual(['doo', 'fus'])
+  expect(filters.source.filter.mock.calls[0][0][0][1].property).toBe('field2')
+  expect(filters.source.filter.mock.calls[0][0][0][1].values).toEqual(['doo', 'fus'])
 
-  expect(filters.source.filter.mock.calls[0][0][2].property).toBe('field3')
-  expect(filters.source.filter.mock.calls[0][0][2].values).toEqual(['b', 'c', 'd'])
+  expect(filters.source.filter.mock.calls[0][0][1][0].property).toBe('field3')
+  expect(filters.source.filter.mock.calls[0][0][1][0].values).toEqual(['b', 'c', 'd'])
 })

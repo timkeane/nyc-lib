@@ -22,17 +22,17 @@
       display: inline-block;
       width: calc(50% - 5px);
     }
-    .facility.DOE .name, label[for="chc-chc-0"] {
+    .facility.DOE .name, label[for="chc-chc-1"] {
       background-image: url("../img/DOE.png")
     }
-    .facility.NYCEEC .name, label[for="chc-chc-1"] {
+    .facility.NYCEEC .name, label[for="chc-chc-2"] {
       background-image: url("../img/NYCEEC.png")
     }
-    .facility.PKC .name, label[for="chc-chc-3"] {
-      background-image: url("../img/PKC.png")
-    }
-    .facility.CHARTER .name, label[for="chc-chc-2"] {
+    .facility.CHARTER .name, label[for="chc-chc-3"] {
       background-image: url("../img/CHARTER.png")
+    }
+    .facility.PKC .name, label[for="chc-chc-4"] {
+      background-image: url("../img/PKC.png")
     }
     .facility .btn.phone {
       display: block;
@@ -67,10 +67,11 @@
           title: 'School Type',
           radio: true,
           choices: [
-            {name: 'TYPE', values: ['DOE'], label: 'District School', checked: true},
-            {name: 'TYPE', values: ['NYCEEC'], label: 'Early Ed Center', checked: true},
-            {name: 'TYPE', values: ['CHARTER'], label: 'Charter School', checked: true},
-            {name: 'TYPE', values: ['PKC'], label: 'Pre-K Center', checked: true}
+            {name: 'TYPE', values: ['DOE', 'NYCEEC', 'CHARTER', 'PKC'], label: 'All Schools', checked: true},
+            {name: 'TYPE', values: ['DOE'], label: 'District School'},
+            {name: 'TYPE', values: ['NYCEEC'], label: 'Early Ed Center'},
+            {name: 'TYPE', values: ['CHARTER'], label: 'Charter School'},
+            {name: 'TYPE', values: ['PKC'], label: 'Pre-K Center'}
           ]
         },
         {

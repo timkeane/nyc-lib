@@ -43,24 +43,18 @@ class FilterAndSort extends AutoLoad {
    * @desc Filters the features of this source
    * @public
    * @method
-   * @param {Array<module:nyc/ol/source/FilterAndSort~FilterAndSort.Filter>} filters Used to filter features by attributes
+   * @param {Array<Array<module:nyc/ol/source/FilterAndSort~FilterAndSort.Filter>>} filters Used to filter features by attributes
    * @return {Array<ol.Feature>} An array of features contained in this source that are the result of the intersection of the applied filters
    */
   filter(filters) {
-    const filteredFeatures = []
-    const filtered = {}
-    this.allFeatures.forEach(feature => {
-  		let incl = true
-  		filters.every(filter => {
-  			incl = $.inArray(feature.get(filter.property), filter.values) > -1
-  			return incl
-  		})
-  		if (incl) {
-				filtered[feature.getId()] = true
-				filteredFeatures.push(feature)
-  		}
-  	})
-  	this.clear(true)
+    const filteredFeatures = this.allFeatures.filter(feature => {
+      return filters.every(fltrs => {
+        return fltrs.some(flt => {
+          return $.inArray(feature.get(flt.property), flt.values) > -1
+        })
+      })
+    })
+    this.clear(true)
   	this.addFeatures(filteredFeatures)
     return filteredFeatures
   }

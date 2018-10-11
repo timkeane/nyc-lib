@@ -75,13 +75,50 @@ test('filter', () => {
     features: [f0, f4, f2, f1, f3]
   })
 
-  let features
-
-  features = filterAndSort.filter([filter0, filter1])
+  const features = filterAndSort.filter([[filter0], [filter1]])
 
   expect(features.length).toBe(1)
-  expect(features[0]).toBe(f0)
+  expect(features[0].getId()).toBe('f0')
 })
+
+
+
+test('filter', () => {
+  expect.assertions(3)
+
+  const f0 = new OlFeature({id: 'f0', young: '1', old: null, geometry: new OlGeomPoint([0, 0])})
+  const f1 = new OlFeature({id: 'f1', young: null, old: null, geometry: new OlGeomPoint([0, 1])})
+  const f2 = new OlFeature({id: 'f2', young: '1', old: '1', geometry: new OlGeomPoint([0, 2])})
+  const f3 = new OlFeature({id: 'f3', young: '1', old: null, geometry: new OlGeomPoint([0, 2])})
+  const f4 = new OlFeature({id: 'f4', young: null, old: '1', geometry: new OlGeomPoint([0, 3])})
+
+  f0.setId(f0.get('id'))
+  f1.setId(f1.get('id'))
+  f2.setId(f2.get('id'))
+  f3.setId(f3.get('id'))
+  f4.setId(f4.get('id'))
+
+  const filter0 = [{property: 'id', values: ['f0', 'f2']}]
+  const filter1 = [
+    {property: 'young', values: ['1']}, 
+    {property: 'old', values: ['1']}
+  ]
+
+  const filterAndSort = new FilterAndSort({
+    features: [f0, f4, f2, f1, f3]
+  })
+
+  const features = filterAndSort.filter([filter0, filter1])
+
+  expect(features.length).toBe(2)
+  expect($.inArray(f0, features) > -1).toBe(true)
+  expect($.inArray(f2, features) > -1).toBe(true)
+  // expect(features[0]).toBe(f2)
+})
+
+
+
+
 
 test('sort with distance in data projection', () => {
   expect.assertions(16)
