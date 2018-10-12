@@ -53,20 +53,20 @@ class Filters extends Container {
    * @method
    */
   filter() {
-    const namedFilters = []
-    const filters = []
+    const allFilters = []
     this.choiceControls.forEach((filterControl, i) => {
-      namedFilters[i] = {}
-      filters[i] = []
+      const namedFilters = {}
+      const filters = []
       filterControl.val().forEach(choice => {
-        const filter = namedFilters[i][choice.name] || []
-        namedFilters[i][choice.name] = filter.concat(choice.values)
+        const filter = namedFilters[choice.name] || []
+        namedFilters[choice.name] = filter.concat(choice.values)
       })
-      Object.keys(namedFilters[i]).forEach(name => {
-        filters[i].push({property: name, values: nyc.removeDups(namedFilters[i][name])})
+      Object.keys(namedFilters).forEach(name => {
+        filters.push({property: name, values: nyc.removeDups(namedFilters[name])})
       })
+      if (filters.length) allFilters.push(filters)
     })
-    this.source.filter(filters)
+    this.source.filter(allFilters)
     this.trigger('change', this)
   }
 }

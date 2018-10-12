@@ -51,6 +51,7 @@ class FilterAndSort extends AutoLoad {
       return filters.every(fltrs => {
         return fltrs.some(flt => {
           return $.inArray(feature.get(flt.property), flt.values) > -1
+
         })
       })
     })
