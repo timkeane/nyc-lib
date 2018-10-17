@@ -105,6 +105,16 @@ constructor(options) {
 		this.source.addFeature(this.feature(data))
 	}
 	/**
+	 * @desc Get the projection of the map
+	 * @public
+	 * @override
+	 * @method
+	 * @returns {string} The map projection
+	 */
+	getProjection() {
+		return this.view.getProjection().getCode()
+	}
+	/**
 	 * @private
 	 * @method
 	 * @param {module:nyc/Locator~Locator.Result} location

@@ -32,6 +32,16 @@ class MapLocator {
 	setLocation(data) {
 		throw 'Not implemented'
 	}
+	/**
+	 * @desc Get the projection of the map
+	 * @public
+	 * @abstract
+	 * @method
+	 * @returns {string} The map projection
+	 */
+	getProjection() {
+		throw 'Not implemented'
+	}
 }
 
 /**

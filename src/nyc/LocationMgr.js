@@ -1,11 +1,11 @@
 /**
  * @module nyc/LocationMgr
  */
-
+import nyc from 'nyc'
 import EventHandling from 'nyc/EventHandling'
-import Locator from 'nyc/Locator'
-import ZoomSearch from 'nyc/ZoomSearch'
 import Dialog from 'nyc/Dialog'
+
+const proj4 = nyc.proj4
 
 /**
  * @desc A class for managing user-specified location information
@@ -84,14 +84,22 @@ class LocationMgr extends EventHandling {
  	locateFromQueryString(qstr) {
     const args = {}
  		try {
+       qstr = decodeURIComponent(qstr)
        qstr.substr(1).split("&").forEach(param => {
          const p = param.split("=")
          args[p[0]] = decodeURIComponent(p[1])
        })
  		} catch (ignore) {}
- 		if (args.address) {
- 			this.locator.search(args.address)
- 		} else if (this.autoLocate) {
+ 		if (args.location) {
+      if (args.location.indexOf('EPSG') > -1) {
+        const location = args.location.split(',')
+        const proj = this.mapLocator.getProjection()
+        const coord = proj4(location[2], proj, [location[0] * 1, location[1] * 1])
+        this.mapLocator.zoomLocation({coordinate: coord})
+      } else {
+        this.locator.search(args.location)
+      }
+    } else if (this.autoLocate) {
  			this.locator.locate()
  		}
  	}

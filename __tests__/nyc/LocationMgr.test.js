@@ -146,7 +146,7 @@ describe('hookupEvents', () => {
 })
 
 test('locateFromQueryString', () => {
-  expect.assertions(14)
+  expect.assertions(19)
 
   options.locator.search = jest.fn()
   options.locator.locate = jest.fn()
@@ -168,7 +168,7 @@ test('locateFromQueryString', () => {
   expect(options.locator.search).toHaveBeenCalledTimes(0)
   expect(options.locator.locate).toHaveBeenCalledTimes(0)
 
-  locationMgr.locateFromQueryString('?foo=bar&address=59%20maiden%20ln&bar=foo')
+  locationMgr.locateFromQueryString('?foo=bar&location=59%20maiden%20ln&bar=foo')
 
   expect(options.locator.search).toHaveBeenCalledTimes(1)
   expect(options.locator.search.mock.calls[0][0]).toBe('59 maiden ln')
@@ -176,15 +176,27 @@ test('locateFromQueryString', () => {
 
   locationMgr.autoLocate = true
 
-  locationMgr.locateFromQueryString('?foo=bar&bar=foo&address=2%20metrotech%20ctr')
+  locationMgr.locateFromQueryString('?foo=bar&bar=foo&location=2%20metrotech%20ctr')
 
   expect(options.locator.search).toHaveBeenCalledTimes(2)
   expect(options.locator.search.mock.calls[1][0]).toBe('2 metrotech ctr')
   expect(options.locator.locate).toHaveBeenCalledTimes(0)
 
+  locationMgr.mapLocator.zoomLocation = jest.fn()
+  locationMgr.mapLocator.getProjection = jest.fn(() => {
+    return 'EPSG:3857'
+  })
+  locationMgr.locateFromQueryString('?foo=bar&bar=foo&location=1,2,EPSG:4326')
+
+  expect(options.locator.search).toHaveBeenCalledTimes(2)
+  expect(locationMgr.mapLocator.zoomLocation).toHaveBeenCalledTimes(1)
+  expect(locationMgr.mapLocator.zoomLocation.mock.calls[0][0].coordinate).toEqual([111319.49079327357, 222684.20850554455])
+  expect(options.locator.locate).toHaveBeenCalledTimes(0)
+
   locationMgr.locateFromQueryString('?foo=bar&bar=foo&input=2%20metrotech%20ctr')
 
   expect(options.locator.search).toHaveBeenCalledTimes(2)
+  expect(locationMgr.mapLocator.zoomLocation).toHaveBeenCalledTimes(1)
   expect(options.locator.locate).toHaveBeenCalledTimes(1)
 })
 
