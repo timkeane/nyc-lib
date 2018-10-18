@@ -29,7 +29,7 @@ class Collapsible extends Container {
      * @private
      * @member {jQuery}
      */
-    this.btn = this.find('h3')
+    this.btn = this.find('button')
       .attr({id: btnId, 'aria-controls': pnlId})
       .append(options.title)
       .click($.proxy(this.toggle, this))
@@ -82,7 +82,7 @@ Collapsible.Options
  * @type {string}
  */
 Collapsible.HTML = '<div class="clps rad-all">' +
-  '<h3 class="btn rad-top" role="button" aria-pressed="true"></h3>' +
+  '<button class="btn rad-top" aria-pressed="true"></button>' +
   '<div class="content rad-bot" aria-expanded="true" aria-collapsed="false" aria-hidden="false"></div>' +
 '</div>'
 

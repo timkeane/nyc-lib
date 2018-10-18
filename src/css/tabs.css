@@ -38,7 +38,7 @@
 .tabs .container .tab.active {
   display: block;
 }
-.tabs button.btn:focus, .tab.active:focus {
+.tabs h2 button.btn:focus, .tab.active:focus {
 	box-shadow: inset 0px 1px 7px 3px var(--focus-ring-color);
 }
 .tabs button.btn.active:focus, .tabs button.btn.active:focus * {

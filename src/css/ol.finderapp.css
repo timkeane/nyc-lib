@@ -138,13 +138,20 @@ html, body.fnd, .fnd #map {
   display: block;
   width: auto;
 }
+.fnd .dtl {
+  margin-top: -3px;
+}
 .fnd .dtl .btn {
   display: block;
-  width: calc(100% - 5px);
+  width: calc(100% - 3px);
   margin-bottom: 0;
+  text-align: center;
 }
 .fnd .dtl .content {
   width: calc(100% - 15px);
+}
+.lst-it:nth-child(odd) .dtl .clps .content {
+  background-color: var(--color-medium);
 }
 .lst-it .name, .pop .name {
   font-weight: bold;

@@ -36,7 +36,7 @@
     }
     .facility .btn.phone {
       display: block;
-      margin-bottom: 3px;
+      margin-bottom: 4px;
       width: auto;
     }
 	</style>
@@ -86,10 +86,10 @@
       facilitySearch: {nameField: 'NAME'},
       decorations: [{
         getName: function() {
-          return this.get('NAME')
+          return this.get('NAME');
         },
         getAddress1: function() {
-          return this.get('ADDRESS')
+          return this.get('ADDRESS');
         },
         getBorough: function() {
           return {
@@ -98,23 +98,26 @@
             Q: 'Queens',
             K: 'Brooklyn',
             R: 'Staten Island'
-          }[this.get('BOROUGH')]
+          }[this.get('BOROUGH')];
         },
         getCityStateZip: function() {
-          return this.getBorough() + ', NY ' + this.get('ZIP')
+          return this.getBorough() + ', NY ' + this.get('ZIP');
         },
         getPhone: function() {
-          return this.get('PHONE')
+          return this.get('PHONE');
         },
         getEmail: function() {
-          return this.get('EMAIL')
+          return this.get('EMAIL');
         },
         getWebsite: function() {
-          return this.get('WEBSITE')
+          return this.get('WEBSITE');
         },
         cssClass: function() {
-          return this.get('TYPE')
-        }
+          return this.get('TYPE');
+        },
+        detailsHtml: function() {
+          return $('<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lobortis, massa id consequat lacinia, massa enim semper nunc, sit amet dapibus ex mi posuere tellus. Aenean vulputate iaculis lorem elementum finibus. Fusce mauris libero, lacinia sed ultricies nec, imperdiet vel diam.</div>');
+        },
       }],
       directionsUrl: 'https://maps.googleapis.com/maps/api/js?client=gme-newyorkcitydepartment&channel=pka&sensor=false&libraries=visualization'
     });

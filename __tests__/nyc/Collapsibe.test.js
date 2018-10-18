@@ -26,8 +26,8 @@ test('constructor expanded', () => {
   expect(collapsible instanceof Container).toBe(true)
   expect(collapsible instanceof Collapsible).toBe(true)
 
-  expect(collapsible.find('h3').length).toBe(1)
-  expect(collapsible.btn.get(0)).toBe(collapsible.find('h3').get(0))
+  expect(collapsible.find('button').length).toBe(1)
+  expect(collapsible.btn.get(0)).toBe(collapsible.find('button').get(0))
   expect(collapsible.btn.hasClass('rad-top')).toBe(true)
   expect(collapsible.btn.hasClass('rad-all')).toBe(false)
   expect(collapsible.btn.attr('aria-pressed')).toBe('true')
@@ -37,7 +37,7 @@ test('constructor expanded', () => {
   expect(collapsible.content.attr('aria-expanded')).toBe('true')
   expect(collapsible.content.attr('aria-collapsed')).toBe('false')
   expect(collapsible.content.attr('aria-hidden')).toBe('false')
-  expect(collapsible.find('h3:contains("Collapsible Title")').get(0)).toBe(collapsible.btn.get(0))
+  expect(collapsible.find('button:contains("Collapsible Title")').get(0)).toBe(collapsible.btn.get(0))
 })
 
 test('constructor collapsed', () => {
@@ -53,8 +53,8 @@ test('constructor collapsed', () => {
   expect(collapsible instanceof Container).toBe(true)
   expect(collapsible instanceof Collapsible).toBe(true)
 
-  expect(collapsible.find('h3').length).toBe(1)
-  expect(collapsible.btn.get(0)).toBe(collapsible.find('h3').get(0))
+  expect(collapsible.find('button').length).toBe(1)
+  expect(collapsible.btn.get(0)).toBe(collapsible.find('button').get(0))
   expect(collapsible.btn.hasClass('rad-top')).toBe(false)
   expect(collapsible.btn.hasClass('rad-all')).toBe(true)
   expect(collapsible.btn.attr('aria-pressed')).toBe('false')
@@ -64,7 +64,7 @@ test('constructor collapsed', () => {
   expect(collapsible.content.attr('aria-expanded')).toBe('false')
   expect(collapsible.content.attr('aria-collapsed')).toBe('true')
   expect(collapsible.content.attr('aria-hidden')).toBe('true')
-  expect(collapsible.find('h3:contains("Collapsible Title")').get(0)).toBe(collapsible.btn.get(0))
+  expect(collapsible.find('button:contains("Collapsible Title")').get(0)).toBe(collapsible.btn.get(0))
 })
 
 test('toggle via button click', () => {

@@ -1,11 +1,12 @@
 .clps.rad-all {
   border: none;
 }
-.clps h3 {
+.clps>button {
   margin: 0;
   text-align: left;
+  width: 100%;
 }
-.clps h3:before {
+.clps>button:before {
   display: block;
   content: ' ';
   border-radius: 50%;
@@ -19,10 +20,10 @@
   float: left;
   margin: -3px 3px;
 }
-.clps h3.rad-all:before {
+.clps>button.rad-all:before {
   background-image: var(--down-icon-light);
 }
-.clps h3:hover:before {
+.clps>button:hover:before {
   background-color: var(--color-dark);
 }
 .clps div.content {
