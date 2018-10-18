@@ -1,6 +1,9 @@
 .clps.rad-all {
   border: none;
 }
+.clps>button, .clps div.content {
+  position: relative;
+}
 .clps>button {
   margin: 0;
   text-align: left;
