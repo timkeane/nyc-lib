@@ -16,7 +16,7 @@
       padding: 0;
       overflow: hidden;
     }
-    #map {
+    #map, #no-events {
       position: fixed;
       top: 0;
       left: 0;
@@ -32,20 +32,38 @@
   <div id="map"></div>
   <script>
     var zoom = 16;
+    var interactive = false;
+    var message = '';
     try {
       var qstr = decodeURIComponent(document.location.search);
       qstr = qstr.substr(1).split("&")
       for (var i = 0; i < qstr.length; i++) {
         var param = qstr[i].split("=")
         if (param[0] == 'zoom') zoom = param[1] * 1;
+        if (param[0] == 'interactive') interactive = param[1] != 'false';
+        if (param[0] == 'message') message = param[1];
       }
     } catch (ignore) {};
+
+    $('#map').attr('aria-label', message)
+      .attr('title', message);
+
+    if (!interactive) {
+      var div = $('<div></div>')
+        .attr('id', 'no-events')
+        .attr('aria-label', message)
+        .attr('title', message);
+      $('body').append(div);
+    }
+
     nyc.MapLocator.ZOOM_LEVEL = zoom;
     var map = new nyc.ol.Basemap({target: 'map'});
     var locationMgr = new nyc.ol.LocationMgr({
       map: map,
       url: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
     });
+
+    $('.f-tip').remove();
   </script>
 </body>
 </html>
