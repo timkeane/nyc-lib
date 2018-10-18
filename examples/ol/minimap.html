@@ -34,6 +34,7 @@
     var zoom = 0;
     var interactive = true;
     var message = '';
+    var photo = false;
     try {
       var qstr = decodeURIComponent(document.location.search);
       qstr = qstr.substr(1).split("&")
@@ -42,6 +43,7 @@
         if (param[0] == 'zoom') zoom = param[1] * 1;
         if (param[0] == 'interactive') interactive = param[1] != 'false';
         if (param[0] == 'message') message = param[1];
+        if (param[0] == 'photo') photo = param[1] == 'true';
       }
     } catch (ignore) {};
 
@@ -66,6 +68,10 @@
       url: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
     });
 
+    if (photo) {
+      map.showPhoto();
+    }
+    
     $('.f-tip').remove();
   </script>
 </body>
