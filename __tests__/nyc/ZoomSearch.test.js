@@ -262,7 +262,7 @@ test('showList with focus', () => {
 
   const zoomSearch = new ZoomSearch(container)
 
-  zoomSearch.list.append('<li><a href="#" title="one">one</li><li title="two"><a href="#">two</a></li>').hide()
+  zoomSearch.list.append('<li data-id="one"><a href="#">one</li><li data-id="two"><a href="#">two</a></li>').hide()
 
   const test = async () => {
     return new Promise(resolve => {
@@ -578,7 +578,7 @@ test('listItem addr no displayField', () => {
   li.trigger('click')
   expect(zoomSearch.disambiguated).toHaveBeenCalledTimes(1)
   expect(zoomSearch.disambiguated.mock.calls[0][0].type).toBe('click')
-  expect(zoomSearch.disambiguated.mock.calls[0][0].target).toBe(li.get(0))
+  expect(zoomSearch.disambiguated.mock.calls[0][0].currentTarget).toBe(li.get(0))
 })
 
 test('listItem not addr has displayField', () => {
@@ -612,14 +612,14 @@ test('listItem not addr has displayField', () => {
   li.trigger('click')
   expect(zoomSearch.disambiguated).toHaveBeenCalledTimes(1)
   expect(zoomSearch.disambiguated.mock.calls[0][0].type).toBe('click')
-  expect(zoomSearch.disambiguated.mock.calls[0][0].target).toBe(li.get(0))
+  expect(zoomSearch.disambiguated.mock.calls[0][0].currentTarget).toBe(li.get(0))
 })
 
 test('emptyList', () => {
   expect.assertions(9)
   const zoomSearch = new ZoomSearch(container)
 
-  zoomSearch.list.append('<li title="one"><a href="#">one</li><li title="two"><a href="#">two</a></li>')
+  zoomSearch.list.append('<li data-id="one"><a href="#">one</li><li data-id="two"><a href="#">two</a></li>')
 
   zoomSearch.emptyList()
 
@@ -628,7 +628,7 @@ test('emptyList', () => {
   expect($(zoomSearch.retention.children().get(0)).find('a').html()).toBe('one')
   expect($(zoomSearch.retention.children().get(1)).find('a').html()).toBe('two')
 
-  zoomSearch.list.append('<li title="one"><a href="#">one</li><li title="three"><a href="#">three</a></li>')
+  zoomSearch.list.append('<li data-id="one"><a href="#">one</li><li data-id="three"><a href="#">three</a></li>')
   
   zoomSearch.emptyList()
 
@@ -653,7 +653,7 @@ test('disambiguated is LI', () => {
   zoomSearch.list.append(li).show()
   zoomSearch.on('disambiguated', handler)
 
-  zoomSearch.disambiguated({target: li.get(0)})
+  zoomSearch.disambiguated({currentTarget: li.get(0)})
 
   expect(handler).toHaveBeenCalledTimes(1)
   expect(handler.mock.calls[0][0]).toBe(data)
@@ -670,40 +670,6 @@ test('disambiguated is LI', () => {
     })
   }
   return test().then(visible => expect(visible).toBe('none'))
-})
-
-test('disambiguated is child of LI', () => {
-  expect.assertions(6)
-
-  const handler = jest.fn()
-  const data = {name: 'a name', data: {label: '<span>a label</span>'}}
-  const li = $('<li class="feature"><span>a label</span></li>')
-    .data('location', data)
-
-  const zoomSearch = new ZoomSearch(container)
-
-  zoomSearch.emptyList = jest.fn()
-  zoomSearch.list.append(li).show()
-  zoomSearch.on('disambiguated', handler)
-
-  zoomSearch.disambiguated({target: li.children().get(0)})
-
-  expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0]).toBe(data)
-  expect(handler.mock.calls[0][0].isFeature).toBe(true)
-  expect(zoomSearch.val()).toBe('a name')
-
-  expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
-
-  const test = async () => {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(zoomSearch.list.css('display'))
-      }, 500)
-    })
-  }
-  return test().then(visible => expect(visible).toBe('none'))
-
 })
 
 test('listClick list closed', () => {

@@ -188,7 +188,7 @@ class ZoomSearch extends Container {
 			li.addClass('feature')
 		}
 		return li.addClass('notranslate')
-			.attr({translate: 'no', title: name})
+			.attr({translate: 'no', 'data-id': encodeURIComponent(name)})
 			.html(`<a href="#">${name}</a>`)
 			.data('nameField', options.nameField)
 			.data('displayField', displayField)
@@ -202,7 +202,7 @@ class ZoomSearch extends Container {
 	emptyList() {
 		const retention = this.retention
 		this.find('.srch li').each((i, item) => {
-			if (retention.find(`li[title="${item.title}"]`).length === 0) {
+			if (retention.find(`li[data-id="${$(item).attr('data-id')}"]`).length === 0) {
 				retention.append(item)
 			}
 		})
@@ -214,10 +214,7 @@ class ZoomSearch extends Container {
 	 * @param {jQuery.Event} event
 	 */
 	disambiguated(event) {
-		let li = $(event.target)
-		if (li.get(0).tagName.toUpperCase() !== 'LI') {
-			li = li.parent()
-		}
+		const li = $(event.currentTarget)
 		const data = li.data('location')
 		this.val(data.name)
 		data.isFeature = li.hasClass('feature')

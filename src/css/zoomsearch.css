@@ -98,7 +98,7 @@
 .srch ul li:hover {
 	background-color: var(--color-dark-translucent);
 }
-.srch ul li:hover a {
+.srch ul li:hover a, .srch ul li:hover a * {
 	color: var(--color-light);	
 }
 .z-srch ul.retention {
