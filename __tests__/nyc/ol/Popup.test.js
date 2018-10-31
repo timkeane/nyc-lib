@@ -41,7 +41,7 @@ describe('constructor and events', () => {
   })
 
   test('constructor and events', () => {
-    expect.assertions(8)
+    expect.assertions(7)
 
     const popup = new Popup({map: map})
 
@@ -50,7 +50,6 @@ describe('constructor and events', () => {
     expect(popup.getId()).toBe('Popup-0')
     expect(popup.popup.html()).toBe($(Popup.HTML).html())
     expect(popup.getElement()).toBe(popup.popup.get(0))
-    expect(popup.margin).toEqual([10, 10, 10, 10])
 
     popup.popup.find('.btn-x').trigger('click')
     popup.popup.find('.btn-x').trigger('tap')
@@ -150,109 +149,72 @@ test('hideTip', () => {
 })
 
 describe('pan', () => {
-  const getOffset = OlOverlay.prototype.getOffset
-  beforeEach(() => {
-    OlOverlay.prototype.getOffset = jest.fn()
-    OlOverlay.prototype.getOffset.mockReturnValue([0, 0])
-  })
-  afterEach(() => {
-    OlOverlay.prototype.getOffset = getOffset
-  })
-
-  test('pan fromTop < 0 and fromRight < 0', () => {
-    expect.assertions(0)
-
-    const css = {
-      bottom: '10px',
-      left: '100px',
-      width: '300px',
-      height: '300px'
-    }
+  test('pan not fullscreen and display is none', () => {
+    expect.assertions(2)
 
     const popup = new Popup({map: map})
-
-    popup.setPosition([0, 0])
-    popup.content.html('some content')
-
-    popup.map.getPixelFromCoordinate = jest.fn()
-    popup.map.getPixelFromCoordinate
-      .mockReturnValueOnce([400, 50])
-      .mockReturnValueOnce([250, 250])
-    popup.map.getSize = jest.fn()
-    popup.map.getSize.mockReturnValue([500, 500])
-
-    popup.popup.css(css)
-    popup.popup.show()
+    
+    popup.fullscreen = jest.fn(() => {
+      return false
+    })
+    popup.popup.css('display', 'none')
+    popup.panIntoView = jest.fn() 
 
     popup.pan()
 
-    popup.popup.hide()
-
-    popup.pan()
+    expect(popup.fullscreen).toHaveBeenCalledTimes(1)
+    expect(popup.panIntoView).toHaveBeenCalledTimes(0)
   })
-
-  test('pan fromTop > 0 and fromBottom < 0 and fromRight > 0 and fromLeft < 0', () => {
-    expect.assertions(0)
-
-    const css = {
-      bottom: '10px',
-      left: '100px',
-      width: '300px',
-      height: '300px'
-    }
+  
+  test('pan not fullscreen and display is not none', () => {
+    expect.assertions(2)
 
     const popup = new Popup({map: map})
-
-    popup.setPosition([0, 0])
-    popup.content.html('some content')
-
-    popup.map.getPixelFromCoordinate = jest.fn()
-    popup.map.getPixelFromCoordinate
-      .mockReturnValueOnce([-100, 495])
-      .mockReturnValueOnce([250, 250])
-    popup.map.getSize = jest.fn()
-    popup.map.getSize.mockReturnValue([500, 500])
-
-    popup.popup.css(css)
-    popup.popup.show()
+    
+    popup.fullscreen = jest.fn(() => {
+      return false
+    })
+    popup.popup.css('display', 'block')
+    popup.panIntoView = jest.fn() 
 
     popup.pan()
 
-    popup.fullscreen = () => {return true}
-
-    popup.pan()
+    expect(popup.fullscreen).toHaveBeenCalledTimes(1)
+    expect(popup.panIntoView).toHaveBeenCalledTimes(1)
   })
-
-  test('pan fromTop > 0 and fromBottom = 0 and fromRight > 0 and fromLeft = 0', () => {
-    expect.assertions(0)
-
-    const css = {
-      bottom: '10px',
-      left: '100px',
-      width: '300px',
-      height: '300px'
-    }
+  
+  test('pan not fullscreen and display is none', () => {
+    expect.assertions(2)
 
     const popup = new Popup({map: map})
-
-    popup.setPosition([0, 0])
-    popup.content.html('some content')
-
-    popup.map.getPixelFromCoordinate = jest.fn()
-    popup.map.getPixelFromCoordinate
-      .mockReturnValueOnce([-90, 480])
-      .mockReturnValueOnce([250, 250])
-    popup.map.getSize = jest.fn()
-    popup.map.getSize.mockReturnValue([500, 500])
-
-    popup.popup.css(css)
-    popup.popup.show()
+    
+    popup.fullscreen = jest.fn(() => {
+      return false
+    })
+    popup.popup.css('display', 'none')
+    popup.panIntoView = jest.fn() 
 
     popup.pan()
 
-    popup.popup.hide()
+    expect(popup.fullscreen).toHaveBeenCalledTimes(1)
+    expect(popup.panIntoView).toHaveBeenCalledTimes(0)
+  })
+
+  test('pan is fullscreen and display is none', () => {
+    expect.assertions(2)
+
+    const popup = new Popup({map: map})
+    
+    popup.fullscreen = jest.fn(() => {
+      return true
+    })
+    popup.popup.css('display', 'none')
+    popup.panIntoView = jest.fn() 
 
     popup.pan()
+
+    expect(popup.fullscreen).toHaveBeenCalledTimes(1)
+    expect(popup.panIntoView).toHaveBeenCalledTimes(0)
   })
 })
 

@@ -26,14 +26,10 @@ class Popup extends OlOverlay {
     super({
       id: nyc.nextId('Popup'),
       element: $(Popup.HTML).get(0),
-      stopEvent: true
+      stopEvent: true,
+      autoPan: true,
+      autoPanMargin: options.margin === undefined ? 10 : options.margin
     })
-    /**
-     * @desc Margin to maintain from the edges of the map
-     * @public
-     * @member {Array<number>}
-     */
-    this.margin = [10, 10, 10, 10]
     /**
      * @private
      * @member {jQuery}
@@ -60,14 +56,14 @@ class Popup extends OlOverlay {
    * @param {module:nyc/ol/Popup~Popup.ShowOptions} options Overlay options
    */
   show(options) {
-    this.setPosition(options.coordinate)
     if (options.html) {
       this.content.html(options.html)
       this.cssClass(options.css)
     }
+    this.setPosition(options.coordinate)    
     this.popup.fadeIn()
-    $('.f-tip').fadeOut()
     this.pan()
+    $('.f-tip').fadeOut()
   }
   /**
    * @desc Set a CSS class for the popup content
@@ -97,40 +93,13 @@ class Popup extends OlOverlay {
     $('.f-tip').fadeOut()
   }
   /**
-   * @private
+   * @desc Pan the popup so it full appears on the map
+   * @public
    * @method
    */
   pan() {
-    const popup = this.popup
-    if (!this.fullscreen() && popup.css('display') !== 'none') {
-      const view = this.map.getView()
-      const tailHeight = parseInt(popup.css('bottom'))
-      const tailOffsetLeft = -parseInt(popup.css('left'))
-      const popOffset = this.getOffset()
-      const popPx = this.map.getPixelFromCoordinate(this.getPosition())
-      const mapSize = this.map.getSize()
-      const popSize = {
-        width: popup.width(),
-        height: popup.height() + tailHeight
-      }
-      const tailOffsetRight = popSize.width - tailOffsetLeft
-      const fromLeft = (popPx[0] - tailOffsetLeft) - this.margin[3]
-      const fromRight = mapSize[0] - (popPx[0] + tailOffsetRight) - this.margin[1]
-      const fromTop = popPx[1] - popSize.height + popOffset[1] - this.margin[0]
-      const fromBottom = mapSize[1] - (popPx[1] + tailHeight) - popOffset[1] - this.margin[2]
-      const center = view.getCenter()
-      const px = this.map.getPixelFromCoordinate(center)
-      if (fromRight < 0) {
-        px[0] -= fromRight
-      } else if (fromLeft < 0) {
-        px[0] += fromLeft
-      }
-      if (fromTop < 0) {
-        px[1] += fromTop
-      } else if (fromBottom < 0) {
-        px[1] -= fromBottom
-      }
-      view.animate({center: this.map.getCoordinateFromPixel(px)})
+    if (!this.fullscreen() && this.popup.css('display') !== 'none') {
+      this.panIntoView()
     }
   }
   fullscreen() {
@@ -172,6 +141,7 @@ Popup.ShowOptions
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The map
+ * @property {number} [autoPanMargin=10] The margin the popup will maintain from the edge of the map 
  */
 Popup.Options
 
