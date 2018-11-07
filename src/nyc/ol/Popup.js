@@ -5,7 +5,7 @@
 import $ from 'jquery'
 
 import OlOverlay from 'ol/Overlay'
-
+import {linear} from 'ol/easing'
 import nyc from 'nyc'
 
 /**
@@ -28,7 +28,11 @@ class Popup extends OlOverlay {
       element: $(Popup.HTML).get(0),
       stopEvent: true,
       autoPan: true,
-      autoPanMargin: options.margin === undefined ? 10 : options.margin
+      autoPanMargin: options.margin === undefined ? 10 : options.margin,
+      autoPanAnimation: options.autoPanAnimation === undefined ? {
+        duration: 1000,
+        easing: linear
+      } : options.autoPanAnimation
     })
     /**
      * @private
