@@ -35,7 +35,7 @@
 	margin-top: .4px;
 }
 .pop>.content {
-	margin: 10px;
+	margin: 5px;
 	width: 330px;
 	max-height: 500px;
 	overflow: auto;
@@ -73,4 +73,7 @@
 }
 .pop.fullscreen .btn {
 	margin: 5px 1.5px;
+}
+.fnd .pop .content .facility {
+	margin: 5px;
 }

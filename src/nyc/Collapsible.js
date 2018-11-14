@@ -22,9 +22,11 @@ class Collapsible extends Container {
    */
   constructor(options) {
     super(options.target)
-    this.getContainer().append(Collapsible.HTML)
+    const collapsible = $(Collapsible.HTML)
     const btnId = nyc.nextId('clsp-btn')
     const pnlId = nyc.nextId('clsp-pnl')
+    collapsible.find('.content').hide()
+    this.getContainer().append(collapsible)
     /**
      * @private
      * @member {jQuery}
@@ -39,7 +41,7 @@ class Collapsible extends Container {
      */
     this.content = this.find('.content').append($(options.content))
       .attr({id: pnlId, 'aria-labelledby': btnId})
-    if (options.collapsed) {
+    if (!options.collapsed) {
       this.toggle()
     }
   }
@@ -82,8 +84,8 @@ Collapsible.Options
  * @type {string}
  */
 Collapsible.HTML = '<div class="clps rad-all">' +
-  '<button class="btn rad-top" aria-pressed="true"></button>' +
-  '<div class="content rad-bot" aria-expanded="true" aria-collapsed="false" aria-hidden="false"></div>' +
+  '<button class="btn rad-all" aria-pressed="false"></button>' +
+  '<div class="content rad-bot" aria-expanded="false" aria-collapsed="true" aria-hidden="true"></div>' +
 '</div>'
 
 export default Collapsible
