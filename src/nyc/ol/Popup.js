@@ -65,8 +65,7 @@ class Popup extends OlOverlay {
       this.cssClass(options.css)
     }
     this.setPosition(options.coordinate)    
-    this.popup.fadeIn()
-    this.pan()
+    this.popup.fadeIn($.proxy(this.pan, this))
     $('.f-tip').fadeOut()
   }
   /**
