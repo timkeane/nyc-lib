@@ -16,7 +16,7 @@
   width: 24px;
   height: 24px;
   background-size: 14px;
-  background-image: var(--down-icon-light);
+  background-image: var(--up-icon-light);
   background-repeat: no-repeat;
   background-position: center;
   background-color: var(--color-dark-translucent);
@@ -24,7 +24,7 @@
   margin: -3px 3px;
 }
 .clps>button.rad-all:before {
-  background-image: var(--up-icon-light);
+  background-image: var(--down-icon-light);
 }
 .clps>button:hover:before {
   background-color: var(--color-dark);
