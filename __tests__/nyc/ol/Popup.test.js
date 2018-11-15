@@ -149,12 +149,12 @@ test('hideTip', () => {
 })
 
 describe('pan', () => {
-  test('pan not fullscreen and display is none', () => {
+  test('pan not isFullscreen and display is none', () => {
     expect.assertions(2)
 
     const popup = new Popup({map: map})
     
-    popup.fullscreen = jest.fn(() => {
+    popup.isFullscreen = jest.fn(() => {
       return false
     })
     popup.popup.css('display', 'none')
@@ -162,16 +162,16 @@ describe('pan', () => {
 
     popup.pan()
 
-    expect(popup.fullscreen).toHaveBeenCalledTimes(1)
+    expect(popup.isFullscreen).toHaveBeenCalledTimes(1)
     expect(popup.panIntoView).toHaveBeenCalledTimes(0)
   })
   
-  test('pan not fullscreen and display is not none', () => {
+  test('pan not isFullscreen and display is not none', () => {
     expect.assertions(2)
 
     const popup = new Popup({map: map})
     
-    popup.fullscreen = jest.fn(() => {
+    popup.isFullscreen = jest.fn(() => {
       return false
     })
     popup.popup.css('display', 'block')
@@ -179,16 +179,16 @@ describe('pan', () => {
 
     popup.pan()
 
-    expect(popup.fullscreen).toHaveBeenCalledTimes(1)
+    expect(popup.isFullscreen).toHaveBeenCalledTimes(1)
     expect(popup.panIntoView).toHaveBeenCalledTimes(1)
   })
   
-  test('pan not fullscreen and display is none', () => {
+  test('pan not isFullscreen and display is none', () => {
     expect.assertions(2)
 
     const popup = new Popup({map: map})
     
-    popup.fullscreen = jest.fn(() => {
+    popup.isFullscreen = jest.fn(() => {
       return false
     })
     popup.popup.css('display', 'none')
@@ -196,16 +196,16 @@ describe('pan', () => {
 
     popup.pan()
 
-    expect(popup.fullscreen).toHaveBeenCalledTimes(1)
+    expect(popup.isFullscreen).toHaveBeenCalledTimes(1)
     expect(popup.panIntoView).toHaveBeenCalledTimes(0)
   })
 
-  test('pan is fullscreen and display is none', () => {
+  test('pan is isFullscreen and display is none', () => {
     expect.assertions(2)
 
     const popup = new Popup({map: map})
     
-    popup.fullscreen = jest.fn(() => {
+    popup.isFullscreen = jest.fn(() => {
       return true
     })
     popup.popup.css('display', 'none')
@@ -213,32 +213,38 @@ describe('pan', () => {
 
     popup.pan()
 
-    expect(popup.fullscreen).toHaveBeenCalledTimes(1)
+    expect(popup.isFullscreen).toHaveBeenCalledTimes(1)
     expect(popup.panIntoView).toHaveBeenCalledTimes(0)
   })
 })
 
-describe('fullscreen', () => {
-  test('is fullscreen', () => {
-    expect.assertions(5)
+describe('isFullscreen', () => {
+  const hide = Popup.prototype.hide
+  beforeEach(() => {
+    Popup.prototype.hide = jest.fn()
+  })
+  afterEach(() => {
+    Popup.prototype.hide = hide
+  })
+
+  test('is isFullscreen', () => {
+    expect.assertions(4)
     
     const popup = new Popup({map: map})
 
     $(map.getTargetElement()).data('height', 500)
     $(popup.getElement()).data('height', 510)
 
-    
-    expect(popup.fullscreen()).toBe(true)
-    expect($(map.getTargetElement()).children().last().hasClass('fullscreen')).toBe(true)
-    expect($(map.getTargetElement()).children().last().children().first().get(0)).toBe(popup.content.get(0))
+    expect(popup.isFullscreen()).toBe(true)
+    expect($(map.getTargetElement()).find('.fullscreen').length).toBe(1)
+    expect($(map.getTargetElement()).find('.fullscreen').children().last().get(0)).toBe(popup.content.get(0))
   
-    $(map.getTargetElement()).children().last().children().last().trigger('click')
+    popup.closeFullscreen.trigger('click')
   
-    expect($('.fullscreen').length).toBe(0)
-    expect($(popup.getElement()).find('.content').get(0)).toBe(popup.content.get(0))
+    expect(Popup.prototype.hide).toHaveBeenCalledTimes(1)
   })
 
-  test('not fullscreen', () => {
+  test('not isFullscreen', () => {
     expect.assertions(1)
     
     const popup = new Popup({map: map})
@@ -246,6 +252,6 @@ describe('fullscreen', () => {
     $(popup.map.getTargetElement()).data('height', 500)
     $(popup.getElement()).data('height', 410)
 
-    expect(popup.fullscreen()).toBe(undefined)
+    expect(popup.isFullscreen()).toBe(undefined)
   })
 })

@@ -52,6 +52,9 @@ class Popup extends OlOverlay {
     this.content = this.popup.find('.content')
     this.popup.find('.btn-x').on('click tap', $.proxy(this.hide, this))
     this.popup.on('mouseover mousemove',  $.proxy(this.hideTip, this))
+    this.fullscreen = $(Popup.FULLSCREEN_HTML)
+    this.closeFullscreen = this.fullscreen.find('.btn-x')
+    $(this.map.getTargetElement()).append(this.fullscreen)
   }
   /**
    * @desc Show the popup
@@ -101,31 +104,40 @@ class Popup extends OlOverlay {
    * @method
    */
   pan() {
-    if (!this.fullscreen() && this.popup.css('display') !== 'none') {
+    if (!this.isFullscreen() && this.popup.css('display') !== 'none') {
       this.panIntoView()
     }
   }
-  fullscreen() {
-    const map = $(this.map.getTargetElement())
+  /**
+   * @private
+   * @method
+   * @returns {boolean}
+   */
+  isFullscreen() {
     const pop = $(this.getElement())
-    const content = this.content
-    const clone = content.clone()
+    const map = $(this.map.getTargetElement())
     if (pop.height() > map.height()) {
-      const fullscreen = $('<div class="pop fullscreen"></div>').append(content)
-      pop.append(clone)
-      const btn = $('<button class="btn-rnd btn-x"><span class="screen-reader-only">Close</span></button>')
-        .click(() => {
-          fullscreen.fadeOut(() => {
-            clone.remove()
-            content.find('.dtl').not('.btn').slideUp()
-            pop.append(content)
-            fullscreen.remove()
-          })
-        })
-      map.append(fullscreen.append(btn))
-      fullscreen.fadeIn()
+      this.goFullscreen()
       return true
     }
+  }
+
+  /**
+   * @desc Make the popup fill the map
+   * @public
+   * @method
+   */
+  goFullscreen() {
+    const pop = $(this.getElement())
+    const content = this.content
+    const fullscreen = this.fullscreen
+    const hide = $.proxy(this.hide, this)
+    fullscreen.append(content)
+    this.closeFullscreen.click(() => {
+      fullscreen.fadeOut()
+      pop.append(content)
+    })
+    fullscreen.fadeIn(hide)
   }
 }
 
@@ -155,6 +167,14 @@ Popup.Options
 Popup.HTML = '<div class="pop">' +
   '<div class="content"></div>' +
   '<button class="btn-rnd btn-x"><span class="screen-reader-only">Dismiss popup</span></button>' +
+'</div>'
+
+/**
+ * @private
+ * @const {string}
+ */
+Popup.FULLSCREEN_HTML = '<div class="pop fullscreen">' +
+  '<button class="btn-rnd btn-x"><span class="screen-reader-only">Close</span></button>' +
 '</div>'
 
 export default Popup
