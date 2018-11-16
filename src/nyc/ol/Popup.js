@@ -50,11 +50,19 @@ class Popup extends OlOverlay {
      * @member {jQuery}
      */
     this.content = this.popup.find('.content')
-    this.popup.find('.btn-x').on('click tap', $.proxy(this.hide, this))
-    this.popup.on('mouseover mousemove',  $.proxy(this.hideTip, this))
+    /**
+     * @private
+     * @member {jQuery}
+     */
     this.fullscreen = $(Popup.FULLSCREEN_HTML)
+    /**
+     * @private
+     * @member {jQuery}
+     */
     this.closeFullscreen = this.fullscreen.find('.btn-x')
     $(this.map.getTargetElement()).append(this.fullscreen)
+    this.popup.find('.btn-x').on('click tap', $.proxy(this.hide, this))
+    this.popup.on('mouseover mousemove',  $.proxy(this.hideTip, this))
   }
   /**
    * @desc Show the popup
