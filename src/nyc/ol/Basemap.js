@@ -265,7 +265,8 @@ Basemap.PHOTO_URLS = {
 	'2010': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2010/{z}/{x}/{-y}.png8`,
 	'2012': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2012/{z}/{x}/{-y}.png8`,
 	'2014': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2014/{z}/{x}/{-y}.png8`,
-	'2016': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2016/{z}/{x}/{-y}.png8`
+	'2016': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2016/{z}/{x}/{-y}.png8`,
+	'2018': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2018/{z}/{x}/{-y}.png8`
 }
 
 /**
