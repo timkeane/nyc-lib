@@ -106,11 +106,11 @@ describe('constructor tests', () => {
 })
 
 test('showPhoto no year', () => {
-  expect.assertions(27)
+  expect.assertions(29)
 
   const basemap = new Basemap({target: 'map'})
 
-  expect(Object.entries(basemap.photos).length).toBe(11)
+  expect(Object.entries(basemap.photos).length).toBe(12)
   Object.entries(basemap.photos).forEach(([year, layer]) => {
     expect(layer.getVisible()).toBe(false)
   })
@@ -127,11 +127,11 @@ test('showPhoto no year', () => {
 })
 
 test('showPhoto 1996', () => {
-  expect.assertions(27)
+  expect.assertions(29)
 
   const basemap = new Basemap({target: 'map'})
 
-  expect(Object.entries(basemap.photos).length).toBe(11)
+  expect(Object.entries(basemap.photos).length).toBe(12)
   Object.entries(basemap.photos).forEach(([year, layer]) => {
     expect(layer.getVisible()).toBe(false)
   })
@@ -148,13 +148,13 @@ test('showPhoto 1996', () => {
 })
 
 test('hidePhoto', () => {
-  expect.assertions(27)
+  expect.assertions(29)
 
   const basemap = new Basemap({target: 'map'})
 
   basemap.showPhoto(1996)
 
-  expect(Object.entries(basemap.photos).length).toBe(11)
+  expect(Object.entries(basemap.photos).length).toBe(12)
   Object.entries(basemap.photos).forEach(([year, layer]) => {
     expect(layer.getVisible()).toBe(year === '1996')
   })
@@ -189,7 +189,7 @@ test('showLabels', () => {
 })
 
 test('getBaseLayers', () => {
-  expect.assertions(20)
+  expect.assertions(21)
 
   const basemap = new Basemap({target: 'map'})
 
@@ -206,7 +206,7 @@ test('getBaseLayers', () => {
   expect(baseLayers.labels.photo instanceof OlLayerTile).toBe(true)
 
   expect(baseLayers.photos).toBe(basemap.photos)
-  expect(Object.entries(baseLayers.photos).length).toBe(11)
+  expect(Object.entries(baseLayers.photos).length).toBe(12)
   Object.entries(baseLayers.photos).forEach(([year, layer]) => {
     expect(layer instanceof OlLayerTile).toBe(true)
   })
@@ -250,7 +250,7 @@ test('defaultExtent view is provided', () => {
 })
 
 test('setupLayers as called by constructor', () => {
-  expect.assertions(102)
+  expect.assertions(109)
 
   const basemap = new Basemap({target: 'map'})
 
@@ -296,7 +296,7 @@ test('setupLayers as called by constructor', () => {
   ])
 
   let i = 3
-  expect(Object.entries(basemap.photos).length).toBe(11)
+  expect(Object.entries(basemap.photos).length).toBe(12)
   Object.entries(basemap.photos).forEach(([year, layer]) => {
     expect(basemap.photos[year] instanceof OlLayerTile).toBe(true)
     expect(basemap.photos[year]).toBe(basemap.getLayers().getArray()[i])
@@ -312,7 +312,7 @@ test('setupLayers as called by constructor', () => {
     ])
     i++
   })
-  expect(i).toBe(14)
+  expect(i).toBe(15)
 })
 
 test('layerExtent', () => {
@@ -337,11 +337,11 @@ test('layerExtent', () => {
 })
 
 test('photoChange triggered by visible change', () => {
-  expect.assertions(58)
+  expect.assertions(63)
 
   const basemap = new Basemap({target: 'map'})
 
-  expect(Object.entries(basemap.photos).length).toBe(11)
+  expect(Object.entries(basemap.photos).length).toBe(12)
   Object.entries(basemap.photos).forEach(([year, layer]) => {
     expect(layer.getVisible()).toBe(false)
   })
