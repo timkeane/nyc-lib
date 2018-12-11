@@ -132,7 +132,9 @@ html, body.fnd, .fnd #map {
   margin-top: 3px;
 }
 .fnd .pop .btn.map {
-  display: none;
+  visibility: hidden;
+  position: fixed;
+  left: -1000px;
 }
 .fnd .pop .btn.dir {
   display: block;

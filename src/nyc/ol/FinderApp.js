@@ -573,7 +573,7 @@ FinderApp.FEATURE_DECORATIONS = {
    */
   mapButton() {
     return $('<a class="btn rad-all map" role="button" href="#">Map</a>')
-      .prepend('<span class="screen-reader-only">Locate this facility on the <span>')
+      .prepend('<span class="screen-reader-only">Locate this facility on the </span>')
       .data('feature', this)
       .click(FinderApp.handleButton)
   },
@@ -643,14 +643,14 @@ FinderApp.FEATURE_DECORATIONS = {
         if (distance.units === 'ft') {
           return html.html(`${(distance.distance / 5280).toFixed(2)} miles`)
         }
-        return html.html(`${(distance.distance / 1000).toFixed(2)} kilometers`)  
+        return html.html(`${(distance.distance / 1000).toFixed(2)} kilometers`)
       }
       html.attr('aria-hidden', true)
       if (distance.units === 'ft') {
         return html.html(`&bull; ${(distance.distance / 5280).toFixed(2)} mi &bull;`)
       }
-      return html.html(`&bull; ${(distance.distance / 1000).toFixed(2)} km &bull;`)  
-  }
+      return html.html(`&bull; ${(distance.distance / 1000).toFixed(2)} km &bull;`)
+    }
   },
   /**
    * @desc Returns collapsible details for the facility features as jQuery
