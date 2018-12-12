@@ -572,7 +572,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @return {jQuery} The map button as jQuery
    */
   mapButton() {
-    return $('<a class="btn rad-all map" role="button" href="#">Map</a>')
+    return $('<button class="btn rad-all map">Map</button>')
       .prepend('<span class="screen-reader-only">Locate this facility on the </span>')
       .data('feature', this)
       .click(FinderApp.handleButton)
@@ -584,7 +584,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @return {jQuery} The directions button as jQuery
    */
   directionsButton() {
-    return $('<a class="btn rad-all dir" role="button" href="#">Directions</a>')
+    return $('<button class="btn rad-all dir">Directions</button>')
       .data('feature', this)
       .click(FinderApp.handleButton)
   },
