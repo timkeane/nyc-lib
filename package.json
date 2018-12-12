@@ -1,6 +1,6 @@
 {
   "name": "nyc-lib",
-  "version": "1.2.02",
+  "version": "1.2.03",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "pretest": "rm -rf ./dist",
@@ -84,7 +84,6 @@
     "jest-fetch-mock": "^1.5.0",
     "jsdoc": "^3.5.5",
     "jszip": "^3.1.5",
-    "nyc-build-helper": "^0.0.21",
     "strict-mode": "^1.1.2",
     "webpack": "^4.8.3",
     "webpack-bundle-analyzer": "^2.11.1",
@@ -97,7 +96,8 @@
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.3.1",
     "leaflet": "^1.3.1",
-    "ol": "^5.1.3",
+    "nyc-build-helper": "^0.0.25",
+    "ol": "^5.3.0",
     "papaparse": "^4.5.0",
     "postcss-clean": "^1.1.0",
     "postcss-css-variables": "^0.9.0",
