@@ -21,4 +21,8 @@ postcss $DIR/tmp/nyc-ol-lib.css --o $DIR/build/nyc.ol.$theme --no-map --config $
 cat $DIR/tmp/$other >> $DIR/tmp/nyc-lib.css
 postcss $DIR/tmp/nyc-lib.css --o $DIR/build/nyc.$theme --no-map --config $DIR
 
+if [ "$NODE_ENV" == "dev" ] || [ "$NODE_ENV" == "development" ]; then
+  cp $DIR/tmp/* $DIR/build/
+fi
+
 rm -rf $DIR/tmp

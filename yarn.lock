@@ -5291,9 +5291,9 @@ nwmatcher@^1.4.3:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/nwmatcher/-/nwmatcher-1.4.4.tgz#2285631f34a95f0d0395cd900c96ed39b58f346e"
 
-nyc-build-helper@^0.0.26:
-  version "0.0.26"
-  resolved "https://registry.yarnpkg.com/nyc-build-helper/-/nyc-build-helper-0.0.26.tgz#238e7b4642590ee5253ba0f7431650c10db233a0"
+nyc-build-helper@^0.0.27:
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/nyc-build-helper/-/nyc-build-helper-0.0.27.tgz#ddd1e2d3c69e46fbb4bf45a39b5057fc3471d389"
   dependencies:
     clean-webpack-plugin "^0.1.19"
     copy-webpack-plugin "^4.5.2"
