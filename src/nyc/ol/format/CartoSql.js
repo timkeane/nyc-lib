@@ -14,7 +14,7 @@ import OlFormatFormatType from 'ol/format/FormatType'
  * @public
  * @class
  * @extends ol.format.Feature
- * @see http://openlayers.org/en/latest/apidoc/ol.format.Feature.html
+ * @see http://openlayers.org/en/latest/apidoc/module-ol_format_Feature-FeatureFormat.html
  */
 class CartoSql extends OlFormatFeature {
 	/**

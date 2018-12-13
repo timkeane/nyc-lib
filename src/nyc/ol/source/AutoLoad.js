@@ -13,7 +13,7 @@ require('isomorphic-fetch')
  * @public
  * @class
  * @extends {ol.source.Vector}
- * @see http://openlayers.org/en/latest/apidoc/ol.source.Vector.html
+ * @see http://openlayers.org/en/latest/apidoc/module-ol_source_Vector-VectorSource.html
  */
 class AutoLoad extends OlSourceVector {
   /**

@@ -13,7 +13,7 @@ import OlFormatFeature from 'ol/format/Feature'
  * @public
  * @class
  * @extends ol.format.Feature
- * @see http://openlayers.org/en/latest/apidoc/ol.format.Feature.html
+ * @see http://openlayers.org/en/latest/apidoc/module-ol_format_Feature-FeatureFormat.html
  */
 class Decorate extends OlFormatFeature {
   /**

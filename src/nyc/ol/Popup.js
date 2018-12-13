@@ -13,7 +13,7 @@ import nyc from 'nyc'
  * @public
  * @class
  * @extends ol.Overlay
- * @see http://openlayers.org/en/latest/apidoc/ol.Overlay.html
+ * @see http://openlayers.org/en/latest/apidoc/module-ol_Overlay.html
  */
 class Popup extends OlOverlay {
   /**

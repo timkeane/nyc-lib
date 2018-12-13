@@ -36,7 +36,7 @@ olProjRegister(proj4)
  * @desc Class that provides an ol.Map with base layers, labels, and drag-and-drop
  * @public
  * @class
- * @extends ol.Map
+ * @extends ol.PluggableMap
  * @mixes module:nyc/BasemapHelper~BasemapHelper
  * @see http://openlayers.org/en/latest/apidoc/ol.Map.html
  */
