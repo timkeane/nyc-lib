@@ -17,12 +17,10 @@ import CanvasVectorLayerRenderer from 'ol/renderer/canvas/VectorLayer'
 
 import DoubleClickZoom from 'ol/interaction/DoubleClickZoom'
 import DragPan from 'ol/interaction/DragPan'
-import DragRotate from 'ol/interaction/DragRotate'
 import DragZoom from 'ol/interaction/DragZoom'
 import KeyboardPan from 'ol/interaction/KeyboardPan'
 import KeyboardZoom from 'ol/interaction/KeyboardZoom'
 import MouseWheelZoom from 'ol/interaction/MouseWheelZoom'
-import PinchRotate from 'ol/interaction/PinchRotate'
 import PinchZoom from 'ol/interaction/PinchZoom'
 
 import OlView from 'ol/View'
@@ -55,16 +53,14 @@ class Basemap extends OlPluggableMap {
     Basemap.setupView(options)
     if (!options.interactions) {
       options.interactions = [
-        new DragRotate(),
         new DoubleClickZoom(),
         new DragPan(),
-        new PinchRotate(),
         new PinchZoom(),
         new KeyboardPan(),
         new KeyboardZoom(),
         new MouseWheelZoom(),
         new DragZoom()
-      ];
+      ]
     }
     super(options)
     nyc.mixin(this, [BasemapHelper])
@@ -98,12 +94,12 @@ class Basemap extends OlPluggableMap {
     this.hookupEvents(this.getTargetElement())
   }
   createRenderer() {
-    const renderer = new CanvasMapRenderer(this);
+    const renderer = new CanvasMapRenderer(this)
     renderer.registerLayerRenderers([
       CanvasTileLayerRenderer,
-      CanvasVectorLayerRenderer,
-    ]);
-    return renderer;
+      CanvasVectorLayerRenderer
+    ])
+    return renderer
   }
   /**
    * @desc Show photo layer
