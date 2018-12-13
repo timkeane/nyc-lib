@@ -9,7 +9,22 @@ import nycOl from 'nyc/ol'
 import BasemapHelper from 'nyc/BasemapHelper'
 import LocalStorage from 'nyc/ol/LocalStorage'
 
-import OlMap from 'ol/Map'
+import OlPluggableMap from 'ol/PluggableMap'
+
+import CanvasMapRenderer from 'ol/renderer/canvas/Map'
+import CanvasTileLayerRenderer from 'ol/renderer/canvas/TileLayer'
+import CanvasVectorLayerRenderer from 'ol/renderer/canvas/VectorLayer'
+
+import DoubleClickZoom from 'ol/interaction/DoubleClickZoom'
+import DragPan from 'ol/interaction/DragPan'
+import DragRotate from 'ol/interaction/DragRotate'
+import DragZoom from 'ol/interaction/DragZoom'
+import KeyboardPan from 'ol/interaction/KeyboardPan'
+import KeyboardZoom from 'ol/interaction/KeyboardZoom'
+import MouseWheelZoom from 'ol/interaction/MouseWheelZoom'
+import PinchRotate from 'ol/interaction/PinchRotate'
+import PinchZoom from 'ol/interaction/PinchZoom'
+
 import OlView from 'ol/View'
 import OlSourceXYZ from 'ol/source/XYZ'
 import OlLayerTile from 'ol/layer/Tile'
@@ -27,7 +42,7 @@ olProjRegister(proj4)
  * @mixes module:nyc/BasemapHelper~BasemapHelper
  * @see http://openlayers.org/en/latest/apidoc/ol.Map.html
  */
-class Basemap extends OlMap {
+class Basemap extends OlPluggableMap {
   /**
    * @desc Create an instance of Basemap
    * @public
@@ -38,6 +53,19 @@ class Basemap extends OlMap {
   constructor(options, preload) {
     const viewProvided = options.view instanceof OlView
     Basemap.setupView(options)
+    if (!options.interactions) {
+      options.interactions = [
+        new DragRotate(),
+        new DoubleClickZoom(),
+        new DragPan(),
+        new PinchRotate(),
+        new PinchZoom(),
+        new KeyboardPan(),
+        new KeyboardZoom(),
+        new MouseWheelZoom(),
+        new DragZoom()
+      ];
+    }
     super(options)
     nyc.mixin(this, [BasemapHelper])
     /**
@@ -68,6 +96,14 @@ class Basemap extends OlMap {
     this.setupLayers(options, preload)
     this.defaultExtent(viewProvided)
     this.hookupEvents(this.getTargetElement())
+  }
+  createRenderer() {
+    const renderer = new CanvasMapRenderer(this);
+    renderer.registerLayerRenderers([
+      CanvasTileLayerRenderer,
+      CanvasVectorLayerRenderer,
+    ]);
+    return renderer;
   }
   /**
    * @desc Show photo layer

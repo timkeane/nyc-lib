@@ -3,7 +3,7 @@ import Basemap from 'nyc/ol/Basemap'
 import LocalStorage from 'nyc/ol/LocalStorage'
 import BasemapHelper from 'nyc/BasemapHelper'
 
-import OlMap from 'ol/Map'
+import OlMap from 'ol/PluggableMap'
 import OlView from 'ol/View'
 import OlLayerTile from 'ol/layer/Tile'
 import OlSourceXYZ from 'ol/source/XYZ'
