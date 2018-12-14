@@ -23,7 +23,7 @@ olProjRegister(proj4)
  * @public
  * @class
  * @extends ol.format.Feature
- * @see http://openlayers.org/en/latest/apidoc/ol.format.Feature.html
+ * @see http://openlayers.org/en/latest/apidoc/module-ol_format_Feature-FeatureFormat.html
  */
 class CsvPoint extends OlFormatFeature {
 	/**

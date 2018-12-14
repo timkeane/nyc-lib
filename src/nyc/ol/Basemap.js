@@ -38,7 +38,7 @@ olProjRegister(proj4)
  * @class
  * @extends ol.PluggableMap
  * @mixes module:nyc/BasemapHelper~BasemapHelper
- * @see http://openlayers.org/en/latest/apidoc/ol.Map.html
+ * @see http://openlayers.org/en/latest/apidoc/module-ol_PluggableMap.html
  */
 class Basemap extends OlPluggableMap {
   /**
