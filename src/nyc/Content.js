@@ -16,17 +16,17 @@ require('isomorphic-fetch')
  */
 class Content extends ReplaceTokens {
   /**
-	 * @desc Create an instance of Content
-	 * @public
-	 * @constructor
-	 * @param {Array<Object<string, string>>} messages The messages with optional tokens mapped by message id
-	 */
+   * @desc Create an instance of Content
+   * @public
+   * @constructor
+   * @param {Array<Object<string, string>>} messages The messages with optional tokens mapped by message id
+   */
   constructor(messages) {
     super()
     /**
-		 * @private
-		 * @member {Object<string, string>}
-		 */
+     * @private
+     * @member {Object<string, string>}
+     */
     this.messages = {}
     messages.forEach(msgs => {
       Object.keys(msgs).forEach(key => {
@@ -38,13 +38,13 @@ class Content extends ReplaceTokens {
     })
   }
   /**
-	 * @desc Returns a content message with substituted values
-	 * @public
-	 * @method
-	 * @param {string} msgId The id for the message
-	 * @param {Object<string, string>=} values The substitution values
-	 * @return {string} The message with substituted values if provided
-	 */
+   * @desc Returns a content message with substituted values
+   * @public
+   * @method
+   * @param {string} msgId The id for the message
+   * @param {Object<string, string>=} values The substitution values
+   * @return {string} The message with substituted values if provided
+   */
   message(msgId, values) {
     if (!this.messages[msgId]) {
       return ''

@@ -18,7 +18,7 @@ class Collapsible extends Container {
    * @desc Create an instance of Collapsible
    * @public
    * @constructor
-   * @param {module:nyc/Collapsible~Collapsible.Options}
+   * @param {module:nyc/Collapsible~Collapsible.Options} options Collapsible options
    */
   constructor(options) {
     super(options.target)
