@@ -2,8 +2,6 @@
  * @module nyc/leaf/Basemap
  */
 
-import $ from 'jquery'
-
 import nyc from 'nyc'
 import leaf from 'nyc/leaf'
 import BasemapHelper from 'nyc/BasemapHelper'
@@ -31,29 +29,29 @@ class Basemap {
     const map = L.map(options.target)
     nyc.mixin(map, [BasemapHelper])
     /**
-		 * @private
-		 * @member {number}
-		 */
+     * @private
+     * @member {number}
+     */
     map.latestPhoto = 0
     /**
-		 * @private
-		 * @member {L.TileLayer}
-		 */
+     * @private
+     * @member {L.TileLayer}
+     */
     map.base = null
     /**
-		 * @private
-		 * @member {Object<string, L.TileLayer>}
-		 */
+     * @private
+     * @member {Object<string, L.TileLayer>}
+     */
     map.labels = {}
     /**
-		 * @private
-		 * @member {Object<string, L.TileLayer>}
-		 */
+     * @private
+     * @member {Object<string, L.TileLayer>}
+     */
     map.photos = {}
     /**
-		 * @private
-		 * @member {storage.Local}
-		 */
+     * @private
+     * @member {storage.Local}
+     */
     map.storage = new LocalStorage()
     this.setupLayers(map, options)
     map.fitBounds(Basemap.EXTENT)
@@ -61,11 +59,11 @@ class Basemap {
     return map
   }
   /**
-	 * @private
-	 * @method
-	 * @param {L.Map} map
-	 * @param {module:nyc/BasemapHelper~BasemapHelper.Options} options
-	 */
+   * @private
+   * @method
+   * @param {L.Map} map The Leaflet map
+   * @param {module:nyc/BasemapHelper~BasemapHelper.Options} options Options
+   */
   setupLayers(map, options) {
     map.base = L.tileLayer(Basemap.BASE_URL, {
       minNativeZoom: 8,
@@ -111,23 +109,23 @@ class Basemap {
     })
   }
   /**
-	 * @desc Get the storage used for loading and saving data
-	 * @public
-	 * @override
-	 * @method
-	 * @return {module:nyc/leaf/LocalStorage~LocalStorage} srorage
-	 */
+   * @desc Get the storage used for loading and saving data
+   * @public
+   * @override
+   * @method
+   * @return {module:nyc/leaf/LocalStorage~LocalStorage} srorage
+   */
   getStorage(year) {
     return this.storage
   }
 
   /**
-	 * @desc Show photo layer
-	 * @public
-	 * @override
-	 * @method
-	 * @param year {number=} The photo year to show - shows the latest year if not provided
-	 */
+   * @desc Show photo layer
+   * @public
+   * @override
+   * @method
+   * @param {number=} year The photo year to show - shows the latest year if not provided
+   */
   showPhoto(year) {
     year = year || this.latestPhoto
     this.hidePhoto()
@@ -135,23 +133,23 @@ class Basemap {
     this.showLabels('photo')
   }
   /**
-	 * @desc Show labels by type
-	 * @public
-	 * @override
-	 * @method
-	 * @param labelType {module:nyc/BasemapHelper~BasemapHelper} The label type to show
-	 */
+   * @desc Show labels by type
+   * @public
+   * @override
+   * @method
+   * @param {module:nyc/BasemapHelper~BasemapHelper} labelType The label type to show
+   */
   showLabels(labelType) {
     this[labelType == BasemapHelper.LabelType.BASE ? 'addLayer' : 'removeLayer'](this.labels.base)
     this[labelType == BasemapHelper.LabelType.PHOTO ? 'addLayer' : 'removeLayer'](this.labels.photo)
   }
 
   /**
-	 * @desc Hide photo layer
-	 * @public
-	 * @override
-	 * @method
-	 */
+   * @desc Hide photo layer
+   * @public
+   * @override
+   * @method
+   */
   hidePhoto() {
     this.showLabels(BasemapHelper.LabelType.BASE)
     Object.keys(this.photos).map(photoYear => {
@@ -161,12 +159,12 @@ class Basemap {
     })
   }
   /**
-	 * @desc Returns the base layers
-	 * @public
-	 * @override
-	 * @method
-	 * @return {module:nyc/BasemapHelper~BasemapHelper.BaseLayers}
-	 */
+   * @desc Returns the base layers
+   * @public
+   * @override
+   * @method
+   * @return {module:nyc/BasemapHelper~BasemapHelper.BaseLayers} Base layer object
+   */
   getBaseLayers() {
     return {
       base: this.base,
