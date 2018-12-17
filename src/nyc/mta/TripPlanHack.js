@@ -45,7 +45,9 @@ class TripPlanHack {
    * @return {strinfg}
    */
   getUrl() {
-    if (this.url) return this.url
+    if (this.url) {
+      return this.url
+    }
     const host = document.location.hostname
     const path = document.location.pathname
     let port = document.location.port

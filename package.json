@@ -22,7 +22,8 @@
     "nyc-ol-fullscreen-css": "postcss ./src/css/nyc-ol-fullscreen-lib.css --o ./tmp/css/nyc-ol-fullscreen-lib.css --no-map --config postcss.config.js",
     "roll-css": "cp ./etc/css/*.* ./dist/css/",
     "predeploy": "yarn build",
-    "deploy": "node deploy && node write-index"
+    "deploy": "node deploy && node write-index",
+    "lint": "eslint src"
   },
   "jest": {
     "verbose": true,
@@ -94,6 +95,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "eslint-config-openlayers": "^11.0.0",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.3.1",
     "leaflet": "^1.3.1",

@@ -79,18 +79,18 @@ class FilterAndSort extends AutoLoad {
       $.extend(f1, FilterAndSort.DistanceDecoration)
       if (dist0.distance < dist1.distance) {
         return -1
-      }else if (dist0.distance > dist1.distance) {
+      } else if (dist0.distance > dist1.distance) {
         return 1
       }
-			return 0
+      return 0
     })
     return features
   }
   /**
    * @private
    * @method
-   * @param {ol.Coordinate} coordinate 
-   * @param {ol.geom.Geometry} geom 
+   * @param {ol.Coordinate} coordinate
+   * @param {ol.geom.Geometry} geom
    * @return {module:nyc/FilterAndSort~FilterAndSort.Distance}
    */
   distance(coordinate, geom) {
@@ -106,7 +106,7 @@ class FilterAndSort extends AutoLoad {
   /**
    * @private
    * @method
-   * @param {ol.format.Feature} format 
+   * @param {ol.format.Feature} format
    * @return {Array<ol.proj.Projection>}
    */
   projections(format) {
@@ -144,7 +144,7 @@ FilterAndSort.Distance
  * @public
  * @typedef {Object}
  * @property {string} property The property name on which to filter features
- * @property {Array<string>} values The values used to filter features 
+ * @property {Array<string>} values The values used to filter features
  */
 FilterAndSort.Filter
 
@@ -157,7 +157,7 @@ FilterAndSort.DistanceDecoration = {
   /**
    * @desc Mixin for features
    * @private
-   * @method 
+   * @method
    * @return {module:nyc/FilterAndSort~FilterAndSort.Distance}
    */
   getDistance() {

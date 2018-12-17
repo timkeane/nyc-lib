@@ -28,7 +28,7 @@ class MapLocator extends NycMapLocator {
  * @constructor
  * @param {module:nyc/ol/MapLocator~MapLocator.Options} options Constructor options
  */
-constructor(options) {
+  constructor(options) {
     super()
     /**
 		 * @desc The layer on which to render locations
@@ -68,7 +68,7 @@ constructor(options) {
     this.tip = null
     this.createLayer(options.style)
   }
-	/**
+  /**
 	 * @desc Zoom to the provided location then optionally invoke a callback function
 	 * @public
 	 * @override
@@ -76,83 +76,83 @@ constructor(options) {
 	 * @param {module:nyc/Locator~Locator.Result} data The location to which the map will be oriented
 	 * @param {module:nyc/MapLocator~MapLocator#zoomLocationCallback=} callback The function to call after the locator has zoomed to the location
 	 */
-	zoomLocation(data, callback) {
+  zoomLocation(data, callback) {
     const map = this.map
     const view = this.view
     const source = this.source
     const feature = this.feature(data)
     const geom = feature.getGeometry()
-		source.clear()
-		source.addFeature(feature)
-		if (callback) {
-			map.once('moveend', callback)
-		}
-		if (geom.getType() === 'Point') {
+    source.clear()
+    source.addFeature(feature)
+    if (callback) {
+      map.once('moveend', callback)
+    }
+    if (geom.getType() === 'Point') {
       view.animate({center: data.coordinate, zoom: this.zoom})
-		} else {
+    } else {
       view.fit(geom.getExtent(), {size: map.getSize(), duration: 500})
-		}
-	}
-	/**
+    }
+  }
+  /**
 	 * @desc Set the location to the provided location without moving the map
 	 * @public
 	 * @override
 	 * @method
 	 * @param {module:nyc/Locator~Locator.Result} data The location to which the map will be oriented
 	 */
-	setLocation(data) {
-		this.source.clear()
-		this.source.addFeature(this.feature(data))
-	}
-	/**
+  setLocation(data) {
+    this.source.clear()
+    this.source.addFeature(this.feature(data))
+  }
+  /**
 	 * @desc Get the projection of the map
 	 * @public
 	 * @override
 	 * @method
 	 * @returns {string} The map projection
 	 */
-	getProjection() {
-		return this.view.getProjection().getCode()
-	}
-	/**
+  getProjection() {
+    return this.view.getProjection().getCode()
+  }
+  /**
 	 * @private
 	 * @method
 	 * @param {module:nyc/Locator~Locator.Result} location
 	 * @return {ol.Feature}
 	 */
-	feature (location) {
+  feature(location) {
     const geoJson = location.geometry
     const feature = new OlFeature({name: location.name, isFeature: location.isFeature})
-		if (geoJson) {
-			feature.setGeometry(this.format.readGeometry(geoJson))
+    if (geoJson) {
+      feature.setGeometry(this.format.readGeometry(geoJson))
     } else {
-			feature.setGeometry(new OlGeomPoint(location.coordinate))
-		}
-		return feature
-	}
-	/**
+      feature.setGeometry(new OlGeomPoint(location.coordinate))
+    }
+    return feature
+  }
+  /**
 	 * @private
 	 * @method
 	 * @param {ol.style.Style|Array<ol.style.Style>|ol.StyleFunction=} style
 	 */
-	createLayer(style) {
-		this.source = new OlSourceVector()
-		this.layer = new OlLayerVector({
-			source: this.source,
-			style: style || MapLocator.LOCATION_STYLE,
-			zIndex: 10000
-		})
-		this.map.addLayer(this.layer)
-		this.tip = new FeatureTip({
-			map: this.map, 
-			tips: [{
-				layer: this.layer,
-				label: feature => {
-					return {css: 'nyc-user-location', html: feature.get('name')}
-				}
-			}]
-		})
-	}
+  createLayer(style) {
+    this.source = new OlSourceVector()
+    this.layer = new OlLayerVector({
+      source: this.source,
+      style: style || MapLocator.LOCATION_STYLE,
+      zIndex: 10000
+    })
+    this.map.addLayer(this.layer)
+    this.tip = new FeatureTip({
+      map: this.map,
+      tips: [{
+        layer: this.layer,
+        label: feature => {
+          return {css: 'nyc-user-location', html: feature.get('name')}
+        }
+      }]
+    })
+  }
 }
 
 /**

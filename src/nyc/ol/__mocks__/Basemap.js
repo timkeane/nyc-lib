@@ -12,7 +12,9 @@ const mock = jest.fn().mockImplementation(() => {
       }
     },
     addLayer: jest.fn(),
-    getSize: jest.fn(() => {return [100, 100]}),
+    getSize: jest.fn(() => {
+      return [100, 100]
+    }),
     setSize: jest.fn(),
     once: jest.fn().mockImplementation((eventType, callback) => {
       callback()

@@ -62,7 +62,7 @@ class Popup extends OlOverlay {
     this.closeFullscreen = this.fullscreen.find('.btn-x')
     $(this.map.getTargetElement()).append(this.fullscreen)
     this.popup.find('.btn-x').on('click tap', $.proxy(this.hide, this))
-    this.popup.on('mouseover mousemove',  $.proxy(this.hideTip, this))
+    this.popup.on('mouseover mousemove', $.proxy(this.hideTip, this))
   }
   /**
    * @desc Show the popup
@@ -75,7 +75,7 @@ class Popup extends OlOverlay {
       this.content.html(options.html)
       this.cssClass(options.css)
     }
-    this.setPosition(options.coordinate)    
+    this.setPosition(options.coordinate)
     this.popup.fadeIn($.proxy(this.pan, this))
     $('.f-tip').fadeOut()
   }
@@ -164,7 +164,7 @@ Popup.ShowOptions
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The map
- * @property {number} [autoPanMargin=10] The margin the popup will maintain from the edge of the map 
+ * @property {number} [autoPanMargin=10] The margin the popup will maintain from the edge of the map
  */
 Popup.Options
 

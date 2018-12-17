@@ -2,7 +2,7 @@
  * @module nyc/mta
  */
 
- /**
+/**
  * @desc Namespace for MTA TripPlanner Hack
  * @public
  * @namespace

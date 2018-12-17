@@ -56,7 +56,7 @@ class FinderApp {
      * @member {module:nyc/ListPager~ListPager}
      */
     this.pager = new ListPager({
-      target: '#facilities div', 
+      target: '#facilities div',
       itemType: options.facilityTabTitle
     })
     /**
@@ -162,12 +162,12 @@ class FinderApp {
      * @private
      * @member {module:nyc/Directions~Directions}
      */
-    this.directions = null    
+    this.directions = null
     /**
      * @private
      * @member {string}
      */
-    this.directionsUrl = options.directionsUrl    
+    this.directionsUrl = options.directionsUrl
   }
   /**
    * @desc Reset the facilities list
@@ -213,7 +213,7 @@ class FinderApp {
    */
   directionsTo(feature) {
     this.directions = this.directions || new Directions({
-      url: this.directionsUrl, 
+      url: this.directionsUrl,
       toggle: '#tabs'
     })
     const to = feature.getFullAddress()
@@ -301,17 +301,17 @@ class FinderApp {
    * @return {string|Array<number>}
    */
   getFromAddr() {
-		const location = this.location
-		if (location.type === 'geolocated') {
-			const coordinates = proj4(
-        this.view.getProjection().getCode(), 
-        'EPSG:4326', 
+    const location = this.location
+    if (location.type === 'geolocated') {
+      const coordinates = proj4(
+        this.view.getProjection().getCode(),
+        'EPSG:4326',
         location.coordinate
       )
-			return `${coordinates[1]},${coordinates[0]}`
-		}
-		return location.name || ''
-	}
+      return `${coordinates[1]},${coordinates[0]}`
+    }
+    return location.name || ''
+  }
   /**
    * @private
    * @method
@@ -349,8 +349,8 @@ class FinderApp {
    * @method
    */
   adjustTabs() {
-		/* 
-		 * when input gets focus screen resizes on android 
+    /*
+		 * when input gets focus screen resizes on android
 		 * causing input to lose focus when tabs are adjusted
 		 * so we don't adjust tabs when input has focus
 		 */
@@ -472,7 +472,7 @@ FinderApp.FEATURE_DECORATIONS = {
     throw 'A getName decoration must be provided'
   },
   /**
-   * @desc Returns a CSS class for the rendered facility feature 
+   * @desc Returns a CSS class for the rendered facility feature
    * @public
    * @method
    * @return {string} The CSS class
@@ -559,7 +559,7 @@ FinderApp.FEATURE_DECORATIONS = {
    */
   addressHtml() {
     const html = $('<div class="addr"></div>')
-    .append(`<div class="ln1">${this.getAddress1()}</div>`)
+      .append(`<div class="ln1">${this.getAddress1()}</div>`)
     if (this.getAddress2()) {
       html.append(`<div class="ln2">${this.getAddress2()}</div>`)
     }
@@ -610,7 +610,7 @@ FinderApp.FEATURE_DECORATIONS = {
   emailButton() {
     const email = this.getEmail()
     if (email) {
-      return $(`<a class="btn rad-all email" role="button">Email</a>`)
+      return $('<a class="btn rad-all email" role="button">Email</a>')
         .attr('href', `mailto:${email}`)
     }
   },
@@ -623,8 +623,8 @@ FinderApp.FEATURE_DECORATIONS = {
   websiteButton() {
     const url = this.getWebsite()
     if (url) {
-    return $(`<a class="btn rad-all web" target="blank" role="button">Website</a>`)
-      .attr('href', url)
+      return $('<a class="btn rad-all web" target="blank" role="button">Website</a>')
+        .attr('href', url)
     }
   },
   /**
@@ -700,7 +700,7 @@ FinderApp.HTML = '<h1 id="banner" role="banner"></h1>' +
 '<a id="home" role="button" href="#" onclick="document.location.reload()">' +
   '<span class="screen-reader-only">Reload page</span>' +
   '<svg xmlns="http://www.w3.org/2000/svg" width="152" height="52">' +
-    '<g transform="translate(1.5,0)">'+
+    '<g transform="translate(1.5,0)">' +
       '<polygon points="15.5,1.2 3.1,1.2 0,4.3 0,47.7 3.1,50.8 15.5,50.8 18.6,47.7 18.6,35.3 34.1,50.8 46.6,50.8 49.7,47.7 49.7,4.3 46.6,1.2 34.1,1.2 31,4.3 31,16.7 "/>' +
       '<polygon points="83.8,47.7 83.8,38.4 99.3,22.9 99.3,10.5 99.3,4.3 96.2,1.2 83.8,1.2 80.7,4.3 80.7,10.5 74.5,16.7 68.3,10.5 68.3,4.3 65.2,1.2 52.8,1.2 49.7,4.3 49.7,22.9 65.2,38.4 65.2,47.7 68.3,50.8 80.7,50.8 "/>' +
       '<polygon points="145.9,29.1 130.4,29.1 130.4,32.2 118,32.2 118,19.8 130.4,19.8 130.4,22.9 145.9,22.9 149,19.8 149,10.5 139.7,1.2 108.6,1.2 99.3,10.5 99.3,41.5 108.6,50.8 139.7,50.8 149,41.5 149,32.2 "/>' +

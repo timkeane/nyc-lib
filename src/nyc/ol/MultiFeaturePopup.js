@@ -72,7 +72,9 @@ class MultiFeaturePopup extends FeaturePopup {
         features.push(feature)
       }
     })
-    if (features.length) this.showFeatures(features, event.coordinate)
+    if (features.length) {
+      this.showFeatures(features, event.coordinate)
+    }
   }
   /**
    * @private

@@ -26,23 +26,23 @@ class Directions extends Contanier {
    * @param {module:nyc/Directions~Directions.Options=} options Constructor options
    */
   constructor(options) {
-		super('body')
-		options = options || {}
-		global.directions = this
-		this.append(Directions.HTML)
+    super('body')
+    options = options || {}
+    global.directions = this
+    this.append(Directions.HTML)
     /**
      * @private
      * @member {module:nyc/Tabs~Tabs}
      */
-		this.tabs = new Tabs({
+    this.tabs = new Tabs({
       target: '#dir-tabs',
       tabs: [
         {tab: '#map-tab', title: 'Route Map'},
         {tab: '#route-tab', title: 'Directions'}
       ]
-		})
-		this.tabs.find('.btn-0').attr('aria-hidden', true)
-		this.tabs.on('change', this.tabChange, this)
+    })
+    this.tabs.find('.btn-0').attr('aria-hidden', true)
+    this.tabs.on('change', this.tabChange, this)
 	  /**
      * @public
      * @member {google.maps.Map}
@@ -77,211 +77,211 @@ class Directions extends Contanier {
      * @private
      * @member {jQuery.Event}
      */
-		this.routeTarget = this.find('#route-tab div.route')
-		/**
+    this.routeTarget = this.find('#route-tab div.route')
+    /**
      * @private
      * @member {string}
      */
-		this.lastDir = ''
-		/**
+    this.lastDir = ''
+    /**
      * @private
      * @member {jQuery}
      */
-		this.toggle = $(options.toggle)
-		/**
+    this.toggle = $(options.toggle)
+    /**
      * @private
      * @member {Array<Object<string, Object>>}
      */
-		this.styles = options.styles || Directions.DEFAULT_STYLES
-		/**
+    this.styles = options.styles || Directions.DEFAULT_STYLES
+    /**
      * @private
      * @member {boolean}
      */
-		this.monitoring = false
-		$('#mta').click($.proxy(this.tripPlanHack, this))
+    this.monitoring = false
+    $('#mta').click($.proxy(this.tripPlanHack, this))
     $('#mode button').not('#mta').click($.proxy(this.mode, this))
 
-		const input = $('#fld-from input')
-		input.keypress($.proxy(this.key, this)).focus(() => input.select())
+    const input = $('#fld-from input')
+    input.keypress($.proxy(this.key, this)).focus(() => input.select())
 
-		const tog = this.toggle
-		$('#back-to-map').click(() => {
-			$('#directions').slideUp()
-			tog.show().attr('aria-hidden', false)
-		})
+    const tog = this.toggle
+    $('#back-to-map').click(() => {
+      $('#directions').slideUp()
+      tog.show().attr('aria-hidden', false)
+    })
   }
-	/**
+  /**
 	 * @desc Get directions
 	 * @public
 	 * @method
 	 * @param {module:nyc/Directions~Directions.Request} args The arguments describing the requested directions
 	 */
-	directions(args) {
-		const mode = args.mode || 'TRANSIT'
-		const url = this.url
-		const tog = this.toggle
-		this.args = args		
-		this.monitor()
-		this.tabs.open('#route-tab')
-		if (!this.map) {
-			return $.getScript(url)
-		}
-		args.from = args.from || $('#fld-from input').val()
-		$('#fld-from input').val(args.from)
-		$('#fld-to').html(args.to)
-		$('#fld-facility').html(args.facility)
-		$('#directions').slideDown(() => {
-			tog.hide()
-		})
-		tog.attr('aria-hidden', true)
-		if (args.from && this.lastDir !== `${args.from}|${args.to}|${mode}`) {
-			this.lastDir = `${args.from}|${args.to}|${mode}`
-			this.service.route(
-				{
-					origin: args.from,
-					destination: args.to,
-					travelMode: google.maps.TravelMode[mode]
-				},
-				$.proxy(this.handleResp, this)
-			)
-		}
-	}
-	/**
+  directions(args) {
+    const mode = args.mode || 'TRANSIT'
+    const url = this.url
+    const tog = this.toggle
+    this.args = args
+    this.monitor()
+    this.tabs.open('#route-tab')
+    if (!this.map) {
+      return $.getScript(url)
+    }
+    args.from = args.from || $('#fld-from input').val()
+    $('#fld-from input').val(args.from)
+    $('#fld-to').html(args.to)
+    $('#fld-facility').html(args.facility)
+    $('#directions').slideDown(() => {
+      tog.hide()
+    })
+    tog.attr('aria-hidden', true)
+    if (args.from && this.lastDir !== `${args.from}|${args.to}|${mode}`) {
+      this.lastDir = `${args.from}|${args.to}|${mode}`
+      this.service.route(
+        {
+          origin: args.from,
+          destination: args.to,
+          travelMode: google.maps.TravelMode[mode]
+        },
+        $.proxy(this.handleResp, this)
+      )
+    }
+  }
+  /**
 	 * @private
 	 * @method
 	 */
-	monitor() {
-		if (!this.monitoring) {
-			this.monitoring = true
-			if ('MutationObserver' in window) {
-				new MutationObserver(this.routeAlt)
-					.observe(this.find('.route').get(0), {childList: true})
-			} else {
-				setInterval(this.routeAlt, 500)
-			}
-		}
-	}
-	/**
+  monitor() {
+    if (!this.monitoring) {
+      this.monitoring = true
+      if ('MutationObserver' in window) {
+        new MutationObserver(this.routeAlt)
+          .observe(this.find('.route').get(0), {childList: true})
+      } else {
+        setInterval(this.routeAlt, 500)
+      }
+    }
+  }
+  /**
 	 * @private
 	 * @method
 	 * @param {Object} response
 	 * @param {string} status
 	 */
-	handleResp(response, status) {
-		if (status === google.maps.DirectionsStatus.OK) {
-			const leg = response.routes[0].legs[0]
-			const addrA = leg.start_address.replace(/\, USA/, '')
-			const addrB = leg.end_address.replace(/\, USA/, '')
-			if (!this.args.origin.coordinate) {
-				const start = leg.start_location
-				this.args.origin = {
-					name: addrA,
-					coordinate: [start.lng(), start.lat()],
-					projection: 'EPSG:4326'
-				}
-			}
-			this.renderer.setOptions({
-				map: this.map,
-				panel: $(this.routeTarget).get(0),
-				directions: response
-			})
-			$('#fld-from input').val(addrA)
-			$('#fld-to').html(addrB)
-		} else {
-			$(this.routeTarget).empty()
-			new Dialog().ok({
-				message: `Could not determine directions from '${this.args.from}' to '${this.args.to}'`
-			})
-		}
-		this.trigger('change', {response: response, status: status})
-	}
-	/**
+  handleResp(response, status) {
+    if (status === google.maps.DirectionsStatus.OK) {
+      const leg = response.routes[0].legs[0]
+      const addrA = leg.start_address.replace(/\, USA/, '')
+      const addrB = leg.end_address.replace(/\, USA/, '')
+      if (!this.args.origin.coordinate) {
+        const start = leg.start_location
+        this.args.origin = {
+          name: addrA,
+          coordinate: [start.lng(), start.lat()],
+          projection: 'EPSG:4326'
+        }
+      }
+      this.renderer.setOptions({
+        map: this.map,
+        panel: $(this.routeTarget).get(0),
+        directions: response
+      })
+      $('#fld-from input').val(addrA)
+      $('#fld-to').html(addrB)
+    } else {
+      $(this.routeTarget).empty()
+      new Dialog().ok({
+        message: `Could not determine directions from '${this.args.from}' to '${this.args.to}'`
+      })
+    }
+    this.trigger('change', {response: response, status: status})
+  }
+  /**
 	 * @private
 	 * @method
 	 */
-	routeAlt() {
-		let first = true
-		global.directions.find('.route img').each((_, img) => {
-			const src = img.src
-			let imgName = src.match(/([^\/]+)(?=\.\w+$)/)
-			imgName = imgName ? imgName[0] : ''
-			if (src.indexOf('us-ny-mta') > -1) {
-				img.alt = `Take the ${imgName} train `
-			} else if (imgName === 'walk') {
-				img.alt = 'Walk '
-			} else if ($(img).hasClass('adp-marker2')) {
-				img.alt = first ? 'Start location ' : 'End location '
-				first = false
-			}
-		})
-	}
-	/**
+  routeAlt() {
+    let first = true
+    global.directions.find('.route img').each((_, img) => {
+      const src = img.src
+      let imgName = src.match(/([^\/]+)(?=\.\w+$)/)
+      imgName = imgName ? imgName[0] : ''
+      if (src.indexOf('us-ny-mta') > -1) {
+        img.alt = `Take the ${imgName} train `
+      } else if (imgName === 'walk') {
+        img.alt = 'Walk '
+      } else if ($(img).hasClass('adp-marker2')) {
+        img.alt = first ? 'Start location ' : 'End location '
+        first = false
+      }
+    })
+  }
+  /**
 	 * @private
 	 * @method
 	 */
-	tabChange() {
-		if (this.renderer) {
-			this.renderer.setOptions({map: this.map})
-		}
-	}
-	/**
+  tabChange() {
+    if (this.renderer) {
+      this.renderer.setOptions({map: this.map})
+    }
+  }
+  /**
 	 * @desc Initializes the class on callback from the Google Maps
 	 * @public
 	 * @method
 	 */
-	init() {
-		this.map = new google.maps.Map($('#map-tab div.map').get(0), {
-			mapTypeId: google.maps.MapTypeId.ROADMAP,
-			backgroundColor: '#D3D3D3',
-			panControl: false,
-			streetViewControl: false,
-			mapTypeControl: false,
-			zoomControl: false,
-			maxZoom: 18,
-			styles: this.styles
-		})
-		this.service = new google.maps.DirectionsService()
-		this.renderer = new google.maps.DirectionsRenderer()
-		this.find('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))		
-		this.directions(this.args)
-	}
-	/**
+  init() {
+    this.map = new google.maps.Map($('#map-tab div.map').get(0), {
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      backgroundColor: '#D3D3D3',
+      panControl: false,
+      streetViewControl: false,
+      mapTypeControl: false,
+      zoomControl: false,
+      maxZoom: 18,
+      styles: this.styles
+    })
+    this.service = new google.maps.DirectionsService()
+    this.renderer = new google.maps.DirectionsRenderer()
+    this.find('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))
+    this.directions(this.args)
+  }
+  /**
 	 * @private
 	 * @method
 	 * @param {jQuery.Event} event
 	 */
-	zoom(event) {
-		const z = this.map.getZoom()
-		this.map.setZoom(z + ($(event.target).data('zoom-incr') * 1))
-	}
-	/**
+  zoom(event) {
+    const z = this.map.getZoom()
+    this.map.setZoom(z + ($(event.target).data('zoom-incr') * 1))
+  }
+  /**
 	 * @private
 	 * @method
 	 * @param {jQuery.Event} event
 	 */
-	mode(event) {
-		this.args = this.args || {}
-		this.modeBtn = event.target
-		$('#mode button').removeClass('active').attr('aria-selected', false)
-		$(this.modeBtn).addClass('active').attr('aria-selected', true)
-		this.args.mode = $(this.modeBtn).data('mode')
-		this.directions(this.args)
-	}
-	/**
+  mode(event) {
+    this.args = this.args || {}
+    this.modeBtn = event.target
+    $('#mode button').removeClass('active').attr('aria-selected', false)
+    $(this.modeBtn).addClass('active').attr('aria-selected', true)
+    this.args.mode = $(this.modeBtn).data('mode')
+    this.directions(this.args)
+  }
+  /**
 	 * @private
 	 * @method
 	 * @param {jQuery.Event} event
 	 */
-	key(event) {
-		if (event.keyCode === 13) {
-			this.args.from = $('#fld-from input').val()
-			this.directions(this.args)
-		}
-	}
-	tripPlanHack() {
-		this.args.accessible = true
-		new TripPlanHack().directions(this.args)
-	}
+  key(event) {
+    if (event.keyCode === 13) {
+      this.args.from = $('#fld-from input').val()
+      this.directions(this.args)
+    }
+  }
+  tripPlanHack() {
+    this.args.accessible = true
+    new TripPlanHack().directions(this.args)
+  }
 }
 
 /**
@@ -326,13 +326,13 @@ Directions.Response
  * @property {Array<Object<strng, Object>>=} styles The Google Maps styles to use (see {@link https://developers.google.com/maps/documentation/javascript/style-reference})
  * @property {jQuery|string=} toggle Elements to hide from screen readers when directions are shown
  */
-Directions.Options 
- /**
+Directions.Options
+/**
   * @private
   * @const
   * @type {string}
   */
- Directions.HTML = '<div id="directions">' +
+Directions.HTML = '<div id="directions">' +
 	'<button id="back-to-map" class="btn rad-all">' +
 		'Back to finder' +
  	'</button>' +
@@ -384,18 +384,18 @@ Directions.Options
  * @type {Array<Object<string, Object>>}
  */
 Directions.DEFAULT_STYLES = [
-	{elementType: 'geometry.fill', stylers: [{color: '#ececec'}]},
-	{elementType: 'geometry.stroke', stylers: [{color: '#dcdcdc'}]},
-	{elementType: 'labels.text.fill', stylers: [{color: '#585858'}]},
-	{featureType: 'poi.park', elementType: 'geometry.fill', stylers: [{color: '#e8e8e8'}]},
-	{featureType: 'water', elementType: 'geometry', stylers: [{color: '#d8d8d8'}]},
-	{featureType: 'road', elementType: 'geometry.fill', stylers: [{color: '#ffffff'}]},
-	{featureType: 'landscape.man_made', stylers: [{visibility: 'off'}]},
-	{featureType: 'transit.line', stylers: [{visibility: 'off'}]},
-	{featureType: 'administrative', stylers:[{visibility: 'off'}]},
-	{featureType: 'poi', stylers: [{visibility: 'off'}]},
-	{featureType: 'poi.government', stylers: [{visibility: 'on'}]},
-	{featureType: 'poi.park', stylers: [{visibility: 'on'}]}
+  {elementType: 'geometry.fill', stylers: [{color: '#ececec'}]},
+  {elementType: 'geometry.stroke', stylers: [{color: '#dcdcdc'}]},
+  {elementType: 'labels.text.fill', stylers: [{color: '#585858'}]},
+  {featureType: 'poi.park', elementType: 'geometry.fill', stylers: [{color: '#e8e8e8'}]},
+  {featureType: 'water', elementType: 'geometry', stylers: [{color: '#d8d8d8'}]},
+  {featureType: 'road', elementType: 'geometry.fill', stylers: [{color: '#ffffff'}]},
+  {featureType: 'landscape.man_made', stylers: [{visibility: 'off'}]},
+  {featureType: 'transit.line', stylers: [{visibility: 'off'}]},
+  {featureType: 'administrative', stylers: [{visibility: 'off'}]},
+  {featureType: 'poi', stylers: [{visibility: 'off'}]},
+  {featureType: 'poi.government', stylers: [{visibility: 'on'}]},
+  {featureType: 'poi.park', stylers: [{visibility: 'on'}]}
 ]
 
 export default Directions

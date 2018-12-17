@@ -17,7 +17,7 @@ import OlFormatFormatType from 'ol/format/FormatType'
  * @see http://openlayers.org/en/latest/apidoc/module-ol_format_Feature-FeatureFormat.html
  */
 class CartoSql extends OlFormatFeature {
-	/**
+  /**
 	 * @desc Create an instance of CartoSql
 	 * @public
 	 * @constructor
@@ -71,7 +71,7 @@ class CartoSql extends OlFormatFeature {
     rows.forEach(row => {
       features.push(this.readFeature(row))
     })
-    return features  
+    return features
   }
   /**
    * @desc Read the projection from a source
@@ -107,7 +107,7 @@ class CartoSql extends OlFormatFeature {
 }
 
 /**
- * @desc Create a Carto SQL API query.  If a select clause is provided it must include a wkt_geom column. 
+ * @desc Create a Carto SQL API query.  If a select clause is provided it must include a wkt_geom column.
  * @public
  * @static
  * @method
@@ -117,7 +117,7 @@ class CartoSql extends OlFormatFeature {
 CartoSql.createSql = options => {
   const select = options.select ? options.select : 'cartodb_id, ST_AsText(the_geom_webmercator) wkt_geom, *'
   const where = options.where ? ` WHERE ${options.where}` : ''
-  return `SELECT ${select} FROM ${options.from}${where}`    
+  return `SELECT ${select} FROM ${options.from}${where}`
 }
 
 /**

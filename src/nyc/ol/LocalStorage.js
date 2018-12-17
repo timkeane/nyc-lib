@@ -17,15 +17,15 @@ olProjRegister(proj4)
  * @extends module:nyc/LocalStorage~LocalStorage
  */
 export default class LocalStorage extends NycLocalStorage {
-	/**
+  /**
 	 * @desc Create an instance pf LocalStorage
 	 * @public
 	 * @constructor
 	 */
-	constructor() {
-		super()
-	}
-	/**
+  constructor() {
+    super()
+  }
+  /**
 	 * @public
 	 * @override
 	 * @method
@@ -34,21 +34,23 @@ export default class LocalStorage extends NycLocalStorage {
 	 * @param {string} projcs The projection
 	 * @return {ol.layer.Vector} The new layer
 	 */
-	addToMap (map, features, projcs) {
-		const options = {
-			featureProjection: map.getView().getProjection().getCode(),
-			dataProjection: this.customProj(projcs, proj4)
-		}
-		olProjRegister(proj4)
-		try {ol.proj.proj4.register(proj4)} catch (ignoreHackyBuildFixForNow) {}
-		if (typeof features === 'object') {
-			features = {type: 'FeatureCollection', features: features}
-		}
-		const source = new OlSourceVector()
-		const layer = new OlLayerVector({source: source})
-		source.addFeatures(new OlFormatGeoJSON().readFeatures(features, options))
-		map.addLayer(layer)
-		return layer
-	}
+  addToMap(map, features, projcs) {
+    const options = {
+      featureProjection: map.getView().getProjection().getCode(),
+      dataProjection: this.customProj(projcs, proj4)
+    }
+    olProjRegister(proj4)
+    try {
+      ol.proj.proj4.register(proj4)
+    } catch (ignoreHackyBuildFixForNow) {}
+    if (typeof features === 'object') {
+      features = {type: 'FeatureCollection', features: features}
+    }
+    const source = new OlSourceVector()
+    const layer = new OlLayerVector({source: source})
+    source.addFeatures(new OlFormatGeoJSON().readFeatures(features, options))
+    map.addLayer(layer)
+    return layer
+  }
 }
 

@@ -64,7 +64,9 @@ class Filters extends Container {
       Object.keys(namedFilters).forEach(name => {
         filters.push({property: name, values: nyc.removeDups(namedFilters[name])})
       })
-      if (filters.length) allFilters.push(filters)
+      if (filters.length) {
+        allFilters.push(filters)
+      }
     })
     this.source.filter(allFilters)
     this.trigger('change', this)

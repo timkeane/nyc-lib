@@ -22,7 +22,7 @@ const BasemapHelper = {
       event.preventDefault()
     })
   },
-	/**
+  /**
 	 * @desc Loads a layer from a file
    * @public
 	 * @method
@@ -35,46 +35,46 @@ const BasemapHelper = {
 		 if (transfer && transfer.files.length) {
 			 const files = transfer.files
 			 const ext = files[0].name.split('.').pop().toLowerCase()
-			 if (ext === 'json'){
+			 if (ext === 'json') {
 				 this.storage.loadGeoJsonFile(this, null, files[0])
 			 } else {
-				this.storage.loadShapeFile(this, null, files)
-       }
+        this.storage.loadShapeFile(this, null, files)
+      }
 		 }
 	 },
-	/**
+  /**
 	 * @desc Returns the photo layers ordered by year
 	 * @public
 	 * @method
 	 * @return {Array<ol.layer.Base|L.Layer>}
 	 */
-	sortedPhotos() {
-		const sorted = []
+  sortedPhotos() {
+    const sorted = []
     Object.keys(this.photos).forEach(photo => {
       sorted.push(this.photos[photo])
     })
-		/* sort descending on the first 4 digits - puts 2001-2 in the proper place */
-		return sorted.sort((a, b) => {
+    /* sort descending on the first 4 digits - puts 2001-2 in the proper place */
+    return sorted.sort((a, b) => {
       const aName = a.name || a.get('name')
       const bName = b.name || b.get('name')
-			return bName.substr(0, 4) - aName.substr(0, 4)
-		})
-	},
-	/**
+      return bName.substr(0, 4) - aName.substr(0, 4)
+    })
+  },
+  /**
 	 * @desc Enumerator for label types
 	 * @public
 	 * @enum {string}
 	 */
-	LabelType: {
-		/**
+  LabelType: {
+    /**
 		 * @desc Label type for base layer
 		 */
-		BASE: 'base',
-		/**
+    BASE: 'base',
+    /**
 		 * @desc Label type for photo layer
 		 */
-		PHOTO: 'photo'
-	}
+    PHOTO: 'photo'
+  }
 }
 
 /**

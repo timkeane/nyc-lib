@@ -11,7 +11,7 @@ import Locator from 'nyc/Locator'
  * @class
  */
 class MapLocator {
-	/**
+  /**
 	 * @desc Zoom to the provided loacation then optionally invoke a callback function
 	 * @public
 	 * @abstract
@@ -19,29 +19,29 @@ class MapLocator {
 	 * @param {module:nyc/Locator~Locator.Result} data The location to which the map will be oriented
 	 * @param {module:nyc/MapLocator~MapLocator#zoomLocationCallback=} callback The function to call after the locator has zoomed to the location
 	 */
-	zoomLocation(data, callback) {
-		throw 'Not implemented'
-	}
-	/**
+  zoomLocation(data, callback) {
+    throw 'Not implemented'
+  }
+  /**
 	 * @desc Set the location to the provided loacation without moving the map
 	 * @public
 	 * @abstract
 	 * @method
 	 * @param {module:nyc/Locator~Locator.Result} data The location
 	 */
-	setLocation(data) {
-		throw 'Not implemented'
-	}
-	/**
+  setLocation(data) {
+    throw 'Not implemented'
+  }
+  /**
 	 * @desc Get the projection of the map
 	 * @public
 	 * @abstract
 	 * @method
 	 * @returns {string} The map projection
 	 */
-	getProjection() {
-		throw 'Not implemented'
-	}
+  getProjection() {
+    throw 'Not implemented'
+  }
 }
 
 /**
@@ -57,4 +57,4 @@ class MapLocator {
  */
 MapLocator.ZOOM_LEVEL = 17
 
-export default  MapLocator
+export default MapLocator

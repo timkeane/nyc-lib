@@ -81,7 +81,9 @@ class FeaturePopup extends Popup {
         return feature
       }
     })
-    if (feature) this.showFeature(feature, event.coordinate)
+    if (feature) {
+      this.showFeature(feature, event.coordinate)
+    }
   }
 }
 

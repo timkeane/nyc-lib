@@ -30,7 +30,7 @@ class Locator extends NycLocator {
  * @constructor
  * @param {module:nyc/ol/Locator~Locator.Options} options Constructor options
  */
-constructor(options) {
+  constructor(options) {
     super(options)
     /**
   	 * @private
@@ -62,20 +62,20 @@ constructor(options) {
    * @override
 	 * @method
 	 */
-	locate() {
-		this.locating = true
-		this.geolocation.setTracking(true)
-	}
-	/**
+  locate() {
+    this.locating = true
+    this.geolocation.setTracking(true)
+  }
+  /**
 	 * @desc Track using device geolocation
 	 * @public
    * @override
 	 * @method
 	 * @param {boolean} track Track or not
 	 */
-	track(track) {
-		this.geolocation.setTracking(track)
-	}
+  track(track) {
+    this.geolocation.setTracking(track)
+  }
   /**
    * @private
    * @method
@@ -91,8 +91,8 @@ constructor(options) {
   geolocationChange() {
     const geo = this.geolocation
     let p = geo.getPosition()
-		const name = olCoordinanteToStringHDMS(p)
-		p = proj4('EPSG:4326', this.projection, p)
+    const name = olCoordinanteToStringHDMS(p)
+    p = proj4('EPSG:4326', this.projection, p)
     if (this.withinLimit(p)) {
       if (this.locating) {
         this.track(false)
@@ -113,9 +113,9 @@ constructor(options) {
 	 * @param {ol.Coordinate} coordinates
 	 * @return {boolean}
 	 */
-	withinLimit(coordinates){
-		return this.extentLimit ? containsCoordinate(this.extentLimit, coordinates) : true
-	}
+  withinLimit(coordinates) {
+    return this.extentLimit ? containsCoordinate(this.extentLimit, coordinates) : true
+  }
 }
 
 /**

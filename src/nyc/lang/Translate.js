@@ -21,20 +21,20 @@ class Translate extends Container {
    * @constructor
    * @param {module:nyc/lang/Translate~Translate.Options} options Constructor options
    */
-   constructor(options) {
-     super(options.target)
-     global.nycTranslateInstance = this
-     /**
+  constructor(options) {
+    super(options.target)
+    global.nycTranslateInstance = this
+    /**
       * @private
       * @member {string}
       */
-     this.defaultLanguage = options.defaultLanguage || 'en'
-     /**
+    this.defaultLanguage = options.defaultLanguage || 'en'
+    /**
       * @private
       * @member {boolean}
       */
-     this.button = options.button
-     /**
+    this.button = options.button
+    /**
     	* @private
     	* @member {Array<string>}
      */
@@ -80,42 +80,42 @@ class Translate extends Container {
     this.code = this.defaultLanguage
   	this.render(options.target)
   }
-	/**
+  /**
 	 * @desc Sets the chosen language and performs message substitution
 	 * @public
 	 * @method
    * @param {jQuery.Event} event
 	 */
-   translate(event) {
+  translate(event) {
 	   const lang = $(event.target).val()
 	   this.code = lang
-     Object.keys(this.defaultMessages).forEach(key => {
-       const messages = this.messages[lang] || this.defaultMessages
-       const msg = messages[key] || this.defaultMessages[key]
+    Object.keys(this.defaultMessages).forEach(key => {
+      const messages = this.messages[lang] || this.defaultMessages
+      const msg = messages[key] || this.defaultMessages[key]
 		   $('.' + key).html(msg)
 		   $('*[data-msg-key="' + key + '"]').each((_, element) => {
 			   $(element).attr($(element).data('msg-attr'), msg)
 		   })
-     })
+    })
 	   this.css()
 	   this.trigger('change', this)
-   }
-	/**
+  }
+  /**
 	 * @desc Get the currently chosen language code
 	 * @public
 	 * @method
 	 * @return {string} The currently chosen language code
 	 */
-	lang() {
-		return this.code
-	}
-	/**
+  lang() {
+    return this.code
+  }
+  /**
    * @desc Gets a cookie value
 	 * @access protected
 	 * @method
 	 * @return {string} cookie
 	 */
-	getCookieValue() {
+  getCookieValue() {
     return ''
   }
   /**
@@ -143,45 +143,49 @@ class Translate extends Container {
     if (this.button) {
       $('#lng').addClass('button')
     }
-    select.focus(() => {select.prev().addClass('focused')})
-    select.blur(() => {select.prev().removeClass('focused')})
+    select.focus(() => {
+      select.prev().addClass('focused')
+    })
+    select.blur(() => {
+      select.prev().removeClass('focused')
+    })
     this.trigger('ready', this)
   }
   /**
 	 * @private
 	 * @method
 	 */
-	css() {
-		$('body')[this.code === this.defaultLanguage ? 'removeClass' : 'addClass']('translated')
-	}
-	/**
+  css() {
+    $('body')[this.code === this.defaultLanguage ? 'removeClass' : 'addClass']('translated')
+  }
+  /**
 	 * @private
 	 * @method
    * @return {string}
 	 */
-	defaultLang() {
-		return navigator.language.split('-')[0]
-	}
-	/**
+  defaultLang() {
+    return navigator.language.split('-')[0]
+  }
+  /**
 	 * @private
 	 * @method
 	 */
-	selectDefault() {
-		const defLang = this.defaultLang()
-		const cookie = this.getCookieValue()
+  selectDefault() {
+    const defLang = this.defaultLang()
+    const cookie = this.getCookieValue()
     const exact = []
     const possible = []
     Object.values(this.languages).forEach(language => {
       const code = language.code
       if (cookie.indexOf(code) === 0) {
-				exact.push(code)
-			} else if (cookie.indexOf(defLang) === 0) {
+        exact.push(code)
+      } else if (cookie.indexOf(defLang) === 0) {
         possible.push(code)
       }
     })
     const lang = exact[0] || possible[0] || 'en'
     this.find('select').val(this.languages[lang].code).trigger('change')
-	}
+  }
   /**
    * @private
    * @method
@@ -194,7 +198,9 @@ class Translate extends Container {
     	setInterval(() => {
         hint.html(hints[h] || 'Translate')
     		h++
-    		if (h === hints.length) h = 0
+    		if (h === hints.length) {
+          h = 0
+        }
     	}, 1000)
     }
   }
@@ -238,12 +244,12 @@ Translate.Choices
  */
 Translate.DEFAULT_LANGUAGES = {
   en: {code: 'en', name: 'English', native: 'English', hint: 'Translate'},
-  ar: {code: 'ar', name: 'Arabic' , native: '&#x627;&#x644;&#x639;&#x631;&#x628;&#x64A;&#x629;', hint: '&#x62A;&#x631;&#x62C;&#x645;'},
+  ar: {code: 'ar', name: 'Arabic', native: '&#x627;&#x644;&#x639;&#x631;&#x628;&#x64A;&#x629;', hint: '&#x62A;&#x631;&#x62C;&#x645;'},
   bn: {code: 'bn', name: 'Bengali', native: '&#x9AC;&#x9BE;&#x999;&#x9BE;&#x9B2;&#x9BF;', hint: '&#x9AC;&#x9BE;&#x999;&#x9BE;&#x9B2;&#x9BF;', hint: '&#x985;&#x9A8;&#x9C1;&#x9AC;&#x9BE;&#x9A6; &#x995;&#x9B0;&#x9BE;'},
   'zh-CN': {code: 'zh-CN', name: 'Chinese (Simplified)', native: '&#x4E2D;&#x56FD;', hint: '&#x7FFB;&#x8BD1;'},
   fr: {code: 'fr', name: 'French', native: 'Fran&#231;ais', hint: 'Traduire'},
   ht: {code: 'ht', name: 'Haitian Creole', native: 'Krey&#242;l Ayisyen', hint: 'Tradui'},
-  ko: {code: 'ko', name: 'Korean' , native: '&#xD55C;&#xAD6D;&#xC758;', hint: '&#xBC88;&#xC5ED;'},
+  ko: {code: 'ko', name: 'Korean', native: '&#xD55C;&#xAD6D;&#xC758;', hint: '&#xBC88;&#xC5ED;'},
   ru: {code: 'ru', name: 'Russian', native: 'P&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439;', hint: '&#x43F;&#x435;&#x440;&#x435;&#x432;&#x435;&#x441;&#x442;&#x438;'},
   es: {code: 'es', name: 'Spanish', native: 'Espa&#241;ol', hint: 'Traducir'},
   ur: {code: 'ur', name: 'Urdu', native: '&#x627;&#x631;&#x62F;&#x648;', hint: '&#x62A;&#x631;&#x62C;&#x645;&#x6C1; &#x6A9;&#x631;&#x6CC;&#x6BA;'}

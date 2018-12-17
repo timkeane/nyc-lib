@@ -7,7 +7,7 @@ import $ from 'jquery'
 import nyc from 'nyc'
 import Container from 'nyc/Container'
 
- /**
+/**
   * @desc  A class for creating and managing tabs
   * @public
   * @class
@@ -65,7 +65,7 @@ class Tabs extends Container {
    * @method
    * @param {Array<module:nyc/Tabs~Tabs.Tab>} tabs The tabs
    */
-render(tabs){
+  render(tabs) {
     let opened = false
     tabs.forEach((tab, i) => {
       const btnId = nyc.nextId('tab-btn')
@@ -74,10 +74,10 @@ render(tabs){
         .attr('aria-labelledby', btnId)
         .attr('role', 'tabpanel')
         .attr('aria-hidden', true)
-        
+
       const pnlId = tb.attr('id') || nyc.nextId('tab-pnl')
       tb.attr('id', pnlId)
-    
+
       const btn = $(Tabs.BTN_HTML)
         .attr('id', btnId)
         .attr('aria-controls', pnlId)
@@ -86,7 +86,7 @@ render(tabs){
         .addClass(`btn-tab btn-${i}`)
         .data('tab', tb)
         .append(tab.title)
-        
+
       tb.data('btn', btn)
       this.btns.append($('<h2></h2>').append(btn))
       this.tabs.append(tb)
@@ -95,7 +95,9 @@ render(tabs){
         opened = true
       }
     })
-    if (!opened) this.open(tabs[0].tab)
+    if (!opened) {
+      this.open(tabs[0].tab)
+    }
     this.ready = true
   }
   /**

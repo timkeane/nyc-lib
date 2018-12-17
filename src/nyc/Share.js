@@ -17,56 +17,56 @@ require('isomorphic-fetch')
  * @extends module:nyc/Container~Container
  */
 class Share extends Container {
-	/**
+  /**
 	 * @desc Create an instance of Share
 	 * @public
 	 * @constructor
 	 * @param {module:nyc/Share~Share.Options} options Constructor options
 	 */
-	constructor(options) {
-		super(options.target)
-		const share = this
-		fetch(options.url || './manifest.webmanifest').then(respose => {
-			return respose.json()
-		}).then(manifest => {
-			manifest.url = document.location.href
-			share.append(new ReplaceTokens().replace(Share.HTML, manifest))
-			const id = nyc.nextId('share')
-			share.btn = share.find('.btn-shr')
-				.attr('aria-controls', id)
-				.one('click', $.proxy(share.show, share))
-			share.btns = share.btn.next()
-				.attr('id', id)
-		})
-	}
-	/**
+  constructor(options) {
+    super(options.target)
+    const share = this
+    fetch(options.url || './manifest.webmanifest').then(respose => {
+      return respose.json()
+    }).then(manifest => {
+      manifest.url = document.location.href
+      share.append(new ReplaceTokens().replace(Share.HTML, manifest))
+      const id = nyc.nextId('share')
+      share.btn = share.find('.btn-shr')
+        .attr('aria-controls', id)
+        .one('click', $.proxy(share.show, share))
+      share.btns = share.btn.next()
+        .attr('id', id)
+    })
+  }
+  /**
 	 * @private
 	 * @method
 	 * @param {jQuery.Event} event
 	 */
-	show(event) {
-		const share = this
-		event.stopImmediatePropagation()
-		this.btn.attr('aria-pressed', true)
-		this.btns.attr({'aria-collapsed': false, 'aria-expanded': true})
-			.fadeIn(() => {
-				$('*').one('click', $.proxy(share.hide, share))
-			})
-	}
-	/**
+  show(event) {
+    const share = this
+    event.stopImmediatePropagation()
+    this.btn.attr('aria-pressed', true)
+    this.btns.attr({'aria-collapsed': false, 'aria-expanded': true})
+      .fadeIn(() => {
+        $('*').one('click', $.proxy(share.hide, share))
+      })
+  }
+  /**
 	 * @private
 	 * @method
 	 * @param {jQuery.Event} event
 	 */
-	hide(event) {
-		const share = this
-		this.btn.attr('aria-pressed', false)
-		this.btns.attr('aria-collapsed', true)
-			.attr('aria-expanded', false)
-			.fadeOut(() => {
-				share.btn.one('click', $.proxy(share.show, share))
-			})
-	}
+  hide(event) {
+    const share = this
+    this.btn.attr('aria-pressed', false)
+    this.btns.attr('aria-collapsed', true)
+      .attr('aria-expanded', false)
+      .fadeOut(() => {
+        share.btn.one('click', $.proxy(share.show, share))
+      })
+  }
 }
 
 /**
