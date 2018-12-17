@@ -29,7 +29,7 @@ class ListPager extends Container {
     this.getContainer().addClass('lst-pg')
       .append($(ListPager.HTML))
       .attr({
-        role: 'region', 
+        role: 'region',
         'aria-label': `List of ${this.itemType}`
       })
       /**
@@ -59,29 +59,29 @@ class ListPager extends Container {
     this.moreBtn = this.find('button').click($.proxy(this.more, this))
     this.reset(this.items)
   }
-	/**
-	 * @desc Resets the pager with new items and show the first page
-	 * @public
-	 * @method
-	 * @param {Array<module:nyc/ListPager~ListPager.Item>=} items The items to page through
-	 * @return {Array<module:nyc/ListPager~ListPager.Item>} List of items on the next page
-	 */
-	reset(items) {
+  /**
+   * @desc Resets the pager with new items and show the first page
+   * @public
+   * @method
+   * @param {Array<module:nyc/ListPager~ListPager.Item>=} items The items to page through
+   * @return {Array<module:nyc/ListPager~ListPager.Item>} List of items on the next page
+   */
+  reset(items) {
     this.list.empty()
     this.items = items
     this.index = 0
     this.moreBtn.fadeIn()
     return this.next(true)
-	}
-	/**
-	 * @desc Renders and returns next page of items
-	 * @public
-	 * @method
-	 * @param {boolean} [first=false] Transfer focus to the first item
-	 * @param {number} [pageSize=10] The length of the items for the next page
-	 * @return {Array<module:nyc/ListPager~ListPager.Item>} List of items on the next page
-	 */
-	next(first, pageSize) {
+  }
+  /**
+   * @desc Renders and returns next page of items
+   * @public
+   * @method
+   * @param {boolean} [first=false] Transfer focus to the first item
+   * @param {number} [pageSize=10] The length of the items for the next page
+   * @return {Array<module:nyc/ListPager~ListPager.Item>} List of items on the next page
+   */
+  next(first, pageSize) {
     pageSize = pageSize || this.pageSize
     const result = this.items.slice(this.index, this.index + pageSize)
     const last = this.find('.lst-it').last()
@@ -99,9 +99,9 @@ class ListPager extends Container {
     return result
   }
   /**
-	 * @private
-	 * @method
-	 */
+   * @private
+   * @method
+   */
   info() {
     let info = this.find('h2.info')
     if (!info.length) {
@@ -111,11 +111,11 @@ class ListPager extends Container {
     info.html(`Showing ${this.find('.lst-it').length} of ${this.items.length} ${this.itemType}`)
   }
   /**
-	 * @private
-	 * @method
-	 * @param {Array<module:nyc/ListPager~ListPager.Item>} items List of items
-	 */
-	render(items) {
+   * @private
+   * @method
+   * @param {Array<module:nyc/ListPager~ListPager.Item>} items List of items
+   */
+  render(items) {
     items.forEach(item => {
       this.list.append(
         $('<div class="lst-it" role="listitem"></div>').append(item.html())
@@ -123,9 +123,9 @@ class ListPager extends Container {
     })
   }
   /**
-	 * @private
-	 * @method
-	 * @return {Array<module:nyc/ListPager~ListPager.Item>} List of items on the next page
+   * @private
+   * @method
+   * @return {Array<module:nyc/ListPager~ListPager.Item>} List of items on the next page
    */
   more() {
     return this.next()

@@ -2,7 +2,7 @@
  * @module nyc/Geocoder
  */
 
- import EventHandling from 'nyc/EventHandling'
+import EventHandling from 'nyc/EventHandling'
 
 /**
  * @desc A class for geocoding
@@ -25,7 +25,7 @@ class Geocoder extends EventHandling {
    * @public
    * @abstract
    * @method
-   * @param {string}
+   * @param {string} input Input
    */
   search(input) {
     throw 'Not implemented'

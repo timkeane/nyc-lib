@@ -1,5 +1,3 @@
-import $ from 'jquery'
-
 import _nyc from 'nyc'
 import _nyc_AutoComplete from 'nyc/AutoComplete'
 import _nyc_BasemapHelper from 'nyc/BasemapHelper'

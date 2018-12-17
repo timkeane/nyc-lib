@@ -20,7 +20,7 @@ class Filters extends Container {
    * @desc Create an instance of Filters
    * @public
    * @constructor
-   * @param {module:nyc/ol/Filters~Filters.Options}
+   * @param {module:nyc/ol/Filters~Filters.Options} options Options
    */
   constructor(options) {
     super(options.target)
@@ -39,7 +39,8 @@ class Filters extends Container {
       choiceOptions.target = choiceOptions.target || $(`<div class="${nyc.nextId('filter-chc')}"></div>`)
       this.append($(target))
       const choice = new Choice(choiceOptions)
-      const collapsible = new Collapsible({
+      // TODO check if this is needed
+      new Collapsible({
         target: target,
         title: choiceOptions.title,
         content: choice.getContainer()
@@ -64,7 +65,9 @@ class Filters extends Container {
       Object.keys(namedFilters).forEach(name => {
         filters.push({property: name, values: nyc.removeDups(namedFilters[name])})
       })
-      if (filters.length) allFilters.push(filters)
+      if (filters.length) {
+        allFilters.push(filters)
+      }
     })
     this.source.filter(allFilters)
     this.trigger('change', this)

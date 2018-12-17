@@ -26,76 +26,77 @@ class FeatureTip extends OlOverlay {
     const element = $(options.map.getTargetElement()).find('f-tip').get(0)
     super({
       id: nyc.nextId('FeatureTip'),
-			element: element || $(FeatureTip.HTML).get(0),
-			stopEvent: false
+      element: element || $(FeatureTip.HTML).get(0),
+      stopEvent: false
     })
     this.setMap(options.map)
     this.map = this.getMap()
     this.tip = $(this.getElement())
-		this.addTips(options.tips)
-		this.map.on('pointermove', $.proxy(this.label, this))
-		$(document).mouseover($.proxy(this.out, this))
+    this.addTips(options.tips)
+    this.map.on('pointermove', $.proxy(this.label, this))
+    $(document).mouseover($.proxy(this.out, this))
   }
-	/**
-	 * @desc Hide the feature tip
-	 * @public
-	 * @method
-	 */
-	hide() {
-		this.tip.fadeOut()
-	}
-	/**
-	 * @desc Adds tip definitions
-	 * @public
-	 * @method
-	 * @param {Array<module:nyc/ol/FeatureTip~FeatureTip.TipDef>} tips The tip definitions to add
-	 */
-	addTips(tips) {
-		tips.forEach(def => {
-			def.layer.nycTip = def.label
-		})
-	}
-	/**
-	 * @private
-	 * @method
-	 */
-	out(event) {
-		if (!$.contains(this.map.getTargetElement(), event.target)) {
-			this.hide()
-		}
-	}
-	/**
-	 * @private
-	 * @method
-	 * @param {ol.MapBrowserEvent} event
-	 */
-	label(event) {
-		const label = this.map.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
-			return layer.getVisible() && layer.nycTip ? layer.nycTip(feature) : null
-		})
-		if (label) {
-			this.tip.html(label.html)
-			this.tip.get(0).className = `f-tip ${label.css || ""}`
+  /**
+   * @desc Hide the feature tip
+   * @public
+   * @method
+   */
+  hide() {
+    this.tip.fadeOut()
+  }
+  /**
+   * @desc Adds tip definitions
+   * @public
+   * @method
+   * @param {Array<module:nyc/ol/FeatureTip~FeatureTip.TipDef>} tips The tip definitions to add
+   */
+  addTips(tips) {
+    tips.forEach(def => {
+      def.layer.nycTip = def.label
+    })
+  }
+  /**
+   * @private
+   * @method
+   * @param {Object} event Event object
+   */
+  out(event) {
+    if (!$.contains(this.map.getTargetElement(), event.target)) {
+      this.hide()
+    }
+  }
+  /**
+   * @private
+   * @method
+   * @param {ol.MapBrowserEvent} event OpenLayers map browser event
+   */
+  label(event) {
+    const label = this.map.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
+      return layer.getVisible() && layer.nycTip ? layer.nycTip(feature) : null
+    })
+    if (label) {
+      this.tip.html(label.html)
+      this.tip.get(0).className = `f-tip ${label.css || ''}`
       this.setPosition(event.coordinate)
       this.tip.show()
-			this.position()
-		} else {
-			this.hide()
-		}
-	}
-	/**
-	 * @private
-	 * @method
-	 */
-	position() {
-		const size = this.map.getSize()
-		const position = this.map.getPixelFromCoordinate(this.getPosition())
-		const width = this.tip.width()
-		const height = this.tip.height()
-		const vert = position[1] + height > size[1] ? 'bottom' : 'top'
-		const horz = position[0] + width > size[0] ? 'right' : 'left'
-		this.setPositioning(`${vert}-${horz}`)
-	}
+      this.position()
+    } else {
+      this.hide()
+    }
+  }
+  /**
+   * @private
+   * @method
+   */
+  position() {
+    const size = this.map.getSize()
+    const position = this.map.getPixelFromCoordinate(this.getPosition())
+    const width = this.tip.width()
+    const height = this.tip.height()
+    const vert = position[1] + height > size[1] ? 'bottom' : 'top'
+    const horz = position[0] + width > size[0] ? 'right' : 'left'
+    this.setPositioning(`${vert}-${horz}`)
+  }
 }
 
 /**

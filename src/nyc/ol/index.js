@@ -16,7 +16,7 @@ const ol = {
   * @public
   * @const {ol.tilegrid.TileGrid}
   */
-  TILE_GRID: olTileGridCreateXYZ({minZoom: 8, maxZoom: 21}) 
+  TILE_GRID: olTileGridCreateXYZ({minZoom: 8, maxZoom: 21})
 }
 
 export default ol

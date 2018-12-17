@@ -57,7 +57,9 @@ class ItemPager extends Container {
      */
     this.items = null
     this.find('.btn-nxt, .btn-prv').click($.proxy(this.navigate, this))
-    if (options.items) this.show(options.items)
+    if (options.items) {
+      this.show(options.items)
+    }
   }
   /**
    * @desc Set the items and show the first item
@@ -77,12 +79,12 @@ class ItemPager extends Container {
   /**
    * @private
    * @method
-   * @param {jQuery.Event} event
+   * @param {jQuery.Event} event Event object
    */
   navigate(event) {
     const incr = $(event.target).data('incr') - 0;
     const idx = this.current.data('current') - 0 + incr;
-    if (idx >= 0 && idx < this.items.length){
+    if (idx >= 0 && idx < this.items.length) {
       this.current.data('current', idx).html(idx + 1);
       this.currentItem.html(nyc.html(this.items[idx]))
       this.item = this.items[idx]
@@ -94,7 +96,7 @@ class ItemPager extends Container {
 /**
  * @desc The change event
  * @event module:nyc/ItemPager~ItemPager#change
- * @type {module:nyc/ItemPager~ItemPager} 
+ * @type {module:nyc/ItemPager~ItemPager}
  */
 
 /**

@@ -2,8 +2,6 @@
  * @module nyc/ol/format/CartoSql
  */
 
-import nyc from 'nyc'
-
 import OlFeature from 'ol/Feature'
 import OlFormatFeature from 'ol/format/Feature'
 import OlFormatWkt from 'ol/format/WKT'
@@ -17,11 +15,11 @@ import OlFormatFormatType from 'ol/format/FormatType'
  * @see http://openlayers.org/en/latest/apidoc/module-ol_format_Feature-FeatureFormat.html
  */
 class CartoSql extends OlFormatFeature {
-	/**
-	 * @desc Create an instance of CartoSql
-	 * @public
-	 * @constructor
-	 */
+  /**
+   * @desc Create an instance of CartoSql
+   * @public
+   * @constructor
+   */
   constructor() {
     super()
     /**
@@ -55,7 +53,14 @@ class CartoSql extends OlFormatFeature {
   readFeature(source) {
     const feature = new OlFeature(source)
     feature.setGeometry(this.wkt.readGeometry(source.wkt_geom))
-    feature.setId(source.cartodb_id || this.lastId++)
+    let id;
+    if (source.cartodb_id) {
+      id = source.cartodb_id
+    } else {
+      id = this.lastId;
+      this.lastId += 1
+    }
+    feature.setId(id)
     return feature
   }
   /**
@@ -71,7 +76,7 @@ class CartoSql extends OlFormatFeature {
     rows.forEach(row => {
       features.push(this.readFeature(row))
     })
-    return features  
+    return features
   }
   /**
    * @desc Read the projection from a source
@@ -107,17 +112,17 @@ class CartoSql extends OlFormatFeature {
 }
 
 /**
- * @desc Create a Carto SQL API query.  If a select clause is provided it must include a wkt_geom column. 
+ * @desc Create a Carto SQL API query.  If a select clause is provided it must include a wkt_geom column.
  * @public
  * @static
  * @method
- * @param {module:nyc/ol/format/CartoSql~CartoSql.Options} options
- * @return {string}
+ * @param {module:nyc/ol/format/CartoSql~CartoSql.Options} options Options
+ * @return {string} SQL statement
  */
 CartoSql.createSql = options => {
   const select = options.select ? options.select : 'cartodb_id, ST_AsText(the_geom_webmercator) wkt_geom, *'
   const where = options.where ? ` WHERE ${options.where}` : ''
-  return `SELECT ${select} FROM ${options.from}${where}`    
+  return `SELECT ${select} FROM ${options.from}${where}`
 }
 
 /**

@@ -13,7 +13,7 @@ const leaf = {
    * @public
    * @const {string}
    */
-  TILE_HOSTS: 'maps{s}.nyc.gov'  
+  TILE_HOSTS: 'maps{s}.nyc.gov'
 }
 
 export default leaf
