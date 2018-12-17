@@ -11,10 +11,10 @@ import $ from 'jquery'
  */
 const BasemapHelper = {
   /**
- 	 * @desc Hook up events
+   * @desc Hook up events
    * @public
- 	 * @method
-   * @param {Element} target The DOM node for the map
+   * @method
+   * @param {Element} node The DOM node for the map
    */
   hookupEvents(node) {
     $(node).on('drop', $.proxy(this.loadLayer, this))
@@ -23,31 +23,31 @@ const BasemapHelper = {
     })
   },
   /**
-	 * @desc Loads a layer from a file
+   * @desc Loads a layer from a file
    * @public
-	 * @method
-	 * @param {jQuery.Event}
-	 */
-	 loadLayer(event) {
-		 const transfer = event.originalEvent.dataTransfer
-		 event.preventDefault()
-		 event.stopPropagation()
-		 if (transfer && transfer.files.length) {
-			 const files = transfer.files
-			 const ext = files[0].name.split('.').pop().toLowerCase()
-			 if (ext === 'json') {
-				 this.storage.loadGeoJsonFile(this, null, files[0])
-			 } else {
+   * @method
+   * @param {jQuery.Event} event Event object
+   */
+  loadLayer(event) {
+    const transfer = event.originalEvent.dataTransfer
+    event.preventDefault()
+    event.stopPropagation()
+    if (transfer && transfer.files.length) {
+      const files = transfer.files
+      const ext = files[0].name.split('.').pop().toLowerCase()
+      if (ext === 'json') {
+        this.storage.loadGeoJsonFile(this, null, files[0])
+      } else {
         this.storage.loadShapeFile(this, null, files)
       }
-		 }
-	 },
+    }
+  },
   /**
-	 * @desc Returns the photo layers ordered by year
-	 * @public
-	 * @method
-	 * @return {Array<ol.layer.Base|L.Layer>}
-	 */
+   * @desc Returns the photo layers ordered by year
+   * @public
+   * @method
+   * @return {Array<ol.layer.Base|L.Layer>} Array of photo layers
+   */
   sortedPhotos() {
     const sorted = []
     Object.keys(this.photos).forEach(photo => {
@@ -61,18 +61,18 @@ const BasemapHelper = {
     })
   },
   /**
-	 * @desc Enumerator for label types
-	 * @public
-	 * @enum {string}
-	 */
+   * @desc Enumerator for label types
+   * @public
+   * @enum {string}
+   */
   LabelType: {
     /**
-		 * @desc Label type for base layer
-		 */
+     * @desc Label type for base layer
+     */
     BASE: 'base',
     /**
-		 * @desc Label type for photo layer
-		 */
+     * @desc Label type for photo layer
+     */
     PHOTO: 'photo'
   }
 }
