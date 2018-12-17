@@ -27,11 +27,11 @@ olProjRegister(proj4)
  */
 class CsvPoint extends OlFormatFeature {
   /**
-	 * @desc Create an instance of CsvPoint
-	 * @public
-	 * @constructor
+   * @desc Create an instance of CsvPoint
+   * @public
+   * @constructor
    * @param {module:nyc/ol/format/CsvPoint~CsvPoint.Options} options Constructor options
-	 */
+   */
   constructor(options) {
     super()
     /**
@@ -74,7 +74,14 @@ class CsvPoint extends OlFormatFeature {
    * @return {ol.Feature} Feature
    */
   readFeature(source, options) {
-    const id = source[this.id] || this.lastId++
+    let id
+    if (source[this.id]) {
+      id = source[this.id]
+    } else {
+      id = this.lastId
+      this.lastId += 1
+    }
+    //const id = source[this.id] || this.lastId++
     const x = source[this.x] = source[this.x] * 1
     const y = source[this.y] = source[this.y] * 1
     if (isNaN(x) || isNaN(y)) {
