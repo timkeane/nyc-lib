@@ -63,14 +63,28 @@ module.exports = {
   },
   externals: {
     jquery: 'jQuery',
-    
+  
     'ol/extent': 'ol.extent',
     'ol/coordinate': 'ol.coordinate',
     'ol/proj': 'ol.proj',
     'ol/tilegrid': 'ol.tilegrid',
     'ol/Feature': 'ol.Feature',
     'ol/Map': 'ol.Map',
+    'ol/PluggableMap': 'ol.PluggableMap',
     'ol/View': 'ol.View',
+
+    'ol/renderer/canvas/Map': 'ol.renderer.canvas.Map',
+    'ol/renderer/canvas/TileLayer': 'ol.renderer.canvas.TileLayer',
+    'ol/renderer/canvas/VectorLayer': 'ol.renderer.canvas.VectorLayer',
+    
+    'ol/interaction/DoubleClickZoom': 'ol.interaction.DoubleClickZoom',
+    'ol/interaction/DragPan': 'ol.interaction.DragPan',
+    'ol/interaction/DragZoom': 'ol.interaction.DragZoom',
+    'ol/interaction/KeyboardPan': 'ol.interaction.KeyboardPan',
+    'ol/interaction/KeyboardZoom': 'ol.interaction.KeyboardZoom',
+    'ol/interaction/MouseWheelZoom': 'ol.interaction.MouseWheelZoom',
+    'ol/interaction/PinchZoom': 'ol.interaction.PinchZoom',
+    
     'ol/Overlay': 'ol.Overlay',
     'ol/Geolocation': 'ol.Geolocation',
     'ol/format/Feature': 'ol.format.Feature',
