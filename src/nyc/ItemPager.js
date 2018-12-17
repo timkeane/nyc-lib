@@ -79,7 +79,7 @@ class ItemPager extends Container {
   /**
    * @private
    * @method
-   * @param {jQuery.Event} event
+   * @param {jQuery.Event} event Event object
    */
   navigate(event) {
     const incr = $(event.target).data('incr') - 0;

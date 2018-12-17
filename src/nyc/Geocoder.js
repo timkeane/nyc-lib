@@ -25,7 +25,7 @@ class Geocoder extends EventHandling {
    * @public
    * @abstract
    * @method
-   * @param {string}
+   * @param {string} input Input
    */
   search(input) {
     throw 'Not implemented'

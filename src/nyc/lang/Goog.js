@@ -1,3 +1,4 @@
+/* global google, nycTranslateInstance */
 /**
  * @module nyc/lang/Goog
  */
@@ -32,10 +33,10 @@ class Goog extends Translate {
     $.getScript('https://translate.google.com/translate_a/element.js?cb=nycTranslateInstance.init')
   }
   /**
-	 * @desc Callback to set up Google Translate
-	 * @public
-	 * @method
-	 */
+   * @desc Callback to set up Google Translate
+   * @public
+   * @method
+   */
   init() {
     nycTranslateInstance.goog = new google.translate.TranslateElement({
       pageLanguage: 'en',
@@ -47,12 +48,12 @@ class Goog extends Translate {
     nycTranslateInstance.trigger('ready', nycTranslateInstance)
   }
   /**
-	 * @desc Sets the chosen language and initiates Google Translation
-	 * @public
+   * @desc Sets the chosen language and initiates Google Translation
+   * @public
    * @override
-	 * @method
-   * @param {jQuery.Event} event
-	 */
+   * @method
+   * @param {jQuery.Event} event Event object
+   */
   translate(event) {
     const choices = $('iframe.goog-te-menu-frame:first').contents().find('.goog-te-menu2-item span.text')
     clearTimeout(nycTranslateInstance.timeout)
@@ -79,12 +80,12 @@ class Goog extends Translate {
     }
   }
   /**
-	 * @desc Gets the google translate cookie value
-	 * @access protected
-	 * @override
-	 * @method
-	 * @return {string}
-	 */
+   * @desc Gets the google translate cookie value
+   * @access protected
+   * @override
+   * @method
+   * @return {string} Value from cookie
+   */
   getCookieValue() {
     let cookie = this.getCookie()
     if (cookie) {
@@ -95,9 +96,9 @@ class Goog extends Translate {
     return ''
   }
   /**
-	 * @private
-	 * @method
-	 */
+   * @private
+   * @method
+   */
   monitor() {
     if (!this.monitoring) {
       this.monitoring = true
@@ -113,7 +114,7 @@ class Goog extends Translate {
    * @private
    * @method
    * @override
-   * @return {string}
+   * @return {string} cookie
    */
   getCookie() {
     const cookies = document.cookie.split(';')
@@ -128,24 +129,23 @@ class Goog extends Translate {
     }
   }
   /**
-	 * @private
-	 * @method
-	 */
+   * @private
+   * @method
+   */
   hack() {
     /*
-		 * google translate doesn't translate placeholder attributes
-		 * so we'll add a hidden span after input elements that have placeholders
-		 * then use the placeholder text for the span
-		 * then apply the translation of the span back to the placeholder
-		 */
+     * google translate doesn't translate placeholder attributes
+     * so we'll add a hidden span after input elements that have placeholders
+     * then use the placeholder text for the span
+     * then apply the translation of the span back to the placeholder
+     */
     $('input[placeholder]').each(function(_, input) {
       const next = $(input).next()
       if (!next.hasClass('lng-placeholder')) {
         $(input).after(`<span class="lng-placeholder">${$(input).attr('placeholder')}</span>`)
       } else {
-        const fonts = next.find('font')
         let text = next.html()
-        $.each(next.find('font'), (_, font) => {
+        $.each(next.find('font'), (idx, font) => {
           text = $(font).html()
         })
         $(input).attr('placeholder', text)
@@ -161,14 +161,14 @@ class Goog extends Translate {
   showOriginalText() {
     const googBar = $('iframe.goog-te-banner-frame:first')
     $(googBar.contents().find('.goog-te-button button')).each((_, button) => {
-    	if ($(button).text() === 'Show original') {
+      if ($(button).text() === 'Show original') {
         const code = this.find('select').val()
         $(button).trigger('click')
-    		if (this.languages[code].name !== 'English') {
-    			this.find('select').val('en')
+        if (this.languages[code].name !== 'English') {
+          this.find('select').val('en')
         }
-    		return false
-    	}
+        return false
+      }
     })
   }
 }
