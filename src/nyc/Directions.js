@@ -1,10 +1,10 @@
+/* global google */
 /**
  * @module nyc/Directions
  */
 
 import $ from 'jquery'
 
-import nyc from 'nyc'
 import Contanier from 'nyc/Container'
 import Dialog from 'nyc/Dialog'
 import Tabs from 'nyc/Tabs'
@@ -43,7 +43,7 @@ class Directions extends Contanier {
     })
     this.tabs.find('.btn-0').attr('aria-hidden', true)
     this.tabs.on('change', this.tabChange, this)
-	  /**
+    /**
      * @public
      * @member {google.maps.Map}
      */
@@ -67,7 +67,7 @@ class Directions extends Contanier {
      * @private
      * @member {string}
      */
-	  this.modeBtn = '#transit'
+    this.modeBtn = '#transit'
     /**
      * @private
      * @member {string}
@@ -111,11 +111,12 @@ class Directions extends Contanier {
     })
   }
   /**
-	 * @desc Get directions
-	 * @public
-	 * @method
-	 * @param {module:nyc/Directions~Directions.Request} args The arguments describing the requested directions
-	 */
+   * @desc Get directions
+   * @public
+   * @method
+   * @param {module:nyc/Directions~Directions.Request} args The arguments describing the requested directions
+   * @return {jqXHR|undefined} JQuery XHR object
+   */
   directions(args) {
     const mode = args.mode || 'TRANSIT'
     const url = this.url
@@ -147,9 +148,9 @@ class Directions extends Contanier {
     }
   }
   /**
-	 * @private
-	 * @method
-	 */
+   * @private
+   * @method
+   */
   monitor() {
     if (!this.monitoring) {
       this.monitoring = true
@@ -162,11 +163,11 @@ class Directions extends Contanier {
     }
   }
   /**
-	 * @private
-	 * @method
-	 * @param {Object} response
-	 * @param {string} status
-	 */
+   * @private
+   * @method
+   * @param {Object} response Response object
+   * @param {string} status Response status
+   */
   handleResp(response, status) {
     if (status === google.maps.DirectionsStatus.OK) {
       const leg = response.routes[0].legs[0]
@@ -196,9 +197,9 @@ class Directions extends Contanier {
     this.trigger('change', {response: response, status: status})
   }
   /**
-	 * @private
-	 * @method
-	 */
+   * @private
+   * @method
+   */
   routeAlt() {
     let first = true
     global.directions.find('.route img').each((_, img) => {
@@ -216,19 +217,19 @@ class Directions extends Contanier {
     })
   }
   /**
-	 * @private
-	 * @method
-	 */
+   * @private
+   * @method
+   */
   tabChange() {
     if (this.renderer) {
       this.renderer.setOptions({map: this.map})
     }
   }
   /**
-	 * @desc Initializes the class on callback from the Google Maps
-	 * @public
-	 * @method
-	 */
+   * @desc Initializes the class on callback from the Google Maps
+   * @public
+   * @method
+   */
   init() {
     this.map = new google.maps.Map($('#map-tab div.map').get(0), {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -246,19 +247,19 @@ class Directions extends Contanier {
     this.directions(this.args)
   }
   /**
-	 * @private
-	 * @method
-	 * @param {jQuery.Event} event
-	 */
+   * @private
+   * @method
+   * @param {jQuery.Event} event Event object
+   */
   zoom(event) {
     const z = this.map.getZoom()
     this.map.setZoom(z + ($(event.target).data('zoom-incr') * 1))
   }
   /**
-	 * @private
-	 * @method
-	 * @param {jQuery.Event} event
-	 */
+   * @private
+   * @method
+   * @param {jQuery.Event} event Event object
+   */
   mode(event) {
     this.args = this.args || {}
     this.modeBtn = event.target
@@ -268,10 +269,10 @@ class Directions extends Contanier {
     this.directions(this.args)
   }
   /**
-	 * @private
-	 * @method
-	 * @param {jQuery.Event} event
-	 */
+   * @private
+   * @method
+   * @param {jQuery.Event} event Event object
+   */
   key(event) {
     if (event.keyCode === 13) {
       this.args.from = $('#fld-from input').val()
@@ -333,48 +334,48 @@ Directions.Options
   * @type {string}
   */
 Directions.HTML = '<div id="directions">' +
-	'<button id="back-to-map" class="btn rad-all">' +
-		'Back to finder' +
- 	'</button>' +
- 	'<div id="dir-tabs">' +
-		'<div id="route-tab">' +
-			'<div class="fld-lbl">From my location:</div>' +
-			'<div id="fld-from"><input class="rad-all" placeholder="Enter an address..."></div>' +
-			'<div class="fld-lbl">To <span id="fld-facility"></span>:</div>' +
-			'<div id="fld-to"></div>' +
-			'<table id="mode">' +
-				'<tbody><tr>' +
-					'<td><button id="transit" class="btn-sq rad-all active" data-mode="TRANSIT" title="Get transit directions">' +
-						'<span class="screen-reader-only">get transit directions</span>' +
-					'</button></td>' +
-					'<td><button id="bike" class="btn-sq rad-all" data-mode="BICYCLING" title="Get bicycling directions">' +
-						'<span class="screen-reader-only">get bicycling directions</span>' +
-					'</button></td>' +
-					'<td><button id="walk" class="btn-sq rad-all" data-mode="WALKING" title="Get walking directions">' +
-						'<span class="screen-reader-only">get walking directions</span>' +
-					'</button></td>' +
-					'<td><button id="car" class="btn-sq rad-all" data-mode="DRIVING" title="Get driving directions">' +
-						'<span class="screen-reader-only">get driving directions</span>' +
-					'</button></td>' +
-					'<td>' +
-						'<span class="screen-reader-only">Get accessible transit directions from the MTA </span>' +
-						'<button id="mta" class="btn-sq rad-all notranslate">TripPlanner' +
-						'<svg xmlns="http://www.w3.org/2000/svg" width="656" height="656" viewBox="0 0 656 656"><g transform="translate(-263.86732,-69.7075)"><path d="M 833.556,367.574 C 825.803,359.619 814.97,355.419 803.9,356.025 l -133.981,7.458 73.733,-83.975 c 10.504,-11.962 13.505,-27.908 9.444,-42.157 -2.143,-9.764 -8.056,-18.648 -17.14,-24.324 -0.279,-0.199 -176.247,-102.423 -176.247,-102.423 -14.369,-8.347 -32.475,-6.508 -44.875,4.552 l -85.958,76.676 c -15.837,14.126 -17.224,38.416 -3.097,54.254 14.128,15.836 38.419,17.227 54.255,3.096 l 65.168,-58.131 53.874,31.285 -95.096,108.305 c -39.433,6.431 -74.913,24.602 -102.765,50.801 l 49.66,49.66 c 22.449,-20.412 52.256,-32.871 84.918,-32.871 69.667,0 126.346,56.68 126.346,126.348 0,32.662 -12.459,62.467 -32.869,84.916 l 49.657,49.66 c 33.08,-35.166 53.382,-82.484 53.382,-134.576 0,-31.035 -7.205,-60.384 -20.016,-86.482 l 51.861,-2.889 -12.616,154.75 c -1.725,21.152 14.027,39.695 35.18,41.422 1.059,0.086 2.116,0.127 3.163,0.127 19.806,0 36.621,-15.219 38.257,-35.306 l 16.193,-198.685 c 0.904,-11.071 -3.026,-21.989 -10.775,-29.942 z"/><path  d="m 762.384,202.965 c 35.523,0 64.317,-28.797 64.317,-64.322 0,-35.523 -28.794,-64.323 -64.317,-64.323 -35.527,0 -64.323,28.8 -64.323,64.323 0,35.525 28.795,64.322 64.323,64.322 z"/><path d="m 535.794,650.926 c -69.668,0 -126.348,-56.68 -126.348,-126.348 0,-26.256 8.056,-50.66 21.817,-70.887 l -50.196,-50.195 c -26.155,33.377 -41.791,75.393 -41.791,121.082 0,108.535 87.983,196.517 196.518,196.517 45.691,0 87.703,-15.636 121.079,-41.792 L 606.678,629.11 c -20.226,13.757 -44.63,21.816 -70.884,21.816 z"/></g></svg>' +
-						'</td>' +
-			 	'</tr></tbody>' +
-			'</table>' +
-			'<div class="route"></div>' +
-		'</div>' +
-		'<div id="map-tab" aria-hidden="true">' +
-			'<div class="map"></div>' +
-			'<button class="btn-z-in btn-sq rad-all" data-zoom-incr="1" title="Zoom in">' +
-				'<span class="screen-reader-only">Zoom in</span>' +
-	 		'</button>' +
-	 		'<button class="btn-z-out btn-sq rad-all" data-zoom-incr="-1" title="Zoom out">' +
-		 		'<span class="screen-reader-only">Zoom out</span>' +
-	 		'</button>' +
-		 '</div>' +
-	'</div>' +
+  '<button id="back-to-map" class="btn rad-all">' +
+    'Back to finder' +
+  '</button>' +
+  '<div id="dir-tabs">' +
+    '<div id="route-tab">' +
+      '<div class="fld-lbl">From my location:</div>' +
+      '<div id="fld-from"><input class="rad-all" placeholder="Enter an address..."></div>' +
+      '<div class="fld-lbl">To <span id="fld-facility"></span>:</div>' +
+      '<div id="fld-to"></div>' +
+      '<table id="mode">' +
+        '<tbody><tr>' +
+          '<td><button id="transit" class="btn-sq rad-all active" data-mode="TRANSIT" title="Get transit directions">' +
+            '<span class="screen-reader-only">get transit directions</span>' +
+          '</button></td>' +
+          '<td><button id="bike" class="btn-sq rad-all" data-mode="BICYCLING" title="Get bicycling directions">' +
+            '<span class="screen-reader-only">get bicycling directions</span>' +
+          '</button></td>' +
+          '<td><button id="walk" class="btn-sq rad-all" data-mode="WALKING" title="Get walking directions">' +
+            '<span class="screen-reader-only">get walking directions</span>' +
+          '</button></td>' +
+          '<td><button id="car" class="btn-sq rad-all" data-mode="DRIVING" title="Get driving directions">' +
+            '<span class="screen-reader-only">get driving directions</span>' +
+          '</button></td>' +
+          '<td>' +
+            '<span class="screen-reader-only">Get accessible transit directions from the MTA </span>' +
+          '<button id="mta" class="btn-sq rad-all notranslate">TripPlanner' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="656" height="656" viewBox="0 0 656 656"><g transform="translate(-263.86732,-69.7075)"><path d="M 833.556,367.574 C 825.803,359.619 814.97,355.419 803.9,356.025 l -133.981,7.458 73.733,-83.975 c 10.504,-11.962 13.505,-27.908 9.444,-42.157 -2.143,-9.764 -8.056,-18.648 -17.14,-24.324 -0.279,-0.199 -176.247,-102.423 -176.247,-102.423 -14.369,-8.347 -32.475,-6.508 -44.875,4.552 l -85.958,76.676 c -15.837,14.126 -17.224,38.416 -3.097,54.254 14.128,15.836 38.419,17.227 54.255,3.096 l 65.168,-58.131 53.874,31.285 -95.096,108.305 c -39.433,6.431 -74.913,24.602 -102.765,50.801 l 49.66,49.66 c 22.449,-20.412 52.256,-32.871 84.918,-32.871 69.667,0 126.346,56.68 126.346,126.348 0,32.662 -12.459,62.467 -32.869,84.916 l 49.657,49.66 c 33.08,-35.166 53.382,-82.484 53.382,-134.576 0,-31.035 -7.205,-60.384 -20.016,-86.482 l 51.861,-2.889 -12.616,154.75 c -1.725,21.152 14.027,39.695 35.18,41.422 1.059,0.086 2.116,0.127 3.163,0.127 19.806,0 36.621,-15.219 38.257,-35.306 l 16.193,-198.685 c 0.904,-11.071 -3.026,-21.989 -10.775,-29.942 z"/><path  d="m 762.384,202.965 c 35.523,0 64.317,-28.797 64.317,-64.322 0,-35.523 -28.794,-64.323 -64.317,-64.323 -35.527,0 -64.323,28.8 -64.323,64.323 0,35.525 28.795,64.322 64.323,64.322 z"/><path d="m 535.794,650.926 c -69.668,0 -126.348,-56.68 -126.348,-126.348 0,-26.256 8.056,-50.66 21.817,-70.887 l -50.196,-50.195 c -26.155,33.377 -41.791,75.393 -41.791,121.082 0,108.535 87.983,196.517 196.518,196.517 45.691,0 87.703,-15.636 121.079,-41.792 L 606.678,629.11 c -20.226,13.757 -44.63,21.816 -70.884,21.816 z"/></g></svg>' +
+            '</td>' +
+          '</tr></tbody>' +
+        '</table>' +
+      '<div class="route"></div>' +
+    '</div>' +
+    '<div id="map-tab" aria-hidden="true">' +
+      '<div class="map"></div>' +
+      '<button class="btn-z-in btn-sq rad-all" data-zoom-incr="1" title="Zoom in">' +
+        '<span class="screen-reader-only">Zoom in</span>' +
+      '</button>' +
+      '<button class="btn-z-out btn-sq rad-all" data-zoom-incr="-1" title="Zoom out">' +
+        '<span class="screen-reader-only">Zoom out</span>' +
+      '</button>' +
+    '</div>' +
+  '</div>' +
 '</div>'
 
 /**

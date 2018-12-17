@@ -14,51 +14,52 @@ import Container from 'nyc/Container'
  */
 class Dialog extends Container {
   /**
-	 * @desc Create an instance of Dialog
-	 * @public
-	 * @constructor
-	 */
+   * @desc Create an instance of Dialog
+   * @public
+   * @constructor
+   * @param {string} css Css class name
+   */
   constructor(css) {
     super($(Dialog.HTML))
     $('body').append(this.getContainer().addClass(css))
     /**
-		 * @private
-		 * @member {boolean}
-		 */
+     * @private
+     * @member {boolean}
+     */
     this.open = false
     /**
-		 * @private
-		 * @member {jQuery}
-		 */
+     * @private
+     * @member {jQuery}
+     */
     this.okBtn = this.find('.btn-ok')
     /**
-		 * @private
-		 * @member {jQuery}
-		 */
+     * @private
+     * @member {jQuery}
+     */
     this.yesNoBtns = this.find('.btn-yes, .btn-no')
     /**
-		 * @private
-		 * @member {jQuery}
-		 */
-	 	this.inputBtns = this.find('.btn-submit, .btn-cancel')
+     * @private
+     * @member {jQuery}
+     */
+    this.inputBtns = this.find('.btn-submit, .btn-cancel')
     /**
-		 * @private
-		 * @member {jQuery}
-		 */
-	 	this.field = this.find('input')
+     * @private
+     * @member {jQuery}
+     */
+    this.field = this.find('input')
     /**
-		 * @private
-		 * @member {jQuery}
-		 */
+     * @private
+     * @member {jQuery}
+     */
     this.msg = this.find('.dia-msg')
   }
   /**
-	 * @desc Show the ok dialog
-	 * @public
-	 * @method
-	 * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
-	 * @return {Promise<boolean>} The async result of the user action
-	 */
+   * @desc Show the ok dialog
+   * @public
+   * @method
+   * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
+   * @return {Promise<boolean>} The async result of the user action
+   */
   ok(options) {
     this.buttons(Dialog.Type.OK, options)
     this.show(Dialog.Type.OK, options)
@@ -74,12 +75,12 @@ class Dialog extends Container {
     })
   }
   /**
-	 * @desc Show the input dialog
-	 * @public
-	 * @method
-	 * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
-	 * @return {Promise<string|boolean|undefined>} The async result of the user action
-	 */
+   * @desc Show the input dialog
+   * @public
+   * @method
+   * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
+   * @return {Promise<string|boolean|undefined>} The async result of the user action
+   */
   input(options) {
     const field = this.field
     this.buttons(Dialog.Type.INPUT, options)
@@ -103,12 +104,12 @@ class Dialog extends Container {
     })
   }
   /**
-	 * @desc Show the yes-no dialog
-	 * @public
-	 * @method
-	 * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
-	 * @return {Promise<boolean>} The async result of the user action
-	 */
+   * @desc Show the yes-no dialog
+   * @public
+   * @method
+   * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
+   * @return {Promise<boolean>} The async result of the user action
+   */
   yesNo(options) {
     this.buttons(Dialog.Type.YES_NO, options)
     this.show(Dialog.Type.YES_NO, options)
@@ -124,12 +125,12 @@ class Dialog extends Container {
     })
   }
   /**
-	 * @desc Show the yes-no-cancel dialog
-	 * @public
-	 * @method
-	 * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
- 	 * @return {Promise<boolean|undefined>} The async result of the user action
-	 */
+   * @desc Show the yes-no-cancel dialog
+   * @public
+   * @method
+   * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
+   * @return {Promise<boolean|undefined>} The async result of the user action
+   */
   yesNoCancel(options) {
     this.buttons(Dialog.Type.YES_NO_CANCEL, options)
     this.show(Dialog.Type.YES_NO_CANCEL, options)
@@ -156,12 +157,11 @@ class Dialog extends Container {
     })
   }
   /**
-	 * @private
-	 * @method
-	 * @param {module:nyc/Dialog~Dialog.Type} type
-	 * @param {Array<string>=} buttonText
-	 * @param {Array<string>=} buttonHref
-	 */
+   * @private
+   * @method
+   * @param {module:nyc/Dialog~Dialog.Type} type Type of button
+   * @param {Object} options Button options (texts and hyperlinks)
+   */
   buttons(type, options) {
     const buttonText = options.buttonText || []
     const buttonHref = options.buttonHref || []
@@ -189,14 +189,17 @@ class Dialog extends Container {
           .attr('href', buttonHref[1] || '#')
         this.find('.btn-cancel').html(buttonText[2] || 'Cancel')
           .attr('href', buttonHref[2] || '#')
+        break;
+      default:
+        break;
     }
   }
   /**
-	 * @private
-	 * @method
-	 * @param {module:nyc/Dialog~Dialog.Type} type
-	 * @param {module:nyc/Dialog~Dialog.Options} options
-	 */
+   * @private
+   * @method
+   * @param {module:nyc/Dialog~Dialog.Type} type Type of dialog
+   * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
+   */
   show(type, options) {
     this.open = true
     $('*').on('focus', $.proxy(this.trapFocus, this))
@@ -215,7 +218,9 @@ class Dialog extends Container {
     let message
     try {
       message = $(options.message)
-    } catch (ignore) {}
+    } catch (ignore) {
+      /* empty */
+    }
     if (message && message.length) {
       this.msg.html(message)
     } else {
@@ -224,10 +229,10 @@ class Dialog extends Container {
     this.getContainer().fadeIn()
   }
   /**
-	 * @private
-	 * @method
-	 * @param {jQuery.Event}
-	 */
+   * @private
+   * @method
+   * @param {jQuery.Event} event Event object
+   */
   trapFocus(event) {
     const container = this.getContainer()
     if (this.open && !$.contains(container.get(0), event.target)) {
@@ -235,9 +240,9 @@ class Dialog extends Container {
     }
   }
   /**
-	 * @private
-	 * @method
-	 */
+   * @private
+   * @method
+   */
   hide() {
     const field = this.field
     this.open = false
@@ -247,12 +252,12 @@ class Dialog extends Container {
     })
   }
   /**
-	 * @private
-	 * @method
-	 * @param {function()} resolve
-	 * @param {module:nyc/Dialog~Dialog} dia
-	 * @param {jQuery.Event} event
-	 */
+   * @private
+   * @method
+   * @param {function()} resolve Resolve function
+   * @param {module:nyc/Dialog~Dialog} dia Dialog instance
+   * @param {jQuery.Event} event Event object
+   */
   hndlKey(resolve, dia, event) {
     if (event.keyCode === 13 && $(event.target).get(0) === dia.field.get(0)) {
       dia.hide()
@@ -271,20 +276,20 @@ class Dialog extends Container {
  */
 Dialog.Type = {
   /**
-	 * @desc Dialog with OK button
-	 */
+   * @desc Dialog with OK button
+   */
   OK: 'ok',
   /**
-	 * @desc Dialog with Yes and No buttons
-	 */
+   * @desc Dialog with Yes and No buttons
+   */
   YES_NO: 'yes-no',
   /**
-	 * @desc Dialog with Yes, No and Cancel buttons
-	 */
+   * @desc Dialog with Yes, No and Cancel buttons
+   */
   YES_NO_CANCEL: 'yes-no-cancel',
   /**
-	 * @desc Dialog to accept user input
-	 */
+   * @desc Dialog to accept user input
+   */
   INPUT: 'input'
 }
 
@@ -305,17 +310,17 @@ Dialog.Options
  * @type {string}
  */
 Dialog.HTML = '<div class="dia-container" role="dialog">' +
-	'<div class="dia">' +
-	'<div class="dia-msg"></div>' +
-	'<input class="rad-all">' +
-	'<div class="dia-btns">' +
-		'<a class="btn rad-all btn-ok">OK</a>' +
-		'<a class="btn rad-all btn-yes">Yes</a>' +
-		'<a class="btn rad-all btn-no">No</a>' +
-		'<a class="btn rad-all btn-submit">OK</a>' +
-		'<a class="btn rad-all btn-cancel">Cancel</a>' +
-		'</div>' +
-	'</div>' +
+  '<div class="dia">' +
+    '<div class="dia-msg"></div>' +
+    '<input class="rad-all">' +
+    '<div class="dia-btns">' +
+      '<a class="btn rad-all btn-ok">OK</a>' +
+      '<a class="btn rad-all btn-yes">Yes</a>' +
+      '<a class="btn rad-all btn-no">No</a>' +
+      '<a class="btn rad-all btn-submit">OK</a>' +
+      '<a class="btn rad-all btn-cancel">Cancel</a>' +
+    '</div>' +
+  '</div>' +
 '</div>'
 
 export default Dialog

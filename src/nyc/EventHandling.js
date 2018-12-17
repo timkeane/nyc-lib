@@ -18,40 +18,40 @@ class EventHandling {
  */
   constructor() {
     /**
-		* @private
-		* @type {Object<string, Array<EventHandling.Handler>>}
-		*/
+     * @private
+     * @type {Object<string, Array<EventHandling.Handler>>}
+     */
     this.evtHdlrs = {}
   }
   /**
-	* @desc Connect a function to an event
-	* @public
-	* @method
-	* @param {string} eventName The name of the event to which the handler will be connected
-	* @param {function(Object)} evtHdlr The event handler function
-	* @param {Object=} hdlrScope The scope in which to invoke the event handler
-	*/
+   * @desc Connect a function to an event
+   * @public
+   * @method
+   * @param {string} eventName The name of the event to which the handler will be connected
+   * @param {function(Object)} evtHdlr The event handler function
+   * @param {Object=} hdlrScope The scope in which to invoke the event handler
+   */
   on(eventName, evtHdlr, hdlrScope) {
     this.addHdlr(eventName, evtHdlr, hdlrScope)
   }
   /**
-	* @desc Connect a function to an event for a single invocation
-	* @public
-	* @method
-	* @param {string} eventName The name of the event to which the handler will be connected
-	* @param {function(Object)} evtHdlr The event handler function
-	* @param {Object=} hdlrScope The scope in which to invoke the event handler
-	*/
+   * @desc Connect a function to an event for a single invocation
+   * @public
+   * @method
+   * @param {string} eventName The name of the event to which the handler will be connected
+   * @param {function(Object)} evtHdlr The event handler function
+   * @param {Object=} hdlrScope The scope in which to invoke the event handler
+   */
   one(eventName, evtHdlr, hdlrScope) {
     this.addHdlr(eventName, evtHdlr, hdlrScope, true)
   }
   /**
-	* @desc Trigger a named event with event data
-	* @public
-	* @method
-	* @param {string} eventName The name of the event to trigger
-	* @param {Object=} data The event data
-	*/
+   * @desc Trigger a named event with event data
+   * @public
+   * @method
+   * @param {string} eventName The name of the event to trigger
+   * @param {Object=} data The event data
+   */
   trigger(eventName, data) {
     const handlers = this.evtHdlrs[eventName]
     const remove = []
@@ -72,13 +72,13 @@ class EventHandling {
     }
   }
   /**
-	* @desc Remove a previously connected event handler
-	* @public
-	* @method
-	* @param {string} eventName The name of the event to which the handler will be connected
-	* @param {function(Object)} evtHdlr The event handler function
-	* @param {Object=} hdlrScope The scope in which to invoke the event handler
-	*/
+   * @desc Remove a previously connected event handler
+   * @public
+   * @method
+   * @param {string} eventName The name of the event to which the handler will be connected
+   * @param {function(Object)} evtHdlr The event handler function
+   * @param {Object=} hdlrScope The scope in which to invoke the event handler
+   */
   off(eventName, evtHdlr, hdlrScope) {
     const handlers = this.evtHdlrs[eventName]
     handlers.forEach((hdlr, index) => {
@@ -89,13 +89,13 @@ class EventHandling {
     })
   }
   /**
-	* @private
-	* @method
-	* @param {string} eventName
-	* @param {function(Object)} evtHdlr
-	* @param {Object} hdlrScope
-	* @param {boolean} one
-	*/
+   * @private
+   * @method
+   * @param {string} eventName Name of the event
+   * @param {function(Object)} evtHdlr Event handler
+   * @param {Object} hdlrScope Scope of the handler
+   * @param {boolean} one Single handler or not
+   */
   addHdlr(eventName, evtHdlr, hdlrScope, one) {
     this.evtHdlrs[eventName] = this.evtHdlrs[eventName] || []
     this.evtHdlrs[eventName].push({handler: evtHdlr, scope: hdlrScope, remove: one})

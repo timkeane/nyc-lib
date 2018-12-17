@@ -31,10 +31,10 @@ class Geoclient extends Geocoder {
   constructor(options) {
     super(options)
     /**
-  	 * @private
-  	 * @member {string}
-  	 */
-  	this.url = `${options.url}&input=`
+     * @private
+     * @member {string}
+     */
+    this.url = `${options.url}&input=`
     /**
      * @desc The epsg code
      * @public
@@ -43,12 +43,12 @@ class Geoclient extends Geocoder {
     this.projection = options.projection || 'EPSG:3857'
   }
   /**
-	 * @desc Geocode an input string representing a location
-	 * @public
+   * @desc Geocode an input string representing a location
+   * @public
    * @override
-	 * @method
-	 * @param {string} input The value to geocode
-	 */
+   * @method
+   * @param {string} input The value to geocode
+   */
   search(input) {
     input = input.trim()
     if (input.length === 5 && !isNaN(input)) {
@@ -68,11 +68,11 @@ class Geoclient extends Geocoder {
     }
   }
   /**
-	 * @private
-	 * @method
-	 * @param {Array<number>} coordinate
-	 * @return {Array<number>}
-	 */
+   * @private
+   * @method
+   * @param {Array<number>} coordinate Coordinate
+   * @return {Array<number>} Reprojected coordinate
+   */
   project(coordinate) {
     if (coordinate && this.projection !== 'EPSG:2263') {
       return proj4('EPSG:2263', this.projection, coordinate)
@@ -80,10 +80,10 @@ class Geoclient extends Geocoder {
     return coordinate
   }
   /**
-	 * @private
-	 * @method
-	 * @param {Object} response
-	 */
+   * @private
+   * @method
+   * @param {Object} response Response object
+   */
   geoclient(response) {
     const results = response.results
     if (response.status === 'OK') {
@@ -116,10 +116,11 @@ class Geoclient extends Geocoder {
     }
   }
   /**
-	 * @private
-	 * @method
-	 * @param {Array<module:nyc.Locator~Locator.Ambiguous>} response
-	 */
+   * @private
+   * @method
+   * @param {Array<module:nyc.Locator~Locator.Ambiguous>} results Results
+   * @returns {Array} Possible results
+   */
   possible(results) {
     const possible = []
     results.forEach(result => {
@@ -131,11 +132,11 @@ class Geoclient extends Geocoder {
     return possible
   }
   /**
-	 * @private
-	 * @method
-	 * @param {Object} result
-	 * @return {Locator.Result}
-	 */
+   * @private
+   * @method
+   * @param {Object} result Result
+   * @return {Locator.Result} Locator result
+   */
   parse(result) {
     const typ = result.request.split(' ')[0], r = result.response
     let ln1, p, a
@@ -156,13 +157,13 @@ class Geoclient extends Geocoder {
     }
     try {
       return {
-  			type: 'geocoded',
-  			coordinate: this.project(p),
-  			data: r,
-  			accuracy: a, /* approximation */
-  			name: nyc.capitalize(`${ln1.replace(/  +/g, ' ')}, ${r.firstBoroughName}`) +
+        type: 'geocoded',
+        coordinate: this.project(p),
+        data: r,
+        accuracy: a, /* approximation */
+        name: nyc.capitalize(`${ln1.replace(/  +/g, ' ')}, ${r.firstBoroughName}`) +
           `, NY ${(r.zipCode || r.leftSegmentZipCode || '')}`
-  		}
+      }
     } catch (badCoord) {
       console.warn('No coordinate', result)
     }
@@ -201,7 +202,6 @@ Geoclient.ZIP_CODE_POINTS = {
   '10024': [991450, 225457],
   '10454': [1007449, 232863],
   '10026': [997179, 231835],
-  '10035': [1001886, 231364],
   '10025': [993331, 230012],
   '10035': [1006595, 228454],
   '11101': [1001319, 211034],
@@ -234,10 +234,7 @@ Geoclient.ZIP_CODE_POINTS = {
   '11040': [1065956, 213534],
   '10002': [988242, 200171],
   '10314': [939259, 155728],
-  '11693': [1028661, 168843],
   '11228': [980891, 164066],
-  '11096': [1048547, 164406],
-  '11693': [1032834, 164479],
   '11209': [976172, 165379],
   '10304': [962458, 165679],
   '10456': [1007883, 242372],
@@ -249,15 +246,12 @@ Geoclient.ZIP_CODE_POINTS = {
   '10473': [1022475, 237217],
   '10030': [1000193, 237302],
   '10027': [999088, 234131],
-  '10464': [1047712, 250241],
-  '10464': [1043291, 247861],
   '10461': [1028296, 247902],
   '10457': [1012388, 247405],
   '10460': [1015132, 243510],
   '10032': [1000382, 244917],
   '10452': [1005446, 244483],
   '11414': [1027256, 178677],
-  '11231': [979340, 182720],
   '11232': [983612, 177801],
   '10034': [1005713, 255122],
   '10033': [1001707, 248780],
@@ -265,7 +259,6 @@ Geoclient.ZIP_CODE_POINTS = {
   '10040': [1003863, 251914],
   '10453': [1008152, 249805],
   '11102': [1004636, 220364],
-  '11370': [1014445, 217532],
   '10021': [997020, 219120],
   '11361': [1047797, 217779],
   '11358': [1040709, 216377],
@@ -283,11 +276,8 @@ Geoclient.ZIP_CODE_POINTS = {
   '11691': [1053783, 158810],
   '11096': [1054217, 162199],
   '11223': [991665, 156781],
-  '11693': [1030676, 160394],
   '11208': [1019700, 184749],
   '11207': [1013544, 183721],
-  '10004': [978925, 190480],
-  '10004': [971715, 190592],
   '11413': [1053380, 183328],
   '11217': [989547, 187967],
   '11238': [994291, 186584],
@@ -334,7 +324,6 @@ Geoclient.ZIP_CODE_POINTS = {
   '11203': [1002509, 175950],
   '10469': [1026678, 255623],
   '10468': [1013897, 258046],
-  '10463': [1008780, 258696],
   '10458': [1015534, 253712],
   '11378': [1009641, 202115],
   '10009': [990043, 203961],
@@ -349,7 +338,6 @@ Geoclient.ZIP_CODE_POINTS = {
   '11412': [1050773, 193231],
   '10005': [981339, 197038],
   '11251': [993428, 194599],
-  '10004': [980174, 195435],
   '11411': [1057763, 192413],
   '11201': [986968, 192156],
   '10004': [972576, 193652],
@@ -410,12 +398,10 @@ Geoclient.ZIP_CODE_POINTS = {
   '10081': [981838, 197074],
   '10096': [989071, 214235],
   '10097': [988461, 216931],
-  '10196': [989237, 215000],
   '10196': [989458, 214963],
   '10275': [980368, 196382],
   '10265': [982060, 196164],
   '10045': [981866, 197329],
-  '10047': [988047, 208660],
   '10047': [988047, 208660],
   '10080': [980785, 198167],
   '10203': [981062, 196965],
