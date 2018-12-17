@@ -6,6 +6,7 @@
     },
     "extends": ["openlayers"],
     "rules": {
+        "import/no-unresolved": ["warn"],
         "no-tabs": ["error"],
         "semi": 0,
         "no-shadow": "error",
