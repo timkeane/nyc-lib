@@ -6,7 +6,6 @@
     },
     "extends": ["openlayers"],
     "rules": {
-        "import/no-unresolved": ["warn"],
         "no-tabs": ["error"],
         "semi": 0,
         "no-shadow": "error",
@@ -22,6 +21,12 @@
         "linebreak-style": ["error", "windows"]
     },
     "settings": {
-        "import/resolver": "webpack"
+        "import/resolver": {
+            "alias": {
+                "map": [
+                    [ "nyc", "./src/nyc" ]
+                ]
+            }
+        }
     }
 }
