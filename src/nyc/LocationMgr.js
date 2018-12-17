@@ -55,18 +55,18 @@ class LocationMgr extends EventHandling {
     this.locateFromQueryString(document.location.search)
   }
   /**
-	 * @desc Zomm and center on the provided location
-	 * @public
-	 * @method
-	 * @param {module:nyc/Locator~Locator.Result} data The location
-	 */
+   * @desc Zoom and center on the provided location
+   * @public
+   * @method
+   * @param {module:nyc/Locator~Locator.Result} data The location
+   */
   setLocation(data) {
     this.mapLocator.setLocation(data)
   }
   /**
-	 * @private
-	 * @method
-	 */
+   * @private
+   * @method
+   */
   hookupEvents() {
     this.locator.on('geocoded', this.located, this)
     this.locator.on('geolocated', this.located, this)
@@ -77,20 +77,22 @@ class LocationMgr extends EventHandling {
     this.zoomSearch.on('geolocate', this.locator.locate, this.locator)
   }
   /**
- 	 * @private
+   * @private
    * @method
-   * @param {string} qstr
- 	 */
- 	locateFromQueryString(qstr) {
+   * @param {string} qstr Query string
+   */
+  locateFromQueryString(qstr) {
     const args = {}
- 		try {
+    try {
       qstr = decodeURIComponent(qstr)
       qstr.substr(1).split('&').forEach(param => {
         const p = param.split('=')
         args[p[0]] = decodeURIComponent(p[1])
       })
- 		} catch (ignore) {}
- 		if (args.location) {
+    } catch (ignore) {
+      /* empty */
+    }
+    if (args.location) {
       if (args.location.indexOf('EPSG') > -1) {
         const location = args.location.split(',')
         const proj = this.mapLocator.getProjection()
@@ -100,14 +102,14 @@ class LocationMgr extends EventHandling {
         this.locator.search(args.location)
       }
     } else if (this.autoLocate) {
- 			this.locator.locate()
- 		}
- 	}
+      this.locator.locate()
+    }
+  }
   /**
-	 * @private
-	 * @method
-	 * @param {module:nyc/Locator~Locator.Result} data
-	 */
+   * @private
+   * @method
+   * @param {module:nyc/Locator~Locator.Result} data Result data
+   */
   located(data) {
     this.zoomSearch.val(data.type === 'geolocated' ? '' : data.name)
     this.mapLocator.zoomLocation(data, () => {
@@ -115,10 +117,10 @@ class LocationMgr extends EventHandling {
     })
   }
   /**
-	 * @private
-	 * @method
-	 * @param {module:nyc/Locator~Locator.Ambiguous} data
-	 */
+   * @private
+   * @method
+   * @param {module:nyc/Locator~Locator.Ambiguous} data Data
+   */
   ambiguous(data) {
     if (data.possible.length) {
       this.zoomSearch.disambiguate(data)
@@ -127,9 +129,9 @@ class LocationMgr extends EventHandling {
     }
   }
   /**
-	 * @private
-	 * @method
-	 */
+   * @private
+   * @method
+   */
   error() {
     this.dialog.ok({message: 'Failed to contact geocoder'})
   }
