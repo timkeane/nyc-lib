@@ -56,7 +56,7 @@ class FinderApp {
      * @member {module:nyc/ListPager~ListPager}
      */
     this.pager = new ListPager({
-      target: '#facilities div', 
+      target: '#facilities div',
       itemType: options.facilityTabTitle
     })
     /**
@@ -162,18 +162,18 @@ class FinderApp {
      * @private
      * @member {module:nyc/Directions~Directions}
      */
-    this.directions = null    
+    this.directions = null
     /**
      * @private
      * @member {string}
      */
-    this.directionsUrl = options.directionsUrl    
+    this.directionsUrl = options.directionsUrl
   }
   /**
    * @desc Reset the facilities list
    * @public
    * @method
-   * @param {Object} event
+   * @param {Object} event Event object
    */
   resetList(event) {
     if (event instanceof Filters) {
@@ -189,7 +189,7 @@ class FinderApp {
    * @desc Centers and zooms to the provided feature
    * @public
    * @method
-   * @param {ol.Feature} feature
+   * @param {ol.Feature} feature OpenLayers feature
    */
   zoomTo(feature) {
     const popup = this.popup
@@ -209,11 +209,11 @@ class FinderApp {
    * @desc Provides directions to the provided facility feature
    * @public
    * @method
-   * @param {ol.Feature} feature
+   * @param {ol.Feature} feature OpenLayers feature
    */
   directionsTo(feature) {
     this.directions = this.directions || new Directions({
-      url: this.directionsUrl, 
+      url: this.directionsUrl,
       toggle: '#tabs'
     })
     const to = feature.getFullAddress()
@@ -234,7 +234,7 @@ class FinderApp {
    * @desc Handles geocoded and geolocated events
    * @access protected
    * @method
-   * @param {module:nyc/Locator~Locator.Result} location
+   * @param {module:nyc/Locator~Locator.Result} location Location
    */
   located(location) {
     this.location = location
@@ -244,8 +244,8 @@ class FinderApp {
    * @desc Creates the filters for the facility features
    * @access protected
    * @method
-   * @param {Array<module:nyc/ol/Filters~Filters.ChoiceOptions>=} choiceOptions
-   * @return {module:nyc/ol/Filters~Filters}
+   * @param {Array<module:nyc/ol/Filters~Filters.ChoiceOptions>=} choiceOptions Choice options
+   * @return {module:nyc/ol/Filters~Filters} Filters
    */
   createFilters(choiceOptions) {
     if (choiceOptions) {
@@ -266,8 +266,8 @@ class FinderApp {
    * @desc Creates the tabs for the map, facilities and filters
    * @access protected
    * @method
-   * @param {module:nyc/ol/FinderApp~FinderApp.Options} options
-   * @return {module:nyc/Tabs~Tabs}
+   * @param {module:nyc/ol/FinderApp~FinderApp.Options} options Options
+   * @return {module:nyc/Tabs~Tabs} Tabs
    */
   createTabs(options) {
     const pages = [
@@ -289,29 +289,29 @@ class FinderApp {
    * @desc Handles the event triggered when a rendered feature's collapsible details is expanded
    * @access protected
    * @method
-   * @param {Object} event
+   * @param {Object} event Event object
    */
   expandDetail(event) {
     this.popup.pan()
   }
   /**
-   * @desc Convert current user location into usalbe form for Google directions API
+   * @desc Convert current user location into usable form for Google directions API
    * @private
    * @method
-   * @return {string|Array<number>}
+   * @return {string|Array<number>} Location coordinates or name
    */
   getFromAddr() {
-		const location = this.location
-		if (location.type === 'geolocated') {
-			const coordinates = proj4(
-        this.view.getProjection().getCode(), 
-        'EPSG:4326', 
+    const location = this.location
+    if (location.type === 'geolocated') {
+      const coordinates = proj4(
+        this.view.getProjection().getCode(),
+        'EPSG:4326',
         location.coordinate
       )
-			return `${coordinates[1]},${coordinates[0]}`
-		}
-		return location.name || ''
-	}
+      return `${coordinates[1]},${coordinates[0]}`
+    }
+    return location.name || ''
+  }
   /**
    * @private
    * @method
@@ -322,7 +322,7 @@ class FinderApp {
   /**
    * @private
    * @method
-   * @param {module:nyc/Dialog~Dialog.Options} options
+   * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
    */
   showSplash(options) {
     const input = this.locationMgr.zoomSearch.input
@@ -339,7 +339,7 @@ class FinderApp {
   /**
    * @private
    * @method
-   * @return {boolean}
+   * @return {boolean} True if the tabs fill the screen
    */
   tabsFillScreen() {
     return Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1
@@ -349,11 +349,11 @@ class FinderApp {
    * @method
    */
   adjustTabs() {
-		/* 
-		 * when input gets focus screen resizes on android 
-		 * causing input to lose focus when tabs are adjusted
-		 * so we don't adjust tabs when input has focus
-		 */
+    /*
+     * when input gets focus screen resizes on android
+     * causing input to lose focus when tabs are adjusted
+     * so we don't adjust tabs when input has focus
+     */
     if ($('#directions').css('display') !== 'block' && !nyc.activeElement().isTextInput) {
       this.tabs.open(this.tabsFillScreen() ? '#map' : '#facilities')
     }
@@ -362,7 +362,7 @@ class FinderApp {
    * @desc Handles the tab change event
    * @access protected
    * @method
-   * @param {module:nyc/Tabs~Tabs}
+   * @param {module:nyc/Tabs~Tabs} tabs Tabs
    */
   tabChange(tabs) {
     if (!this.tabsFillScreen()) {
@@ -373,8 +373,8 @@ class FinderApp {
   /**
    * @private
    * @method
-   * @param {ol.format.Feature} format
-   * @return {ol.format.Feature}
+   * @param {ol.format.Feature} format Feature format
+   * @return {ol.format.Feature} The parent format
    */
   parentFomat(format) {
     return format.parentFomat || format
@@ -382,9 +382,9 @@ class FinderApp {
   /**
    * @private
    * @method
-   * @param {FinderApp.Options} options
-   * @param {ol.format.Feature} format
-   * @return {Array<Object<string, fuction>>}
+   * @param {FinderApp.Options} options Options
+   * @param {ol.format.Feature} format The OpenLayers feature format
+   * @return {Array<Object<string, fuction>>} Decorations
    */
   decorations(options, format) {
     let decorations = [FinderApp.FEATURE_DECORATIONS, {finderApp: this}]
@@ -422,7 +422,7 @@ class FinderApp {
  * @public
  * @static
  * @function
- * @param {jQuery.Event}
+ * @param {jQuery.Event} event Event object
  */
 FinderApp.handleButton = (event) => {
   const target = $(event.currentTarget)
@@ -466,23 +466,20 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns the name of a facility feature
    * @public
    * @method
-   * @return {string} The name of the facility feature
    */
   getName() {
     throw 'A getName decoration must be provided'
   },
   /**
-   * @desc Returns a CSS class for the rendered facility feature 
+   * @desc Returns a CSS class for the rendered facility feature
    * @public
    * @method
-   * @return {string} The CSS class
    */
   cssClass() {},
   /**
    * @desc Returns the address line 1 of a facility feature
    * @public
    * @method
-   * @return {string} The address line 1
    */
   getAddress1() {
     throw 'A getAddress1 decoration must be provided to use default html method and directions'
@@ -500,7 +497,6 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns the city, state zip line of a facility feature
    * @public
    * @method
-   * @return {string} The city, state zip line
    */
   getCityStateZip() {
     throw 'A getCityStateZip decoration must be provided to use default html method and directions'
@@ -518,28 +514,24 @@ FinderApp.FEATURE_DECORATIONS = {
    * @desc Returns the phone number for a facility feature
    * @public
    * @method
-   * @return {string} The phone number
    */
   getPhone() {},
   /**
    * @desc Returns the email for a facility feature
    * @public
    * @method
-   * @return {string} The email
    */
   getEmail() {},
   /**
    * @desc Returns the website URL for a facility feature
    * @public
    * @method
-   * @return {string} The website URL
    */
   getWebsite() {},
   /**
    * @desc Returns additional details for the facility feature
    * @public
    * @method
-   * @param {jQuery|Element|string}
    */
   detailsHtml() {},
   /**
@@ -559,7 +551,7 @@ FinderApp.FEATURE_DECORATIONS = {
    */
   addressHtml() {
     const html = $('<div class="addr"></div>')
-    .append(`<div class="ln1">${this.getAddress1()}</div>`)
+      .append(`<div class="ln1">${this.getAddress1()}</div>`)
     if (this.getAddress2()) {
       html.append(`<div class="ln2">${this.getAddress2()}</div>`)
     }
@@ -610,7 +602,7 @@ FinderApp.FEATURE_DECORATIONS = {
   emailButton() {
     const email = this.getEmail()
     if (email) {
-      return $(`<a class="btn rad-all email" role="button">Email</a>`)
+      return $('<a class="btn rad-all email" role="button">Email</a>')
         .attr('href', `mailto:${email}`)
     }
   },
@@ -623,8 +615,8 @@ FinderApp.FEATURE_DECORATIONS = {
   websiteButton() {
     const url = this.getWebsite()
     if (url) {
-    return $(`<a class="btn rad-all web" target="blank" role="button">Website</a>`)
-      .attr('href', url)
+      return $('<a class="btn rad-all web" target="blank" role="button">Website</a>')
+        .attr('href', url)
     }
   },
   /**
@@ -700,7 +692,7 @@ FinderApp.HTML = '<h1 id="banner" role="banner"></h1>' +
 '<a id="home" role="button" href="#" onclick="document.location.reload()">' +
   '<span class="screen-reader-only">Reload page</span>' +
   '<svg xmlns="http://www.w3.org/2000/svg" width="152" height="52">' +
-    '<g transform="translate(1.5,0)">'+
+    '<g transform="translate(1.5,0)">' +
       '<polygon points="15.5,1.2 3.1,1.2 0,4.3 0,47.7 3.1,50.8 15.5,50.8 18.6,47.7 18.6,35.3 34.1,50.8 46.6,50.8 49.7,47.7 49.7,4.3 46.6,1.2 34.1,1.2 31,4.3 31,16.7 "/>' +
       '<polygon points="83.8,47.7 83.8,38.4 99.3,22.9 99.3,10.5 99.3,4.3 96.2,1.2 83.8,1.2 80.7,4.3 80.7,10.5 74.5,16.7 68.3,10.5 68.3,4.3 65.2,1.2 52.8,1.2 49.7,4.3 49.7,22.9 65.2,38.4 65.2,47.7 68.3,50.8 80.7,50.8 "/>' +
       '<polygon points="145.9,29.1 130.4,29.1 130.4,32.2 118,32.2 118,19.8 130.4,19.8 130.4,22.9 145.9,22.9 149,19.8 149,10.5 139.7,1.2 108.6,1.2 99.3,10.5 99.3,41.5 108.6,50.8 139.7,50.8 149,41.5 149,32.2 "/>' +

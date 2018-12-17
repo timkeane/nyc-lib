@@ -1,4 +1,5 @@
-import nyc from './nyc-index'
+/* global ol */
+import './nyc-index'
 
 import _nyc_ol from 'nyc/ol'
 import _nyc_ol_Basemap from 'nyc/ol/Basemap'

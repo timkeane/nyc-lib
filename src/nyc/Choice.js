@@ -19,7 +19,7 @@ class Choice extends Container {
    * @desc Create an instance of Choice
    * @public
    * @constructor
-   * @param {module:nyc/Choice~Choice.Options}
+   * @param {module:nyc/Choice~Choice.Options} options Choice options
    */
   constructor(options) {
     super(options.target)
@@ -77,6 +77,7 @@ class Choice extends Container {
    * @public
    * @method
    * @param {Array<module:nyc/Choice~Choice.Choice>} choices The choices
+   * @return {Array} Chosen options
    */
   val(choices) {
     if (choices) {
@@ -104,7 +105,7 @@ class Choice extends Container {
   /**
    * @private
    * @method
-   * @param {jQuery.Event} event
+   * @param {jQuery.Event} event Event object
    */
   change(event) {
     this.trigger('change', this)
@@ -112,7 +113,7 @@ class Choice extends Container {
   /**
    * @private
    * @method
-   * @param {module:nyc/Choice~Choice.Choice}
+   * @param {module:nyc/Choice~Choice.Choice} choice Choice
    */
   extend(choice) {
     $.extend(choice, {
@@ -152,7 +153,7 @@ Choice.Options;
  * @type {module:nyc/Choice~Choice}
  */
 
- /**
+/**
   * @private
   * @const
   * @type {string}

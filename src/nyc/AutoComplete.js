@@ -16,7 +16,7 @@ class AutoComplete {
    * @method
    * @param {jQuery|Element|string} inUl The ul element to search
    * @param {jQuery|Element|string} outUl The ul element to receive results
-   * @param {string} type The text for searching
+   * @param {string} typed The text for searching
    */
   filter(inUl, outUl, typed) {
     const long = typed.length > 3
@@ -39,10 +39,10 @@ class AutoComplete {
   /**
    * @private
    * @method
-   * @param {Object<string,RegExp>} matchers
-   * @param {jQuery|string|number} item
-   * @param {Object<string,Array<JQuery|string|number>>} filtered
-   * @param {boolean} long
+   * @param {Object<string,RegExp>} matchers Matchers
+   * @param {jQuery|string|number} item Item
+   * @param {Object<string,Array<JQuery|string|number>>} filtered Filtered
+   * @param {boolean} long If true use exact test
    */
   test(matchers, item, filtered, long) {
     const text = item.html()
@@ -58,14 +58,14 @@ class AutoComplete {
   /**
    * @private
    * @method
-   * @param {string} typed
-   * @return {Object<string,RegExp>}
+   * @param {string} typed Typed string
+   * @return {Object<string,RegExp>} Exact and possible regexes
    */
   regexp(typed) {
     const possibleMatch = new String(typed.replace(/[^a-zA-Z0-9]/g, ''))
     const exactMatch = new String(typed.replace(/[^a-zA-Z0-9 ]/g, ''))
     let possible = '^'
-    for (let i =0; i < possibleMatch.length; i++) {
+    for (let i = 0; i < possibleMatch.length; i++) {
       possible += `(?=.*${possibleMatch.charAt(i)})|`
     }
     possible = possible.substr(0, possible.length - 1)

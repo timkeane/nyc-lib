@@ -38,7 +38,7 @@ class Locator extends EventHandling {
      * @public
      * @member {string}
      */
-		this.projection = options.projection || 'EPSG:3857'
+    this.projection = options.projection || 'EPSG:3857'
     this.hookupEvents()
   }
   /**
@@ -49,12 +49,12 @@ class Locator extends EventHandling {
    */
   metersPerUnit() {
     return proj4.defs[this.projection].to_meter
- 	}
+  }
   /**
    * @desc Get a distance for an accuracy enumerator based on the Locator projection
    * @access protected
    * @method
-   * @param {module:nyc/Locator~Locator.Accuracy} accuracy
+   * @param {module:nyc/Locator~Locator.Accuracy} accuracy Locator accuracy
    * @return {number} The accurcy in map units
    */
   accuracyDistance(accuracy) {
@@ -74,41 +74,41 @@ class Locator extends EventHandling {
     this.geocoder.search(input)
   }
   /**
- 	 * @desc Locate once using device geolocation
- 	 * @public
- 	 * @abstract
- 	 * @method
- 	 */
- 	locate() {
- 		throw 'Not implemented'
- 	}
+   * @desc Locate once using device geolocation
+    * @public
+    * @abstract
+    * @method
+    */
+  locate() {
+    throw 'Not implemented'
+  }
   /**
- 	 * @desc Track using device geolocation
- 	 * @public
- 	 * @abstract
- 	 * @method
- 	 * @param {boolean} track Track or not
- 	 */
- 	track() {
- 		throw 'Not implemented'
-	 }
-	 /**
-		* @private
-		* @method
-		* @param {Object}
-	  */
-	 proxyEvent(event) {
-		 this.trigger(event.type, event)
-	 }
-   /**
-		* @private
-		* @method
-	  */
-   hookupEvents() {
-     this.geocoder.on('geocoded', this.proxyEvent, this)
-     this.geocoder.on('ambiguous', this.proxyEvent, this)
-     this.geocoder.on('error', this.proxyEvent, this)
-   }
+   * @desc Track using device geolocation
+   * @public
+   * @abstract
+   * @method
+   * @param {boolean} track Track or not
+   */
+  track() {
+    throw 'Not implemented'
+  }
+  /**
+   * @private
+   * @method
+   * @param {Object} event The event object
+   */
+  proxyEvent(event) {
+    this.trigger(event.type, event)
+  }
+  /**
+   * @private
+   * @method
+   */
+  hookupEvents() {
+    this.geocoder.on('geocoded', this.proxyEvent, this)
+    this.geocoder.on('ambiguous', this.proxyEvent, this)
+    this.geocoder.on('error', this.proxyEvent, this)
+  }
 }
 
 /**
@@ -126,22 +126,22 @@ Locator.Options
  * @enum {number}
  */
 Locator.Accuracy = {
-	/**
-	 * @desc High accuracy
-	 */
-	HIGH: 0,
-	/**
-	 * @desc Medium accuracy
-	 */
-	MEDIUM: 50,
-	/**
-	 * @desc Low accuracy
-	 */
-	LOW: 500,
-	/**
-	 * @desc ZIP Code accuracy
-	 */
-	ZIP_CODE: 1000
+  /**
+   * @desc High accuracy
+   */
+  HIGH: 0,
+  /**
+   * @desc Medium accuracy
+   */
+  MEDIUM: 50,
+  /**
+   * @desc Low accuracy
+   */
+  LOW: 500,
+  /**
+   * @desc ZIP Code accuracy
+   */
+  ZIP_CODE: 1000
 }
 
 /**

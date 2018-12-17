@@ -72,16 +72,18 @@ class FeaturePopup extends Popup {
    * @desc Handles map click events
    * @method
    * @access protected
-   * @param {ol.MapBrowserEvent} event
+   * @param {ol.MapBrowserEvent} event OpenLayers map browser event
    */
   mapClick(event) {
     const id = this.getId()
-    const feature = this.map.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
+    const result = this.map.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
       if (layer.get('popup-id') === id) {
         return feature
       }
     })
-    if (feature) this.showFeature(feature, event.coordinate)
+    if (result) {
+      this.showFeature(result, event.coordinate)
+    }
   }
 }
 

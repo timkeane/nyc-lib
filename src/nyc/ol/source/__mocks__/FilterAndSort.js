@@ -1,3 +1,4 @@
+/* global jest */
 const mock = jest.fn().mockImplementation(() => {
   return {
     sort: jest.fn().mockImplementation(() => {
@@ -7,11 +8,11 @@ const mock = jest.fn().mockImplementation(() => {
       return mock.features || []
     }),
     autoLoad: () => {
-    return new Promise(resolve => {
-      resolve(mock.features)
-    })
+      return new Promise(resolve => {
+        resolve(mock.features)
+      })
+    }
   }
-}
 })
 
 export default mock

@@ -65,29 +65,29 @@ class Basemap extends OlPluggableMap {
     super(options)
     nyc.mixin(this, [BasemapHelper])
     /**
-  	 * @private
-  	 * @member {number}
-  	 */
-  	this.latestPhoto = 0
+     * @private
+     * @member {number}
+     */
+    this.latestPhoto = 0
     /**
-  	 * @private
-  	 * @member {OlLayerTile}
-  	 */
-  	this.base = null
+     * @private
+     * @member {OlLayerTile}
+     */
+    this.base = null
     /**
-  	 * @private
-  	 * @member {Object<string, OlLayerTile>}
-  	 */
-  	this.labels = {}
+     * @private
+     * @member {Object<string, OlLayerTile>}
+     */
+    this.labels = {}
     /**
-  	 * @private
-  	 * @member {Object<string, OlLayerTile>}
-  	 */
-  	this.photos = {}
+     * @private
+     * @member {Object<string, OlLayerTile>}
+     */
+    this.photos = {}
     /**
-  	 * @private
-  	 * @member {storage.Local}
-  	 */
+     * @private
+     * @member {storage.Local}
+     */
     this.storage = new LocalStorage()
     this.setupLayers(options, preload)
     this.defaultExtent(viewProvided)
@@ -106,12 +106,12 @@ class Basemap extends OlPluggableMap {
    * @public
    * @override
    * @method
-	 * @param year {number=} The photo year to show - shows the latest year if not provided
+   * @param {number=} year The photo year to show - shows the latest year if not provided
    */
   showPhoto(year) {
-  	this.hidePhoto()
+    this.hidePhoto()
     this.photos[(year || this.latestPhoto) + ''].setVisible(true)
-  	this.showLabels('photo')
+    this.showLabels('photo')
   }
   /**
    * @desc Hide photo layer
@@ -121,7 +121,7 @@ class Basemap extends OlPluggableMap {
    */
   hidePhoto() {
     this.base.setVisible(true)
-  	this.showLabels(BasemapHelper.LabelType.BASE)
+    this.showLabels(BasemapHelper.LabelType.BASE)
     Object.entries(this.photos).forEach(([year, layer]) => {
       layer.setVisible(false)
     })
@@ -131,40 +131,40 @@ class Basemap extends OlPluggableMap {
    * @public
    * @override
    * @method
-   * @param labelType {nyc.Basemap.BaseLayers} The label type to show
+   * @param {nyc.Basemap.BaseLayers} labelType The label type to show
    */
   showLabels(labelType) {
-  	this.labels.base.setVisible(labelType === BasemapHelper.LabelType.BASE)
-  	this.labels.photo.setVisible(labelType === BasemapHelper.LabelType.PHOTO)
+    this.labels.base.setVisible(labelType === BasemapHelper.LabelType.BASE)
+    this.labels.photo.setVisible(labelType === BasemapHelper.LabelType.PHOTO)
   }
   /**
    * @desc Returns the base layers
    * @public
    * @override
    * @method
-   * @return {nyc.Basemap.BaseLayers}
+   * @return {nyc.Basemap.BaseLayers} Base layers
    */
   getBaseLayers() {
-  	return {
-  		base: this.base,
-  		labels: this.labels,
-  		photos: this.photos
-  	}
+    return {
+      base: this.base,
+      labels: this.labels,
+      photos: this.photos
+    }
   }
   /**
-	 * @desc Get the storage used for loading and saving data
+   * @desc Get the storage used for loading and saving data
    * @access protected
    * @override
    * @method
    * @return {nyc.ol.storage.Local} srorage
    */
   getStorage() {
-  	return this.storage
+    return this.storage
   }
   /**
    * @private
    * @method
-   * @param {boolean} viewProvided
+   * @param {boolean} viewProvided was the view provided?
    */
   defaultExtent(viewProvided) {
     if (!viewProvided) {
@@ -174,8 +174,8 @@ class Basemap extends OlPluggableMap {
   /**
    * @private
    * @method
-   * @param {Object} options
-   * @param {number} [preload=0]
+   * @param {Object} options Options
+   * @param {number} [preload=0] Preload
    */
   setupLayers(options, preload) {
     this.base = new OlLayerTile({
@@ -222,18 +222,19 @@ class Basemap extends OlPluggableMap {
   /**
    * @private
    * @method
-   * @param extent {ol.Extent} extent
-   * @param view {ol.View|undefined} extent
+   * @param {ol.Extent} extent Extent
+   * @param {ol.View|undefined} view The OpenLayers view
+   * @return {ol.Extent} The layer extent
    */
   layerExtent(extent, view) {
-  	if (view && view.getProjection().getCode() !== 'EPSG:3857') {
+    if (view && view.getProjection().getCode() !== 'EPSG:3857') {
       const fr = 'EPSG:3857'
       const to = 'EPSG:2263'
       const bl = proj4(fr, to, [extent[0], extent[1]])
       const tr = proj4(fr, to, [extent[2], extent[3]])
       return [bl[0], bl[1], tr[0], tr[1]]
-  	}
-  	return extent
+    }
+    return extent
   }
   /**
    * @private
@@ -244,10 +245,10 @@ class Basemap extends OlPluggableMap {
     Object.entries(this.photos).some(([year, layer]) => {
       isPhoto = layer.getVisible()
       if (isPhoto) {
-  			this.showLabels(BasemapHelper.LabelType.PHOTO)
-  			return true
-  		}
-  	})
+        this.showLabels(BasemapHelper.LabelType.PHOTO)
+        return true
+      }
+    })
     if (!isPhoto) {
       this.showLabels(BasemapHelper.LabelType.BASE)
     }
@@ -258,7 +259,7 @@ class Basemap extends OlPluggableMap {
  * @private
  * @static
  * @method
- * @param {Object} options
+ * @param {Object} options Options
  */
 Basemap.setupView = (options) => {
   if (!(options.view instanceof OlView)) {
@@ -287,18 +288,18 @@ Basemap.BASE_URL = `https://${nycOl.TILE_HOSTS}/tms/1.0.0/carto/basemap/{z}/{x}/
  * @type {Object<string, string>}
  */
 Basemap.PHOTO_URLS = {
-	'1924': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/1924/{z}/{x}/{-y}.png8`,
-	'1951': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/1951/{z}/{x}/{-y}.png8`,
-	'1996': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/1996/{z}/{x}/{-y}.png8`,
-	'2001-2': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2001-2/{z}/{x}/{-y}.png8`,
-	'2004': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2004/{z}/{x}/{-y}.png8`,
-	'2006': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2006/{z}/{x}/{-y}.png8`,
-	'2008': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2008/{z}/{x}/{-y}.png8`,
-	'2010': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2010/{z}/{x}/{-y}.png8`,
-	'2012': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2012/{z}/{x}/{-y}.png8`,
-	'2014': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2014/{z}/{x}/{-y}.png8`,
-	'2016': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2016/{z}/{x}/{-y}.png8`,
-	'2018': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2018/{z}/{x}/{-y}.png8`
+  '1924': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/1924/{z}/{x}/{-y}.png8`,
+  '1951': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/1951/{z}/{x}/{-y}.png8`,
+  '1996': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/1996/{z}/{x}/{-y}.png8`,
+  '2001-2': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2001-2/{z}/{x}/{-y}.png8`,
+  '2004': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2004/{z}/{x}/{-y}.png8`,
+  '2006': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2006/{z}/{x}/{-y}.png8`,
+  '2008': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2008/{z}/{x}/{-y}.png8`,
+  '2010': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2010/{z}/{x}/{-y}.png8`,
+  '2012': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2012/{z}/{x}/{-y}.png8`,
+  '2014': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2014/{z}/{x}/{-y}.png8`,
+  '2016': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2016/{z}/{x}/{-y}.png8`,
+  '2018': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2018/{z}/{x}/{-y}.png8`
 }
 
 /**
@@ -308,8 +309,8 @@ Basemap.PHOTO_URLS = {
  * @type {Object<string, string>}
  */
 Basemap.LABEL_URLS = {
-	base: `https://${nycOl.TILE_HOSTS}/tms/1.0.0/carto/label/{z}/{x}/{-y}.png8`,
-	photo: `https://${nycOl.TILE_HOSTS}/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8`
+  base: `https://${nycOl.TILE_HOSTS}/tms/1.0.0/carto/label/{z}/{x}/{-y}.png8`,
+  photo: `https://${nycOl.TILE_HOSTS}/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8`
 }
 
 /**

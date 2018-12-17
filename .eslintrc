@@ -1,0 +1,26 @@
+{
+    "parser": "babel-eslint",
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "extends": ["openlayers"],
+    "rules": {
+        "no-tabs": ["error"],
+        "semi": 0,
+        "no-shadow": "error",
+        "comma-dangle": 0,
+        "import/no-extraneous-dependencies": 0,
+        "no-console": ["error", {
+            "allow" : ["warn", "error"]
+        }],
+        "no-plusplus" : ["error", {
+            "allowForLoopAfterthoughts": true,
+        }],
+        "camelcase": 0,
+        "linebreak-style": ["error", "windows"]
+    },
+    "settings": {
+        "import/resolver": "webpack"
+    }
+}
