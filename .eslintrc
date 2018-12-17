@@ -19,11 +19,7 @@
         "camelcase": 0,
         "linebreak-style": ["error", "windows"]
     },
-    "settings" : {
-        "import/resolver": {
-            "webpack" : {
-                "config" : "webpack.config.js"
-            }
-        }
+    "settings": {
+        "import/resolver": "webpack"
     }
 }

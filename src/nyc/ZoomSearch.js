@@ -1,6 +1,6 @@
 /**
-* @module nyc/ZoomSearch
-*/
+ * @module nyc/ZoomSearch
+ */
 
 import $ from 'jquery'
 
@@ -8,22 +8,22 @@ import Container from 'nyc/Container'
 import AutoComplete from 'nyc/AutoComplete'
 
 /**
-* @desc Abstract class for zoom and search controls
-* @public
-* @abstract
-* @class
-* @extends module:nyc/Container~Container
-* @fires module:nyc/ZoomSearch~ZoomSearch#search
-* @fires module:nyc/ZoomSearch~ZoomSearch#geolocate
-* @fires module:nyc/ZoomSearch~ZoomSearch#disambiguated
-*/
+ * @desc Abstract class for zoom and search controls
+ * @public
+ * @abstract
+ * @class
+ * @extends module:nyc/Container~Container
+ * @fires module:nyc/ZoomSearch~ZoomSearch#search
+ * @fires module:nyc/ZoomSearch~ZoomSearch#geolocate
+ * @fires module:nyc/ZoomSearch~ZoomSearch#disambiguated
+ */
 class ZoomSearch extends Container {
   /**
-  * @desc  Create an instance of ZoomSearch
-  * @access protected
-  * @constructor
-  * @param {jQuery|Element|string} target The target
-  */
+   * @desc  Create an instance of ZoomSearch
+   * @access protected
+   * @constructor
+   * @param {jQuery|Element|string} target The target
+   */
   constructor(target) {
     super($(ZoomSearch.HTML))
     $(target).append(this.getContainer())
@@ -340,31 +340,31 @@ class ZoomSearch extends Container {
  * @property {string} [nameField="name"] The name attribute field of the feature
  * @property {string=} displayField The name attribute field of the feature
  * @property {string=} placeholder A placeholder for the search field
-*/
+ */
 ZoomSearch.FeatureSearchOptions
 
 /**
-* @desc The user has requested a search based on their text input
-* @event module:nyc/ZoomSearch~ZoomSearch#search
-* @type {string}
-*/
+ * @desc The user has requested a search based on their text input
+ * @event module:nyc/ZoomSearch~ZoomSearch#search
+ * @type {string}
+ */
 
 /**
-* @desc The user has requested their geolocation
-* @event module:nyc/ZoomSearch~ZoomSearch#geolocate
-*/
+ * @desc The user has requested their geolocation
+ * @event module:nyc/ZoomSearch~ZoomSearch#geolocate
+ */
 
 /**
-* @desc The user has chosen a location from a list of possible locations
-* @event module:nyc/ZoomSearch~ZoomSearch#disambiguated
-* @type {module:nyc/Locate~Locate.Result}
-*/
+ * @desc The user has chosen a location from a list of possible locations
+ * @event module:nyc/ZoomSearch~ZoomSearch#disambiguated
+ * @type {module:nyc/Locate~Locate.Result}
+ */
 
 /**
-* @private
-* @const
-* @type {string}
-*/
+ * @private
+ * @const
+ * @type {string}
+ */
 ZoomSearch.HTML = '<div class="z-srch" role="toolbar">' +
 '<div class="srch" role="search">' +
 '<input class="rad-all" placeholder="Search for an address...">' +

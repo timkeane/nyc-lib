@@ -8,17 +8,17 @@ import nyc from 'nyc'
 import Container from 'nyc/Container'
 
 /**
-  * @desc  A class for creating and managing tabs
-  * @public
-  * @class
-  * @extends module:nyc/Container~Container
-  */
+ * @desc  A class for creating and managing tabs
+ * @public
+ * @class
+ * @extends module:nyc/Container~Container
+ */
 class Tabs extends Container {
   /**
-	 * @desc Create an instance of Tabs
-	 * @constructor
-	 * @param {module:nyc/Tabs~Tabs.Options} options Constructor options
-	 */
+   * @desc Create an instance of Tabs
+   * @constructor
+   * @param {module:nyc/Tabs~Tabs.Options} options Constructor options
+   */
   constructor(options) {
     super(options.target)
     this.getContainer().append($(Tabs.HTML)).addClass('tabs')
@@ -41,7 +41,7 @@ class Tabs extends Container {
    * @desc Open a tab
    * @public
    * @method
-   * @param {jQuery|Element|string} tab
+   * @param {jQuery|Element|string} tab Tab panel
    */
   open(tab) {
     tab = this.find(tab)
@@ -103,7 +103,7 @@ class Tabs extends Container {
   /**
    * @private
    * @method
-   * @param {jQuery.Event} event
+   * @param {jQuery.Event} event Event object
    */
   btnClick(event) {
     this.open($(event.currentTarget).data('tab'))
