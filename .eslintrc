@@ -17,5 +17,13 @@
             "allowForLoopAfterthoughts": true,
         }],
         "camelcase": 0,
+        "linebreak-style": ["error", "windows"]
+    },
+    "settings" : {
+        "import/resolver": {
+            "webpack" : {
+                "config" : "webpack.config.js"
+            }
+        }
     }
 }

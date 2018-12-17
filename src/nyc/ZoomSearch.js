@@ -1,62 +1,61 @@
 /**
- * @module nyc/ZoomSearch
- */
+* @module nyc/ZoomSearch
+*/
 
 import $ from 'jquery'
 
 import Container from 'nyc/Container'
-import Locator from 'nyc/Locator'
 import AutoComplete from 'nyc/AutoComplete'
 
 /**
- * @desc Abstract class for zoom and search controls
- * @public
- * @abstract
- * @class
- * @extends module:nyc/Container~Container
- * @fires module:nyc/ZoomSearch~ZoomSearch#search
- * @fires module:nyc/ZoomSearch~ZoomSearch#geolocate
- * @fires module:nyc/ZoomSearch~ZoomSearch#disambiguated
- */
+* @desc Abstract class for zoom and search controls
+* @public
+* @abstract
+* @class
+* @extends module:nyc/Container~Container
+* @fires module:nyc/ZoomSearch~ZoomSearch#search
+* @fires module:nyc/ZoomSearch~ZoomSearch#geolocate
+* @fires module:nyc/ZoomSearch~ZoomSearch#disambiguated
+*/
 class ZoomSearch extends Container {
   /**
-	 * @desc  Create an instance of ZoomSearch
-	 * @access protected
-	 * @constructor
-	 * @param {jQuery|Element|string} target The target
-	 */
+  * @desc  Create an instance of ZoomSearch
+  * @access protected
+  * @constructor
+  * @param {jQuery|Element|string} target The target
+  */
   constructor(target) {
     super($(ZoomSearch.HTML))
     $(target).append(this.getContainer())
     /**
-		 * @private
-		 * @member {boolean}
-		 */
+     * @private
+     * @member {boolean}
+     */
     this.isAddrSrch = true
     /**
-		 * @private
-		 * @member {jQuery}
-		 */
+     * @private
+     * @member {jQuery}
+     */
     this.input = null
     /**
-		 * @private
-		 * @member {jQuery}
-		 */
+     * @private
+     * @member {jQuery}
+     */
     this.list = null
     /**
-		 * @private
-		 * @member {jQuery}
-		 */
+     * @private
+     * @member {jQuery}
+     */
     this.retention = null
     /**
-		 * @private
-		 * @member {jQuery}
-		 */
+     * @private
+     * @member {jQuery}
+     */
     this.clear = null
     /**
-		 * @private
-		 * @member {AutoComplete}
-		 */
+     * @private
+     * @member {AutoComplete}
+     */
     this.autoComplete = null
     this.input = this.find('.srch input')
     this.list = this.find('.srch ul')
@@ -65,33 +64,33 @@ class ZoomSearch extends Container {
     this.hookupEvents(this.input)
   }
   /**
-	 * @desc Handle the zoom event triggered by user interaction
-	 * @public
-	 * @abstract
-	 * @method
-	 * @param {jQuery.Event} event The event triggered by the zoom buttons
-	 */
+   * @desc Handle the zoom event triggered by user interaction
+   * @public
+   * @abstract
+   * @method
+   * @param {jQuery.Event} event The event triggered by the zoom buttons
+   */
   zoom(event) {
     throw 'Not implemented'
   }
   /**
-	 * @public
-	 * @abstract
-	 * @method
-	 * @param {Object} feature The feature object
-	 * @param {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions} options Describes how to convert feature
-	 * @return {module:nyc/Locator~Locator.Result} The location
-	 */
+   * @public
+   * @abstract
+   * @method
+   * @param {Object} feature The feature object
+   * @param {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions} options Describes how to convert feature
+   * @return {module:nyc/Locator~Locator.Result} The location
+   */
   featureAsLocation(feature, options) {
     throw 'Not implemented'
   }
   /**
-	 * @desc Set or get the value of the search field
-	 * @public
-	 * @method
-	 * @param {string=} val The value for the search field
-	 * @return {string} The value of the search field
-	 */
+   * @desc Set or get the value of the search field
+   * @public
+   * @method
+   * @param {string=} val The value for the search field
+   * @return {string} The value of the search field
+   */
   val(val) {
     if (typeof val === 'string') {
       this.input.val(val)
@@ -100,11 +99,11 @@ class ZoomSearch extends Container {
     return this.input.val()
   }
   /**
-	 * @desc Displays possible address matches
-	 * @public
-	 * @method
-	 * @param {module:nyc/Locator~Locator.Ambiguous} ambiguous Possible locations resulting from a geocoder search to display to the user
-	 */
+   * @desc Displays possible address matches
+   * @public
+   * @method
+   * @param {module:nyc/Locator~Locator.Ambiguous} ambiguous Possible locations resulting from a geocoder search to display to the user
+   */
   disambiguate(ambiguous) {
     const possible = ambiguous.possible
     if (possible.length) {
@@ -117,11 +116,11 @@ class ZoomSearch extends Container {
     }
   }
   /**
-	 * @desc Add searchable features
-	 * @public
-	 * @method
-	 * @param {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions} options The options for creating a feature search
-	 */
+   * @desc Add searchable features
+   * @public
+   * @method
+   * @param {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions} options The options for creating a feature search
+   */
   setFeatures(options) {
     this.autoComplete = this.autoComplete || new AutoComplete()
     options.nameField = options.nameField || 'name'
@@ -137,20 +136,20 @@ class ZoomSearch extends Container {
     this.emptyList()
   }
   /**
-	 * @desc Remove searchable features
-	 * @public
-	 * @method
-	 * @param {string} featureTypeName The featureTypeName used when the features were set
-	 */
+   * @desc Remove searchable features
+   * @public
+   * @method
+   * @param {string} featureTypeName The featureTypeName used when the features were set
+   */
   removeFeatures(featureTypeName) {
     this.find('li.' + featureTypeName).remove()
   }
   /**
-	 * @private
-	 * @method
-	 * @param {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions} options
-	 * @return {Array<Object>} features
-	 */
+   * @private
+   * @method
+   * @param {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions} options Options
+   * @return {Array<Object>} features
+   */
   sortAlphapetically(options) {
     const features = []
     options.features.forEach(feature => {
@@ -177,12 +176,12 @@ class ZoomSearch extends Container {
     return features
   }
   /**
-	 * @private
-	 * @method
-	 * @param {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions} options
-	 * @param {module:nyc/Locator~Locator.Result} data
-	 * @return {jQuery}
-	 */
+   * @private
+   * @method
+   * @param {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions} options Options
+   * @param {module:nyc/Locator~Locator.Result} data Location data
+   * @return {jQuery} list item
+   */
   listItem(options, data) {
     const li = $('<li></li>')
     const displayField = options.displayField
@@ -200,9 +199,9 @@ class ZoomSearch extends Container {
       .click($.proxy(this.disambiguated, this))
   }
   /**
-	 * @private
-	 * @method
-	 */
+   * @private
+   * @method
+   */
   emptyList() {
     const retention = this.retention
     this.find('.srch li').each((i, item) => {
@@ -213,10 +212,10 @@ class ZoomSearch extends Container {
     this.list.empty()
   }
   /**
-	 * @private
-	 * @method
-	 * @param {jQuery.Event} event
-	 */
+   * @private
+   * @method
+   * @param {jQuery.Event} event Event object
+   */
   disambiguated(event) {
     const li = $(event.currentTarget)
     const data = li.data('location')
@@ -227,28 +226,28 @@ class ZoomSearch extends Container {
     this.emptyList()
   }
   /**
-	 * @private
-	 * @method
-	 * @param {jQuery.Event} event
-	 */
-	 listClick(event) {
-		 event = event.originalEvent || event
-		 if (this.list.css('display') === 'block') {
-			 const target = $(event.target)
-			 if ($.contains(this.list.get(0), target.get(0))) {
-				 if (this.autoComplete) {
-					 target.trigger('click')
-				 }
-			 } else {
-				 this.list.slideUp()
-			 }
-		 }
-	 }
-  /**
-	 * @private
+   * @private
    * @method
-	 * @param {jQuery} input
-	 */
+   * @param {jQuery.Event} event Event object
+   */
+  listClick(event) {
+    event = event.originalEvent || event
+    if (this.list.css('display') === 'block') {
+      const target = $(event.target)
+      if ($.contains(this.list.get(0), target.get(0))) {
+        if (this.autoComplete) {
+          target.trigger('click')
+        }
+      } else {
+        this.list.slideUp()
+      }
+    }
+  }
+  /**
+   * @private
+   * @method
+   * @param {jQuery} input Input element
+   */
   hookupEvents(input) {
     input.on('keyup change', $.proxy(this.key, this))
     input.focus(() => input.select())
@@ -258,10 +257,10 @@ class ZoomSearch extends Container {
     $(document).mouseup($.proxy(this.listClick, this))
   }
   /**
-	 * @private
-	 * @method
-	 * @param {jQuery.Event} event
-	 */
+   * @private
+   * @method
+   * @param {jQuery.Event} event Event object
+   */
   key(event) {
     if (event.keyCode === 13 && this.isAddrSrch) {
       this.triggerSearch()
@@ -272,24 +271,24 @@ class ZoomSearch extends Container {
     this.clearBtn()
   }
   /**
-	 * @private
-	 * @method
-	 */
+   * @private
+   * @method
+   */
   clearTxt() {
     this.val('')
     this.clearBtn()
   }
   /**
-	 * @private
-	 * @method
-	 */
+   * @private
+   * @method
+   */
   clearBtn() {
     this.clear[this.val() ? 'show' : 'hide']()
   }
   /**
-	 * @private
-	 * @method
-	 */
+   * @private
+   * @method
+   */
   filterList() {
     const typed = this.val().trim()
     if (this.autoComplete && typed) {
@@ -300,10 +299,10 @@ class ZoomSearch extends Container {
     this.showList(false)
   }
   /**
-	 * @private
-	 * @method
-	 * @param {boolean}
-	 */
+   * @private
+   * @method
+   * @param {boolean} focus Should we focus?
+   */
   showList(focus) {
     this.list.slideDown(() => {
       if (focus) {
@@ -312,17 +311,17 @@ class ZoomSearch extends Container {
     })
   }
   /**
-	 * @private
-	 * @method
-	 */
+   * @private
+   * @method
+   */
   geolocate() {
     this.val('')
     this.trigger('geolocate')
   }
   /**
-	 * @private
-	 * @method
-	 */
+   * @private
+   * @method
+   */
   triggerSearch() {
     const input = this.val().trim()
     if (input.length) {
@@ -341,47 +340,47 @@ class ZoomSearch extends Container {
  * @property {string} [nameField="name"] The name attribute field of the feature
  * @property {string=} displayField The name attribute field of the feature
  * @property {string=} placeholder A placeholder for the search field
- */
+*/
 ZoomSearch.FeatureSearchOptions
 
 /**
- * @desc The user has requested a search based on their text input
- * @event module:nyc/ZoomSearch~ZoomSearch#search
- * @type {string}
- */
+* @desc The user has requested a search based on their text input
+* @event module:nyc/ZoomSearch~ZoomSearch#search
+* @type {string}
+*/
 
 /**
- * @desc The user has requested their geolcation
- * @event module:nyc/ZoomSearch~ZoomSearch#geolocate
- */
+* @desc The user has requested their geolocation
+* @event module:nyc/ZoomSearch~ZoomSearch#geolocate
+*/
 
 /**
- * @desc The user has chosen a location from a list of possible locations
- * @event module:nyc/ZoomSearch~ZoomSearch#disambiguated
- * @type {module:nyc/Locate~Locate.Result}
- */
+* @desc The user has chosen a location from a list of possible locations
+* @event module:nyc/ZoomSearch~ZoomSearch#disambiguated
+* @type {module:nyc/Locate~Locate.Result}
+*/
 
 /**
- * @private
- * @const
- * @type {string}
- */
+* @private
+* @const
+* @type {string}
+*/
 ZoomSearch.HTML = '<div class="z-srch" role="toolbar">' +
-	'<div class="srch" role="search">' +
-		'<input class="rad-all" placeholder="Search for an address...">' +
-		'<button class="btn-rnd btn-x"><span class="screen-reader-only">Clear</span></button>' +
-		'<ul class="rad-all" role="region" label="Possible matches for your search"></ul>' +
-	'</div>' +
-	'<button class="btn-z-in btn-sq rad-all" data-zoom-incr="1" title="Zoom in">' +
-		'<span class="screen-reader-only">Zoom in</span>' +
-	'</button>' +
-	'<button class="btn-z-out btn-sq rad-all" data-zoom-incr="-1" title="Zoom out">' +
-		'<span class="screen-reader-only">Zoom out</span>' +
-	'</button>' +
-	'<button class="btn-geo btn-sq rad-all" title="Current location">' +
-		'<span class="screen-reader-only">Current location</span>' +
-	'</button>' +
-	'<ul class="retention"></ul>' +
+'<div class="srch" role="search">' +
+'<input class="rad-all" placeholder="Search for an address...">' +
+'<button class="btn-rnd btn-x"><span class="screen-reader-only">Clear</span></button>' +
+'<ul class="rad-all" role="region" label="Possible matches for your search"></ul>' +
+'</div>' +
+'<button class="btn-z-in btn-sq rad-all" data-zoom-incr="1" title="Zoom in">' +
+'<span class="screen-reader-only">Zoom in</span>' +
+'</button>' +
+'<button class="btn-z-out btn-sq rad-all" data-zoom-incr="-1" title="Zoom out">' +
+'<span class="screen-reader-only">Zoom out</span>' +
+'</button>' +
+'<button class="btn-geo btn-sq rad-all" title="Current location">' +
+'<span class="screen-reader-only">Current location</span>' +
+'</button>' +
+'<ul class="retention"></ul>' +
 '</div>'
 
 export default ZoomSearch
