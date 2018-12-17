@@ -3,6 +3,7 @@
  */
 
 import nyc from 'nyc'
+import $ from 'jquery'
 
 const proj4 = nyc.proj4
 
@@ -42,7 +43,7 @@ class TripPlanHack {
   /**
    * @private
    * @method
-   * @return {strinfg}
+   * @return {string} Url
    */
   getUrl() {
     if (this.url) {
@@ -58,8 +59,8 @@ class TripPlanHack {
   /**
    * @private
    * @method
-   * @param {module:nyc/mta/TripPlanHack~TripPlanHack.SaneRequest} request
-   * @return {string}
+   * @param {module:nyc/mta/TripPlanHack~TripPlanHack.SaneRequest} request Request
+   * @return {string} JSON string
    */
   jsonpacket(request) {
     return JSON.stringify(this.insanifyRequest(request))
@@ -67,7 +68,7 @@ class TripPlanHack {
   /**
    * @private
    * @method
-   * @return {number}
+   * @return {number} Random parameter
    */
   randomParamCopiedFromMtaCode() {
     return Math.floor(Math.random() * 11)
@@ -75,7 +76,7 @@ class TripPlanHack {
   /**
    * @private
    * @method
-   * @return {Object<string, Object>}
+   * @return {Object<string, Object>} Now date object
    */
   now() {
     const now = new Date()
@@ -90,7 +91,8 @@ class TripPlanHack {
   /**
    * @private
    * @method
-   * @return {string}
+   * @param {Object} location The location object
+   * @return {string} location string
    */
   insanifyLocation(location) {
     const coord = proj4(location.projection || 'EPSG:3857', 'EPSG:4326', location.coordinate)
@@ -99,26 +101,25 @@ class TripPlanHack {
   /**
    * @private
    * @method
-   * @param {module:nyc/mta/TripPlanHack~TripPlanHack.SaneRequest} request
-   * @return {Object<string, Object>}
+   * @param {module:nyc/mta/TripPlanHack~TripPlanHack.SaneRequest} request Request
+   * @return {Object<string, Object>} Request object
    */
   insanifyRequest(request) {
     const origin = request.origin
     const destination = request.destination
-    const projection = request.projection
     const date = this.now()
     return {
       RequestDevicename: 'DESKTOP',
       OriginInput: origin.name,
       DestinationInput: destination.name,
-      Arrdep:	'D',
-      Hour:	date.hour,
-      Minute:	date.minute,
-      Ampm:	date.ampm,
+      Arrdep: 'D',
+      Hour: date.hour,
+      Minute: date.minute,
+      Ampm: date.ampm,
       InputDate: date.date,
       Minimize: 'X',
       Walkdist: '0.50',
-      Mode:	'FRBC12',
+      Mode: 'FRBC12',
       LineStart: '',
       LineEnd: '',
       Accessible: request.accessible ? 'Y' : 'N',

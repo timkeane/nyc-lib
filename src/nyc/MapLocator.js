@@ -2,8 +2,6 @@
  * @module nyc/MapLocator
  */
 
-import Locator from 'nyc/Locator'
-
 /**
  * @desc An abstract class for managing map location
  * @public
@@ -12,33 +10,33 @@ import Locator from 'nyc/Locator'
  */
 class MapLocator {
   /**
-	 * @desc Zoom to the provided loacation then optionally invoke a callback function
-	 * @public
-	 * @abstract
-	 * @method
-	 * @param {module:nyc/Locator~Locator.Result} data The location to which the map will be oriented
-	 * @param {module:nyc/MapLocator~MapLocator#zoomLocationCallback=} callback The function to call after the locator has zoomed to the location
-	 */
+   * @desc Zoom to the provided loacation then optionally invoke a callback function
+   * @public
+   * @abstract
+   * @method
+   * @param {module:nyc/Locator~Locator.Result} data The location to which the map will be oriented
+   * @param {module:nyc/MapLocator~MapLocator#zoomLocationCallback=} callback The function to call after the locator has zoomed to the location
+   */
   zoomLocation(data, callback) {
     throw 'Not implemented'
   }
   /**
-	 * @desc Set the location to the provided loacation without moving the map
-	 * @public
-	 * @abstract
-	 * @method
-	 * @param {module:nyc/Locator~Locator.Result} data The location
-	 */
+   * @desc Set the location to the provided loacation without moving the map
+   * @public
+   * @abstract
+   * @method
+   * @param {module:nyc/Locator~Locator.Result} data The location
+   */
   setLocation(data) {
     throw 'Not implemented'
   }
   /**
-	 * @desc Get the projection of the map
-	 * @public
-	 * @abstract
-	 * @method
-	 * @returns {string} The map projection
-	 */
+   * @desc Get the projection of the map
+   * @public
+   * @abstract
+   * @method
+   * @returns {string} The map projection
+   */
   getProjection() {
     throw 'Not implemented'
   }

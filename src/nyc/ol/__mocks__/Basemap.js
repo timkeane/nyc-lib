@@ -1,3 +1,4 @@
+/* global jest */
 import OlProjProjection from 'ol/proj/Projection'
 
 const mock = jest.fn().mockImplementation(() => {

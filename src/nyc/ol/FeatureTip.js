@@ -37,38 +37,39 @@ class FeatureTip extends OlOverlay {
     $(document).mouseover($.proxy(this.out, this))
   }
   /**
-	 * @desc Hide the feature tip
-	 * @public
-	 * @method
-	 */
+   * @desc Hide the feature tip
+   * @public
+   * @method
+   */
   hide() {
     this.tip.fadeOut()
   }
   /**
-	 * @desc Adds tip definitions
-	 * @public
-	 * @method
-	 * @param {Array<module:nyc/ol/FeatureTip~FeatureTip.TipDef>} tips The tip definitions to add
-	 */
+   * @desc Adds tip definitions
+   * @public
+   * @method
+   * @param {Array<module:nyc/ol/FeatureTip~FeatureTip.TipDef>} tips The tip definitions to add
+   */
   addTips(tips) {
     tips.forEach(def => {
       def.layer.nycTip = def.label
     })
   }
   /**
-	 * @private
-	 * @method
-	 */
+   * @private
+   * @method
+   * @param {Object} event Event object
+   */
   out(event) {
     if (!$.contains(this.map.getTargetElement(), event.target)) {
       this.hide()
     }
   }
   /**
-	 * @private
-	 * @method
-	 * @param {ol.MapBrowserEvent} event
-	 */
+   * @private
+   * @method
+   * @param {ol.MapBrowserEvent} event OpenLayers map browser event
+   */
   label(event) {
     const label = this.map.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
       return layer.getVisible() && layer.nycTip ? layer.nycTip(feature) : null
@@ -84,9 +85,9 @@ class FeatureTip extends OlOverlay {
     }
   }
   /**
-	 * @private
-	 * @method
-	 */
+   * @private
+   * @method
+   */
   position() {
     const size = this.map.getSize()
     const position = this.map.getPixelFromCoordinate(this.getPosition())
