@@ -2,8 +2,6 @@
  * @module nyc/ol/source/AutoLoad
  */
 
-import $ from 'jquery'
-
 import OlSourceVector from 'ol/source/Vector'
 
 require('isomorphic-fetch')

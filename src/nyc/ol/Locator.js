@@ -33,53 +33,53 @@ class Locator extends NycLocator {
   constructor(options) {
     super(options)
     /**
-  	 * @private
-  	 * @member {boolean}
-  	 */
-  	this.locating = false
-  	/**
-  	 * @private
-  	 * @member {ol.Extent}
-  	 */
+     * @private
+     * @member {boolean}
+     */
+    this.locating = false
+    /**
+     * @private
+     * @member {ol.Extent}
+     */
     this.extentLimit = options.extentLimit
     /**
-  	 * @private
-  	 * @member {ol.Geolocation}
-  	 */
+     * @private
+     * @member {ol.Geolocation}
+     */
     this.geolocation = new OlGeolocation({
-  		trackingOptions: {
-  			maximumAge: 10000,
-  			enableHighAccuracy: true,
-  			timeout: 600000
-  		}
-  	})
+      trackingOptions: {
+        maximumAge: 10000,
+        enableHighAccuracy: true,
+        timeout: 600000
+      }
+    })
     this.geolocation.on('change', $.proxy(this.geolocationChange, this))
-  	this.geolocation.on('error', $.proxy(this.geolocationError, this))
+    this.geolocation.on('error', $.proxy(this.geolocationError, this))
   }
   /**
-	 * @desc Locate once using device geolocation
-	 * @public
+   * @desc Locate once using device geolocation
+   * @public
    * @override
-	 * @method
-	 */
+   * @method
+   */
   locate() {
     this.locating = true
     this.geolocation.setTracking(true)
   }
   /**
-	 * @desc Track using device geolocation
-	 * @public
+   * @desc Track using device geolocation
+   * @public
    * @override
-	 * @method
-	 * @param {boolean} track Track or not
-	 */
+   * @method
+   * @param {boolean} track Track or not
+   */
   track(track) {
     this.geolocation.setTracking(track)
   }
   /**
    * @private
    * @method
-   * @param {Object} error
+   * @param {Object} error Error object
    */
   geolocationError(error) {
     console.error(error.message, error)
@@ -108,11 +108,11 @@ class Locator extends NycLocator {
     }
   }
   /**
-	 * @private
-	 * @method
-	 * @param {ol.Coordinate} coordinates
-	 * @return {boolean}
-	 */
+   * @private
+   * @method
+   * @param {ol.Coordinate} coordinates Coordinates
+   * @return {boolean} true if extent contains coordinate
+   */
   withinLimit(coordinates) {
     return this.extentLimit ? containsCoordinate(this.extentLimit, coordinates) : true
   }

@@ -1,3 +1,4 @@
+/* global ol */
 import OlFormatGeoJSON from 'ol/format/GeoJSON'
 import OlSourceVector from 'ol/source/Vector'
 import OlLayerVector from 'ol/layer/Vector'
@@ -18,22 +19,22 @@ olProjRegister(proj4)
  */
 export default class LocalStorage extends NycLocalStorage {
   /**
-	 * @desc Create an instance pf LocalStorage
-	 * @public
-	 * @constructor
-	 */
+   * @desc Create an instance pf LocalStorage
+   * @public
+   * @constructor
+   */
   constructor() {
     super()
   }
   /**
-	 * @public
-	 * @override
-	 * @method
-	 * @param {ol.Map} map The map on which to display the new layer
-	 * @param {string|Array<Object>} features The features from which to create the new layer
-	 * @param {string} projcs The projection
-	 * @return {ol.layer.Vector} The new layer
-	 */
+   * @public
+   * @override
+   * @method
+   * @param {ol.Map} map The map on which to display the new layer
+   * @param {string|Array<Object>} features The features from which to create the new layer
+   * @param {string} projcs The projection
+   * @return {ol.layer.Vector} The new layer
+   */
   addToMap(map, features, projcs) {
     const options = {
       featureProjection: map.getView().getProjection().getCode(),
@@ -42,7 +43,9 @@ export default class LocalStorage extends NycLocalStorage {
     olProjRegister(proj4)
     try {
       ol.proj.proj4.register(proj4)
-    } catch (ignoreHackyBuildFixForNow) {}
+    } catch (ignoreHackyBuildFixForNow) {
+      /* empty */
+    }
     if (typeof features === 'object') {
       features = {type: 'FeatureCollection', features: features}
     }

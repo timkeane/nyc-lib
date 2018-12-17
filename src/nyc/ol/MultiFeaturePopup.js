@@ -52,6 +52,7 @@ class MultiFeaturePopup extends FeaturePopup {
    * @public
    * @method
    * @param {Array<ol.Feature>} features The features
+   * @param {ol.Coordinate} coordinate The coordinate
    */
   showFeatures(features, coordinate) {
     coordinate = coordinate || olExtentGetCenter(features[0].getGeometry().getExtent())
@@ -62,7 +63,7 @@ class MultiFeaturePopup extends FeaturePopup {
    * @desc Handles map click events
    * @method
    * @override
-   * @param {ol.MapBrowserEvent} event
+   * @param {ol.MapBrowserEvent} event Event object
    */
   mapClick(event) {
     const id = this.getId()
@@ -79,7 +80,7 @@ class MultiFeaturePopup extends FeaturePopup {
   /**
    * @private
    * @method
-   * @param {module:nyc:ItemPager~ItemPager} pager
+   * @param {module:nyc/ItemPager~ItemPager} pager Pager
    */
   paged(pager) {
     this.cssClass(pager.item.cssClass ? pager.item.cssClass() : '')

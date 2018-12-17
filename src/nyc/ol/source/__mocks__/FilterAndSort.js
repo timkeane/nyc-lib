@@ -1,3 +1,4 @@
+/* global jest */
 const mock = jest.fn().mockImplementation(() => {
   return {
     sort: jest.fn().mockImplementation(() => {

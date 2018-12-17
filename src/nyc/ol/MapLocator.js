@@ -2,8 +2,6 @@
  * @module nyc/ol/MapLocator
  */
 
-import $ from 'jquery'
-
 import OlFormatGeoJson from 'ol/format/GeoJSON'
 import OlStyleStyle from 'ol/style/Style'
 import OlStyleIcon from 'ol/style/Icon'
@@ -31,7 +29,7 @@ class MapLocator extends NycMapLocator {
   constructor(options) {
     super()
     /**
-		 * @desc The layer on which to render locations
+     * @desc The layer on which to render locations
      * @public
      * @member {ol.layer.Vector}
      */
@@ -69,13 +67,13 @@ class MapLocator extends NycMapLocator {
     this.createLayer(options.style)
   }
   /**
-	 * @desc Zoom to the provided location then optionally invoke a callback function
-	 * @public
-	 * @override
-	 * @method
-	 * @param {module:nyc/Locator~Locator.Result} data The location to which the map will be oriented
-	 * @param {module:nyc/MapLocator~MapLocator#zoomLocationCallback=} callback The function to call after the locator has zoomed to the location
-	 */
+   * @desc Zoom to the provided location then optionally invoke a callback function
+   * @public
+   * @override
+   * @method
+   * @param {module:nyc/Locator~Locator.Result} data The location to which the map will be oriented
+   * @param {module:nyc/MapLocator~MapLocator#zoomLocationCallback=} callback The function to call after the locator has zoomed to the location
+   */
   zoomLocation(data, callback) {
     const map = this.map
     const view = this.view
@@ -94,32 +92,32 @@ class MapLocator extends NycMapLocator {
     }
   }
   /**
-	 * @desc Set the location to the provided location without moving the map
-	 * @public
-	 * @override
-	 * @method
-	 * @param {module:nyc/Locator~Locator.Result} data The location to which the map will be oriented
-	 */
+   * @desc Set the location to the provided location without moving the map
+   * @public
+   * @override
+   * @method
+   * @param {module:nyc/Locator~Locator.Result} data The location to which the map will be oriented
+   */
   setLocation(data) {
     this.source.clear()
     this.source.addFeature(this.feature(data))
   }
   /**
-	 * @desc Get the projection of the map
-	 * @public
-	 * @override
-	 * @method
-	 * @returns {string} The map projection
-	 */
+   * @desc Get the projection of the map
+   * @public
+   * @override
+   * @method
+   * @returns {string} The map projection
+   */
   getProjection() {
     return this.view.getProjection().getCode()
   }
   /**
-	 * @private
-	 * @method
-	 * @param {module:nyc/Locator~Locator.Result} location
-	 * @return {ol.Feature}
-	 */
+   * @private
+   * @method
+   * @param {module:nyc/Locator~Locator.Result} location Location
+   * @return {ol.Feature} The OpenLayers feature
+   */
   feature(location) {
     const geoJson = location.geometry
     const feature = new OlFeature({name: location.name, isFeature: location.isFeature})
@@ -131,10 +129,10 @@ class MapLocator extends NycMapLocator {
     return feature
   }
   /**
-	 * @private
-	 * @method
-	 * @param {ol.style.Style|Array<ol.style.Style>|ol.StyleFunction=} style
-	 */
+   * @private
+   * @method
+   * @param {ol.style.Style|Array<ol.style.Style>|ol.StyleFunction=} style Style
+   */
   createLayer(style) {
     this.source = new OlSourceVector()
     this.layer = new OlLayerVector({

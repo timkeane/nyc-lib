@@ -100,7 +100,7 @@ class Popup extends OlOverlay {
   /**
    * @private
    * @method
-   * @param {jQuery.Event}
+   * @param {jQuery.Event} event Event object
    */
   hideTip(event) {
     event.stopPropagation()
@@ -119,7 +119,7 @@ class Popup extends OlOverlay {
   /**
    * @private
    * @method
-   * @returns {boolean}
+   * @returns {boolean} True if fullscreen
    */
   isFullscreen() {
     const pop = $(this.getElement())

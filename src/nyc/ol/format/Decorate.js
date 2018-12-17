@@ -2,8 +2,6 @@
  * @module nyc/ol/format/Decorate
  */
 
-import $ from 'jquery'
-
 import nyc from 'nyc'
 
 import OlFormatFeature from 'ol/format/Feature'
@@ -17,11 +15,11 @@ import OlFormatFeature from 'ol/format/Feature'
  */
 class Decorate extends OlFormatFeature {
   /**
-	 * @desc Create an instance of CsvPoint
-	 * @public
-	 * @constructor
+   * @desc Create an instance of CsvPoint
+   * @public
+   * @constructor
    * @param {module:nyc/ol/format/Decorate~Decorate.Options} options Constructor options
-	 */
+   */
   constructor(options) {
     super()
     /**
@@ -41,7 +39,6 @@ class Decorate extends OlFormatFeature {
    * @method
    * @param {Object} source A row from a vector data source
    * @param {olx.format.ReadOptions=} options Read options
-   * @return {ol.Feature} Feature
    */
   readFeature(source, options) {
     throw 'Not supported: Use readFeatures'
@@ -96,7 +93,7 @@ class Decorate extends OlFormatFeature {
    * @desc Decorate a feature
    * @public
    * @method
-   * @param {ol.Feature} source The feature to decorate
+   * @param {ol.Feature} feature The feature to decorate
    */
   decorate(feature) {
     if (!feature.get('decorated')) {
