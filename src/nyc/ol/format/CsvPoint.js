@@ -26,12 +26,12 @@ olProjRegister(proj4)
  * @see http://openlayers.org/en/latest/apidoc/module-ol_format_Feature-FeatureFormat.html
  */
 class CsvPoint extends OlFormatFeature {
-	/**
-	 * @desc Create an instance of CsvPoint
-	 * @public
-	 * @constructor
+  /**
+   * @desc Create an instance of CsvPoint
+   * @public
+   * @constructor
    * @param {module:nyc/ol/format/CsvPoint~CsvPoint.Options} options Constructor options
-	 */
+   */
   constructor(options) {
     super()
     /**
@@ -74,11 +74,18 @@ class CsvPoint extends OlFormatFeature {
    * @return {ol.Feature} Feature
    */
   readFeature(source, options) {
-    const id = source[this.id] || this.lastId++
+    let id
+    if (source[this.id]) {
+      id = source[this.id]
+    } else {
+      id = this.lastId
+      this.lastId += 1
+    }
+    //const id = source[this.id] || this.lastId++
     const x = source[this.x] = source[this.x] * 1
     const y = source[this.y] = source[this.y] * 1
     if (isNaN(x) || isNaN(y)) {
-     throw `Invalid coordinate [${x}, ${y}] for id ${id}`
+      throw `Invalid coordinate [${x}, ${y}] for id ${id}`
     }
     const point = new OlGeomPoint([x, y])
     const feature = new OlFeature(source)

@@ -65,7 +65,7 @@ class AutoComplete {
     const possibleMatch = new String(typed.replace(/[^a-zA-Z0-9]/g, ''))
     const exactMatch = new String(typed.replace(/[^a-zA-Z0-9 ]/g, ''))
     let possible = '^'
-    for (let i =0; i < possibleMatch.length; i++) {
+    for (let i = 0; i < possibleMatch.length; i++) {
       possible += `(?=.*${possibleMatch.charAt(i)})|`
     }
     possible = possible.substr(0, possible.length - 1)

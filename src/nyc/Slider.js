@@ -7,22 +7,22 @@ import $ from 'jquery'
 import nyc from 'nyc'
 import Container from 'nyc/Container'
 
- /**
-  * @desc  A class to provide a numeric slider
-  * @public
-  * @class
-  * @extends module:nyc/Container~Container
+/**
+ * @desc  A class to provide a numeric slider
+ * @public
+ * @class
+ * @extends module:nyc/Container~Container
  * @fires module:nyc/Slider~Slider#change
-  */
+ */
 class Slider extends Container {
   /**
-	 * @desc  Create an instance of Slider
-	 * @constructor
-	 * @param {module:nyc/Slider~Slider.Options} options Constructor options
-	 */
+   * @desc  Create an instance of Slider
+   * @constructor
+   * @param {module:nyc/Slider~Slider.Options} options Constructor options
+   */
   constructor(options) {
     super(options.target)
-    let units = options.units 
+    let units = options.units
     const id = nyc.nextId('slider')
     const label = $('<label></label>')
       .html(options.label || '')
@@ -62,7 +62,8 @@ class Slider extends Container {
   /**
    * @private
    * @method
-   * @param {jQuery.Event}
+   * @param {jQuery.Event} event The event object
+   * @return {boolean} Is the key a bad key?
    */
   badKey(event) {
     const key = event.keyCode
@@ -73,7 +74,7 @@ class Slider extends Container {
   /**
    * @private
    * @method
-   * @param {jQuery.Event}
+   * @param {jQuery.Event} event The event object
    */
   key(event) {
     if (this.badKey(event)) {
@@ -105,7 +106,7 @@ class Slider extends Container {
  * @type {module:nyc/Slider~Slider}
  */
 
- /**
+/**
  * @desc Constructor options for {@link module:nyc/Slider~Slider}
  * @public
  * @typedef {Object}
@@ -119,4 +120,4 @@ class Slider extends Container {
  */
 Slider.Options;
 
- export default Slider
+export default Slider

@@ -152,7 +152,7 @@ Choice.Options;
  * @type {module:nyc/Choice~Choice}
  */
 
- /**
+/**
   * @private
   * @const
   * @type {string}

@@ -29,7 +29,7 @@ class ListPager extends Container {
     this.getContainer().addClass('lst-pg')
       .append($(ListPager.HTML))
       .attr({
-        role: 'region', 
+        role: 'region',
         'aria-label': `List of ${this.itemType}`
       })
       /**
@@ -59,21 +59,21 @@ class ListPager extends Container {
     this.moreBtn = this.find('button').click($.proxy(this.more, this))
     this.reset(this.items)
   }
-	/**
+  /**
 	 * @desc Resets the pager with new items and show the first page
 	 * @public
 	 * @method
 	 * @param {Array<module:nyc/ListPager~ListPager.Item>=} items The items to page through
 	 * @return {Array<module:nyc/ListPager~ListPager.Item>} List of items on the next page
 	 */
-	reset(items) {
+  reset(items) {
     this.list.empty()
     this.items = items
     this.index = 0
     this.moreBtn.fadeIn()
     return this.next(true)
-	}
-	/**
+  }
+  /**
 	 * @desc Renders and returns next page of items
 	 * @public
 	 * @method
@@ -81,7 +81,7 @@ class ListPager extends Container {
 	 * @param {number} [pageSize=10] The length of the items for the next page
 	 * @return {Array<module:nyc/ListPager~ListPager.Item>} List of items on the next page
 	 */
-	next(first, pageSize) {
+  next(first, pageSize) {
     pageSize = pageSize || this.pageSize
     const result = this.items.slice(this.index, this.index + pageSize)
     const last = this.find('.lst-it').last()
@@ -115,7 +115,7 @@ class ListPager extends Container {
 	 * @method
 	 * @param {Array<module:nyc/ListPager~ListPager.Item>} items List of items
 	 */
-	render(items) {
+  render(items) {
     items.forEach(item => {
       this.list.append(
         $('<div class="lst-it" role="listitem"></div>').append(item.html())
