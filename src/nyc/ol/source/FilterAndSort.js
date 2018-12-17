@@ -6,7 +6,6 @@ import $ from 'jquery'
 
 import {get as olProjGetProjection} from 'ol/proj'
 import OlGeomLineString from 'ol/geom/LineString'
-import OlProjProjection from 'ol/proj/Projection'
 import AutoLoad from 'nyc/ol/source/AutoLoad'
 
 import nyc from 'nyc'
@@ -56,7 +55,7 @@ class FilterAndSort extends AutoLoad {
       })
     })
     this.clear(true)
-  	this.addFeatures(filteredFeatures)
+    this.addFeatures(filteredFeatures)
     return filteredFeatures
   }
   /**
@@ -69,8 +68,6 @@ class FilterAndSort extends AutoLoad {
   sort(coordinate) {
     const features = this.getFeatures()
     features.sort((f0, f1) => {
-      const geom0 = f0.getGeometry()
-      const geom1 = f1.getGeometry()
       const dist0 = this.distance(coordinate, f0.getGeometry())
       const dist1 = this.distance(coordinate, f1.getGeometry())
       f0.set('__distance', dist0)
@@ -89,9 +86,9 @@ class FilterAndSort extends AutoLoad {
   /**
    * @private
    * @method
-   * @param {ol.Coordinate} coordinate
-   * @param {ol.geom.Geometry} geom
-   * @return {module:nyc/FilterAndSort~FilterAndSort.Distance}
+   * @param {ol.Coordinate} coordinate The OpenLayers coordinate object
+   * @param {ol.geom.Geometry} geom The OpenLayers geometry object
+   * @return {module:nyc/FilterAndSort~FilterAndSort.Distance} Distance object
    */
   distance(coordinate, geom) {
     const line = new OlGeomLineString([coordinate, geom.getClosestPoint(coordinate)])
@@ -106,8 +103,8 @@ class FilterAndSort extends AutoLoad {
   /**
    * @private
    * @method
-   * @param {ol.format.Feature} format
-   * @return {Array<ol.proj.Projection>}
+   * @param {ol.format.Feature} format OpenLayers format
+   * @return {Array<ol.proj.Projection>} Array of projections
    */
   projections(format) {
     const parentFormat = format ? format.parentFormat : null
@@ -158,7 +155,7 @@ FilterAndSort.DistanceDecoration = {
    * @desc Mixin for features
    * @private
    * @method
-   * @return {module:nyc/FilterAndSort~FilterAndSort.Distance}
+   * @return {module:nyc/FilterAndSort~FilterAndSort.Distance} Distance
    */
   getDistance() {
     return this.get('__distance')

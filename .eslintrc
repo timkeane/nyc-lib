@@ -6,6 +6,7 @@
     },
     "extends": ["openlayers"],
     "rules": {
+        "no-tabs": ["error"],
         "semi": 0,
         "no-shadow": "error",
         "comma-dangle": 0,

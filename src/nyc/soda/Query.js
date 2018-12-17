@@ -110,7 +110,7 @@ class Query {
     } else {
       if (typeof value[0] === 'number') {
         value = `(${value.join(', ')})`
-      }	else {
+      } else {
         value = `('${value.join('\', \'')}')`
       }
     }

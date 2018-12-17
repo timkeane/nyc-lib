@@ -18,11 +18,11 @@ require('isomorphic-fetch')
  */
 class Share extends Container {
   /**
-	 * @desc Create an instance of Share
-	 * @public
-	 * @constructor
-	 * @param {module:nyc/Share~Share.Options} options Constructor options
-	 */
+   * @desc Create an instance of Share
+   * @public
+   * @constructor
+   * @param {module:nyc/Share~Share.Options} options Constructor options
+   */
   constructor(options) {
     super(options.target)
     const share = this
@@ -40,10 +40,10 @@ class Share extends Container {
     })
   }
   /**
-	 * @private
-	 * @method
-	 * @param {jQuery.Event} event
-	 */
+   * @private
+   * @method
+   * @param {jQuery.Event} event Event object
+   */
   show(event) {
     const share = this
     event.stopImmediatePropagation()
@@ -54,10 +54,10 @@ class Share extends Container {
       })
   }
   /**
-	 * @private
-	 * @method
-	 * @param {jQuery.Event} event
-	 */
+   * @private
+   * @method
+   * @param {jQuery.Event} event Event object
+   */
   hide(event) {
     const share = this
     this.btn.attr('aria-pressed', false)
@@ -84,29 +84,29 @@ Share.Options
  * @type {string}
  */
 Share.HTML = '<div class="shr" role="region" aria-label="Share this page via social media or email">' +
-	'<a class="btn-shr btn-sq rad-all" role="button" href="#" title="Share..." aria-pressed="false">' +
-		'<span class="screen-reader-only">Share...</span>' +
-	'</a>' +
-	'<div class="btns" aria-expanded="false" aria-collapsed="true">' +
-		'<a class="btn-sq rad-all facebook" role="button" href="https://www.facebook.com/sharer/sharer.php?u=${url}" target="_blank" rel="noopener noreferrer" title="Facebook">' +
-			'<span class="screen-reader-only">Facebook</span>' +
-		'</a>' +
-		'<a class="btn-sq rad-all twitter" role="button" href="https://twitter.com/intent/tweet?text=${url} @nycgov&source=webclient" target="_blank" rel="noopener noreferrer" title="Twitter">' +
-			'<span class="screen-reader-only">Twitter</span>' +
-		'</a>' +
-		'<a class="btn-sq rad-all google" role="button" href="https://plus.google.com/share?url=${url}" target="_blank" rel="noopener noreferrer" title="Google+">' +
-			'<span class="screen-reader-only">Google+</span>' +
-		'</a>' +
-		'<a class="btn-sq rad-all linkedin" role="button" href="http://www.linkedin.com/shareArticle?mini=true&url=${url}" target="_blank" rel="noopener noreferrer" title="LinkedIn">' +
-			'<span class="screen-reader-only">LinkedIn</span>' +
-		'</a>' +
-		'<a class="btn-sq rad-all tumblr" role="button" href="http://www.tumblr.com/share/link?url=${url}&name=${name}&description=via%20NYC.gov" target="_blank" rel="noopener noreferrer" title="Tumblr">' +
-			'<span class="screen-reader-only">Tumblr</span>' +
-		'</a>' +
-		'<a class="btn-sq rad-all email" role="button" href="mailto:?subject=${name}&body=${description}%0A%0A${url}" title="email">' +
-			'<span class="screen-reader-only">Email</span>' +
-		'</a>' +
-	'</div>' +
+  '<a class="btn-shr btn-sq rad-all" role="button" href="#" title="Share..." aria-pressed="false">' +
+    '<span class="screen-reader-only">Share...</span>' +
+  '</a>' +
+  '<div class="btns" aria-expanded="false" aria-collapsed="true">' +
+    '<a class="btn-sq rad-all facebook" role="button" href="https://www.facebook.com/sharer/sharer.php?u=${url}" target="_blank" rel="noopener noreferrer" title="Facebook">' +
+      '<span class="screen-reader-only">Facebook</span>' +
+    '</a>' +
+    '<a class="btn-sq rad-all twitter" role="button" href="https://twitter.com/intent/tweet?text=${url} @nycgov&source=webclient" target="_blank" rel="noopener noreferrer" title="Twitter">' +
+      '<span class="screen-reader-only">Twitter</span>' +
+    '</a>' +
+    '<a class="btn-sq rad-all google" role="button" href="https://plus.google.com/share?url=${url}" target="_blank" rel="noopener noreferrer" title="Google+">' +
+      '<span class="screen-reader-only">Google+</span>' +
+    '</a>' +
+    '<a class="btn-sq rad-all linkedin" role="button" href="http://www.linkedin.com/shareArticle?mini=true&url=${url}" target="_blank" rel="noopener noreferrer" title="LinkedIn">' +
+      '<span class="screen-reader-only">LinkedIn</span>' +
+    '</a>' +
+    '<a class="btn-sq rad-all tumblr" role="button" href="http://www.tumblr.com/share/link?url=${url}&name=${name}&description=via%20NYC.gov" target="_blank" rel="noopener noreferrer" title="Tumblr">' +
+      '<span class="screen-reader-only">Tumblr</span>' +
+    '</a>' +
+    '<a class="btn-sq rad-all email" role="button" href="mailto:?subject=${name}&body=${description}%0A%0A${url}" title="email">' +
+      '<span class="screen-reader-only">Email</span>' +
+    '</a>' +
+  '</div>' +
 '</div>'
 
 export default Share
