@@ -3,10 +3,7 @@ import Locator from 'nyc/Locator'
 import Geocoder from 'nyc/Geocoder'
 import Geoclient from 'nyc/Geoclient'
 
-import {register as olProjRegister} from 'ol/proj/proj4'
-
 const proj4 = nyc.proj4
-olProjRegister(proj4)
 
 const URL = 'http://geoclient.url.gov/'
 

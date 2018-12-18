@@ -5,10 +5,6 @@ import OlGeomLineString from 'ol/geom/LineString'
 import AutoLoad from 'nyc/ol/source/AutoLoad'
 
 import nyc from 'nyc'
-import {register as olProjRegister} from 'ol/proj/proj4'
-
-const proj4 = nyc.proj4
-olProjRegister(proj4)
 
 const FilterAndSort = require('nyc/ol/source/FilterAndSort').default
 

@@ -1,15 +1,13 @@
-/* global ol */
 import OlFormatGeoJSON from 'ol/format/GeoJSON'
 import OlSourceVector from 'ol/source/Vector'
 import OlLayerVector from 'ol/layer/Vector'
 
 import NycLocalStorage from 'nyc/LocalStorage'
-
-import nyc from 'nyc'
 import {register as olProjRegister} from 'ol/proj/proj4'
 
+import nyc from 'nyc'
+
 const proj4 = nyc.proj4
-olProjRegister(proj4)
 
 /**
  * @desc Class to provide access to localStorage and filesystem
@@ -40,12 +38,8 @@ export default class LocalStorage extends NycLocalStorage {
       featureProjection: map.getView().getProjection().getCode(),
       dataProjection: this.customProj(projcs, proj4)
     }
-    olProjRegister(proj4)
-    try {
-      ol.proj.proj4.register(proj4)
-    } catch (ignoreHackyBuildFixForNow) {
-      /* empty */
-    }
+    // customProj changes proj4.defs so we need to re-register
+    olProjRegister(proj4);
     if (typeof features === 'object') {
       features = {type: 'FeatureCollection', features: features}
     }

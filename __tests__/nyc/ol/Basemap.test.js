@@ -9,10 +9,7 @@ import OlLayerTile from 'ol/layer/Tile'
 import OlSourceXYZ from 'ol/source/XYZ'
 import OlProjection from 'ol/proj/Projection'
 
-import {register as olProjRegister} from 'ol/proj/proj4'
-
 const proj4 = nyc.proj4
-olProjRegister(proj4)
 
 let target
 beforeEach(() => {

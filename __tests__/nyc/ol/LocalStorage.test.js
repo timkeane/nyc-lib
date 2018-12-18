@@ -3,10 +3,7 @@ import LocalStorage from 'nyc/ol/LocalStorage'
 import Basemap from '../../../src/nyc/ol/Basemap'
 
 import nyc from 'nyc'
-import {register as olProjRegister} from 'ol/proj/proj4'
-
 const proj4 = nyc.proj4
-olProjRegister(proj4)
 
 jest.mock('../../../src/nyc/ol/Basemap')
 

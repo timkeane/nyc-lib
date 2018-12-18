@@ -5,10 +5,8 @@ import CsvPoint from 'nyc/ol/format/CsvPoint'
 import Decorate from 'nyc/ol/format/Decorate'
 
 import nyc from 'nyc'
-import {register as olProjRegister} from 'ol/proj/proj4'
 
 const proj4 = nyc.proj4
-olProjRegister(proj4)
 
 const sourceId = [
   {id: 'a', x: 0, y: 0, first: 'foo', last: 'bar'},

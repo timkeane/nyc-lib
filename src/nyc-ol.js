@@ -1,4 +1,3 @@
-/* global ol */
 import './nyc-index'
 
 import _nyc_ol from 'nyc/ol'
@@ -44,6 +43,3 @@ import _nyc_ol_source_FilterAndSort from 'nyc/ol/source/FilterAndSort'
 window.nyc.ol.source = {}
 window.nyc.ol.source.AutoLoad = _nyc_ol_source_AutoLoad
 window.nyc.ol.source.FilterAndSort = _nyc_ol_source_FilterAndSort
-
-/* pre-register nyc projections proj4 with ol */
-ol.proj.proj4.register(window.nyc.proj4)

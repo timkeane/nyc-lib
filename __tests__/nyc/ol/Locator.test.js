@@ -5,10 +5,8 @@ import Locator from 'nyc/ol/Locator'
 import OlGeolocation from 'ol/Geolocation'
 
 import nyc from 'nyc'
-import {register as olProjRegister} from 'ol/proj/proj4'
 
 const proj4 = nyc.proj4
-olProjRegister(proj4)
 
 function mockGeolocationEventHandlers() {
   const geolocationChange = Locator.prototype.geolocationChange
