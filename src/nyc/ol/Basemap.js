@@ -27,10 +27,7 @@ import OlView from 'ol/View'
 import OlSourceXYZ from 'ol/source/XYZ'
 import OlLayerTile from 'ol/layer/Tile'
 
-import {register as olProjRegister} from 'ol/proj/proj4'
-
 const proj4 = nyc.proj4
-olProjRegister(proj4)
 
 /**
  * @desc Class that provides an ol.Map with base layers, labels, and drag-and-drop

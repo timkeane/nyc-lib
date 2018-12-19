@@ -11,12 +11,7 @@ import OlFormatFeature from 'ol/format/Feature'
 import OlGeomPoint from 'ol/geom/Point'
 import OlFormatFormatType from 'ol/format/FormatType'
 
-import nyc from 'nyc'
 import {get as olProjGet} from 'ol/proj'
-import {register as olProjRegister} from 'ol/proj/proj4'
-
-const proj4 = nyc.proj4
-olProjRegister(proj4)
 
 /**
  * @desc Class to create point features from CSV data

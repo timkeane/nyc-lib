@@ -8,12 +8,7 @@ import {get as olProjGetProjection} from 'ol/proj'
 import OlGeomLineString from 'ol/geom/LineString'
 import AutoLoad from 'nyc/ol/source/AutoLoad'
 
-import nyc from 'nyc'
 import {get as olProjGet} from 'ol/proj'
-import {register as olProjRegister} from 'ol/proj/proj4'
-
-const proj4 = nyc.proj4
-olProjRegister(proj4)
 
 /**
  * @desc Class to auto load all features from a URL
