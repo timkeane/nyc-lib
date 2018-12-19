@@ -63,7 +63,6 @@ module.exports = {
   },
   externals: {
     jquery: 'jQuery',
-  
     'ol/extent': 'ol.extent',
     'ol/coordinate': 'ol.coordinate',
     'ol/proj': 'ol.proj',
@@ -97,7 +96,7 @@ module.exports = {
     'ol/geom/LineString': 'ol.geom.LineString',
     'ol/geom/Polygon': 'ol.geom.Polygon',
     'ol/proj/Projection': 'ol.proj.Projection',
-
+    'ol/proj/proj4': 'ol.proj.proj4',
     'text-encoding': 'window',
     leaflet: 'L',
     shapefile: '(window.shapefile || {})',

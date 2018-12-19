@@ -28,10 +28,7 @@ import FilterAndSort from 'nyc/ol/source/FilterAndSort'
 
 import OlLayerVector from 'ol/layer/Vector'
 
-import {register as olProjRegister} from 'ol/proj/proj4'
-
 const proj4 = nyc.proj4
-olProjRegister(proj4)
 
 /**
  * @desc A class that provides a template for creating basic finder apps

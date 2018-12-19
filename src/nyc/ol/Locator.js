@@ -12,10 +12,7 @@ import OlGeolocation from 'ol/Geolocation'
 import {toStringHDMS as olCoordinanteToStringHDMS} from 'ol/coordinate';
 import {containsCoordinate} from 'ol/extent'
 
-import {register as olProjRegister} from 'ol/proj/proj4'
-
 const proj4 = nyc.proj4
-olProjRegister(proj4)
 
 /**
  * @desc A class for geocoding and geolocating in OpenLayers
