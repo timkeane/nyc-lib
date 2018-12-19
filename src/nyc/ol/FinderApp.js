@@ -48,6 +48,7 @@ class FinderApp {
     $('body').append(FinderApp.HTML).addClass('fnd')
     $('#banner').html(options.title)
     $('#home').attr('title', options.title)
+    $('.fnd #home').on('click', () => document.location.reload())
     /**
      * @private
      * @member {module:nyc/ListPager~ListPager}
@@ -686,7 +687,7 @@ FinderApp.Options
  * @type {string}
  */
 FinderApp.HTML = '<h1 id="banner" role="banner"></h1>' +
-'<a id="home" role="button" href="#" onclick="document.location.reload()">' +
+'<a id="home" role="button" href="#">' +
   '<span class="screen-reader-only">Reload page</span>' +
   '<svg xmlns="http://www.w3.org/2000/svg" width="152" height="52">' +
     '<g transform="translate(1.5,0)">' +
