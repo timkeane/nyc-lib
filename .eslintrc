@@ -9,13 +9,13 @@
         "no-tabs": ["error"],
         "semi": 0,
         "no-shadow": "error",
-        "comma-dangle": 0,
+        "comma-dangle": "error",
         "import/no-extraneous-dependencies": 0,
         "no-console": ["error", {
             "allow" : ["warn", "error"]
         }],
         "no-plusplus" : ["error", {
-            "allowForLoopAfterthoughts": true,
+            "allowForLoopAfterthoughts": true
         }],
         "camelcase": 0,
         "linebreak-style": ["error", "windows"]
