@@ -5,6 +5,7 @@ import OlGeomLineString from 'ol/geom/LineString'
 import AutoLoad from 'nyc/ol/source/AutoLoad'
 
 import nyc from 'nyc'
+import nycOl from 'nyc/ol'
 
 const FilterAndSort = require('nyc/ol/source/FilterAndSort').default
 

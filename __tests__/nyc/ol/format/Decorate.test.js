@@ -5,6 +5,7 @@ import CsvPoint from 'nyc/ol/format/CsvPoint'
 import Decorate from 'nyc/ol/format/Decorate'
 
 import nyc from 'nyc'
+import nycOl from 'nyc/ol'
 
 const proj4 = nyc.proj4
 

@@ -2,7 +2,11 @@
  * @module nyc/ol
  */
 
+import nyc from 'nyc'
 import {createXYZ as olTileGridCreateXYZ} from 'ol/tilegrid'
+import {register as olProjRegister} from 'ol/proj/proj4'
+
+olProjRegister(nyc.proj4)
 
 /**
  * @desc Namespace for NYC mapping functionality for OpenLayers

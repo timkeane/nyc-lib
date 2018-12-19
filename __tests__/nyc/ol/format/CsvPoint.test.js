@@ -6,6 +6,7 @@ import OlFormatFormatType from 'ol/format/FormatType'
 import CsvPoint from 'nyc/ol/format/CsvPoint'
 
 import nyc from 'nyc'
+import nycOl from 'nyc/ol'
 
 const csv = 'x,y,name\n0,0,foo\n1,2,bar\n2,3,wtf'
 const sourceId = [
