@@ -44,10 +44,11 @@ class FinderApp {
    */
   constructor(options) {
     global.finderApp = this
+    const title = $('<div></div>').html(options.title)
     nyc.noSpaceBarScroll()
     $('body').append(FinderApp.HTML).addClass('fnd')
-    $('#banner').html(options.title)
-    $('#home').attr('title', options.title)
+    $('#banner').html(title)
+    $('#home').attr('title', title.text())
     $('.fnd #home').on('click', () => document.location.reload())
     /**
      * @private
