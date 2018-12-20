@@ -63,9 +63,6 @@
 #directions .tabs .btns {
 	display: none;
 }
-#directions .btn-tab {
-	width: 50%;
-}
 #mode {
 	width: 100%;
 	border-collapse: collapse;
