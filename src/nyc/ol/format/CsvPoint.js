@@ -76,18 +76,17 @@ class CsvPoint extends OlFormatFeature {
       id = this.lastId
       this.lastId += 1
     }
-    //const id = source[this.id] || this.lastId++
-    const x = source[this.x] = source[this.x] * 1
-    const y = source[this.y] = source[this.y] * 1
+    const x = source[this.x] = parseFloat(source[this.x])
+    const y = source[this.y] = parseFloat(source[this.y])
     if (isNaN(x) || isNaN(y)) {
       throw `Invalid coordinate [${x}, ${y}] for id ${id}`
     }
     const point = new OlGeomPoint([x, y])
     const feature = new OlFeature(source)
-    options = options || {}
-    options.dataProjection = olProjGet(options.dataProjection || this.defaultDataProjection)
-    options.featureProjection = olProjGet(options.featureProjection || this.defaultFeatureProjection)
-    point.transform(options.dataProjection, options.featureProjection)
+    point.transform(
+      options && options.dataProjection ? options.dataProjection : this.defaultDataProjection,
+      options && options.featureProjection ? options.featureProjection : this.defaultFeatureProjection
+    )
     feature.setGeometry(point)
     feature.setId(id)
     return feature
@@ -103,12 +102,9 @@ class CsvPoint extends OlFormatFeature {
   readFeatures(source, options) {
     const features = []
     if (source instanceof ArrayBuffer) {
-      source = new Encoding.TextDecoder('utf-8').decode(source)
+      source = Papa.parse(new Encoding.TextDecoder('utf-8').decode(source), {header: true}).data
     }
-    if (typeof source === 'string') {
-      source = Papa.parse(source, {header: true}).data
-    }
-    source.forEach((row, i) => {
+    source.forEach((row) => {
       try {
         features.push(this.readFeature(row, options))
       } catch (error) {
@@ -127,16 +123,6 @@ class CsvPoint extends OlFormatFeature {
    */
   readProjection(source) {
     return this.defaultDataProjection
-  }
-  /**
-   * @desc Get the extent from the source of the last readFeatures call
-   * @public
-   * @override
-   * @method
-   * @return {ol.Extent} The extent
-   */
-  getLastExtent() {
-    return null
   }
   /**
    * @desc Return format type
