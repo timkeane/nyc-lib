@@ -11,18 +11,17 @@ import AutoLoad from 'nyc/ol/source/AutoLoad'
 import {get as olProjGet} from 'ol/proj'
 
 /**
- * @desc Class to auto load all features from a URL
+ * @desc Class to filter and sort features
  * @public
  * @class
- * @extends ol.source.Vector
- * @see http://openlayers.org/en/latest/apidoc/module-ol_source_Vector-VectorSource.html
+ * @extends Autoload
  */
 class FilterAndSort extends AutoLoad {
   /**
    * @desc Create an instance of FilterAndSort
    * @public
    * @constructor
-   * @param {olx.source.VectorOptions} options Constructor optionss
+   * @param {olx.source.VectorOptions} options Constructor options
    */
   constructor(options) {
     super(options)
@@ -30,8 +29,9 @@ class FilterAndSort extends AutoLoad {
      * @private
      * @member {Array<ol.Feature>}
      */
-    this.allFeatures = options.features || null
-    this.on('change:autoload-complete', $.proxy(this.storeFeatures, this))
+    this.allFeatures = options.features || []
+    this.storeFeatures = this.storeFeatures.bind(this);
+    this.on('change:autoload-complete', this.storeFeatures)
   }
   /**
    * @desc Filters the features of this source
@@ -45,7 +45,6 @@ class FilterAndSort extends AutoLoad {
       return filters.every(fltrs => {
         return fltrs.some(flt => {
           return $.inArray(feature.get(flt.property), flt.values) > -1
-
         })
       })
     })
