@@ -102,7 +102,10 @@ class CsvPoint extends OlFormatFeature {
   readFeatures(source, options) {
     const features = []
     if (source instanceof ArrayBuffer) {
-      source = Papa.parse(new Encoding.TextDecoder('utf-8').decode(source), {header: true}).data
+      source = new Encoding.TextDecoder('utf-8').decode(source)
+    }
+    if (typeof source === 'string') {
+      source = Papa.parse(source, {header: true}).data
     }
     source.forEach((row) => {
       try {
