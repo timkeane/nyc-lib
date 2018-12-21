@@ -175,11 +175,12 @@ class Basemap extends OlPluggableMap {
    * @param {number} [preload=0] Preload
    */
   setupLayers(options, preload) {
+    const projection = 'EPSG:3857';
     this.base = new OlLayerTile({
       extent: this.layerExtent(Basemap.UNIVERSE_EXTENT, options.view),
       source: new OlSourceXYZ({
         url: Basemap.BASE_URL,
-        projection: 'EPSG:3857'
+        projection: projection
       }),
       preload: preload || 0
     })
@@ -190,10 +191,10 @@ class Basemap extends OlPluggableMap {
         extent: this.layerExtent(Basemap.LABEL_EXTENT, options.view),
         source: new OlSourceXYZ({
           url: url,
-          projection: 'EPSG:3857'
+          projection: projection
         }),
         zIndex: 1000,
-        visible: labelType == 'base'
+        visible: labelType === BasemapHelper.LabelType.BASE
       })
       this.addLayer(this.labels[labelType])
     })
@@ -203,7 +204,7 @@ class Basemap extends OlPluggableMap {
         extent: this.layerExtent(Basemap.PHOTO_EXTENT, options.view),
         source: new OlSourceXYZ({
           url: url,
-          projection: 'EPSG:3857'
+          projection: projection
         }),
         visible: false
       })
