@@ -70,16 +70,6 @@ class Decorate extends OlFormatFeature {
     return this.parentFormat.readProjection(source)
   }
   /**
-   * @desc Get the extent from the source of the last readFeatures call
-   * @public
-   * @override
-   * @method
-   * @return {ol.Extent} The extent
-   */
-  getLastExtent() {
-    return null
-  }
-  /**
    * @desc Return format type
    * @public
    * @override
