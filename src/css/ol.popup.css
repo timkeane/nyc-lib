@@ -17,6 +17,9 @@
 	position: absolute;
 	pointer-events: none;
 }
+.pop.fullscreen:after, .pop.fullscreen:before {
+	display: none;
+}
 .pop:after {
 	border: solid transparent;
 	border-top-color: var(--color-light);
