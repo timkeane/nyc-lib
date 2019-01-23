@@ -2,7 +2,7 @@
 const mock = jest.fn().mockImplementation(() => {
   return {
     on: jest.fn(),
-    zoomSearch: {
+    search: {
       setFeatures: jest.fn(),
       input: {
         focus: jest.fn()

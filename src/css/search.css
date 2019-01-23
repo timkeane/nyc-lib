@@ -1,39 +1,12 @@
-.z-srch {
-	position: absolute;
-	left: 3px;
-	top: 3px;
-	right: 0;
-}
-.btn-z-in, .btn-z-out {
-	background-size: 19px;
-}
-.btn-z-in {
-	left: 0;
-	top: 0;
-}
-.btn-z-out {
-	left: 0;
-	top: 37px;
-}
-.btn-z-in {
-	background-image: var(--zoom-in-icon-light);
-}
-.btn-z-out {
-	background-image: var(--zoom-out-icon-light);
-}
-.btn-geo {
-  left: 0;
-  top: 74px;
-}
-.btn-geo {
-	background-image: var(--geo-icon-light);
-  background-size: 25px;
-}
 .srch {
-	position: absolute;
-	left: 38px;
-	right: 3px;
+  position: relative;
 	width: auto;
+}
+.ol-overlaycontainer-stopevent .srch {
+  position: absolute;
+	top: 3px;
+	left: 41px;
+	right: 3px;
 	max-width: 400px;
 }
 .srch input, .srch ul {
@@ -69,7 +42,7 @@
 .srch input:focus {
 	opacity: 1;
 }
-.z-srch .btn-x {
+.srch .btn-x {
 	display: none;
 	position: absolute;
 	left: calc(100% - 28px);
@@ -101,6 +74,6 @@
 .srch ul li:hover a, .srch ul li:hover a * {
 	color: var(--color-light);	
 }
-.z-srch ul.retention {
+.srch ul.retention {
 	display: none;
 }

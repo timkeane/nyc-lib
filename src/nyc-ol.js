@@ -12,7 +12,9 @@ import _nyc_ol_Locator from 'nyc/ol/Locator'
 import _nyc_ol_MapLocator from 'nyc/ol/MapLocator'
 import _nyc_ol_MultiFeaturePopup from 'nyc/ol/MultiFeaturePopup'
 import _nyc_ol_Popup from 'nyc/ol/Popup'
-import _nyc_ol_ZoomSearch from 'nyc/ol/ZoomSearch'
+import _nyc_ol_Zoom from 'nyc/ol/Zoom'
+import _nyc_ol_Geolocate from 'nyc/ol/Geolocate'
+import _nyc_ol_Search from 'nyc/ol/Search'
 
 window.nyc.ol = _nyc_ol
 window.nyc.ol.Basemap = _nyc_ol_Basemap
@@ -26,7 +28,9 @@ window.nyc.ol.Locator = _nyc_ol_Locator
 window.nyc.ol.MapLocator = _nyc_ol_MapLocator
 window.nyc.ol.MultiFeaturePopup = _nyc_ol_MultiFeaturePopup
 window.nyc.ol.Popup = _nyc_ol_Popup
-window.nyc.ol.ZoomSearch = _nyc_ol_ZoomSearch
+window.nyc.ol.Zoom = _nyc_ol_Zoom
+window.nyc.ol.Geolocate = _nyc_ol_Geolocate
+window.nyc.ol.Search = _nyc_ol_Search
 
 import _nyc_ol_format_CsvPoint from 'nyc/ol/format/CsvPoint'
 import _nyc_ol_format_CartoSql from 'nyc/ol/format/CartoSql'

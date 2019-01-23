@@ -18,7 +18,9 @@ import _nyc_ReplaceTokens from 'nyc/ReplaceTokens'
 import _nyc_Tabs from 'nyc/Tabs'
 import _nyc_Share from 'nyc/Share'
 import _nyc_Slider from 'nyc/Slider'
-import _nyc_ZoomSearch from 'nyc/ZoomSearch'
+import _nyc_Zoom from 'nyc/Zoom'
+import _nyc_Geolocate from 'nyc/Geolocate'
+import _nyc_Search from 'nyc/Search'
 
 
 window.nyc = _nyc
@@ -41,7 +43,9 @@ window.nyc.ReplaceTokens = _nyc_ReplaceTokens
 window.nyc.Share = _nyc_Share
 window.nyc.Slider = _nyc_Slider
 window.nyc.Tabs = _nyc_Tabs
-window.nyc.ZoomSearch = _nyc_ZoomSearch
+window.nyc.Zoom = _nyc_Zoom
+window.nyc.Geolocate = _nyc_Geolocate
+window.nyc.Search = _nyc_Search
 
 import _nyc_lang from 'nyc/lang'
 import _nyc_lang_Translate from 'nyc/lang/Translate'

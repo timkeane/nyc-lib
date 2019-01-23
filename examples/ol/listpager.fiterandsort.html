@@ -96,13 +96,9 @@
 
     map.addLayer(new ol.layer.Vector({source: source}));
 
-    var url = 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example';
-    var locationMgr = new nyc.LocationMgr({
-      zoomSearch: new nyc.ol.ZoomSearch(map),
-      locator: new nyc.ol.Locator({
-        geocoder: new nyc.Geoclient({url: url})
-      }),
-      mapLocator: new nyc.ol.MapLocator({map: map})
+    var locationMgr = new nyc.ol.LocationMgr({
+      map: map,
+      url: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
     });
     locationMgr.on('geocoded', function(location) {
       var features = source.sort(location.coordinate);

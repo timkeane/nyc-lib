@@ -60,7 +60,7 @@ class FinderApp {
     })
     /**
      * @private
-     * @member {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions}
+     * @member {module:nyc/Search~Search.FeatureSearchOptions}
      */
     this.facilitySearch = options.facilitySearch
     /**
@@ -324,7 +324,7 @@ class FinderApp {
    * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
    */
   showSplash(options) {
-    const input = this.locationMgr.zoomSearch.input
+    const input = this.locationMgr.Search.input
     if (options) {
       options.buttonText = options.buttonText || ['Continue']
       new Dialog('splash').ok(options).then(() => {
@@ -409,7 +409,7 @@ class FinderApp {
     if (this.facilitySearch) {
       const options = typeof this.facilitySearch === 'object' ? this.facilitySearch : {}
       options.features = features
-      this.locationMgr.zoomSearch.setFeatures(options)
+      this.locationMgr.Search.setFeatures(options)
     }
     this.pager.reset(features)
     nyc.ready($('body'))
@@ -674,7 +674,7 @@ FinderApp.FEATURE_DECORATIONS = {
  * @property {string} facilityUrl The URL for the facility features data
  * @property {ol.format.Feature=} facilityFormat The format of the facilities data
  * @property {ol.style.Style} facilityStyle The styling for the facilities layer
- * @property {module:nyc/ZoomSearch~ZoomSearch.FeatureSearchOptions|boolean} [facilitySearch=false] Search options for feature searches or true to use default search options
+ * @property {module:nyc/Search~Search.FeatureSearchOptions|boolean} [facilitySearch=false] Search options for feature searches or true to use default search options
  * @property {string} [filterTabTitle=Filters] Title for the filters tab
  * @property {Array<module:nyc/ol/Filters~Filters.ChoiceOptions>=} filterChoiceOptions Filter definitions
  * @property {string} geoclientUrl The URL for the Geoclient geocoder with approriate keys

@@ -1,0 +1,14 @@
+.geoloc {
+	position: absolute;
+	left: 3px;
+	top: 3px;
+	right: 0;
+}
+.btn-geo {
+  left: 0;
+  top: 74px;
+}
+.btn-geo {
+	background-image: var(--geo-icon-light);
+  background-size: 25px;
+}

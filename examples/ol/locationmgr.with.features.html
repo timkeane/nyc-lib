@@ -41,21 +41,16 @@
       source: source
     }));
 
-    var zoomSearch = new nyc.ol.ZoomSearch(map);
-    var geoclient = new nyc.Geoclient({url: url});
-    var locator = new nyc.ol.Locator({geocoder: geoclient});
-    var mapLocator = new nyc.ol.MapLocator({map: map})
     var locationMgr = new nyc.LocationMgr({
-      zoomSearch: zoomSearch,
-      locator: locator,
-      mapLocator: mapLocator
+      map: map,
+      url: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
     });
 
     var interval = setInterval(function() {
       var features = source.getFeatures()
       if (features.length) {
         clearInterval(interval);
-        zoomSearch.setFeatures({
+        locationMgr.search.setFeatures({
           layerName: 'facility',
           features: features,
           placeholder: 'Search for an address or facility...'

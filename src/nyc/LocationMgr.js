@@ -25,11 +25,23 @@ class LocationMgr extends EventHandling {
   constructor(options) {
     super()
     /**
-     * @desc The ZoomSearch
+     * @desc The Zoom
      * @public
-     * @member {module:nyc/ZoomSearch~ZoomSearch}
+     * @member {module:nyc/Zoom~Zoom}
      */
-    this.zoomSearch = options.zoomSearch
+    this.zoom = options.zoom
+    /**
+     * @desc The Geolocate
+     * @public
+     * @member {module:nyc/Geolocate~Geolocate}
+     */
+    this.geolocate = options.geolocate
+    /**
+     * @desc The Search
+     * @public
+     * @member {module:nyc/Search~Search}
+     */
+    this.search = options.search
     /**
      * @desc The Locator
      * @public
@@ -72,9 +84,9 @@ class LocationMgr extends EventHandling {
     this.locator.on('geolocated', this.located, this)
     this.locator.on('ambiguous', this.ambiguous, this)
     this.locator.on('error', this.error, this)
-    this.zoomSearch.on('disambiguated', this.located, this)
-    this.zoomSearch.on('search', this.locator.search, this.locator)
-    this.zoomSearch.on('geolocate', this.locator.locate, this.locator)
+    this.search.on('disambiguated', this.located, this)
+    this.search.on('search', this.locator.search, this.locator)
+    this.geolocate.on('geolocate', this.locator.locate, this.locator)
   }
   /**
    * @private
@@ -111,7 +123,7 @@ class LocationMgr extends EventHandling {
    * @param {module:nyc/Locator~Locator.Result} data Result data
    */
   located(data) {
-    this.zoomSearch.val(data.type === 'geolocated' ? '' : data.name)
+    this.search.val(data.type === 'geolocated' ? '' : data.name)
     this.mapLocator.zoomLocation(data, () => {
       this.trigger(data.type, data)
     })
@@ -123,7 +135,7 @@ class LocationMgr extends EventHandling {
    */
   ambiguous(data) {
     if (data.possible.length) {
-      this.zoomSearch.disambiguate(data)
+      this.search.disambiguate(data)
     } else {
       this.dialog.ok({message: 'The location you entered was not understood'})
     }
@@ -141,7 +153,9 @@ class LocationMgr extends EventHandling {
  * @desc Constructor options for {@link module:nyc/LocationMgr~LocationMgr}
  * @public
  * @typedef {Object}
- * @property {module:nyc/ZoomSearch~ZoomSearch} zoomSearch The UX zoom search controls for user input
+ * @property {module:nyc/Zoom~Zoom} zoom The UX zoom control for user input
+ * @property {module:nyc/Geolocate~Geolocate} geolocate The UX geolocate control for user input
+ * @property {module:nyc/Search~Search} search The UX search control for user input
  * @property {module:nyc/Locator~Locator} locator The geocoding and geolocation provider
  * @property {module:nyc/MapLocator~MapLocator} mapLocator The mapLocator used to manipulate a map
  * @property {boolean} [autoLocate=false] Automatically locator using device geolocation on load
