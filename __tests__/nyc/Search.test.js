@@ -2,9 +2,7 @@ import Search from 'nyc/Search'
 import Container from 'nyc/Container'
 import AutoComplete from 'nyc/AutoComplete'
 
-test('FIX ME', () => {})
 
-/*
 let container
 beforeEach(() => {
   container = $('<div id="map"></div>')
@@ -16,104 +14,91 @@ afterEach(() => {
 })
 
 test('constructor', () => {
-  expect.assertions(4)
+  expect.assertions(5)
 
-  const zoomSearch = new ZoomSearch(container)
-  expect(zoomSearch instanceof Container).toBe(true)
-  expect(zoomSearch instanceof ZoomSearch).toBe(true)
-  expect(zoomSearch.isAddrSrch).toBe(true)
-  expect(zoomSearch.getContainer().hasClass('z-srch')).toBe(true)
+  const search = new Search(container)
+  expect(search instanceof Container).toBe(true)
+  expect(search instanceof Search).toBe(true)
+  expect(search.isAddrSrch).toBe(true)
+  expect(search.getContainer().html()).toBe($(Search.HTML).html())
+  expect(search.getContainer().hasClass('srch-ctr')).toBe(true)
 })
 
-test('abstract methods', () => {
-  expect.assertions(2)
+test('abstract method featureAsLocation', () => {
+  expect.assertions(1)
 
-  const zoomSearch = new ZoomSearch(container)
-  expect(() => {zoomSearch.zoom('event')}).toThrow('Not implemented')
-  expect(() => {zoomSearch.featureAsLocation('feature', 'options')}).toThrow('Not implemented')
+  const search = new Search(container)
+  expect(() => {search.featureAsLocation('feature', 'options')}).toThrow('Not implemented')
 })
 
 describe('hookupEvents called from constructor', () => {
-  const key = ZoomSearch.prototype.key
-  const zoom = ZoomSearch.prototype.zoom
-  const geolocate = ZoomSearch.prototype.geolocate
-  const listClick = ZoomSearch.prototype.listClick
+  const key = Search.prototype.key
+  const zoom = Search.prototype.zoom
+  const geolocate = Search.prototype.geolocate
+  const listClick = Search.prototype.listClick
   beforeEach(() => {
-    ZoomSearch.prototype.key = jest.fn()
-    ZoomSearch.prototype.zoom = jest.fn()
-    ZoomSearch.prototype.geolocate = jest.fn()
-    ZoomSearch.prototype.listClick = jest.fn()
+    Search.prototype.key = jest.fn()
+    Search.prototype.zoom = jest.fn()
+    Search.prototype.geolocate = jest.fn()
+    Search.prototype.listClick = jest.fn()
   })
   afterEach(() => {
-    ZoomSearch.prototype.key = key
-    ZoomSearch.prototype.zoom = zoom
-    ZoomSearch.prototype.geolocate = geolocate
-    ZoomSearch.prototype.listClick = listClick
+    Search.prototype.key = key
+    Search.prototype.zoom = zoom
+    Search.prototype.geolocate = geolocate
+    Search.prototype.listClick = listClick
   })
 
   test('hookupEvents', () => {
-    expect.assertions(21)
+    expect.assertions(12)
 
-    const zoomSearch = new ZoomSearch(container)
+    const search = new Search(container)
 
-    expect(zoomSearch.getContainer().html()).toBe($(ZoomSearch.HTML).html())
 
-    expect(zoomSearch.input.length).toBe(1)
-    expect(zoomSearch.input.get(0)).toBe(container.find('.srch input').get(0))
+    expect(search.input.length).toBe(1)
+    expect(search.input.get(0)).toBe(container.find('.srch input').get(0))
 
-    expect(zoomSearch.list.length).toBe(1)
-    expect(zoomSearch.list.get(0)).toBe(container.find('.srch ul').get(0))
-    expect(zoomSearch.retention.length).toBe(1)
-    expect(zoomSearch.retention.get(0)).toBe(container.find('ul.retention').get(0))
+    expect(search.list.length).toBe(1)
+    expect(search.list.get(0)).toBe(container.find('.srch ul').get(0))
+    expect(search.retention.length).toBe(1)
+    expect(search.retention.get(0)).toBe(container.find('ul.retention').get(0))
 
-    zoomSearch.input.trigger('keyup')
-    zoomSearch.input.trigger('change')
-    expect(ZoomSearch.prototype.key).toHaveBeenCalledTimes(2)
-    expect(ZoomSearch.prototype.key.mock.calls[0][0].type).toBe('keyup')
-    expect(ZoomSearch.prototype.key.mock.calls[0][0].target).toBe(zoomSearch.input.get(0))
-    expect(ZoomSearch.prototype.key.mock.calls[1][0].type).toBe('change')
-    expect(ZoomSearch.prototype.key.mock.calls[1][0].target).toBe(zoomSearch.input.get(0))
+    search.input.trigger('keyup')
+    search.input.trigger('change')
+    expect(Search.prototype.key).toHaveBeenCalledTimes(2)
+    expect(Search.prototype.key.mock.calls[0][0].type).toBe('keyup')
+    expect(Search.prototype.key.mock.calls[0][0].target).toBe(search.input.get(0))
+    expect(Search.prototype.key.mock.calls[1][0].type).toBe('change')
+    expect(Search.prototype.key.mock.calls[1][0].target).toBe(search.input.get(0))
 
-    zoomSearch.input.trigger('focus')
-
-    container.find('.btn-z-in, .btn-z-out').trigger('click')
-    expect(ZoomSearch.prototype.zoom).toHaveBeenCalledTimes(2)
-    expect(ZoomSearch.prototype.zoom.mock.calls[0][0].type).toBe('click')
-    expect(ZoomSearch.prototype.zoom.mock.calls[0][0].target).toBe(container.find('.btn-z-in').get(0))
-    expect(ZoomSearch.prototype.zoom.mock.calls[1][0].type).toBe('click')
-    expect(ZoomSearch.prototype.zoom.mock.calls[1][0].target).toBe(container.find('.btn-z-out').get(0))
-
-    container.find('.btn-geo').trigger('click')
-    expect(ZoomSearch.prototype.geolocate).toHaveBeenCalledTimes(1)
-    expect(ZoomSearch.prototype.geolocate.mock.calls[0][0].type).toBe('click')
-    expect(ZoomSearch.prototype.geolocate.mock.calls[0][0].target).toBe(container.find('.btn-geo').get(0))
+    search.input.trigger('focus')
 
     $(document).trigger('mouseup')
-    expect(ZoomSearch.prototype.listClick).toHaveBeenCalledTimes(1)
+    expect(Search.prototype.listClick).toHaveBeenCalledTimes(1)
   })
 })
 
 test('key keyCode is 13 and isAddrSrch is true', () => {
   expect.assertions(3)
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.triggerSearch = jest.fn()
-  zoomSearch.filterList = jest.fn()
-  zoomSearch.list.show()
+  search.triggerSearch = jest.fn()
+  search.filterList = jest.fn()
+  search.list.show()
 
   const test = async () => {
     return new Promise(resolve => {
       setTimeout(() => {
-        resolve(zoomSearch.list.css('display'))
+        resolve(search.list.css('display'))
       }, 500)
     })
   }
 
-  zoomSearch.key({keyCode: 13})
+  search.key({keyCode: 13})
 
-  expect(zoomSearch.triggerSearch).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.filterList).toHaveBeenCalledTimes(0)
+  expect(search.triggerSearch).toHaveBeenCalledTimes(1)
+  expect(search.filterList).toHaveBeenCalledTimes(0)
 
   return test().then(visible => expect(visible).toBe('none'))
 })
@@ -121,24 +106,24 @@ test('key keyCode is 13 and isAddrSrch is true', () => {
 test('key keyCode not 13 and isAddrSrch is true', () => {
   expect.assertions(3)
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.triggerSearch = jest.fn()
-  zoomSearch.filterList = jest.fn()
-  zoomSearch.list.show()
+  search.triggerSearch = jest.fn()
+  search.filterList = jest.fn()
+  search.list.show()
 
   const test = async () => {
     return new Promise(resolve => {
       setTimeout(() => {
-        resolve(zoomSearch.list.css('display'))
+        resolve(search.list.css('display'))
       }, 500)
     })
   }
 
-  zoomSearch.key({keyCode: 39})
+  search.key({keyCode: 39})
 
-  expect(zoomSearch.triggerSearch).toHaveBeenCalledTimes(0)
-  expect(zoomSearch.filterList).toHaveBeenCalledTimes(1)
+  expect(search.triggerSearch).toHaveBeenCalledTimes(0)
+  expect(search.filterList).toHaveBeenCalledTimes(1)
 
   return test().then(visible => expect(visible).toBe('block'))
 })
@@ -146,25 +131,25 @@ test('key keyCode not 13 and isAddrSrch is true', () => {
 test('key keyCode not 13 and isAddrSrch is false', () => {
   expect.assertions(3)
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.isAddrSrch = false
-  zoomSearch.triggerSearch = jest.fn()
-  zoomSearch.filterList = jest.fn()
-  zoomSearch.list.show()
+  search.isAddrSrch = false
+  search.triggerSearch = jest.fn()
+  search.filterList = jest.fn()
+  search.list.show()
 
   const test = async () => {
     return new Promise(resolve => {
       setTimeout(() => {
-        resolve(zoomSearch.list.css('display'))
+        resolve(search.list.css('display'))
       }, 500)
     })
   }
 
-  zoomSearch.key({keyCode: 39})
+  search.key({keyCode: 39})
 
-  expect(zoomSearch.triggerSearch).toHaveBeenCalledTimes(0)
-  expect(zoomSearch.filterList).toHaveBeenCalledTimes(1)
+  expect(search.triggerSearch).toHaveBeenCalledTimes(0)
+  expect(search.filterList).toHaveBeenCalledTimes(1)
 
   return test().then(visible => expect(visible).toBe('block'))
 })
@@ -172,25 +157,25 @@ test('key keyCode not 13 and isAddrSrch is false', () => {
 test('key keyCode is 13 and isAddrSrch is false', () => {
   expect.assertions(3)
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.isAddrSrch = false
-  zoomSearch.triggerSearch = jest.fn()
-  zoomSearch.filterList = jest.fn()
-  zoomSearch.list.show()
+  search.isAddrSrch = false
+  search.triggerSearch = jest.fn()
+  search.filterList = jest.fn()
+  search.list.show()
 
   const test = async () => {
     return new Promise(resolve => {
       setTimeout(() => {
-        resolve(zoomSearch.list.css('display'))
+        resolve(search.list.css('display'))
       }, 500)
     })
   }
 
-  zoomSearch.key({keyCode: 13})
+  search.key({keyCode: 13})
 
-  expect(zoomSearch.triggerSearch).toHaveBeenCalledTimes(0)
-  expect(zoomSearch.filterList).toHaveBeenCalledTimes(1)
+  expect(search.triggerSearch).toHaveBeenCalledTimes(0)
+  expect(search.filterList).toHaveBeenCalledTimes(1)
 
   return test().then(visible => expect(visible).toBe('block'))
 })
@@ -198,132 +183,116 @@ test('key keyCode is 13 and isAddrSrch is false', () => {
 test('clearTxt', () => {
   expect.assertions(3)
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.val = jest.fn()
-  zoomSearch.clearBtn = jest.fn()
+  search.val = jest.fn()
+  search.clearBtn = jest.fn()
 
-  zoomSearch.clearTxt()
+  search.clearTxt()
 
-  expect(zoomSearch.val).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.val.mock.calls[0][0]).toBe('')
-  expect(zoomSearch.clearBtn).toHaveBeenCalledTimes(1)
+  expect(search.val).toHaveBeenCalledTimes(1)
+  expect(search.val.mock.calls[0][0]).toBe('')
+  expect(search.clearBtn).toHaveBeenCalledTimes(1)
 })
 
 test('filterList no autoComplete', () => {
   expect.assertions(2)
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.emptyList = jest.fn()
-  zoomSearch.showList = jest.fn()
+  search.emptyList = jest.fn()
+  search.showList = jest.fn()
 
-  zoomSearch.filterList()
+  search.filterList()
 
-  expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.showList).toHaveBeenCalledTimes(1)
+  expect(search.emptyList).toHaveBeenCalledTimes(1)
+  expect(search.showList).toHaveBeenCalledTimes(1)
 })
 
 
 test('filterList no input', () => {
   expect.assertions(2)
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.autoComplete = 'mock-auto-complete'
-  zoomSearch.emptyList = jest.fn()
-  zoomSearch.showList = jest.fn()
+  search.autoComplete = 'mock-auto-complete'
+  search.emptyList = jest.fn()
+  search.showList = jest.fn()
 
-  zoomSearch.filterList()
+  search.filterList()
 
-  expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.showList).toHaveBeenCalledTimes(1)
+  expect(search.emptyList).toHaveBeenCalledTimes(1)
+  expect(search.showList).toHaveBeenCalledTimes(1)
 })
 
 test('filterList has autoComplete and input', () => {
   expect.assertions(6)
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.val('typed')
-  zoomSearch.autoComplete = {filter: jest.fn()}
-  zoomSearch.emptyList = jest.fn()
-  zoomSearch.showList = jest.fn()
+  search.val('typed')
+  search.autoComplete = {filter: jest.fn()}
+  search.emptyList = jest.fn()
+  search.showList = jest.fn()
 
-  zoomSearch.filterList()
+  search.filterList()
 
-  expect(zoomSearch.emptyList).toHaveBeenCalledTimes(0)
-  expect(zoomSearch.showList).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.autoComplete.filter).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.autoComplete.filter.mock.calls[0][0]).toBe(zoomSearch.retention)
-  expect(zoomSearch.autoComplete.filter.mock.calls[0][1]).toBe(zoomSearch.list)
-  expect(zoomSearch.autoComplete.filter.mock.calls[0][2]).toBe('typed')
+  expect(search.emptyList).toHaveBeenCalledTimes(0)
+  expect(search.showList).toHaveBeenCalledTimes(1)
+  expect(search.autoComplete.filter).toHaveBeenCalledTimes(1)
+  expect(search.autoComplete.filter.mock.calls[0][0]).toBe(search.retention)
+  expect(search.autoComplete.filter.mock.calls[0][1]).toBe(search.list)
+  expect(search.autoComplete.filter.mock.calls[0][2]).toBe('typed')
 })
 
 test('showList with focus', () => {
   expect.assertions(4)
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.list.append('<li data-id="one"><a href="#">one</li><li data-id="two"><a href="#">two</a></li>').hide()
+  search.list.append('<li data-id="one"><a href="#">one</li><li data-id="two"><a href="#">two</a></li>').hide()
 
   const test = async () => {
     return new Promise(resolve => {
       setTimeout(() => {
-        resolve(zoomSearch.list.css('display'))
+        resolve(search.list.css('display'))
       }, 1000)
     })
   }
 
-  zoomSearch.showList(true)
+  search.showList(true)
 
   return test().then(visible => {
     expect(visible).toBe('block')
-    expect(zoomSearch.list.children().length).toBe(2)
-    expect(zoomSearch.list.children().first().find('a').attr('tabindex')).toBe('0')
-    expect(zoomSearch.list.children().first().find('a').is(':focus')).toBe(true)
+    expect(search.list.children().length).toBe(2)
+    expect(search.list.children().first().find('a').attr('tabindex')).toBe('0')
+    expect(search.list.children().first().find('a').is(':focus')).toBe(true)
   })
 })
 
 test('showList without focus', () => {
   expect.assertions(4)
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.list.append('<li>one</li><li>two</li>').hide()
+  search.list.append('<li>one</li><li>two</li>').hide()
 
   const test = async () => {
     return new Promise(resolve => {
       setTimeout(() => {
-        resolve(zoomSearch.list.css('display'))
+        resolve(search.list.css('display'))
       }, 1000)
     })
   }
 
-  zoomSearch.showList(false)
+  search.showList(false)
 
   return test().then(visible => {
     expect(visible).toBe('block')
-    expect(zoomSearch.list.children().length).toBe(2)
-    expect(zoomSearch.list.children().first().attr('tabindex')).not.toBe('0')
-    expect(zoomSearch.list.children().first().is(':focus')).not.toBe(true)
+    expect(search.list.children().length).toBe(2)
+    expect(search.list.children().first().attr('tabindex')).not.toBe('0')
+    expect(search.list.children().first().is(':focus')).not.toBe(true)
   })
-})
-
-test('geolocated', () => {
-  expect.assertions(2)
-
-  const handler = jest.fn()
-
-  const zoomSearch = new ZoomSearch(container)
-
-  zoomSearch.on('geolocate', handler)
-  zoomSearch.val('something')
-
-  zoomSearch.geolocate()
-
-  expect(zoomSearch.val()).toBe('')
-  expect(handler).toHaveBeenCalledTimes(1)
 })
 
 test('triggerSearch has value', () => {
@@ -331,12 +300,12 @@ test('triggerSearch has value', () => {
 
   const handler = jest.fn()
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.input.val('an address')
-  zoomSearch.on('search', handler)
+  search.input.val('an address')
+  search.on('search', handler)
 
-  zoomSearch.triggerSearch()
+  search.triggerSearch()
 
   expect(handler).toHaveBeenCalledTimes(1)
   expect(handler.mock.calls[0][0]).toBe('an address')
@@ -347,16 +316,16 @@ test('triggerSearch no value', () => {
 
   const handler = jest.fn()
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.input.val('')
-  zoomSearch.on('search', handler)
+  search.input.val('')
+  search.on('search', handler)
 
-  zoomSearch.triggerSearch()
+  search.triggerSearch()
 
-  zoomSearch.input.val(' ')
+  search.input.val(' ')
 
-  zoomSearch.triggerSearch()
+  search.triggerSearch()
 
   expect(handler).toHaveBeenCalledTimes(0)
 })
@@ -364,15 +333,15 @@ test('triggerSearch no value', () => {
 test('val', () => {
   expect.assertions(4)
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.input.val('an address')
+  search.input.val('an address')
 
-  expect(zoomSearch.val()).toBe('an address')
-  expect(zoomSearch.input.val()).toBe('an address')
+  expect(search.val()).toBe('an address')
+  expect(search.input.val()).toBe('an address')
 
-  expect(zoomSearch.val('another address')).toBe('another address')
-  expect(zoomSearch.input.val()).toBe('another address')
+  expect(search.val('another address')).toBe('another address')
+  expect(search.input.val()).toBe('another address')
 })
 
 test('disambiguate no possible', () => {
@@ -383,13 +352,13 @@ test('disambiguate no possible', () => {
     possible: []
   }
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.showList = jest.fn()
+  search.showList = jest.fn()
 
-  zoomSearch.disambiguate(ambiguous)
+  search.disambiguate(ambiguous)
 
-  expect(zoomSearch.showList).toHaveBeenCalledTimes(0)
+  expect(search.showList).toHaveBeenCalledTimes(0)
 })
 
 test('disambiguate has possible', () => {
@@ -400,27 +369,27 @@ test('disambiguate has possible', () => {
     possible: [{name: 'possible 1'}, {name: 'possible 2'}]
   }
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.listItem = (options, data) => {
+  search.listItem = (options, data) => {
     return $('<li></li>')
 		  .addClass(options.layerName)
       .html(data.name)
   }
-  zoomSearch.emptyList = jest.fn()
-  zoomSearch.showList = jest.fn()
+  search.emptyList = jest.fn()
+  search.showList = jest.fn()
 
-  zoomSearch.disambiguate(ambiguous)
+  search.disambiguate(ambiguous)
 
-  expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.showList).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.list.children().length).toBe(2)
-  expect(zoomSearch.list.children().get(0).tagName.toUpperCase()).toBe('LI')
-  expect($(zoomSearch.list.children().get(0)).html()).toBe('possible 1')
-  expect($(zoomSearch.list.children().get(0)).hasClass('addr')).toBe(true)
-  expect(zoomSearch.list.children().get(1).tagName.toUpperCase()).toBe('LI')
-  expect($(zoomSearch.list.children().get(1)).html()).toBe('possible 2')
-  expect($(zoomSearch.list.children().get(1)).hasClass('addr')).toBe(true)
+  expect(search.emptyList).toHaveBeenCalledTimes(1)
+  expect(search.showList).toHaveBeenCalledTimes(1)
+  expect(search.list.children().length).toBe(2)
+  expect(search.list.children().get(0).tagName.toUpperCase()).toBe('LI')
+  expect($(search.list.children().get(0)).html()).toBe('possible 1')
+  expect($(search.list.children().get(0)).hasClass('addr')).toBe(true)
+  expect(search.list.children().get(1).tagName.toUpperCase()).toBe('LI')
+  expect($(search.list.children().get(1)).html()).toBe('possible 2')
+  expect($(search.list.children().get(1)).hasClass('addr')).toBe(true)
 })
 
 test('setFeatures/sortAlphapetically no nameField no displayField has placeholder', () => {
@@ -438,26 +407,26 @@ test('setFeatures/sortAlphapetically no nameField no displayField has placeholde
     ]
   }
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.emptyList = jest.fn()
-  zoomSearch.listItem = (options, data) => {
+  search.emptyList = jest.fn()
+  search.listItem = (options, data) => {
     return $('<li></li>')
 		  .addClass(options.layerName)
       .html(data.name)
   }
-  zoomSearch.featureAsLocation = (feature, opts) => {
+  search.featureAsLocation = (feature, opts) => {
     expect(opts).toBe(options)
     return feature.properties
   }
 
-  expect(zoomSearch.autoComplete).toBe(null)
+  expect(search.autoComplete).toBe(null)
 
-  zoomSearch.setFeatures(options)
+  search.setFeatures(options)
 
-  expect(zoomSearch.autoComplete instanceof AutoComplete).toBe(true)
+  expect(search.autoComplete instanceof AutoComplete).toBe(true)
 
-  expect(zoomSearch.input.attr('placeholder')).toBe('a placeholder...')
+  expect(search.input.attr('placeholder')).toBe('a placeholder...')
   expect(container.find('.retention').children().length).toBe(5)
   expect($(container.find('.retention').children().get(0)).hasClass('a-layer')).toBe(true)
   expect($(container.find('.retention').children().get(0)).html()).toBe('feature 1')
@@ -470,11 +439,11 @@ test('setFeatures/sortAlphapetically no nameField no displayField has placeholde
   expect($(container.find('.retention').children().get(4)).hasClass('a-layer')).toBe(true)
   expect($(container.find('.retention').children().get(4)).html()).toBe('feature 4')
 
-  expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
+  expect(search.emptyList).toHaveBeenCalledTimes(1)
 
-  const autoComplete = zoomSearch.autoComplete
-  zoomSearch.setFeatures(options)
-  expect(autoComplete).toBe(zoomSearch.autoComplete)
+  const autoComplete = search.autoComplete
+  search.setFeatures(options)
+  expect(autoComplete).toBe(search.autoComplete)
 })
 
 test('setFeatures/sortAlphapetically has nameField has displayField no placeholder', () => {
@@ -500,26 +469,26 @@ test('setFeatures/sortAlphapetically has nameField has displayField no placehold
     ]
   }
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.emptyList = jest.fn()
-  zoomSearch.listItem = (options, data) => {
+  search.emptyList = jest.fn()
+  search.listItem = (options, data) => {
     return $('<li></li>')
 		  .addClass(options.layerName)
       .html(data.label)
   }
-  zoomSearch.featureAsLocation = (feature, opts) => {
+  search.featureAsLocation = (feature, opts) => {
     expect(opts).toBe(options)
     return feature.properties
   }
 
-  expect(zoomSearch.autoComplete).toBe(null)
+  expect(search.autoComplete).toBe(null)
 
-  zoomSearch.setFeatures(options)
+  search.setFeatures(options)
 
-  expect(zoomSearch.autoComplete instanceof AutoComplete).toBe(true)
+  expect(search.autoComplete instanceof AutoComplete).toBe(true)
 
-  expect(zoomSearch.input.attr('placeholder')).toBe('Search for an address...')
+  expect(search.input.attr('placeholder')).toBe('Search for an address...')
   expect(container.find('.retention').children().length).toBe(3)
   expect($(container.find('.retention').children().get(0)).hasClass('a-layer')).toBe(true)
   expect($(container.find('.retention').children().get(0)).html()).toBe('feature 1')
@@ -528,25 +497,25 @@ test('setFeatures/sortAlphapetically has nameField has displayField no placehold
   expect($(container.find('.retention').children().get(2)).hasClass('a-layer')).toBe(true)
   expect($(container.find('.retention').children().get(2)).html()).toBe('feature 3')
 
-  expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
+  expect(search.emptyList).toHaveBeenCalledTimes(1)
 
-  const autoComplete = zoomSearch.autoComplete
-  zoomSearch.setFeatures(options)
-  expect(autoComplete).toBe(zoomSearch.autoComplete)
+  const autoComplete = search.autoComplete
+  search.setFeatures(options)
+  expect(autoComplete).toBe(search.autoComplete)
 })
 
 test('removeFeatures', () => {
   expect.assertions(4)
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.list.html('<li class="a-layer"></li><li class="b-layer"></li><li class="a-layer"></li>')
+  search.list.html('<li class="a-layer"></li><li class="b-layer"></li><li class="a-layer"></li>')
   container.find('.retention').html('<li class="a-layer"></li><li class="a-layer"></li><li class="b-layer"></li>')
 
-  zoomSearch.removeFeatures('a-layer')
+  search.removeFeatures('a-layer')
 
-  expect(zoomSearch.list.children().length).toBe(1)
-  expect($(zoomSearch.list.children().get(0)).hasClass('a-layer')).toBe(false)
+  expect(search.list.children().length).toBe(1)
+  expect($(search.list.children().get(0)).hasClass('a-layer')).toBe(false)
   expect(container.find('.retention').children().length).toBe(1)
   expect($(container.find('.retention').children().get(0)).hasClass('a-layer')).toBe(false)
 })
@@ -561,11 +530,11 @@ test('listItem addr no displayField', () => {
   }
   const data = {name: 'a name', data: {}}
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.disambiguated = jest.fn()
+  search.disambiguated = jest.fn()
 
-  const li = zoomSearch.listItem(options, data)
+  const li = search.listItem(options, data)
 
   expect(li.length).toBe(1)
   expect(li.get(0).tagName.toUpperCase()).toBe('LI')
@@ -579,9 +548,9 @@ test('listItem addr no displayField', () => {
   expect(li.data('location')).toBe(data)
 
   li.trigger('click')
-  expect(zoomSearch.disambiguated).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.disambiguated.mock.calls[0][0].type).toBe('click')
-  expect(zoomSearch.disambiguated.mock.calls[0][0].currentTarget).toBe(li.get(0))
+  expect(search.disambiguated).toHaveBeenCalledTimes(1)
+  expect(search.disambiguated.mock.calls[0][0].type).toBe('click')
+  expect(search.disambiguated.mock.calls[0][0].currentTarget).toBe(li.get(0))
 })
 
 test('listItem not addr has displayField', () => {
@@ -595,11 +564,11 @@ test('listItem not addr has displayField', () => {
 
   const data = {name: 'a name', data: {label: 'a label'}}
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.disambiguated = jest.fn()
+  search.disambiguated = jest.fn()
 
-  const li = zoomSearch.listItem(options, data)
+  const li = search.listItem(options, data)
 
   expect(li.length).toBe(1)
   expect(li.get(0).tagName.toUpperCase()).toBe('LI')
@@ -613,33 +582,33 @@ test('listItem not addr has displayField', () => {
   expect(li.data('location')).toBe(data)
 
   li.trigger('click')
-  expect(zoomSearch.disambiguated).toHaveBeenCalledTimes(1)
-  expect(zoomSearch.disambiguated.mock.calls[0][0].type).toBe('click')
-  expect(zoomSearch.disambiguated.mock.calls[0][0].currentTarget).toBe(li.get(0))
+  expect(search.disambiguated).toHaveBeenCalledTimes(1)
+  expect(search.disambiguated.mock.calls[0][0].type).toBe('click')
+  expect(search.disambiguated.mock.calls[0][0].currentTarget).toBe(li.get(0))
 })
 
 test('emptyList', () => {
   expect.assertions(9)
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.list.append('<li data-id="one"><a href="#">one</li><li data-id="two"><a href="#">two</a></li>')
+  search.list.append('<li data-id="one"><a href="#">one</li><li data-id="two"><a href="#">two</a></li>')
 
-  zoomSearch.emptyList()
+  search.emptyList()
 
-  expect(zoomSearch.list.children().length).toBe(0)
-  expect(zoomSearch.retention.children().length).toBe(2)
-  expect($(zoomSearch.retention.children().get(0)).find('a').html()).toBe('one')
-  expect($(zoomSearch.retention.children().get(1)).find('a').html()).toBe('two')
+  expect(search.list.children().length).toBe(0)
+  expect(search.retention.children().length).toBe(2)
+  expect($(search.retention.children().get(0)).find('a').html()).toBe('one')
+  expect($(search.retention.children().get(1)).find('a').html()).toBe('two')
 
-  zoomSearch.list.append('<li data-id="one"><a href="#">one</li><li data-id="three"><a href="#">three</a></li>')
+  search.list.append('<li data-id="one"><a href="#">one</li><li data-id="three"><a href="#">three</a></li>')
   
-  zoomSearch.emptyList()
+  search.emptyList()
 
-  expect(zoomSearch.list.children().length).toBe(0)
-  expect(zoomSearch.retention.children().length).toBe(3)
-  expect($(zoomSearch.retention.children().get(0)).find('a').html()).toBe('one')
-  expect($(zoomSearch.retention.children().get(1)).find('a').html()).toBe('two')
-  expect($(zoomSearch.retention.children().get(2)).find('a').html()).toBe('three')
+  expect(search.list.children().length).toBe(0)
+  expect(search.retention.children().length).toBe(3)
+  expect($(search.retention.children().get(0)).find('a').html()).toBe('one')
+  expect($(search.retention.children().get(1)).find('a').html()).toBe('two')
+  expect($(search.retention.children().get(2)).find('a').html()).toBe('three')
 })
 
 test('disambiguated is LI', () => {
@@ -650,25 +619,25 @@ test('disambiguated is LI', () => {
   const li = $('<li class="feature">a label</li>')
     .data('location', data)
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.emptyList = jest.fn()
-  zoomSearch.list.append(li).show()
-  zoomSearch.on('disambiguated', handler)
+  search.emptyList = jest.fn()
+  search.list.append(li).show()
+  search.on('disambiguated', handler)
 
-  zoomSearch.disambiguated({currentTarget: li.get(0)})
+  search.disambiguated({currentTarget: li.get(0)})
 
   expect(handler).toHaveBeenCalledTimes(1)
   expect(handler.mock.calls[0][0]).toBe(data)
   expect(handler.mock.calls[0][0].isFeature).toBe(true)
-  expect(zoomSearch.val()).toBe('a name')
+  expect(search.val()).toBe('a name')
 
-  expect(zoomSearch.emptyList).toHaveBeenCalledTimes(1)
+  expect(search.emptyList).toHaveBeenCalledTimes(1)
 
   const test = async () => {
     return new Promise(resolve => {
       setTimeout(() => {
-        resolve(zoomSearch.list.css('display'))
+        resolve(search.list.css('display'))
       }, 500)
     })
   }
@@ -680,7 +649,7 @@ test('listClick list closed', () => {
 
   const handler = jest.fn()
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
   const li = $('<li></li>')
   const event = {
@@ -688,10 +657,10 @@ test('listClick list closed', () => {
       target: li.get(0)
     }
   }
-  zoomSearch.list.append(li).hide()
+  search.list.append(li).hide()
   li.on('click', handler)
 
-  zoomSearch.listClick(event)
+  search.listClick(event)
   expect(handler).toHaveBeenCalledTimes(0)
 })
 
@@ -699,7 +668,7 @@ test('listClick list open but not clicked', () => {
   expect.assertions(2)
   const handler = jest.fn()
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
   const li = $('<li></li>')
   const event = {
@@ -707,18 +676,18 @@ test('listClick list open but not clicked', () => {
       target: document.body
     }
   }
-  zoomSearch.list.append(li).show()
+  search.list.append(li).show()
   li.on('click', handler)
 
   const test = async () => {
     return new Promise(resolve => {
       setTimeout(() => {
-        resolve(zoomSearch.list.css('display'))
+        resolve(search.list.css('display'))
       }, 500)
     })
   }
 
-  zoomSearch.listClick(event)
+  search.listClick(event)
 
   expect(handler).toHaveBeenCalledTimes(0)
   return test().then(visible => expect(visible).toBe('none'))
@@ -728,7 +697,7 @@ test('listClick list open is clicked but no autoComplete', () => {
   expect.assertions(2)
   const handler = jest.fn()
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
   const li = $('<li></li>')
   const event = {
@@ -736,18 +705,18 @@ test('listClick list open is clicked but no autoComplete', () => {
       target: li.get(0)
     }
   }
-  zoomSearch.list.append(li).show()
+  search.list.append(li).show()
   li.on('click', handler)
 
   const test = async () => {
     return new Promise(resolve => {
       setTimeout(() => {
-        resolve(zoomSearch.list.css('display'))
+        resolve(search.list.css('display'))
       }, 500)
     })
   }
 
-  zoomSearch.listClick(event)
+  search.listClick(event)
 
   expect(handler).toHaveBeenCalledTimes(0)
   return test().then(visible => expect(visible).toBe('block'))
@@ -757,9 +726,9 @@ test('listClick list open is clicked and has autoComplete', () => {
   expect.assertions(2)
   const handler = jest.fn()
 
-  const zoomSearch = new ZoomSearch(container)
+  const search = new Search(container)
 
-  zoomSearch.autoComplete = 'mock-auto-complete'
+  search.autoComplete = 'mock-auto-complete'
 
   const li = $('<li></li>')
   const event = {
@@ -767,20 +736,19 @@ test('listClick list open is clicked and has autoComplete', () => {
       target: li.get(0)
     }
   }
-  zoomSearch.list.append(li).show()
+  search.list.append(li).show()
   li.on('click', handler)
 
   const test = async () => {
     return new Promise(resolve => {
       setTimeout(() => {
-        resolve(zoomSearch.list.css('display'))
+        resolve(search.list.css('display'))
       }, 500)
     })
   }
 
-  zoomSearch.listClick(event)
+  search.listClick(event)
 
   expect(handler).toHaveBeenCalledTimes(1)
   return test().then(visible => expect(visible).toBe('block'))
 })
-*/
