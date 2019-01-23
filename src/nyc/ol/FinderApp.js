@@ -324,7 +324,7 @@ class FinderApp {
    * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
    */
   showSplash(options) {
-    const input = this.locationMgr.Search.input
+    const input = this.locationMgr.search.input
     if (options) {
       options.buttonText = options.buttonText || ['Continue']
       new Dialog('splash').ok(options).then(() => {
@@ -409,7 +409,7 @@ class FinderApp {
     if (this.facilitySearch) {
       const options = typeof this.facilitySearch === 'object' ? this.facilitySearch : {}
       options.features = features
-      this.locationMgr.Search.setFeatures(options)
+      this.locationMgr.search.setFeatures(options)
     }
     this.pager.reset(features)
     nyc.ready($('body'))
