@@ -1,6 +1,6 @@
-import ZoomSearch from 'nyc/Zoom';
-import Container from 'nyc/Container';
-import AutoComplete from 'nyc/AutoComplete';
+import ZoomSearch from 'nyc/Zoom'
+import Container from 'nyc/Container'
+import AutoComplete from 'nyc/AutoComplete'
 
 test('FIX ME', () => {})
 /*

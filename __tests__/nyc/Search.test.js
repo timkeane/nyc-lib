@@ -1,6 +1,6 @@
-import Search from 'nyc/Search';
-import Container from 'nyc/Container';
-import AutoComplete from 'nyc/AutoComplete';
+import Search from 'nyc/Search'
+import Container from 'nyc/Container'
+import AutoComplete from 'nyc/AutoComplete'
 
 test('FIX ME', () => {})
 
