@@ -1,15 +1,12 @@
 import LocationMgr from 'nyc/LocationMgr'
 import EventHandling from 'nyc/EventHandling'
 import Zoom from 'nyc/Zoom'
-import ZoomGeolocate from 'nyc/Geolocate'
+import Geolocate from 'nyc/Geolocate'
 import Search from 'nyc/Search'
 import Locator from 'nyc/Locator'
 import MapLocator from 'nyc/MapLocator'
 import Geocoder from 'nyc/Geocoder'
 
-test('FIX ME', () => {})
-
-/*
 let container
 let options
 beforeEach(() => {
@@ -17,7 +14,9 @@ beforeEach(() => {
   $('body').append(container)
 
   options = {
-    zoomSearch: new ZoomSearch(container),
+    zoom: new Zoom(container),
+    geolocate: new Geolocate(container),
+    search: new Search(container),
     locator: new Locator({geocoder: new Geocoder()}),
     mapLocator: new MapLocator()
   }
@@ -42,13 +41,15 @@ describe('constructor tests', () => {
   })
 
   test('constructor not autoLocate', () => {
-    expect.assertions(9)
+    expect.assertions(11)
 
     const locationMgr = new LocationMgr(options)
     expect(locationMgr instanceof LocationMgr).toBe(true)
     expect(locationMgr instanceof EventHandling).toBe(true)
 
-    expect(locationMgr.zoomSearch).toBe(options.zoomSearch)
+    expect(locationMgr.zoom).toBe(options.zoom)
+    expect(locationMgr.geolocate).toBe(options.geolocate)
+    expect(locationMgr.search).toBe(options.search)
     expect(locationMgr.locator).toBe(options.locator)
     expect(locationMgr.mapLocator).toBe(options.mapLocator)
     expect(locationMgr.autoLocate).toBe(false)
@@ -59,7 +60,7 @@ describe('constructor tests', () => {
   })
 
   test('constructor autoLocate', () => {
-    expect.assertions(8)
+    expect.assertions(10)
 
     const locateFromQueryString = LocationMgr.prototype.locateFromQueryString
     LocationMgr.prototype.locateFromQueryString = jest.fn()
@@ -72,7 +73,9 @@ describe('constructor tests', () => {
     expect(locationMgr instanceof LocationMgr).toBe(true)
     expect(locationMgr instanceof EventHandling).toBe(true)
 
-    expect(locationMgr.zoomSearch).toBe(options.zoomSearch)
+    expect(locationMgr.zoom).toBe(options.zoom)
+    expect(locationMgr.geolocate).toBe(options.geolocate)
+    expect(locationMgr.search).toBe(options.search)
     expect(locationMgr.locator).toBe(options.locator)
     expect(locationMgr.mapLocator).toBe(options.mapLocator)
     expect(locationMgr.autoLocate).toBe(true)
@@ -136,15 +139,15 @@ describe('hookupEvents', () => {
     expect(LocationMgr.prototype.error).toHaveBeenCalledTimes(1)
     expect(LocationMgr.prototype.error.mock.calls[0][0]).toBe('mock-error-event')
 
-    options.zoomSearch.trigger('disambiguated', 'mock-disambiguated-event')
+    options.search.trigger('disambiguated', 'mock-disambiguated-event')
     expect(LocationMgr.prototype.located).toHaveBeenCalledTimes(3)
     expect(LocationMgr.prototype.located.mock.calls[2][0]).toBe('mock-disambiguated-event')
 
-    options.zoomSearch.trigger('search', 'mock-search-event')
+    options.search.trigger('search', 'mock-search-event')
     expect(options.locator.search).toHaveBeenCalledTimes(1)
     expect(options.locator.search.mock.calls[0][0]).toBe('mock-search-event')
 
-    options.zoomSearch.trigger('geolocate', 'mock-geolocate-event')
+    options.geolocate.trigger('geolocate', 'mock-geolocate-event')
     expect(options.locator.locate).toHaveBeenCalledTimes(1)
     expect(options.locator.locate.mock.calls[0][0]).toBe('mock-geolocate-event')
   })
@@ -225,13 +228,13 @@ test('located GEOCODE', () => {
 
   locationMgr.located(data)
 
-  expect(locationMgr.zoomSearch.val()).toBe('a name')
+  expect(locationMgr.search.val()).toBe('a name')
   expect(handler).toHaveBeenCalledTimes(1)
   expect(handler.mock.calls[0][0]).toBe(data)
 })
 
 test('located GEOLOCATION', () => {
-  expect.assertions(3)
+  expect.assertions(4)
 
   const handler = jest.fn()
 
@@ -240,6 +243,9 @@ test('located GEOLOCATION', () => {
   }
 
   const locationMgr = new LocationMgr(options)
+
+  locationMgr.search.val('something')
+  expect(locationMgr.search.val()).toBe('something')
 
   const data = {
     type: 'geolocated',
@@ -250,7 +256,7 @@ test('located GEOLOCATION', () => {
 
   locationMgr.located(data)
 
-  expect(locationMgr.zoomSearch.val()).toBe('')
+  expect(locationMgr.search.val()).toBe('')
   expect(handler).toHaveBeenCalledTimes(1)
   expect(handler.mock.calls[0][0]).toBe(data)
 })
@@ -259,7 +265,7 @@ test('ambiguous no possible', () => {
   expect.assertions(3)
 
   const data = {possible: []}
-  options.zoomSearch.disambiguate = jest.fn()
+  options.search.disambiguate = jest.fn()
 
   const locationMgr = new LocationMgr(options)
 
@@ -267,7 +273,7 @@ test('ambiguous no possible', () => {
 
   locationMgr.ambiguous(data)
 
-  expect(options.zoomSearch.disambiguate).toHaveBeenCalledTimes(0)
+  expect(options.search.disambiguate).toHaveBeenCalledTimes(0)
   expect(locationMgr.dialog.ok).toHaveBeenCalledTimes(1)
   expect(locationMgr.dialog.ok.mock.calls[0][0].message).toBe('The location you entered was not understood')
 })
@@ -276,7 +282,7 @@ test('ambiguous has possible', () => {
   expect.assertions(3)
 
   const data = {possible: ['mock-reuslt']}
-  options.zoomSearch.disambiguate = jest.fn()
+  options.search.disambiguate = jest.fn()
 
   const locationMgr = new LocationMgr(options)
 
@@ -284,10 +290,11 @@ test('ambiguous has possible', () => {
 
   locationMgr.ambiguous(data)
 
-  expect(options.zoomSearch.disambiguate).toHaveBeenCalledTimes(1)
-  expect(options.zoomSearch.disambiguate.mock.calls[0][0]).toBe(data)
+  expect(options.search.disambiguate).toHaveBeenCalledTimes(1)
+  expect(options.search.disambiguate.mock.calls[0][0]).toBe(data)
   expect(locationMgr.dialog.ok).toHaveBeenCalledTimes(0)
 })
+/*
 
 test('error', () => {
   expect.assertions(2)
