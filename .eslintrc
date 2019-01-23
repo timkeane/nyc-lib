@@ -17,8 +17,7 @@
         "no-plusplus" : ["error", {
             "allowForLoopAfterthoughts": true
         }],
-        "camelcase": 0,
-        "linebreak-style": ["error", "windows"]
+        "camelcase": 0
     },
     "settings": {
         "import/resolver": {
