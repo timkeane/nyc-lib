@@ -2,6 +2,7 @@
  * @module nyc/ol/LocationMgr
  */
 
+import $ from 'jquery'
 import NycLocationMgr from 'nyc/LocationMgr'
 import NycGeoclient from 'nyc/Geoclient'
 import NycOlLocator from 'nyc/ol/Locator'
