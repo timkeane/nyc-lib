@@ -34,7 +34,7 @@ class LocationMgr extends NycLocationMgr {
     } else {
       searchTarget = $(map.getTargetElement()).find('.ol-overlaycontainer-stopevent')
     }
-    
+  
     super({
       zoom: new NycOlZoom(map),
       geolocate: new NycOlGeolocate(map),

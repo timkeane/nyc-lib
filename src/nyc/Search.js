@@ -335,13 +335,13 @@ Search.FeatureSearchOptions
  * @const
  * @type {string}
  */
-Search.HTML = '<div class="srch-ctr">' + 
+Search.HTML = '<div class="srch-ctr">' +
   '<div class="srch" role="search">' +
     '<input class="rad-all" placeholder="Search for an address...">' +
     '<button class="btn-rnd btn-x"><span class="screen-reader-only">Clear</span></button>' +
     '<ul class="rad-all" role="region" label="Possible matches for your search"></ul>' +
     '<ul class="retention"></ul>' +
-  '</div>'  +
-'</div>' 
+  '</div>' +
+'</div>'
 
 export default Search
