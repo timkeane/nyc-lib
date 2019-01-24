@@ -1,4 +1,11 @@
+html, body, body * {
+	font-size: 16px;
+	font-family: var(--font-family);
+	color: var(--color-dark);
+}
+
 @import "base.theme.css";
+@import "base.icons.css";
 @import "base.css";
 
 @import "dialog.css";
