@@ -56,9 +56,6 @@ const format = new CsvPoint({})
 const style = new OlStyleStyle({})
 const filterChoiceOptions = []
 
-test('FIX ME', () => {})
-
-/*
 beforeEach(() => {
   $.resetMocks()
   Dialog.mockClear()
@@ -346,14 +343,14 @@ test('showSplash', () => {
     geoclientUrl: 'http://geoclient'
   })
 
-  finderApp.locationMgr.zoomSearch.input.focus.mockReset()
+  finderApp.locationMgr.search.input.focus.mockReset()
   $('#tabs').attr('aria-hidden', true)
 
   const test = async () => {
     return new Promise(resolve => {
       setTimeout(() => {
         expect($('#tabs').attr('aria-hidden')).toBe('false')
-        expect(finderApp.locationMgr.zoomSearch.input.focus).toHaveBeenCalledTimes(1)
+        expect(finderApp.locationMgr.search.input.focus).toHaveBeenCalledTimes(1)
         resolve(true)
       }, 500)
     })
@@ -929,7 +926,7 @@ describe('ready', () => {
     expect(finderApp.pager.reset).toHaveBeenCalledTimes(1)
     expect(finderApp.pager.reset.mock.calls[0][0]).toBe('mock-features')
 
-    expect(finderApp.locationMgr.zoomSearch.setFeatures).toHaveBeenCalledTimes(0)
+    expect(finderApp.locationMgr.search.setFeatures).toHaveBeenCalledTimes(0)
 
     expect(nyc.ready).toHaveBeenCalledTimes(1)
     expect(nyc.ready.mock.calls[0][0].get(0)).toBe(document.body)
@@ -958,8 +955,8 @@ describe('ready', () => {
     expect(finderApp.pager.reset).toHaveBeenCalledTimes(1)
     expect(finderApp.pager.reset.mock.calls[0][0]).toBe('mock-features')
 
-    expect(finderApp.locationMgr.zoomSearch.setFeatures).toHaveBeenCalledTimes(1)
-    expect(finderApp.locationMgr.zoomSearch.setFeatures.mock.calls[0][0]).toEqual({features: 'mock-features'})
+    expect(finderApp.locationMgr.search.setFeatures).toHaveBeenCalledTimes(1)
+    expect(finderApp.locationMgr.search.setFeatures.mock.calls[0][0]).toEqual({features: 'mock-features'})
 
     expect(nyc.ready).toHaveBeenCalledTimes(1)
     expect(nyc.ready.mock.calls[0][0].get(0)).toBe(document.body)
@@ -987,9 +984,9 @@ describe('ready', () => {
     expect(finderApp.pager.reset).toHaveBeenCalledTimes(1)
     expect(finderApp.pager.reset.mock.calls[0][0]).toBe('mock-features')
 
-    expect(finderApp.locationMgr.zoomSearch.setFeatures).toHaveBeenCalledTimes(1)
-    expect(finderApp.locationMgr.zoomSearch.setFeatures.mock.calls[0][0]).toBe(finderApp.facilitySearch)
-    expect(finderApp.locationMgr.zoomSearch.setFeatures.mock.calls[0][0].features).toBe('mock-features')
+    expect(finderApp.locationMgr.search.setFeatures).toHaveBeenCalledTimes(1)
+    expect(finderApp.locationMgr.search.setFeatures.mock.calls[0][0]).toBe(finderApp.facilitySearch)
+    expect(finderApp.locationMgr.search.setFeatures.mock.calls[0][0].features).toBe('mock-features')
 
     expect(nyc.ready).toHaveBeenCalledTimes(1)
     expect(nyc.ready.mock.calls[0][0].get(0)).toBe(document.body)
@@ -1311,4 +1308,4 @@ describe('FEATURE_DECORATIONS', () => {
 
     expect(finderApp.tabs.open).toHaveBeenCalledTimes(1)
     expect(finderApp.tabs.open.mock.calls[0][0]).toBe('#facilities')
-  })*/
+  })
