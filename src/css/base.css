@@ -1,3 +1,8 @@
+html, body, body * {
+	font-size: 16px;
+	font-family: var(--font-family);
+	color: var(--color-dark);
+}
 *:focus, .focused {
 	outline: 0;
 	box-shadow: 0px 1px 7px 3px var(--focus-ring-color);
@@ -15,28 +20,18 @@
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }
-*.screen-reader-only {
-	position: absolute !important;
-	left:-1000px !important;
-	top: auto !important;
-	width: 1px !important;
-	height: 1px !important;
-	overflow: hidden !important;
-	border: none !important;
-	color: transparent !important;
-	background-color: transparent !important;
-}
-.btn, .btn-sq, .btn-rnd {
+.btn, .btn-sq, .btn-rnd, .btn.btn-sq, .btn.btn-rnd {
 	background-repeat: no-repeat;
 	cursor: pointer;
 	font-weight: bold;
-	background-position: center;
 	padding: 0;
+	text-align: center;
 }
 .btn {
 	background-position: 3px center;
-	padding: 0;
-	text-align: center;
+}
+.btn-sq, .btn-rnd, .btn.btn-sq, .btn.btn-rnd {
+	background-position: center;	
 }
 .btn, .btn-sq {
 	background-size: 28px;

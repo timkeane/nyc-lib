@@ -6,6 +6,7 @@
 }
 .btn-z-in, .btn-z-out {
 	background-size: 19px;
+	position: absolute;
 }
 .btn-z-in {
 	left: 0;
@@ -16,8 +17,8 @@
 	top: 37px;
 }
 .btn-z-in {
-	background-image: var(--zoom-in-icon-light);
+	background-image: var(--zoom-in-icon-light, none);
 }
 .btn-z-out {
-	background-image: var(--zoom-out-icon-light);
+	background-image: var(--zoom-out-icon-light, none);
 }

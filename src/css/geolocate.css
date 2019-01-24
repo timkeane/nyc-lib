@@ -5,10 +5,9 @@
 	right: 0;
 }
 .btn-geo {
+	position: absolute;
   left: 0;
   top: 74px;
-}
-.btn-geo {
-	background-image: var(--geo-icon-light);
+	background-image: var(--geo-icon-light, none);
   background-size: 25px;
 }
