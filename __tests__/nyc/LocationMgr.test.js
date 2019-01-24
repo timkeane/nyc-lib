@@ -294,7 +294,6 @@ test('ambiguous has possible', () => {
   expect(options.search.disambiguate.mock.calls[0][0]).toBe(data)
   expect(locationMgr.dialog.ok).toHaveBeenCalledTimes(0)
 })
-/*
 
 test('error', () => {
   expect.assertions(2)
@@ -308,4 +307,3 @@ test('error', () => {
   expect(locationMgr.dialog.ok).toHaveBeenCalledTimes(1)
   expect(locationMgr.dialog.ok.mock.calls[0][0].message).toBe('Failed to contact geocoder')
 })
-*/
