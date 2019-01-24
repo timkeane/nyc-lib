@@ -1,11 +1,5 @@
-import OlPolygon from 'ol/geom/Polygon'
-import {getCenter as olExtentGetCenter} from 'ol/extent'
-import OlGeoJSON from 'ol/format/GeoJSON'
-import OlFeature from 'ol/Feature'
-
 import NycZoom from 'nyc/Zoom'
 import Zoom from 'nyc/ol/Zoom'
-import NycLocator from 'nyc/Locator'
 
 class MockView {
   constructor(options) {
