@@ -54,7 +54,7 @@ h2.btn, h3.btn, a.btn, div.btn {
 	background-color: var(--color-dark-translucent);
 	color: var(--color-light);
 }
-.btn-sq {
+.btn-sq, .btn.btn-sq {
 	position: absolute;
 	width: 35px;
 	height: 35px;
@@ -68,7 +68,7 @@ h2.btn, h3.btn, a.btn, div.btn {
 	background-color: var(--color-dark);
 	color: var(--color-light);
 }
-.btn-rnd {
+.btn-rnd, .btn.btn-rnd {
 	width: 24px;
 	height: 24px;
 	background-size: 14px;

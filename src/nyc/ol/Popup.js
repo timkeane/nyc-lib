@@ -174,7 +174,7 @@ Popup.Options
  */
 Popup.HTML = '<div class="pop">' +
   '<div class="content"></div>' +
-  '<button class="btn-rnd btn-x"><span class="screen-reader-only">Dismiss popup</span></button>' +
+  '<button class="btn btn-rnd btn-x"><span class="screen-reader-only">Dismiss popup</span></button>' +
 '</div>'
 
 /**
@@ -182,7 +182,7 @@ Popup.HTML = '<div class="pop">' +
  * @const {string}
  */
 Popup.FULLSCREEN_HTML = '<div class="pop fullscreen">' +
-  '<button class="btn-rnd btn-x"><span class="screen-reader-only">Close</span></button>' +
+  '<button class="btn btn-rnd btn-x"><span class="screen-reader-only">Close</span></button>' +
 '</div>'
 
 export default Popup
