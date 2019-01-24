@@ -7,9 +7,6 @@ import NycZoom from 'nyc/Zoom'
 import Zoom from 'nyc/ol/Zoom'
 import NycLocator from 'nyc/Locator'
 
-test('FIX ME', () => {})
-
-/*
 class MockView {
   constructor(options) {
     this.zoom = options.zoom
@@ -35,94 +32,40 @@ class MockMap {
 
 let target
 let mockMap
+let tip
+
 beforeEach(() => {
   target = $('<div></div>')
   $('body').append(target)
   mockMap = new MockMap({target: target})
+  tip = $('<div class="f-tip"></div>')
+  $('body').append(tip)
 })
 
 afterEach(() => {
   target.remove()
+  tip.remove()
 })
 
 test('constructor', () => {
   expect.assertions(8)
   
-  const tip = $('<div class="f-tip"></div>')
-  $('body').append(tip)
+  const zoom = new Zoom(mockMap)
+
+  expect(zoom instanceof Zoom).toBe(true)
+  expect(zoom instanceof NycZoom).toBe(true)
+  expect(zoom.map).toBe(mockMap)
+  expect(zoom.view instanceof MockView).toBe(true)
+  expect(zoom.view).toBe(mockMap.getView())
+
+  expect(zoom.getContainer().hasClass('zoom')).toBe(true)
+
   tip.show()
+  expect(tip.css('display')).toBe('block')
 
-  const zoomSearch = new ZoomSearch(mockMap)
-
-  expect(zoomSearch instanceof ZoomSearch).toBe(true)
-  expect(zoomSearch instanceof NycZoomSearch).toBe(true)
-  expect(zoomSearch.map).toBe(mockMap)
-  expect(zoomSearch.view instanceof MockView).toBe(true)
-  expect(zoomSearch.view).toBe(mockMap.getView())
-  expect(zoomSearch.geoJson instanceof OlGeoJSON).toBe(true)
-
-  expect(zoomSearch.getContainer().hasClass('z-srch')).toBe(true)
-
-  zoomSearch.getContainer().trigger('click')
+  zoom.getContainer().trigger('click')
 
   expect(tip.css('display')).toBe('none')
-
-  tip.remove()
-})
-
-test('featureAsLocation', () => {
-  expect.assertions(1)
-
-  const options = {
-    nameField: 'NAME'
-  }
-  const geom = new OlPolygon([[0,0], [0,2], [2,2], [2,0], [0,0]])
-  const feature = new OlFeature({
-    geometry: geom,
-    NAME: 'a name',
-    foo: 'bar'
-  })
-
-  const zoomSearch = new ZoomSearch(mockMap)
-
-  const result = zoomSearch.featureAsLocation(feature, options)
-
-  expect(result).toEqual({
-    name: 'a name',
-    coordinate: olExtentGetCenter(geom.getExtent()),
-    geometry: JSON.parse(zoomSearch.geoJson.writeGeometry(geom)),
-    data: feature.getProperties(),
-    type: 'geocoded',
-    accuracy: NycLocator.Accuracy.HIGH
-  })
-})
-
-test('featureAsLocation feature has getName', () => {
-  expect.assertions(1)
-
-  const options = {}
-  const geom = new OlPolygon([[0,0], [0,2], [2,2], [2,0], [0,0]])
-  const feature = new OlFeature({
-    geometry: geom,
-    foo: 'bar'
-  })
-
-  feature.getName = () => {
-    return 'a name'
-  }
-
-  const zoomSearch = new ZoomSearch(mockMap)
-
-  const result = zoomSearch.featureAsLocation(feature, options)
-
-  expect(result).toEqual({
-    name: 'a name',
-    coordinate: olExtentGetCenter(geom.getExtent()),
-    geometry: JSON.parse(zoomSearch.geoJson.writeGeometry(geom)),
-    data: feature.getProperties(),
-    type: 'geocoded',
-    accuracy: NycLocator.Accuracy.HIGH
-  })
 })
 
 test('zoom', () => {
@@ -131,23 +74,22 @@ test('zoom', () => {
   const mockView = mockMap.getView()
   mockView.animate = jest.fn()
 
-  const zoomSearch = new ZoomSearch(mockMap)
+  const zoom = new Zoom(mockMap)
 
   const event = {
     target: $('.btn-z-in').get(0)
   }
 
-  zoomSearch.zoom(event)
+  zoom.zoom(event)
 
   expect(mockView.getZoom()).toBe(11)
   expect(mockView.animate).toHaveBeenCalledTimes(1)
   expect(mockView.animate.mock.calls[0][0].zoom).toBe(12)
 
-  event.target = zoomSearch.getContainer().find('.btn-z-out').get(0)
+  event.target = zoom.getContainer().find('.btn-z-out').get(0)
 
-  zoomSearch.zoom(event)
+  zoom.zoom(event)
 
   expect(mockView.animate).toHaveBeenCalledTimes(2)
   expect(mockView.animate.mock.calls[1][0].zoom).toBe(10)
 })
-*/
