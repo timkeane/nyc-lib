@@ -16,10 +16,10 @@
   width: 24px;
   height: 24px;
   background-size: 14px;
-  background-image: var(--up-icon-light);
+  background-image: var(--up-icon-light, none);
   background-repeat: no-repeat;
   background-position: center;
-  background-color: var(--color-dark-translucent);
+  background-color: var(--color-dark-translucent, none);
   float: left;
   margin: -3px 3px;
 }

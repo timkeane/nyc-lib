@@ -5,7 +5,7 @@
 	height: 35px;
 }
 .btn-shr {
-	background-image: var(--share-icon-light);
+	background-image: var(--share-icon-light, none);
 }
 .btn-shr, .shr .btns a {
 	width: 33px;
@@ -22,20 +22,20 @@
 	margin: 0 3px 0 0;
 }
 .shr .btns .facebook {
-	background-image: var(--facebook-icon-light);
+	background-image: var(--facebook-icon-light, none);
 }
 .shr .btns .twitter {
-	background-image: var(--twitter-icon-light);
+	background-image: var(--twitter-icon-light, none);
 }
 .shr .btns .google {
-	background-image: var(--google-icon-light);
+	background-image: var(--google-icon-light, none);
 }
 .shr .btns .linkedin {
-	background-image: var(--linkedin-icon-light);
+	background-image: var(--linkedin-icon-light, none);
 }
 .shr .btns .tumblr {
-	background-image: var(--tumblr-icon-light);
+	background-image: var(--tumblr-icon-light, none);
 }
 .shr .btns .email {
-	background-image: var(--email-icon-light);
+	background-image: var(--email-icon-light, none);
 }

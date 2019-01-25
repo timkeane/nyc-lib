@@ -72,43 +72,16 @@ h2.btn, h3.btn, a.btn, div.btn {
 	outline: 0;
 }
 .btn-x {
-	background-image: var(--x-icon-light);
+	background-image: var(--x-icon-light, none);
+	border-radius: 50%;
 }
 .btn-prv {
-	background-image: var(--left-icon-light);
+	background-image: var(--left-icon-light, none);
 }
 .btn-nxt {
-	background-image: var(--right-icon-light);
+	background-image: var(--right-icon-light, none);
 }
 input {
 	height: 33px;
 	padding: 0 3px;
-}
-.nyc-html {
-	display: table;
-	border: 1px solid var(--color-border);
-	border-radius: var(--border-radius);
-}
-.nyc-html div {
-	display: table-row;
-}
-.nyc-html div span {
-	font-size: 14px;
-	display: table-cell;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	border-bottom: 1px solid var(--color-border);
-	padding: 0 3px;
-	overflow-wrap: break-word;
-  word-wrap: break-word;
-  -ms-word-break: break-all;
-  word-break: break-all;
-  word-break: break-word;
-}
-.nyc-html div:last-of-type span {
-	border-bottom: none;
-}
-.nyc-html .fld {
-	font-weight: bold;
-	border-right: 1px solid var(--color-border);
 }

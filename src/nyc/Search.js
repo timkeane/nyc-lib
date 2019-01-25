@@ -25,17 +25,30 @@ class Search extends Container {
    */
   constructor(target) {
     super($(Search.HTML))
+    let input
+    target = $(target).get(0)
+    if (target.tagName === 'INPUT') {
+      input = target
+      target = $('<div class="map-srch"></div>')
+      target.insertAfter(input)
+    }
     $(target).append(this.getContainer())
-    /**
-     * @private
-     * @member {boolean}
-     */
-    this.isAddrSrch = true
     /**
      * @private
      * @member {jQuery}
      */
     this.input = this.find('input')
+    if (input) {
+      this.input.attr('id', $(input).attr('id'))
+        .attr('placeholder', $(input).attr('placeholder'))
+        .addClass($(input).attr('class'))
+      $(input).remove()
+    }
+    /**
+     * @private
+     * @member {boolean}
+     */
+    this.isAddrSrch = true
     /**
      * @private
      * @member {jQuery}
@@ -338,7 +351,10 @@ Search.FeatureSearchOptions
 Search.HTML = '<div class="srch-ctr">' +
   '<div class="srch" role="search">' +
     '<input class="rad-all" placeholder="Search for an address...">' +
-    '<button class="btn-rnd btn-x"><span class="screen-reader-only">Clear</span></button>' +
+    '<button class="btn btn-rnd btn-x">' +
+      '<span class="screen-reader-only">Clear</span>' +
+      '<span class="fas fa-times" role="img"></span>' +
+      '</button>' +
     '<ul class="rad-all" role="region" label="Possible matches for your search"></ul>' +
     '<ul class="retention"></ul>' +
   '</div>' +

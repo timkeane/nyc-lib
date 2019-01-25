@@ -8,7 +8,7 @@
 	padding-right: 35px;
 	width: 200px;
 	background-position: 3px center;
-	background-image: var(--translate-icon-light);
+	background-image: var(--translate-icon-light, none);
 }
 #lng div.btn-sq:after {
 	content: " ";
@@ -22,10 +22,10 @@
     background-repeat: no-repeat;
     background-size: 14px;
     background-position: center;
-    background-image: var(--down-icon-medium);
+    background-image: var(--down-icon-medium, none);
 }
 #lng div.btn-sq:hover:after {
-	background-image: var(--down-icon-dark);
+	background-image: var(--down-icon-dark, none);
 }
 #lng.button div.btn-sq:after {
 	display: none;

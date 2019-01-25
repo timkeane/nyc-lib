@@ -50,11 +50,11 @@
 	background-repeat: no-repeat;
 	background-position: center;
 	background-color: var(--color-dark-translucent);
-	background-image: var(--left-icon-light);
+	background-image: var(--left-icon-light, none);
 }
 #back-to-map.btn:hover:before {
 	background-color: var(--color-light);
-	background-image: var(--left-icon-dark);
+	background-image: var(--left-icon-dark, none);
 	border-color: transparent;
 }
 #directions .tabs {
@@ -85,20 +85,20 @@
 	background-color: var(--color-dark);
 }
 #car {
-	background-image: var(--car-icon-light);
+	background-image: var(--car-icon-light, none);
 }
 #transit {
-	background-image: var(--train-icon-light);
+	background-image: var(--train-icon-light, none);
 }
 #walk {
-	background-image: var(--walk-icon-light);
+	background-image: var(--walk-icon-light, none);
 }
 #bike {
-	background-image: var(--bike-icon-light);
+	background-image: var(--bike-icon-light, none);
 }
 #mta {
 	width: 139px;
-	background-image: var(--mta-icon-light);
+	background-image: var(--mta-icon-light, none);
 	background-position: 1px 3px;
 	padding-left: 27px;
 	background-size: 26px;
@@ -174,7 +174,7 @@ div.route .warnbox-content, div.route .adp-agencies {
 	height: 22px !important;
 	border-radius: 50% !important;
 	margin: 5px !important;
-	background-image: var(--x-icon-light) !important;
+	background-image: var(--x-icon-light, none) !important;
 	background-repeat: no-repeat !important;
 	background-position: center !important;
 	opacity: .99999 !important;

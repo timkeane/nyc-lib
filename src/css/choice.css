@@ -53,10 +53,10 @@ input[type="radio"]:before {
   border-radius: 50%;
 }
 input[type="checkbox"]:checked:before {
-  background-image: var(--check-icon-dark);
+  background-image: var(--check-icon-dark, none);
   background-size: 13px;
 }
 input[type="radio"]:checked:before {
-  background-image: var(--dot-icon-dark);
+  background-image: var(--dot-icon-dark, none);
   background-size: 9px;
 }

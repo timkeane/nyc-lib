@@ -7,3 +7,5 @@
 @import "zoom.css";
 @import "geolocate.css";
 @import "search.css";
+@import "ol.featuretip.css";
+@import "ol.popup.css";
