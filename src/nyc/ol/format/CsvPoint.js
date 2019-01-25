@@ -10,6 +10,7 @@ import OlFeature from 'ol/Feature'
 import OlFormatFeature from 'ol/format/Feature'
 import OlGeomPoint from 'ol/geom/Point'
 import OlFormatFormatType from 'ol/format/FormatType'
+import StandardCsv from 'nyc/ol/format/StandardCsv'
 
 import {get as olProjGet} from 'ol/proj'
 
@@ -29,6 +30,11 @@ class CsvPoint extends OlFormatFeature {
    */
   constructor(options) {
     super()
+    /**
+     * @private
+     * @member {boolean}
+     */
+    this.autoDetect = options.autoDetect === true
     /**
      * @private
      * @member {ol.Projection}
@@ -95,18 +101,13 @@ class CsvPoint extends OlFormatFeature {
    * @desc Read all features from a source
    * @public
    * @method
-   * @param {Array<Object>} source Rows from a CSV data source
+   * @param {Object} source Rows from a CSV data source
    * @param {olx.format.ReadOptions=} options Read options
    * @return {Array.<ol.Feature>} Features
    */
   readFeatures(source, options) {
     const features = []
-    if (source instanceof ArrayBuffer) {
-      source = new Encoding.TextDecoder('utf-8').decode(source)
-    }
-    if (typeof source === 'string') {
-      source = Papa.parse(source, {header: true}).data
-    }
+    source = this.parseSource(source)
     source.forEach((row) => {
       try {
         features.push(this.readFeature(row, options))
@@ -115,6 +116,43 @@ class CsvPoint extends OlFormatFeature {
       }
     })
     return features
+  }
+  /**
+   * @private
+   * @method
+   * @param {Object} source Rows from a CSV data source
+   * @return {ol.proj.Projection} The projection
+   */
+  parseSource(source) {
+    if (source instanceof ArrayBuffer) {
+      source = new Encoding.TextDecoder('utf-8').decode(source)
+    }
+    if (typeof source === 'string') {
+      source = Papa.parse(source, {header: true}).data
+    }
+    this.detectCsvFormat(source)
+    return source
+  }
+  /**
+   * @desc Detect CSV columns and projection based on standard format
+   * @public
+   * @method
+   * @param {Object<string, Object>} source Parsed CSV data
+   */
+  detectCsvFormat(source) {
+    if (this.autoDetect) {
+      this.id = StandardCsv.ID
+      if (source[0][StandardCsv.X]) {
+        this.x = StandardCsv.X
+        this.y = StandardCsv.Y
+        this.defaultDataProjection = olProjGet('EPSG:2263')
+      } else {
+        this.x = StandardCsv.LNG
+        this.y = StandardCsv.LAT
+        this.defaultDataProjection = olProjGet('EPSG:4326')
+      }
+      console.warn(this)
+    }
   }
   /**
    * @desc Read the projection from a source

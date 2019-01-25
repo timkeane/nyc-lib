@@ -32,11 +32,13 @@ window.nyc.ol.Zoom = _nyc_ol_Zoom
 window.nyc.ol.Geolocate = _nyc_ol_Geolocate
 window.nyc.ol.Search = _nyc_ol_Search
 
+import _nyc_ol_format_StandardCsv from 'nyc/ol/format/StandardCsv'
 import _nyc_ol_format_CsvPoint from 'nyc/ol/format/CsvPoint'
 import _nyc_ol_format_CartoSql from 'nyc/ol/format/CartoSql'
 import _nyc_ol_format_Decorate from 'nyc/ol/format/Decorate'
 
 window.nyc.ol.format = {}
+window.nyc.ol.format.StandardCsv = _nyc_ol_format_StandardCsv
 window.nyc.ol.format.CsvPoint = _nyc_ol_format_CsvPoint
 window.nyc.ol.format.CartoSql = _nyc_ol_format_CartoSql
 window.nyc.ol.format.Decorate = _nyc_ol_format_Decorate
