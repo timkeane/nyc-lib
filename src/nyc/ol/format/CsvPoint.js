@@ -143,8 +143,9 @@ class CsvPoint extends OlFormatFeature {
 * @desc Constructor options for {@link module:nyc/ol/format/CsvPoint~CsvPoint}
 * @public
 * @typedef {Object}
-* @property {string} x The name of the field containing the x ordinate of the point
-* @property {string} y The name of the field containing the y ordinate of the point
+* @property {boolean} [autoDetect=false] Attempt to determine standard column names and projection
+* @property {string=} x The name of the field containing the x ordinate of the point
+* @property {string=} y The name of the field containing the y ordinate of the point
 * @property {string=} id The name of the field containing the unique id of the point
 * @property {ol.ProjectionLike} [defaultDataProjection=EPSG:4326] The projection of the source data
 * @property {ol.ProjectionLike} [defaultFeatureProjection=EPSG:3857] The projection of the resulting features
