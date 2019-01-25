@@ -99,6 +99,7 @@ FrameworkMap.DECORATIONS = {
    * @desc Returns the address line 1 of a facility feature
    * @public
    * @method
+   * @returns {string} The address line 1
    */
   getAddress1() {
     return this.get(StandardCsv.ADDR1)
@@ -107,7 +108,7 @@ FrameworkMap.DECORATIONS = {
    * @desc Returns the address line 2 of a facility feature
    * @public
    * @method
-   * @return {string} The address line 2
+   * @returns {string} The address line 2
    */
   getAddress2() {
     return this.get(StandardCsv.ADDR2) || ''
@@ -116,6 +117,7 @@ FrameworkMap.DECORATIONS = {
    * @desc Returns the city, state zip line of a facility feature
    * @public
    * @method
+   * @returns {string} The city, state and zip
    */
   getCityStateZip() {
     return `${this.get(StandardCsv.CITY)}, ${this.get(StandardCsv.STATE) || ''} ${this.get(StandardCsv.ZIP)}`
@@ -124,6 +126,7 @@ FrameworkMap.DECORATIONS = {
    * @desc Returns the phone number for a facility feature
    * @public
    * @method
+   * @returns {string} The phone number
    */
   getPhone() {
     return this.get(StandardCsv.PHONE) || ''
@@ -132,6 +135,7 @@ FrameworkMap.DECORATIONS = {
    * @desc Returns the email for a facility feature
    * @public
    * @method
+   * @returns {string} The email
    */
   getEmail() {
     return this.get(StandardCsv.EMAIL) || ''
@@ -140,6 +144,7 @@ FrameworkMap.DECORATIONS = {
    * @desc Returns the website URL for a facility feature
    * @public
    * @method
+   * @returns {string} The web site URL
    */
   getWebsite() {
     return this.get(StandardCsv.WEBSITE) || ''
@@ -148,6 +153,7 @@ FrameworkMap.DECORATIONS = {
    * @desc Returns additional details for the facility feature
    * @public
    * @method
+   * @returns {JQuery|Element|string} The detail HTML
    */
   detailsHtml() {
     const detail = this.get(StandardCsv.DETAIL)

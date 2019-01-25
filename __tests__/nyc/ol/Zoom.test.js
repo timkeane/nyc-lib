@@ -71,7 +71,7 @@ test('zoom', () => {
   const zoom = new Zoom(mockMap)
 
   const event = {
-    target: $('.btn-z-in').get(0)
+    currentTarget: $('.btn-z-in').get(0)
   }
 
   zoom.zoom(event)
@@ -80,7 +80,7 @@ test('zoom', () => {
   expect(mockView.animate).toHaveBeenCalledTimes(1)
   expect(mockView.animate.mock.calls[0][0].zoom).toBe(12)
 
-  event.target = zoom.getContainer().find('.btn-z-out').get(0)
+  event.currentTarget = zoom.getContainer().find('.btn-z-out').get(0)
 
   zoom.zoom(event)
 

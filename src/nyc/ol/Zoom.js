@@ -43,7 +43,7 @@ class Zoom extends NycZoom {
    */
   zoom(event) {
     this.view.animate({
-      zoom: this.view.getZoom() + ($(event.target).data('zoom-incr') * 1)
+      zoom: this.view.getZoom() + ($(event.currentTarget).data('zoom-incr') * 1)
     })
   }
 }
