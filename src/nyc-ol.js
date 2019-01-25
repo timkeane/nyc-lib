@@ -2,6 +2,7 @@ import './nyc-index'
 
 import _nyc_ol from 'nyc/ol'
 import _nyc_ol_Basemap from 'nyc/ol/Basemap'
+import _nyc_ol_FrameworkMap from 'nyc/ol/FrameworkMap'
 import _nyc_ol_FeaturePopup from 'nyc/ol/FeaturePopup'
 import _nyc_ol_FeatureTip from 'nyc/ol/FeatureTip'
 import _nyc_ol_Filters from 'nyc/ol/Filters'
@@ -18,6 +19,7 @@ import _nyc_ol_Search from 'nyc/ol/Search'
 
 window.nyc.ol = _nyc_ol
 window.nyc.ol.Basemap = _nyc_ol_Basemap
+window.nyc.ol.FrameworkMap = _nyc_ol_FrameworkMap
 window.nyc.ol.FeaturePopup = _nyc_ol_FeaturePopup
 window.nyc.ol.FeatureTip = _nyc_ol_FeatureTip
 window.nyc.ol.Filters = _nyc_ol_Filters
