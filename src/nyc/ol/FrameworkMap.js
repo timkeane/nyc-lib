@@ -5,6 +5,7 @@
 import $ from 'jquery'
 import StandardCsv from 'nyc/ol/format/StandardCsv'
 import CsvPoint from 'nyc/ol/format/CsvPoint'
+import Decorate from 'nyc/ol/format/Decorate'
 import AutoLoad from 'nyc/ol/source/AutoLoad'
 import Basemap from 'nyc/ol/Basemap'
 import {defaults as interactionDefaults} from 'ol/interaction'
@@ -42,7 +43,7 @@ class FrameworkMap {
     this.data = new AutoLoad({
       url: 'data.csv',
       format: new CsvPoint({autoDetect: true})
-    })    
+    })
     /**
      * @desc The map
      * @public
@@ -59,7 +60,7 @@ class FrameworkMap {
    * @private
    * @method
    * @param {Array<Object<string, Object>>|undefined} decorations
-   * @returns Array<Object<string, Object>>
+   * @returns {Array<Object<string, Object>>}
    */
   getDecorations(decorations) {
     decorations = decorations || []
