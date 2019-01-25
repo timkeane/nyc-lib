@@ -42,7 +42,7 @@ class FrameworkMap {
      * @member {module:nyc/ol/Basemap~Basemap}
      */
     this.map = new Basemap({
-      target: $(options.mapTarget).get(0),
+      target: $(options.mapTarget).get(0)
       // interactions: ol.interaction.defaults({
       //   mouseWheelZoom: options.mouseWheelZoom === true
       // })
