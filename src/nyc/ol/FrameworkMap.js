@@ -8,6 +8,8 @@ import CsvPoint from 'nyc/ol/format/CsvPoint'
 import Decorate from 'nyc/ol/format/Decorate'
 import AutoLoad from 'nyc/ol/source/AutoLoad'
 import Basemap from 'nyc/ol/Basemap'
+import MultiFeaturePopup from 'nyc/ol/MultiFeaturePopup'
+import Layer from 'ol/layer/Vector'
 import {defaults as interactionDefaults} from 'ol/interaction'
 
 /**
@@ -28,7 +30,7 @@ class FrameworkMap {
      * @public
      * @member {module:nyc/ol/format/CsvPoint~CsvPoint}
      */
-    this.data = new AutoLoad({
+    this.source = new AutoLoad({
       url: 'data.csv',
       format: new Decorate({
         decorations: this.getDecorations(options.decorations),
@@ -40,9 +42,8 @@ class FrameworkMap {
      * @public
      * @member {module:nyc/ol/Basemap~Basemap}
      */
-    this.data = new AutoLoad({
-      url: 'data.csv',
-      format: new CsvPoint({autoDetect: true})
+    this.layer = new Layer({
+      source: this.source
     })
     /**
      * @desc The map
@@ -53,14 +54,19 @@ class FrameworkMap {
       target: $(options.mapTarget).get(0),
       interactions: interactionDefaults({
         mouseWheelZoom: options.mouseWheelZoom === true
-      })
+      }),
+      layers: [this.layer]
+    })
+    new MultiFeaturePopup({
+      map: map,
+      layers: [this.layer]
     })
   }
   /**
    * @private
    * @method
-   * @param {Array<Object<string, Object>>|undefined} decorations
-   * @returns {Array<Object<string, Object>>}
+   * @param {Array<Object<string, Object>>|undefined} decorations Optional decorations
+   * @returns {Array<Object<string, Object>>} The combined decorations
    */
   getDecorations(decorations) {
     decorations = decorations || []
@@ -75,6 +81,7 @@ FrameworkMap.DECORATIONS = {
    * @desc Returns the name of a facility feature
    * @public
    * @method
+   * @returns {string} The name
    */
   getName() {
     return this.get(StandardCsv.NAME)
@@ -146,6 +153,7 @@ FrameworkMap.DECORATIONS = {
  * @public
  * @typedef {Object}
  * @property {jQuery|Element|string} mapTarget The DOM target for the map
+ * @property {string} geoclientUrl The geoclient URL
  * @property {jQuery|Element|string=} searchTarget The DOM target for the search box
  * @property {Array<Object<string, Object>>=} decorations Feature decorations
  * @property {boolean} [mouseWheelZoom=false] Allow mouse wheel map zooming
