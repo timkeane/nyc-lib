@@ -8,6 +8,7 @@ import CsvPoint from 'nyc/ol/format/CsvPoint'
 import Decorate from 'nyc/ol/format/Decorate'
 import AutoLoad from 'nyc/ol/source/AutoLoad'
 import Basemap from 'nyc/ol/Basemap'
+import LocationMgr from 'nyc/ol/LocationMgr'
 import MultiFeaturePopup from 'nyc/ol/MultiFeaturePopup'
 import FinderApp from 'nyc/ol/FinderApp'
 import Layer from 'ol/layer/Vector'
@@ -59,6 +60,11 @@ class FrameworkMap {
         mouseWheelZoom: options.mouseWheelZoom === true
       }),
       layers: [this.layer]
+    })
+    new LocationMgr({
+      map: this.map,
+      searchTarget: options.searchTarget,
+      url: options.geoclientUrl
     })
     new MultiFeaturePopup({
       map: this.map,
