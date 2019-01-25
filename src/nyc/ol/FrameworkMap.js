@@ -35,7 +35,7 @@ class FrameworkMap {
      * @member {module:nyc/ol/Basemap~Basemap}
      */
     this.data = new AutoLoad()
-    
+
     /**
      * @desc The Map
      * @public
@@ -43,9 +43,9 @@ class FrameworkMap {
      */
     this.map = new Basemap({
       target: $(options.mapTarget).get(0),
-      interactions: ol.interaction.defaults({
-        mouseWheelZoom: options.mouseWheelZoom === true
-      })
+      // interactions: ol.interaction.defaults({
+      //   mouseWheelZoom: options.mouseWheelZoom === true
+      // })
     })
 
   }
