@@ -9,6 +9,7 @@ import Decorate from 'nyc/ol/format/Decorate'
 import AutoLoad from 'nyc/ol/source/AutoLoad'
 import Basemap from 'nyc/ol/Basemap'
 import MultiFeaturePopup from 'nyc/ol/MultiFeaturePopup'
+import FinderApp from 'nyc/ol/FinderApp'
 import Layer from 'ol/layer/Vector'
 import {defaults as interactionDefaults} from 'ol/interaction'
 
@@ -31,19 +32,21 @@ class FrameworkMap {
      * @member {module:nyc/ol/format/CsvPoint~CsvPoint}
      */
     this.source = new AutoLoad({
-      url: 'data.csv',
+      url: options.csvUrl,
       format: new Decorate({
         decorations: this.getDecorations(options.decorations),
         parentFormat: new CsvPoint({autoDetect: true})
       })
     })
+    this.source.autoLoad()
     /**
      * @desc The layer to display on the map
      * @public
      * @member {module:nyc/ol/Basemap~Basemap}
      */
     this.layer = new Layer({
-      source: this.source
+      source: this.source,
+      zIndex: 1000
     })
     /**
      * @desc The map
@@ -58,7 +61,7 @@ class FrameworkMap {
       layers: [this.layer]
     })
     new MultiFeaturePopup({
-      map: map,
+      map: this.map,
       layers: [this.layer]
     })
   }
@@ -70,7 +73,7 @@ class FrameworkMap {
    */
   getDecorations(decorations) {
     decorations = decorations || []
-    decorations.push(FrameworkMap.FEATURE_DECORATIONS)
+    decorations.push(FinderApp.FEATURE_DECORATIONS)
     decorations.push(FrameworkMap.DECORATIONS)
     return decorations
   }
@@ -154,8 +157,11 @@ FrameworkMap.DECORATIONS = {
  * @typedef {Object}
  * @property {jQuery|Element|string} mapTarget The DOM target for the map
  * @property {string} geoclientUrl The geoclient URL
+ * @property {string} csvUrl The CSV data URL for locations to map
  * @property {jQuery|Element|string=} searchTarget The DOM target for the search box
  * @property {Array<Object<string, Object>>=} decorations Feature decorations
  * @property {boolean} [mouseWheelZoom=false] Allow mouse wheel map zooming
  */
 FrameworkMap.Options
+
+export default FrameworkMap
