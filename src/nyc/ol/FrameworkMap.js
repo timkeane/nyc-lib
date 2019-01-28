@@ -133,10 +133,10 @@ class FrameworkMap {
     return decorations
   }
   listFeatures(features) {
-   if (this.pager) {
-     this.pager.find('.info').removeClass('screen-reader-only')
-     this.pager.reset(features)
-   }
+    if (this.pager) {
+      this.pager.find('.info').removeClass('screen-reader-only')
+      this.pager.reset(features)
+    }
   }
   zoomTo(feature) {
     const popup = this.popup

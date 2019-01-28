@@ -38,11 +38,17 @@ class Search extends Container {
      * @member {jQuery}
      */
     this.input = this.find('input')
+    /**
+     * @private
+     * @member {jQuery}
+     */
+    this.clear = this.find('.btn-x')
     if (input) {
       this.input.attr('id', $(input).attr('id'))
         .attr('placeholder', $(input).attr('placeholder'))
         .addClass($(input).attr('class'))
       $(input).remove()
+      this.clear.remove()
     }
     /**
      * @private
@@ -59,11 +65,6 @@ class Search extends Container {
      * @member {jQuery}
      */
     this.retention = this.find('ul.retention')
-    /**
-     * @private
-     * @member {jQuery}
-     */
-    this.clear = this.find('.btn-x')
     /**
      * @private
      * @member {AutoComplete}
@@ -349,12 +350,13 @@ Search.FeatureSearchOptions
  * @type {string}
  */
 Search.HTML = '<div class="srch-ctr">' +
-  '<div class="srch" role="search">' +
-    '<input class="rad-all" placeholder="Search for an address...">' +
+  '<div class="srch input-group" role="search">' +
+    '<input class="rad-all form-control form-control-lg" placeholder="Search for an address...">' +
     '<button class="btn btn-rnd btn-x">' +
       '<span class="screen-reader-only">Clear</span>' +
       '<span class="fas fa-times" role="img"></span>' +
-      '</button>' +
+    '</button>' +
+    '<button class="btn btn-srch btn-primary btn-lg">Search</button>' +
     '<ul class="rad-all" role="region" label="Possible matches for your search"></ul>' +
     '<ul class="retention"></ul>' +
   '</div>' +
