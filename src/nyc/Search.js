@@ -252,6 +252,7 @@ class Search extends Container {
     input.focus(() => input.select())
     this.clear.click($.proxy(this.clearTxt, this))
     $(document).mouseup($.proxy(this.listClick, this))
+    this.find('.btn-srch').click($.proxy(this.triggerSearch, this))
   }
   /**
    * @private
