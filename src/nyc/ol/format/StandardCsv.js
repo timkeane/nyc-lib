@@ -20,7 +20,7 @@ const csv = {
   ADDR1: 'ADDR1',
   ADDR2: 'ADDR2',
   CITY: 'CITY',
-  CITY: 'BORO',
+  BORO: 'BORO',
   STATE: 'STATE',
   ZIP: 'ZIP',
   PHONE: 'PHONE',
