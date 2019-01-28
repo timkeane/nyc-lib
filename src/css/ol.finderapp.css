@@ -141,9 +141,6 @@ html, body.fnd, .fnd #map {
 .fnd .facility .addr {
   margin-bottom: 3px;
 }
-.fnd .pop button.btn.map {
-  display: none;
-}
 .fnd .pop button.btn.dir {
   display: block;
   width: calc(100% - 3px);

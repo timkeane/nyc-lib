@@ -52,6 +52,10 @@ jest.mock('../../../src/nyc/ol/source/FilterAndSort')
 jest.mock('ol/layer/Vector')
 jest.mock('ol/style/Style')
 
+
+
+test('FIXME!!!', () => {})
+
 const format = new CsvPoint({})
 const style = new OlStyleStyle({})
 const filterChoiceOptions = []
@@ -735,6 +739,7 @@ test('parentFomat', () => {
 })
 
 describe('decorations', () => {
+
   test('decorations none supplied', () => {
     expect.assertions(3)
 
@@ -753,7 +758,7 @@ describe('decorations', () => {
 
     expect(decorations.length).toBe(2)
     expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
-    expect(decorations[1]).toEqual({finderApp: finderApp})
+    expect(decorations[1]).toEqual({app: finderApp})
   })
 
   test('decorations supplied on parentFormat', () => {
@@ -774,12 +779,12 @@ describe('decorations', () => {
       parentFomat: {
         decorations: [{foo: 'bar', bar: 'foo'}]
       }
-  }
+    }
     const decorations = finderApp.decorations({}, decoratedFormat)
 
     expect(decorations.length).toBe(3)
     expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
-    expect(decorations[1]).toEqual({finderApp: finderApp})
+    expect(decorations[1]).toEqual({app: finderApp})
     expect(decorations[2]).toBe(decoratedFormat.parentFomat.decorations[0])
   })
 
@@ -805,7 +810,7 @@ describe('decorations', () => {
 
     expect(decorations.length).toBe(3)
     expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
-    expect(decorations[1]).toEqual({finderApp: finderApp})
+    expect(decorations[1]).toEqual({app: finderApp})
     expect(decorations[2]).toBe(decoratedFormat.decorations[0])
   })
 
@@ -832,7 +837,7 @@ describe('decorations', () => {
 
     expect(decorations.length).toBe(3)
     expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
-    expect(decorations[1]).toEqual({finderApp: finderApp})
+    expect(decorations[1]).toEqual({app: finderApp})
     expect(decorations[2]).toBe(decoratedFormat.parentFomat.decorations[0])
   })
 
@@ -858,7 +863,7 @@ describe('decorations', () => {
 
     expect(decorations.length).toBe(3)
     expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
-    expect(decorations[1]).toEqual({finderApp: finderApp})
+    expect(decorations[1]).toEqual({app: finderApp})
     expect(decorations[2]).toBe(options.decorations[0])
   })
 
@@ -890,7 +895,7 @@ describe('decorations', () => {
 
     expect(decorations.length).toBe(5)
     expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
-    expect(decorations[1]).toEqual({finderApp: finderApp})
+    expect(decorations[1]).toEqual({app: finderApp})
     expect(decorations[2]).toBe(decoratedFormat.parentFomat.decorations[0])
     expect(decorations[3]).toBe(decoratedFormat.decorations[0])
     expect(decorations[4]).toBe(options.decorations[0])
@@ -995,9 +1000,13 @@ describe('ready', () => {
 
 describe('handleButton', () => {
   let target
+  const mockFinder = {}
+  const mockFeature = {app: mockFinder}
   beforeEach(() => {
+    mockFinder.zoomTo = jest.fn()
+    mockFinder.directionsTo = jest.fn()
     target = $('<div></div>')
-    target.data('feature', 'mock-feature')
+    target.data('feature', mockFeature)
     target = target.get(0)
     $('body').append(target)
   })
@@ -1005,36 +1014,31 @@ describe('handleButton', () => {
     $(target).remove()
   })
 
-  test('handleButton map', () => {
+  test('handleButton', () => {
     expect.assertions(6)
     
-    global.finderApp = {
-      zoomTo: jest.fn(),
-      directionsTo: jest.fn()
-    }
-
     $(target).addClass('map')
 
-    FinderApp.handleButton({currentTarget: target})
+    FinderApp.FEATURE_DECORATIONS.handleButton({currentTarget: target})
 
-    expect(global.finderApp.directionsTo).toHaveBeenCalledTimes(0)
-    expect(global.finderApp.zoomTo).toHaveBeenCalledTimes(1)
-    expect(global.finderApp.zoomTo.mock.calls[0][0]).toBe('mock-feature')
+    expect(mockFinder.directionsTo).toHaveBeenCalledTimes(0)
+    expect(mockFinder.zoomTo).toHaveBeenCalledTimes(1)
+    expect(mockFinder.zoomTo.mock.calls[0][0]).toBe(mockFeature)
 
     $(target).removeClass('map')
 
-    FinderApp.handleButton({currentTarget: target})
+    FinderApp.FEATURE_DECORATIONS.handleButton({currentTarget: target})
 
-    expect(global.finderApp.zoomTo).toHaveBeenCalledTimes(1)
-    expect(global.finderApp.directionsTo).toHaveBeenCalledTimes(1)
-    expect(global.finderApp.directionsTo.mock.calls[0][0]).toBe('mock-feature')
+    expect(mockFinder.zoomTo).toHaveBeenCalledTimes(1)
+    expect(mockFinder.directionsTo).toHaveBeenCalledTimes(1)
+    expect(mockFinder.directionsTo.mock.calls[0][0]).toBe(mockFeature)
   })
 })
 
 describe('FEATURE_DECORATIONS', () => {
   let extendedDecorations
   beforeEach(() => {
-    extendedDecorations = {finderApp: {expandDetail: jest.fn()}}
+    extendedDecorations = {app: {expandDetail: jest.fn()}}
     $.extend(extendedDecorations, FinderApp.FEATURE_DECORATIONS, {
       getName() {
         return 'A Name'
@@ -1159,7 +1163,7 @@ describe('FEATURE_DECORATIONS', () => {
     expect(html.length).toBe(1)
     expect(html.data('feature')).toBe(extendedDecorations)
     expect($('<div></div>').append(html).html()).toBe(
-      '<button class="btn rad-all map"><span class="screen-reader-only">Locate this facility on the </span>Map</button>'
+      '<button class="btn rad-all map btn-dark"><span class="screen-reader-only">Locate this facility on the </span>Map</button>'
     )
   })
 
@@ -1169,7 +1173,7 @@ describe('FEATURE_DECORATIONS', () => {
     expect(html.length).toBe(1)
     expect(html.data('feature')).toBe(extendedDecorations)
     expect($('<div></div>').append(html).html()).toBe(
-      '<button class="btn rad-all dir">Directions</button>'
+      '<button class="btn rad-all dir btn-dark">Directions</button>'
     )
   })
 
@@ -1178,7 +1182,7 @@ describe('FEATURE_DECORATIONS', () => {
     const html = extendedDecorations.phoneButton()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a>'
+      '<a class="btn rad-all phone btn-dark" role="button" href="tel:212-867-5309">212-867-5309</a>'
     )
   })
 
@@ -1193,7 +1197,7 @@ describe('FEATURE_DECORATIONS', () => {
     const html = extendedDecorations.emailButton()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a>'
+      '<a class="btn rad-all email btn-dark" role="button" href="mailto:email@email.com">Email</a>'
     )
   })
 
@@ -1208,7 +1212,7 @@ describe('FEATURE_DECORATIONS', () => {
     const html = extendedDecorations.websiteButton()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a>'
+      '<a class="btn rad-all web btn-dark" target="blank" role="button" href="http://website">Website</a>'
     )
   })
 
@@ -1283,7 +1287,7 @@ describe('FEATURE_DECORATIONS', () => {
     const html = extendedDecorations.html()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<div class="facility css-class"><h3 class="name notranslate">A Name</h3><div class="addr"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a><a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a><button class="btn rad-all map"><span class="screen-reader-only">Locate this facility on the </span>Map</button><button class="btn rad-all dir">Directions</button><div class="dtl"><div class="clps rad-all"><button class="btn rad-all" aria-pressed="false" id="clsp-btn-1" aria-controls="clsp-pnl-1">Details</button><div class="content rad-bot" aria-expanded="false" aria-collapsed="true" aria-hidden="true" style="display: none;" id="clsp-pnl-1" aria-labelledby="clsp-btn-1"></div></div></div></div>'
+      '<div class="facility css-class"><h3 class="name notranslate">A Name</h3><div class="addr"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn rad-all phone btn-dark" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn rad-all email btn-dark" role="button" href="mailto:email@email.com">Email</a><a class="btn rad-all web btn-dark" target="blank" role="button" href="http://website">Website</a><button class="btn rad-all map btn-dark"><span class="screen-reader-only">Locate this facility on the </span>Map</button><button class="btn rad-all dir btn-dark">Directions</button><div class="dtl"><div class="clps rad-all"><button class="btn rad-all" aria-pressed="false" id="clsp-btn-1" aria-controls="clsp-pnl-1">Details</button><div class="content rad-bot" aria-expanded="false" aria-collapsed="true" aria-hidden="true" style="display: none;" id="clsp-pnl-1" aria-labelledby="clsp-btn-1"></div></div></div></div>'
     )
   })
 })

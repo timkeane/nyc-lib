@@ -82,7 +82,7 @@ class ItemPager extends Container {
    * @param {jQuery.Event} event Event object
    */
   navigate(event) {
-    const incr = $(event.target).data('incr') - 0;
+    const incr = $(event.currentTarget).data('incr') - 0;
     const idx = this.current.data('current') - 0 + incr;
     if (idx >= 0 && idx < this.items.length) {
       this.current.data('current', idx).html(idx + 1);
@@ -111,9 +111,15 @@ ItemPager.Options
 ItemPager.HTML = '<div class="it-pg">' +
   '<div class="it"></div>' +
   '<div class="btns">' +
-    '<button class="btn-rnd btn-prv" data-incr="-1"><span class="screen-reader-only">Previous</span></button>' +
+    '<button class="btn btn-rnd btn-prv" data-incr="-1">' +
+      '<span class="screen-reader-only">Previous</span>' +
+      '<span class="fas fa-arrow-left" role="img"></span>' +
+      '</button>' +
     '<span class="current"></span> of <span class="total"></span>' +
-    '<button class="btn-rnd btn-nxt" data-incr="1"><span class="screen-reader-only">Next</span></button>' +
+    '<button class="btn btn-rnd btn-nxt" data-incr="1">' +
+      '<span class="screen-reader-only">Next</span>' +
+      '<span class="fas fa-arrow-right" role="img"></span>' +
+      '</button>' +
   '</div>' +
 '</div>'
 

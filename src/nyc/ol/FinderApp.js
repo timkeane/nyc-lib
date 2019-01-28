@@ -386,7 +386,7 @@ class FinderApp {
    * @return {Array<Object<string, fuction>>} Decorations
    */
   decorations(options, format) {
-    let decorations = [FinderApp.FEATURE_DECORATIONS, {finderApp: this}]
+    let decorations = [FinderApp.FEATURE_DECORATIONS, {app: this}]
     if (format.parentFomat && format.parentFomat.decorations) {
       decorations = decorations.concat(format.parentFomat.decorations)
     }
@@ -413,23 +413,6 @@ class FinderApp {
     }
     this.pager.reset(features)
     nyc.ready($('body'))
-  }
-}
-
-/**
- * @desc Handles map and direction button click
- * @public
- * @static
- * @function
- * @param {jQuery.Event} event Event object
- */
-FinderApp.handleButton = (event) => {
-  const target = $(event.currentTarget)
-  const feature = target.data('feature')
-  if (target.hasClass('map')) {
-    global.finderApp.zoomTo(feature)
-  } else {
-    global.finderApp.directionsTo(feature)
   }
 }
 
@@ -563,10 +546,10 @@ FinderApp.FEATURE_DECORATIONS = {
    * @return {jQuery} The map button as jQuery
    */
   mapButton() {
-    return $('<button class="btn rad-all map">Map</button>')
+    return $('<button class="btn rad-all map btn-dark">Map</button>')
       .prepend('<span class="screen-reader-only">Locate this facility on the </span>')
       .data('feature', this)
-      .click(FinderApp.handleButton)
+      .click(this.handleButton)
   },
   /**
    * @desc Returns a button as jQuery that when clicked will provide directions to the facility
@@ -575,9 +558,9 @@ FinderApp.FEATURE_DECORATIONS = {
    * @return {jQuery} The directions button as jQuery
    */
   directionsButton() {
-    return $('<button class="btn rad-all dir">Directions</button>')
+    return $('<button class="btn rad-all dir btn-dark">Directions</button>')
       .data('feature', this)
-      .click(FinderApp.handleButton)
+      .click(this.handleButton)
   },
   /**
    * @desc Returns a button as jQuery that when clicked will call the provided phone number
@@ -588,7 +571,7 @@ FinderApp.FEATURE_DECORATIONS = {
   phoneButton() {
     const phone = this.getPhone()
     if (phone) {
-      return $(`<a class="btn rad-all phone" role="button">${phone}</a>`)
+      return $(`<a class="btn rad-all phone btn-dark" role="button">${phone}</a>`)
         .attr('href', `tel:${phone}`)
     }
   },
@@ -601,7 +584,7 @@ FinderApp.FEATURE_DECORATIONS = {
   emailButton() {
     const email = this.getEmail()
     if (email) {
-      return $('<a class="btn rad-all email" role="button">Email</a>')
+      return $('<a class="btn rad-all email btn-dark" role="button">Email</a>')
         .attr('href', `mailto:${email}`)
     }
   },
@@ -614,7 +597,7 @@ FinderApp.FEATURE_DECORATIONS = {
   websiteButton() {
     const url = this.getWebsite()
     if (url) {
-      return $('<a class="btn rad-all web" target="blank" role="button">Website</a>')
+      return $('<a class="btn rad-all web btn-dark" target="blank" role="button">Website</a>')
         .attr('href', url)
     }
   },
@@ -658,10 +641,26 @@ FinderApp.FEATURE_DECORATIONS = {
         content: details,
         collapsed: true
       })
-      collapsible.on('change', this.finderApp.expandDetail, this.finderApp)
+      collapsible.on('change', this.app.expandDetail, this.app)
       return collapsible.getContainer()
     }
-  }
+  },
+  /**
+   * @desc Handles map and direction button click
+   * @public
+   * @static
+   * @function
+   * @param {jQuery.Event} event Event object
+   */
+  handleButton(event) {
+    const target = $(event.currentTarget)
+    const feature = target.data('feature')
+    if (target.hasClass('map')) {
+      feature.app.zoomTo(feature)
+    } else {
+      feature.app.directionsTo(feature)
+    }
+  }  
 }
 
 /**

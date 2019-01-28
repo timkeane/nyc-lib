@@ -77,6 +77,9 @@
 .pop.fullscreen .btn {
 	margin: 5px 1.5px;
 }
-.fnd .pop .content .facility {
+.pop .content .facility {
 	margin: 5px;
+}
+.pop button.btn.map {
+  display: none;
 }
