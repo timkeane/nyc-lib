@@ -3,156 +3,70 @@
  */
 
 import $ from 'jquery'
-import ListPager from 'nyc/ListPager'
+import MapMgr from 'nyc/ol/MapMgr'
 import StandardCsv from 'nyc/ol/format/StandardCsv'
 import CsvPoint from 'nyc/ol/format/CsvPoint'
-import Decorate from 'nyc/ol/format/Decorate'
-import MapLocator from 'nyc/MapLocator'
-import FilterAndSort from 'nyc/ol/source/FilterAndSort'
-import Basemap from 'nyc/ol/Basemap'
-import LocationMgr from 'nyc/ol/LocationMgr'
-import MultiFeaturePopup from 'nyc/ol/MultiFeaturePopup'
-import FinderApp from 'nyc/ol/FinderApp'
-import FeatureTip from 'nyc/ol/FeatureTip'
-import Layer from 'ol/layer/Vector'
-import {defaults as interactionDefaults} from 'ol/interaction'
+import MouseWheelZoom from 'ol/interaction/MouseWheelZoom'
 
 /**
  * @desc Class that provides an nyc.ol.Basemap with controls and data from CSV
  * @public
  * @class
  */
-class FrameworkMap {
+class FrameworkMap extends MapMgr {
   /**
    * @desc Create an instance of Basemap
    * @public
    * @constructor
-   * @param {module:nyc/ol/FrameworkMap~FrameworkMap.Options} options Constructor options
+   * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
    */
   constructor(options) {
-    const decorations = this.getDecorations(options.decorations)
-    /**
-     * @desc The data to display in the map layer
-     * @public
-     * @member {module:nyc/ol/format/CsvPoint~CsvPoint}
-     */
-    this.source = new FilterAndSort({
-      url: options.csvUrl,
-      format: new Decorate({
-        decorations: decorations,
-        parentFormat: new CsvPoint({autoDetect: true})
-      })
-    })
-    this.source.autoLoad().then($.proxy(this.listFeatures, this))
-    /**
-     * @desc The data to display in the map layer
-     * @public
-     * @member {module:nyc/ol/format/CsvPoint~CsvPoint}
-     */
-    this.pager = options.listTarget ? new ListPager({target: options.listTarget}) : undefined
-    /**
-     * @desc The layer to display on the map
-     * @public
-     * @member {module:nyc/ol/Basemap~Basemap}
-     */
-    this.layer = new Layer({
-      source: this.source,
-      zIndex: 1000
-    })
-    /**
-     * @desc The map
-     * @public
-     * @member {module:nyc/ol/Basemap~Basemap}
-     */
-    this.map = new Basemap({
-      target: $(options.mapTarget).get(0),
-      interactions: interactionDefaults({
-        mouseWheelZoom: options.mouseWheelZoom === true
-      }),
-      layers: [this.layer]
-    })
-    /**
-     * @desc The view
-     * @public
-     * @member {ol.View}
-     */
-    this.view = this.map.getView()
-    /**
-     * @desc The LocationMgr
-     * @public
-     * @member {module:nyc/ol/LocationMgr~LocationMgr}
-     */
-    this.locationMgr = new LocationMgr({
-      map: this.map,
-      searchTarget: options.searchTarget,
-      url: options.geoclientUrl
-    })
-    /**
-     * @desc The popup
-     * @public
-     * @member {module:nyc/ol/MultiFeaturePopup~MultiFeaturePopup}
-     */
-    this.popup = new MultiFeaturePopup({
-      map: this.map,
-      layers: [this.layer]
-    })
-    /**
-     * @private
-     * @member {module:nyc/Locator~Locator.Result}
-     */
-    this.location = {}
-    new FeatureTip({
-      map: this.map,
-      tips: [{
-        layer: this.layer,
-        label: (feature) => {
-          return {html: feature.getName()}
-        }
-      }]
-    })
-    this.locationMgr.on('geocoded', this.located, this)
-    this.locationMgr.on('geolcated', this.located, this)
-  }
-  located(location) {
-    this.location = location
-    if (this.pager) {
-      this.listFeatures(this.source.sort(location.coordinate))
+    if (options.facilitySearch !== false) {
+      options.facilitySearch = {nameField: 'NAME'}
     }
+    super(options)
+    this.pager.find('h2.info.screen-reader-only').removeClass('screen-reader-only')
+    this.checkMouseWheel(options.mouseWheelZoom)
   }
+
+    /**
+   * @desc Crreate the parent format for the source
+   * @public
+   * @override
+   * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
+   * @returns {ol.format.Feature} The parent format
+   */
+  createParentFormat(options) {
+    return new CsvPoint({
+      url: options.facilityUrl,
+      autoDetect: true
+    })
+  }  
   /**
-   * @private
+   * @public
+   * @override
    * @method
-   * @param {Array<Object<string, Object>>|undefined} decorations Optional decorations
+   * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
    * @returns {Array<Object<string, Object>>} The combined decorations
    */
-  getDecorations(decorations) {
-    decorations = decorations || []
+  createDecorations(options) {
+    const decorations = options.decorations || []
     decorations.push({app: this})
-    decorations.push(FinderApp.FEATURE_DECORATIONS)
+    decorations.push(MapMgr.FEATURE_DECORATIONS)
     decorations.push(FrameworkMap.FEATURE_DECORATIONS)
     return decorations
   }
-  listFeatures(features) {
-    if (this.pager) {
-      this.pager.find('.info').removeClass('screen-reader-only')
-      this.pager.reset(features)
+
+  checkMouseWheel(mouseWheelZoom) {
+    if (mouseWheelZoom !== true) {
+      let wheel
+      this.map.getInteractions().forEach(interaction => {
+        if (interaction instanceof MouseWheelZoom) {
+          wheel = interaction
+        }
+      })
+      this.map.removeInteraction(wheel)
     }
-  }
-  zoomTo(feature) {
-    const popup = this.popup
-    popup.hide()
-    this.map.once('moveend', () => {
-      popup.showFeature(feature)
-    })
-    this.view.animate({
-      center: feature.getGeometry().getCoordinates(),
-      zoom: MapLocator.ZOOM_LEVEL
-    })
-  }
-  directionsTo(feature) {
-    const from = encodeURIComponent(this.location.name)
-    const to = encodeURIComponent(feature.getFullAddress())
-    window.open(`https://www.google.com/maps/dir/${from}/${to}`)
   }
 }
 
@@ -191,7 +105,7 @@ FrameworkMap.FEATURE_DECORATIONS = {
    * @returns {string} The city, state and zip
    */
   getCityStateZip() {
-    return `${this.get(StandardCsv.CITY)}, ${this.get(StandardCsv.STATE) || 'NY'} ${this.get(StandardCsv.ZIP)}`
+    return `${this.get(StandardCsv.CITY) || this.get(StandardCsv.BORO)}, ${this.get(StandardCsv.STATE) || 'NY'} ${this.get(StandardCsv.ZIP)}`
   },
   /**
    * @desc Returns the phone number for a facility feature
@@ -240,7 +154,7 @@ FrameworkMap.FEATURE_DECORATIONS = {
  * @typedef {Object}
  * @property {jQuery|Element|string} mapTarget The DOM target for the map
  * @property {string} geoclientUrl The geoclient URL
- * @property {string} csvUrl The CSV data URL for locations to map
+ * @property {string} facilityUrl The CSV data URL for locations to map
  * @property {jQuery|Element|string=} searchTarget The DOM target for the search box
  * @property {jQuery|Element|string=} listTarget The DOM target for the list of locations in the CSV
  * @property {Array<Object<string, Object>>=} decorations Feature decorations

@@ -1,6 +1,6 @@
 {
   "name": "nyc-lib",
-  "version": "1.2.25",
+  "version": "1.2.27",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "pretest": "rm -rf ./dist",
@@ -10,7 +10,7 @@
     "transpl": "rm -rf ./dist && babel src/nyc -d ./dist/nyc --ignore __mocks__",
     "mta-hack": "cp ./src/nyc/mta/mta.html ./dist/nyc/mta/",
     "build": "webpack",
-    "prebuild": "yarn test && yarn postcss",
+    "prebuild": "yarn postcss",
     "prebuild-no-test": "yarn postcss",
     "postbuild": "yarn jsdoc && rm -rf ./tmp",
     "build-no-test": "webpack",
@@ -113,8 +113,6 @@
   },
   "config": {
     "ghooks": {
-      "pre-commit": "yarn test",
-      "pre-push": "yarn build"
     }
   }
 }

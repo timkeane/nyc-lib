@@ -715,10 +715,10 @@ describe('resetList', () => {
   })
 })
 
-test('parentFomat', () => {
+test('parentFormat', () => {
   expect.assertions(2)
 
-  const format = {parentFomat: 'mock-format'}
+  const format = {parentFormat: 'mock-format'}
 
   const finderApp = new FinderApp({
     title: 'Finder App',
@@ -731,11 +731,11 @@ test('parentFomat', () => {
     geoclientUrl: 'http://geoclient'
   })
 
-  expect(finderApp.parentFomat(format)).toBe('mock-format')  
+  expect(finderApp.parentFormat(format)).toBe('mock-format')  
 
-  delete format.parentFomat
+  delete format.parentFormat
 
-  expect(finderApp.parentFomat(format)).toBe(format)  
+  expect(finderApp.parentFormat(format)).toBe(format)  
 })
 
 describe('decorations', () => {
@@ -776,7 +776,7 @@ describe('decorations', () => {
     })
 
     const decoratedFormat = {
-      parentFomat: {
+      parentFormat: {
         decorations: [{foo: 'bar', bar: 'foo'}]
       }
     }
@@ -785,7 +785,7 @@ describe('decorations', () => {
     expect(decorations.length).toBe(3)
     expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
     expect(decorations[1]).toEqual({app: finderApp})
-    expect(decorations[2]).toBe(decoratedFormat.parentFomat.decorations[0])
+    expect(decorations[2]).toBe(decoratedFormat.parentFormat.decorations[0])
   })
 
   test('decorations supplied on format', () => {
@@ -829,7 +829,7 @@ describe('decorations', () => {
     })
 
     const decoratedFormat = {
-      parentFomat: {
+      parentFormat: {
         decorations: [{foo: 'bar', bar: 'foo'}]
       }
   }
@@ -838,7 +838,7 @@ describe('decorations', () => {
     expect(decorations.length).toBe(3)
     expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
     expect(decorations[1]).toEqual({app: finderApp})
-    expect(decorations[2]).toBe(decoratedFormat.parentFomat.decorations[0])
+    expect(decorations[2]).toBe(decoratedFormat.parentFormat.decorations[0])
   })
 
   test('decorations supplied on options', () => {
@@ -885,7 +885,7 @@ describe('decorations', () => {
       decorations: [{foo: 'bar', bar: 'foo'}]
     }
     const decoratedFormat = {
-      parentFomat: {
+      parentFormat: {
         decorations: [{doo: 'fus', wtf: 'lol'}]
       },
       decorations: [{you: 'me', me: 'you'}]
@@ -896,7 +896,7 @@ describe('decorations', () => {
     expect(decorations.length).toBe(5)
     expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
     expect(decorations[1]).toEqual({app: finderApp})
-    expect(decorations[2]).toBe(decoratedFormat.parentFomat.decorations[0])
+    expect(decorations[2]).toBe(decoratedFormat.parentFormat.decorations[0])
     expect(decorations[3]).toBe(decoratedFormat.decorations[0])
     expect(decorations[4]).toBe(options.decorations[0])
   })
