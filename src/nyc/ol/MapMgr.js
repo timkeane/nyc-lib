@@ -14,6 +14,7 @@ import FeatureTip from 'nyc/ol/FeatureTip'
 import Layer from 'ol/layer/Vector'
 import LocationMgr from 'nyc/ol/LocationMgr'
 import MapLocator from 'nyc/MapLocator'
+import MouseWheelZoom from 'ol/interaction/MouseWheelZoom'
 
 const proj4 = nyc.proj4
 
