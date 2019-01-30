@@ -2,7 +2,10 @@
     "parser": "babel-eslint",
     "env": {
         "browser": true,
-        "node": true
+        "node": true,
+        "jest": true,
+        "es6": true,
+        "jquery": true
     },
     "extends": ["openlayers"],
     "rules": {
