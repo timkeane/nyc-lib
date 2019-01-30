@@ -6,7 +6,6 @@ import $ from 'jquery'
 import MapMgr from 'nyc/ol/MapMgr'
 import StandardCsv from 'nyc/ol/format/StandardCsv'
 import CsvPoint from 'nyc/ol/format/CsvPoint'
-import MouseWheelZoom from 'ol/interaction/MouseWheelZoom'
 
 /**
  * @desc Class that provides {@link module:nyc/ol/Basemap~Basemap}, {@link module:nyc/ol/LocationMgr~LocationMgr} and displays facility data from CSV
