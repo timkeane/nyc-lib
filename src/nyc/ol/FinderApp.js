@@ -29,6 +29,7 @@ class FinderApp extends MapMgr {
     $('body').append(FinderApp.HTML).addClass('fnd')
     options.listTarget = '#facilities div'
     options.mapTarget = '#map'
+    options.mouseWheelZoom = options.mouseWheelZoom === undefined ? true : options.mouseWheelZoom
     super(options)
     global.finderApp = this
     const title = $('<div></div>').html(options.title)
@@ -211,7 +212,7 @@ class FinderApp extends MapMgr {
     const input = this.locationMgr.search.input
     if (options) {
       options.buttonText = options.buttonText || ['Continue']
-      new Dialog('splash').ok(options).then(() => {
+      new Dialog({css: 'splash'}).ok(options).then(() => {
         $('#tabs').attr('aria-hidden', false)
         input.focus()
       })

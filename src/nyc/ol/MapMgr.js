@@ -68,11 +68,7 @@ class MapMgr {
      * @public
      * @member {ol.layer.Vector}
      */
-    this.layer = new Layer({
-      source: this.source,
-      style: this.createStyle(options)
-    })
-    this.map.addLayer(this.layer)
+    this.layer = this.createLayer(this.source, this.createStyle(options))
     /**
      * @desc The popup
      * @public
@@ -88,8 +84,6 @@ class MapMgr {
      * @member {module:nyc/ol/LocationMgr~LocationMgr}
      */
     this.locationMgr = this.createLocationMgr(options)
-    this.locationMgr.on('geocoded', this.located, this)
-    this.locationMgr.on('geolocated', this.located, this)
     /**
      * @private
      * @member {module:nyc/Locator~Locator.Result}
@@ -111,7 +105,7 @@ class MapMgr {
     this.checkMouseWheel(options.mouseWheelZoom)
   }
   /**
-   * @desc Crreate the parent format for the source
+   * @desc Create the parent format for the source
    * @public
    * @abstract
    * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
@@ -121,7 +115,7 @@ class MapMgr {
     throw 'must be implemented'
   }
   /**
-   * @desc Crreate the feature decorations
+   * @desc Create the feature decorations
    * @public
    * @abstract
    * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
@@ -129,7 +123,22 @@ class MapMgr {
    */
   createDecorations(options) {
     throw 'must be implemented'
-  }  
+  }
+  /**
+   * @desc Create the leayer
+   * @public
+   * @abstract
+   * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
+   * @returns {Array<Object<string, Object>>} The embellished decorations
+   */
+  createLayer(source, style) {
+    const layer = new Layer({
+      source: source,
+      style: style
+    })
+    this.map.addLayer(layer)    
+    return layer
+  }
   /**
    * @desc Handles geocoded and geolocated events
    * @access protected
@@ -274,12 +283,15 @@ class MapMgr {
    * @returns {module:nyc/ol/LocationMgr~LocationMgr}
    */
   createLocationMgr(options) {
-    return new LocationMgr({
+    const locationMgr = new LocationMgr({
       map: this.map,
       searchTarget: options.searchTarget,
       dialogTarget: options.mapTarget,
       url: options.geoclientUrl
     })  
+    locationMgr.on('geocoded', this.located, this)
+    locationMgr.on('geolocated', this.located, this)
+    return locationMgr
   }
   /**
    * @private

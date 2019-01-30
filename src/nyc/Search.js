@@ -350,7 +350,7 @@ Search.FeatureSearchOptions
  * @const
  * @type {string}
  */
-Search.HTML = '<div class="srch-ctr">' +
+Search.HTML = '<div class="srch-ctl">' +
   '<div class="srch input-group" role="search">' +
     '<input class="rad-all" placeholder="Search for an address...">' +
     '<button class="btn btn-rnd btn-x">' +
@@ -358,9 +358,9 @@ Search.HTML = '<div class="srch-ctr">' +
       '<span class="fas fa-times" role="img"></span>' +
     '</button>' +
     '<button class="btn btn-srch btn-primary btn-lg">Search</button>' +
-    '<ul class="rad-all" role="region" label="Possible matches for your search"></ul>' +
-    '<ul class="retention"></ul>' +
-  '</div>' +
+    '</div>' +
+  '<ul class="rad-all" role="region" label="Possible matches for your search"></ul>' +
+  '<ul class="retention"></ul>' +
 '</div>'
 
 export default Search

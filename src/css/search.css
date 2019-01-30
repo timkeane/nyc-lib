@@ -9,7 +9,7 @@
 	right: 3px;
 	max-width: 400px;
 }
-.ol-overlaycontainer-stopevent .srch input, .srch ul {
+.ol-overlaycontainer-stopevent .srch input, .srch-ctl ul {
 	background-color: var(--color-light-translucent);
 }
 .ol-overlaycontainer-stopevent .srch input {
@@ -21,7 +21,7 @@
 .ol-overlaycontainer-stopevent .btn-srch {
 	display: none;
 }
-.srch ul {
+.srch-ctl ul {
 	display: none;
 	max-height: 300px;
 	padding: 0;
@@ -48,32 +48,32 @@
 	left: calc(100% - 28px);
 	top: 5px;
 }
-.srch ul li {
+.srch-ctl ul li {
 	background-color: var(--color-light-translucent);
 	cursor: pointer;
 	padding: 6px 3px;
 	margin: 0;
 	border-bottom: 1px solid var(--color-border);
 }
-.srch ul li:last-child {
+.srch-ctl ul li:last-child {
 	border-bottom: none;
 }
-.srch ul li:focus {
+.srch-ctl ul li:focus {
 	outline: 0;
 }
-.srch ul li a {
+.srch-ctl ul li a {
 	text-decoration: none;
 	padding: 1px 3px;
 	width: calc(100% - 10px);
 	display: block;
 	margin: -1px 3px;
 }
-.srch ul li:hover {
+.srch-ctl ul li:hover {
 	background-color: var(--color-dark-translucent);
 }
-.srch ul li:hover a, .srch ul li:hover a * {
+.srch-ctl ul li:hover a, .srch-ctl ul li:hover a * {
 	color: var(--color-light);	
 }
-.srch ul.retention {
+.srch-ctl ul.retention {
 	display: none;
 }
