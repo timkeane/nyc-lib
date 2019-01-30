@@ -549,7 +549,7 @@ FinderApp.FEATURE_DECORATIONS = {
    * @return {jQuery} The full address of a facility feature as jQuery
    */
   addressHtml() {
-    const html = $('<div class="addr"></div>')
+    const html = $('<div class="addr notranslate"></div>')
       .append(`<div class="ln1">${this.getAddress1()}</div>`)
     if (this.getAddress2()) {
       html.append(`<div class="ln2">${this.getAddress2()}</div>`)
