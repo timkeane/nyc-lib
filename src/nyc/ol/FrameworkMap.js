@@ -9,27 +9,26 @@ import CsvPoint from 'nyc/ol/format/CsvPoint'
 import MouseWheelZoom from 'ol/interaction/MouseWheelZoom'
 
 /**
- * @desc Class that provides an nyc.ol.Basemap with controls and data from CSV
+ * @desc Class that provides {@link module:nyc/ol/Basemap~Basemap}, {@link module:nyc/ol/LocationMgr~LocationMgr} and displays facility data from CSV
  * @public
  * @class
+ * @extends module:nyc/ol/MapMgr~MapMgr
  */
 class FrameworkMap extends MapMgr {
   /**
-   * @desc Create an instance of Basemap
+   * @desc Create an instance of FrameworkMap
    * @public
    * @constructor
    * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
    */
   constructor(options) {
     if (options.facilitySearch !== false) {
-      options.facilitySearch = {nameField: 'NAME'}
+      options.facilitySearch = {nameField: StandardCsv.NAME}
     }
     super(options)
     this.pager.find('h2.info.screen-reader-only').removeClass('screen-reader-only')
-    this.checkMouseWheel(options.mouseWheelZoom)
   }
-
-    /**
+  /**
    * @desc Crreate the parent format for the source
    * @public
    * @override
@@ -55,18 +54,6 @@ class FrameworkMap extends MapMgr {
     decorations.push(MapMgr.FEATURE_DECORATIONS)
     decorations.push(FrameworkMap.FEATURE_DECORATIONS)
     return decorations
-  }
-
-  checkMouseWheel(mouseWheelZoom) {
-    if (mouseWheelZoom !== true) {
-      let wheel
-      this.map.getInteractions().forEach(interaction => {
-        if (interaction instanceof MouseWheelZoom) {
-          wheel = interaction
-        }
-      })
-      this.map.removeInteraction(wheel)
-    }
   }
 }
 
@@ -147,19 +134,5 @@ FrameworkMap.FEATURE_DECORATIONS = {
     }
   }
 }
-
-/**
- * @desc Constructor options for {@link module:nyc/ol/FrameworkMap~FrameworkMap}
- * @public
- * @typedef {Object}
- * @property {jQuery|Element|string} mapTarget The DOM target for the map
- * @property {string} geoclientUrl The geoclient URL
- * @property {string} facilityUrl The CSV data URL for locations to map
- * @property {jQuery|Element|string=} searchTarget The DOM target for the search box
- * @property {jQuery|Element|string=} listTarget The DOM target for the list of locations in the CSV
- * @property {Array<Object<string, Object>>=} decorations Feature decorations
- * @property {boolean} [mouseWheelZoom=false] Allow mouse wheel map zooming
- */
-FrameworkMap.Options
 
 export default FrameworkMap

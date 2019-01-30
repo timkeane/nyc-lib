@@ -107,6 +107,7 @@ class MapMgr {
       size: this.map.getSize(),
       duration: 500
     })
+    this.checkMouseWheel(options.mouseWheelZoom)
   }
   /**
    * @desc Crreate the parent format for the source
@@ -279,6 +280,22 @@ class MapMgr {
       url: options.geoclientUrl
     })  
   }
+  /**
+   * @private
+   * @method
+   * @param {boolean} mouseWheelZoom
+   */
+  checkMouseWheel(mouseWheelZoom) {
+    if (mouseWheelZoom !== true) {
+      let wheel
+      this.map.getInteractions().forEach(interaction => {
+        if (interaction instanceof MouseWheelZoom) {
+          wheel = interaction
+        }
+      })
+      this.map.removeInteraction(wheel)
+    }
+  }  
 }
 
 /**
@@ -533,22 +550,23 @@ MapMgr.FEATURE_DECORATIONS = {
     } else {
       feature.app.directionsTo(feature)
     }
-  }  
+  }
 }
 
 /**
  * @desc Constructor options for {@link module:nyc/ol/MapMgr~MapMgr}
  * @public
  * @typedef {Object}
+ * @property {string} facilityUrl The URL for the facility features data
+ * @property {string} geoclientUrl The URL for the Geoclient geocoder with approriate keys
  * @property {jQuery|Element|string=} mapTarget The target element for the map
  * @property {jQuery|Element|string=} searchTarget The target element for search input
  * @property {jQuery|Element|string=} listTarget The target element for facility list
- * @property {string} facilityUrl The URL for the facility features data
  * @property {string} [facilityType=Facilities] Title for the facilites list
- * @property {string} iconUrl A URL to an image for use as a falcility symbol
+ * @property {string=} iconUrl A URL to an image for use as a falcility symbol
  * @property {ol.style.Style=} facilityStyle The styling for the facilities layer
  * @property {module:nyc/Search~Search.FeatureSearchOptions|boolean} [facilitySearch=true] Search options for feature searches or true to use default search options
- * @property {string} geoclientUrl The URL for the Geoclient geocoder with approriate keys
+ * @property {boolean} [mouseWheelZoom=false] Allow mouse wheel map zooming
  */
 MapMgr.Options
 
