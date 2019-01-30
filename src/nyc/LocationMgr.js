@@ -57,7 +57,9 @@ class LocationMgr extends EventHandling {
      * @private
      * @member {module:nyc/Dialog~Dialog}
      */
-    this.dialog = new Dialog()
+    this.dialog = new Dialog({
+      target: options.dialogTarget
+    })
     /**
      * @private
      * @member {boolean}
@@ -159,6 +161,7 @@ class LocationMgr extends EventHandling {
  * @property {module:nyc/Locator~Locator} locator The geocoding and geolocation provider
  * @property {module:nyc/MapLocator~MapLocator} mapLocator The mapLocator used to manipulate a map
  * @property {boolean} [autoLocate=false] Automatically locator using device geolocation on load
+ * @property {jQuery|Element|string} [dialogTarget=body] The DOM target in which to display error dialog
  */
 LocationMgr.Options
 

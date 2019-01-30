@@ -135,7 +135,7 @@ class Choice extends Container {
  * @property {Array<Object>} value The value of the choice
  * @property {boolean} [checked=false] The value of the checked state of the choice
  */
-Choice.Choice;
+Choice.Choice
 
 /**
  * @desc Constructor options for {@link module:nyc/Choice~Choice}
@@ -145,7 +145,7 @@ Choice.Choice;
  * @property {Array<module:nyc/Choice~Choice.Choice>} choices The choices
  * @property {boolean} [radio=false] Checkbox or radio button
  */
-Choice.Options;
+Choice.Options
 
 /**
  * @desc The change event

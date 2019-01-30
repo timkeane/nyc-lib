@@ -352,7 +352,7 @@ Search.FeatureSearchOptions
  */
 Search.HTML = '<div class="srch-ctr">' +
   '<div class="srch input-group" role="search">' +
-    '<input class="rad-all form-control form-control-lg" placeholder="Search for an address...">' +
+    '<input class="rad-all" placeholder="Search for an address...">' +
     '<button class="btn btn-rnd btn-x">' +
       '<span class="screen-reader-only">Clear</span>' +
       '<span class="fas fa-times" role="img"></span>' +

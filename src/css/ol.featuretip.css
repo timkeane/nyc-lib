@@ -1,11 +1,11 @@
 .f-tip {
-	border-radius: var(--border-radius);
+	border-radius: var(--border-radius, 0);
 	padding: 3px;
 	min-width: 100px;
 	max-width: 150px;
 	text-align: center;
 	background-color: var(--color-light-translucent);
-	box-shadow: var(--box-shadow);
+	box-shadow: var(--box-shadow, none);
 }
 .f-tip, .f-tip * {
 	font-size: 12px;

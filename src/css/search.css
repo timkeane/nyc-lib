@@ -26,7 +26,7 @@
 	max-height: 300px;
 	padding: 0;
 	list-style-type: none;
-	box-shadow: var(--box-shadow);
+	box-shadow: var(--box-shadow, none);
 	overflow-x: hidden;
 	overflow-y: auto;
 	margin: 1px 0 0 0;

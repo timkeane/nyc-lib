@@ -17,11 +17,13 @@ class Dialog extends Container {
    * @desc Create an instance of Dialog
    * @public
    * @constructor
-   * @param {string} css Css class name
+   * @param {module:nyc/Dialog~Dialog.Options} options Constructor options
    */
-  constructor(css) {
+  constructor(options) {
+    options = options || {}
+    options.target = options.target || 'body'
     super($(Dialog.HTML))
-    $('body').append(this.getContainer().addClass(css))
+    $(options.target).append(this.getContainer().addClass(options.css))
     /**
      * @private
      * @member {boolean}
@@ -57,7 +59,7 @@ class Dialog extends Container {
    * @desc Show the ok dialog
    * @public
    * @method
-   * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
+   * @param {module:nyc/Dialog~Dialog.ShowOptions} options Dialog options
    * @return {Promise<boolean>} The async result of the user action
    */
   ok(options) {
@@ -68,7 +70,8 @@ class Dialog extends Container {
     const dia = this
     const ok = this.okBtn
     return new Promise(resolve => {
-      ok.one('click', () => {
+      ok.one('click', event => {
+        dia.checkHref(event)
         dia.hide()
         resolve(true)
       })
@@ -78,7 +81,7 @@ class Dialog extends Container {
    * @desc Show the input dialog
    * @public
    * @method
-   * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
+   * @param {module:nyc/Dialog~Dialog.ShowOptions} options Dialog options
    * @return {Promise<string|boolean|undefined>} The async result of the user action
    */
   input(options) {
@@ -107,7 +110,7 @@ class Dialog extends Container {
    * @desc Show the yes-no dialog
    * @public
    * @method
-   * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
+   * @param {module:nyc/Dialog~Dialog.ShowOptions} options Dialog options
    * @return {Promise<boolean>} The async result of the user action
    */
   yesNo(options) {
@@ -118,7 +121,8 @@ class Dialog extends Container {
     const dia = this
     const yesNo = this.yesNoBtns
     return new Promise(resolve => {
-      yesNo.one('click', (event) => {
+      yesNo.one('click', event => {
+        dia.checkHref(event)
         dia.hide()
         resolve($(event.target).hasClass('btn-yes'))
       })
@@ -128,7 +132,7 @@ class Dialog extends Container {
    * @desc Show the yes-no-cancel dialog
    * @public
    * @method
-   * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
+   * @param {module:nyc/Dialog~Dialog.ShowOptions} options Dialog options
    * @return {Promise<boolean|undefined>} The async result of the user action
    */
   yesNoCancel(options) {
@@ -144,17 +148,29 @@ class Dialog extends Container {
         dia.hndlKey(resolve, dia, event)
       }
       $(document).keyup(keyup)
-      yesNo.one('click', (event) => {
+      yesNo.one('click', event => {
+        dia.checkHref(event)
         $(document).off('keyup', keyup)
         dia.hide()
         resolve($(event.target).hasClass('btn-yes'))
       })
-      cancel.one('click', () => {
+      cancel.one('click', event => {
+        dia.checkHref(event)
         $(document).off('keyup', keyup)
         dia.hide()
         resolve(undefined)
       })
     })
+  }
+  /**
+   * @private
+   * @method
+   * @param {jQuery.Event} event Event object
+   */
+  checkHref(event) {
+    if ($(event.target).attr('href') === '#') {
+      event.preventDefault()
+    }
   }
   /**
    * @private
@@ -198,7 +214,7 @@ class Dialog extends Container {
    * @private
    * @method
    * @param {module:nyc/Dialog~Dialog.Type} type Type of dialog
-   * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
+   * @param {module:nyc/Dialog~Dialog.ShowOptions} options Dialog options
    */
   show(type, options) {
     this.open = true
@@ -297,12 +313,21 @@ Dialog.Type = {
  * @desc Dialog options.
  * @public
  * @typedef {Object}
+ * @property {jQuery|Element|string} [target=body] The DOM element in which the dialog is displayed
+ * @property {string=} css A CSS class for the dialog
+ */
+Dialog.Options
+
+/**
+ * @desc Dialog options.
+ * @public
+ * @typedef {Object}
  * @property {jQuery|Element|string} message Message content
  * @property {Array<string>=} buttonText Button text list
  * @property {Array<string>=} buttonHref Button href list
  * @property {string=} placeholder Placeholder text for input dialog
  */
-Dialog.Options
+Dialog.ShowOptions
 
 /**
  * @private

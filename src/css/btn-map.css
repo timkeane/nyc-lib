@@ -18,7 +18,7 @@
 .nyc-html {
 	display: table;
 	border: 1px solid var(--color-border);
-	border-radius: var(--border-radius);
+	border-radius: var(--border-radius, 0);
 }
 .nyc-html div {
 	display: table-row;

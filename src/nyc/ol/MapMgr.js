@@ -20,6 +20,7 @@ const proj4 = nyc.proj4
 /**
  * @desc Class that provides an nyc.ol.Basemap with controls and data from CSV
  * @public
+ * @abstract
  * @class
  */
 class MapMgr {
@@ -274,6 +275,7 @@ class MapMgr {
     return new LocationMgr({
       map: this.map,
       searchTarget: options.searchTarget,
+      dialogTarget: options.mapTarget,
       url: options.geoclientUrl
     })  
   }
@@ -403,7 +405,7 @@ MapMgr.FEATURE_DECORATIONS = {
    * @return {jQuery} The full address of a facility feature as jQuery
    */
   addressHtml() {
-    const html = $('<div class="addr"></div>')
+    const html = $('<div class="addr notranslate"></div>')
       .append(`<div class="ln1">${this.getAddress1()}</div>`)
     if (this.getAddress2()) {
       html.append(`<div class="ln2">${this.getAddress2()}</div>`)

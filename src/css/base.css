@@ -9,7 +9,7 @@ html, body, body * {
 	z-index: 100000;
 }
 .rad-all, .rad-top, .rad-bot {
-	border-radius: var(--border-radius);
+	border-radius: var(--border-radius, 0);
 	border: 1px solid var(--color-border);
 }
 .rad-top {
