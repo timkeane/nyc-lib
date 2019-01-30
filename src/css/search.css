@@ -2,21 +2,24 @@
   position: relative;
 	width: auto;
 }
-.ol-overlaycontainer-stopevent .srch {
+.ol-overlaycontainer-stopevent .srch, .ol-overlaycontainer-stopevent .srch-ctl>ul {
   position: absolute;
 	top: 3px;
 	left: 41px;
 	right: 3px;
 	max-width: 400px;
 }
+.ol-overlaycontainer-stopevent .srch-ctl>ul {
+	margin-top: 38px;
+	max-width: 398px;
+}
 .ol-overlaycontainer-stopevent .srch input, .srch-ctl ul {
 	background-color: var(--color-light-translucent);
 }
 .ol-overlaycontainer-stopevent .srch input {
-	width: 100%;
-	padding-left: 23px;
+  padding-left: 23px;
   border-color: var(--color-dark);
-	width: calc(100% - 28px);
+  width: calc(100% - 28px);
 }
 .ol-overlaycontainer-stopevent .btn-srch {
 	display: none;
@@ -47,6 +50,13 @@
 	position: absolute;
 	left: calc(100% - 28px);
 	top: 5px;
+}
+
+.ol-overlaycontainer-stopevent .srch-ctl {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
 .srch-ctl ul li {
 	background-color: var(--color-light-translucent);
