@@ -27,4 +27,11 @@ const mock = jest.fn().mockImplementation(() => {
 
 mock.EXTENT = [1, 2, 3, 4]
 
+mock.resetMocks = () => {
+  mock.mockClear()
+  mockView.fit.mockClear()
+  mockView.animate.mockClear()
+  mockView.getProjection.mockClear()
+}
+
 export default mock

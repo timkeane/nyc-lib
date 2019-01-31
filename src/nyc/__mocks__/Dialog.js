@@ -1,4 +1,3 @@
-/* global jest */
 const mock = jest.fn().mockImplementation(() => {
   const it = {
     ok: jest.fn().mockImplementation(() => {

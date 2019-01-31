@@ -2,10 +2,12 @@ import MapMgr from 'nyc/ol/MapMgr'
 import Basemap from '../../../src/nyc/ol/Basemap'
 import MultiFeaturePopup from '../../../src/nyc/ol/MultiFeaturePopup'
 import FeatureTip from '../../../src/nyc/ol/FeatureTip'
+import ListPager from '../../../src/nyc/ListPager'
 
 jest.mock('../../../src/nyc/ol/Basemap')
 jest.mock('../../../src/nyc/ol/MultiFeaturePopup')
 jest.mock('../../../src/nyc/ol/FeatureTip')
+jest.mock('../../../src/nyc/ListPager')
 
 const options = {
   facilityUrl: 'http://facility',
@@ -26,7 +28,7 @@ beforeEach(() => {
   mapTarget = $('<div id="map"></div>')
   $('body').append(mapTarget)
   $.resetMocks()
-  Basemap.mockClear()
+  Basemap.resetMocks()
   MultiFeaturePopup.mockClear()
   FeatureTip.mockClear()
 })
@@ -52,7 +54,7 @@ describe('constructor', () => {
   beforeEach(() => {
     MapMgr.prototype.createParentFormat = jest.fn()
     MapMgr.prototype.createDecorations = jest.fn()
-    
+
     mockPromise.then = jest.fn()
     mockSource.autoLoad = jest.fn().mockImplementation(() => {
       return mockPromise
@@ -60,7 +62,7 @@ describe('constructor', () => {
     MapMgr.prototype.createSource = jest.fn().mockImplementation(() => {
       return mockSource
     })
-    
+
     mockLayer.set = jest.fn()
     MapMgr.prototype.createLayer = jest.fn().mockImplementation(() => {
       return mockLayer
@@ -87,12 +89,14 @@ describe('constructor', () => {
   })
 
   test('constructor minimum options', () => {
-    expect.assertions(38)
+    expect.assertions(39)
 
     const mapMgr = new MapMgr(options)
     expect(mapMgr instanceof MapMgr).toBe(true)
 
     expect(mapMgr.facilitySearch).toBe(options.facilitySearch)
+
+    expect(ListPager).toHaveBeenCalledTimes(0)
     expect(mapMgr.pager).toBeUndefined()
 
     expect(mapMgr.createSource).toHaveBeenCalledTimes(1)
@@ -106,7 +110,7 @@ describe('constructor', () => {
 
     expect(Basemap).toHaveBeenCalledTimes(1)
     expect(Basemap.mock.calls[0][0].target).toBe(mapTarget.get(0))
-    
+
     expect(mapMgr.map.getView).toHaveBeenCalledTimes(1)
     expect(mapMgr.view).toBe(mapMgr.map.getView())
 
@@ -141,26 +145,91 @@ describe('constructor', () => {
     expect(mapMgr.checkMouseWheel).toHaveBeenCalledTimes(1)
     expect(mapMgr.checkMouseWheel.mock.calls[0][0]).toBe(false)
   })
+
+  test('constructor all options', () => {
+    expect.assertions(41)
+
+    options.searchTarget = '#search'
+    options.listTarget = '#list'
+    options.facilityType = 'Cool Places'
+    options.iconUrl = 'icon.png'
+    options.facilityStyle = 'mock-facility-style'
+    options.facilitySearch = 'mock-facility-search-param'
+    options.mouseWheelZoom = true
+
+    const mapMgr = new MapMgr(options)
+    expect(mapMgr instanceof MapMgr).toBe(true)
+
+    expect(mapMgr.facilitySearch).toBe(options.facilitySearch)
+
+    expect(ListPager).toHaveBeenCalledTimes(1)
+    expect(ListPager.mock.calls[0][0].target).toBe(options.listTarget)
+    expect(ListPager.mock.calls[0][0].itemType).toBe(options.facilityType)
+    expect(mapMgr.pager).toBe(ListPager.mock.instances[0])
+
+    expect(mapMgr.createSource).toHaveBeenCalledTimes(1)
+    expect(mapMgr.source).toBe(mockSource)
+    expect(mapMgr.source.autoLoad).toHaveBeenCalledTimes(1)
+    expect($.mocks.proxy.mock.calls[0][0]).toBe(mapMgr.ready)
+    expect($.mocks.proxy.mock.calls[0][1]).toBe(mapMgr)
+    expect(mockPromise.then).toHaveBeenCalledTimes(1)
+    expect($.mocks.proxy).toHaveBeenCalledTimes(1)
+    expect(mockPromise.then.mock.calls[0][0]).toBe($.mocks.proxy.returnedValues[0])
+
+    expect(Basemap).toHaveBeenCalledTimes(1)
+    expect(Basemap.mock.calls[0][0].target).toBe(mapTarget.get(0))
+
+    expect(mapMgr.map.getView).toHaveBeenCalledTimes(1)
+    expect(mapMgr.view).toBe(mapMgr.map.getView())
+
+    expect(mapMgr.createStyle).toHaveBeenCalledTimes(1)
+    expect(mapMgr.createStyle.mock.calls[0][0]).toBe(options)
+
+    expect(mapMgr.createLayer).toHaveBeenCalledTimes(1)
+    expect(mapMgr.createLayer.mock.calls[0][0]).toBe(mapMgr.source)
+    expect(mapMgr.createLayer.mock.calls[0][1]).toBe('mock-style')
+
+    expect(MultiFeaturePopup).toHaveBeenCalledTimes(1)
+    expect(MultiFeaturePopup.mock.calls[0][0].map).toBe(mapMgr.map)
+    expect(MultiFeaturePopup.mock.calls[0][0].layers).toEqual([mapMgr.layer])
+
+    expect(mapMgr.createLocationMgr).toHaveBeenCalledTimes(1)
+    expect(mapMgr.createLocationMgr.mock.calls[0][0]).toBe(options)
+    expect(mapMgr.locationMgr).toBe('mock-location-mgr')
+
+    expect(mapMgr.location).toEqual({})
+
+    expect(FeatureTip).toHaveBeenCalledTimes(1)
+    expect(FeatureTip.mock.calls[0][0].map).toBe(mapMgr.map)
+    expect(FeatureTip.mock.calls[0][0].tips.length).toBe(1)
+    expect(FeatureTip.mock.calls[0][0].tips[0].layer).toBe(mapMgr.layer)
+    expect(FeatureTip.mock.calls[0][0].tips[0].label).toBe(MapMgr.tipFunction)
+
+    expect(mapMgr.view.fit).toHaveBeenCalledTimes(1)
+    expect(mapMgr.view.fit.mock.calls[0][0]).toBe(Basemap.EXTENT)
+    expect(mapMgr.view.fit.mock.calls[0][1].size).toEqual([100, 100])
+    expect(mapMgr.view.fit.mock.calls[0][1].duration).toBe(500)
+
+    expect(mapMgr.checkMouseWheel).toHaveBeenCalledTimes(1)
+    expect(mapMgr.checkMouseWheel.mock.calls[0][0]).toBe(true)
+  })
+
 })
 
-// describe('functions to be implemented', () => {
+describe('MapMgr abstract functions', () => {
 
-//   test('createParentFormat', () => {
-//     expect.assertions(1)
+  test('createParentFormat', () => {
+    expect.assertions(1)
+    expect(() => {
+      MapMgr.prototype.createParentFormat(options)
+    }).toThrow('must be implemented')
+  })
 
-//     expect(() => {
-//       MapMgr.prototype.createParentFormat(options)
-//     }).toThrow('must be implemented')
+  test('createDecorations', () => {
+    expect.assertions(1)
+    expect(() => {
+      MapMgr.prototype.createDecorations(options)
+    }).toThrow('must be implemented')
+  })
 
-//   })
-
-//   test('createDecorations', () => {
-//     expect.assertions(1)
-
-//     expect(() => {
-//       MapMgr.prototype.createDecorations(options)
-//     }).toThrow('must be implemented')
-
-//   })
-
-// })
+})
