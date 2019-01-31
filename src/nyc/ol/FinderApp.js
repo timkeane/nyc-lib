@@ -271,6 +271,7 @@ class FinderApp extends MapMgr {
  * @property {Array<module:nyc/ol/Filters~Filters.ChoiceOptions>=} filterChoiceOptions Filter definitions
  * @property {string} geoclientUrl The URL for the Geoclient geocoder with approriate keys
  * @property {string} directionsUrl The URL for the Google directions API with approriate keys
+ * @property {boolean} [mouseWheelZoom=true] Allow mouse wheel map zooming
  */
 FinderApp.Options
 

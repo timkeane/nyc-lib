@@ -30,7 +30,7 @@ class FrameworkMap extends MapMgr {
     }
   }
   /**
-   * @desc Crreate the parent format for the source
+   * @desc Create the parent format for the source
    * @public
    * @override
    * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
