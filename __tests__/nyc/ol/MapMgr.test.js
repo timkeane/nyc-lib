@@ -22,6 +22,9 @@ const options = {
   mouseWheelZoom: false
 }
 
+const createParentFormat = MapMgr.prototype.createParentFormat
+const createDecorations = MapMgr.prototype.createDecorations
+
 let mapTarget
 
 beforeEach(() => {
@@ -31,15 +34,17 @@ beforeEach(() => {
   Basemap.resetMocks()
   MultiFeaturePopup.mockClear()
   FeatureTip.mockClear()
+  MapMgr.prototype.createParentFormat = jest.fn()
+  MapMgr.prototype.createDecorations = jest.fn()
 })
 
 afterEach(() => {
   mapTarget.remove()
+  MapMgr.prototype.createParentFormat = createParentFormat
+  MapMgr.prototype.createDecorations = createDecorations
 })
 
 describe('constructor', () => {
-  const createParentFormat = MapMgr.prototype.createParentFormat
-  const createDecorations = MapMgr.prototype.createDecorations
   const createSource = MapMgr.prototype.createSource
   const createLayer = MapMgr.prototype.createLayer
   const ready = MapMgr.prototype.ready
@@ -52,9 +57,6 @@ describe('constructor', () => {
   const mockLayer = {}
 
   beforeEach(() => {
-    MapMgr.prototype.createParentFormat = jest.fn()
-    MapMgr.prototype.createDecorations = jest.fn()
-
     mockPromise.then = jest.fn()
     mockSource.autoLoad = jest.fn().mockImplementation(() => {
       return mockPromise
@@ -78,8 +80,6 @@ describe('constructor', () => {
     MapMgr.prototype.checkMouseWheel = jest.fn()
   })
   afterEach(() => {
-    MapMgr.prototype.createParentFormat = createParentFormat
-    MapMgr.prototype.createDecorations = createDecorations
     MapMgr.prototype.createSource = createSource
     MapMgr.prototype.createLayer = createLayer
     MapMgr.prototype.ready = ready
@@ -217,6 +217,10 @@ describe('constructor', () => {
 })
 
 describe('MapMgr abstract functions', () => {
+  beforeEach(() => {
+    MapMgr.prototype.createParentFormat = createParentFormat
+    MapMgr.prototype.createDecorations = createDecorations
+  })
 
   test('createParentFormat', () => {
     expect.assertions(1)
