@@ -63,6 +63,7 @@ const filterChoiceOptions = []
 beforeEach(() => {
   $.resetMocks()
   Dialog.mockClear()
+  Directions.mockClear()
   Share.mockClear()
   // Tabs.mockClear()
   // ListPager.mockClear()

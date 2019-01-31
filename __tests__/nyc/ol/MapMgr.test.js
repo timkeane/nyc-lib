@@ -1,33 +1,50 @@
-import MapMgr from '../../../src/nyc/ol/MapMgr'
-import ListPager from '../../../src/nyc/ListPager'
-import LocationMgr from '../../../src/nyc/ol/LocationMgr';
+import MapMgr from 'nyc/ol/MapMgr'
+import Basemap from '../../../src/nyc/ol/Basemap'
+import MultiFeaturePopup from '../../../src/nyc/ol/MultiFeaturePopup'
+import FeatureTip from '../../../src/nyc/ol/FeatureTip'
 
-let options
+jest.mock('../../../src/nyc/ol/Basemap')
+jest.mock('../../../src/nyc/ol/MultiFeaturePopup')
+jest.mock('../../../src/nyc/ol/FeatureTip')
+
+const options = {
+  facilityUrl: 'http://facility',
+  geoclientUrl: 'http://geoclient',
+  mapTarget: '#map',
+  searchTarget: undefined,
+  listTarget: undefined,
+  facilityType: undefined,
+  iconUrl: undefined,
+  facilityStyle: undefined,
+  facilitySearch: true,
+  mouseWheelZoom: false
+}
+
+let mapTarget
 
 beforeEach(() => {
+  mapTarget = $('<div id="map"></div>')
+  $('body').append(mapTarget)
   $.resetMocks()
-  options = {
-    mapTarget: 'mapTarget',
-    searchTarget: 'searchTarget',
-    listTarget: 'listTarget',
-    facilityUrl: 'http://facility',
-    facilityType: 'facilityType',
-    iconUrl: 'img/iconUrl',
-    facilityStyle: 'style',
-    facilitySearch: true,
-    geoclientUrl: 'http://geoclient'
-  }
+  Basemap.mockClear()
+  MultiFeaturePopup.mockClear()
+  FeatureTip.mockClear()
 })
+
+afterEach(() => {
+  mapTarget.remove()
+})
+
 describe('constructor', () => {
   const createParentFormat = MapMgr.prototype.createParentFormat
   const createDecorations = MapMgr.prototype.createDecorations
-  const createPager = MapMgr.prototype.createPager
   const createSource = MapMgr.prototype.createSource
   const createLayer = MapMgr.prototype.createLayer
   const ready = MapMgr.prototype.ready
   const createStyle = MapMgr.prototype.createStyle
   const createLocationMgr = MapMgr.prototype.createLocationMgr
-  
+  const checkMouseWheel = MapMgr.prototype.checkMouseWheel
+
   const mockPromise = {}
   const mockSource = {}
   const mockLayer = {}
@@ -35,7 +52,6 @@ describe('constructor', () => {
   beforeEach(() => {
     MapMgr.prototype.createParentFormat = jest.fn()
     MapMgr.prototype.createDecorations = jest.fn()
-    MapMgr.prototype.createPager = jest.fn()
     
     mockPromise.then = jest.fn()
     mockSource.autoLoad = jest.fn().mockImplementation(() => {
@@ -54,55 +70,97 @@ describe('constructor', () => {
     MapMgr.prototype.createStyle = jest.fn().mockImplementation(() => {
       return 'mock-style'
     })
-    MapMgr.prototype.createLocationMgr = jest.fn()
+    MapMgr.prototype.createLocationMgr = jest.fn().mockImplementation(() => {
+      return 'mock-location-mgr'
+    })
+    MapMgr.prototype.checkMouseWheel = jest.fn()
   })
   afterEach(() => {
     MapMgr.prototype.createParentFormat = createParentFormat
     MapMgr.prototype.createDecorations = createDecorations
-    MapMgr.prototype.createPager = createPager
     MapMgr.prototype.createSource = createSource
     MapMgr.prototype.createLayer = createLayer
     MapMgr.prototype.ready = ready
     MapMgr.prototype.createStyle = createStyle
     MapMgr.prototype.createLocationMgr = createLocationMgr
+    MapMgr.prototype.checkMouseWheel = checkMouseWheel
   })
 
-  test('constructor', () => {
-    expect.assertions(7)
+  test('constructor minimum options', () => {
+    expect.assertions(38)
 
     const mapMgr = new MapMgr(options)
     expect(mapMgr instanceof MapMgr).toBe(true)
 
+    expect(mapMgr.facilitySearch).toBe(options.facilitySearch)
+    expect(mapMgr.pager).toBeUndefined()
 
-    expect(mapMgr.createPager).toHaveBeenCalledTimes(1)
     expect(mapMgr.createSource).toHaveBeenCalledTimes(1)
-    expect(mapMgr.createLocationMgr).toHaveBeenCalledTimes(1)
+    expect(mapMgr.source).toBe(mockSource)
+    expect(mapMgr.source.autoLoad).toHaveBeenCalledTimes(1)
+    expect($.mocks.proxy).toHaveBeenCalledTimes(1)
+    expect($.mocks.proxy.mock.calls[0][0]).toBe(mapMgr.ready)
+    expect($.mocks.proxy.mock.calls[0][1]).toBe(mapMgr)
+    expect(mockPromise.then).toHaveBeenCalledTimes(1)
+    expect(mockPromise.then.mock.calls[0][0]).toBe($.mocks.proxy.returnedValues[0])
 
+    expect(Basemap).toHaveBeenCalledTimes(1)
+    expect(Basemap.mock.calls[0][0].target).toBe(mapTarget.get(0))
     
+    expect(mapMgr.map.getView).toHaveBeenCalledTimes(1)
+    expect(mapMgr.view).toBe(mapMgr.map.getView())
+
+    expect(mapMgr.createStyle).toHaveBeenCalledTimes(1)
+    expect(mapMgr.createStyle.mock.calls[0][0]).toBe(options)
+
     expect(mapMgr.createLayer).toHaveBeenCalledTimes(1)
-    expect(mapMgr.createLayer.mock.calls[0][0]).toBe(mockSource)
+    expect(mapMgr.createLayer.mock.calls[0][0]).toBe(mapMgr.source)
     expect(mapMgr.createLayer.mock.calls[0][1]).toBe('mock-style')
+
+    expect(MultiFeaturePopup).toHaveBeenCalledTimes(1)
+    expect(MultiFeaturePopup.mock.calls[0][0].map).toBe(mapMgr.map)
+    expect(MultiFeaturePopup.mock.calls[0][0].layers).toEqual([mapMgr.layer])
+
+    expect(mapMgr.createLocationMgr).toHaveBeenCalledTimes(1)
+    expect(mapMgr.createLocationMgr.mock.calls[0][0]).toBe(options)
+    expect(mapMgr.locationMgr).toBe('mock-location-mgr')
+
+    expect(mapMgr.location).toEqual({})
+
+    expect(FeatureTip).toHaveBeenCalledTimes(1)
+    expect(FeatureTip.mock.calls[0][0].map).toBe(mapMgr.map)
+    expect(FeatureTip.mock.calls[0][0].tips.length).toBe(1)
+    expect(FeatureTip.mock.calls[0][0].tips[0].layer).toBe(mapMgr.layer)
+    expect(FeatureTip.mock.calls[0][0].tips[0].label).toBe(MapMgr.tipFunction)
+
+    expect(mapMgr.view.fit).toHaveBeenCalledTimes(1)
+    expect(mapMgr.view.fit.mock.calls[0][0]).toBe(Basemap.EXTENT)
+    expect(mapMgr.view.fit.mock.calls[0][1].size).toEqual([100, 100])
+    expect(mapMgr.view.fit.mock.calls[0][1].duration).toBe(500)
+
+    expect(mapMgr.checkMouseWheel).toHaveBeenCalledTimes(1)
+    expect(mapMgr.checkMouseWheel.mock.calls[0][0]).toBe(false)
   })
 })
 
-describe('functions to be implemented', () => {
+// describe('functions to be implemented', () => {
 
-  test('createParentFormat', () => {
-    expect.assertions(1)
+//   test('createParentFormat', () => {
+//     expect.assertions(1)
 
-    expect(() => {
-      MapMgr.prototype.createParentFormat(options)
-    }).toThrow('must be implemented')
+//     expect(() => {
+//       MapMgr.prototype.createParentFormat(options)
+//     }).toThrow('must be implemented')
 
-  })
+//   })
 
-  test('createDecorations', () => {
-    expect.assertions(1)
+//   test('createDecorations', () => {
+//     expect.assertions(1)
 
-    expect(() => {
-      MapMgr.prototype.createDecorations(options)
-    }).toThrow('must be implemented')
+//     expect(() => {
+//       MapMgr.prototype.createDecorations(options)
+//     }).toThrow('must be implemented')
 
-  })
+//   })
 
-})
+// })

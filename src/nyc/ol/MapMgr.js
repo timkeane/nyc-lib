@@ -69,7 +69,7 @@ class MapMgr {
      * @member {ol.layer.Vector}
      */
     this.layer = this.createLayer(this.source, this.createStyle(options))
-    this.map.addLayer(layer)    
+    this.map.addLayer(this.layer)    
     /**
      * @desc The popup
      * @public
@@ -94,9 +94,7 @@ class MapMgr {
       map: this.map,
       tips: [{
         layer: this.layer,
-        label: (feature) => {
-          return {html: feature.getTip()}
-        }
+        label: MapMgr.tipFunction
       }]
     })
     this.view.fit(Basemap.EXTENT, {
@@ -309,6 +307,18 @@ class MapMgr {
       this.map.removeInteraction(wheel)
     }
   }  
+}
+
+/**
+ * @desc Default facility feature decorations
+ * @public
+ * @static
+ * @function
+ * @param {ol.Feature} feature The feature
+ * @returns {Object<string, string} The tip
+ */
+MapMgr.tipFunction = (feature) => {
+  return {html: feature.getTip()}
 }
 
 /**
