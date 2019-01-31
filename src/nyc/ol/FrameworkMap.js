@@ -25,7 +25,9 @@ class FrameworkMap extends MapMgr {
       options.facilitySearch = {nameField: StandardCsv.NAME}
     }
     super(options)
-    this.pager.find('h2.info.screen-reader-only').removeClass('screen-reader-only')
+    if (this.pager) {
+      this.pager.find('h2.info.screen-reader-only').removeClass('screen-reader-only')
+    }
   }
   /**
    * @desc Crreate the parent format for the source
