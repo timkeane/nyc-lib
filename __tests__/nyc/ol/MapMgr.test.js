@@ -255,5 +255,23 @@ test('createLayer', () => {
   expect(Layer.mock.calls[0][0].source).toBe('mock-source')
   expect(Layer.mock.calls[0][0].style).toBe('mock-style')
   expect(Layer.mock.instances[0]).toBe(layer)
+})
 
+test('createLayer', () => {
+  expect.assertions(4)
+
+  const mapMgr = new MapMgr(options)
+  mapMgr.resetList = jest.fn()
+
+  mapMgr.located('mock-location-1')
+  
+  expect(mapMgr.location).toBe('mock-location-1')
+  expect(mapMgr.resetList).toHaveBeenCalledTimes(0)
+
+  mapMgr.pager = 'mock-pager'
+
+  mapMgr.located('mock-location-2')
+  
+  expect(mapMgr.location).toBe('mock-location-2')
+  expect(mapMgr.resetList).toHaveBeenCalledTimes(1)
 })
