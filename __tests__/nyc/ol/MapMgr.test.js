@@ -3,45 +3,61 @@ import Basemap from '../../../src/nyc/ol/Basemap'
 import MultiFeaturePopup from '../../../src/nyc/ol/MultiFeaturePopup'
 import FeatureTip from '../../../src/nyc/ol/FeatureTip'
 import ListPager from '../../../src/nyc/ListPager'
+import Layer from 'ol/layer/Vector'
 
 jest.mock('../../../src/nyc/ol/Basemap')
 jest.mock('../../../src/nyc/ol/MultiFeaturePopup')
 jest.mock('../../../src/nyc/ol/FeatureTip')
 jest.mock('../../../src/nyc/ListPager')
 
+jest.mock('ol/layer/Vector')
+
 const options = {
   facilityUrl: 'http://facility',
   geoclientUrl: 'http://geoclient',
-  mapTarget: '#map',
-  searchTarget: undefined,
-  listTarget: undefined,
-  facilityType: undefined,
-  iconUrl: undefined,
-  facilityStyle: undefined,
-  facilitySearch: true,
-  mouseWheelZoom: false
+  mapTarget: '#map'
 }
 
 const createParentFormat = MapMgr.prototype.createParentFormat
 const createDecorations = MapMgr.prototype.createDecorations
+const createLocationMgr = MapMgr.prototype.createLocationMgr
+const checkMouseWheel = MapMgr.prototype.checkMouseWheel
 
 let mapTarget
 
 beforeEach(() => {
+  options.searchTarget =  undefined
+  options.listTarget =  undefined
+  options.facilityType =  undefined
+  options.iconUrl =  undefined
+  options.facilityStyle =  undefined
+  options.facilitySearch =  true
+  options.mouseWheelZoom =  false
+
   mapTarget = $('<div id="map"></div>')
   $('body').append(mapTarget)
+
   $.resetMocks()
   Basemap.resetMocks()
   MultiFeaturePopup.mockClear()
   FeatureTip.mockClear()
+  Layer.mockClear()
+
   MapMgr.prototype.createParentFormat = jest.fn()
   MapMgr.prototype.createDecorations = jest.fn()
+  MapMgr.prototype.createLocationMgr = jest.fn().mockImplementation(() => {
+    return 'mock-location-mgr'
+  })
+  MapMgr.prototype.checkMouseWheel = jest.fn()
+
 })
 
 afterEach(() => {
   mapTarget.remove()
   MapMgr.prototype.createParentFormat = createParentFormat
   MapMgr.prototype.createDecorations = createDecorations
+  MapMgr.prototype.createLocationMgr = createLocationMgr
+  MapMgr.prototype.checkMouseWheel = checkMouseWheel
 })
 
 describe('constructor', () => {
@@ -49,8 +65,6 @@ describe('constructor', () => {
   const createLayer = MapMgr.prototype.createLayer
   const ready = MapMgr.prototype.ready
   const createStyle = MapMgr.prototype.createStyle
-  const createLocationMgr = MapMgr.prototype.createLocationMgr
-  const checkMouseWheel = MapMgr.prototype.checkMouseWheel
 
   const mockPromise = {}
   const mockSource = {}
@@ -74,18 +88,12 @@ describe('constructor', () => {
     MapMgr.prototype.createStyle = jest.fn().mockImplementation(() => {
       return 'mock-style'
     })
-    MapMgr.prototype.createLocationMgr = jest.fn().mockImplementation(() => {
-      return 'mock-location-mgr'
-    })
-    MapMgr.prototype.checkMouseWheel = jest.fn()
   })
   afterEach(() => {
     MapMgr.prototype.createSource = createSource
     MapMgr.prototype.createLayer = createLayer
     MapMgr.prototype.ready = ready
     MapMgr.prototype.createStyle = createStyle
-    MapMgr.prototype.createLocationMgr = createLocationMgr
-    MapMgr.prototype.checkMouseWheel = checkMouseWheel
   })
 
   test('constructor minimum options', () => {
@@ -235,5 +243,17 @@ describe('MapMgr abstract functions', () => {
       MapMgr.prototype.createDecorations(options)
     }).toThrow('must be implemented')
   })
+
+})
+
+test('createLayer', () => {
+  expect.assertions(4)
+
+  const layer = MapMgr.prototype.createLayer('mock-source', 'mock-style')
+
+  expect(Layer).toHaveBeenCalledTimes(1)
+  expect(Layer.mock.calls[0][0].source).toBe('mock-source')
+  expect(Layer.mock.calls[0][0].style).toBe('mock-style')
+  expect(Layer.mock.instances[0]).toBe(layer)
 
 })
