@@ -25,9 +25,6 @@ class FrameworkMap extends MapMgr {
       options.facilitySearch = {nameField: StandardCsv.NAME}
     }
     super(options)
-    if (this.pager) {
-      this.pager.find('h2.info.screen-reader-only').removeClass('screen-reader-only')
-    }
   }
   /**
    * @desc Create the parent format for the source
@@ -41,7 +38,7 @@ class FrameworkMap extends MapMgr {
       url: options.facilityUrl,
       autoDetect: true
     })
-  }  
+  }
   /**
    * @public
    * @override
@@ -58,6 +55,13 @@ class FrameworkMap extends MapMgr {
   }
 }
 
+/**
+ * @desc Default facility feature decorations that are combined with {@link module:nyc/ol/MapMgr~MapMgr.FEATURE_DECORATIONS}
+ * @public
+ * @const
+ * @mixin
+ * @type {Object<string, fuction>}
+ */
 FrameworkMap.FEATURE_DECORATIONS = {
   /**
    * @desc Returns the name of a facility feature

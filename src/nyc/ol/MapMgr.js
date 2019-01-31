@@ -69,6 +69,7 @@ class MapMgr {
      * @member {ol.layer.Vector}
      */
     this.layer = this.createLayer(this.source, this.createStyle(options))
+    this.map.addLayer(layer)    
     /**
      * @desc The popup
      * @public
@@ -136,7 +137,6 @@ class MapMgr {
       source: source,
       style: style
     })
-    this.map.addLayer(layer)    
     return layer
   }
   /**
