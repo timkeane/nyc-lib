@@ -20,7 +20,7 @@
   position: absolute;
   padding-left: 23px;
   padding-right: 28px;
-  width: calc(100% - 51px);
+  width: calc(100% - 54px);
   background-color: var(--color-light-translucent);
   border: 1px solid var(--color-dark);
 	background-image: var(--magnify-icon-medium, none);

@@ -31,6 +31,7 @@ class Search extends Container {
       input = target
       target = $('<div class="map-srch"></div>')
       target.insertAfter(input)
+      this.find('.srch').addClass('input-group')
     }
     $(target).append(this.getContainer())
     /**
@@ -351,7 +352,7 @@ Search.FeatureSearchOptions
  * @type {string}
  */
 Search.HTML = '<div class="srch-ctl">' +
-  '<div class="srch input-group" role="search">' +
+  '<div class="srch" role="search">' +
     '<input class="rad-all" placeholder="Search for an address...">' +
     '<button class="btn btn-rnd btn-x">' +
       '<span class="screen-reader-only">Clear</span>' +

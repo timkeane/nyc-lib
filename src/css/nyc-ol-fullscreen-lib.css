@@ -1,5 +1,2 @@
-@import "nyc-lib.css";
-
-@import "ol.featuretip.css";
-@import "ol.popup.css";
+@import "nyc-ol-lib.css";
 @import "ol.finderapp.css";
