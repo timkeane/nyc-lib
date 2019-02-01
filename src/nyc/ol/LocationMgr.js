@@ -36,10 +36,10 @@ class LocationMgr extends NycLocationMgr {
     }
 
     super({
+      search: new NycOlSearch(searchTarget),
       zoom: new NycOlZoom(map),
       dialogTarget: options.dialogTarget,
       geolocate: new NycOlGeolocate(map),
-      search: new NycOlSearch(searchTarget),
       locator: new NycOlLocator({
         geocoder: new NycGeoclient({url: options.url})
       }),
