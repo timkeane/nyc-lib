@@ -5,12 +5,16 @@ import FeatureTip from '../../../src/nyc/ol/FeatureTip'
 import ListPager from '../../../src/nyc/ListPager'
 import Layer from 'ol/layer/Vector'
 import FilterAndSort from 'nyc/ol/source/FilterAndSort'
+import LocationMgr from '../../../src/nyc/ol/LocationMgr'
+import nyc from 'nyc'
 
 jest.mock('../../../src/nyc/ol/Basemap')
 jest.mock('../../../src/nyc/ol/MultiFeaturePopup')
 jest.mock('../../../src/nyc/ol/FeatureTip')
 jest.mock('../../../src/nyc/ListPager')
 jest.mock('../../../src/nyc/ol/source/FilterAndSort')
+jest.mock('../../../src/nyc/ol/LocationMgr')
+
 
 jest.mock('ol/layer/Vector')
 
@@ -45,6 +49,7 @@ beforeEach(() => {
   FeatureTip.mockClear()
   Layer.mockClear()
   FilterAndSort.mockClear()
+  LocationMgr.mockClear()
 
   MapMgr.prototype.createParentFormat = jest.fn()
   MapMgr.prototype.createDecorations = jest.fn()
@@ -292,7 +297,7 @@ test('resetList', () => {
   expect(mapMgr.source.sort).toHaveBeenCalledTimes(0)
   expect(mapMgr.source.getFeatures).toHaveBeenCalledTimes(1)
   
-  
+
   mapMgr.location = {
     coordinate: [1, 1]
   }
@@ -302,3 +307,25 @@ test('resetList', () => {
   expect(mapMgr.source.sort).toHaveBeenCalledTimes(1)
 
 })
+
+test('ready - facility search is false', () => {
+  expect.assertions(4)
+  nyc.ready = jest.fn()
+  options.listTarget = '#list'
+
+  let features = 'features'
+  options.facilitySearch = false
+
+  const mapMgr = new MapMgr(options)
+  
+  mapMgr.ready(features)
+
+  expect(mapMgr.pager.reset).toHaveBeenCalledTimes(1)
+  expect(mapMgr.pager.reset.mock.calls[0][0]).toEqual(features)
+
+  expect(nyc.ready).toHaveBeenCalledTimes(1)
+  expect(nyc.ready.mock.calls[0][0]).toEqual($('body'))
+
+
+})
+
