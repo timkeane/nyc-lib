@@ -25,6 +25,7 @@ class FrameworkMap extends MapMgr {
       options.facilitySearch = {nameField: StandardCsv.NAME}
     }
     super(options)
+    $(this.map.getTargetElement()).addClass('nyc-map')
   }
   /**
    * @desc Create the parent format for the source
