@@ -280,7 +280,7 @@ test('located', () => {
 })
 
 test('resetList', () => {
-  expect.assertions(6)
+  expect.assertions(7)
   options.listTarget = '#list'
 
   const mapMgr = new MapMgr(options)
@@ -290,15 +290,15 @@ test('resetList', () => {
   expect(mapMgr.pager.reset).toHaveBeenCalledTimes(1)
   expect(mapMgr.pager.reset.mock.calls[0][0]).toEqual([])
   expect(mapMgr.source.sort).toHaveBeenCalledTimes(0)
-  expect(mapMgr.source.getFeatures).toHaveBeenCalledTimes(2)
+  expect(mapMgr.source.getFeatures).toHaveBeenCalledTimes(1)
   
   
   mapMgr.location = {
-    coordinate: [1,1]
+    coordinate: [1, 1]
   }
 
   mapMgr.resetList('event')
   expect(mapMgr.pager.reset.mock.calls[1][0]).toEqual([])
   expect(mapMgr.source.sort).toHaveBeenCalledTimes(1)
-  
+
 })
