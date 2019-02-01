@@ -17,7 +17,7 @@ const options = {
   searchTarget: undefined,
   listTarget: undefined,
   facilityType: undefined,
-  iconUrl: undefined,
+  mapMarkerUrl: undefined,
   facilityStyle: undefined,
   facilitySearch: true,
   mouseWheelZoom: false
@@ -58,7 +58,7 @@ describe('constructor', () => {
     expect(frameworkMap.pager).toBeUndefined()
   })
 
-  test('constructor with iconUrl params', () => {
+  test('constructor with mapMarkerUrl params', () => {
     expect.assertions(17)
   })
   test('constructor all optional params', () => {
@@ -67,7 +67,7 @@ describe('constructor', () => {
     options.searchTarget = '#search'
     options.listTarget = '#list'
     options.facilityType = 'Cool Places'
-    options.iconUrl = 'icon.png'
+    options.mapMarkerUrl = 'icon.png'
     options.facilityStyle = undefined
     options.facilitySearch = false
     options.mouseWheelZoom = true

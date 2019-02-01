@@ -15,6 +15,11 @@ import Layer from 'ol/layer/Vector'
 import LocationMgr from 'nyc/ol/LocationMgr'
 import MapLocator from 'nyc/MapLocator'
 import MouseWheelZoom from 'ol/interaction/MouseWheelZoom'
+import Style from 'ol/style/Style'
+import Icon from 'ol/style/Icon'
+import Circle from 'ol/style/Circle'
+import Fill from 'ol/style/Fill'
+import Stroke from 'ol/style/Stroke'
 
 const proj4 = nyc.proj4
 
@@ -36,7 +41,7 @@ class MapMgr {
      * @private
      * @member {module:nyc/Search~Search.FeatureSearchOptions}
      */
-    this.facilitySearch = options.facilitySearch    
+    this.facilitySearch = options.facilitySearch
     /**
      * @private
      * @member {module:nyc/ListPager~ListPager}
@@ -69,7 +74,7 @@ class MapMgr {
      * @member {ol.layer.Vector}
      */
     this.layer = this.createLayer(this.source, this.createStyle(options))
-    this.map.addLayer(this.layer)    
+    this.map.addLayer(this.layer)
     /**
      * @desc The popup
      * @public
@@ -127,8 +132,9 @@ class MapMgr {
    * @desc Create the leayer
    * @public
    * @abstract
-   * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
-   * @returns {Array<Object<string, Object>>} The embellished decorations
+   * @param {module:nyc/ol/MapMgr~MapMgr.Options} source The data source for the layer
+   * @param {ol.style.Style} style The style for the layer
+   * @returns {ol.layer.Vector} The layer
    */
   createLayer(source, style) {
     const layer = new Layer({
@@ -237,18 +243,53 @@ class MapMgr {
   /**
    * @private
    * @method
-   * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
+   * @param {string} url The image URL
+   * @param {ol.style.Style} style The style
    */
-  createStyle(options) {
-    if (options.iconUrl) {
-      //create a style based on an icon url
-    }
-    return options.facilityStyle
+  loadMarkerImage(url, style) {
+    const me = this
+    const image = $('<img>').on('load', () => {
+      style.setImage(new Icon({
+        src: url,
+        scale: 32 / $(image).height()
+      }))
+      $(image).remove()
+      me.layer.setStyle(style)
+    })
+    $('body').append(image.attr('src', url))
   }
   /**
    * @private
    * @method
    * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
+   * @returns {ol.style.Style} The style
+   */
+  createStyle(options) {
+    if (options.facilityStyle) {
+      return options.facilityStyle
+    } else if (options.mapMarkerUrl) {
+      const style = new Style({})
+      this.loadMarkerImage(options.mapMarkerUrl, style)
+      return style
+    }
+    return new Style({
+      image: new Circle({
+        radius: 6,
+        fill: new Fill({
+          color: 'rgba(0,0,255,.5)'
+        }),
+        stroke: new Stroke({
+          color: '#0000ff',
+          width: 2
+        })
+      })
+    })
+  }
+  /**
+   * @private
+   * @method
+   * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
+   * @returns {module:nyc/ol/source/FilterAndSort~FilterAndSort} The sorce
    */
   createSource(options) {
     const parentFormat = this.createParentFormat(options)
@@ -264,7 +305,7 @@ class MapMgr {
   /**
    * @private
    * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
-   * @returns {module:nyc/ListPager~ListPager|undefined}
+   * @returns {module:nyc/ListPager~ListPager|undefined} The pager
    */
   createPager(options) {
     if (options.listTarget) {
@@ -586,7 +627,7 @@ MapMgr.FEATURE_DECORATIONS = {
  * @property {jQuery|Element|string=} searchTarget The target element for search input
  * @property {jQuery|Element|string=} listTarget The target element for facility list
  * @property {string} [facilityType=Facilities] Title for the facilites list
- * @property {string=} iconUrl A URL to an image for use as a falcility symbol
+ * @property {string=} mapMarkerUrl A URL to an image for use as a falcility symbol
  * @property {ol.style.Style=} facilityStyle The styling for the facilities layer
  * @property {module:nyc/Search~Search.FeatureSearchOptions|boolean} [facilitySearch=true] Search options for feature searches or true to use default search options
  * @property {boolean} [mouseWheelZoom=false] Allow mouse wheel map zooming

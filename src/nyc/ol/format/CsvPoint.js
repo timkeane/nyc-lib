@@ -151,7 +151,6 @@ class CsvPoint extends OlFormatFeature {
         this.y = StandardCsv.LAT
         this.defaultDataProjection = olProjGet('EPSG:4326')
       }
-      console.warn(this)
     }
   }
   /**
