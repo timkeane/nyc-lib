@@ -4,11 +4,13 @@ import MultiFeaturePopup from '../../../src/nyc/ol/MultiFeaturePopup'
 import FeatureTip from '../../../src/nyc/ol/FeatureTip'
 import ListPager from '../../../src/nyc/ListPager'
 import Layer from 'ol/layer/Vector'
+import FilterAndSort from 'nyc/ol/source/FilterAndSort'
 
 jest.mock('../../../src/nyc/ol/Basemap')
 jest.mock('../../../src/nyc/ol/MultiFeaturePopup')
 jest.mock('../../../src/nyc/ol/FeatureTip')
 jest.mock('../../../src/nyc/ListPager')
+jest.mock('../../../src/nyc/ol/source/FilterAndSort')
 
 jest.mock('ol/layer/Vector')
 
@@ -42,6 +44,7 @@ beforeEach(() => {
   MultiFeaturePopup.mockClear()
   FeatureTip.mockClear()
   Layer.mockClear()
+  FilterAndSort.mockClear()
 
   MapMgr.prototype.createParentFormat = jest.fn()
   MapMgr.prototype.createDecorations = jest.fn()
@@ -257,7 +260,7 @@ test('createLayer', () => {
   expect(Layer.mock.instances[0]).toBe(layer)
 })
 
-test('createLayer', () => {
+test('located', () => {
   expect.assertions(4)
 
   const mapMgr = new MapMgr(options)
@@ -274,4 +277,28 @@ test('createLayer', () => {
   
   expect(mapMgr.location).toBe('mock-location-2')
   expect(mapMgr.resetList).toHaveBeenCalledTimes(1)
+})
+
+test('resetList', () => {
+  expect.assertions(6)
+  options.listTarget = '#list'
+
+  const mapMgr = new MapMgr(options)
+
+  mapMgr.resetList('event')
+  expect(mapMgr.popup.hide).toHaveBeenCalledTimes(1)
+  expect(mapMgr.pager.reset).toHaveBeenCalledTimes(1)
+  expect(mapMgr.pager.reset.mock.calls[0][0]).toEqual([])
+  expect(mapMgr.source.sort).toHaveBeenCalledTimes(0)
+  expect(mapMgr.source.getFeatures).toHaveBeenCalledTimes(2)
+  
+  
+  mapMgr.location = {
+    coordinate: [1,1]
+  }
+
+  mapMgr.resetList('event')
+  expect(mapMgr.pager.reset.mock.calls[1][0]).toEqual([])
+  expect(mapMgr.source.sort).toHaveBeenCalledTimes(1)
+  
 })
