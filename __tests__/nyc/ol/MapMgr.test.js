@@ -15,7 +15,6 @@ jest.mock('../../../src/nyc/ListPager')
 jest.mock('../../../src/nyc/ol/source/FilterAndSort')
 jest.mock('../../../src/nyc/ol/LocationMgr')
 
-
 jest.mock('ol/layer/Vector')
 
 const options = {
@@ -285,47 +284,106 @@ test('located', () => {
 })
 
 test('resetList', () => {
-  expect.assertions(7)
+  expect.assertions(10)
   options.listTarget = '#list'
 
   const mapMgr = new MapMgr(options)
 
-  mapMgr.resetList('event')
+  FilterAndSort.features = 'mock-features'
+
+  mapMgr.resetList({})
   expect(mapMgr.popup.hide).toHaveBeenCalledTimes(1)
-  expect(mapMgr.pager.reset).toHaveBeenCalledTimes(1)
-  expect(mapMgr.pager.reset.mock.calls[0][0]).toEqual([])
   expect(mapMgr.source.sort).toHaveBeenCalledTimes(0)
   expect(mapMgr.source.getFeatures).toHaveBeenCalledTimes(1)
-  
-
-  mapMgr.location = {
-    coordinate: [1, 1]
-  }
-
-  mapMgr.resetList('event')
-  expect(mapMgr.pager.reset.mock.calls[1][0]).toEqual([])
-  expect(mapMgr.source.sort).toHaveBeenCalledTimes(1)
-
-})
-
-test('ready - facility search is false', () => {
-  expect.assertions(4)
-  nyc.ready = jest.fn()
-  options.listTarget = '#list'
-
-  let features = 'features'
-  options.facilitySearch = false
-
-  const mapMgr = new MapMgr(options)
-  
-  mapMgr.ready(features)
-
   expect(mapMgr.pager.reset).toHaveBeenCalledTimes(1)
-  expect(mapMgr.pager.reset.mock.calls[0][0]).toEqual(features)
+  expect(mapMgr.pager.reset.mock.calls[0][0]).toBe('mock-features')
+  
+  FilterAndSort.features = 'mock-sorted-features'
+  mapMgr.location = {coordinate: 'mock-coordinate'}
 
-  expect(nyc.ready).toHaveBeenCalledTimes(1)
-  expect(nyc.ready.mock.calls[0][0]).toEqual($('body'))
-
+  mapMgr.resetList({})
+  expect(mapMgr.source.getFeatures).toHaveBeenCalledTimes(1)
+  expect(mapMgr.source.sort).toHaveBeenCalledTimes(1)
+  expect(mapMgr.source.sort.mock.calls[0][0]).toBe('mock-coordinate')
+  expect(mapMgr.pager.reset).toHaveBeenCalledTimes(2)
+  expect(mapMgr.pager.reset.mock.calls[1][0]).toEqual('mock-sorted-features')
 
 })
+
+describe('ready', () => {
+  const nycReady = nyc.ready
+  beforeEach(() => {
+    nyc.ready = jest.fn()
+    options.listTarget = '#list'
+    MapMgr.prototype.createLocationMgr = jest.fn().mockImplementation(() => {
+      return {
+        search: {
+          setFeatures: jest.fn()
+        }
+      }
+    })
+  })
+  afterEach(() => {
+    nyc.ready = nycReady
+  })
+
+  test('ready - facility search is false', () => {
+    expect.assertions(5)
+  
+    options.facilitySearch = false
+  
+    const mapMgr = new MapMgr(options)
+    
+    mapMgr.ready('mock-features')
+  
+    expect(mapMgr.locationMgr.search.setFeatures).toHaveBeenCalledTimes(0)
+
+    expect(mapMgr.pager.reset).toHaveBeenCalledTimes(1)
+    expect(mapMgr.pager.reset.mock.calls[0][0]).toBe('mock-features')
+  
+    expect(nyc.ready).toHaveBeenCalledTimes(1)
+    expect(nyc.ready.mock.calls[0][0].get(0)).toBe(document.body)
+  })
+
+  test('ready - facility search is true', () => {
+    expect.assertions(6)
+  
+    options.facilitySearch = true
+  
+    const mapMgr = new MapMgr(options)
+    
+    mapMgr.ready('mock-features')
+  
+    expect(mapMgr.locationMgr.search.setFeatures).toHaveBeenCalledTimes(1)
+    expect(mapMgr.locationMgr.search.setFeatures.mock.calls[0][0].features).toBe('mock-features')
+
+    expect(mapMgr.pager.reset).toHaveBeenCalledTimes(1)
+    expect(mapMgr.pager.reset.mock.calls[0][0]).toBe('mock-features')
+  
+    expect(nyc.ready).toHaveBeenCalledTimes(1)
+    expect(nyc.ready.mock.calls[0][0].get(0)).toBe(document.body)
+  })
+
+  test('ready - facility search is object', () => {
+    expect.assertions(7)
+  
+    options.facilitySearch = {nameField: 'FRED'}
+  
+    const mapMgr = new MapMgr(options)
+    
+    mapMgr.ready('mock-features')
+  
+    expect(mapMgr.locationMgr.search.setFeatures).toHaveBeenCalledTimes(1)
+    expect(mapMgr.locationMgr.search.setFeatures.mock.calls[0][0].features).toBe('mock-features')
+    expect(mapMgr.locationMgr.search.setFeatures.mock.calls[0][0].nameField).toBe('FRED')
+
+    expect(mapMgr.pager.reset).toHaveBeenCalledTimes(1)
+    expect(mapMgr.pager.reset.mock.calls[0][0]).toBe('mock-features')
+  
+    expect(nyc.ready).toHaveBeenCalledTimes(1)
+    expect(nyc.ready.mock.calls[0][0].get(0)).toBe(document.body)
+  })
+
+})
+
 

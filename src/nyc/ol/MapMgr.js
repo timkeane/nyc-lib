@@ -164,9 +164,11 @@ class MapMgr {
   resetList(event) {
     const coordinate = this.location.coordinate
     this.popup.hide()
-    this.pager.reset(
-      coordinate ? this.source.sort(coordinate) : this.source.getFeatures()
-    )
+    if (coordinate) {
+      this.pager.reset(this.source.sort(coordinate))
+    } else {
+      this.pager.reset(this.source.getFeatures())
+    }
   }
   /**
    * @desc Handles features after they are loaded
@@ -175,7 +177,6 @@ class MapMgr {
    * @param {Array<ol.Feature>} features The facility features
    */
   ready(features) {
-    features = features || []
     if (this.facilitySearch) {
       const options = typeof this.facilitySearch === 'object' ? this.facilitySearch : {}
       options.features = features
