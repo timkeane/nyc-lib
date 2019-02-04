@@ -356,7 +356,7 @@ class MapMgr {
  * @static
  * @function
  * @param {ol.Feature} feature The feature
- * @returns {Object<string, string} The tip
+ * @returns {Object<string, string>} The tip
  */
 MapMgr.tipFunction = (feature) => {
   return {html: feature.getTip()}

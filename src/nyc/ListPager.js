@@ -105,7 +105,7 @@ class ListPager extends Container {
   info() {
     let info = this.find('h2.info')
     if (!info.length) {
-      info = $('<h2 class="info screen-reader-only"></h2>')
+      info = $('<h2 class="info"></h2>')
       this.prepend(info)
     }
     info.html(`Showing ${this.find('.lst-it').length} of ${this.items.length} ${this.itemType}`)
