@@ -6,6 +6,10 @@ import ListPager from '../../../src/nyc/ListPager'
 import Layer from 'ol/layer/Vector'
 import FilterAndSort from 'nyc/ol/source/FilterAndSort'
 import LocationMgr from '../../../src/nyc/ol/LocationMgr'
+import OlFeature from 'ol/Feature'
+import OlGeomPoint from 'ol/geom/Point'
+import MapLocator from 'nyc/MapLocator'
+
 import nyc from 'nyc'
 
 jest.mock('../../../src/nyc/ol/Basemap')
@@ -386,4 +390,70 @@ describe('ready', () => {
 
 })
 
+test('zoomTo', () => {
+  expect.assertions(8)
+  const feature = new OlFeature({geometry: new OlGeomPoint([0, 0])})
 
+  const mapMgr = new MapMgr(options)
+  mapMgr.zoomTo(feature)
+ 
+  expect(mapMgr.map.once).toHaveBeenCalledTimes(1)
+  expect(mapMgr.map.once.mock.calls[0][0]).toBe('moveend')
+  expect(typeof mapMgr.map.once.mock.calls[0][1]).toBe('function')
+
+  expect(mapMgr.popup.showFeature).toHaveBeenCalledTimes(1)
+  expect(mapMgr.popup.showFeature.mock.calls[0][0]).toBe(feature)
+
+  expect(mapMgr.view.animate).toHaveBeenCalledTimes(1)
+  expect(mapMgr.view.animate.mock.calls[0][0].center).toEqual(feature.getGeometry().getCoordinates())
+  expect(mapMgr.view.animate.mock.calls[0][0].zoom).toBe(MapLocator.ZOOM_LEVEL)
+
+})
+
+describe('directionsTo', () => {
+  const getFromAddr = MapMgr.prototype.getFromAddr
+  const getFullAddress = OlFeature.prototype.getFullAddress
+  const open = window.open
+
+  beforeEach(() => {
+    MapMgr.prototype.getFromAddr = jest.fn().mockImplementation(() => {
+      return 'mock name'
+    })
+    
+    OlFeature.prototype.getFullAddress = jest.fn().mockImplementation(() => {
+      return 'mock address'
+    })
+
+    window.open = jest.fn()
+  })
+  afterEach(() => {
+    MapMgr.prototype.getFromAddr = getFromAddr
+    OlFeature.prototype.getFullAddress = getFullAddress
+    window.open = open
+
+  })
+
+  test('directionsTo', () => {
+    expect.assertions(5)
+    const feature = new OlFeature({geometry: new OlGeomPoint([0, 0])})
+    const mapMgr = new MapMgr(options)
+    mapMgr.directionsTo(feature)
+  
+    let to = 'mock%20address'
+    let from = 'mock%20name'
+
+    expect(feature.getFullAddress).toHaveBeenCalledTimes(1)
+    expect(mapMgr.getFromAddr).toHaveBeenCalledTimes(1)
+    expect(window.open).toHaveBeenCalledTimes(1)
+    expect(window.open.mock.calls[0][0]).toBe(`https://www.google.com/maps/dir/${from}/${to}`)
+
+    MapMgr.prototype.getFromAddr = jest.fn().mockImplementation(() => {
+      return ''
+    })
+    mapMgr.directionsTo(feature)
+    expect(window.open.mock.calls[1][0]).toBe(`https://www.google.com/maps/dir/${to}/${to}`)
+  })
+  
+
+})
+  
