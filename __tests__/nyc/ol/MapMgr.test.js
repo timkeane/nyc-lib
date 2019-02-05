@@ -9,6 +9,8 @@ import LocationMgr from 'nyc/ol/LocationMgr'
 import OlFeature from 'ol/Feature'
 import OlGeomPoint from 'ol/geom/Point'
 import MapLocator from 'nyc/MapLocator'
+import Icon from 'ol/style/Icon'
+import Style from 'ol/style/Style'
 
 import nyc from 'nyc'
 
@@ -56,6 +58,7 @@ beforeEach(() => {
   Layer.mockClear()
   FilterAndSort.mockClear()
   LocationMgr.mockClear()
+  ListPager.mockClear()
 
   MapMgr.prototype.createParentFormat = jest.fn()
   MapMgr.prototype.createDecorations = jest.fn()
@@ -485,4 +488,77 @@ test('getFromAddr', () => {
 
 })
 
+test('expandDetail', () => {
+  expect.assertions(1)
 
+  const mapMgr = new MapMgr(options)
+
+  mapMgr.popup.pan = jest.fn()
+
+  mapMgr.expandDetail()
+
+  expect(mapMgr.popup.pan).toHaveBeenCalledTimes(1)
+
+})
+
+test('loadMarkerImage', () => {
+  expect.assertions(4)
+  options.mapMarkerUrl = 'mapMarkerUrl'
+  const style = new Style({})
+  let scale
+  Style.prototype.setImage = jest.fn()
+
+  const mapMgr = new MapMgr(options)
+
+  mapMgr.loadMarkerImage(options.mapMarkerUrl, style)
+  /* TODO: trigger img load so style can be set. test currently not working */
+
+  expect(Style.prototype.setImage).toHaveBeenCalledTimes(1)
+  expect(Style.prototype.setImage.mock.calls[0][0] instanceof Icon).toBe(true)
+  expect(Style.prototype.setImage.mock.calls[0][0][0]).toBe(options.mapMarkerUrl)
+  expect(Style.prototype.setImage.mock.calls[0][0][1]).toBe(scale)
+
+
+})
+
+describe('createLocationMgr', () => {
+
+  beforeEach(() => {
+    MapMgr.prototype.createLocationMgr = createLocationMgr
+
+  })
+  afterEach(() => {
+    MapMgr.prototype.createLocationMgr = jest.fn().mockImplementation(() => {
+      return 'mock-location-mgr'
+    })
+  })
+
+  test('createLocationMgr', () => {
+    expect.assertions(5)
+    options.searchTarget = 'searchTarget'
+    const mapMgr = new MapMgr(options)
+    mapMgr.createLocationMgr(options)
+
+    expect(LocationMgr).toHaveBeenCalledTimes(2)
+    expect(LocationMgr.mock.calls[1][0].map).toBe(mapMgr.map)
+    expect(LocationMgr.mock.calls[1][0].searchTarget).toBe(options.searchTarget)
+    expect(LocationMgr.mock.calls[1][0].dialogTarget).toBe(options.mapTarget)
+    expect(LocationMgr.mock.calls[1][0].url).toBe(options.geoclientUrl)
+
+    /* TODO: add logic for geocoded and geolocated event triggers so they can be tested */
+
+  })
+
+})
+
+test('createPager', () => {
+  expect.assertions(4)
+  options.listTarget = '#listTarget'
+  options.facilityType = 'facilityType'
+
+  expect(MapMgr.prototype.createPager(options) instanceof ListPager).toBe(true)
+  expect(ListPager).toHaveBeenCalledTimes(1)
+  expect(ListPager.mock.calls[0][0].target).toBe(options.listTarget)
+  expect(ListPager.mock.calls[0][0].itemType).toBe(options.facilityType)
+
+})
