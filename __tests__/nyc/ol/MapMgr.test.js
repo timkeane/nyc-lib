@@ -1,16 +1,17 @@
 import MapMgr from 'nyc/ol/MapMgr'
-import Basemap from '../../../src/nyc/ol/Basemap'
-import MultiFeaturePopup from '../../../src/nyc/ol/MultiFeaturePopup'
-import FeatureTip from '../../../src/nyc/ol/FeatureTip'
-import ListPager from '../../../src/nyc/ListPager'
+import Basemap from 'nyc/ol/Basemap'
+import MultiFeaturePopup from 'nyc/ol/MultiFeaturePopup'
+import FeatureTip from 'nyc/ol/FeatureTip'
+import ListPager from 'nyc/ListPager'
 import Layer from 'ol/layer/Vector'
 import FilterAndSort from 'nyc/ol/source/FilterAndSort'
-import LocationMgr from '../../../src/nyc/ol/LocationMgr'
+import LocationMgr from 'nyc/ol/LocationMgr'
 import OlFeature from 'ol/Feature'
 import OlGeomPoint from 'ol/geom/Point'
 import MapLocator from 'nyc/MapLocator'
 
 import nyc from 'nyc'
+
 
 jest.mock('../../../src/nyc/ol/Basemap')
 jest.mock('../../../src/nyc/ol/MultiFeaturePopup')
@@ -18,8 +19,10 @@ jest.mock('../../../src/nyc/ol/FeatureTip')
 jest.mock('../../../src/nyc/ListPager')
 jest.mock('../../../src/nyc/ol/source/FilterAndSort')
 jest.mock('../../../src/nyc/ol/LocationMgr')
-
 jest.mock('ol/layer/Vector')
+
+const proj4 = nyc.proj4
+
 
 const options = {
   facilityUrl: 'http://facility',
@@ -35,13 +38,13 @@ const checkMouseWheel = MapMgr.prototype.checkMouseWheel
 let mapTarget
 
 beforeEach(() => {
-  options.searchTarget =  undefined
-  options.listTarget =  undefined
-  options.facilityType =  undefined
-  options.mapMarkerUrl =  undefined
-  options.facilityStyle =  undefined
-  options.facilitySearch =  true
-  options.mouseWheelZoom =  false
+  options.searchTarget = undefined
+  options.listTarget = undefined
+  options.facilityType = undefined
+  options.mapMarkerUrl = undefined
+  options.facilityStyle = undefined
+  options.facilitySearch = true
+  options.mouseWheelZoom = false
 
   mapTarget = $('<div id="map"></div>')
   $('body').append(mapTarget)
@@ -275,14 +278,14 @@ test('located', () => {
   mapMgr.resetList = jest.fn()
 
   mapMgr.located('mock-location-1')
-  
+
   expect(mapMgr.location).toBe('mock-location-1')
   expect(mapMgr.resetList).toHaveBeenCalledTimes(0)
 
   mapMgr.pager = 'mock-pager'
 
   mapMgr.located('mock-location-2')
-  
+
   expect(mapMgr.location).toBe('mock-location-2')
   expect(mapMgr.resetList).toHaveBeenCalledTimes(1)
 })
@@ -301,7 +304,7 @@ test('resetList', () => {
   expect(mapMgr.source.getFeatures).toHaveBeenCalledTimes(1)
   expect(mapMgr.pager.reset).toHaveBeenCalledTimes(1)
   expect(mapMgr.pager.reset.mock.calls[0][0]).toBe('mock-features')
-  
+
   FilterAndSort.features = 'mock-sorted-features'
   mapMgr.location = {coordinate: 'mock-coordinate'}
 
@@ -333,57 +336,57 @@ describe('ready', () => {
 
   test('ready - facility search is false', () => {
     expect.assertions(5)
-  
+
     options.facilitySearch = false
-  
+
     const mapMgr = new MapMgr(options)
-    
+
     mapMgr.ready('mock-features')
-  
+
     expect(mapMgr.locationMgr.search.setFeatures).toHaveBeenCalledTimes(0)
 
     expect(mapMgr.pager.reset).toHaveBeenCalledTimes(1)
     expect(mapMgr.pager.reset.mock.calls[0][0]).toBe('mock-features')
-  
+
     expect(nyc.ready).toHaveBeenCalledTimes(1)
     expect(nyc.ready.mock.calls[0][0].get(0)).toBe(document.body)
   })
 
   test('ready - facility search is true', () => {
     expect.assertions(6)
-  
+
     options.facilitySearch = true
-  
+
     const mapMgr = new MapMgr(options)
-    
+
     mapMgr.ready('mock-features')
-  
+
     expect(mapMgr.locationMgr.search.setFeatures).toHaveBeenCalledTimes(1)
     expect(mapMgr.locationMgr.search.setFeatures.mock.calls[0][0].features).toBe('mock-features')
 
     expect(mapMgr.pager.reset).toHaveBeenCalledTimes(1)
     expect(mapMgr.pager.reset.mock.calls[0][0]).toBe('mock-features')
-  
+
     expect(nyc.ready).toHaveBeenCalledTimes(1)
     expect(nyc.ready.mock.calls[0][0].get(0)).toBe(document.body)
   })
 
   test('ready - facility search is object', () => {
     expect.assertions(7)
-  
+
     options.facilitySearch = {nameField: 'FRED'}
-  
+
     const mapMgr = new MapMgr(options)
-    
+
     mapMgr.ready('mock-features')
-  
+
     expect(mapMgr.locationMgr.search.setFeatures).toHaveBeenCalledTimes(1)
     expect(mapMgr.locationMgr.search.setFeatures.mock.calls[0][0].features).toBe('mock-features')
     expect(mapMgr.locationMgr.search.setFeatures.mock.calls[0][0].nameField).toBe('FRED')
 
     expect(mapMgr.pager.reset).toHaveBeenCalledTimes(1)
     expect(mapMgr.pager.reset.mock.calls[0][0]).toBe('mock-features')
-  
+
     expect(nyc.ready).toHaveBeenCalledTimes(1)
     expect(nyc.ready.mock.calls[0][0].get(0)).toBe(document.body)
   })
@@ -396,7 +399,7 @@ test('zoomTo', () => {
 
   const mapMgr = new MapMgr(options)
   mapMgr.zoomTo(feature)
- 
+
   expect(mapMgr.map.once).toHaveBeenCalledTimes(1)
   expect(mapMgr.map.once.mock.calls[0][0]).toBe('moveend')
   expect(typeof mapMgr.map.once.mock.calls[0][1]).toBe('function')
@@ -419,7 +422,7 @@ describe('directionsTo', () => {
     MapMgr.prototype.getFromAddr = jest.fn().mockImplementation(() => {
       return 'mock name'
     })
-    
+
     OlFeature.prototype.getFullAddress = jest.fn().mockImplementation(() => {
       return 'mock address'
     })
@@ -438,9 +441,9 @@ describe('directionsTo', () => {
     const feature = new OlFeature({geometry: new OlGeomPoint([0, 0])})
     const mapMgr = new MapMgr(options)
     mapMgr.directionsTo(feature)
-  
-    let to = 'mock%20address'
-    let from = 'mock%20name'
+
+    const to = 'mock%20address'
+    const from = 'mock%20name'
 
     expect(feature.getFullAddress).toHaveBeenCalledTimes(1)
     expect(mapMgr.getFromAddr).toHaveBeenCalledTimes(1)
@@ -453,7 +456,33 @@ describe('directionsTo', () => {
     mapMgr.directionsTo(feature)
     expect(window.open.mock.calls[1][0]).toBe(`https://www.google.com/maps/dir/${to}/${to}`)
   })
-  
 
 })
-  
+
+test('getFromAddr', () => {
+  expect.assertions(3)
+  const mapMgr = new MapMgr(options)
+  mapMgr.location = {
+    type: 'geolocated',
+    coordinate: [1, 1]
+  }
+  const coordinates = proj4(mapMgr.view.getProjection().getCode(), 'EPSG:4326', mapMgr.location.coordinate)
+
+  expect(mapMgr.getFromAddr()).toBe(`${coordinates[1]},${coordinates[0]}`)
+
+  mapMgr.location = {
+    type: '',
+    name: 'mock-location'
+  }
+  expect(mapMgr.getFromAddr()).toBe(mapMgr.location.name)
+
+  mapMgr.location = {
+    type: '',
+    name: ''
+  }
+  expect(mapMgr.getFromAddr()).toBe('')
+
+
+})
+
+
