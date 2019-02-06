@@ -91,6 +91,22 @@ class LocationMgr extends EventHandling {
     this.geolocate.on('geolocate', this.locator.locate, this.locator)
   }
   /**
+   * @desc Navigate the map to a given location
+   * @public
+   * @method
+   * @param {string} location A location
+   */
+  goTo(location) {
+    if (location.indexOf('EPSG') > -1) {
+      const location = location.split(',')
+      const proj = this.mapLocator.getProjection()
+      const coord = proj4(location[2], proj, [location[0] * 1, location[1] * 1])
+      this.mapLocator.zoomLocation({coordinate: coord})
+    } else {
+      this.locator.search(location)
+    }
+}
+  /**
    * @private
    * @method
    * @param {string} qstr Query string
@@ -107,14 +123,7 @@ class LocationMgr extends EventHandling {
       /* empty */
     }
     if (args.location) {
-      if (args.location.indexOf('EPSG') > -1) {
-        const location = args.location.split(',')
-        const proj = this.mapLocator.getProjection()
-        const coord = proj4(location[2], proj, [location[0] * 1, location[1] * 1])
-        this.mapLocator.zoomLocation({coordinate: coord})
-      } else {
-        this.locator.search(args.location)
-      }
+      this.locateString(args.location)
     } else if (this.autoLocate) {
       this.locator.locate()
     }

@@ -107,6 +107,9 @@ class MapMgr {
       duration: 500
     })
     this.checkMouseWheel(options.mouseWheelZoom)
+    if (options.startAt) {
+      this.locationMgr.goTo(options.startAt)
+    }
   }
   /**
    * @desc Create the parent format for the source
@@ -632,6 +635,7 @@ MapMgr.FEATURE_DECORATIONS = {
  * @property {ol.style.Style=} facilityStyle The styling for the facilities layer
  * @property {module:nyc/Search~Search.FeatureSearchOptions|boolean} [facilitySearch=true] Search options for feature searches or true to use default search options
  * @property {boolean} [mouseWheelZoom=false] Allow mouse wheel map zooming
+ * @property {string=} startAt A starting location
  */
 MapMgr.Options
 
