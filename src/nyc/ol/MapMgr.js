@@ -167,10 +167,12 @@ class MapMgr {
   resetList(event) {
     const coordinate = this.location.coordinate
     this.popup.hide()
-    if (coordinate) {
-      this.pager.reset(this.source.sort(coordinate))
-    } else {
-      this.pager.reset(this.source.getFeatures())
+    if (this.pager) {
+      if (coordinate) {
+        this.pager.reset(this.source.sort(coordinate))
+      } else {
+        this.pager.reset(this.source.getFeatures())
+      }
     }
   }
   /**
@@ -185,7 +187,9 @@ class MapMgr {
       options.features = features
       this.locationMgr.search.setFeatures(options)
     }
-    this.pager.reset(features)
+    if (this.pager) {
+      this.pager.reset(features)
+    }
     nyc.ready($('body'))
   }
   /**
