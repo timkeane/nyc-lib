@@ -292,14 +292,16 @@ class MapMgr {
       this.loadMarkerImage(options.mapMarkerUrl, style)
       return style
     }
+    const color = options.mapMarkerColor || [0, 0, 255]
+    const rgb = color.join(',')
     return new Style({
       image: new Circle({
         radius: 6,
         fill: new Fill({
-          color: 'rgba(0,0,255,.5)'
+          color: `rgba(${rgb},.5)`
         }),
         stroke: new Stroke({
-          color: '#0000ff',
+          color: `rgb(${rgb})`,
           width: 2
         })
       })
@@ -650,6 +652,7 @@ MapMgr.FEATURE_DECORATIONS = {
  * @property {jQuery|Element|string=} listTarget The target element for facility list
  * @property {string} [facilityType=Facilities] Title for the facilites list
  * @property {string=} mapMarkerUrl A URL to an image for use as a falcility symbol
+ * @property {Array<number>=} mapMarkerColor An RGB color for use as a falcility symbol
  * @property {ol.style.Style=} facilityStyle The styling for the facilities layer
  * @property {module:nyc/Search~Search.FeatureSearchOptions|boolean} [facilitySearch=true] Search options for feature searches or true to use default search options
  * @property {boolean} [mouseWheelZoom=false] Allow mouse wheel map zooming
