@@ -32,7 +32,7 @@ class FinderApp extends MapMgr {
     options.mouseWheelZoom = options.mouseWheelZoom === undefined ? true : options.mouseWheelZoom
     super(options)
     global.finderApp = this
-    this.pager.find('h2.info.screen-reader-only').addClass('screen-reader-only')
+    this.pager.find('h2.info').addClass('screen-reader-only')
     const title = $('<div></div>').html(options.title)
     nyc.noSpaceBarScroll()
     $('#banner').html(title)

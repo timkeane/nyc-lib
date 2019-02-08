@@ -107,6 +107,9 @@ class MapMgr {
       duration: 500
     })
     this.checkMouseWheel(options.mouseWheelZoom)
+    if (options.startAt) {
+      this.locationMgr.goTo(options.startAt)
+    }
   }
   /**
    * @desc Create the parent format for the source
@@ -164,9 +167,13 @@ class MapMgr {
   resetList(event) {
     const coordinate = this.location.coordinate
     this.popup.hide()
-    this.pager.reset(
-      coordinate ? this.source.sort(coordinate) : this.source.getFeatures()
-    )
+    if (this.pager) {
+      if (coordinate) {
+        this.pager.reset(this.source.sort(coordinate))
+      } else {
+        this.pager.reset(this.source.getFeatures())
+      }
+    }
   }
   /**
    * @desc Handles features after they are loaded
@@ -175,13 +182,14 @@ class MapMgr {
    * @param {Array<ol.Feature>} features The facility features
    */
   ready(features) {
-    features = features || []
     if (this.facilitySearch) {
       const options = typeof this.facilitySearch === 'object' ? this.facilitySearch : {}
       options.features = features
       this.locationMgr.search.setFeatures(options)
     }
-    this.pager.reset(features)
+    if (this.pager) {
+      this.pager.reset(features)
+    }
     nyc.ready($('body'))
   }
   /**
@@ -358,7 +366,7 @@ class MapMgr {
  * @static
  * @function
  * @param {ol.Feature} feature The feature
- * @returns {Object<string, string} The tip
+ * @returns {Object<string, string>} The tip
  */
 MapMgr.tipFunction = (feature) => {
   return {html: feature.getTip()}
@@ -633,6 +641,7 @@ MapMgr.FEATURE_DECORATIONS = {
  * @property {ol.style.Style=} facilityStyle The styling for the facilities layer
  * @property {module:nyc/Search~Search.FeatureSearchOptions|boolean} [facilitySearch=true] Search options for feature searches or true to use default search options
  * @property {boolean} [mouseWheelZoom=false] Allow mouse wheel map zooming
+ * @property {string=} startAt A starting location
  */
 MapMgr.Options
 
