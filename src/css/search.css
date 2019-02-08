@@ -29,6 +29,7 @@
 	background-position: 3px center;
 	z-index: 1;
 	box-sizing: unset;
+	min-height: 31px;
 }
 .ol-overlaycontainer-stopevent .btn-srch {
 	display: none;

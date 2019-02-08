@@ -47,13 +47,7 @@ class MapMgr {
      * @member {module:nyc/ListPager~ListPager}
      */
     this.pager = this.createPager(options)
-    /**
-     * @desc The data to display in the map layer
-     * @public
-     * @member {module:nyc/ol/format/CsvPoint~CsvPoint}
-     */
-    this.source = this.createSource(options)
-    this.source.autoLoad().then($.proxy(this.ready, this))
+    
     /**
      * @desc The map
      * @public
@@ -69,22 +63,6 @@ class MapMgr {
      */
     this.view = this.map.getView()    
     /**
-     * @desc The vector layer for facilities
-     * @public
-     * @member {ol.layer.Vector}
-     */
-    this.layer = this.createLayer(this.source, this.createStyle(options))
-    this.map.addLayer(this.layer)
-    /**
-     * @desc The popup
-     * @public
-     * @member {module:nyc/ol/MultiFeaturePopup~MultiFeaturePopup}
-     */
-    this.popup = new MultiFeaturePopup({
-      map: this.map,
-      layers: [this.layer]
-    })
-    /**
      * @desc The LocationMgr
      * @public
      * @member {module:nyc/ol/LocationMgr~LocationMgr}
@@ -95,13 +73,7 @@ class MapMgr {
      * @member {module:nyc/Locator~Locator.Result}
      */
     this.location = {}
-    new FeatureTip({
-      map: this.map,
-      tips: [{
-        layer: this.layer,
-        label: MapMgr.tipFunction
-      }]
-    })
+
     this.view.fit(Basemap.EXTENT, {
       size: this.map.getSize(),
       duration: 500
@@ -109,6 +81,48 @@ class MapMgr {
     this.checkMouseWheel(options.mouseWheelZoom)
     if (options.startAt) {
       this.locationMgr.goTo(options.startAt)
+    }
+
+    /**
+     * @desc The vector layer for facilities
+     * @public
+     * @member {ol.layer.Vector}
+     */
+    this.layer = null
+    /**
+     * @desc The data to display in the map layer
+     * @public
+     * @member {module:nyc/ol/format/CsvPoint~CsvPoint}
+     */
+    this.source = this.createSource(options)
+    if (this.source) {
+      this.layer = this.createLayer(this.source, this.createStyle(options))
+      this.map.addLayer(this.layer)
+      this.source.autoLoad().then($.proxy(this.ready, this))
+    } else {
+      this.ready()
+    }
+
+    /**
+     * @desc The popup
+     * @public
+     * @member {module:nyc/ol/MultiFeaturePopup~MultiFeaturePopup}
+     */
+    this.popup = null
+
+    if (this.layer) {
+      this.popup = new MultiFeaturePopup({
+        map: this.map,
+        layers: [this.layer]
+      })
+
+      new FeatureTip({
+        map: this.map,
+        tips: [{
+          layer: this.layer,
+          label: MapMgr.tipFunction
+        }]
+      })
     }
   }
   /**
@@ -182,7 +196,7 @@ class MapMgr {
    * @param {Array<ol.Feature>} features The facility features
    */
   ready(features) {
-    if (this.facilitySearch) {
+    if (this.source && this.facilitySearch) {
       const options = typeof this.facilitySearch === 'object' ? this.facilitySearch : {}
       options.features = features
       this.locationMgr.search.setFeatures(options)
@@ -282,14 +296,16 @@ class MapMgr {
       this.loadMarkerImage(options.mapMarkerUrl, style)
       return style
     }
+    const color = options.mapMarkerColor || [0, 0, 255]
+    const rgb = color.join(',')
     return new Style({
       image: new Circle({
         radius: 6,
         fill: new Fill({
-          color: 'rgba(0,0,255,.5)'
+          color: `rgba(${rgb},.5)`
         }),
         stroke: new Stroke({
-          color: '#0000ff',
+          color: `rgb(${rgb})`,
           width: 2
         })
       })
@@ -302,15 +318,17 @@ class MapMgr {
    * @returns {module:nyc/ol/source/FilterAndSort~FilterAndSort} The sorce
    */
   createSource(options) {
-    const parentFormat = this.createParentFormat(options)
-    const decorations = this.createDecorations(options)
-    return new FilterAndSort({
-      url: options.facilityUrl,
-      format: new Decorate({
-        decorations: decorations,
-        parentFormat: parentFormat
+    if (options.facilityUrl) {
+      const parentFormat = this.createParentFormat(options)
+      const decorations = this.createDecorations(options)
+      return new FilterAndSort({
+        url: options.facilityUrl,
+        format: new Decorate({
+          decorations: decorations,
+          parentFormat: parentFormat
+        })
       })
-    })
+    }
   }
   /**
    * @private
@@ -638,6 +656,7 @@ MapMgr.FEATURE_DECORATIONS = {
  * @property {jQuery|Element|string=} listTarget The target element for facility list
  * @property {string} [facilityType=Facilities] Title for the facilites list
  * @property {string=} mapMarkerUrl A URL to an image for use as a falcility symbol
+ * @property {Array<number>=} mapMarkerColor An RGB color for use as a falcility symbol
  * @property {ol.style.Style=} facilityStyle The styling for the facilities layer
  * @property {module:nyc/Search~Search.FeatureSearchOptions|boolean} [facilitySearch=true] Search options for feature searches or true to use default search options
  * @property {boolean} [mouseWheelZoom=false] Allow mouse wheel map zooming
