@@ -249,9 +249,11 @@ class MapMgr {
   loadMarkerImage(url, style) {
     const me = this
     const image = $('<img>').on('load', () => {
+      const size = [$(image).width(), $(image).height()]
       style.setImage(new Icon({
         src: url,
-        scale: 32 / $(image).height()
+        scale: 32 / size[1],
+        imgSize: size
       }))
       $(image).remove()
       me.layer.setStyle(style)
