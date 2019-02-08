@@ -108,18 +108,22 @@ class MapMgr {
      * @public
      * @member {module:nyc/ol/MultiFeaturePopup~MultiFeaturePopup}
      */
-    this.popup = new MultiFeaturePopup({
-      map: this.map,
-      layers: [this.layer]
-    })
+    this.popup = null
 
-    new FeatureTip({
-      map: this.map,
-      tips: [{
-        layer: this.layer,
-        label: MapMgr.tipFunction
-      }]
-    })
+    if (this.layer) {
+      this.popup = new MultiFeaturePopup({
+        map: this.map,
+        layers: [this.layer]
+      })
+
+      new FeatureTip({
+        map: this.map,
+        tips: [{
+          layer: this.layer,
+          label: MapMgr.tipFunction
+        }]
+      })
+    }
   }
   /**
    * @desc Create the parent format for the source
@@ -192,7 +196,7 @@ class MapMgr {
    * @param {Array<ol.Feature>} features The facility features
    */
   ready(features) {
-    if (this.facilitySearch) {
+    if (this.source && this.facilitySearch) {
       const options = typeof this.facilitySearch === 'object' ? this.facilitySearch : {}
       options.features = features
       this.locationMgr.search.setFeatures(options)
