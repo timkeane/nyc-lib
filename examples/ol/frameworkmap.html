@@ -31,16 +31,32 @@
     <div id="map"></div>
     <div id="list"></div>
   <script>
-      var map = new nyc.ol.FrameworkMap({
-          mapTarget: '#map',
-          startAt: '59 maiden',
-          searchTarget: '#search',
-          listTarget: '#list',
-          facilityUrl: '../data/data.csv',
-          facilityType: 'DOHMH PODs',
-          mapMarkerUrl: '../img/map-marker.png',
-          geoclientUrl: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
-      });
+      // var map = new nyc.ol.FrameworkMap({
+      //     mapTarget: '#map',
+      //     startAt: '59 maiden',
+      //     searchTarget: '#search',
+      //     listTarget: '#list',
+      //     facilityUrl: '../data/data.csv',
+      //     facilityType: 'DOHMH PODs',
+      //     mapMarkerUrl: '../img/map-marker.png',
+      //     geoclientUrl: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
+      // });
+
+
+function loadMap() {
+var mceMap0 = new nyc.ol.FrameworkMap({
+  "mapTarget": "#map",
+  "mapMarkerColor": [
+    0,
+    0,
+    0
+  ],
+  "geoclientUrl": "undefined/search.json?app_key=undefined&app_id=undefined"
+});
+};
+
+
+
   </script>
 </body>
 </html>
