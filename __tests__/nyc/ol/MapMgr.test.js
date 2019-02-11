@@ -50,9 +50,12 @@ beforeEach(() => {
   options.listTarget = undefined
   options.facilityType = undefined
   options.mapMarkerUrl = undefined
+  options.mapMarkerColor = undefined
   options.facilityStyle = undefined
   options.facilitySearch = true
   options.mouseWheelZoom = false
+  options.startAt = undefined
+
 
   mapTarget = $('<div id="map"></div>')
   $('body').append(mapTarget)
@@ -94,6 +97,7 @@ describe('constructor', () => {
   const mockPromise = {}
   const mockSource = {}
   const mockLayer = {}
+  const mockLocation = {}
 
   beforeEach(() => {
     mockPromise.then = jest.fn()
@@ -113,6 +117,10 @@ describe('constructor', () => {
     MapMgr.prototype.createStyle = jest.fn().mockImplementation(() => {
       return 'mock-style'
     })
+    mockLocation.goTo = jest.fn()
+    MapMgr.prototype.createLocationMgr = jest.fn().mockImplementation(() => {
+      return mockLocation
+    })
   })
   afterEach(() => {
     MapMgr.prototype.createSource = createSource
@@ -122,7 +130,7 @@ describe('constructor', () => {
   })
 
   test('constructor minimum options', () => {
-    expect.assertions(39)
+    expect.assertions(42)
 
     const mapMgr = new MapMgr(options)
     expect(mapMgr instanceof MapMgr).toBe(true)
@@ -133,6 +141,8 @@ describe('constructor', () => {
     expect(mapMgr.pager).toBeUndefined()
 
     expect(mapMgr.createSource).toHaveBeenCalledTimes(1)
+    expect(mapMgr.map.addLayer).toHaveBeenCalledTimes(1)
+    expect(mapMgr.map.addLayer.mock.calls[0][0]).toBe(mapMgr.layer)
     expect(mapMgr.source).toBe(mockSource)
     expect(mapMgr.source.autoLoad).toHaveBeenCalledTimes(1)
     expect($.mocks.proxy).toHaveBeenCalledTimes(1)
@@ -160,7 +170,9 @@ describe('constructor', () => {
 
     expect(mapMgr.createLocationMgr).toHaveBeenCalledTimes(1)
     expect(mapMgr.createLocationMgr.mock.calls[0][0]).toBe(options)
-    expect(mapMgr.locationMgr).toBe('mock-location-mgr')
+    expect(mapMgr.locationMgr).toBe(mockLocation)
+    expect(mapMgr.locationMgr.goTo).toHaveBeenCalledTimes(0)
+
 
     expect(mapMgr.location).toEqual({})
 
@@ -180,7 +192,7 @@ describe('constructor', () => {
   })
 
   test('constructor all options', () => {
-    expect.assertions(41)
+    expect.assertions(45)
 
     options.searchTarget = '#search'
     options.listTarget = '#list'
@@ -189,6 +201,7 @@ describe('constructor', () => {
     options.facilityStyle = 'mock-facility-style'
     options.facilitySearch = 'mock-facility-search-param'
     options.mouseWheelZoom = true
+    options.startAt = 'startAddress'
 
     const mapMgr = new MapMgr(options)
     expect(mapMgr instanceof MapMgr).toBe(true)
@@ -201,6 +214,8 @@ describe('constructor', () => {
     expect(mapMgr.pager).toBe(ListPager.mock.instances[0])
 
     expect(mapMgr.createSource).toHaveBeenCalledTimes(1)
+    expect(mapMgr.map.addLayer).toHaveBeenCalledTimes(1)
+    expect(mapMgr.map.addLayer.mock.calls[0][0]).toBe(mapMgr.layer)
     expect(mapMgr.source).toBe(mockSource)
     expect(mapMgr.source.autoLoad).toHaveBeenCalledTimes(1)
     expect($.mocks.proxy.mock.calls[0][0]).toBe(mapMgr.ready)
@@ -228,7 +243,9 @@ describe('constructor', () => {
 
     expect(mapMgr.createLocationMgr).toHaveBeenCalledTimes(1)
     expect(mapMgr.createLocationMgr.mock.calls[0][0]).toBe(options)
-    expect(mapMgr.locationMgr).toBe('mock-location-mgr')
+    expect(mapMgr.locationMgr).toBe(mockLocation)
+    expect(mapMgr.locationMgr.goTo).toHaveBeenCalledTimes(1)
+    expect(mapMgr.locationMgr.goTo.mock.calls[0][0]).toBe(options.startAt)
 
     expect(mapMgr.location).toEqual({})
 
@@ -245,6 +262,25 @@ describe('constructor', () => {
 
     expect(mapMgr.checkMouseWheel).toHaveBeenCalledTimes(1)
     expect(mapMgr.checkMouseWheel.mock.calls[0][0]).toBe(true)
+  })
+
+  test('constructor no source/layer provided', () => {
+    expect.assertions(8)
+    MapMgr.prototype.createSource = jest.fn().mockImplementation(() => {
+      return ''
+    })
+    const mapMgr = new MapMgr(options)
+    expect(mapMgr.createLayer).toHaveBeenCalledTimes(0)
+    expect(mapMgr.map.addLayer).toHaveBeenCalledTimes(0)
+    expect(mapMgr.layer).toBeNull()
+    expect(mapMgr.source.autoLoad).toBeUndefined()
+    expect(mapMgr.ready).toHaveBeenCalledTimes(1)
+
+    //if no layer is created
+    expect(MultiFeaturePopup).toHaveBeenCalledTimes(0)
+    expect(mapMgr.popup).toBeNull()
+    expect(FeatureTip).toHaveBeenCalledTimes(0)
+
   })
 
 })
@@ -301,46 +337,64 @@ test('located', () => {
   expect(mapMgr.resetList).toHaveBeenCalledTimes(1)
 })
 
-test('resetList', () => {
-  expect.assertions(14)
-  options.listTarget = '#list'
+describe('resetList', () => {
 
-  const mapMgr = new MapMgr(options)
+  test('resetList - pager supplied, no coordinates supplied', () => {
+    expect.assertions(5)
+    options.listTarget = '#list'
 
-  FilterAndSort.features = 'mock-features'
+    const mapMgr = new MapMgr(options)
 
-  mapMgr.resetList({})
-  expect(mapMgr.popup.hide).toHaveBeenCalledTimes(1)
-  expect(mapMgr.source.sort).toHaveBeenCalledTimes(0)
-  expect(mapMgr.source.getFeatures).toHaveBeenCalledTimes(1)
-  expect(mapMgr.pager.reset).toHaveBeenCalledTimes(1)
-  expect(mapMgr.pager.reset.mock.calls[0][0]).toBe('mock-features')
+    FilterAndSort.features = 'mock-features'
 
-  FilterAndSort.features = 'mock-sorted-features'
-  mapMgr.location = {coordinate: 'mock-coordinate'}
+    mapMgr.resetList({})
+    expect(mapMgr.popup.hide).toHaveBeenCalledTimes(1)
+    expect(mapMgr.source.sort).toHaveBeenCalledTimes(0)
+    expect(mapMgr.source.getFeatures).toHaveBeenCalledTimes(1)
+    expect(mapMgr.pager.reset).toHaveBeenCalledTimes(1)
+    expect(mapMgr.pager.reset.mock.calls[0][0]).toBe('mock-features')
 
-  mapMgr.resetList({})
-  expect(mapMgr.source.getFeatures).toHaveBeenCalledTimes(1)
-  expect(mapMgr.source.sort).toHaveBeenCalledTimes(1)
-  expect(mapMgr.source.sort.mock.calls[0][0]).toBe('mock-coordinate')
-  expect(mapMgr.pager.reset).toHaveBeenCalledTimes(2)
-  expect(mapMgr.pager.reset.mock.calls[1][0]).toEqual('mock-sorted-features')
+  })
 
+  test('resetList - pager and coordinate supplied', () => {
+    expect.assertions(6)
+    options.listTarget = '#list'
 
-  options.listTarget = ''
-  const mapMgrNoPager = new MapMgr(options)
+    const mapMgr = new MapMgr(options)
 
-  mapMgrNoPager.resetList({})
-  expect(mapMgrNoPager.popup.hide).toHaveBeenCalledTimes(1)
-  expect(mapMgrNoPager.source.sort).toHaveBeenCalledTimes(0)
-  expect(mapMgrNoPager.source.getFeatures).toHaveBeenCalledTimes(0)
-  expect(mapMgrNoPager.pager).toBeUndefined()
+    FilterAndSort.features = 'mock-sorted-features'
+    mapMgr.location = {coordinate: 'mock-coordinate'}
 
+    mapMgr.resetList({})
+    expect(mapMgr.popup.hide).toHaveBeenCalledTimes(1)
+    expect(mapMgr.source.getFeatures).toHaveBeenCalledTimes(0)
+    expect(mapMgr.source.sort).toHaveBeenCalledTimes(1)
+    expect(mapMgr.source.sort.mock.calls[0][0]).toBe('mock-coordinate')
+    expect(mapMgr.pager.reset).toHaveBeenCalledTimes(1)
+    expect(mapMgr.pager.reset.mock.calls[0][0]).toEqual('mock-sorted-features')
+
+  })
+
+  test('resetList - no pager supplied', () => {
+    expect.assertions(4)
+    options.listTarget = ''
+    const mapMgr = new MapMgr(options)
+
+    mapMgr.resetList({})
+    expect(mapMgr.popup.hide).toHaveBeenCalledTimes(1)
+    expect(mapMgr.source.sort).toHaveBeenCalledTimes(0)
+    expect(mapMgr.source.getFeatures).toHaveBeenCalledTimes(0)
+    expect(mapMgr.pager).toBeUndefined()
+
+  })
 
 })
 
+
 describe('ready', () => {
   const nycReady = nyc.ready
+  const createSource = MapMgr.prototype.createSource
+
   beforeEach(() => {
     nyc.ready = jest.fn()
     options.listTarget = '#list'
@@ -372,6 +426,28 @@ describe('ready', () => {
 
     expect(nyc.ready).toHaveBeenCalledTimes(1)
     expect(nyc.ready.mock.calls[0][0].get(0)).toBe(document.body)
+  })
+
+  test('ready - facility search is true, but source not provided', () => {
+    expect.assertions(5)
+
+    options.facilitySearch = true
+
+    const mapMgr = new MapMgr(options)
+
+    mapMgr.source = ''
+    mapMgr.ready('mock-features')
+
+    expect(mapMgr.locationMgr.search.setFeatures).toHaveBeenCalledTimes(0)
+
+    expect(mapMgr.pager.reset).toHaveBeenCalledTimes(1)
+    expect(mapMgr.pager.reset.mock.calls[0][0]).toBe('mock-features')
+
+    expect(nyc.ready).toHaveBeenCalledTimes(1)
+    expect(nyc.ready.mock.calls[0][0].get(0)).toBe(document.body)
+
+    MapMgr.prototype.createSource = createSource
+
   })
 
   test('ready - facility search is true', () => {
@@ -698,7 +774,27 @@ describe('createStyle', () => {
     expect(Style.mock.calls[0][0].image.fill_ instanceof Fill).toBe(true)
     expect(Style.mock.calls[0][0].image.fill_.color_).toBe('rgba(0,0,255,.5)')
     expect(Style.mock.calls[0][0].image.stroke_ instanceof Stroke).toBe(true)
-    expect(Style.mock.calls[0][0].image.stroke_.color_).toBe('#0000ff')
+    expect(Style.mock.calls[0][0].image.stroke_.color_).toBe('rgb(0,0,255)')
+    expect(Style.mock.calls[0][0].image.stroke_.width_).toBe(2)
+    expect(mapMgr.createStyle(options) instanceof Style).toBe(true)
+    expect(Style).toHaveBeenCalledTimes(2)
+
+  })
+
+  test('createStyle no facilityStyle or mapMarkerUrl supplied, mapMarkerColor supplied', () => {
+    expect.assertions(9)
+
+    options.facilityStyle = ''
+    options.mapMarkerUrl = ''
+    options.mapMarkerColor = [255, 255, 255]
+    const mapMgr = new MapMgr(options)
+
+    expect(Style.mock.calls[0][0].image instanceof Circle).toBe(true)
+    expect(Style.mock.calls[0][0].image.radius_).toBe(6)
+    expect(Style.mock.calls[0][0].image.fill_ instanceof Fill).toBe(true)
+    expect(Style.mock.calls[0][0].image.fill_.color_).toBe(`rgba(${options.mapMarkerColor},.5)`)
+    expect(Style.mock.calls[0][0].image.stroke_ instanceof Stroke).toBe(true)
+    expect(Style.mock.calls[0][0].image.stroke_.color_).toBe(`rgb(${options.mapMarkerColor})`)
     expect(Style.mock.calls[0][0].image.stroke_.width_).toBe(2)
     expect(mapMgr.createStyle(options) instanceof Style).toBe(true)
     expect(Style).toHaveBeenCalledTimes(2)
@@ -739,6 +835,12 @@ describe('decorations', () => {
         return 'css-class'
       }
     })
+  })
+  test('getTip', () => {
+    expect.assertions(1)
+    expect(() => {
+      MapMgr.FEATURE_DECORATIONS.getTip()
+    }).toThrow('A getName decoration must be provided')
   })
 
   test('getName', () => {
