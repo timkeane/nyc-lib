@@ -32,6 +32,7 @@ class Drag {
       this.drag = this.element
     }
     this.drag.on('mousemove', $.proxy(this.move, this))
+      .on('mousemove', $.proxy(this.tailMove, this))
     this.growTail(options)
     this.element.css('cursor', options.cursor || 'move')
       .on('mousedown', $.proxy(this.down, this))
@@ -50,7 +51,7 @@ class Drag {
     this.drag.addClass('dragging').css('z-index', 1000)
   }
   tailDown() {
-    const points = $('svg.tail polyline').attr('points')
+    const points = this.tail.find('.pointer').attr('points')
     this.pointsAttr = points.split(' ')
     this.startPoints = []
     this.pointsAttr.forEach(p => {
@@ -76,7 +77,7 @@ class Drag {
       const dLdeft = left - this.startLeft
       const dTop = top - this.startTop
       this.pointsAttr[1] = (this.startPoints[1].x - dLdeft) + ',' + (this.startPoints[1].y - dTop)
-      $('svg.tail polyline').attr('points', this.pointsAttr.join(' '))
+      this.tail.find('.pointer').attr('points', this.pointsAttr.join(' '))
     }
   }
   up(event) {
