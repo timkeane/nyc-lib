@@ -31,12 +31,11 @@ class Drag {
     } else {
       this.drag = this.element
     }
-    this.drag.on('mousemove', $.proxy(this.move, this))
-      .on('mousemove', $.proxy(this.tailMove, this))
     this.growTail(options)
     this.element.css('cursor', options.cursor || 'move')
       .on('mousedown', $.proxy(this.down, this))
-      .on('mouseup', $.proxy(this.up, this))
+    $(document).on('mousemove', $.proxy(this.move, this))
+    $(document).on('mouseup', $.proxy(this.up, this))
   }
   down(event) {
     this.dragging = true
@@ -64,14 +63,15 @@ class Drag {
       $('.dragging').offset({
         left: event.pageX + this.startX - this.width,
         top: event.pageY + this.startY - this.height
-      }).on('mouseup', function(e) {
+      })
+      $(document).on('mouseup', function(e) {
         $(e.target).removeClass('dragging')
           .css('z-index', this.startZ)
       })
     }
   }
   tailMove(event) {
-    if (this.dragging && this.tail) {
+    if (this.dragging) {
       const left = event.pageX + this.startX - this.width
       const top = event.pageY + this.startY - this.height
       const dLdeft = left - this.startLeft
@@ -112,7 +112,7 @@ class Drag {
         })
       target.append(this.tail)
       this.element.on('mousedown', $.proxy(this.tailDown, this))
-      this.drag.on('mousemove', $.proxy(this.move, this))
+      $(document).on('mousemove', $.proxy(this.tailMove, this))
     }
   }
 }
