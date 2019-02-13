@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>nyc.Drag Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="../js/babel-polyfill.js"></script>
+  <script src="../js/nyc-lib.js"></script>
+  <link href="../css/nyc-lib.css" rel="stylesheet">
+  <style>
+    #drag-0, #drag-1, #drag-2 {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+    #drag-1 {
+      left: 120px;
+      background-color: green;
+    }
+    #drag-1 div {
+      background-color: black;
+      color: white;
+      text-align: center;
+    }
+    #drag-2 {
+      left: 230px;
+      background-color: blue;
+    }
+  </style>
+</head>
+<body>
+  <div id="drag-0"></div>
+  <div id="drag-1">
+    <div>handle</div>
+  </div>
+  <div id="drag-2"></div>
+	<script>
+    var drag0 = new nyc.Drag({
+      target: '#drag-0'
+    });
+    var drag1 = new nyc.Drag({
+      target: '#drag-1',
+      handle: 'div'
+    });
+    var drag2 = new nyc.Drag({
+      target: '#drag-2'
+    });
+	</script>
+</body>
+</html>
