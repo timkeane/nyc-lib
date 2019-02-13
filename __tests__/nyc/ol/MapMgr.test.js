@@ -820,7 +820,7 @@ test('checkMouseWheel - false', () => {
   expect.assertions(4)
 
   MapMgr.prototype.checkMouseWheel = checkMouseWheel
-  
+
   const mapMgr = new MapMgr(options)
 
   expect(mapMgr.map.getInteractions).toHaveBeenCalledTimes(1)
@@ -834,6 +834,16 @@ test('checkMouseWheel - false', () => {
   expect(mapMgr.map.removeInteraction.mock.calls[1][0] instanceof MouseWheelZoom).toBe(false)
 })
 
+test('tipFunction', () => {
+  expect.assertions(2)
+  const feature = new OlFeature({geometry: new OlGeomPoint([0, 0])})
+  feature.getTip = jest.fn().mockImplementation(() => {
+    return 'feature-tip'
+  })
+
+  expect(MapMgr.tipFunction(feature)).toEqual({html: 'feature-tip'})
+  expect(feature.getTip).toHaveBeenCalledTimes(1)
+})
 
 describe('decorations', () => {
   let extendedDecorations
