@@ -11,13 +11,18 @@
   <style>
     #drag-0, #drag-1, #drag-2 {
       position: absolute;
+      background-color: red;
+    }
+    #drag-0, #drag-1 {
       width: 100px;
       height: 100px;
+    }
+    #drag-0 {
       background-color: red;
     }
     #drag-1 {
       left: 120px;
-      background-color: green;
+      background-color: blue;
     }
     #drag-1 div {
       background-color: black;
@@ -26,7 +31,12 @@
     }
     #drag-2 {
       left: 230px;
-      background-color: blue;
+      background-color: yellow;
+      border: 2px solid blue;
+    }
+    #drag-2 div {
+      width: 100px;
+      height: 100px;
     }
   </style>
 </head>
@@ -35,7 +45,9 @@
   <div id="drag-1">
     <div>handle</div>
   </div>
-  <div id="drag-2"></div>
+  <div id="drag-2">
+      <div>content</div>
+  </div>
 	<script>
     var drag0 = new nyc.Drag({
       target: '#drag-0'
@@ -45,7 +57,8 @@
       handle: 'div'
     });
     var drag2 = new nyc.Drag({
-      target: '#drag-2'
+      target: '#drag-2',
+      tail: true
     });
 	</script>
 </body>
