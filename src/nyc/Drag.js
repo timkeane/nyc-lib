@@ -24,7 +24,14 @@ class Drag {
     this.height = 0
     this.startZ = 0
     this.handle = options.handle
-    this.element = $(options.target).addClass('drag')
+    this.target = $(options.target)
+    this.targetStartPosition = {
+      left: this.target.css('left'),
+      top: this.target.css('top'),
+      bottom: this.target.css('bottom'),
+      right: this.target.css('right')
+    }
+    this.element = this.target.addClass('drag')
     if (this.handle) {
       this.element = this.element.find(this.handle)
       this.drag = this.element.addClass('drag-hndl').parent()
@@ -90,27 +97,40 @@ class Drag {
       this.element.removeClass('dragging')
     }
   }
-  growTail(options) {
-    if (options.tail) {
-      const target = $(options.target)
-      const border = target.css('border-bottom-width')
-      const y = parseFloat(border) / 2
-      this.tail = $(Drag.TAIL_SVG)
+  resetTail() {
+    if (this.tail) {
+      const target = this.target
+      const copyFrom = target.children().length ? target.children().last() : target
+      const bgColor = copyFrom.css('background-color')
+      const fill = (bgColor === 'transparent' || bgColor === 'rgba(0, 0, 0, 0)') ? '#fff' : bgColor
+      const width = parseFloat(copyFrom.css('border-bottom-width'))
+      const y = width / 2
+      this.tail.css({
+        'margin-top': `${this.tailOffset[1] - width}px`,
+        'margin-left': `${this.tailOffset[0]}px`
+      })
       this.tail.find('polyline.mask')
         .attr({
           points: `0,${y} 24,${y}`,
-          stroke: target.css('background-color'),
+          stroke: fill,
           fill: 'none',
-          'stroke-width': border
+          'stroke-width': width
         })
       this.tail.find('polyline.pointer')
         .attr({
           points: `0,${y} 12,12 24,${y}`,
-          stroke: target.css('border-bottom-color'),
-          fill: target.css('background-color'),
-          'stroke-width': border
+          stroke: copyFrom.css('border-bottom-color'),
+          fill: fill,
+          'stroke-width': width
         })
-      target.append(this.tail)
+      this.target.append(this.tail)
+    }
+  }
+  growTail(options) {
+    if (options.tail) {
+      this.tail = $(Drag.TAIL_SVG)
+      this.tailOffset = options.tailOffset || [0, 0]
+      this.resetTail()
       this.element.on('mousedown', $.proxy(this.tailDown, this))
       $(document).on('mousemove', $.proxy(this.tailMove, this))
     }
@@ -124,12 +144,15 @@ class Drag {
  * @property {jQuery|Element|string} target The DOM node that will become draggable
  * @property {jQuery|Element|string=} handle The child node of the target that will used as the dragging handle
  * @property {boolean} [tail=false] Attach a callout tail that will always point at its starting location
+ * @property {Array<Number>} [tailOffset=[0, 0]] Offset the tail
  */
 Drag.Options
 
-Drag.TAIL_SVG = '<svg class="tail">' +
+Drag.TAIL_SVG = '<svg class="tail" width="1" height="1">' +
   '<polyline class="mask" points="0,0 24,0"/>' +
-  '<polyline class="pointer" points="0,0 12,12 24,0" stroke-linecap="round"/>' +
+  '<polyline class="pointer" stroke-linecap="round"/>' +
 '</svg>'
+
+Drag.START_POINTS = '0,0 12,12 24,0'
 
 export default Drag
