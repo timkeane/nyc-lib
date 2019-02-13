@@ -12,10 +12,11 @@ import MapLocator from 'nyc/MapLocator'
 import Icon from 'ol/style/Icon'
 import Style from 'ol/style/Style'
 import Decorate from 'nyc/ol/format/Decorate'
-import FilterAndSortMock from 'nyc/ol/source/__mocks__/FilterAndSort'
 import Circle from 'ol/style/Circle'
 import Fill from 'ol/style/Fill'
 import Stroke from 'ol/style/Stroke'
+import MouseWheelZoom from 'ol/interaction/MouseWheelZoom'
+
 
 import nyc from 'nyc'
 
@@ -801,6 +802,38 @@ describe('createStyle', () => {
 
   })
 })
+test('checkMouseWheel - true', () => {
+  expect.assertions(2)
+
+  MapMgr.prototype.checkMouseWheel = checkMouseWheel
+  options.mouseWheelZoom = true
+
+  const mapMgr = new MapMgr(options)
+
+  expect(mapMgr.map.getInteractions).toHaveBeenCalledTimes(0)
+  expect(mapMgr.map.removeInteraction).toHaveBeenCalledTimes(0)
+
+
+})
+
+test('checkMouseWheel - false', () => {
+  expect.assertions(4)
+
+  MapMgr.prototype.checkMouseWheel = checkMouseWheel
+  
+  const mapMgr = new MapMgr(options)
+
+  expect(mapMgr.map.getInteractions).toHaveBeenCalledTimes(1)
+  expect(mapMgr.map.removeInteraction).toHaveBeenCalledTimes(1)
+  expect(mapMgr.map.removeInteraction.mock.calls[0][0] instanceof MouseWheelZoom).toBe(true)
+
+  mapMgr.map.getInteractions = jest.fn().mockImplementation(() => {
+    return [1, 1]
+  })
+  mapMgr.checkMouseWheel(false)
+  expect(mapMgr.map.removeInteraction.mock.calls[1][0] instanceof MouseWheelZoom).toBe(false)
+})
+
 
 describe('decorations', () => {
   let extendedDecorations
