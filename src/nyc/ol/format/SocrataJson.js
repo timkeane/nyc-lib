@@ -23,15 +23,20 @@ class SocrataJson extends OlJSONFeature {
    */
   constructor(options) {
     super(options)
+    this.geometryName = this.geometryName || 'the_geom'
     this.geoJson = new GeoJSON()
   }
   readFeaturesFromObject(object, options) {
-    return object
+    const features = []
+    object.forEach(o => {
+      features.push(this.readFeatureFromObject(o, options))
+    })
+    return features
   }
   readFeatureFromObject(object, options) {
     const props = object
-    const geom = this.geoJson.readGeometry(props[options.geometryName])
-    delete props[options.geometryName]
+    const geom = this.geoJson.readGeometry(props[this.geometryName])
+    delete props[this.geometryName]
     const feature = new OlFeature(props)
     geom.transform(options.dataProjection, options.featureProjection)
     feature.setGeometry(geom)
