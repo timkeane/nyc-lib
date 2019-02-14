@@ -14,6 +14,7 @@ import OlPluggableMap from 'ol/PluggableMap'
 import CanvasMapRenderer from 'ol/renderer/canvas/Map'
 import CanvasTileLayerRenderer from 'ol/renderer/canvas/TileLayer'
 import CanvasVectorLayerRenderer from 'ol/renderer/canvas/VectorLayer'
+import CanvasVectorTileLayerRenderer from 'ol/renderer/canvas/VectorTileLayer'
 
 import DoubleClickZoom from 'ol/interaction/DoubleClickZoom'
 import DragPan from 'ol/interaction/DragPan'
@@ -94,7 +95,8 @@ class Basemap extends OlPluggableMap {
     const renderer = new CanvasMapRenderer(this)
     renderer.registerLayerRenderers([
       CanvasTileLayerRenderer,
-      CanvasVectorLayerRenderer
+      CanvasVectorLayerRenderer,
+      CanvasVectorTileLayerRenderer
     ])
     return renderer
   }
