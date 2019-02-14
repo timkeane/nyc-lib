@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>nyc.ol.Basemap Example</title>
+  <title>nyc.ol.source.Socrata Example</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
   <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
@@ -28,36 +28,20 @@
 <body>
   <div id="map"></div>
   <script>
-    var ENDPOINT = 'https://data.cityofnewyork.us/resource/r6z4-nn24.json'
-                      
-    function sodaUrl(extent, resolution, projection) {
-      console.warn(extent,projection.getCode());
-      
-      var wgsExtent = ol.geom.Polygon.fromExtent(extent)
-        .transform(projection, 'EPSG:4326')
-        .getExtent();
-      var where = '?$where=within_box(the_geom,' +
-        wgsExtent[1] + ',' +
-        wgsExtent[0] + ',' +
-        wgsExtent[3] + ',' +
-        wgsExtent[2] + ')';
-      return ENDPOINT + where;
-    };
 
-    var format = new nyc.ol.format.SocrataJson({
-      dataProjection: 'EPSG:4326',
-      featureProjection: 'EPSG:3857',
+    var source = new nyc.ol.source.Socrata({
+      url: 'https://data.cityofnewyork.us/resource/r6z4-nn24.json',
+      strategy: ol.loadingstrategy.bbox,
       geometryName: 'the_geom'
-    });
-    var source = new ol.source.Vector({
-      url: sodaUrl,
-      format: format,
-      strategy: ol.loadingstrategy.bbox
     });
 
     var map = new nyc.ol.Basemap({target: 'map'});
 
-    map.addLayer(new ol.layer.Vector({source: source}));
+    map.addLayer(new ol.layer.Vector({
+      maxResolution: nyc.ol.TILE_GRID.getResolution(15),
+      source: source
+    }));
+
   </script>
 </body>
 </html>
