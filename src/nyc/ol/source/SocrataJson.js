@@ -1,19 +1,19 @@
 /**
- * @module nyc/ol/source/Socrata
+ * @module nyc/ol/source/SocrataJson
  */
 
 import OlSourceVector from 'ol/source/Vector'
 import Polygon from 'ol/geom/Polygon'
-import SocrataJson from 'nyc/ol/format/SocrataJson'
+import SocrataFormat from 'nyc/ol/format/SocrataJson'
 
 /**
- * @desc Class to load all features from a Socrata json endpoint
+ * @desc Class to load all features from a SocrataJson json endpoint
  * @public
  * @class
  * @extends {ol.source.Vector}
  * @see http://openlayers.org/en/latest/apidoc/module-ol_source_Vector-VectorSource.html
  */
-class Socrata extends OlSourceVector {
+class SocrataJson extends OlSourceVector {
   /**
    * @desc Create an instance of AutoLoad
    * @public
@@ -22,15 +22,15 @@ class Socrata extends OlSourceVector {
    * @param {Object} options Constructor optionss
    */
   constructor(options) {
-    options.format = new SocrataJson({
+    options.format = new SocrataFormat({
       geometryName: options.geometryName
     })
-    options.url = Socrata.urlFunction(options)
+    options.url = SocrataJson.urlFunction(options)
     super(options)
   }
 }
 
-Socrata.urlFunction = (options) => {
+SocrataJson.urlFunction = (options) => {
   let url = options.url
   if (typeof url === 'function') {
     return url
@@ -55,4 +55,4 @@ Socrata.urlFunction = (options) => {
   }
 }
 
-export default Socrata
+export default SocrataJson

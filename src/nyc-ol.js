@@ -53,9 +53,9 @@ window.nyc.ol.format.SocrataJson = _nyc_ol_format_SocrataJson
 
 import _nyc_ol_source_AutoLoad from 'nyc/ol/source/AutoLoad'
 import _nyc_ol_source_FilterAndSort from 'nyc/ol/source/FilterAndSort'
-import _nyc_ol_source_Socrata from 'nyc/ol/source/Socrata'
+import _nyc_ol_source_SocrataJson from 'nyc/ol/source/SocrataJson'
 
 window.nyc.ol.source = {}
 window.nyc.ol.source.AutoLoad = _nyc_ol_source_AutoLoad
 window.nyc.ol.source.FilterAndSort = _nyc_ol_source_FilterAndSort
-window.nyc.ol.source.Socrata = _nyc_ol_source_Socrata
+window.nyc.ol.source.SocrataJson = _nyc_ol_source_SocrataJson

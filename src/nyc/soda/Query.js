@@ -6,7 +6,7 @@ import Papa from 'papaparse'
 import $ from 'jquery'
 
 /**
- * @desc A class for querying NYC OpenData using the Socrata SODA API
+ * @desc A class for querying NYC OpenData using the SocrataJson SODA API
  * @public
  * @class
  * @see https://opendata.cityofnewyork.us/
