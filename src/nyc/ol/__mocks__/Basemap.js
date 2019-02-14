@@ -1,5 +1,7 @@
 /* global jest */
 import OlProjProjection from 'ol/proj/Projection'
+import MouseWheelZoom from 'ol/interaction/MouseWheelZoom'
+
 
 const mockView = {
   fit: jest.fn(),
@@ -8,6 +10,8 @@ const mockView = {
     return new OlProjProjection({code: 'EPSG:3857'})
   })
 }
+
+const mockInteractions = [new MouseWheelZoom(), new MouseWheelZoom()]
 
 const mock = jest.fn().mockImplementation(() => {
   return {
@@ -21,6 +25,12 @@ const mock = jest.fn().mockImplementation(() => {
     setSize: jest.fn(),
     once: jest.fn().mockImplementation((eventType, callback) => {
       callback()
+    }),
+    getInteractions: jest.fn().mockImplementation(() => {
+      return mockInteractions
+    }),
+    removeInteraction: jest.fn().mockImplementation((interaction) => {
+      return ''
     })
   }
 })
