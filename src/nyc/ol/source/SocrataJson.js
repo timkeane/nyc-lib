@@ -23,6 +23,7 @@ class SocrataJson extends OlSourceVector {
    */
   constructor(options) {
     options.format = new SocrataFormat({
+      idName: options.idName,
       geometryName: options.geometryName
     })
     options.url = SocrataJson.urlFunction(options)

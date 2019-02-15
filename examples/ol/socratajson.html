@@ -35,7 +35,7 @@
   var source = new nyc.ol.source.SocrataJson({
       url: 'https://data.cityofnewyork.us/resource/r6z4-nn24.json',
       strategy: ol.loadingstrategy.bbox,
-      geometryName: 'the_geom'
+      idName: 'doitt_id'
     });
 
     var layer = new ol.layer.Vector({
