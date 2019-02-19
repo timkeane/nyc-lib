@@ -669,7 +669,7 @@ describe('loadMarkerImage', () => {
         expect(mapMgr.layer.setStyle).toHaveBeenCalledTimes(1)
         expect(mapMgr.layer.setStyle.mock.calls[0][0]).toBe(mockStyle)
         resolve(true)
-      }, 1500)
+      }, 500)
     }
     return test().then(success => {expect(success).toBe(true)})
   })

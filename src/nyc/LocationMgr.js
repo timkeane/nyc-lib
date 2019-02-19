@@ -98,7 +98,7 @@ class LocationMgr extends EventHandling {
    */
   goTo(location) {
     if (location.indexOf('EPSG') > -1) {
-      const location = location.split(',')
+      location = location.split(',')
       const proj = this.mapLocator.getProjection()
       const coord = proj4(location[2], proj, [location[0] * 1, location[1] * 1])
       this.mapLocator.zoomLocation({coordinate: coord})

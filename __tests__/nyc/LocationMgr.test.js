@@ -194,6 +194,7 @@ test('locateFromQueryString', () => {
   locationMgr.mapLocator.getProjection = jest.fn(() => {
     return 'EPSG:3857'
   })
+
   locationMgr.locateFromQueryString('?foo=bar&bar=foo&location=1,2,EPSG:4326')
 
   expect(options.locator.search).toHaveBeenCalledTimes(2)
