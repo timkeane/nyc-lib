@@ -68,7 +68,7 @@ class ListPager extends Container {
    */
   reset(items) {
     this.list.empty()
-    this.items = items
+    this.items = items || []
     this.index = 0
     this.moreBtn.fadeIn()
     return this.next(true)

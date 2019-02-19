@@ -364,7 +364,7 @@ test('showSplash', () => {
   expect(Dialog.mock.calls[0][0]).toEqual({css: 'splash'})
   expect(Dialog.mock.instances[0].ok.mock.calls[0][0].message).toBe('splash page message')
   expect(Dialog.mock.instances[0].ok.mock.calls[0][0].buttonText[0]).toBe('Continue')
-  
+
   return test().then(success => {expect(success).toBe(true)})
 })
 
@@ -713,12 +713,12 @@ describe('resetList', () => {
   })
 })
 
-test('parentFormat', () => {
+test('createParentFormat', () => {
   expect.assertions(2)
 
   const format = {parentFormat: 'mock-format'}
 
-  const finderApp = new FinderApp({
+  const options = {
     title: 'Finder App',
     facilityTabTitle: 'Facility Title',
     facilityUrl: 'http://facility',
@@ -727,13 +727,15 @@ test('parentFormat', () => {
     filterTabTitle: 'Filter Title',
     filterChoiceOptions: filterChoiceOptions,
     geoclientUrl: 'http://geoclient'
-  })
+  }
 
-  expect(finderApp.parentFormat(format)).toBe('mock-format')  
+  const finderApp = new FinderApp(options)
+
+  expect(finderApp.createParentFormat(options)).toBe('mock-format')  
 
   delete format.parentFormat
 
-  expect(finderApp.parentFormat(format)).toBe(format)  
+  expect(finderApp.createParentFormat(options)).toBe(format)  
 })
 
 describe('ready', () => {
