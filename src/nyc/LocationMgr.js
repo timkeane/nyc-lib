@@ -105,7 +105,7 @@ class LocationMgr extends EventHandling {
     } else {
       this.locator.search(location)
     }
-}
+  }
   /**
    * @private
    * @method
@@ -123,7 +123,7 @@ class LocationMgr extends EventHandling {
       /* empty */
     }
     if (args.location) {
-      this.locateString(args.location)
+      this.goTo(args.location)
     } else if (this.autoLocate) {
       this.locator.locate()
     }
