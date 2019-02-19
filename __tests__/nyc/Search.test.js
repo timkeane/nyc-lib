@@ -21,7 +21,7 @@ test('constructor', () => {
   expect(search instanceof Search).toBe(true)
   expect(search.isAddrSrch).toBe(true)
   expect(search.getContainer().html()).toBe($(Search.HTML).html())
-  expect(search.getContainer().hasClass('srch-ctr')).toBe(true)
+  expect(search.getContainer().hasClass('srch-ctl')).toBe(true)
 })
 
 test('abstract method featureAsLocation', () => {
@@ -54,12 +54,11 @@ describe('hookupEvents called from constructor', () => {
 
     const search = new Search(container)
 
-
     expect(search.input.length).toBe(1)
     expect(search.input.get(0)).toBe(container.find('.srch input').get(0))
 
     expect(search.list.length).toBe(1)
-    expect(search.list.get(0)).toBe(container.find('.srch ul').get(0))
+    expect(search.list.get(0)).toBe(container.find('ul.rad-all').get(0))
     expect(search.retention.length).toBe(1)
     expect(search.retention.get(0)).toBe(container.find('ul.retention').get(0))
 

@@ -48,10 +48,12 @@ class FrameworkMap extends MapMgr {
    * @returns {Array<Object<string, Object>>} The combined decorations
    */
   createDecorations(options) {
-    const decorations = options.decorations || []
-    decorations.push({app: this})
-    decorations.push(MapMgr.FEATURE_DECORATIONS)
+    const decorations = [MapMgr.FEATURE_DECORATIONS]
     decorations.push(FrameworkMap.FEATURE_DECORATIONS)
+    if (options.decorations) {
+      decorations.push(options.decorations)
+    }
+    decorations.push({app: this})
     return decorations
   }
 }

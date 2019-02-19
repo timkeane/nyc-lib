@@ -204,7 +204,7 @@ class Search extends Container {
    */
   emptyList() {
     const retention = this.retention
-    this.find('.srch li').each((i, item) => {
+    this.find('li').each((i, item) => {
       if (retention.find(`li[data-id="${$(item).attr('data-id')}"]`).length === 0) {
         retention.append(item)
       }
