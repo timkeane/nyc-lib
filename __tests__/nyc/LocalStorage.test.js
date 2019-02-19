@@ -1,6 +1,5 @@
 import LocalStorage from 'nyc/LocalStorage'
 
-import localStorageMock from '../localStorage.mock'
 import FileReaderMock from '../FileReader.mock'
 import shapefileMock from '../shapefile.mock'
 
@@ -9,12 +8,10 @@ import nyc from 'nyc'
 const proj4 = nyc.proj4
 
 beforeEach(() => {
-  localStorageMock.resetMock()
   FileReaderMock.resetMock()
   shapefileMock.resetMock()
 })
 afterEach(() => {
-  localStorageMock.unmock()
   FileReaderMock.unmock()
 })
 
@@ -41,60 +38,18 @@ test('saveGeoJson', () => {
   return storage.saveGeoJson('file', '{"data":"geo-stuff"}')
 })
 
-test('setItem', () => {
-  expect.assertions(4)
+test('setItem/getItem/removeItem', () => {
+  expect.assertions(2)
 
   const storage = new LocalStorage()
 
   storage.setItem('foo', 'bar')
 
-  expect(window.localStorage.setItem).toHaveBeenCalledTimes(1)
-  expect(window.localStorage.setItem.mock.calls[0][0]).toBe('foo')
-  expect(window.localStorage.setItem.mock.calls[0][1]).toBe('bar')
-
-  delete window.localStorage
-
-  storage.setItem('bar', 'foo')
-
-  expect(window.localStorage).toBe(undefined)
-})
-
-test('getItem', () => {
-  expect.assertions(4)
-
-  const storage = new LocalStorage()
-
-  window.localStorage.data.foo = 'bar'
-
   expect(storage.getItem('foo')).toBe('bar')
-
-  expect(window.localStorage.getItem).toHaveBeenCalledTimes(1)
-  expect(window.localStorage.getItem.mock.calls[0][0]).toBe('foo')
-
-  delete window.localStorage
-
-  storage.getItem('bar')
-
-  expect(window.localStorage).toBe(undefined)
-})
-
-test('removeItem', () => {
-  expect.assertions(3)
-
-  const storage = new LocalStorage()
-
-  window.localStorage.data.foo = 'bar'
 
   storage.removeItem('foo')
 
-  expect(window.localStorage.removeItem).toHaveBeenCalledTimes(1)
-  expect(window.localStorage.removeItem.mock.calls[0][0]).toBe('foo')
-
-  delete window.localStorage
-
-  storage.removeItem('bar')
-
-  expect(window.localStorage).toBe(undefined)
+  expect(storage.getItem('foo')).toBeNull()
 })
 
 describe('readTextFile', () => {

@@ -32,7 +32,7 @@ describe('constrcutor tests', () => {
   })
 
   test('constructor', () => {
-    expect.assertions(270)
+    expect.assertions(274)
     const options = {target: 'map0'}
     const basemap = new Basemap(options)
     const lMap = L.map('map1')

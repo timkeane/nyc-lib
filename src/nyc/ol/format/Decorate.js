@@ -86,8 +86,8 @@ class Decorate extends OlFormatFeature {
    * @param {ol.Feature} feature The feature to decorate
    */
   decorate(feature) {
-    if (!feature.get('decorated')) {
-      feature.set('decorated', true)
+    if (!feature.decorated) {
+      feature.decorated = true
       nyc.mixin(feature, this.decorations)
       if (feature.extendFeature) {
         feature.extendFeature()

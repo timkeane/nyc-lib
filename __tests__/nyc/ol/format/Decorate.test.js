@@ -158,13 +158,13 @@ test('decorate', () => {
 
   expect(feature.sayHi()).toBe('Hi, foo bar!')
   expect(feature.getName()).toBe('foo bar')
-  expect(feature.get('decorated')).toBe(true)
+  expect(feature.decorated).toBe(true)
 
   decorating.decorate(feature)
 
   expect(feature.sayHi()).toBe('Hi, foo bar!')
   expect(feature.getName()).toBe('foo bar')
-  expect(feature.get('decorated')).toBe(true)
+  expect(feature.decorated).toBe(true)
 })
 
 test('getType', () => {

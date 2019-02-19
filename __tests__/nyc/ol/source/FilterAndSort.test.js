@@ -22,7 +22,7 @@ test('constructor', () => {
 })
 
 test('sort', () => {
-  expect.assertions(22)
+  expect.assertions(11)
 
   const f0 = new OlFeature({id: 'f0', geometry: new OlGeomPoint([0, 0])})
   const f1 = new OlFeature({id: 'f1', geometry: new OlGeomPoint([0, 1])})
@@ -34,22 +34,7 @@ test('sort', () => {
     features: [f0, f4, f2, f1, f3]
   })
 
-  let features = filterAndSort.sort()
-
-  expect(features.length).toBe(5)
-  expect(features[0]).toBe(f0)
-  expect(features[1]).toBe(f4)
-  expect(features[2]).toBe(f2)
-  expect(features[3]).toBe(f1)
-  expect(features[4]).toBe(f3)
-
-  expect(features[0].getDistance).toBeUndefined()
-  expect(features[1].getDistance).toBeUndefined()
-  expect(features[2].getDistance).toBeUndefined()
-  expect(features[3].getDistance).toBeUndefined()
-  expect(features[4].getDistance).toBeUndefined()
-
-  features = filterAndSort.sort([0, 0])
+  const features = filterAndSort.sort([0, 0])
 
   expect(features.length).toBe(5)
   expect(features[0]).toBe(f0)
