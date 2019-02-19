@@ -30,7 +30,7 @@ test('constructor', () => {
   expect(search instanceof NycSearch).toBe(true)
   expect(search.geoJson instanceof OlGeoJSON).toBe(true)
 
-  expect(search.getContainer().hasClass('srch-ctr')).toBe(true)
+  expect(search.getContainer().hasClass('srch-ctl')).toBe(true)
 
   search.getContainer().trigger('click')
 
