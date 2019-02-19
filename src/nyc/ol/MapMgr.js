@@ -270,7 +270,7 @@ class MapMgr {
    */
   loadMarkerImage(url, style) {
     const me = this
-    const image = $('<img>').on('load', () => {
+    const image = $('<img>').on('load', (event) => {
       const size = [$(image).width(), $(image).height()]
       style.setImage(new Icon({
         src: url,

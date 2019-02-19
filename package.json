@@ -28,6 +28,7 @@
   },
   "jest": {
     "testURL": "http://localhost",
+    "testEnvironmentOptions": { "resources": "usable" },
     "verbose": true,
     "automock": false,
     "testMatch": [
