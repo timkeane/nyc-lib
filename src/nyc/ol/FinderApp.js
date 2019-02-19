@@ -70,7 +70,7 @@ class FinderApp extends MapMgr {
      */
     this.directionsUrl = options.directionsUrl
   }
- /**
+  /**
    * @desc Reset the facilities list
    * @public
    * @method

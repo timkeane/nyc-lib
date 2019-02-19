@@ -10,7 +10,7 @@
     "transpl": "rm -rf ./dist && babel src/nyc -d ./dist/nyc --ignore __mocks__",
     "mta-hack": "cp ./src/nyc/mta/mta.html ./dist/nyc/mta/",
     "build": "webpack",
-    "prebuild": "yarn postcss",
+    "prebuild": "yarn lint && yarn test && yarn postcss",
     "prebuild-no-test": "yarn postcss",
     "postbuild": "yarn jsdoc && rm -rf ./tmp",
     "build-no-test": "webpack",
@@ -114,6 +114,9 @@
     "text-encoding": "^0.6.4"
   },
   "config": {
-    "ghooks": {}
+    "ghooks": {
+      "pre-commit": "yarn test",
+      "pre-push": "yarn build"
+    }
   }
 }

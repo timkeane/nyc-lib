@@ -47,7 +47,7 @@ class MapMgr {
      * @member {module:nyc/ListPager~ListPager}
      */
     this.pager = this.createPager(options)
-    
+
     /**
      * @desc The map
      * @public
@@ -61,7 +61,7 @@ class MapMgr {
      * @public
      * @member {ol.View}
      */
-    this.view = this.map.getView()    
+    this.view = this.map.getView()
     /**
      * @desc The LocationMgr
      * @public
@@ -222,7 +222,7 @@ class MapMgr {
       center: feature.getGeometry().getCoordinates(),
       zoom: MapLocator.ZOOM_LEVEL
     })
-  }  
+  }
   /**
    * @desc Provides directions to the provided facility feature
    * @public
@@ -347,7 +347,7 @@ class MapMgr {
    * @private
    * @method
    * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
-   * @returns {module:nyc/ol/LocationMgr~LocationMgr}
+   * @returns {module:nyc/ol/LocationMgr~LocationMgr} The LocationMgr instance
    */
   createLocationMgr(options) {
     const locationMgr = new LocationMgr({
@@ -355,7 +355,7 @@ class MapMgr {
       searchTarget: options.searchTarget,
       dialogTarget: options.mapTarget,
       url: options.geoclientUrl
-    })  
+    })
     locationMgr.on('geocoded', this.located, this)
     locationMgr.on('geolocated', this.located, this)
     return locationMgr
@@ -363,7 +363,7 @@ class MapMgr {
   /**
    * @private
    * @method
-   * @param {boolean} mouseWheelZoom
+   * @param {boolean} mouseWheelZoom Allow mouse wheel zoom
    */
   checkMouseWheel(mouseWheelZoom) {
     if (mouseWheelZoom !== true) {
@@ -375,7 +375,7 @@ class MapMgr {
       })
       this.map.removeInteraction(wheel)
     }
-  }  
+  }
 }
 
 /**
@@ -422,6 +422,7 @@ MapMgr.FEATURE_DECORATIONS = {
    * @desc Returns the feature tip value
    * @public
    * @method
+   * @returns {string} Tip text
    */
   getTip() {
     return this.getName()
