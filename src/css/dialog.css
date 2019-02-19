@@ -1,6 +1,6 @@
 .dia-container {
 	display: none;
-	position: fixed;
+	position: absolute;
 	left: 0;
 	top: 0;
 	right: 0;
@@ -18,9 +18,9 @@
 	margin-top: -80px;
 	margin-left: -128px;
 	background-color: var(--color-light);
-	border-radius: var(--border-radius);
+	border-radius: var(--border-radius, 0);
 	border: 1px solid var(--color-shadow);
-	box-shadow: var(--box-shadow);
+	box-shadow: var(--box-shadow, none);
 }
 .dia input {
 	display: none;

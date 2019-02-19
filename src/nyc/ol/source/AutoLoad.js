@@ -36,10 +36,10 @@ class AutoLoad extends OlSourceVector {
    */
   autoLoad() {
     const options = this.autoLoadOptions
-    const format = this.getFormat()
     return fetch(options.url).then((response) => {
       return response.text()
     }).then((responseText) => {
+      const format = this.getFormat(responseText)
       const features = format.readFeatures(responseText)
       this.addFeatures(features)
       this.set('autoload-complete', true)

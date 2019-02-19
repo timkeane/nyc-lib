@@ -26,8 +26,7 @@ class Popup extends OlOverlay {
     super({
       id: nyc.nextId('Popup'),
       element: $(Popup.HTML).get(0),
-      stopEvent: true,
-      autoPan: true,
+      // stopEvent: true,
       autoPanMargin: options.margin === undefined ? 10 : options.margin,
       autoPanAnimation: options.autoPanAnimation === undefined ? {
         duration: 1000,
@@ -174,7 +173,10 @@ Popup.Options
  */
 Popup.HTML = '<div class="pop">' +
   '<div class="content"></div>' +
-  '<button class="btn-rnd btn-x"><span class="screen-reader-only">Dismiss popup</span></button>' +
+  '<button class="btn btn-rnd btn-x">' +
+    '<span class="screen-reader-only">Dismiss popup</span>' +
+    '<span class="fas fa-times" role="img"></span>' +
+  '</button>' +
 '</div>'
 
 /**
@@ -182,7 +184,10 @@ Popup.HTML = '<div class="pop">' +
  * @const {string}
  */
 Popup.FULLSCREEN_HTML = '<div class="pop fullscreen">' +
-  '<button class="btn-rnd btn-x"><span class="screen-reader-only">Close</span></button>' +
+  '<button class="btn btn-rnd btn-x">' +
+    '<span class="screen-reader-only">Close</span>' +
+    '<span class="fas fa-times" role="img"></span>' +
+  '</button>' +
 '</div>'
 
 export default Popup

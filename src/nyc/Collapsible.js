@@ -84,7 +84,7 @@ Collapsible.Options
  * @type {string}
  */
 Collapsible.HTML = '<div class="clps rad-all">' +
-  '<button class="btn rad-all" aria-pressed="false"></button>' +
+  '<button class="btn rad-all btn-dark" aria-pressed="false"></button>' +
   '<div class="content rad-bot" aria-expanded="false" aria-collapsed="true" aria-hidden="true"></div>' +
 '</div>'
 

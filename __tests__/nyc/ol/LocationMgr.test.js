@@ -41,8 +41,8 @@ test('constructor no search target', () => {
   expect(locationMgr.locator.geocoder.url).toBe('http://geoclient.url?keys=keys&input=')
   expect(locationMgr.mapLocator instanceof NycOlMapLocator).toBe(true)
 
-  expect(div.find('.srch-ctr').length).toBe(1)
-  expect(locationMgr.search.getContainer().get(0)).toBe(div.find('.srch-ctr').get(0))
+  expect(div.find('.srch-ctl').length).toBe(1)
+  expect(locationMgr.search.getContainer().get(0)).toBe(div.find('.srch-ctl').get(0))
 })
 
 test('constructor with search target', () => {
@@ -64,6 +64,6 @@ test('constructor with search target', () => {
   expect(locationMgr.locator.geocoder.url).toBe('http://geoclient.url?keys=keys&input=')
   expect(locationMgr.mapLocator instanceof NycOlMapLocator).toBe(true)
 
-  expect(target.find('.srch-ctr').length).toBe(1)
-  expect(locationMgr.search.getContainer().get(0)).toBe(target.find('.srch-ctr').get(0))
+  expect(target.find('.srch-ctl').length).toBe(1)
+  expect(locationMgr.search.getContainer().get(0)).toBe(target.find('.srch-ctl').get(0))
 })

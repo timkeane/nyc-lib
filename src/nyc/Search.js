@@ -25,17 +25,37 @@ class Search extends Container {
    */
   constructor(target) {
     super($(Search.HTML))
+    let input
+    target = $(target).get(0)
+    if (target.tagName === 'INPUT') {
+      input = target
+      target = $('<div class="map-srch"></div>')
+      target.insertAfter(input)
+      this.find('.srch').addClass('input-group')
+    }
     $(target).append(this.getContainer())
-    /**
-     * @private
-     * @member {boolean}
-     */
-    this.isAddrSrch = true
     /**
      * @private
      * @member {jQuery}
      */
     this.input = this.find('input')
+    /**
+     * @private
+     * @member {jQuery}
+     */
+    this.clear = this.find('.btn-x')
+    if (input) {
+      this.input.attr('id', $(input).attr('id'))
+        .attr('placeholder', $(input).attr('placeholder'))
+        .addClass($(input).attr('class'))
+      $(input).remove()
+      this.clear.remove()
+    }
+    /**
+     * @private
+     * @member {boolean}
+     */
+    this.isAddrSrch = true
     /**
      * @private
      * @member {jQuery}
@@ -46,11 +66,6 @@ class Search extends Container {
      * @member {jQuery}
      */
     this.retention = this.find('ul.retention')
-    /**
-     * @private
-     * @member {jQuery}
-     */
-    this.clear = this.find('.btn-x')
     /**
      * @private
      * @member {AutoComplete}
@@ -189,7 +204,7 @@ class Search extends Container {
    */
   emptyList() {
     const retention = this.retention
-    this.find('.srch li').each((i, item) => {
+    this.find('li').each((i, item) => {
       if (retention.find(`li[data-id="${$(item).attr('data-id')}"]`).length === 0) {
         retention.append(item)
       }
@@ -238,6 +253,7 @@ class Search extends Container {
     input.focus(() => input.select())
     this.clear.click($.proxy(this.clearTxt, this))
     $(document).mouseup($.proxy(this.listClick, this))
+    this.find('.btn-srch').click($.proxy(this.triggerSearch, this))
   }
   /**
    * @private
@@ -335,13 +351,17 @@ Search.FeatureSearchOptions
  * @const
  * @type {string}
  */
-Search.HTML = '<div class="srch-ctr">' +
+Search.HTML = '<div class="srch-ctl">' +
   '<div class="srch" role="search">' +
     '<input class="rad-all" placeholder="Search for an address...">' +
-    '<button class="btn-rnd btn-x"><span class="screen-reader-only">Clear</span></button>' +
-    '<ul class="rad-all" role="region" label="Possible matches for your search"></ul>' +
-    '<ul class="retention"></ul>' +
-  '</div>' +
+    '<button class="btn btn-rnd btn-x">' +
+      '<span class="screen-reader-only">Clear</span>' +
+      '<span class="fas fa-times" role="img"></span>' +
+    '</button>' +
+    '<button class="btn btn-srch btn-primary btn-lg">Search</button>' +
+    '</div>' +
+  '<ul class="rad-all" role="region" label="Possible matches for your search"></ul>' +
+  '<ul class="retention"></ul>' +
 '</div>'
 
 export default Search

@@ -2,78 +2,87 @@
   position: relative;
 	width: auto;
 }
-.ol-overlaycontainer-stopevent .srch {
+.ol-overlaycontainer-stopevent .srch, .ol-overlaycontainer-stopevent .srch-ctl>ul {
   position: absolute;
 	top: 3px;
 	left: 41px;
 	right: 3px;
 	max-width: 400px;
 }
-.srch input, .srch ul {
+.ol-overlaycontainer-stopevent .srch-ctl>ul {
+	margin-top: 38px;
+	max-width: 398px;
+}
+.ol-overlaycontainer-stopevent .srch, .srch-ctl ul {
 	background-color: var(--color-light-translucent);
 }
-.srch input {
-	width: calc(100% - 28px);
-	margin: 0;
-	padding-left: 23px;
-  border-color: var(--color-dark);
+.ol-overlaycontainer-stopevent .srch input {
+  position: absolute;
+  padding-left: 23px;
+  padding-right: 28px;
+  width: calc(100% - 54px);
+  background-color: var(--color-light-translucent);
+  border: 1px solid var(--color-dark);
+	background-image: var(--magnify-icon-medium, none);
+	background-size: 14px;
+	background-repeat: no-repeat;
+	background-position: 3px center;
+	z-index: 1;
+	box-sizing: unset;
+	min-height: 31px;
 }
-.srch ul {
+.ol-overlaycontainer-stopevent .btn-srch {
+	display: none;
+}
+.srch-ctl ul {
 	display: none;
 	max-height: 300px;
 	padding: 0;
 	list-style-type: none;
-	box-shadow: var(--box-shadow);
+	box-shadow: var(--box-shadow, none);
 	overflow-x: hidden;
 	overflow-y: auto;
 	margin: 1px 0 0 0;
-}
-.srch:after {
-	content: " ";
-	background-image: var(--magnify-icon-medium);
-	background-size: 14px;
-	background-repeat: no-repeat;
-	position: absolute;
-	top: 11px;
-	left: 5px;
-	width: 15px;
-	height: 15px;
-}
-.srch input:focus {
-	opacity: 1;
 }
 .srch .btn-x {
 	display: none;
 	position: absolute;
 	left: calc(100% - 28px);
 	top: 5px;
+	z-index: 2;
 }
-.srch ul li {
+.ol-overlaycontainer-stopevent .srch-ctl {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.srch-ctl ul li {
 	background-color: var(--color-light-translucent);
 	cursor: pointer;
 	padding: 6px 3px;
 	margin: 0;
 	border-bottom: 1px solid var(--color-border);
 }
-.srch ul li:last-child {
+.srch-ctl ul li:last-child {
 	border-bottom: none;
 }
-.srch ul li:focus {
+.srch-ctl ul li:focus {
 	outline: 0;
 }
-.srch ul li a {
+.srch-ctl ul li a {
 	text-decoration: none;
 	padding: 1px 3px;
 	width: calc(100% - 10px);
 	display: block;
 	margin: -1px 3px;
 }
-.srch ul li:hover {
+.srch-ctl ul li:hover {
 	background-color: var(--color-dark-translucent);
 }
-.srch ul li:hover a, .srch ul li:hover a * {
+.srch-ctl ul li:hover a, .srch-ctl ul li:hover a * {
 	color: var(--color-light);	
 }
-.srch ul.retention {
+.srch-ctl ul.retention {
 	display: none;
 }

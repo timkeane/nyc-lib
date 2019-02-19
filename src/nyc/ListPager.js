@@ -68,7 +68,7 @@ class ListPager extends Container {
    */
   reset(items) {
     this.list.empty()
-    this.items = items
+    this.items = items || []
     this.index = 0
     this.moreBtn.fadeIn()
     return this.next(true)
@@ -103,12 +103,8 @@ class ListPager extends Container {
    * @method
    */
   info() {
-    let info = this.find('h2.info')
-    if (!info.length) {
-      info = $('<h2 class="info screen-reader-only"></h2>')
-      this.prepend(info)
-    }
-    info.html(`Showing ${this.find('.lst-it').length} of ${this.items.length} ${this.itemType}`)
+    this.find('h2.info')
+      .html(`Showing ${this.find('.lst-it').length} of ${this.items.length} ${this.itemType}`)
   }
   /**
    * @private
@@ -156,7 +152,8 @@ ListPager.Item
  * @const
  * @type {string}
  */
-ListPager.HTML = '<div class="list" role="list"></div>' +
-'<button class="btn rad-all btn-more">More...</button>'
+ListPager.HTML = '<h2 class="info"></h2>' +
+  '<div class="list" role="list"></div>' +
+  '<button class="btn rad-all btn-more btn-dark">More...</button>'
 
 export default ListPager

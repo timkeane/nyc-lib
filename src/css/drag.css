@@ -1,0 +1,8 @@
+.drag {
+  position: absolute;
+}
+svg.tail {
+  position: absolute;
+  left: 36px;
+  overflow: visible;
+}

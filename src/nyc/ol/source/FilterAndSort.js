@@ -87,8 +87,8 @@ class FilterAndSort extends AutoLoad {
   distance(coordinate, geom) {
     const line = new OlGeomLineString([coordinate, geom.getClosestPoint(coordinate)])
     const projections = this.projections(this.getFormat())
-    let units
-    if (projections[0]) {
+    let units = projections[1].getUnits()
+    if (projections[0] && projections[0].getUnits() !== 'degrees') {
       line.transform(projections[1], projections[0])
       units = projections[0].getUnits()
     }
@@ -102,8 +102,8 @@ class FilterAndSort extends AutoLoad {
    */
   projections(format) {
     const parentFormat = format ? format.parentFormat : null
-    let dataProj
-    let featureProj
+    let dataProj = 'EPSG:3857'
+    let featureProj = 'EPSG:3857'
     if (parentFormat) {
       dataProj = olProjGet(parentFormat.defaultDataProjection)
       featureProj = olProjGet(parentFormat.defaultFeatureProjection || 'EPSG:3857')

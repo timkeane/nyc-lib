@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>nyc.ol.FrameworkMap Example</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link href="../../css/nyc-basic-lib.css" rel="stylesheet">
+  <link href="https://cityofnewyork.github.io/nyc-core-framework/css/theme.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
+  <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.4.0/papaparse.min.js"></script>
+  <script src="../../js/babel-polyfill.js"></script>
+  <script src="../../js/nyc-ol-lib.js"></script>
+  <style>
+    html {
+      background-color: #fff;
+    }
+    body {
+      padding: 20px;
+    }
+    #map, #list {
+      margin-top: 20px;
+      height: 500px;
+    }
+  </style>
+</head>
+<body>
+    <input id="search" placeholder="Search..." class="form-control form-control-lg">
+    <div id="map"></div>
+    <div id="list"></div>
+  <script>
+      var map = new nyc.ol.FrameworkMap({
+          mapTarget: '#map',
+          startAt: '59 maiden',
+          searchTarget: '#search',
+          listTarget: '#list',
+          facilityUrl: '../data/data.csv',
+          facilityType: 'DOHMH PODs',
+          mapMarkerUrl: '../img/map-marker.png',
+          geoclientUrl: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
+      });
+  </script>
+</body>
+</html>

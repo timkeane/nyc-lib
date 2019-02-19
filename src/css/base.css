@@ -9,7 +9,7 @@ html, body, body * {
 	z-index: 100000;
 }
 .rad-all, .rad-top, .rad-bot {
-	border-radius: var(--border-radius);
+	border-radius: var(--border-radius, 0);
 	border: 1px solid var(--color-border);
 }
 .rad-top {
@@ -20,28 +20,18 @@ html, body, body * {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }
-*.screen-reader-only {
-	position: absolute !important;
-	left:-1000px !important;
-	top: auto !important;
-	width: 1px !important;
-	height: 1px !important;
-	overflow: hidden !important;
-	border: none !important;
-	color: transparent !important;
-	background-color: transparent !important;
-}
-.btn, .btn-sq, .btn-rnd {
+.btn, .btn-sq, .btn-rnd, .btn.btn-sq, .btn.btn-rnd {
 	background-repeat: no-repeat;
 	cursor: pointer;
 	font-weight: bold;
-	background-position: center;
 	padding: 0;
+	text-align: center;
 }
 .btn {
 	background-position: 3px center;
-	padding: 0;
-	text-align: center;
+}
+.btn-sq, .btn-rnd, .btn.btn-sq, .btn.btn-rnd {
+	background-position: center;	
 }
 .btn, .btn-sq {
 	background-size: 28px;
@@ -64,13 +54,6 @@ h2.btn, h3.btn, a.btn, div.btn {
 	background-color: var(--color-dark-translucent);
 	color: var(--color-light);
 }
-.btn-sq {
-	position: absolute;
-	width: 35px;
-	height: 35px;
-	margin: 0;
-	padding: 0;
-}
 .btn:hover {
 	background-color: var(--color-border);
 }
@@ -78,7 +61,7 @@ h2.btn, h3.btn, a.btn, div.btn {
 	background-color: var(--color-dark);
 	color: var(--color-light);
 }
-.btn-rnd {
+.btn-rnd, .btn.btn-rnd {
 	width: 24px;
 	height: 24px;
 	background-size: 14px;
@@ -89,43 +72,16 @@ h2.btn, h3.btn, a.btn, div.btn {
 	outline: 0;
 }
 .btn-x {
-	background-image: var(--x-icon-light);
+	background-image: var(--x-icon-light, none);
+	border-radius: 50%;
 }
 .btn-prv {
-	background-image: var(--left-icon-light);
+	background-image: var(--left-icon-light, none);
 }
 .btn-nxt {
-	background-image: var(--right-icon-light);
+	background-image: var(--right-icon-light, none);
 }
 input {
 	height: 33px;
 	padding: 0 3px;
-}
-.nyc-html {
-	display: table;
-	border: 1px solid var(--color-border);
-	border-radius: var(--border-radius);
-}
-.nyc-html div {
-	display: table-row;
-}
-.nyc-html div span {
-	font-size: 14px;
-	display: table-cell;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	border-bottom: 1px solid var(--color-border);
-	padding: 0 3px;
-	overflow-wrap: break-word;
-  word-wrap: break-word;
-  -ms-word-break: break-all;
-  word-break: break-all;
-  word-break: break-word;
-}
-.nyc-html div:last-of-type span {
-	border-bottom: none;
-}
-.nyc-html .fld {
-	font-weight: bold;
-	border-right: 1px solid var(--color-border);
 }

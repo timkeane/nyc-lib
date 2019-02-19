@@ -2,6 +2,7 @@
     "parser": "babel-eslint",
     "env": {
         "browser": true,
+        "jest": true,
         "node": true
     },
     "extends": ["openlayers"],
@@ -10,7 +11,7 @@
         "semi": 0,
         "no-shadow": "error",
         "comma-dangle": "error",
-        "import/no-extraneous-dependencies": 0,
+        "import/no-extraneous-dependencies": 1,
         "no-console": ["error", {
             "allow" : ["warn", "error"]
         }],

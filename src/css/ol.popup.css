@@ -1,8 +1,8 @@
 .pop {
 	background-color: var(--color-light);
-	border-radius: var(--border-radius);
+	border-radius: var(--border-radius, 0);
 	border: 1px solid var(--color-shadow);
-	box-shadow: var(--box-shadow);
+	box-shadow: var(--box-shadow, none);
 	display: none;
 	position: absolute;
 	bottom: 12px;
@@ -77,6 +77,9 @@
 .pop.fullscreen .btn {
 	margin: 5px 1.5px;
 }
-.fnd .pop .content .facility {
+.pop .content .facility {
 	margin: 5px;
+}
+.pop button.btn.map {
+  display: none;
 }

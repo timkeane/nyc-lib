@@ -2,3 +2,7 @@
 
 @import "ol.featuretip.css";
 @import "ol.popup.css";
+
+.ol-overlaycontainer-stopevent .fas {
+  display: none;
+}

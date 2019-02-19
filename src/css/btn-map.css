@@ -1,0 +1,45 @@
+.btn-sq, .btn.btn-sq {
+	position: absolute;
+	width: 35px;
+	height: 35px;
+	margin: 0;
+	padding: 0;
+}
+.btn-rnd, .btn.btn-rnd {
+	width: 24px;
+	height: 24px;
+	background-size: 14px;
+	border: none;
+	padding: 0;
+}
+.btn-x, .btn.btn-x {
+	font-size: 16px;
+}
+.nyc-html {
+	display: table;
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius, 0);
+}
+.nyc-html div {
+	display: table-row;
+}
+.nyc-html div span {
+	font-size: 14px;
+	display: table-cell;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	border-bottom: 1px solid var(--color-border);
+	padding: 0 3px;
+	overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+}
+.nyc-html div:last-of-type span {
+	border-bottom: none;
+}
+.nyc-html .fld {
+	font-weight: bold;
+	border-right: 1px solid var(--color-border);
+}

@@ -59,6 +59,7 @@ const filterChoiceOptions = []
 beforeEach(() => {
   $.resetMocks()
   Dialog.mockClear()
+  Directions.mockClear()
   Share.mockClear()
   // Tabs.mockClear()
   // ListPager.mockClear()
@@ -67,7 +68,7 @@ beforeEach(() => {
   Translate.mockClear()
   Goog.mockClear()
 
-  Basemap.mockClear()
+  Basemap.resetMocks()
   Filters.mockClear()
   LocationMgr.mockClear()
   MultiFeaturePopup.mockClear()
@@ -86,7 +87,7 @@ afterEach(() => {
 })
 
 test('constructor', () => {
-  expect.assertions(60)
+  expect.assertions(61)
 
   const finderApp = new FinderApp({
     title: 'Finder App',
@@ -105,7 +106,8 @@ test('constructor', () => {
   expect(finderApp.pager.getContainer().get(0)).toBe($('#facilities div[role="region"]').get(0))
 
   expect(Basemap).toHaveBeenCalledTimes(1)
-  expect(Basemap.mock.calls[0][0]).toEqual({target: 'map'})
+  expect($('#map').length).toBe(1)
+  expect(Basemap.mock.calls[0][0].target).toBe($('#map').get(0))
 
   expect(FilterAndSort).toHaveBeenCalledTimes(1)
   expect(FilterAndSort.mock.calls[0][0].url).toBe('http://facility')
@@ -133,7 +135,7 @@ test('constructor', () => {
   expect(FeatureTip.mock.calls[0][0].tips[0].layer).toBe(finderApp.layer)
   expect(typeof FeatureTip.mock.calls[0][0].tips[0].label).toBe('function')
 
-  expect(FeatureTip.mock.calls[0][0].tips[0].label({getName: () => {return 'Fred'}}).html).toBe('Fred')
+  expect(FeatureTip.mock.calls[0][0].tips[0].label({getTip: () => {return 'Fred'}}).html).toBe('Fred')
 
   expect(LocationMgr).toHaveBeenCalledTimes(1)
   expect(LocationMgr.mock.calls[0][0].map).toBe(finderApp.map)
@@ -164,7 +166,7 @@ test('constructor', () => {
   expect(finderApp.view.fit.mock.calls[0][1].duration).toBe(500)
 
   expect(Dialog).toHaveBeenCalledTimes(1)
-  expect(Dialog.mock.calls[0][0]).toBe('splash')
+  expect(Dialog.mock.calls[0][0]).toEqual({css: 'splash'})
   expect(Dialog.mock.instances[0].ok.mock.calls[0][0].message).toBe('splash page message')
   expect(Dialog.mock.instances[0].ok.mock.calls[0][0].buttonText[0]).toBe('Continue')
 
@@ -359,10 +361,10 @@ test('showSplash', () => {
   finderApp.showSplash({message: 'splash page message'})
   
   expect(Dialog).toHaveBeenCalledTimes(1)
-  expect(Dialog.mock.calls[0][0]).toBe('splash')
+  expect(Dialog.mock.calls[0][0]).toEqual({css: 'splash'})
   expect(Dialog.mock.instances[0].ok.mock.calls[0][0].message).toBe('splash page message')
   expect(Dialog.mock.instances[0].ok.mock.calls[0][0].buttonText[0]).toBe('Continue')
-  
+
   return test().then(success => {expect(success).toBe(true)})
 })
 
@@ -711,12 +713,12 @@ describe('resetList', () => {
   })
 })
 
-test('parentFomat', () => {
+test('createParentFormat', () => {
   expect.assertions(2)
 
-  const format = {parentFomat: 'mock-format'}
+  const format = {parentFormat: 'mock-format'}
 
-  const finderApp = new FinderApp({
+  const options = {
     title: 'Finder App',
     facilityTabTitle: 'Facility Title',
     facilityUrl: 'http://facility',
@@ -725,176 +727,15 @@ test('parentFomat', () => {
     filterTabTitle: 'Filter Title',
     filterChoiceOptions: filterChoiceOptions,
     geoclientUrl: 'http://geoclient'
-  })
-
-  expect(finderApp.parentFomat(format)).toBe('mock-format')  
-
-  delete format.parentFomat
-
-  expect(finderApp.parentFomat(format)).toBe(format)  
-})
-
-describe('decorations', () => {
-  test('decorations none supplied', () => {
-    expect.assertions(3)
-
-    const finderApp = new FinderApp({
-      title: 'Finder App',
-      facilityTabTitle: 'Facility Title',
-      facilityUrl: 'http://facility',
-      facilityFormat: format,
-      facilityStyle: style,
-      filterTabTitle: 'Filter Title',
-      filterChoiceOptions: filterChoiceOptions,
-      geoclientUrl: 'http://geoclient'
-    })
-
-    const decorations = finderApp.decorations({}, {})
-
-    expect(decorations.length).toBe(2)
-    expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
-    expect(decorations[1]).toEqual({finderApp: finderApp})
-  })
-
-  test('decorations supplied on parentFormat', () => {
-    expect.assertions(4)
-
-    const finderApp = new FinderApp({
-      title: 'Finder App',
-      facilityTabTitle: 'Facility Title',
-      facilityUrl: 'http://facility',
-      facilityFormat: format,
-      facilityStyle: style,
-      filterTabTitle: 'Filter Title',
-      filterChoiceOptions: filterChoiceOptions,
-      geoclientUrl: 'http://geoclient'
-    })
-
-    const decoratedFormat = {
-      parentFomat: {
-        decorations: [{foo: 'bar', bar: 'foo'}]
-      }
   }
-    const decorations = finderApp.decorations({}, decoratedFormat)
 
-    expect(decorations.length).toBe(3)
-    expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
-    expect(decorations[1]).toEqual({finderApp: finderApp})
-    expect(decorations[2]).toBe(decoratedFormat.parentFomat.decorations[0])
-  })
+  const finderApp = new FinderApp(options)
 
-  test('decorations supplied on format', () => {
-    expect.assertions(4)
+  expect(finderApp.createParentFormat(options)).toBe('mock-format')  
 
-    const finderApp = new FinderApp({
-      title: 'Finder App',
-      facilityTabTitle: 'Facility Title',
-      facilityUrl: 'http://facility',
-      facilityFormat: format,
-      facilityStyle: style,
-      filterTabTitle: 'Filter Title',
-      filterChoiceOptions: filterChoiceOptions,
-      geoclientUrl: 'http://geoclient'
-    })
+  delete format.parentFormat
 
-    const decoratedFormat = {
-      decorations: [{foo: 'bar', bar: 'foo'}]
-    }
-
-    const decorations = finderApp.decorations({}, decoratedFormat)
-
-    expect(decorations.length).toBe(3)
-    expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
-    expect(decorations[1]).toEqual({finderApp: finderApp})
-    expect(decorations[2]).toBe(decoratedFormat.decorations[0])
-  })
-
-  test('decorations supplied on parentFormat', () => {
-    expect.assertions(4)
-
-    const finderApp = new FinderApp({
-      title: 'Finder App',
-      facilityTabTitle: 'Facility Title',
-      facilityUrl: 'http://facility',
-      facilityFormat: format,
-      facilityStyle: style,
-      filterTabTitle: 'Filter Title',
-      filterChoiceOptions: filterChoiceOptions,
-      geoclientUrl: 'http://geoclient'
-    })
-
-    const decoratedFormat = {
-      parentFomat: {
-        decorations: [{foo: 'bar', bar: 'foo'}]
-      }
-  }
-    const decorations = finderApp.decorations({}, decoratedFormat)
-
-    expect(decorations.length).toBe(3)
-    expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
-    expect(decorations[1]).toEqual({finderApp: finderApp})
-    expect(decorations[2]).toBe(decoratedFormat.parentFomat.decorations[0])
-  })
-
-  test('decorations supplied on options', () => {
-    expect.assertions(4)
-
-    const finderApp = new FinderApp({
-      title: 'Finder App',
-      facilityTabTitle: 'Facility Title',
-      facilityUrl: 'http://facility',
-      facilityFormat: format,
-      facilityStyle: style,
-      filterTabTitle: 'Filter Title',
-      filterChoiceOptions: filterChoiceOptions,
-      geoclientUrl: 'http://geoclient'
-    })
-
-    const options = {
-      decorations: [{foo: 'bar', bar: 'foo'}]
-    }
-
-    const decorations = finderApp.decorations(options, {})
-
-    expect(decorations.length).toBe(3)
-    expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
-    expect(decorations[1]).toEqual({finderApp: finderApp})
-    expect(decorations[2]).toBe(options.decorations[0])
-  })
-
-  test('decorations supplied on all the things', () => {
-    expect.assertions(6)
-
-    const finderApp = new FinderApp({
-      title: 'Finder App',
-      facilityTabTitle: 'Facility Title',
-      facilityUrl: 'http://facility',
-      facilityFormat: format,
-      facilityStyle: style,
-      filterTabTitle: 'Filter Title',
-      filterChoiceOptions: filterChoiceOptions,
-      geoclientUrl: 'http://geoclient'
-    })
-
-    const options = {
-      decorations: [{foo: 'bar', bar: 'foo'}]
-    }
-    const decoratedFormat = {
-      parentFomat: {
-        decorations: [{doo: 'fus', wtf: 'lol'}]
-      },
-      decorations: [{you: 'me', me: 'you'}]
-    }
-
-    const decorations = finderApp.decorations(options, decoratedFormat)
-
-    expect(decorations.length).toBe(5)
-    expect(decorations[0]).toBe(FinderApp.FEATURE_DECORATIONS)
-    expect(decorations[1]).toEqual({finderApp: finderApp})
-    expect(decorations[2]).toBe(decoratedFormat.parentFomat.decorations[0])
-    expect(decorations[3]).toBe(decoratedFormat.decorations[0])
-    expect(decorations[4]).toBe(options.decorations[0])
-  })
+  expect(finderApp.createParentFormat(options)).toBe(format)  
 })
 
 describe('ready', () => {
@@ -993,319 +834,24 @@ describe('ready', () => {
   })
 })
 
-describe('handleButton', () => {
-  let target
-  beforeEach(() => {
-    target = $('<div></div>')
-    target.data('feature', 'mock-feature')
-    target = target.get(0)
-    $('body').append(target)
+test('filter apply button focuses facilities', () => {
+  expect.assertions(2)
+
+  const finderApp = new FinderApp({
+    title: 'Finder App',
+    facilityTabTitle: 'Facility Title',
+    facilityUrl: 'http://facility',
+    facilityFormat: format,
+    facilityStyle: style,
+    filterTabTitle: 'Filter Title',
+    filterChoiceOptions: filterChoiceOptions,
+    geoclientUrl: 'http://geoclient'
   })
-  afterEach(() => {
-    $(target).remove()
-  })
 
-  test('handleButton map', () => {
-    expect.assertions(6)
-    
-    global.finderApp = {
-      zoomTo: jest.fn(),
-      directionsTo: jest.fn()
-    }
+  finderApp.tabs.open = jest.fn()
 
-    $(target).addClass('map')
+  $('#filters button.screen-reader-only').trigger('click')
 
-    FinderApp.handleButton({currentTarget: target})
-
-    expect(global.finderApp.directionsTo).toHaveBeenCalledTimes(0)
-    expect(global.finderApp.zoomTo).toHaveBeenCalledTimes(1)
-    expect(global.finderApp.zoomTo.mock.calls[0][0]).toBe('mock-feature')
-
-    $(target).removeClass('map')
-
-    FinderApp.handleButton({currentTarget: target})
-
-    expect(global.finderApp.zoomTo).toHaveBeenCalledTimes(1)
-    expect(global.finderApp.directionsTo).toHaveBeenCalledTimes(1)
-    expect(global.finderApp.directionsTo.mock.calls[0][0]).toBe('mock-feature')
-  })
+  expect(finderApp.tabs.open).toHaveBeenCalledTimes(1)
+  expect(finderApp.tabs.open.mock.calls[0][0]).toBe('#facilities')
 })
-
-describe('FEATURE_DECORATIONS', () => {
-  let extendedDecorations
-  beforeEach(() => {
-    extendedDecorations = {finderApp: {expandDetail: jest.fn()}}
-    $.extend(extendedDecorations, FinderApp.FEATURE_DECORATIONS, {
-      getName() {
-        return 'A Name'
-      },
-      getAddress1() {
-        return 'Address line 1'
-      },
-      getAddress2() {
-        return 'Address line 2'
-      },
-      getCityStateZip() {
-        return 'City, State Zip'
-      },
-      getPhone() {
-        return '212-867-5309'
-      },
-      getEmail() {
-        return 'email@email.com'
-      },
-      getWebsite() {
-        return 'http://website'
-      },
-      detailsHtml() {
-        return 'Some details'
-      },
-      cssClass() {
-        return 'css-class'
-      }
-    })
-  })
-
-  test('getName', () => {
-    expect.assertions(1)
-    expect(() => {
-      FinderApp.FEATURE_DECORATIONS.getName()
-    }).toThrow('A getName decoration must be provided')
-  })
-
-  test('getAddress1', () => {
-    expect.assertions(1)
-    expect(() => {
-      FinderApp.FEATURE_DECORATIONS.getAddress1()
-    }).toThrow('A getAddress1 decoration must be provided to use default html method')
-  })
-
-  test('getAddress2', () => {
-    expect.assertions(1)
-    expect(FinderApp.FEATURE_DECORATIONS.getAddress2()).toBe('')
-  })
-
-  test('getCityStateZip', () => {
-    expect.assertions(1)
-    expect(() => {
-      FinderApp.FEATURE_DECORATIONS.getCityStateZip()
-    }).toThrow('A getCityStateZip decoration must be provided to use default html method')
-  })
-
-  test('getPhone', () => {
-    expect.assertions(1)
-    expect(FinderApp.FEATURE_DECORATIONS.getPhone()).toBe(undefined)
-  })
-
-  test('getEmail', () => {
-    expect.assertions(1)
-    expect(FinderApp.FEATURE_DECORATIONS.getEmail()).toBe(undefined)
-  })
-
-  test('getWebsite', () => {
-    expect.assertions(1)
-    expect(FinderApp.FEATURE_DECORATIONS.getWebsite()).toBe(undefined)
-  })
-
-  test('cssClass', () => {
-    expect.assertions(1)
-    expect(FinderApp.FEATURE_DECORATIONS.cssClass()).toBe(undefined)
-  })
-
-  test('detailsHtml', () => {
-    expect.assertions(1)
-    expect(FinderApp.FEATURE_DECORATIONS.detailsHtml()).toBe(undefined)
-  })
-
-  test('nameHtml', () => {
-    expect.assertions(2)
-    const html = extendedDecorations.nameHtml()
-    expect(html.length).toBe(1)
-    expect($('<div></div>').append(html).html()).toBe(
-      '<h3 class="name notranslate">A Name</h3>'
-    )
-  })
-
-  test('addressHtml with line 2', () => {
-    expect.assertions(2)
-    const html = extendedDecorations.addressHtml()
-    expect(html.length).toBe(1)
-    expect($('<div></div>').append(html).html()).toBe(
-      '<div class="addr notranslate"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div>'
-    )
-  })
-
-  test('addressHtml no line 2', () => {
-    expect.assertions(2)
-    extendedDecorations.getAddress2 = () => {return ''}
-    const html = extendedDecorations.addressHtml()
-    expect(html.length).toBe(1)
-    expect($('<div></div>').append(html).html()).toBe(
-      '<div class="addr notranslate"><div class="ln1">Address line 1</div><div class="ln3">City, State Zip</div></div>'
-    )
-  })
-
-  test('getFullAddress', () => {
-    expect.assertions(1)
-    const html = extendedDecorations.addressHtml()
-    expect(extendedDecorations.getFullAddress()).toBe(
-      'Address line 1\nAddress line 2,\nCity, State Zip'
-    )
-  })
-
-  test('mapButton', () => {
-    expect.assertions(3)
-    const html = extendedDecorations.mapButton()
-    expect(html.length).toBe(1)
-    expect(html.data('feature')).toBe(extendedDecorations)
-    expect($('<div></div>').append(html).html()).toBe(
-      '<button class="btn rad-all map"><span class="screen-reader-only">Locate this facility on the </span>Map</button>'
-    )
-  })
-
-  test('directionsButton', () => {
-    expect.assertions(3)
-    const html = extendedDecorations.directionsButton()
-    expect(html.length).toBe(1)
-    expect(html.data('feature')).toBe(extendedDecorations)
-    expect($('<div></div>').append(html).html()).toBe(
-      '<button class="btn rad-all dir">Directions</button>'
-    )
-  })
-
-  test('phoneButton has phone', () => {
-    expect.assertions(2)
-    const html = extendedDecorations.phoneButton()
-    expect(html.length).toBe(1)
-    expect($('<div></div>').append(html).html()).toBe(
-      '<a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a>'
-    )
-  })
-
-  test('phoneButton no phone', () => {
-    expect.assertions(1)
-    extendedDecorations.getPhone = () => {}
-    expect(extendedDecorations.phoneButton()).toBe(undefined)
-  })
-
-  test('emailButton has email', () => {
-    expect.assertions(2)
-    const html = extendedDecorations.emailButton()
-    expect(html.length).toBe(1)
-    expect($('<div></div>').append(html).html()).toBe(
-      '<a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a>'
-    )
-  })
-
-  test('emailButton no email', () => {
-    expect.assertions(1)
-    extendedDecorations.getEmail = () => {}
-    expect(extendedDecorations.emailButton()).toBe(undefined)
-  })
-
-  test('websiteButton has website', () => {
-    expect.assertions(2)
-    const html = extendedDecorations.websiteButton()
-    expect(html.length).toBe(1)
-    expect($('<div></div>').append(html).html()).toBe(
-      '<a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a>'
-    )
-  })
-
-  test('websiteButton no website', () => {
-    expect.assertions(1)
-    extendedDecorations.getWebsite = () => {}
-    expect(extendedDecorations.websiteButton()).toBe(undefined)
-  })
-
-  test('distanceHtml has distance in feet', () => {
-    expect.assertions(2)
-    extendedDecorations.getDistance = () => {return {distance: 1000, units: 'ft'}}
-    const html = extendedDecorations.distanceHtml()
-    expect(html.length).toBe(1)
-    expect($('<div></div>').append(html).html()).toBe(
-      '<div class="dist" aria-hidden="true">• 0.19 mi •</div>'
-    )
-  })
-
-  test('distanceHtml has distance in meters', () => {
-    expect.assertions(2)
-    extendedDecorations.getDistance = () => {return {distance: 1000, units: 'm'}}
-    const html = extendedDecorations.distanceHtml()
-    expect(html.length).toBe(1)
-    expect($('<div></div>').append(html).html()).toBe(
-      '<div class="dist" aria-hidden="true">• 1.00 km •</div>'
-    )
-  })
-
-  test('sreen reader distanceHtml has distance in feet', () => {
-    expect.assertions(2)
-    extendedDecorations.getDistance = () => {return {distance: 1000, units: 'ft'}}
-    const html = extendedDecorations.distanceHtml(true)
-    expect(html.length).toBe(1)
-    expect($('<div></div>').append(html).html()).toBe(
-      '<div class="dist screen-reader-only">0.19 miles</div>'
-    )
-  })
-
-  test('sreen reader distanceHtml has distance in meters', () => {
-    expect.assertions(2)
-    extendedDecorations.getDistance = () => {return {distance: 1000, units: 'm'}}
-    const html = extendedDecorations.distanceHtml(true)
-    expect(html.length).toBe(1)
-    expect($('<div></div>').append(html).html()).toBe(
-      '<div class="dist screen-reader-only">1.00 kilometers</div>'
-    )
-  })
-
-  test('distanceHtml no distance', () => {
-    expect.assertions(1)
-    expect(extendedDecorations.distanceHtml()).toBe(undefined)
-  })
-
-  test('detailsCollapsible has details', () => {
-    expect.assertions(2)
-    const html = extendedDecorations.detailsCollapsible()
-    expect(html.length).toBe(1)
-    expect($('<div></div>').append(html).html()).toBe(
-      '<div class="dtl"><div class="clps rad-all"><button class="btn rad-all" aria-pressed="false" id="clsp-btn-0" aria-controls="clsp-pnl-0">Details</button><div class="content rad-bot" aria-expanded="false" aria-collapsed="true" aria-hidden="true" style="display: none;" id="clsp-pnl-0" aria-labelledby="clsp-btn-0"></div></div></div>'
-    )
-  })
-
-  test('detailsCollapsible no dtl', () => {
-    expect.assertions(1)
-    extendedDecorations.detailsHtml = () => {}
-    expect(extendedDecorations.detailsCollapsible()).toBe(undefined)
-  })
-
-  test('html', () => {
-    expect.assertions(2)
-    const html = extendedDecorations.html()
-    expect(html.length).toBe(1)
-    expect($('<div></div>').append(html).html()).toBe(
-      '<div class="facility css-class"><h3 class="name notranslate">A Name</h3><div class="addr notranslate"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a><a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a><button class="btn rad-all map"><span class="screen-reader-only">Locate this facility on the </span>Map</button><button class="btn rad-all dir">Directions</button><div class="dtl"><div class="clps rad-all"><button class="btn rad-all" aria-pressed="false" id="clsp-btn-1" aria-controls="clsp-pnl-1">Details</button><div class="content rad-bot" aria-expanded="false" aria-collapsed="true" aria-hidden="true" style="display: none;" id="clsp-pnl-1" aria-labelledby="clsp-btn-1"></div></div></div></div>'
-    )
-  })
-})
-
-  test('filter apply button focuses facilities', () => {
-    expect.assertions(2)
-
-    const finderApp = new FinderApp({
-      title: 'Finder App',
-      facilityTabTitle: 'Facility Title',
-      facilityUrl: 'http://facility',
-      facilityFormat: format,
-      facilityStyle: style,
-      filterTabTitle: 'Filter Title',
-      filterChoiceOptions: filterChoiceOptions,
-      geoclientUrl: 'http://geoclient'
-    })
-
-    finderApp.tabs.open = jest.fn()
-
-    $('#filters button.screen-reader-only').trigger('click')
-
-    expect(finderApp.tabs.open).toHaveBeenCalledTimes(1)
-    expect(finderApp.tabs.open.mock.calls[0][0]).toBe('#facilities')
-  })

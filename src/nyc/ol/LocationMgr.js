@@ -36,9 +36,10 @@ class LocationMgr extends NycLocationMgr {
     }
 
     super({
-      zoom: new NycOlZoom(map),
-      geolocate: new NycOlGeolocate(map),
       search: new NycOlSearch(searchTarget),
+      zoom: new NycOlZoom(map),
+      dialogTarget: options.dialogTarget,
+      geolocate: new NycOlGeolocate(map),
       locator: new NycOlLocator({
         geocoder: new NycGeoclient({url: options.url})
       }),
@@ -54,6 +55,7 @@ class LocationMgr extends NycLocationMgr {
  * @property {ol.Map} map The map
  * @property {string} url The geoclient URL
  * @property {jQuery|Element|string=} searchTarget The DOM target for the search box
+ * @property {jQuery|Element|string} [dialogTarget=body] The DOM target in which to display error dialog
  */
 LocationMgr.Options
 

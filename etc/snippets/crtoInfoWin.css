@@ -1,0 +1,10 @@
+.cartodb-popup-tip-container, .cartodb-infowindow>div:before, .cartodb-infowindow>div:after {
+  display: none;
+}
+
+svg.tail {
+  position: absolute;
+  left: 20px;
+  z-index: 2;
+  overflow: visible;
+}
