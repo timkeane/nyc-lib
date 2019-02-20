@@ -105,11 +105,11 @@ class FilterAndSort extends AutoLoad {
     let dataProj = 'EPSG:3857'
     let featureProj = 'EPSG:3857'
     if (parentFormat) {
-      dataProj = olProjGet(parentFormat.defaultDataProjection)
-      featureProj = olProjGet(parentFormat.defaultFeatureProjection || 'EPSG:3857')
+      dataProj = olProjGet(parentFormat.dataProjection)
+      featureProj = olProjGet(parentFormat.featureProjection || 'EPSG:3857')
     } else if (format) {
-      dataProj = olProjGet(format.defaultDataProjection)
-      featureProj = olProjGet(format.defaultFeatureProjection || 'EPSG:3857')
+      dataProj = olProjGet(format.dataProjection)
+      featureProj = olProjGet(format.featureProjection || 'EPSG:3857')
     }
     return [olProjGetProjection(dataProj), olProjGetProjection(featureProj)]
   }

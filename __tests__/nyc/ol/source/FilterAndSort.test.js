@@ -129,7 +129,7 @@ test('sort with distance in data projection', () => {
   const filterAndSort = new FilterAndSort({
     features: [f0, f4, f2, f1, f3],
     format: {
-      defaultDataProjection: 'EPSG:2263'
+      dataProjection: 'EPSG:2263'
     }
   })
 
@@ -168,7 +168,7 @@ test('sort with distance in data projection from parentFormat', () => {
     features: [f0, f4, f2, f1, f3],
     format: {
       parentFormat: {
-        defaultDataProjection: 'EPSG:2263'
+        dataProjection: 'EPSG:2263'
       }
     }
   })

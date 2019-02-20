@@ -28,8 +28,8 @@ test('readFeatures has id and projections', () => {
     x: 'x',
     y: 'y',
     id: 'id',
-    defaultDataProjection: 'EPSG:2263',
-    defaultFeatureProjection: 'EPSG:4326'
+    dataProjection: 'EPSG:2263',
+    featureProjection: 'EPSG:4326'
   })
 
   const features = csvpoint.readFeatures(sourceId)
@@ -159,7 +159,7 @@ describe('hookupEvents called from constructor', () => {
       y: 'y'
     })
     
-    expect(csvpoint.readProjection('anything')).toBe(csvpoint.defaultDataProjection)
+    expect(csvpoint.readProjection('anything')).toBe(csvpoint.dataProjection)
   })
 
   test('getLastExtent', () => {
@@ -184,7 +184,7 @@ describe('detectCsvFormat', () => {
 
     expect(csvpoint.x).toBe(StandardCsv.X)
     expect(csvpoint.y).toBe(StandardCsv.Y)
-    expect(csvpoint.defaultDataProjection.getCode()).toBe('EPSG:2263')
+    expect(csvpoint.dataProjection.getCode()).toBe('EPSG:2263')
   })
 
   test('detectCsvFormat autoDetect = true with LNG, LAT', () => {
@@ -196,7 +196,7 @@ describe('detectCsvFormat', () => {
 
     expect(csvpoint.x).toBe(StandardCsv.LNG)
     expect(csvpoint.y).toBe(StandardCsv.LAT)
-    expect(csvpoint.defaultDataProjection.getCode()).toBe('EPSG:4326')
+    expect(csvpoint.dataProjection.getCode()).toBe('EPSG:4326')
   })
 
 })

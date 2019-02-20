@@ -26,12 +26,12 @@ class CartoSql extends OlFormatFeature {
      * @private
      * @member {ol.ProjectionLike}
      */
-    this.defaultDataProjection = 'EPSG:3857'
+    this.dataProjection = 'EPSG:3857'
     /**
      * @private
      * @member {ol.ProjectionLike}
      */
-    this.defaultFeatureProjection = 'EPSG:3857'
+    this.featureProjection = 'EPSG:3857'
     /**
      * @private
      * @member {ol.format.WKT}
