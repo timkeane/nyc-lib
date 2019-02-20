@@ -87,7 +87,6 @@ class FilterAndSort extends AutoLoad {
   distance(coordinate, geom) {
     const line = new OlGeomLineString([coordinate, geom.getClosestPoint(coordinate)])
     const projections = this.projections(this.getFormat())
-    
     let units = projections[1].getUnits()
     if (projections[0] && projections[0].getUnits() !== 'degrees') {
       line.transform(projections[1], projections[0])
