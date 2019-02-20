@@ -47,6 +47,9 @@
     "coverageDirectory": "./coverage/",
     "collectCoverageFrom": [
       "src/nyc/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "Drag"
     ]
   },
   "repository": {
