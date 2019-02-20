@@ -1,4 +1,5 @@
 /**
+ * Work in progress - not built into librariy for now
  * @module nyc/Drag
  */
 

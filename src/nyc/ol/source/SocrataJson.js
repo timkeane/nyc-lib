@@ -3,7 +3,7 @@
  */
 
 import OlSourceVector from 'ol/source/Vector'
-import Polygon from 'ol/geom/Polygon'
+import {fromExtent as polygonFromExtent} from 'ol/geom/Polygon'
 import SocrataFormat from 'nyc/ol/format/SocrataJson'
 
 /**
@@ -56,10 +56,11 @@ SocrataJson.urlFunction = (options) => {
     if (extent[0] === Infinity) {
       return url
     }
-    const ext = Polygon.fromExtent(extent)
+    const geom = options.geometry || 'the_geom'
+    const ext = polygonFromExtent(extent)
       .transform(projection, 'EPSG:4326')
       .getExtent()
-    return `${url}&$where=within_box(the_geom,${ext[1]},${ext[0]},${ext[3]},${ext[2]})`
+    return `${url}&$where=within_box(${geom},${ext[1]},${ext[0]},${ext[3]},${ext[2]})`
   }
 }
 
