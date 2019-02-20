@@ -1,8 +1,6 @@
-import OlGeomPoint from 'ol/geom/Point'
+import OlFormatFormatType from 'ol/format/FormatType'
 
 import CartoSql from 'nyc/ol/format/CartoSql'
-
-import nyc from 'nyc'
 
 const reponseWithId = '{"rows":[{"cartodb_id":1,"wkt_geom":"POINT(1 2)","name":"feature 1"},{"cartodb_id":2,"wkt_geom":"POINT(2 3)","name":"feature 2"},{"cartodb_id":3,"wkt_geom":"POINT(3 4)","name":"feature 3"}]}'
 const reponseNoId = '{"rows":[{"wkt_geom":"POINT(1 2)","name":"feature 1"},{"wkt_geom":"POINT(2 3)","name":"feature 2"},{"wkt_geom":"POINT(3 4)","name":"feature 3"}]}'
@@ -97,4 +95,14 @@ test('getLastExtent', () => {
   })
 
   expect(cartoSql.getLastExtent()).toBeNull()
+})
+
+test('getType', () => {
+  expect.assertions(1)
+
+  const cartoSql = new CartoSql({
+    from: 'table'
+  })
+
+  expect(cartoSql.getType()).toBe(OlFormatFormatType.TEXT)
 })

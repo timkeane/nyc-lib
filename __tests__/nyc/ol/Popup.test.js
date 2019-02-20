@@ -40,7 +40,7 @@ describe('constructor and events', () => {
     Popup.prototype.hideTip = hideTip
   })
 
-  test('constructor and events', () => {
+  test('constructor and events no margin or autoPanAnimation', () => {
     expect.assertions(7)
 
     const popup = new Popup({map: map})
@@ -48,6 +48,30 @@ describe('constructor and events', () => {
     expect(popup instanceof OlOverlay).toBe(true)
     expect(popup instanceof Popup).toBe(true)
     expect(popup.getId()).toBe('Popup-0')
+    expect(popup.popup.html()).toBe($(Popup.HTML).html())
+    expect(popup.getElement()).toBe(popup.popup.get(0))
+
+    popup.popup.find('.btn-x').trigger('click')
+    popup.popup.find('.btn-x').trigger('tap')
+    popup.popup.trigger('mouseover')
+    popup.popup.trigger('mousemove')
+
+    expect(Popup.prototype.hide).toHaveBeenCalledTimes(2)
+    expect(Popup.prototype.hideTip).toHaveBeenCalledTimes(2)
+  })
+
+  test('constructor and events has margin and autoPanAnimation', () => {
+    expect.assertions(7)
+
+    const popup = new Popup({
+      map: map,
+      autoPanMargin: 33,
+      autoPanAnimation: {}
+    })
+
+    expect(popup instanceof OlOverlay).toBe(true)
+    expect(popup instanceof Popup).toBe(true)
+    expect(popup.getId()).toBe('Popup-1')
     expect(popup.popup.html()).toBe($(Popup.HTML).html())
     expect(popup.getElement()).toBe(popup.popup.get(0))
 

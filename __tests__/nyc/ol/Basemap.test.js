@@ -38,10 +38,13 @@ describe('constructor tests', () => {
     nyc.mixin = mixin
   })
 
-  test('constructor no view in options', () => {
-    expect.assertions(12)
+  test('constructor no view in options, has interations in options', () => {
+    expect.assertions(13)
 
-    const options = {target: 'map'}
+    const options = {
+      target: 'map',
+      interactions: []
+    }
 
     const hookupEvents = jest.fn(targetNode => {
       expect(targetNode).toBe(target.get(0))
@@ -54,6 +57,8 @@ describe('constructor tests', () => {
 
     expect(basemap instanceof OlMap).toBe(true)
     expect(basemap instanceof Basemap).toBe(true)
+
+    expect(basemap.getInteractions().getLength()).toBe(0)
 
     expect(Basemap.setupView).toHaveBeenCalledTimes(1)
     expect(Basemap.setupView.mock.calls[0][0]).toEqual(options)
@@ -69,8 +74,8 @@ describe('constructor tests', () => {
     expect(hookupEvents.mock.calls[0][0]).toBe(target.get(0))
   })
 
-  test('constructor has view in options', () => {
-    expect.assertions(12)
+  test('constructor has view in options, no interations in options', () => {
+    expect.assertions(13)
 
     const view = new OlView({})
     const options = {target: 'map', view: view}
@@ -86,6 +91,8 @@ describe('constructor tests', () => {
 
     expect(basemap instanceof OlMap).toBe(true)
     expect(basemap instanceof Basemap).toBe(true)
+
+    expect(basemap.getInteractions().getLength()).toBe(7)
 
     expect(Basemap.setupView).toHaveBeenCalledTimes(1)
     expect(Basemap.setupView.mock.calls[0][0]).toEqual(options)

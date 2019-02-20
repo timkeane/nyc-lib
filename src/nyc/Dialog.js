@@ -205,9 +205,9 @@ class Dialog extends Container {
           .attr('href', buttonHref[1] || '#')
         this.find('.btn-cancel').html(buttonText[2] || 'Cancel')
           .attr('href', buttonHref[2] || '#')
-        break;
+        break
       default:
-        break;
+        break
     }
   }
   /**

@@ -3,17 +3,31 @@ import Container from 'nyc/Container'
 import AutoComplete from 'nyc/AutoComplete'
 
 
+let input
 let container
 beforeEach(() => {
+  input = $('<input>')
   container = $('<div id="map"></div>')
-  $('body').append(container)
+  $('body').append(container).append(input)
 })
 
 afterEach(() => {
+  input.remove()
   container.remove()
 })
 
-test('constructor', () => {
+test('constructor target is input', () => {
+  expect.assertions(5)
+
+  const search = new Search(input)
+  expect(search instanceof Container).toBe(true)
+  expect(search instanceof Search).toBe(true)
+  expect(search.isAddrSrch).toBe(true)
+  expect(search.getContainer().html()).toBe('<div class="srch input-group" role="search"><input class="rad-all" placeholder="Search for an address..."><button class="btn btn-srch btn-primary btn-lg">Search</button></div><ul class="rad-all" role="region" label="Possible matches for your search"></ul><ul class="retention"></ul>')
+  expect(search.getContainer().hasClass('srch-ctl')).toBe(true)
+})
+
+test('constructor target is map', () => {
   expect.assertions(5)
 
   const search = new Search(container)

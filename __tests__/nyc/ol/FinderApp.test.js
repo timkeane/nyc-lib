@@ -1,5 +1,6 @@
 import nyc from 'nyc'
 
+import MapMgr from '../../../src/nyc/ol/MapMgr'
 import Dialog from '../../../src/nyc/Dialog'
 import Directions from '../../../src/nyc/Directions'
 import Share from '../../../src/nyc/Share'
@@ -86,7 +87,7 @@ afterEach(() => {
   $('body').empty()
 })
 
-test('constructor', () => {
+test('constructor mouseWheelZoom is undefined', () => {
   expect.assertions(61)
 
   const finderApp = new FinderApp({
@@ -177,6 +178,129 @@ test('constructor', () => {
   expect(Goog.mock.calls[0][0].target).toBe('#map')
   expect(Goog.mock.calls[0][0].languages).toBe(Translate.DEFAULT_LANGUAGES)
   expect(Goog.mock.calls[0][0].button).toBe(true)
+})
+
+test('constructor mouseWheelZoom = false', () => {
+  expect.assertions(61)
+
+  const finderApp = new FinderApp({
+    title: 'Finder App',
+    splashOptions: {message: 'splash page message'},
+    facilityTabTitle: 'Facility Title',
+    facilityUrl: 'http://facility',
+    facilityFormat: format,
+    facilityStyle: style,
+    filterTabTitle: 'Filter Title',
+    filterChoiceOptions: filterChoiceOptions,
+    geoclientUrl: 'http://geoclient',
+    mouseWheelZoom: false
+  })
+
+  expect(finderApp.pager instanceof ListPager).toBe(true)
+  expect(finderApp.pager.getContainer().length).toBe(1)
+  expect(finderApp.pager.getContainer().get(0)).toBe($('#facilities div[role="region"]').get(0))
+
+  expect(Basemap).toHaveBeenCalledTimes(1)
+  expect($('#map').length).toBe(1)
+  expect(Basemap.mock.calls[0][0].target).toBe($('#map').get(0))
+
+  expect(FilterAndSort).toHaveBeenCalledTimes(1)
+  expect(FilterAndSort.mock.calls[0][0].url).toBe('http://facility')
+  expect(FilterAndSort.mock.calls[0][0].format instanceof Decorate).toBe(true)
+  expect(FilterAndSort.mock.calls[0][0].format.parentFormat).toBe(format);
+  expect(FilterAndSort.mock.calls[0][0].format.decoration).toBe(FinderApp.DEFAULT_DECORATIONS);
+
+  expect(OlLayerVector).toHaveBeenCalledTimes(1)
+  expect(OlLayerVector.mock.calls[0][0].source).toBe(finderApp.source)
+  expect(OlLayerVector.mock.calls[0][0].style).toBe(style)
+
+  expect(finderApp.map.addLayer).toHaveBeenCalledTimes(1)
+  expect(finderApp.map.addLayer.mock.calls[0][0]).toBe(finderApp.layer)
+
+  expect(MultiFeaturePopup).toHaveBeenCalledTimes(1)
+  expect(MultiFeaturePopup.mock.calls[0][0].map).toBe(finderApp.map)
+  expect(MultiFeaturePopup.mock.calls[0][0].layers.length).toBe(1)
+  expect(MultiFeaturePopup.mock.calls[0][0].layers[0]).toBe(finderApp.layer)
+
+  expect(finderApp.location).toEqual({})
+
+  expect(FeatureTip).toHaveBeenCalledTimes(1)
+  expect(FeatureTip.mock.calls[0][0].map).toBe(finderApp.map)
+  expect(FeatureTip.mock.calls[0][0].tips.length).toBe(1)
+  expect(FeatureTip.mock.calls[0][0].tips[0].layer).toBe(finderApp.layer)
+  expect(typeof FeatureTip.mock.calls[0][0].tips[0].label).toBe('function')
+
+  expect(FeatureTip.mock.calls[0][0].tips[0].label({getTip: () => {return 'Fred'}}).html).toBe('Fred')
+
+  expect(LocationMgr).toHaveBeenCalledTimes(1)
+  expect(LocationMgr.mock.calls[0][0].map).toBe(finderApp.map)
+  expect(LocationMgr.mock.calls[0][0].url).toBe('http://geoclient')
+  expect(finderApp.locationMgr.on).toHaveBeenCalledTimes(2)
+  expect(finderApp.locationMgr.on.mock.calls[0][0]).toBe('geocoded')
+  expect(finderApp.locationMgr.on.mock.calls[0][1]).toBe(finderApp.located)
+  expect(finderApp.locationMgr.on.mock.calls[0][2]).toBe(finderApp)
+  expect(finderApp.locationMgr.on.mock.calls[1][0]).toBe('geolocated')
+  expect(finderApp.locationMgr.on.mock.calls[1][1]).toBe(finderApp.located)
+  expect(finderApp.locationMgr.on.mock.calls[1][2]).toBe(finderApp)
+
+  expect(Filters).toHaveBeenCalledTimes(1)
+  expect(Filters.mock.calls[0][0].target).toBe('#filters')
+  expect(Filters.mock.calls[0][0].source).toBe(finderApp.source)
+  expect(Filters.mock.calls[0][0].choiceOptions).toBe(filterChoiceOptions)
+  expect(finderApp.filters.on).toHaveBeenCalledTimes(1)
+  expect(finderApp.filters.on.mock.calls[0][0]).toBe('change')
+  expect(finderApp.filters.on.mock.calls[0][1]).toBe(finderApp.resetList)
+  expect(finderApp.filters.on.mock.calls[0][2]).toBe(finderApp)
+
+  expect(finderApp.tabs instanceof Tabs).toBe(true)
+  expect(finderApp.tabs.tabs.children().length).toBe(3)
+
+  expect(finderApp.view.fit).toHaveBeenCalledTimes(1)
+  expect(finderApp.view.fit.mock.calls[0][0]).toBe(Basemap.EXTENT)
+  expect(finderApp.view.fit.mock.calls[0][1].size).toEqual([100, 100])
+  expect(finderApp.view.fit.mock.calls[0][1].duration).toBe(500)
+
+  expect(Dialog).toHaveBeenCalledTimes(1)
+  expect(Dialog.mock.calls[0][0]).toEqual({css: 'splash'})
+  expect(Dialog.mock.instances[0].ok.mock.calls[0][0].message).toBe('splash page message')
+  expect(Dialog.mock.instances[0].ok.mock.calls[0][0].buttonText[0]).toBe('Continue')
+
+  expect(Share).toHaveBeenCalledTimes(1)
+  expect(Share.mock.calls[0][0].target).toBe('#map')
+
+  expect(Goog).toHaveBeenCalledTimes(1)
+  expect(Goog.mock.calls[0][0].target).toBe('#map')
+  expect(Goog.mock.calls[0][0].languages).toBe(Translate.DEFAULT_LANGUAGES)
+  expect(Goog.mock.calls[0][0].button).toBe(true)
+})
+
+describe('reload button', () => {
+  const reload = document.location.reload
+  beforeEach(() => {
+    document.location.reload = jest.fn()
+  })
+  afterEach(() => {
+    document.location.reload = reload
+  })
+
+  test('reload button', () => {
+    expect.assertions(1)
+
+    new FinderApp({
+      title: 'Finder App',
+      splashOptions: {message: 'splash page message'},
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    $('.fnd #home').trigger('click')
+    expect(document.location.reload).toHaveBeenCalledTimes(1)
+  })
 })
 
 describe('zoomTo', () => {
@@ -716,13 +840,14 @@ describe('resetList', () => {
 test('createParentFormat', () => {
   expect.assertions(2)
 
-  const format = {parentFormat: 'mock-format'}
+  const fmt1 = {parentFormat: 'mock-format'}
+  const fmt2 = {}
 
   const options = {
     title: 'Finder App',
     facilityTabTitle: 'Facility Title',
     facilityUrl: 'http://facility',
-    facilityFormat: format,
+    facilityFormat: fmt1,
     facilityStyle: style,
     filterTabTitle: 'Filter Title',
     filterChoiceOptions: filterChoiceOptions,
@@ -733,9 +858,9 @@ test('createParentFormat', () => {
 
   expect(finderApp.createParentFormat(options)).toBe('mock-format')  
 
-  delete format.parentFormat
+  options.facilityFormat = fmt2
 
-  expect(finderApp.createParentFormat(options)).toBe(format)  
+  expect(finderApp.createParentFormat(options)).toBe(fmt2)  
 })
 
 describe('ready', () => {
@@ -854,4 +979,81 @@ test('filter apply button focuses facilities', () => {
 
   expect(finderApp.tabs.open).toHaveBeenCalledTimes(1)
   expect(finderApp.tabs.open.mock.calls[0][0]).toBe('#facilities')
+})
+
+describe('createDecorations', () => {
+  let options
+  beforeEach(() => {
+    options = {
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    }
+  })
+
+  test('createDecorations none provided', () => {
+    expect.assertions(3)
+
+    const finderApp = new FinderApp(options)
+
+    const decorations = finderApp.createDecorations(options)
+
+    expect(decorations.length).toBe(2)
+    expect(decorations[0]).toBe(MapMgr.FEATURE_DECORATIONS)
+    expect(decorations[1]).toEqual({app: finderApp})
+  })
+
+  test('createDecorations provided with parentFormat', () => {
+    expect.assertions(4)
+
+    const finderApp = new FinderApp(options)
+
+    options.facilityFormat = {parentFormat: {decorations: 'mock-decorations-0'}}
+
+    const decorations = finderApp.createDecorations(options)
+
+    expect(decorations.length).toBe(3)
+    expect(decorations[0]).toBe(MapMgr.FEATURE_DECORATIONS)
+    expect(decorations[1]).toEqual({app: finderApp})
+    expect(decorations[2]).toBe('mock-decorations-0')
+  })
+
+  test('createDecorations provided with parentFormat and format', () => {
+    expect.assertions(5)
+
+    const finderApp = new FinderApp(options)
+
+    options.facilityFormat = {parentFormat: {decorations: 'mock-decorations-0'}, decorations: 'mock-decorations-1'}
+
+    const decorations = finderApp.createDecorations(options)
+
+    expect(decorations.length).toBe(4)
+    expect(decorations[0]).toBe(MapMgr.FEATURE_DECORATIONS)
+    expect(decorations[1]).toEqual({app: finderApp})
+    expect(decorations[2]).toBe('mock-decorations-0')
+    expect(decorations[3]).toBe('mock-decorations-1')
+  })
+
+  test('createDecorations provided with parentFormat and format and option', () => {
+    expect.assertions(6)
+
+    const finderApp = new FinderApp(options)
+
+    options.facilityFormat = {parentFormat: {decorations: 'mock-decorations-0'}, decorations: 'mock-decorations-1'}
+    options.decorations = 'mock-decorations-2'
+
+    const decorations = finderApp.createDecorations(options)
+
+    expect(decorations.length).toBe(5)
+    expect(decorations[0]).toBe(MapMgr.FEATURE_DECORATIONS)
+    expect(decorations[1]).toEqual({app: finderApp})
+    expect(decorations[2]).toBe('mock-decorations-0')
+    expect(decorations[3]).toBe('mock-decorations-1')
+    expect(decorations[4]).toBe('mock-decorations-2')
+  })
 })
