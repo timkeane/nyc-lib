@@ -18,8 +18,8 @@ const parentFormat = new CsvPoint({
   x: 'x',
   y: 'y',
   id: 'id',
-  defaultDataProjection: 'EPSG:2263',
-  defaultFeatureProjection: 'EPSG:4326'
+  dataProjection: 'EPSG:2263',
+  featureProjection: 'EPSG:4326'
 })
 const extendFeatureDecorations = [
   {
@@ -186,7 +186,7 @@ test('readProjection', () => {
     decorations: featureDecorations
   })
 
-  expect(decorating.readProjection('anything')).toBe(decorating.parentFormat.defaultDataProjection)
+  expect(decorating.readProjection('anything')).toBe(decorating.parentFormat.dataProjection)
 })
 
 test('getLastExtent', () => {

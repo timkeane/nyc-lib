@@ -32,10 +32,16 @@
 
   var map = new nyc.ol.Basemap({target: 'map'});
 
+  /* 
+   * NOTE: It seems that the Socrata resource id for this data 
+   *       is not stable and may change with each data update.
+   *       Visit https://data.cityofnewyork.us/ for proper
+   *       resource id. D'oh!
+   */
   var source = new nyc.ol.source.SocrataJson({
-      url: 'https://data.cityofnewyork.us/resource/r6z4-nn24.json',
+      url: 'https://data.cityofnewyork.us/resource/py5z-ue6a.json',
       strategy: ol.loadingstrategy.bbox,
-      idName: 'doitt_id'
+      id: 'doitt_id'
     });
 
     var layer = new ol.layer.Vector({

@@ -1,28 +1,29 @@
 import Filters from 'nyc/ol/Filters'
 import Container from 'nyc/Container'
 
-const choiceOptions = [
-  {
-    target: '#choice',
-    choices: [
-      {name: 'field1', label: 'Choice 1', values: [1], checked: true},
-      {name: 'field1', label: 'Choice 2', values: [2, 3, 4], checked: true},
-      {name: 'field2', label: 'Choice 2', values: ['doo', 'fus'], checked: true},
-      {name: 'field4', label: 'Choice 2', values: ['foo']}
-    ]
-  },
-  {
-    radio: true,
-    choices: [
-      {name: 'field3', label: 'Choice A', values: ['a']},
-      {name: 'field3', label: 'Choice B', values: ['b', 'c', 'd'], checked: true},
-      {name: 'field3', label: 'Choice C', values: ['z', 'q']}
-    ]
-  }
-]
+let choiceOptions
 let target
 let choiceTarget
 beforeEach(() => {
+  choiceOptions = [
+    {
+      target: '#choice',
+      choices: [
+        {name: 'field1', label: 'Choice 1', values: [1], checked: true},
+        {name: 'field1', label: 'Choice 2', values: [2, 3, 4], checked: true},
+        {name: 'field2', label: 'Choice 2', values: ['doo', 'fus'], checked: true},
+        {name: 'field4', label: 'Choice 2', values: ['foo']}
+      ]
+    },
+    {
+      radio: true,
+      choices: [
+        {name: 'field3', label: 'Choice A', values: ['a']},
+        {name: 'field3', label: 'Choice B', values: ['b', 'c', 'd'], checked: true},
+        {name: 'field3', label: 'Choice C', values: ['z', 'q']}
+      ]
+    }
+  ]
   target = $('<div></div>')
   choiceTarget = $('<div id="choice"></div>')
   $('body').append(target)
@@ -64,7 +65,7 @@ test('constructor', () => {
   expect(filters.choiceControls[1].choices).toBe(choiceOptions[1].choices)
 })
 
-test('filter', () => {
+test('filter has checked options', () => {
   expect.assertions(9)
 
   const filters = new Filters({
@@ -92,4 +93,31 @@ test('filter', () => {
 
   expect(filters.source.filter.mock.calls[0][0][1][0].property).toBe('field3')
   expect(filters.source.filter.mock.calls[0][0][1][0].values).toEqual(['b', 'c', 'd'])
+})
+
+test('filter no checked options', () => {
+  expect.assertions(3)
+
+  choiceOptions.forEach(co => {
+    co.choices.forEach(c => {
+      c.checked = false
+    })
+  })
+
+  const filters = new Filters({
+    target: target,
+    source: {},
+    choiceOptions: choiceOptions
+  })
+
+  filters.source.filter = jest.fn()
+
+  filters.on('change', (event) => {
+    expect(event).toBe(filters)
+  })
+
+  filters.choiceControls[0].trigger('change')
+
+  expect(filters.source.filter).toHaveBeenCalledTimes(1)
+  expect(filters.source.filter.mock.calls[0][0].length).toBe(0)
 })

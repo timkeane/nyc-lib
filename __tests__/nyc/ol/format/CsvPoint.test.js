@@ -4,6 +4,7 @@ import OlGeomPoint from 'ol/geom/Point'
 import OlFormatFormatType from 'ol/format/FormatType'
 
 import CsvPoint from 'nyc/ol/format/CsvPoint'
+import StandardCsv from 'nyc/ol/format/StandardCsv'
 
 import nyc from 'nyc'
 import nycOl from 'nyc/ol'
@@ -27,8 +28,8 @@ test('readFeatures has id and projections', () => {
     x: 'x',
     y: 'y',
     id: 'id',
-    defaultDataProjection: 'EPSG:2263',
-    defaultFeatureProjection: 'EPSG:4326'
+    dataProjection: 'EPSG:2263',
+    featureProjection: 'EPSG:4326'
   })
 
   const features = csvpoint.readFeatures(sourceId)
@@ -95,7 +96,7 @@ test('readFeatures no id or default projections', () => {
     y: 'y'
   })
 
-  const features = csvpoint.readFeatures(sourceNoId)
+  const features = csvpoint.readFeatures(sourceNoId, {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857'})
 
   expect(features.length).toBe(3)
   expect(features[0].getGeometry().getCoordinates()).toEqual(new OlGeomPoint([0, 0]).transform('EPSG:4326', 'EPSG:3857').getCoordinates())
@@ -143,7 +144,7 @@ describe('hookupEvents called from constructor', () => {
       y: 'y'
     })
 
-    const features = csvpoint.readFeatures(source)
+    csvpoint.readFeatures(source)
 
     expect(console.error).toHaveBeenCalledTimes(1)
     expect(console.error.mock.calls[0][0]).toBe('Invalid coordinate [123, NaN] for id 0')
@@ -158,7 +159,7 @@ describe('hookupEvents called from constructor', () => {
       y: 'y'
     })
     
-    expect(csvpoint.readProjection('anything')).toBe(csvpoint.defaultDataProjection)
+    expect(csvpoint.readProjection('anything')).toBe(csvpoint.dataProjection)
   })
 
   test('getLastExtent', () => {
@@ -171,4 +172,31 @@ describe('hookupEvents called from constructor', () => {
 
     expect(csvpoint.getLastExtent()).toBeNull()
   })
+})
+
+describe('detectCsvFormat', () => {
+  test('detectCsvFormat autoDetect = true with X, Y', () => {
+    expect.assertions(3)
+
+    const csvpoint = new CsvPoint({autoDetect: true})
+
+    csvpoint.detectCsvFormat([{X: 1, Y: 2}])
+
+    expect(csvpoint.x).toBe(StandardCsv.X)
+    expect(csvpoint.y).toBe(StandardCsv.Y)
+    expect(csvpoint.dataProjection.getCode()).toBe('EPSG:2263')
+  })
+
+  test('detectCsvFormat autoDetect = true with LNG, LAT', () => {
+    expect.assertions(3)
+
+    const csvpoint = new CsvPoint({autoDetect: true})
+
+    csvpoint.detectCsvFormat([{LNG: 1, LAT: 2}])
+
+    expect(csvpoint.x).toBe(StandardCsv.LNG)
+    expect(csvpoint.y).toBe(StandardCsv.LAT)
+    expect(csvpoint.dataProjection.getCode()).toBe('EPSG:4326')
+  })
+
 })

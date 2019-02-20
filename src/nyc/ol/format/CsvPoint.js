@@ -39,12 +39,12 @@ class CsvPoint extends OlFormatFeature {
      * @private
      * @member {ol.Projection}
      */
-    this.defaultDataProjection = olProjGet(options.defaultDataProjection || 'EPSG:4326')
+    this.dataProjection = olProjGet(options.dataProjection || 'EPSG:4326')
     /**
      * @private
      * @member {ol.Projection}
      */
-    this.defaultFeatureProjection = olProjGet(options.defaultFeatureProjection || 'EPSG:3857')
+    this.featureProjection = olProjGet(options.featureProjection || 'EPSG:3857')
     /**
      * @private
      * @member {string}
@@ -90,8 +90,8 @@ class CsvPoint extends OlFormatFeature {
     const point = new OlGeomPoint([x, y])
     const feature = new OlFeature(source)
     point.transform(
-      options && options.dataProjection ? options.dataProjection : this.defaultDataProjection,
-      options && options.featureProjection ? options.featureProjection : this.defaultFeatureProjection
+      options && options.dataProjection ? options.dataProjection : this.dataProjection,
+      options && options.featureProjection ? options.featureProjection : this.featureProjection
     )
     feature.setGeometry(point)
     feature.setId(id)
@@ -145,11 +145,11 @@ class CsvPoint extends OlFormatFeature {
       if (source[0][StandardCsv.X]) {
         this.x = StandardCsv.X
         this.y = StandardCsv.Y
-        this.defaultDataProjection = olProjGet('EPSG:2263')
+        this.dataProjection = olProjGet('EPSG:2263')
       } else {
         this.x = StandardCsv.LNG
         this.y = StandardCsv.LAT
-        this.defaultDataProjection = olProjGet('EPSG:4326')
+        this.dataProjection = olProjGet('EPSG:4326')
       }
     }
   }
@@ -162,7 +162,7 @@ class CsvPoint extends OlFormatFeature {
    * @return {ol.proj.Projection} The projection
    */
   readProjection(source) {
-    return this.defaultDataProjection
+    return this.dataProjection
   }
   /**
    * @desc Return format type
@@ -184,8 +184,8 @@ class CsvPoint extends OlFormatFeature {
 * @property {string=} x The name of the field containing the x ordinate of the point
 * @property {string=} y The name of the field containing the y ordinate of the point
 * @property {string=} id The name of the field containing the unique id of the point
-* @property {ol.ProjectionLike} [defaultDataProjection=EPSG:4326] The projection of the source data
-* @property {ol.ProjectionLike} [defaultFeatureProjection=EPSG:3857] The projection of the resulting features
+* @property {ol.ProjectionLike} [dataProjection=EPSG:4326] The projection of the source data
+* @property {ol.ProjectionLike} [featureProjection=EPSG:3857] The projection of the resulting features
 */
 CsvPoint.Options
 

@@ -2,9 +2,9 @@ import OlFormatGeoJson from 'ol/format/GeoJSON'
 import OlFeature from 'ol/Feature'
 import OlGeomPoint from 'ol/geom/Point'
 import OlGeomLineString from 'ol/geom/LineString'
+import {get as olProjGet} from 'ol/proj'
 import AutoLoad from 'nyc/ol/source/AutoLoad'
 
-import nyc from 'nyc'
 import nycOl from 'nyc/ol'
 
 const FilterAndSort = require('nyc/ol/source/FilterAndSort').default
@@ -129,7 +129,7 @@ test('sort with distance in data projection', () => {
   const filterAndSort = new FilterAndSort({
     features: [f0, f4, f2, f1, f3],
     format: {
-      defaultDataProjection: 'EPSG:2263'
+      dataProjection: 'EPSG:2263'
     }
   })
 
@@ -168,7 +168,7 @@ test('sort with distance in data projection from parentFormat', () => {
     features: [f0, f4, f2, f1, f3],
     format: {
       parentFormat: {
-        defaultDataProjection: 'EPSG:2263'
+        dataProjection: 'EPSG:2263'
       }
     }
   })
@@ -198,4 +198,39 @@ test('sort with distance in data projection from parentFormat', () => {
 test('storeFeatures', () => {
   expect.assertions(0)
   new FilterAndSort({}).set('autoload-complete', true)
+})
+
+test('distance', () => {
+  expect.assertions(6)
+
+  const geom = new OlGeomPoint([1, 2])
+
+  const filterAndSort = new FilterAndSort({})
+
+  filterAndSort.projections = () => {
+    return [null, olProjGet('EPSG:3857')]
+  }
+
+  let distance = filterAndSort.distance([1, 3], geom)
+
+  expect(distance.distance).toBe(1)
+  expect(distance.units).toBe('m')
+
+  filterAndSort.projections = () => {
+    return [olProjGet('EPSG:4326'), olProjGet('EPSG:3857')]
+  }
+
+  distance = filterAndSort.distance([1, 3], geom)
+
+  expect(distance.distance).toBe(1)
+  expect(distance.units).toBe('m')
+
+  filterAndSort.projections = () => {
+    return [olProjGet('EPSG:2263'), olProjGet('EPSG:3857')]
+  }
+
+  distance = filterAndSort.distance([1, 3], geom)
+
+  expect(distance.distance.toFixed(2)).toBe('4.11')
+  expect(distance.units).toBe('ft')
 })

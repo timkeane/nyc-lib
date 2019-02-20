@@ -1,7 +1,7 @@
 .pop {
 	background-color: var(--color-light);
 	border-radius: var(--border-radius, 0);
-	border: 1px solid var(--color-shadow);
+	border: 1px solid var(--color-shadow, transparent);
 	box-shadow: var(--box-shadow, none);
 	display: none;
 	position: absolute;
@@ -28,7 +28,7 @@
 	margin-left: -10px;
 }
 .pop:before {
-	border-top: 1px solid var(--color-shadow);
+	border-top: 1px solid var(--color-shadow, transparent);
 	border-left-color: transparent;
 	border-right-color: transparent;
 	border-bottom-color: transparent;

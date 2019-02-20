@@ -4,11 +4,12 @@ import Container from 'nyc/Container'
 import EventHandling from 'nyc/EventHandling'
 
 test('everything', () => {
-  expect.assertions(8)
+  expect.assertions(11)
 
   const parent = $('<div></div>')
   const child = $('<p></p>')
   const append = $('<span></span>')
+  const prepend = $('<img>')
 
   parent.append(child)
   const container = new Container(parent)
@@ -23,4 +24,7 @@ test('everything', () => {
   expect(container.find('span').get(0)).toBe(append.get(0))
   expect(parent.children().last().get(0)).toBe(append.get(0))
 
+  expect(container.prepend(prepend).get(0)).toBe(parent.get(0))
+  expect(container.find('img').get(0)).toBe(prepend.get(0))
+  expect(parent.children().first().get(0)).toBe(prepend.get(0))
 })

@@ -27,7 +27,7 @@ class Popup extends OlOverlay {
       id: nyc.nextId('Popup'),
       element: $(Popup.HTML).get(0),
       // stopEvent: true,
-      autoPanMargin: options.margin === undefined ? 10 : options.margin,
+      autoPanMargin: options.autoPanMargin === undefined ? 10 : options.autoPanMargin,
       autoPanAnimation: options.autoPanAnimation === undefined ? {
         duration: 1000,
         easing: linear

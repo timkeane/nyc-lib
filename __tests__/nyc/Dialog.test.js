@@ -1,5 +1,6 @@
 import Container from 'nyc/Container'
 import Dialog from 'nyc/Dialog'
+import $ from 'jquery'
 
 beforeEach(() => {
   $.resetMocks()
@@ -469,4 +470,25 @@ test('hide', () => {
   expect($.mocks.fadeOut).toHaveBeenCalledTimes(1)
   expect($.mocks.fadeOut.mock.instances[0].get(0)).toBe(dialog.getContainer().get(0))
   expect(dialog.getContainer().css('display')).toBe('none')
+})
+
+test('checkHref', () => {
+  expect.assertions(2)
+
+  const event = {
+    preventDefault: jest.fn(),
+    target: $('<a href="https://whatever"></a>').get(0)
+  }
+
+  const dialog = new Dialog()
+
+  dialog.checkHref(event)
+
+  expect(event.preventDefault).toHaveBeenCalledTimes(0)
+
+  $(event.target).attr('href', '#')
+
+  dialog.checkHref(event)
+
+  expect(event.preventDefault).toHaveBeenCalledTimes(1)
 })
