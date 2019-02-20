@@ -19,7 +19,7 @@ class AutoLoad extends OlSourceVector {
    * @public
    * @constructor
    * @extends ol.source.Vector
-   * @param {olx.source.VectorOptions} options Constructor optionss
+   * @param {olx.source.VectorOptions} options Constructor options
    */
   constructor(options) {
     options.loader = () => {
