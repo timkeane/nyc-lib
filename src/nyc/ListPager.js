@@ -154,6 +154,6 @@ ListPager.Item
  */
 ListPager.HTML = '<h2 class="info"></h2>' +
   '<div class="list" role="list"></div>' +
-  '<button class="btn rad-all btn-more btn-dark">More...</button>'
+  '<button class="btn rad-all btn-more">More...</button>'
 
 export default ListPager

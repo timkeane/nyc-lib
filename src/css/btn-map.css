@@ -15,6 +15,10 @@
 .btn-x, .btn.btn-x {
 	font-size: 16px;
 }
+.btn, .btn-sq, .btn-rnd {
+	text-align: center;
+	vertical-align: middle;
+}
 .nyc-html {
 	display: table;
 	border: 1px solid var(--color-border);

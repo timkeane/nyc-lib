@@ -47,7 +47,7 @@ class Geolocate extends Container {
  * @type {string}
  */
 Geolocate.HTML = '<div class="geoloc">' +
-  '<button class="btn btn-geo btn-sq rad-all btn-lg btn-dark" title="Current location">' +
+  '<button class="btn-geo btn-sq rad-all" title="Current location">' +
     '<span class="screen-reader-only">Current location</span>' +
     '<span class="fas fa-crosshairs" role="img"></span>' +
   '</button>' +
