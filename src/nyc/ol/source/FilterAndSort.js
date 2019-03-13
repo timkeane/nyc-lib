@@ -53,21 +53,23 @@ class FilterAndSort extends AutoLoad {
     return filteredFeatures
   }
   /**
-   * @desc Sort features by distance from a coordinate
-   * @public
+   * @private
    * @method
    * @param {ol.Coordinate} coordinate The coordinate from which to measure distance to features
+   * @param {Number=} count The number of features to return
    * @return {Array<ol.Feature>} The features, each decorated with a getDistance function that returns a {@link module:nyc/ol/source/FilterAndSort~FilterAndSort.Distance} object
    */
-  sort(coordinate) {
+  doSort(coordinate, count) {
     const features = this.getFeatures()
     features.sort((f0, f1) => {
       const dist0 = this.distance(coordinate, f0.getGeometry())
       const dist1 = this.distance(coordinate, f1.getGeometry())
-      f0.set('__distance', dist0)
-      f1.set('__distance', dist1)
-      $.extend(f0, FilterAndSort.DistanceDecoration)
-      $.extend(f1, FilterAndSort.DistanceDecoration)
+      if (count === undefined) {
+        f0.set('__distance', dist0)
+        f1.set('__distance', dist1)
+        $.extend(f0, FilterAndSort.DistanceDecoration)
+        $.extend(f1, FilterAndSort.DistanceDecoration)
+      }
       if (dist0.distance < dist1.distance) {
         return -1
       } else if (dist0.distance > dist1.distance) {
@@ -75,7 +77,31 @@ class FilterAndSort extends AutoLoad {
       }
       return 0
     })
+    if (count > 0) {
+      return features.slice(0, count)
+    }
     return features
+  }
+  /**
+   * @desc Sort features by distance from a coordinate
+   * @public
+   * @method
+   * @param {ol.Coordinate} coordinate The coordinate from which to measure distance to features
+   * @return {Array<ol.Feature>} The features, each decorated with a getDistance function that returns a {@link module:nyc/ol/source/FilterAndSort~FilterAndSort.Distance} object
+   */
+  sort(coordinate) {
+    return this.doSort(coordinate)
+  }
+  /**
+   * @desc Get nearest n features from a coordinate
+   * @public
+   * @method
+   * @param {ol.Coordinate} coordinate The coordinate from which to measure distance to features
+   * @param {Number=} count The number of features to return
+   * @return {Array<ol.Feature>} The features
+   */
+  nearest(coordinate, count) {
+    return this.doSort(coordinate, count)
   }
   /**
    * @private

@@ -1,6 +1,6 @@
 {
   "name": "nyc-lib",
-  "version": "1.2.39",
+  "version": "1.2.41",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "pretest": "rm -rf ./dist",
@@ -28,7 +28,9 @@
   },
   "jest": {
     "testURL": "http://localhost",
-    "testEnvironmentOptions": { "resources": "usable" },
+    "testEnvironmentOptions": {
+      "resources": "usable"
+    },
     "verbose": true,
     "automock": false,
     "testMatch": [
