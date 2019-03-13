@@ -11,6 +11,7 @@ import ListPager from 'nyc/ListPager'
 import Basemap from 'nyc/ol/Basemap'
 import MultiFeaturePopup from 'nyc/ol/MultiFeaturePopup'
 import FeatureTip from 'nyc/ol/FeatureTip'
+import Vector from 'ol/source/Vector'
 import Layer from 'ol/layer/Vector'
 import LocationMgr from 'nyc/ol/LocationMgr'
 import MapLocator from 'nyc/MapLocator'
@@ -82,7 +83,6 @@ class MapMgr {
     if (options.startAt) {
       this.locationMgr.goTo(options.startAt)
     }
-
     /**
      * @desc The vector layer for facilities
      * @public
@@ -92,13 +92,20 @@ class MapMgr {
     /**
      * @desc The data to display in the map layer
      * @public
-     * @member {module:nyc/ol/format/CsvPoint~CsvPoint}
+     * @member {module:nyc/ol/source/FilterAndSort~FilterAndSort}
      */
     this.source = this.createSource(options)
+    /**
+     * @private
+     * @member {ol.source.Vector}
+     */
+    this.highlightSource = null
+
     if (this.source) {
       this.layer = this.createLayer(this.source, this.createStyle(options))
       this.map.addLayer(this.layer)
       this.source.autoLoad().then($.proxy(this.ready, this))
+      this.createHighlightLayer(options)
     } else {
       this.ready()
     }
@@ -315,6 +322,39 @@ class MapMgr {
    * @private
    * @method
    * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
+   */
+  createHighlightLayer(options) {
+    this.highlightSource = new Vector()
+    this.highlightLayer = new Layer({
+      source: this.highlightSource,
+      style: this.createHighlightStyle(options)
+    })
+    this.map.addLayer(this.highlightLayer)
+  }
+  /**
+   * @private
+   * @method
+   * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
+   * @returns {ol.style.Style} The style
+   */
+  createHighlightStyle(options) {
+    if (options.highlightStyle) {
+      return options.highlightStyle
+    }
+    return new Style({
+      image: new Circle({
+        radius: 20,
+        stroke: new Stroke({
+          color: 'yellow',
+          width: 10
+        })
+      })
+    })
+  }
+  /**
+   * @private
+   * @method
+   * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
    * @returns {module:nyc/ol/source/FilterAndSort~FilterAndSort} The sorce
    */
   createSource(options) {
@@ -376,6 +416,18 @@ class MapMgr {
       this.map.removeInteraction(wheel)
     }
   }
+  /**
+   * @desc Highlight a single feature on the map
+   * @public
+   * @method
+   * @param {ol.Feature=} feature The feature
+   */
+  highlight(feature) {
+    this.highlightSource.clear()
+    if (feature) {
+      this.highlightSource.addFeatures([feature])
+    }
+  }
 }
 
 /**
@@ -417,6 +469,9 @@ MapMgr.FEATURE_DECORATIONS = {
       .append(this.mapButton())
       .append(this.directionsButton())
       .append(this.detailsCollapsible())
+      .data('feature', this)
+      .mouseover($.proxy(this.handleOver, this))
+      .mouseout($.proxy(this.handleOut, this))
   },
   /**
    * @desc Returns the feature tip value
@@ -643,6 +698,27 @@ MapMgr.FEATURE_DECORATIONS = {
     } else {
       feature.app.directionsTo(feature)
     }
+  },
+  /**
+   * @desc Handles mouse over a feature's HTML
+   * @public
+   * @static
+   * @function
+   * @param {jQuery.Event} event Event object
+   */
+  handleOver(event) {
+    const target = $(event.currentTarget)
+    this.app.highlight(target.data('feature'))
+  },
+  /**
+   * @desc Handles mouse out a feature's HTML
+   * @public
+   * @static
+   * @function
+   * @param {jQuery.Event} event Event object
+   */
+  handleOut(event) {
+    this.app.highlight()
   }
 }
 
@@ -659,6 +735,7 @@ MapMgr.FEATURE_DECORATIONS = {
  * @property {string=} mapMarkerUrl A URL to an image for use as a falcility symbol
  * @property {Array<number>=} mapMarkerColor An RGB color for use as a falcility symbol
  * @property {ol.style.Style=} facilityStyle The styling for the facilities layer
+ * @property {ol.style.Style=} highlightStyle The styling for highlighting facilities layer
  * @property {module:nyc/Search~Search.FeatureSearchOptions|boolean} [facilitySearch=true] Search options for feature searches or true to use default search options
  * @property {boolean} [mouseWheelZoom=false] Allow mouse wheel map zooming
  * @property {string=} startAt A starting location

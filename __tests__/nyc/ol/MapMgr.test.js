@@ -132,7 +132,7 @@ describe('constructor', () => {
   })
 
   test('constructor minimum options', () => {
-    expect.assertions(42)
+    expect.assertions(43)
 
     const mapMgr = new MapMgr(options)
     expect(mapMgr instanceof MapMgr).toBe(true)
@@ -143,8 +143,9 @@ describe('constructor', () => {
     expect(mapMgr.pager).toBeUndefined()
 
     expect(mapMgr.createSource).toHaveBeenCalledTimes(1)
-    expect(mapMgr.map.addLayer).toHaveBeenCalledTimes(1)
+    expect(mapMgr.map.addLayer).toHaveBeenCalledTimes(2)
     expect(mapMgr.map.addLayer.mock.calls[0][0]).toBe(mapMgr.layer)
+    expect(mapMgr.map.addLayer.mock.calls[1][0]).toBe(mapMgr.highlightLayer)
     expect(mapMgr.source).toBe(mockSource)
     expect(mapMgr.source.autoLoad).toHaveBeenCalledTimes(1)
     expect($.mocks.proxy).toHaveBeenCalledTimes(1)
@@ -194,7 +195,7 @@ describe('constructor', () => {
   })
 
   test('constructor all options', () => {
-    expect.assertions(45)
+    expect.assertions(46)
 
     options.searchTarget = '#search'
     options.listTarget = '#list'
@@ -216,8 +217,9 @@ describe('constructor', () => {
     expect(mapMgr.pager).toBe(ListPager.mock.instances[0])
 
     expect(mapMgr.createSource).toHaveBeenCalledTimes(1)
-    expect(mapMgr.map.addLayer).toHaveBeenCalledTimes(1)
+    expect(mapMgr.map.addLayer).toHaveBeenCalledTimes(2)
     expect(mapMgr.map.addLayer.mock.calls[0][0]).toBe(mapMgr.layer)
+    expect(mapMgr.map.addLayer.mock.calls[1][0]).toBe(mapMgr.highlightLayer)
     expect(mapMgr.source).toBe(mockSource)
     expect(mapMgr.source.autoLoad).toHaveBeenCalledTimes(1)
     expect($.mocks.proxy.mock.calls[0][0]).toBe(mapMgr.ready)
@@ -796,7 +798,7 @@ describe('createStyle', () => {
     expect(mapMgr.loadMarkerImage.mock.calls[0][0]).toBe(options.mapMarkerUrl)
     expect(mapMgr.loadMarkerImage.mock.calls[0][1] instanceof Style).toBe(true)
     expect(mapMgr.createStyle(options) instanceof Style).toBe(true)
-    expect(Style).toHaveBeenCalledTimes(2)
+    expect(Style).toHaveBeenCalledTimes(3)
 
     MapMgr.prototype.loadMarkerImage = loadMarkerImage
 
@@ -817,7 +819,7 @@ describe('createStyle', () => {
     expect(Style.mock.calls[0][0].image.stroke_.color_).toBe('rgb(0,0,255)')
     expect(Style.mock.calls[0][0].image.stroke_.width_).toBe(2)
     expect(mapMgr.createStyle(options) instanceof Style).toBe(true)
-    expect(Style).toHaveBeenCalledTimes(2)
+    expect(Style).toHaveBeenCalledTimes(3)
 
   })
 
@@ -837,7 +839,7 @@ describe('createStyle', () => {
     expect(Style.mock.calls[0][0].image.stroke_.color_).toBe(`rgb(${options.mapMarkerColor})`)
     expect(Style.mock.calls[0][0].image.stroke_.width_).toBe(2)
     expect(mapMgr.createStyle(options) instanceof Style).toBe(true)
-    expect(Style).toHaveBeenCalledTimes(2)
+    expect(Style).toHaveBeenCalledTimes(3)
 
   })
 })

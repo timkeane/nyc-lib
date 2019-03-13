@@ -88,7 +88,7 @@ afterEach(() => {
 })
 
 test('constructor mouseWheelZoom is undefined', () => {
-  expect.assertions(61)
+  expect.assertions(63)
 
   const finderApp = new FinderApp({
     title: 'Finder App',
@@ -116,12 +116,15 @@ test('constructor mouseWheelZoom is undefined', () => {
   expect(FilterAndSort.mock.calls[0][0].format.parentFormat).toBe(format);
   expect(FilterAndSort.mock.calls[0][0].format.decoration).toBe(FinderApp.DEFAULT_DECORATIONS);
 
-  expect(OlLayerVector).toHaveBeenCalledTimes(1)
+  expect(OlLayerVector).toHaveBeenCalledTimes(2)
   expect(OlLayerVector.mock.calls[0][0].source).toBe(finderApp.source)
   expect(OlLayerVector.mock.calls[0][0].style).toBe(style)
 
-  expect(finderApp.map.addLayer).toHaveBeenCalledTimes(1)
+  expect(OlLayerVector.mock.calls[1][0].source).toBe(finderApp.highlightSource)
+
+  expect(finderApp.map.addLayer).toHaveBeenCalledTimes(2)
   expect(finderApp.map.addLayer.mock.calls[0][0]).toBe(finderApp.layer)
+  expect(finderApp.map.addLayer.mock.calls[1][0]).toBe(finderApp.highlightLayer)
 
   expect(MultiFeaturePopup).toHaveBeenCalledTimes(1)
   expect(MultiFeaturePopup.mock.calls[0][0].map).toBe(finderApp.map)
@@ -181,7 +184,7 @@ test('constructor mouseWheelZoom is undefined', () => {
 })
 
 test('constructor mouseWheelZoom = false', () => {
-  expect.assertions(61)
+  expect.assertions(63)
 
   const finderApp = new FinderApp({
     title: 'Finder App',
@@ -210,12 +213,16 @@ test('constructor mouseWheelZoom = false', () => {
   expect(FilterAndSort.mock.calls[0][0].format.parentFormat).toBe(format);
   expect(FilterAndSort.mock.calls[0][0].format.decoration).toBe(FinderApp.DEFAULT_DECORATIONS);
 
-  expect(OlLayerVector).toHaveBeenCalledTimes(1)
+  expect(OlLayerVector).toHaveBeenCalledTimes(2)
   expect(OlLayerVector.mock.calls[0][0].source).toBe(finderApp.source)
   expect(OlLayerVector.mock.calls[0][0].style).toBe(style)
 
-  expect(finderApp.map.addLayer).toHaveBeenCalledTimes(1)
+  expect(OlLayerVector.mock.calls[1][0].source).toBe(finderApp.highlightSource)
+
+  expect(finderApp.map.addLayer).toHaveBeenCalledTimes(2)
   expect(finderApp.map.addLayer.mock.calls[0][0]).toBe(finderApp.layer)
+
+  expect(finderApp.map.addLayer.mock.calls[1][0]).toBe(finderApp.highlightLayer)
 
   expect(MultiFeaturePopup).toHaveBeenCalledTimes(1)
   expect(MultiFeaturePopup.mock.calls[0][0].map).toBe(finderApp.map)
