@@ -273,19 +273,18 @@ class MapMgr {
    * @private
    * @method
    * @param {string} url The image URL
+   * @param {number} height The desired height of the rendered marker
    * @param {ol.style.Style} style The style
    */
-  loadMarkerImage(url, style) {
-    const me = this
-    const image = $('<img>').on('load', (event) => {
+  loadMarkerImage(url, height, style) {
+    const image = $('<img>').one('load', (event) => {
       const size = [$(image).width(), $(image).height()]
       style.setImage(new Icon({
         src: url,
-        scale: 32 / size[1],
+        scale: height / size[1],
         imgSize: size
       }))
       $(image).remove()
-      me.layer.setStyle(style)
     })
     $('body').append(image.attr('src', url))
   }
@@ -298,12 +297,12 @@ class MapMgr {
   createStyle(options) {
     if (options.facilityStyle) {
       return options.facilityStyle
-    } else if (options.mapMarkerUrl) {
-      const style = new Style({})
-      this.loadMarkerImage(options.mapMarkerUrl, style)
+    } else if (options.facilityMarkerUrl) {
+      const style = new Style()
+      this.loadMarkerImage(options.facilityMarkerUrl, 32, style)
       return style
     }
-    const color = options.mapMarkerColor || [0, 0, 255]
+    const color = options.facilityMarkerColor || [0, 0, 255]
     const rgb = color.join(',')
     return new Style({
       image: new Circle({
@@ -396,6 +395,12 @@ class MapMgr {
       dialogTarget: options.mapTarget,
       url: options.geoclientUrl
     })
+    if (options.locationMarkerUrl) {
+      const layer = locationMgr.mapLocator.layer
+      const style = new Style()
+      layer.setStyle(style)
+      this.loadMarkerImage(options.locationMarkerUrl, 64, layer.getStyle())
+    }
     locationMgr.on('geocoded', this.located, this)
     locationMgr.on('geolocated', this.located, this)
     return locationMgr
@@ -732,8 +737,9 @@ MapMgr.FEATURE_DECORATIONS = {
  * @property {jQuery|Element|string=} searchTarget The target element for search input
  * @property {jQuery|Element|string=} listTarget The target element for facility list
  * @property {string} [facilityType=Facilities] Title for the facilites list
- * @property {string=} mapMarkerUrl A URL to an image for use as a falcility symbol
- * @property {Array<number>=} mapMarkerColor An RGB color for use as a falcility symbol
+ * @property {string=} locationMarkerUrl A URL to an image for use as the search location symbol
+ * @property {string=} facilityMarkerUrl A URL to an image for use as a falcility symbol
+ * @property {Array<number>=} facilityMarkerColor An RGB color for use as a falcility symbol
  * @property {ol.style.Style=} facilityStyle The styling for the facilities layer
  * @property {ol.style.Style=} highlightStyle The styling for highlighting facilities layer
  * @property {module:nyc/Search~Search.FeatureSearchOptions|boolean} [facilitySearch=true] Search options for feature searches or true to use default search options

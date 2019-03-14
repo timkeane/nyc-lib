@@ -30,16 +30,10 @@
   <div id="map"></div>
   <script>
 
-  var map = new nyc.ol.Basemap({target: 'map'});
+    var map = new nyc.ol.Basemap({target: 'map'});
 
-  /* 
-   * NOTE: It seems that the Socrata resource id for this data 
-   *       is not stable and may change with each data update.
-   *       Visit https://data.cityofnewyork.us/ for proper
-   *       resource id. D'oh!
-   */
-  var source = new nyc.ol.source.SocrataJson({
-      url: 'https://data.cityofnewyork.us/resource/py5z-ue6a.json',
+    var source = new nyc.ol.source.SocrataJson({
+      url: 'https://data.cityofnewyork.us/resource/et7f-25hb.json',
       strategy: ol.loadingstrategy.bbox,
       id: 'doitt_id'
     });
@@ -59,7 +53,7 @@
     new nyc.ol.MultiFeaturePopup({
       map: map,
       layers: [layer]
-    })
+    });
 
   </script>
 </body>

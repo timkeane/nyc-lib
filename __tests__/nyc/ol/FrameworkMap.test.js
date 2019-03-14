@@ -30,7 +30,7 @@ beforeEach(() => {
     listTarget: undefined,
     facilitySearch: undefined,
     facilityType: undefined,
-    mapMarkerUrl: undefined,
+    facilityMarkerUrl: undefined,
     facilityStyle: undefined,
     mouseWheelZoom: false
   }
