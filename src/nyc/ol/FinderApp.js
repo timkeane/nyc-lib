@@ -127,6 +127,16 @@ class FinderApp extends MapMgr {
     }
   }
   /**
+   * @desc Handles geocoded and geolocated events
+   * @access protected
+   * @method
+   * @param {module:nyc/Locator~Locator.Result} location Location
+   */
+  located(location) {
+    super.located(location)
+    this.focusFacilities()
+  }
+  /**
    * @desc Provides directions to the provided facility feature
    * @public
    * @override

@@ -208,6 +208,8 @@ class Directions extends Contanier {
       imgName = imgName ? imgName[0] : ''
       if (src.indexOf('us-ny-mta') > -1) {
         img.alt = `Take the ${imgName} train `
+      } else if (imgName === 'bus2') {
+        img.alt = 'Take the bus '
       } else if (imgName === 'walk') {
         img.alt = 'Walk '
       } else if ($(img).hasClass('adp-marker2')) {
