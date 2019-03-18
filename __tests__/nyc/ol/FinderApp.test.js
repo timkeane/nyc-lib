@@ -753,27 +753,42 @@ describe('tabChange', () => {
   })
 })
 
-test('located', () => {
-  expect.assertions(2)
+describe('located', () => {
+  const focusFacilities = FinderApp.prototype.focusFacilities
+  const resetList = FinderApp.prototype.resetList
 
-  const finderApp = new FinderApp({
-    title: 'Finder App',
-    facilityTabTitle: 'Facility Title',
-    facilityUrl: 'http://facility',
-    facilityFormat: format,
-    facilityStyle: style,
-    filterTabTitle: 'Filter Title',
-    filterChoiceOptions: filterChoiceOptions,
-    geoclientUrl: 'http://geoclient'
+  beforeEach(() => {
+    FinderApp.prototype.focusFacilities = jest.fn()
+    FinderApp.prototype.resetList = jest.fn()
   })
+  afterEach(() => {
+    FinderApp.prototype.focusFacilities = focusFacilities
+    FinderApp.prototype.resetList = resetList
+  })
+  test('located', () => {
+    expect.assertions(4)
+  
+    const finderApp = new FinderApp({
+      title: 'Finder App',
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+  
+    finderApp.located('mock-location')
 
-  finderApp.resetList = jest.fn()
-
-  finderApp.located('mock-location')
-
-  expect(finderApp.location).toBe('mock-location')
-  expect(finderApp.resetList).toHaveBeenCalledTimes(1)
+    expect(finderApp.location).toBe('mock-location')
+    expect(finderApp.resetList).toHaveBeenCalledTimes(1)
+  
+    expect(finderApp.focusFacilities).toHaveBeenCalledTimes(1)
+    expect(document.activeElement).toBe($('#facilities')[0])
+  })
 })
+
 
 describe('resetList', () => {
   test('resetList is filter event has coordinate', () => {
