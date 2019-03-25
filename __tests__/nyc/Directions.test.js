@@ -388,19 +388,20 @@ describe('monitor', () => {
 describe('routeAlt', () => {
   let imgs
   beforeEach(() => {
-    imgs = $('<img><img><img><img><img>')
+    imgs = $('<img><img><img><img><img><img>')
     imgs.get(0).className = 'adp-marker2'
     imgs.get(1).src = 'http://google.com/us-ny-mta/A.png'
-    imgs.get(2).src = 'http://google.com/mode/walk.png'
-    imgs.get(3).src = 'http://google.com/mode/bus2.png'
-    imgs.get(4).className = 'adp-marker2'
+    imgs.get(2).src = 'http://google.com/us-ny-mta/7X.png'
+    imgs.get(3).src = 'http://google.com/mode/walk.png'
+    imgs.get(4).src = 'http://google.com/mode/bus2.png'
+    imgs.get(5).className = 'adp-marker2'
   })
   afterEach(() => {
     imgs.remove()
   })
 
-  test('routeAlt', () => {
-    expect.assertions(5)
+  test.only('routeAlt', () => {
+    expect.assertions(6)
 
     const dir = new Directions()
 
@@ -410,9 +411,10 @@ describe('routeAlt', () => {
 
     expect(imgs.get(0).alt).toBe('Start location ')
     expect(imgs.get(1).alt).toBe('Take the A train ')
-    expect(imgs.get(2).alt).toBe('Walk ')
-    expect(imgs.get(3).alt).toBe('Take the bus ')
-    expect(imgs.get(4).alt).toBe('End location ')
+    expect(imgs.get(2).alt).toBe('Take the 7 Express train ')
+    expect(imgs.get(3).alt).toBe('Walk ')
+    expect(imgs.get(4).alt).toBe('Take the bus ')
+    expect(imgs.get(5).alt).toBe('End location ')
   })
 })
 
