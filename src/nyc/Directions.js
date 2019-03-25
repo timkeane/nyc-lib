@@ -1,3 +1,4 @@
+/* global google */
 /**
  * @module nyc/Directions
  */
