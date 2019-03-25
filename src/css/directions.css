@@ -208,6 +208,10 @@ img[src="https://maps.gstatic.com/mapfiles/api-3/images/google_white5.png"] {
 	width: 38px !important;
 	height: 15px !important;
 }
+.no-trans {
+	padding: 5px;
+	display: none;
+}
 @media only screen and (max-width : 750px), screen and (max-device-height: 350px) {
   #dir-tabs {
     width: 100%;

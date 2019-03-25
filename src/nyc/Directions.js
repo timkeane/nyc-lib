@@ -1,4 +1,3 @@
-/* global google */
 /**
  * @module nyc/Directions
  */
@@ -65,9 +64,9 @@ class Directions extends Contanier {
     this.args = null
     /**
      * @private
-     * @member {string}
+     * @member {Element}
      */
-    this.modeBtn = '#transit'
+    this.modeBtn = $('#transit').get(0)
     /**
      * @private
      * @member {string}
@@ -153,12 +152,13 @@ class Directions extends Contanier {
    */
   monitor() {
     if (!this.monitoring) {
+      const fn = $.proxy(this.routeAlt, this)
       this.monitoring = true
       if ('MutationObserver' in window) {
-        new MutationObserver(this.routeAlt)
+        new MutationObserver(fn)
           .observe(this.find('.route').get(0), {childList: true})
       } else {
-        setInterval(this.routeAlt, 500)
+        setInterval(fn, 500)
       }
     }
   }
@@ -169,6 +169,7 @@ class Directions extends Contanier {
    * @param {string} status Response status
    */
   handleResp(response, status) {
+    const target = $(this.routeTarget)
     if (status === google.maps.DirectionsStatus.OK) {
       const leg = response.routes[0].legs[0]
       const addrA = leg.start_address.replace(/\, USA/, '')
@@ -183,13 +184,13 @@ class Directions extends Contanier {
       }
       this.renderer.setOptions({
         map: this.map,
-        panel: $(this.routeTarget).get(0),
+        panel: target.get(0),
         directions: response
       })
       $('#fld-from input').val(addrA)
       $('#fld-to').html(addrB)
     } else {
-      $(this.routeTarget).empty()
+      target.empty()
       new Dialog().ok({
         message: `Could not determine directions from '${this.args.from}' to '${this.args.to}'`
       })
@@ -202,13 +203,17 @@ class Directions extends Contanier {
    */
   routeAlt() {
     let first = true
+    let hasTransit = false
     global.directions.find('.route img').each((_, img) => {
       const src = img.src
       let imgName = src.match(/([^\/]+)(?=\.\w+$)/)
       imgName = imgName ? imgName[0] : ''
+      imgName = imgName.replace(/X/, ' Express')
       if (src.indexOf('us-ny-mta') > -1) {
+        hasTransit = true
         img.alt = `Take the ${imgName} train `
-      } else if (imgName === 'bus2') {
+      } else if (imgName.indexOf('bus') > -1) {
+        hasTransit = true
         img.alt = 'Take the bus '
       } else if (imgName === 'walk') {
         img.alt = 'Walk '
@@ -217,6 +222,7 @@ class Directions extends Contanier {
         first = false
       }
     })
+    this.find('.no-trans')[!hasTransit && this.modeBtn.id === 'transit' ? 'show' : 'hide']()
   }
   /**
    * @private
@@ -265,8 +271,14 @@ class Directions extends Contanier {
   mode(event) {
     this.args = this.args || {}
     this.modeBtn = event.target
-    $('#mode button').removeClass('active').attr('aria-selected', false)
-    $(this.modeBtn).addClass('active').attr('aria-selected', true)
+    $('#mode button').removeClass('active').attr({
+      'aria-selected': false,
+      'aria-pressed': false
+    })
+    $(this.modeBtn).addClass('active').attr({
+      'aria-selected': true,
+      'aria-pressed': true
+    })
     this.args.mode = $(this.modeBtn).data('mode')
     this.directions(this.args)
   }
@@ -347,25 +359,34 @@ Directions.HTML = '<div id="directions">' +
       '<div id="fld-to"></div>' +
       '<table id="mode">' +
         '<tbody><tr>' +
-          '<td><button id="transit" class="btn-sq rad-all active" data-mode="TRANSIT" title="Get transit directions">' +
-            '<span class="screen-reader-only">get transit directions</span>' +
-          '</button></td>' +
-          '<td><button id="bike" class="btn-sq rad-all" data-mode="BICYCLING" title="Get bicycling directions">' +
-            '<span class="screen-reader-only">get bicycling directions</span>' +
-          '</button></td>' +
-          '<td><button id="walk" class="btn-sq rad-all" data-mode="WALKING" title="Get walking directions">' +
-            '<span class="screen-reader-only">get walking directions</span>' +
-          '</button></td>' +
-          '<td><button id="car" class="btn-sq rad-all" data-mode="DRIVING" title="Get driving directions">' +
-            '<span class="screen-reader-only">get driving directions</span>' +
-          '</button></td>' +
+          '<td>' +
+            '<button id="transit" class="btn-sq rad-all active" data-mode="TRANSIT" aria-pressed="true" aria-selected="true" title="Get transit directions">' +
+              '<span class="screen-reader-only">get transit directions</span>' +
+            '</button>' + 
+          '</td>' +
+          '<td>' +
+            '<button id="bike" class="btn-sq rad-all" data-mode="BICYCLING" aria-pressed="false" aria-selected="false" title="Get bicycling directions">' +
+              '<span class="screen-reader-only">get bicycling directions</span>' +
+            '</button>' +
+          '</td>' +
+          '<td>' +
+            '<button id="walk" class="btn-sq rad-all" data-mode="WALKING" aria-pressed="false" aria-selected="false" title="Get walking directions">' +
+              '<span class="screen-reader-only">get walking directions</span>' +
+            '</button>' +
+          '</td>' +
+          '<td>' +
+            '<button id="car" class="btn-sq rad-all" data-mode="DRIVING" aria-pressed="false" aria-selected="false" title="Get driving directions">' +
+              '<span class="screen-reader-only">get driving directions</span>' +
+            '</button>' +
+          '</td>' +
           '<td>' +
             '<span class="screen-reader-only">Get accessible transit directions from the MTA </span>' +
-          '<button id="mta" class="btn-sq rad-all notranslate">TripPlanner' +
+            '<button id="mta" class="btn-sq rad-all notranslate">TripPlanner' +
             '<svg xmlns="http://www.w3.org/2000/svg" width="656" height="656" viewBox="0 0 656 656"><g transform="translate(-263.86732,-69.7075)"><path d="M 833.556,367.574 C 825.803,359.619 814.97,355.419 803.9,356.025 l -133.981,7.458 73.733,-83.975 c 10.504,-11.962 13.505,-27.908 9.444,-42.157 -2.143,-9.764 -8.056,-18.648 -17.14,-24.324 -0.279,-0.199 -176.247,-102.423 -176.247,-102.423 -14.369,-8.347 -32.475,-6.508 -44.875,4.552 l -85.958,76.676 c -15.837,14.126 -17.224,38.416 -3.097,54.254 14.128,15.836 38.419,17.227 54.255,3.096 l 65.168,-58.131 53.874,31.285 -95.096,108.305 c -39.433,6.431 -74.913,24.602 -102.765,50.801 l 49.66,49.66 c 22.449,-20.412 52.256,-32.871 84.918,-32.871 69.667,0 126.346,56.68 126.346,126.348 0,32.662 -12.459,62.467 -32.869,84.916 l 49.657,49.66 c 33.08,-35.166 53.382,-82.484 53.382,-134.576 0,-31.035 -7.205,-60.384 -20.016,-86.482 l 51.861,-2.889 -12.616,154.75 c -1.725,21.152 14.027,39.695 35.18,41.422 1.059,0.086 2.116,0.127 3.163,0.127 19.806,0 36.621,-15.219 38.257,-35.306 l 16.193,-198.685 c 0.904,-11.071 -3.026,-21.989 -10.775,-29.942 z"/><path  d="m 762.384,202.965 c 35.523,0 64.317,-28.797 64.317,-64.322 0,-35.523 -28.794,-64.323 -64.317,-64.323 -35.527,0 -64.323,28.8 -64.323,64.323 0,35.525 28.795,64.322 64.323,64.322 z"/><path d="m 535.794,650.926 c -69.668,0 -126.348,-56.68 -126.348,-126.348 0,-26.256 8.056,-50.66 21.817,-70.887 l -50.196,-50.195 c -26.155,33.377 -41.791,75.393 -41.791,121.082 0,108.535 87.983,196.517 196.518,196.517 45.691,0 87.703,-15.636 121.079,-41.792 L 606.678,629.11 c -20.226,13.757 -44.63,21.816 -70.884,21.816 z"/></g></svg>' +
-            '</td>' +
+          '</td>' +
           '</tr></tbody>' +
         '</table>' +
+        '<div class="no-trans">The origin and destination locations are so close that walking appears to be the best option.</div>' +
       '<div class="route"></div>' +
     '</div>' +
     '<div id="map-tab" aria-hidden="true">' +

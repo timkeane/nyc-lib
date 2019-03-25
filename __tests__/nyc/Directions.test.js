@@ -28,7 +28,7 @@ describe('constructor', () => {
   const key = Directions.prototype.key
   
   test('constructor no args', () => {
-    expect.assertions(26)
+    expect.assertions(27)
 
     const dir = new Directions()
 
@@ -47,7 +47,8 @@ describe('constructor', () => {
     expect(dir.renderer).toBeNull()
     expect(dir.args).toBeNull()
 
-    expect(dir.modeBtn).toBe('#transit')
+    expect($('#transit').length).toBe(1)
+    expect(dir.modeBtn).toBe($('#transit').get(0))
     expect(dir.url).toBe(`${Directions.GOOGLE_URL}&callback=directions.init`)
     expect(dir.routeTarget.length).toBe(1)
     expect(dir.routeTarget.get(0)).toBe(dir.find('#route-tab div.route').get(0))
@@ -71,7 +72,7 @@ describe('constructor', () => {
   })
 
   test('constructor with args', () => {
-    expect.assertions(24)
+    expect.assertions(25)
 
     const dir = new Directions({
       url: 'http://directions.url', 
@@ -93,7 +94,8 @@ describe('constructor', () => {
     expect(dir.renderer).toBeNull()
     expect(dir.args).toBeNull()
 
-    expect(dir.modeBtn).toBe('#transit')
+    expect($('#transit').length).toBe(1)
+    expect(dir.modeBtn).toBe($('#transit').get(0))
     expect(dir.url).toBe('http://directions.url&callback=directions.init')
     expect(dir.routeTarget.length).toBe(1)
     expect(dir.routeTarget.get(0)).toBe(dir.find('#route-tab div.route').get(0))
@@ -331,12 +333,14 @@ describe('monitor', () => {
     window.MutationObserver = mutationObserver
   })
 
-  test('monitor has MutationObserver', () => {
-    expect.assertions(8)
+  test ('monitor has MutationObserver', () => {
+    expect.assertions(11)
 
     window.MutationObserver = MockMutationObserver
 
     const dir = new Directions()
+
+    $.resetMocks()
 
     expect(dir.monitoring).toBe(false)
 
@@ -344,8 +348,11 @@ describe('monitor', () => {
 
     expect(dir.monitoring).toBe(true)
 
+    expect($.mocks.proxy).toHaveBeenCalledTimes(1)
+    expect($.mocks.proxy.mock.calls[0][0]).toBe(dir.routeAlt)
+    expect($.mocks.proxy.mock.calls[0][1]).toBe(dir)
     expect(MockMutationObserver.constructorCalls.length).toBe(1)
-    expect(MockMutationObserver.constructorCalls[0]).toBe(dir.routeAlt)
+    expect(MockMutationObserver.constructorCalls[0]).toBe($.mocks.proxy.returnedValues[0])
 
     expect(MockMutationObserver.observeCalls.length).toBe(1)
     expect(MockMutationObserver.observeCalls[0][0]).toBe(dir.find('.route').get(0))
@@ -355,7 +362,7 @@ describe('monitor', () => {
   })
 
   test('monitor no MutationObserver', () => {
-    expect.assertions(4)
+    expect.assertions(7)
 
     delete window.MutationObserver
 
@@ -363,12 +370,18 @@ describe('monitor', () => {
 
     expect(dir.monitoring).toBe(false)
 
+    $.resetMocks()
+
     dir.monitor()
 
     expect(dir.monitoring).toBe(true)
 
     expect(window.setInterval).toHaveBeenCalledTimes(1)
-    expect(window.setInterval.mock.calls[0][0]).toBe(dir.routeAlt)
+
+    expect($.mocks.proxy).toHaveBeenCalledTimes(1)
+    expect($.mocks.proxy.mock.calls[0][0]).toBe(dir.routeAlt)
+    expect($.mocks.proxy.mock.calls[0][1]).toBe(dir)
+    expect(window.setInterval.mock.calls[0][0]).toBe($.mocks.proxy.returnedValues[0])
   })
 })
 
