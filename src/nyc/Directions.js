@@ -363,7 +363,7 @@ Directions.HTML = '<div id="directions">' +
           '<td>' +
             '<button id="transit" class="btn-sq rad-all active" data-mode="TRANSIT" aria-pressed="true" aria-selected="true" title="Get transit directions">' +
               '<span class="screen-reader-only">get transit directions</span>' +
-            '</button>' + 
+            '</button>' +
           '</td>' +
           '<td>' +
             '<button id="bike" class="btn-sq rad-all" data-mode="BICYCLING" aria-pressed="false" aria-selected="false" title="Get bicycling directions">' +
