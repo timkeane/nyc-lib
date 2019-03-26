@@ -210,17 +210,14 @@ test('clearTxt', () => {
 
 test('clearBtn', () => {
   expect.assertions(3)
-  const search = new Search(container)
-  let btn = search.clear
 
-  search.input.focus = jest.fn()
-  search.val = jest.fn()
- 
+  const search = new Search(container)
+
   search.clearBtn()
-  expect(search.input.focus).toHaveBeenCalledTimes(1)
-  expect(search.val).toHaveBeenCalledTimes(1)
+
+  expect(search.input.is(':focus')).toBe(true)
+  expect(search.val()).toBe('')
   expect(search.clear.css('display')).toBe('none')
-  
 })
 
 test('filterList no autoComplete', () => {
