@@ -194,7 +194,7 @@ test('key keyCode is 13 and isAddrSrch is false', () => {
 })
 
 test('clearTxt', () => {
-  expect.assertions(3)
+  expect.assertions(4)
 
   const search = new Search(container)
 
@@ -206,17 +206,15 @@ test('clearTxt', () => {
   expect(search.val).toHaveBeenCalledTimes(1)
   expect(search.val.mock.calls[0][0]).toBe('')
   expect(search.clearBtn).toHaveBeenCalledTimes(1)
+  expect(search.input.is(':focus')).toBe(true)
 })
 
 test('clearBtn', () => {
-  expect.assertions(3)
+  expect.assertions(1)
 
   const search = new Search(container)
 
   search.clearBtn()
-
-  expect(search.input.is(':focus')).toBe(true)
-  expect(search.val()).toBe('')
   expect(search.clear.css('display')).toBe('none')
 })
 

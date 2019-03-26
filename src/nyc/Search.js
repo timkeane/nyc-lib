@@ -276,6 +276,7 @@ class Search extends Container {
   clearTxt() {
     this.val('')
     this.clearBtn()
+    this.input.focus()
   }
   /**
    * @private
@@ -283,7 +284,6 @@ class Search extends Container {
    */
   clearBtn() {
     this.clear[this.val() ? 'show' : 'hide']()
-    this.input.focus()
   }
   /**
    * @private
