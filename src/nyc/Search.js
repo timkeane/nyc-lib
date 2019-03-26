@@ -283,6 +283,7 @@ class Search extends Container {
    */
   clearBtn() {
     this.clear[this.val() ? 'show' : 'hide']()
+    this.input.focus()
   }
   /**
    * @private

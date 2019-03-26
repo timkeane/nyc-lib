@@ -109,6 +109,7 @@ html, body.fnd, .fnd #map {
   bottom: 0;
   box-shadow: none;
   min-height: 0;
+  background-color: white;
 }
 .fnd #facilities {
   padding-left: 0;
