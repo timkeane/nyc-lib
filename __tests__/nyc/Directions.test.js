@@ -400,7 +400,7 @@ describe('routeAlt', () => {
     imgs.remove()
   })
 
-  test.only('routeAlt', () => {
+  test('routeAlt', () => {
     expect.assertions(6)
 
     const dir = new Directions()
