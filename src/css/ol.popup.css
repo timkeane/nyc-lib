@@ -47,7 +47,7 @@
 	max-width: calc(100% - 7px);
 }
 .pop>.content .name {
-	margin-right: 5px;
+	margin-right: 10px;
 }
 .pop .btn-x {
 	position: absolute;
