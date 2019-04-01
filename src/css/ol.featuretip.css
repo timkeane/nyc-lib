@@ -6,6 +6,7 @@
 	text-align: center;
 	background-color: var(--color-light-translucent);
 	box-shadow: var(--box-shadow, none);
+	margin: 8px;
 }
 .f-tip, .f-tip * {
 	font-size: 12px;
