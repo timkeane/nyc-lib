@@ -121,7 +121,7 @@ class Directions extends Contanier {
     const mode = args.mode || 'TRANSIT'
     const url = this.url
     const tog = this.toggle
-    this.modeBtn = $(`#${mode.toLowerCase()}`)
+    this.modeBtn = $(`[data-mode="${mode}"]`)
     this.modeAria()
     this.args = args
     this.monitor()
