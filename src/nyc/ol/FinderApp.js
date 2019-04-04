@@ -213,7 +213,6 @@ class FinderApp extends MapMgr {
    */
   focusFacilities() {
     this.tabs.open('#facilities')
-    $('h2.info.screen-reader-only').focus()
   }
   /**
    * @private
