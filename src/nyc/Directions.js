@@ -278,6 +278,10 @@ class Directions extends Contanier {
     this.modeAria()
     this.directions(this.args)
   }
+  /**
+   * @private
+   * @method
+   */
   modeAria() {
     $('#mode button').removeClass('active').attr({
       'aria-selected': false,
