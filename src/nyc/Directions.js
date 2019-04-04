@@ -121,6 +121,8 @@ class Directions extends Contanier {
     const mode = args.mode || 'TRANSIT'
     const url = this.url
     const tog = this.toggle
+    this.modeBtn = $(`#${mode.toLowerCase()}`)
+    this.modeAria()
     this.args = args
     this.monitor()
     this.tabs.open('#route-tab')
@@ -272,6 +274,11 @@ class Directions extends Contanier {
   mode(event) {
     this.args = this.args || {}
     this.modeBtn = event.target
+    this.args.mode = $(this.modeBtn).data('mode')
+    this.modeAria()
+    this.directions(this.args)
+  }
+  modeAria() {
     $('#mode button').removeClass('active').attr({
       'aria-selected': false,
       'aria-pressed': false
@@ -280,8 +287,6 @@ class Directions extends Contanier {
       'aria-selected': true,
       'aria-pressed': true
     })
-    this.args.mode = $(this.modeBtn).data('mode')
-    this.directions(this.args)
   }
   /**
    * @private
