@@ -48,10 +48,14 @@ class Choice extends Container {
    * @param {Array<module:nyc/Choice~Choice.Choice>} choices The choices
    */
   setChoices(choices) {
-    this.getContainer().empty()
+    let type = 'checkbox'
     if (this.radio) {
       this.getContainer().attr('role', 'radiogroup')
+      type = 'radio'
+    } else {
+      this.getContainer().attr('role', 'group')
     }
+    this.getContainer().empty()
     choices.forEach((choice, i) => {
       const div = $(Choice.HTML)
       const id = nyc.nextId('chc-chc')
@@ -60,9 +64,11 @@ class Choice extends Container {
       input.attr({
         id: id,
         name: choice.name,
-        type: this.radio ? 'radio' : 'checkbox'
+        type: type,
+        role: type,
+        'aria-checked': choice.checked === true
       })
-        .prop('checked', choice.checked)
+        .prop('checked', choice.checked === true)
         .data('choice', choice)
         .change($.proxy(this.change, this))
       div.find('label').html(choice.label)
@@ -108,6 +114,9 @@ class Choice extends Container {
    * @param {jQuery.Event} event Event object
    */
   change(event) {
+    $.each(this.inputs, (_, input) => {
+      $(input).attr('aria-checked', $(input).prop('checked'))
+    })
     this.trigger('change', this)
   }
   /**
