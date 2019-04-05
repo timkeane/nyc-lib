@@ -47,3 +47,8 @@
 	font-weight: bold;
 	border-right: 1px solid var(--color-border);
 }
+.fm .btn-z-in, .fm .btn-z-out, .fm .btn-geo {
+	background-color: black;
+	border : none;
+	color: #fff;
+} 
