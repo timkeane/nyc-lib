@@ -135,6 +135,7 @@ html, body.fnd, .fnd #map {
 }
 .fnd .facility a.btn {
   width: calc(50% - 5px);
+  margin-bottom: 4px;
 }
 .fnd .facility button.btn {
   width: calc(50% - 3px);
