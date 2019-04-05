@@ -277,6 +277,7 @@ class MapMgr {
    * @param {ol.style.Style} style The style
    */
   loadMarkerImage(url, height, style) {
+    const me = this
     const image = $('<img>').one('load', (event) => {
       const size = [$(image).width(), $(image).height()]
       style.setImage(new Icon({
@@ -285,6 +286,7 @@ class MapMgr {
         imgSize: size
       }))
       $(image).remove()
+      me.layer.setStyle(me.layer.getStyle())
     })
     $('body').append(image.attr('src', url))
   }
