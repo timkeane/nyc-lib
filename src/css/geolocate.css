@@ -11,3 +11,10 @@
 	background-image: var(--geo-icon-light, none);
   background-size: 25px;
 }
+.fm .geoloc {
+	left: unset;
+	top: unset;
+	right: 1px;
+	bottom: 186px;
+	width: 37px;	
+}

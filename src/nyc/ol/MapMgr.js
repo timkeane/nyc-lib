@@ -391,10 +391,13 @@ class MapMgr {
   createLocationMgr(options) {
     const locationMgr = new LocationMgr({
       map: this.map,
-      searchTarget: options.searchTarget,
+      searchTarget: options.searchTarget || undefined,
       dialogTarget: options.mapTarget,
       url: options.geoclientUrl
     })
+    if (options.searchTarget === false) {
+      locationMgr.search.getContainer().hide()
+    }
     if (options.locationMarkerUrl) {
       const layer = locationMgr.mapLocator.layer
       const style = new Style()
@@ -734,7 +737,7 @@ MapMgr.FEATURE_DECORATIONS = {
  * @property {string} facilityUrl The URL for the facility features data
  * @property {string} geoclientUrl The URL for the Geoclient geocoder with approriate keys
  * @property {jQuery|Element|string=} mapTarget The target element for the map
- * @property {jQuery|Element|string=} searchTarget The target element for search input
+ * @property {jQuery|Element|string|boolean=} searchTarget The target element for search input
  * @property {jQuery|Element|string=} listTarget The target element for facility list
  * @property {string} [facilityType=Facilities] Title for the facilites list
  * @property {string=} locationMarkerUrl A URL to an image for use as the search location symbol

@@ -21,8 +21,14 @@ class FrameworkMap extends MapMgr {
    * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
    */
   constructor(options) {
+    $('body').addClass('fm')
     if (options.facilitySearch !== false) {
       options.facilitySearch = {nameField: StandardCsv.NAME}
+    }
+    if (!options.searchTarget) {
+      options.searchTarget = false
+    } else if (options.searchTarget === true) {
+      options.searchTarget = undefined
     }
     super(options)
     $(this.map.getTargetElement()).addClass('nyc-map')

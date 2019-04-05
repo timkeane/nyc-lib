@@ -17,8 +17,14 @@ jest.mock('../../../src/nyc/ol/format/CsvPoint')
 let options
 
 let mapTarget
+const mockSearchContainer = {
+  hide: jest.fn()
+}
 beforeEach(() => {
   Search.mockReset()
+  Search.prototype.getContainer = () => {
+    return mockSearchContainer
+  }
   CsvPoint.mockReset()
   mapTarget = $('<div id="map"></div>')
   $('body').append(mapTarget)
