@@ -215,6 +215,9 @@ class Directions extends Contanier {
       if (src.indexOf('us-ny-mta') > -1) {
         hasTransit = true
         img.alt = `Take the ${imgName} train `
+      } else if (imgName.indexOf('rail') > -1) {
+        hasTransit = true
+        img.alt = 'Take the train '
       } else if (imgName.indexOf('bus') > -1) {
         hasTransit = true
         img.alt = 'Take the bus '
