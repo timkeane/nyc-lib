@@ -48,7 +48,6 @@ class MapMgr {
      * @member {module:nyc/ListPager~ListPager}
      */
     this.pager = this.createPager(options)
-
     /**
      * @desc The map
      * @public

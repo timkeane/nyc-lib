@@ -997,7 +997,7 @@ test('filter apply button focuses facilities', () => {
 
   finderApp.tabs.open = jest.fn()
 
-  $('#filters button.screen-reader-only').trigger('click')
+  $('#filters button.apply').trigger('click')
 
   expect(finderApp.tabs.open).toHaveBeenCalledTimes(1)
   expect(finderApp.tabs.open.mock.calls[0][0]).toBe('#facilities')

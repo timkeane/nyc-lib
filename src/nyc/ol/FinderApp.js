@@ -69,6 +69,7 @@ class FinderApp extends MapMgr {
      * @member {string}
      */
     this.directionsUrl = options.directionsUrl
+    this.pager.on('change', this.setFacilitiesLabel)
   }
   /**
    * @desc Reset the facilities list
@@ -172,7 +173,7 @@ class FinderApp extends MapMgr {
   createFilters(choiceOptions) {
     if (choiceOptions) {
       $('#filters').empty()
-      const apply = $('<button class="screen-reader-only">Apply</button>')
+      const apply = $('<button class="apply">Apply</button>')
       const filters = new Filters({
         target: '#filters',
         source: this.source,
@@ -180,7 +181,7 @@ class FinderApp extends MapMgr {
       })
       filters.on('change', this.resetList, this)
       $('#filters').append(apply)
-      apply.click($.proxy(this.focusFacilities, this))
+      apply.on('click tap keypress', $.proxy(this.focusFacilities, this))
       return filters
     }
   }
@@ -211,7 +212,18 @@ class FinderApp extends MapMgr {
    * @private
    * @method
    */
+  setFacilitiesLabel() {
+    $('#facilities>div[role="region"]').attr(
+      'aria-label',
+      $('#facilities h2.info').html()
+    )
+  }
+  /**
+   * @private
+   * @method
+   */
   focusFacilities() {
+    this.setFacilitiesLabel()
     this.tabs.open('#facilities')
   }
   /**

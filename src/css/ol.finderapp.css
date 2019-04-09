@@ -191,6 +191,11 @@ html, body.fnd, .fnd #map {
   left: 3px;
   bottom: 40px;
 }
+#filters .apply {
+  border: none;
+  background-color: transparent;
+  color: transparent;
+}
 @media only screen and (max-width : 750px), screen and (max-device-height: 350px) {
   .fnd #tabs {
     width: 100%;

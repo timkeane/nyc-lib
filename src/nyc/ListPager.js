@@ -11,6 +11,7 @@ import Container from 'nyc/Container'
  * @public
  * @class
  * @extends module:nyc/Container~Container
+ * @fires module:nyc/ListPager~ListPager#change
  */
 class ListPager extends Container {
   /**
@@ -96,6 +97,7 @@ class ListPager extends Container {
     } else {
       last.next().attr('tabindex', 0).focus()
     }
+    this.trigger('change', this)
     return result
   }
   /**
@@ -146,6 +148,13 @@ ListPager.Options
  * @property {function()} html The rendering function for the item
  */
 ListPager.Item
+
+/**
+ * @desc The change event
+ * @event module:nyc/ListPager~ListPager#change
+ * @type {module:nyc/ListPager~ListPager}
+ */
+
 
 /**
  * @private
