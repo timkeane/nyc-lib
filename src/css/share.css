@@ -27,9 +27,6 @@
 .shr .btns .twitter {
 	background-image: var(--twitter-icon-light, none);
 }
-.shr .btns .google {
-	background-image: var(--google-icon-light, none);
-}
 .shr .btns .linkedin {
 	background-image: var(--linkedin-icon-light, none);
 }
