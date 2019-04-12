@@ -5,7 +5,7 @@
 import $ from 'jquery'
 
 import {getCenter as olExtentGetCenter} from 'ol/extent'
-
+import MapBrowserEvent from 'ol/MapBrowserEvent'
 import nyc from 'nyc'
 import Popup from 'nyc/ol/Popup'
 
@@ -24,13 +24,17 @@ class FeaturePopup extends Popup {
    */
   constructor(options) {
     super(options)
+    const map = this.map
     /**
      * @private
      * @member {Array<ol.layer.Vector>}
      */
     this.layers = []
     this.addLayers(options.layers)
-    this.map.on('click', $.proxy(this.mapClick, this))
+    map.on('click', $.proxy(this.mapClick, this))
+    $(map.getTargetElement()).on('touchend', event => {
+      map.dispatchEvent(new MapBrowserEvent('click', map, event))
+    })
   }
   /**
    * @desc Add layers
