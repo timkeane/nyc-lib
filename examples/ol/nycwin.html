@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>nyc.ol.FinderApp with nyc.ol.format.CartoSql Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
+  <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.4.0/papaparse.min.js"></script>
+  <script src="../../js/babel-polyfill.js"></script>
+  <script src="../../js/nyc-ol-lib.js"></script>
+  <link href="../../css/nyc-ol-fullscreen-lib.css" rel="stylesheet">
+	<style>
+    .facility .dtl h3.btn {
+      text-align: center;
+      padding-right: 22px;
+      width: calc(100% - 27px);
+    }
+    .fnd .lst-it .dtl h3.btn:first-of-type {
+      margin-top: 0;
+  }
+    #filters label {
+      line-height: 21px;
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
+    .filter-0 .chc-chc label:before {
+      content: " ";
+      display: block;
+      width: 16px;
+      height: 16px;
+      float: left;
+      border-radius: 50%;
+      border: 2px solid black;
+      margin: 0 5px 0 -5px;
+    }
+    div.schedule label[for="chc-chc-0"]:before {
+      background-color: red;
+    }
+    div.schedule label[for="chc-chc-1"]:before {
+      background-color: yellow;
+    }
+    div.schedule label[for="chc-chc-2"]:before {
+      background-color: green;
+    }
+    div.schedule label[for="chc-chc-3"]:before {
+      background-color: blue;
+    }
+    button.up {
+      width: 100px;
+      margin: 5px;
+    }
+    .pop select {
+      width: 50px;
+      margin: 5px 10px;
+    }
+    .shr, #lng {
+      display: none;
+    }
+    .pop h3, .lst-it div h3 {
+      font-size: 24px !important;
+      margin: 0 5px 5px 0;
+    }
+  </style>
+</head>
+<body class="loading">
+	<script>
+    var URL = 'https://nycdoitt-admin.carto.com/api/v2/sql?api_key=m-bwV4qGVythkh8hWNOybA&q=';
+
+    var SELECT = '<select id="STAGE"><option></option><option>1</option><option>3</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select>'
+    
+    var app;
+
+    function update(event) {
+      var feature = $(event.target).data('feature')
+      var stg = $('#STAGE').val();
+      feature.set('stage', stg)
+      $.ajax({
+        url: URL + 'UPDATE nycwin_data_copy SET stage = ' + stg + ' WHERE cartodb_id = ' + feature.get('cartodb_id'),
+        success: function(result) {
+          console.info(result);
+          app.popup.showFeatures([feature])
+        },
+        error: function() {
+          console.error(arguments);
+        }
+      })
+    };
+
+    var colors = {
+      '1': 'red',
+      '2': 'orange',
+      '3': 'orange',
+      '4': 'orange',
+      '5': 'orange',
+      '2-5': 'orange',
+      '6': 'yellow',
+      '7': 'green'
+    };
+
+    function style(feature, resolution) {
+      var zoom = nyc.ol.TILE_GRID.getZForResolution(resolution);
+      var color = colors[feature.get('stage')] || 'black';
+      return new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: zoom / 2,
+          fill: new ol.style.Fill({color: color}),
+          stroke: new ol.style.Stroke({
+            width: 2,
+            color: 'black'
+          })
+        })
+      })
+    }
+    nyc.ol.FinderApp.prototype.focusFacilities = function(){}
+    var located = nyc.ol.FinderApp.prototype.located;
+    nyc.ol.FinderApp.prototype.located = function(location){
+      located.call(this, location)
+      console.warn(location);
+      
+      this.popup.showFeatures([this.source.getFeatureById(location.data.cartodb_id)])
+    }
+
+    app = new nyc.ol.FinderApp({
+      title: 'ORR Projects',
+      geoclientUrl: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example',
+      facilityTabTitle: 'NYCWiN Devices',
+      facilityUrl: URL + encodeURIComponent(nyc.ol.format.CartoSql.createSql({from: 'nycwin_data_copy'})),
+      facilityFormat: new nyc.ol.format.CartoSql(),
+      facilityStyle: style,
+      facilitySearch: {nameField: 'site_step'},
+      decorations: [{
+        getName: function() {
+          return this.get('site_step') || 'NULL'
+        },
+        getAddress1: function() {
+          return ''
+        },
+        getCityStateZip: function() {
+          return ''
+        },
+        button: function() {
+          var btn = $('<button class="up btn rad-all">Update</button>')
+            .data('feature', this)
+            .click(update);
+          return $('<div></div>').append(btn)
+        },
+        html: function() {
+          var sel = $(SELECT).val(this.get('stage'))
+          return $('<div></div>')
+            .append('<h3>' + this.getName() + '</h3>')
+            .append('<b>Current Stage:</b> ' + this.get('stage') + '<br>')
+            .append('<b>New Stage: </b>')
+            .append(sel)
+            .append(this.button())
+        },
+        getTip: function() {
+          return this.getName() + '<br>Stage: ' + this.get('stage') 
+        }
+      }],
+      directionsUrl: 'https://maps.googleapis.com/maps/api/js?client=gme-newyorkcitydepartment&channel=pka&sensor=false&libraries=visualization'
+    });
+
+	</script>
+</body>
+</html>

@@ -3,6 +3,7 @@
  */
 
 import OlFeature from 'ol/Feature'
+import Point from 'ol/geom/Point'
 import OlFormatFeature from 'ol/format/Feature'
 import OlFormatWkt from 'ol/format/WKT'
 import OlFormatFormatType from 'ol/format/FormatType'
@@ -51,9 +52,13 @@ class CartoSql extends OlFormatFeature {
    * @return {ol.Feature} Feature
    */
   readFeature(source) {
-    const feature = new OlFeature(source)
-    feature.setGeometry(this.wkt.readGeometry(source.wkt_geom))
     let id;
+    const feature = new OlFeature(source) 
+    try {
+      feature.setGeometry(this.wkt.readGeometry(source.wkt_geom))
+    } catch (badGeom) {
+      feature.setGeometry(new Point([0, 0]))
+    }
     if (source.cartodb_id) {
       id = source.cartodb_id
     } else {
