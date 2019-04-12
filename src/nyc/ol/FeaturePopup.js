@@ -24,17 +24,13 @@ class FeaturePopup extends Popup {
    */
   constructor(options) {
     super(options)
-    const map = this.map
     /**
      * @private
      * @member {Array<ol.layer.Vector>}
      */
     this.layers = []
     this.addLayers(options.layers)
-    map.on('click', $.proxy(this.mapClick, this))
-    $(map.getTargetElement()).on('touchend', event => {
-      map.dispatchEvent(new MapBrowserEvent('click', map, event))
-    })
+    this.map.on('click', $.proxy(this.mapClick, this))
   }
   /**
    * @desc Add layers
