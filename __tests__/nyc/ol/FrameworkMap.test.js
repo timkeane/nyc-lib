@@ -17,6 +17,7 @@ jest.mock('../../../src/nyc/ol/format/CsvPoint')
 let options
 
 let mapTarget
+let searchTarget
 const mockSearchContainer = {
   hide: jest.fn()
 }
@@ -28,6 +29,8 @@ beforeEach(() => {
   CsvPoint.mockReset()
   mapTarget = $('<div id="map"></div>')
   $('body').append(mapTarget)
+  searchTarget = $('<input id="search">')
+  $('body').append(searchTarget)
   options = {
     facilityUrl: 'facility-url',
     geoclientUrl: 'geoclient-url',
@@ -43,10 +46,11 @@ beforeEach(() => {
 })
 afterEach(() => {
   mapTarget.remove()
+  searchTarget.remove()
 })
 
 describe('constructor', () => {
-  test('constructor', () => {
+  test('constructor with hidden search input', () => {
     expect.assertions(19)
 
     const frameworkMap = new FrameworkMap(options)
@@ -70,6 +74,62 @@ describe('constructor', () => {
     expect(mapTarget.find('.ol-overlaycontainer-stopevent').length).toBe(1)
     expect(mapTarget.hasClass('nyc-map')).toBe(true)
     expect(Search.mock.calls[0][0].get(0)).toBe(mapTarget.find('.ol-overlaycontainer-stopevent').get(0))
+    expect(frameworkMap.pager).toBeUndefined()
+  })
+
+  test('constructor with built-in search input', () => {
+    expect.assertions(19)
+
+    options.searchTarget = true
+    const frameworkMap = new FrameworkMap(options)
+    
+    expect(options.facilitySearch.nameField).toBe(StandardCsv.NAME)
+
+    expect(frameworkMap instanceof MapMgr).toBe(true)
+    expect(frameworkMap instanceof FrameworkMap).toBe(true)
+    
+    expect(frameworkMap.map instanceof Basemap).toBe(true)
+    expect(frameworkMap.map.getInteractions().getArray().length).toBe(6)
+
+    frameworkMap.map.getInteractions().forEach(i => {
+      expect(i instanceof MouseWheelZoom).toBe(false)
+    })
+
+    expect(frameworkMap.source instanceof FilterAndSort).toBe(true)
+    expect(frameworkMap.layer instanceof Layer).toBe(true)
+    expect(frameworkMap.locationMgr instanceof LocationMgr).toBe(true)
+    expect(Search).toHaveBeenCalledTimes(1)
+    expect(mapTarget.find('.ol-overlaycontainer-stopevent').length).toBe(1)
+    expect(mapTarget.hasClass('nyc-map')).toBe(true)
+    expect(Search.mock.calls[0][0].get(0)).toBe(mapTarget.find('.ol-overlaycontainer-stopevent').get(0))
+    expect(frameworkMap.pager).toBeUndefined()
+  })
+
+  test('constructor with external search input', () => {
+    expect.assertions(19)
+
+    options.searchTarget = '#search'
+    const frameworkMap = new FrameworkMap(options)
+    
+    expect(options.facilitySearch.nameField).toBe(StandardCsv.NAME)
+
+    expect(frameworkMap instanceof MapMgr).toBe(true)
+    expect(frameworkMap instanceof FrameworkMap).toBe(true)
+    
+    expect(frameworkMap.map instanceof Basemap).toBe(true)
+    expect(frameworkMap.map.getInteractions().getArray().length).toBe(6)
+
+    frameworkMap.map.getInteractions().forEach(i => {
+      expect(i instanceof MouseWheelZoom).toBe(false)
+    })
+
+    expect(frameworkMap.source instanceof FilterAndSort).toBe(true)
+    expect(frameworkMap.layer instanceof Layer).toBe(true)
+    expect(frameworkMap.locationMgr instanceof LocationMgr).toBe(true)
+    expect(Search).toHaveBeenCalledTimes(1)
+    expect(mapTarget.find('.ol-overlaycontainer-stopevent').length).toBe(1)
+    expect(mapTarget.hasClass('nyc-map')).toBe(true)
+    expect(Search.mock.calls[0][0]).toBe('#search')
     expect(frameworkMap.pager).toBeUndefined()
   })
 
