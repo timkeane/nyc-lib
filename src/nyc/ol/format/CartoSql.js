@@ -53,7 +53,7 @@ class CartoSql extends OlFormatFeature {
    */
   readFeature(source) {
     let id;
-    const feature = new OlFeature(source) 
+    const feature = new OlFeature(source)
     try {
       feature.setGeometry(this.wkt.readGeometry(source.wkt_geom))
     } catch (badGeom) {
