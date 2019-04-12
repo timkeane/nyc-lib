@@ -5,7 +5,6 @@
 import $ from 'jquery'
 
 import {getCenter as olExtentGetCenter} from 'ol/extent'
-import MapBrowserEvent from 'ol/MapBrowserEvent'
 import nyc from 'nyc'
 import Popup from 'nyc/ol/Popup'
 
