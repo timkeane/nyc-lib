@@ -44,6 +44,10 @@ const createDecorations = MapMgr.prototype.createDecorations
 const createLocationMgr = MapMgr.prototype.createLocationMgr
 const checkMouseWheel = MapMgr.prototype.checkMouseWheel
 
+const createLocationMgrMock = jest.fn().mockImplementation(() => {
+  return 'mock-location-mgr'
+})
+
 let mapTarget
 
 beforeEach(() => {
@@ -68,18 +72,15 @@ beforeEach(() => {
   FeatureTip.mockClear()
   Layer.mockClear()
   FilterAndSort.mockClear()
-  LocationMgr.mockClear()
+  LocationMgr.resetMocks()
   ListPager.mockClear()
   Style.mockClear()
   // Decorate.mockClear()
 
   MapMgr.prototype.createParentFormat = jest.fn()
   MapMgr.prototype.createDecorations = jest.fn()
-  MapMgr.prototype.createLocationMgr = jest.fn().mockImplementation(() => {
-    return 'mock-location-mgr'
-  })
+  MapMgr.prototype.createLocationMgr = createLocationMgrMock
   MapMgr.prototype.checkMouseWheel = jest.fn()
-
 })
 
 afterEach(() => {
@@ -99,7 +100,7 @@ describe('constructor', () => {
   const mockPromise = {}
   const mockSource = {}
   const mockLayer = {}
-  const mockLocation = {}
+  const mockLocationMgr = {}
 
   beforeEach(() => {
     mockPromise.then = jest.fn()
@@ -119,9 +120,9 @@ describe('constructor', () => {
     MapMgr.prototype.createStyle = jest.fn().mockImplementation(() => {
       return 'mock-style'
     })
-    mockLocation.goTo = jest.fn()
+    mockLocationMgr.goTo = jest.fn()
     MapMgr.prototype.createLocationMgr = jest.fn().mockImplementation(() => {
-      return mockLocation
+      return mockLocationMgr
     })
   })
   afterEach(() => {
@@ -173,7 +174,7 @@ describe('constructor', () => {
 
     expect(mapMgr.createLocationMgr).toHaveBeenCalledTimes(1)
     expect(mapMgr.createLocationMgr.mock.calls[0][0]).toBe(options)
-    expect(mapMgr.locationMgr).toBe(mockLocation)
+    expect(mapMgr.locationMgr).toBe(mockLocationMgr)
     expect(mapMgr.locationMgr.goTo).toHaveBeenCalledTimes(0)
 
 
@@ -247,7 +248,7 @@ describe('constructor', () => {
 
     expect(mapMgr.createLocationMgr).toHaveBeenCalledTimes(1)
     expect(mapMgr.createLocationMgr.mock.calls[0][0]).toBe(options)
-    expect(mapMgr.locationMgr).toBe(mockLocation)
+    expect(mapMgr.locationMgr).toBe(mockLocationMgr)
     expect(mapMgr.locationMgr.goTo).toHaveBeenCalledTimes(1)
     expect(mapMgr.locationMgr.goTo.mock.calls[0][0]).toBe(options.startAt)
 
@@ -683,31 +684,67 @@ describe('createLocationMgr', () => {
 
   beforeEach(() => {
     MapMgr.prototype.createLocationMgr = createLocationMgr
-
   })
   afterEach(() => {
-    MapMgr.prototype.createLocationMgr = jest.fn().mockImplementation(() => {
-      return 'mock-location-mgr'
-    })
+    MapMgr.prototype.createLocationMgr = createLocationMgrMock
   })
 
-  test('createLocationMgr', () => {
-    expect.assertions(5)
+  test('createLocationMgr with specified search', () => {
+    expect.assertions(6)
+
     options.searchTarget = 'searchTarget'
     const mapMgr = new MapMgr(options)
+
+    LocationMgr.resetMocks()
     mapMgr.createLocationMgr(options)
 
-    expect(LocationMgr).toHaveBeenCalledTimes(2)
-    expect(LocationMgr.mock.calls[1][0].map).toBe(mapMgr.map)
-    expect(LocationMgr.mock.calls[1][0].searchTarget).toBe(options.searchTarget)
-    expect(LocationMgr.mock.calls[1][0].dialogTarget).toBe(options.mapTarget)
-    expect(LocationMgr.mock.calls[1][0].url).toBe(options.geoclientUrl)
+    expect(LocationMgr).toHaveBeenCalledTimes(1)
+    expect(LocationMgr.mock.calls[0][0].map).toBe(mapMgr.map)
+    expect(LocationMgr.mock.calls[0][0].searchTarget).toBe(options.searchTarget)
+    expect(LocationMgr.mock.calls[0][0].dialogTarget).toBe(options.mapTarget)
+    expect(LocationMgr.mock.calls[0][0].url).toBe(options.geoclientUrl)
+
+    expect(mapMgr.locationMgr.on).toHaveBeenCalledTimes(2)
+
+  })
+
+  test('createLocationMgr with built-in search', () => {
+    expect.assertions(5)
+    
+    const mapMgr = new MapMgr(options)
+
+    LocationMgr.resetMocks()
+    mapMgr.createLocationMgr(options)
+
+    expect(LocationMgr).toHaveBeenCalledTimes(1)
+    expect(LocationMgr.mock.calls[0][0].map).toBe(mapMgr.map)
+    expect(LocationMgr.mock.calls[0][0].searchTarget).toBeUndefined()
+    expect(LocationMgr.mock.calls[0][0].dialogTarget).toBe(options.mapTarget)
+    expect(LocationMgr.mock.calls[0][0].url).toBe(options.geoclientUrl)
 
     /* TODO: add logic for geocoded and geolocated event triggers so they can be tested */
 
   })
 
+  test('createLocationMgr with no search', () => {
+    expect.assertions(6)
+    
+    options.searchTarget = false
+    const mapMgr = new MapMgr(options)
+    
+    LocationMgr.resetMocks()
+    mapMgr.createLocationMgr(options)
+    
+    expect(LocationMgr).toHaveBeenCalledTimes(1)
+    expect(LocationMgr.mock.calls[0][0].map).toBe(mapMgr.map)
+    expect(LocationMgr.mock.calls[0][0].searchTarget).toBeUndefined()
+    expect(LocationMgr.mock.calls[0][0].dialogTarget).toBe(options.mapTarget)
+    expect(LocationMgr.mock.calls[0][0].url).toBe(options.geoclientUrl)
+
+    expect(LocationMgr.mockSearchContainer.hide).toHaveBeenCalledTimes(1)
+  })
 })
+
 describe('createPager', () => {
   test('createPager w/listTarget supplied', () => {
     expect.assertions(4)

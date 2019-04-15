@@ -71,7 +71,7 @@ beforeEach(() => {
 
   Basemap.resetMocks()
   Filters.mockClear()
-  LocationMgr.mockClear()
+  LocationMgr.resetMocks()
   MultiFeaturePopup.mockClear()
   FeatureTip.mockClear()
 
