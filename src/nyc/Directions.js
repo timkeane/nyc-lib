@@ -247,6 +247,7 @@ class Directions extends Contanier {
    * @method
    */
   init() {
+    const destination = this.getLatLng()
     this.map = new google.maps.Map($('#map-tab div.map').get(0), {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       backgroundColor: '#D3D3D3',
@@ -256,7 +257,7 @@ class Directions extends Contanier {
       zoomControl: false,
       maxZoom: 18,
       zoom: 17,
-      center: this.getLatLng(),
+      center: destination,
       styles: this.styles
     })
     this.service = new google.maps.DirectionsService()
@@ -268,7 +269,7 @@ class Directions extends Contanier {
     try {
       const coord = proj4('EPSG:3857', 'EPSG:4326', this.args.destination.coordinate)
       return {lat: coord[1], lng: coord[0]}  
-    } catch (ignore) {}
+    } catch (ignore) {/* no destination specified */}
   }
   /**
    * @private
