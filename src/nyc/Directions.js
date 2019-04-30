@@ -8,8 +8,10 @@ import $ from 'jquery'
 import Contanier from 'nyc/Container'
 import Dialog from 'nyc/Dialog'
 import Tabs from 'nyc/Tabs'
-
 import TripPlanHack from 'nyc/mta/TripPlanHack'
+import nyc from 'nyc'
+
+const proj4 = nyc.proj4
 
 /**
  * @desc Provides directions using google maps
@@ -253,12 +255,20 @@ class Directions extends Contanier {
       mapTypeControl: false,
       zoomControl: false,
       maxZoom: 18,
+      zoom: 17,
+      center: this.getLatLng(),
       styles: this.styles
     })
     this.service = new google.maps.DirectionsService()
     this.renderer = new google.maps.DirectionsRenderer()
     this.find('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))
     this.directions(this.args)
+  }
+  getLatLng() {
+    try {
+      const coord = proj4('EPSG:3857', 'EPSG:4326', this.args.destination.coordinate)
+      return {lat: coord[1], lng: coord[0]}  
+    } catch (ignore) {}
   }
   /**
    * @private
