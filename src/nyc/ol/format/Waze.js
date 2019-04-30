@@ -158,6 +158,6 @@ Waze.Style = (feature, resolution) => {
       })
     })
   }
-} 
+}
 
 export default Waze
