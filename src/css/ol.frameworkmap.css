@@ -9,3 +9,22 @@
 .nyc-map {
 	position: relative;
 }
+.posbl li {
+	list-style-type: none;
+	margin-left: -40px;
+	text-align: left;
+}
+.posbl .dia-msg ul {
+	max-height: 150px;
+	overflow: auto;
+}
+.posbl .dia {
+	overflow: hidden;
+	width: 365px;
+	margin-left: -183px;
+	max-height: 300px;
+}
+
+.posbl .dia-msg * {
+	text-align: left;
+}
