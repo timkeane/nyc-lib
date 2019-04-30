@@ -268,7 +268,7 @@ class Directions extends Contanier {
   getLatLng() {
     try {
       const coord = proj4('EPSG:3857', 'EPSG:4326', this.args.destination.coordinate)
-      return {lat: coord[1], lng: coord[0]}  
+      return {lat: coord[1], lng: coord[0]}
     } catch (ignore) {/* no destination specified */}
   }
   /**
