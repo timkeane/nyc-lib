@@ -62,6 +62,16 @@ class Directions extends Contanier {
     this.renderer = null
     /**
      * @private
+     * @member {google.maps.Marker}
+     */
+    this.marker = null
+    /**
+     * @private
+     * @member {google.maps.InfoWindow}
+     */
+    this.infoWin = null
+    /**
+     * @private
      * @member {module:nyc/Directions~Directions.Request}
      */
     this.args = null
@@ -139,6 +149,7 @@ class Directions extends Contanier {
       tog.hide()
     })
     tog.attr('aria-hidden', true)
+    this.createMarker(this.getLatLng())
     if (args.from && this.lastDir !== `${args.from}|${args.to}|${mode}`) {
       this.lastDir = `${args.from}|${args.to}|${mode}`
       this.service.route(
@@ -176,6 +187,7 @@ class Directions extends Contanier {
   handleResp(response, status) {
     const target = $(this.routeTarget)
     if (status === google.maps.DirectionsStatus.OK) {
+      this.marker.setMap(null)
       const leg = response.routes[0].legs[0]
       const addrA = leg.start_address.replace(/\, USA/, '')
       const addrB = leg.end_address.replace(/\, USA/, '')
@@ -265,6 +277,32 @@ class Directions extends Contanier {
     this.find('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))
     this.directions(this.args)
   }
+
+  createMarker(destination) {
+    const text = this.args.to.replace(/\n/g, ' ')
+    if (this.marker) {
+      this.marker.setMap(null)
+    }
+    this.infoWin = this.infoWin || new google.maps.InfoWindow()
+    this.infoWin.setContent(`<div class="gm-iw">${text}</div>`)
+    this.marker = new google.maps.Marker({
+      position: destination,
+      map: this.map,
+      label: {
+        text: 'B',
+        color: 'white',
+        fontSize: '16px'
+      },
+      title: text
+    })
+    this.marker.addListener('click', $.proxy(this.openInfoWin, this));
+    this.map.setCenter(destination)
+  }
+
+  openInfoWin() {
+    this.infoWin.open(this.map, this.marker)
+  }
+
   getLatLng() {
     try {
       const coord = proj4('EPSG:3857', 'EPSG:4326', this.args.destination.coordinate)
