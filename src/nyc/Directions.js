@@ -277,7 +277,11 @@ class Directions extends Contanier {
     this.find('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))
     this.directions(this.args)
   }
-
+  /**
+   * @private
+   * @method
+   * @param {google.maps.LatLngLiteral} destination The destination location
+   */
   createMarker(destination) {
     const text = this.args.to.replace(/\n/g, ' ')
     if (this.marker) {
@@ -298,11 +302,18 @@ class Directions extends Contanier {
     this.marker.addListener('click', $.proxy(this.openInfoWin, this));
     this.map.setCenter(destination)
   }
-
+  /**
+   * @private
+   * @method
+   */
   openInfoWin() {
     this.infoWin.open(this.map, this.marker)
   }
-
+  /**
+   * @private
+   * @method
+   * @return {google.maps.LatLngLiteral|undefined} The destination location
+   */
   getLatLng() {
     try {
       const coord = proj4('EPSG:3857', 'EPSG:4326', this.args.destination.coordinate)
