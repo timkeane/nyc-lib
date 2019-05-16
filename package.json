@@ -119,7 +119,7 @@
   "config": {
     "ghooks": {
       "pre-commit": "yarn test",
-      "pre-push": "yarn build && ./etc/play.sh"
+      "pre-push": "yarn build && ./etc/push.sh"
     }
   }
 }
