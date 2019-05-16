@@ -119,7 +119,7 @@
   "config": {
     "ghooks": {
       "pre-commit": "yarn test",
-      "pre-push": "yarn build && cd etc && push.sh && cd .."
+      "pre-push": "yarn build && cd etc"
     }
   }
 }
