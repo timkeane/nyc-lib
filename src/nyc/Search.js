@@ -6,6 +6,7 @@ import $ from 'jquery'
 
 import Container from 'nyc/Container'
 import AutoComplete from 'nyc/AutoComplete'
+import Dialog from 'nyc/Dialog'
 
 /**
  * @desc Abstract class for zoom and search controls
@@ -238,7 +239,7 @@ class Search extends Container {
         if (this.autoComplete) {
           target.trigger('click')
         }
-      } else {
+      } else if (this.getContainer().css('display') === 'block') {
         this.list.slideUp()
       }
     }
@@ -304,11 +305,22 @@ class Search extends Container {
    * @param {boolean} focus Should we focus?
    */
   showList(focus) {
-    this.list.slideDown(() => {
-      if (focus) {
-        this.list.children().first().find('a').attr('tabindex', 0).focus()
-      }
-    })
+    if (this.getContainer().css('display') === 'block') {
+      this.list.slideDown(() => {
+        if (focus) {
+          this.list.children().first().find('a').attr('tabindex', 0).focus()
+        }
+      })
+    } else {
+      const msg = $('<div><strong>Possible matches:</strong></div>')
+      msg.append(this.list)
+      this.dialog = this.dialog || new Dialog({target: $('.nyc-map'), css: 'posbl'})
+      this.list.one('click', $.proxy(this.dialog.hide, this.dialog))
+      this.dialog.ok({
+        buttonText: ['Cancel'],
+        message: msg
+      })
+    }
   }
   /**
    * @private

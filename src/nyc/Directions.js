@@ -8,8 +8,10 @@ import $ from 'jquery'
 import Contanier from 'nyc/Container'
 import Dialog from 'nyc/Dialog'
 import Tabs from 'nyc/Tabs'
-
 import TripPlanHack from 'nyc/mta/TripPlanHack'
+import nyc from 'nyc'
+
+const proj4 = nyc.proj4
 
 /**
  * @desc Provides directions using google maps
@@ -58,6 +60,16 @@ class Directions extends Contanier {
      * @member {google.maps.DirectionsRenderer}
      */
     this.renderer = null
+    /**
+     * @private
+     * @member {google.maps.Marker}
+     */
+    this.marker = null
+    /**
+     * @private
+     * @member {google.maps.InfoWindow}
+     */
+    this.infoWin = null
     /**
      * @private
      * @member {module:nyc/Directions~Directions.Request}
@@ -137,6 +149,7 @@ class Directions extends Contanier {
       tog.hide()
     })
     tog.attr('aria-hidden', true)
+    this.createMarker(this.getLatLng())
     if (args.from && this.lastDir !== `${args.from}|${args.to}|${mode}`) {
       this.lastDir = `${args.from}|${args.to}|${mode}`
       this.service.route(
@@ -174,6 +187,7 @@ class Directions extends Contanier {
   handleResp(response, status) {
     const target = $(this.routeTarget)
     if (status === google.maps.DirectionsStatus.OK) {
+      this.marker.setMap(null)
       const leg = response.routes[0].legs[0]
       const addrA = leg.start_address.replace(/\, USA/, '')
       const addrB = leg.end_address.replace(/\, USA/, '')
@@ -245,6 +259,7 @@ class Directions extends Contanier {
    * @method
    */
   init() {
+    const destination = this.getLatLng()
     this.map = new google.maps.Map($('#map-tab div.map').get(0), {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       backgroundColor: '#D3D3D3',
@@ -253,12 +268,57 @@ class Directions extends Contanier {
       mapTypeControl: false,
       zoomControl: false,
       maxZoom: 18,
+      zoom: 17,
+      center: destination,
       styles: this.styles
     })
     this.service = new google.maps.DirectionsService()
     this.renderer = new google.maps.DirectionsRenderer()
     this.find('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))
     this.directions(this.args)
+  }
+  /**
+   * @private
+   * @method
+   * @param {google.maps.LatLngLiteral} destination The destination location
+   */
+  createMarker(destination) {
+    const text = this.args.to.replace(/\n/g, ' ')
+    if (this.marker) {
+      this.marker.setMap(null)
+    }
+    this.infoWin = this.infoWin || new google.maps.InfoWindow()
+    this.infoWin.setContent(`<div class="gm-iw">${text}</div>`)
+    this.marker = new google.maps.Marker({
+      position: destination,
+      map: this.map,
+      label: {
+        text: 'B',
+        color: 'white',
+        fontSize: '16px'
+      },
+      title: text
+    })
+    this.marker.addListener('click', $.proxy(this.openInfoWin, this));
+    this.map.setCenter(destination)
+  }
+  /**
+   * @private
+   * @method
+   */
+  openInfoWin() {
+    this.infoWin.open(this.map, this.marker)
+  }
+  /**
+   * @private
+   * @method
+   * @return {google.maps.LatLngLiteral|undefined} The destination location
+   */
+  getLatLng() {
+    try {
+      const coord = proj4('EPSG:3857', 'EPSG:4326', this.args.destination.coordinate)
+      return {lat: coord[1], lng: coord[0]}
+    } catch (ignore) {/* no destination specified */}
   }
   /**
    * @private

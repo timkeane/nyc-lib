@@ -8,6 +8,8 @@ import MockMutationObserver from '../MutationObserver.mock'
 
 import googleMock from '../google.mock'
 
+const proj4 = nyc.proj4
+
 jest.mock('../../src/nyc/Dialog')
 jest.mock('../../src/nyc/mta/TripPlanHack')
 
@@ -180,6 +182,163 @@ test('init', () => {
   dir.find('.btn-z-out').trigger('click')
   expect(dir.zoom).toHaveBeenCalledTimes(2)
   expect(dir.zoom.mock.calls[1][0].target).toBe(dir.find('.btn-z-out').get(0))
+})
+
+describe('createMarker', () => {
+  test('createMarker no marker', () => {
+    expect.assertions(17)
+
+    const infoWin = new google.maps.InfoWindow({}) 
+    
+    const dir = new Directions()
+    dir.map = new google.maps.Map()
+    dir.args = {
+      from: 'here',
+      to: 'there\n\n'
+    }
+    dir.infoWin = infoWin
+
+    $.resetMocks()
+
+    dir.createMarker({
+      lat: 0,
+      lng: 1
+    })
+
+    expect(dir.infoWin.setContent).toHaveBeenCalledTimes(1)
+    expect(dir.infoWin.setContent.mock.calls[0][0]).toBe(`<div class="gm-iw">there  </div>`)
+
+    expect(google.maps.Marker.mock.calls[0][0].position.lat).toBe(0)
+    expect(google.maps.Marker.mock.calls[0][0].position.lng).toBe(1)
+    expect(google.maps.Marker.mock.calls[0][0].label.color).toBe('white')
+    expect(google.maps.Marker.mock.calls[0][0].label.fontSize).toBe('16px')
+    expect(google.maps.Marker.mock.calls[0][0].label.text).toBe('B')
+    expect(google.maps.Marker.mock.calls[0][0].title).toBe('there  ')
+    expect(dir.marker.addListener).toHaveBeenCalledTimes(1)
+    expect(dir.marker.addListener.mock.calls[0][0]).toBe('click')
+    expect(dir.marker.addListener.mock.calls[0][1]).toBe($.mocks.proxy.returnedValues[0])
+    expect($.mocks.proxy).toHaveBeenCalledTimes(1)
+    expect($.mocks.proxy.mock.calls[0][0]).toBe(dir.openInfoWin)
+    expect($.mocks.proxy.mock.calls[0][1]).toBe(dir)
+
+
+    expect(dir.map.setCenter).toHaveBeenCalledTimes(1)
+    expect(dir.map.setCenter.mock.calls[0][0].lat).toBe(0)
+    expect(dir.map.setCenter.mock.calls[0][0].lng).toBe(1)
+
+  });
+
+  test('createMarker existing marker', () => {
+    
+    expect.assertions(19)
+
+    const marker = new google.maps.Marker({})
+    const infoWin = new google.maps.InfoWindow({}) 
+
+    const dir = new Directions()
+
+    dir.map = new google.maps.Map()
+    dir.args = {
+      from: 'here',
+      to: 'there\n\n'
+    }
+    dir.marker = marker
+
+    $.resetMocks()
+    googleMock.resetMocks()
+
+    dir.createMarker({
+      lng: 0,
+      lat: 1
+    })
+
+
+    expect(marker.setMap).toHaveBeenCalledTimes(1)
+    expect(marker.setMap.mock.calls[0][0]).toBeNull()
+
+
+    expect(dir.infoWin.setContent).toHaveBeenCalledTimes(1)
+    expect(dir.infoWin.setContent.mock.calls[0][0]).toBe(`<div class="gm-iw">there  </div>`)
+    expect(google.maps.Marker.mock.calls[0][0].position.lat).toBe(1)
+    expect(google.maps.Marker.mock.calls[0][0].position.lng).toBe(0)
+    expect(google.maps.Marker.mock.calls[0][0].label.color).toBe('white')
+    expect(google.maps.Marker.mock.calls[0][0].label.fontSize).toBe('16px')
+    expect(google.maps.Marker.mock.calls[0][0].label.text).toBe('B')
+    expect(google.maps.Marker.mock.calls[0][0].title).toBe('there  ')
+    expect(dir.marker.addListener).toHaveBeenCalledTimes(1)
+    expect(dir.marker.addListener.mock.calls[0][0]).toBe('click')
+    expect(dir.marker.addListener.mock.calls[0][1]).toBe($.mocks.proxy.returnedValues[0])
+    expect($.mocks.proxy).toHaveBeenCalledTimes(1)
+    expect($.mocks.proxy.mock.calls[0][0]).toBe(dir.openInfoWin)
+    expect($.mocks.proxy.mock.calls[0][1]).toBe(dir)
+
+    expect(dir.map.setCenter).toHaveBeenCalledTimes(1)
+    expect(dir.map.setCenter.mock.calls[0][0].lat).toBe(1)
+    expect(dir.map.setCenter.mock.calls[0][0].lng).toBe(0)
+  })
+})
+
+describe('openInfoWin', () => {
+  test('openInfoWin', () => {
+    expect.assertions(3)
+
+    const infoWin = new google.maps.InfoWindow({})
+
+    const dir = new Directions()
+
+    dir.infoWin = infoWin
+
+    $.resetMocks()
+    googleMock.resetMocks()
+
+    dir.openInfoWin()
+
+    expect(dir.infoWin.open).toHaveBeenCalledTimes(1)
+    expect(dir.infoWin.open.mock.calls[0][0]).toBe(dir.map)
+    expect(dir.infoWin.open.mock.calls[0][1]).toBe(dir.marker)
+
+  })
+})
+describe('getLatLng', () => {
+  test('getLatLng', () => {
+    expect.assertions(1)
+    const fromProjection = 'EPSG:3857', toProjection = 'EPSG:4326'
+    const coord = [0, 0]
+    proj4(fromProjection, toProjection, coord)
+    const dir = new Directions()
+    dir.args = {
+      destination: {
+        coordinate: [0, 0]
+      }
+    }
+    proj4(fromProjection, toProjection, dir.args.destination.coordinate)
+    expect(dir.getLatLng()).toEqual({
+      lng: coord[0],
+      lat: coord[1]
+    })
+  });
+
+  test('getLatLng coord undefined', () => {
+    expect.assertions(1)
+    const dir = new Directions()
+    dir.args = {}
+    expect(dir.getLatLng()).toBeUndefined()
+  });
+
+  test('getLatLng no coord provided', () => {
+    expect.assertions(1)
+    const coord = ''
+    const dir = new Directions()
+    dir.args = {
+      destination: {
+        coordinate: coord
+      }
+    }
+    expect(dir.getLatLng()).toEqual({
+      lng: undefined,
+      lat: undefined
+    })
+  });
 })
 
 describe('directions', () => {
@@ -388,20 +547,21 @@ describe('monitor', () => {
 describe('routeAlt', () => {
   let imgs
   beforeEach(() => {
-    imgs = $('<img><img><img><img><img><img>')
+    imgs = $('<img><img><img><img><img><img><img>')
     imgs.get(0).className = 'adp-marker2'
     imgs.get(1).src = 'http://google.com/us-ny-mta/A.png'
     imgs.get(2).src = 'http://google.com/us-ny-mta/7X.png'
     imgs.get(3).src = 'http://google.com/mode/walk.png'
     imgs.get(4).src = 'http://google.com/mode/bus2.png'
-    imgs.get(5).className = 'adp-marker2'
+    imgs.get(5).src = 'http://google.com/mode/rail.png'
+    imgs.get(6).className = 'adp-marker2'
   })
   afterEach(() => {
     imgs.remove()
   })
 
   test('routeAlt', () => {
-    expect.assertions(6)
+    expect.assertions(7)
 
     const dir = new Directions()
 
@@ -414,17 +574,19 @@ describe('routeAlt', () => {
     expect(imgs.get(2).alt).toBe('Take the 7 Express train ')
     expect(imgs.get(3).alt).toBe('Walk ')
     expect(imgs.get(4).alt).toBe('Take the bus ')
-    expect(imgs.get(5).alt).toBe('End location ')
+    expect(imgs.get(5).alt).toBe('Take the train ')
+    expect(imgs.get(6).alt).toBe('End location ')
+
   })
 })
 
 describe('handleResp', () => {
   test('handleResp OK no origin coordinate', () => {
-    expect.assertions(12)
+    expect.assertions(14)
 
     const dir = new Directions()
     dir.args = {origin: {}}
-
+    dir.marker = new google.maps.Marker({})
     dir.map = new google.maps.Map()
     dir.renderer = new google.maps.DirectionsRenderer()
 
@@ -447,14 +609,17 @@ describe('handleResp', () => {
     expect(dir.args.origin.name).toBe(google.maps.okResponse.routes[0].legs[0].start_address.replace(/\, USA/, ''))
     expect(dir.args.origin.coordinate).toEqual([1, 0])
     expect(dir.args.origin.projection).toBe('EPSG:4326')
+
+    expect(dir.marker.setMap).toHaveBeenCalledTimes(1)
+    expect(dir.marker.setMap.mock.calls[0][0]).toBeNull()
   })
 
   test('handleResp OK has origin coordinate', () => {
-    expect.assertions(9)
+    expect.assertions(11)
 
     const dir = new Directions()
     dir.args = {origin: {coordinate: [1, 0]}}
-
+    dir.marker = new google.maps.Marker({})
     dir.map = new google.maps.Map()
     dir.renderer = new google.maps.DirectionsRenderer()
 
@@ -473,6 +638,9 @@ describe('handleResp', () => {
   
     expect($('#fld-from input').val()).toBe(google.maps.okResponse.routes[0].legs[0].start_address.replace(/\, USA/, ''))
     expect($('#fld-to').html()).toBe(google.maps.okResponse.routes[0].legs[0].end_address.replace(/\, USA/, ''))
+
+    expect(dir.marker.setMap).toHaveBeenCalledTimes(1)
+    expect(dir.marker.setMap.mock.calls[0][0]).toBeNull()
   })
 
   test('handleResp SOL', () => {

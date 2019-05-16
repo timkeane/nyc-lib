@@ -43,6 +43,7 @@ import _nyc_ol_format_CsvPoint from 'nyc/ol/format/CsvPoint'
 import _nyc_ol_format_CartoSql from 'nyc/ol/format/CartoSql'
 import _nyc_ol_format_Decorate from 'nyc/ol/format/Decorate'
 import _nyc_ol_format_SocrataJson from 'nyc/ol/format/SocrataJson'
+import _nyc_ol_format_Waze from 'nyc/ol/format/Waze'
 
 window.nyc.ol.format = {}
 window.nyc.ol.format.StandardCsv = _nyc_ol_format_StandardCsv
@@ -50,6 +51,7 @@ window.nyc.ol.format.CsvPoint = _nyc_ol_format_CsvPoint
 window.nyc.ol.format.CartoSql = _nyc_ol_format_CartoSql
 window.nyc.ol.format.Decorate = _nyc_ol_format_Decorate
 window.nyc.ol.format.SocrataJson = _nyc_ol_format_SocrataJson
+window.nyc.ol.format.Waze = _nyc_ol_format_Waze
 
 import _nyc_ol_source_AutoLoad from 'nyc/ol/source/AutoLoad'
 import _nyc_ol_source_FilterAndSort from 'nyc/ol/source/FilterAndSort'

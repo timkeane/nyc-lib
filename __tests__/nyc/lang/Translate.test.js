@@ -321,11 +321,15 @@ test('focus/blur', () => {
     button: true
   })
 
-  expect(translate.find('.btn-sq').hasClass('focused')).toBe(false)
+  const select = translate.find('select')
+  const btn = select.prev()
 
-  translate.find('select').focus()
-  expect(translate.find('.btn-sq').hasClass('focused')).toBe(true)
+  expect(btn.hasClass('focused')).toBe(false)
 
-  translate.find('select').blur()
-  expect(translate.find('.btn-sq').hasClass('focused')).toBe(false)
+  select.focus(()=>{
+    expect(btn.hasClass('focused')).toBe(true)
+  }).show().trigger('focus')
+
+  select.trigger('blur')
+  expect(btn.hasClass('focused')).toBe(false)
 })
