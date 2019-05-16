@@ -3,6 +3,7 @@
   "version": "1.2.73",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
+    "pushit": "cd etc && ./push.sh && cd ..",
     "postinstall": "chmod +x ./etc/push.sh && chmod +x ./etc/css/roll-css.sh",
     "pretest": "rm -rf ./dist",
     "test": "jest",
@@ -119,7 +120,7 @@
   "config": {
     "ghooks": {
       "pre-commit": "yarn test",
-      "pre-push": "yarn build && cd etc && ./push.sh && cd .."
+      "pre-push": "yarn build && yarn pushit"
     }
   }
 }
