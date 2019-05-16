@@ -1,1 +1,1 @@
-afplay nowpushit.wav || wmplayer "nowpushit.wav" || echo 'Push it real good!'
+nowpushit.wav || afplay nowpushit.wav || echo 'Push it real good!'
