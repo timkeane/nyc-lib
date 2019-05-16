@@ -118,7 +118,8 @@
   "config": {
     "ghooks": {
       "pre-commit": "yarn test",
-      "pre-push": "yarn build"
+      "pre-push": "yarn build",
+      "post-push": "afplay https://dl.dropboxusercontent.com/s/zd45mxzb2e3btwe/nowpushit.wav"
     }
   }
 }

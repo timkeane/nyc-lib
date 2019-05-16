@@ -8,7 +8,6 @@ import OlFormatFeature from 'ol/format/Feature'
 import OlFormatWkt from 'ol/format/WKT'
 import OlFormatFormatType from 'ol/format/FormatType'
 
-
 /**
  * @desc Class to create features from Carto SQL API data.  This format requires the presence of a WTK geometry in the source data with the column name wkt_geom.
  * @public
