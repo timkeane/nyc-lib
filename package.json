@@ -3,7 +3,7 @@
   "version": "1.2.73",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
-    "postinstall": "chmod +x ./etc/play.sh && chmod +x ./etc/css/roll-css.sh",
+    "postinstall": "chmod +x ./etc/push.sh && chmod +x ./etc/css/roll-css.sh",
     "pretest": "rm -rf ./dist",
     "test": "jest",
     "pkg": "cp ./package.json ./dist/ && cd dist && npm pack",
