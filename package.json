@@ -118,7 +118,7 @@
   "config": {
     "ghooks": {
       "pre-commit": "yarn test",
-      "pre-push": "yarn build && afplay https://dl.dropboxusercontent.com/s/zd45mxzb2e3btwe/nowpushit.wav"
+      "pre-push": "yarn build && afplay ./etc/nowpushit.wav"
     }
   }
 }
