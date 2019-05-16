@@ -119,7 +119,7 @@
   "config": {
     "ghooks": {
       "pre-commit": "yarn test",
-      "pre-push": "yarn build && afplay ./etc/nowpushit.wav"
+      "pre-push": "yarn build && ./etc/play.sh"
     }
   }
 }
