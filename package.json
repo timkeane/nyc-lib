@@ -1,10 +1,10 @@
 {
   "name": "nyc-lib",
-  "version": "1.2.73",
+  "version": "1.2.74",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "pushit": "cd etc && ./push.sh && cd ..",
-    "postinstall": "chmod +x ./etc/push.sh && chmod +x ./etc/css/roll-css.sh",
+    "postinstall": "cd etc && ./chmod.sh && cd ..",
     "pretest": "rm -rf ./dist",
     "test": "jest",
     "pkg": "cp ./package.json ./dist/ && cd dist && npm pack",
