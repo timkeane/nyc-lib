@@ -110,6 +110,11 @@ class Directions extends Contanier {
      * @member {boolean}
      */
     this.monitoring = false
+    /**
+     * @private
+     * @member {google.maps.TravelMode}
+     */
+    this.defaultMode = options.mode || 'TRANSIT'
     $('#mta').click($.proxy(this.tripPlanHack, this))
     $('#mode button').not('#mta').click($.proxy(this.mode, this))
 
@@ -130,7 +135,7 @@ class Directions extends Contanier {
    * @return {jqXHR|undefined} JQuery XHR object
    */
   directions(args) {
-    const mode = args.mode || 'TRANSIT'
+    const mode = args.mode || this.defaultMode
     const url = this.url
     const tog = this.toggle
     this.modeBtn = $(`[data-mode="${mode}"]`)

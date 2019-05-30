@@ -69,6 +69,11 @@ class FinderApp extends MapMgr {
      * @member {string}
      */
     this.directionsUrl = options.directionsUrl
+    /**
+     * @private
+     * @member {google.maps.TravelMode}
+     */
+    this.defaultDirectionsMode = options.defaultDirectionsMode
     this.pager.on('change', this.setFacilitiesLabel)
   }
   /**
@@ -147,7 +152,8 @@ class FinderApp extends MapMgr {
   directionsTo(feature) {
     this.directions = this.directions || new Directions({
       url: this.directionsUrl,
-      toggle: '#tabs'
+      toggle: '#tabs',
+      mode: this.defaultDirectionsMode
     })
     const to = feature.getFullAddress()
     const name = feature.getName()
@@ -294,6 +300,7 @@ class FinderApp extends MapMgr {
  * @property {Array<module:nyc/ol/Filters~Filters.ChoiceOptions>=} filterChoiceOptions Filter definitions
  * @property {string} geoclientUrl The URL for the Geoclient geocoder with approriate keys
  * @property {string} directionsUrl The URL for the Google directions API with approriate keys
+ * @property {google.maps.TravelMode} defaultDirectionsMode The mode for Google directions
  * @property {boolean} [mouseWheelZoom=true] Allow mouse wheel map zooming
  */
 FinderApp.Options

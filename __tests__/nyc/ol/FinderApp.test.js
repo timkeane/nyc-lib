@@ -177,7 +177,7 @@ test('constructor mouseWheelZoom is undefined', () => {
   expect(Share).toHaveBeenCalledTimes(1)
   expect(Share.mock.calls[0][0].target).toBe('#map')
 
-  expect(Goog).toHaveBeenCalledTimes(1)
+  expect(Goog).toHaveBeenCalledTimes(1),
   expect(Goog.mock.calls[0][0].target).toBe('#map')
   expect(Goog.mock.calls[0][0].languages).toBe(Translate.DEFAULT_LANGUAGES)
   expect(Goog.mock.calls[0][0].button).toBe(true)
@@ -386,7 +386,7 @@ describe('zoomTo', () => {
 })
 
 test('directionsTo', () => {
-  expect.assertions(17)
+  expect.assertions(20)
   
   const feature = new OlFeature({geometry: new OlGeomPoint([0, 1])})
   feature.getName = () => {
@@ -405,12 +405,17 @@ test('directionsTo', () => {
     filterTabTitle: 'Filter Title',
     filterChoiceOptions: filterChoiceOptions,
     geoclientUrl: 'http://geoclient',
-    directionsUrl: 'http://directions'
+    directionsUrl: 'http://directions',
+    defaultDirectionsMode: 'WALKING'
   })
 
   finderApp.directionsTo(feature)
 
   expect(Directions).toHaveBeenCalledTimes(1)
+  expect(Directions.mock.calls[0][0].url).toBe('http://directions')
+  expect(Directions.mock.calls[0][0].toggle).toBe('#tabs')
+  expect(Directions.mock.calls[0][0].mode).toBe('WALKING')
+
   expect(finderApp.directions.directions).toHaveBeenCalledTimes(1)
   expect(finderApp.directions.directions.mock.calls[0][0].from).toBe('')
   expect(finderApp.directions.directions.mock.calls[0][0].to).toBe('feature address')

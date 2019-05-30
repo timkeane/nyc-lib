@@ -30,13 +30,14 @@ describe('constructor', () => {
   const key = Directions.prototype.key
   
   test('constructor no args', () => {
-    expect.assertions(27)
+    expect.assertions(28)
 
     const dir = new Directions()
 
     expect(dir instanceof Contanier).toBe(true)
     expect(dir instanceof Directions).toBe(true)
 
+    expect(dir.defaultMode).toBe('TRANSIT')
     expect(dir.getContainer().get(0)).toBe($('body').get(0))
     expect(global.directions).toBe(dir)
     
@@ -74,11 +75,12 @@ describe('constructor', () => {
   })
 
   test('constructor with args', () => {
-    expect.assertions(25)
+    expect.assertions(26)
 
     const dir = new Directions({
       url: 'http://directions.url', 
-      styles: 'mock-styles'
+      styles: 'mock-styles',
+      mode: 'WALKING'
     })
 
     expect(dir instanceof Contanier).toBe(true)
@@ -87,6 +89,7 @@ describe('constructor', () => {
     expect(dir.getContainer().get(0)).toBe($('body').get(0))
     expect(global.directions).toBe(dir)
     
+    expect(dir.defaultMode).toBe('WALKING')
     expect(dir.tabs.find('.tab').length).toBe(2)
     expect(dir.tabs.find('#map-tab.tab').length).toBe(1)
     expect(dir.tabs.find('#route-tab.tab').length).toBe(1)
