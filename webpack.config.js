@@ -9,7 +9,7 @@ console.log(`version=${version}`)
 const isProd = ['production', 'prod', 'prd'].indexOf(nodeEnv) > -1
 const isStg = 'stg' === nodeEnv
 const isDev = !isStg && !isProd
-let devtools = isDev ? 'source-map' : false
+const devtools = isDev ? 'source-map' : false
 const webpack = require('webpack')
 const Copy = require('copy-webpack-plugin')
 const Clean = require('clean-webpack-plugin')

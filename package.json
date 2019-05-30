@@ -1,10 +1,10 @@
 {
   "name": "nyc-lib",
-  "version": "1.2.74",
+  "version": "1.2.75",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "pushit": "cd etc && ./push.sh && cd ..",
-    "postinstall": "cd etc && ./chmod.sh && cd ..",
+    "postinstall": "node chmod-scripts",
     "pretest": "rm -rf ./dist",
     "test": "jest",
     "pkg": "cp ./package.json ./dist/ && cd dist && npm pack",
@@ -96,7 +96,6 @@
     "nyc-build-helper": "^0.0.28",
     "strict-mode": "^1.1.2",
     "webpack": "4.19.1",
-    "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.14",
     "zip-dir": "^1.0.2",
     "zip-folder": "^1.0.0"
