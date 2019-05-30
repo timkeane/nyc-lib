@@ -1,13 +1,13 @@
 {
   "name": "nyc-lib",
-  "version": "1.2.75",
+  "version": "1.2.76",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "pushit": "cd etc && ./push.sh && cd ..",
     "postinstall": "node chmod-scripts",
     "pretest": "rm -rf ./dist",
     "test": "jest",
-    "pkg": "cp ./package.json ./dist/ && cd dist && npm pack",
+    "pkg": "cp ./package.json ./dist/ &&cp ./chmod-scripts.json ./dist/ && cd dist && npm pack",
     "prepkg": "yarn transpl && yarn mta-hack && yarn jsdoc && yarn pkg-css && yarn roll-css",
     "transpl": "rm -rf ./dist && babel src/nyc -d ./dist/nyc --ignore __mocks__",
     "mta-hack": "cp ./src/nyc/mta/mta.html ./dist/nyc/mta/",
