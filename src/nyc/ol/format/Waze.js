@@ -11,6 +11,7 @@ import Style from 'ol/style/Style'
 import Stroke from 'ol/style/Stroke'
 import Fill from 'ol/style/Fill'
 import Circle from 'ol/style/Circle'
+
 /**
  * @desc Class to create features from Carto SQL API data.  This format requires the presence of a WTK geometry in the source data with the column name wkt_geom.
  * @public
@@ -27,7 +28,6 @@ class Waze extends OlFormatFeature {
    */
   constructor(options) {
     super()
-    options = options || {}
     /**
      * @private
      * @member {ol.ProjectionLike}
@@ -37,7 +37,7 @@ class Waze extends OlFormatFeature {
      * @private
      * @member {ol.ProjectionLike}
      */
-    this.featureProjection = options.featureProjection || 'EPSG:3857'
+    this.featureProjection = options ? options.featureProjection : 'EPSG:3857'
   }
   /**
    * @desc Read a single feature from a source
@@ -86,6 +86,9 @@ class Waze extends OlFormatFeature {
     waze.alerts.forEach(alert => {
       features.push(this.readFeature(alert))
     })
+    waze.irregularities.forEach(irreg => {
+      features.push(this.readFeature(irreg))
+    })
     return features
   }
   /**
@@ -97,7 +100,7 @@ class Waze extends OlFormatFeature {
    * @return {ol.proj.Projection} The projection
    */
   readProjection(source) {
-    return 'EPSG:4326'
+    return this.dataProjection
   }
   /**
    * @desc Get the extent from the source of the last readFeatures call
