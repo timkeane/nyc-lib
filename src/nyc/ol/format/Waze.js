@@ -86,9 +86,6 @@ class Waze extends OlFormatFeature {
     waze.alerts.forEach(alert => {
       features.push(this.readFeature(alert))
     })
-    waze.irregularities.forEach(irreg => {
-      features.push(this.readFeature(irreg))
-    })
     return features
   }
   /**
