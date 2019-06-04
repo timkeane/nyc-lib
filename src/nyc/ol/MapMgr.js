@@ -367,7 +367,7 @@ class MapMgr {
           decorations: decorations,
           parentFormat: parentFormat
         })
-      })
+      }, options.metric)
     }
   }
   /**
@@ -749,6 +749,7 @@ MapMgr.FEATURE_DECORATIONS = {
  * @property {module:nyc/Search~Search.FeatureSearchOptions|boolean} [facilitySearch=true] Search options for feature searches or true to use default search options
  * @property {boolean} [mouseWheelZoom=false] Allow mouse wheel map zooming
  * @property {string=} startAt A starting location
+ * @property {boolean} [metric=false] Use metric distance units
  */
 MapMgr.Options
 

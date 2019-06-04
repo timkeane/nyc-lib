@@ -10,6 +10,8 @@ import AutoLoad from 'nyc/ol/source/AutoLoad'
 
 import {get as olProjGet} from 'ol/proj'
 
+const FEET_PRE_METER = 3.28084
+
 /**
  * @desc Class to filter and sort features
  * @public
@@ -22,9 +24,15 @@ class FilterAndSort extends AutoLoad {
    * @public
    * @constructor
    * @param {olx.source.VectorOptions} options Constructor options
+   * @param {boolean} [metric=false] Use metric units
    */
-  constructor(options) {
+  constructor(options, metric) {
     super(options)
+    /**
+     * @private
+     * @member {boolean}
+     */
+    this.metric = metric
     /**
      * @private
      * @member {Array<ol.Feature>}
@@ -117,6 +125,9 @@ class FilterAndSort extends AutoLoad {
     if (projections[0] && projections[0].getUnits() !== 'degrees') {
       line.transform(projections[1], projections[0])
       units = projections[0].getUnits()
+    }
+    if (units !== 'ft' && !this.metric) {
+      return {distance: line.getLength() * FEET_PRE_METER, units: 'ft'}
     }
     return {distance: line.getLength(), units: units}
   }

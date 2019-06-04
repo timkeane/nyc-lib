@@ -21,7 +21,7 @@ test('constructor', () => {
   expect(filterAndSort instanceof FilterAndSort).toBe(true)
 })
 
-test('sort', () => {
+test('sort is metric', () => {
   expect.assertions(11)
 
   const f0 = new OlFeature({id: 'f0', geometry: new OlGeomPoint([0, 0])})
@@ -32,7 +32,7 @@ test('sort', () => {
 
   const filterAndSort = new FilterAndSort({
     features: [f0, f4, f2, f1, f3]
-  })
+  }, true)
 
   const features = filterAndSort.sort([0, 0])
 
@@ -200,12 +200,12 @@ test('storeFeatures', () => {
   new FilterAndSort({}).set('autoload-complete', true)
 })
 
-test('distance', () => {
+test('distance - is metric', () => {
   expect.assertions(6)
 
   const geom = new OlGeomPoint([1, 2])
 
-  const filterAndSort = new FilterAndSort({})
+  const filterAndSort = new FilterAndSort({}, true)
 
   filterAndSort.projections = () => {
     return [null, olProjGet('EPSG:3857')]
@@ -224,6 +224,41 @@ test('distance', () => {
 
   expect(distance.distance).toBe(1)
   expect(distance.units).toBe('m')
+
+  filterAndSort.projections = () => {
+    return [olProjGet('EPSG:2263'), olProjGet('EPSG:3857')]
+  }
+
+  distance = filterAndSort.distance([1, 3], geom)
+
+  expect(distance.distance.toFixed(2)).toBe('4.11')
+  expect(distance.units).toBe('ft')
+})
+
+test('distance - not metric', () => {
+  expect.assertions(6)
+
+  const geom = new OlGeomPoint([1, 2])
+
+  const filterAndSort = new FilterAndSort({}, false)
+
+  filterAndSort.projections = () => {
+    return [null, olProjGet('EPSG:3857')]
+  }
+
+  let distance = filterAndSort.distance([1, 3], geom)
+
+  expect(distance.distance).toBe(3.28084)
+  expect(distance.units).toBe('ft')
+
+  filterAndSort.projections = () => {
+    return [olProjGet('EPSG:4326'), olProjGet('EPSG:3857')]
+  }
+
+  distance = filterAndSort.distance([1, 3], geom)
+
+  expect(distance.distance).toBe(3.28084)
+  expect(distance.units).toBe('ft')
 
   filterAndSort.projections = () => {
     return [olProjGet('EPSG:2263'), olProjGet('EPSG:3857')]
