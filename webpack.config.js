@@ -15,9 +15,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const Minify = require('babel-minify-webpack-plugin')
 
-console.warn(Minify);
-
-
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const copyFiles = [{
