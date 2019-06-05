@@ -11,9 +11,12 @@ const isStg = 'stg' === nodeEnv
 const isDev = !isStg && !isProd
 const devtools = isDev ? 'source-map' : false
 const webpack = require('webpack')
-const Copy = require('copy-webpack-plugin')
-const Clean = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const Minify = require('babel-minify-webpack-plugin')
+
+console.warn(Minify);
+
 
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
@@ -29,8 +32,8 @@ const copyFiles = [{
 
 const plugins = [
   // new BundleAnalyzerPlugin({analyzerMode: 'static'}),
-  new Clean(['dist'], {root: __dirname}),
-  new Copy(copyFiles),
+  new CleanWebpackPlugin(),
+  new CopyWebpackPlugin(copyFiles),
   new webpack.optimize.ModuleConcatenationPlugin(),
   replace.replacePlugin(__dirname)
 ]
@@ -57,7 +60,7 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'babel-loader',
       query: {
-        presets: ['es2015']
+        presets: ['@babel/preset-env']
       }
     }]
   },

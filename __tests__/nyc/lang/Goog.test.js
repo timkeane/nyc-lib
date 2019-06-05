@@ -18,14 +18,18 @@ const languages = {
 const expectedCodes = {en: 'en', ar: 'ar', bn: 'bn', cn: 'cn', fr: 'fr', ht: 'ht', ko: 'ko', ru: 'ru', es: 'es', ur: 'ur'}
 const expectedHints = [undefined, 'Translate-ar', 'Translate-bn', 'Translate-cn', 'Translate-fr', 'Translate-ht', 'Translate-ko', 'Translate-ru', 'Translate-es', 'Translate-ur']
 
-const googleMock = {
-  translate: {
-    TranslateElement: (options, target) => {
-      return {options: options, target: target}
-    }
+class MockTranslateElement {
+  constructor(options, target) {
+    this.target = target
+    this.options = options
   }
 }
-googleMock.translate.TranslateElement.InlineLayout = {SIMPLE: 0}
+MockTranslateElement.InlineLayout = {SIMPLE: 0}
+const googleMock = {
+  translate: {
+    TranslateElement: MockTranslateElement
+  }
+}
 
 let googleIframeMenu
 let googleIframeButton

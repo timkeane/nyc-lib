@@ -8,18 +8,21 @@ test('inherits', () => {
   expect.assertions(5)
 
   const parentCtor = () => {}
-  parentCtor.prototype.parentProperty = 'parentProperty'
-  parentCtor.prototype.propertyToOverride = 'propertyToOverride'
-  parentCtor.prototype.parentMethod = () => {}
-  parentCtor.prototype.methodToOverride = () => {}
-
+  parentCtor.prototype = {
+    parentProperty: 'parentProperty',
+    propertyToOverride: 'propertyToOverride',
+    parentMethod: () => {},
+    methodToOverride: () => {}
+  }
   const overrideProperty = 'overrideProperty'
   const overrideMethod = () => {}
 
   const childCtor = () => {}
-  childCtor.prototype.childMethod = () => {}
-  childCtor.prototype.propertyToOverride = overrideProperty
-  childCtor.prototype.methodToOverride = overrideMethod
+  childCtor.prototype = {
+    childMethod: () => {},
+    propertyToOverride: overrideProperty,
+    methodToOverride: overrideMethod
+  }
 
   nyc.inherits(childCtor, parentCtor)
 
