@@ -4,6 +4,7 @@ import _nyc_BasemapHelper from 'nyc/BasemapHelper'
 import _nyc_Choice from 'nyc/Choice'
 import _nyc_Collapsible from 'nyc/Collapsible'
 import _nyc_Container from 'nyc/Container'
+import _nyc_Content from 'nyc/Content'
 import _nyc_Dialog from 'nyc/Dialog'
 import _nyc_Directions from 'nyc/Directions'
 //import _nyc_Drag from 'nyc/Drag'
@@ -30,6 +31,7 @@ window.nyc.BasemapHelper = _nyc_BasemapHelper
 window.nyc.Choice = _nyc_Choice
 window.nyc.Collapsible = _nyc_Collapsible
 window.nyc.Container = _nyc_Container
+window.nyc.Content = _nyc_Content
 window.nyc.Dialog = _nyc_Dialog
 window.nyc.Directions = _nyc_Directions
 //window.nyc.Drag = _nyc_Drag
