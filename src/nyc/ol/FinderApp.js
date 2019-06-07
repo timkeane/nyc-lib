@@ -232,7 +232,7 @@ class FinderApp extends MapMgr {
   /**
    * @private
    * @method
-   * @returns {boolean}
+   * @returns {boolean} The display state
    */
   isMobile() {
     return $('#tabs .btns>h2:first:of-type').css('display') === 'block'
@@ -240,7 +240,7 @@ class FinderApp extends MapMgr {
   /**
    * @private
    * @method
-   * @returns {module:nyc/Dialog~Dialog.ShowOptions}
+   * @returns {module:nyc/Dialog~Dialog.ShowOptions} Dialog options
    */
   mobileDiaOpts() {
     const location = this.location
