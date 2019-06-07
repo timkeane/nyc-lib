@@ -235,7 +235,7 @@ class FinderApp extends MapMgr {
    * @returns {boolean} The display state
    */
   isMobile() {
-    return $('#tabs .btns>h2:first-of-type').css('display') === 'block'
+    return $('#tabs .btns>h2:first-of-type').css('display') !== 'none'
   }
   /**
    * @private
