@@ -705,7 +705,7 @@ MapMgr.FEATURE_DECORATIONS = {
     if (target.hasClass('map')) {
       feature.app.zoomTo(feature)
     } else {
-      feature.app.directionsTo(feature)
+      feature.app.directionsTo(feature, target)
     }
   },
   /**

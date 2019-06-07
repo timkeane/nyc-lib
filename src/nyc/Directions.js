@@ -167,6 +167,8 @@ class Directions extends Contanier {
       )
     }
     $('#back-to-map').one('click', () => {
+      console.warn(args.returnFocus);
+      
       $(args.returnFocus).focus()
     })
   }

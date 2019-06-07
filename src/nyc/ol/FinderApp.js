@@ -148,8 +148,9 @@ class FinderApp extends MapMgr {
    * @override
    * @method
    * @param {ol.Feature} feature OpenLayers feature
+   * @param {JQuery} returnFocus The DOM element that should receive focus when leaving the directions view
    */
-  directionsTo(feature) {
+  directionsTo(feature, returnFocus) {
     this.directions = this.directions || new Directions({
       url: this.directionsUrl,
       toggle: '#tabs',
@@ -167,7 +168,7 @@ class FinderApp extends MapMgr {
         name: feature.getName(),
         coordinate: feature.getGeometry().getCoordinates()
       },
-      returnFocus: document.activeElement
+      returnFocus: returnFocus
     })
   }
   /**
