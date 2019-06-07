@@ -196,6 +196,10 @@ html, body.fnd, .fnd #map {
   background-color: transparent;
   color: transparent;
 }
+.shw-lst a.btn-yes, .shw-lst a.btn-no {
+  display: block !important;
+  width: auto;
+}
 @media only screen and (max-width : 750px), screen and (max-device-height: 350px) {
   .fnd #tabs {
     width: 100%;

@@ -180,16 +180,19 @@ class FinderApp extends MapMgr {
    */
   createFilters(choiceOptions) {
     if (choiceOptions) {
+      const me = this
       $('#filters').empty()
       const apply = $('<button class="apply">Apply</button>')
       const filters = new Filters({
         target: '#filters',
-        source: this.source,
+        source: me.source,
         choiceOptions: choiceOptions
       })
-      filters.on('change', this.resetList, this)
+      filters.on('change', me.resetList, me)
       $('#filters').append(apply)
-      apply.on('click tap keypress', $.proxy(this.focusFacilities, this))
+      apply.on('click tap keypress', () => {
+        me.focusFacilities(true)
+      })
       return filters
     }
   }
@@ -230,9 +233,47 @@ class FinderApp extends MapMgr {
    * @private
    * @method
    */
-  focusFacilities() {
+  isMobile() {
+    return $('#tabs .btns>h2:first:of-type').css('display') === 'block'
+  }
+  /**
+   * @private
+   * @method
+   */
+  mobileDiaOpts() {
+    const location = this.location
+    const locationName = location.name
+    const feature = this.source.sort(location.coordinate)[0]
+    const distance = feature.distanceHtml(true).html()
+    return {
+      message: `<strong>${feature.getName()}</strong><br>
+        is located ${distance} from your location<br>
+        <strong>${locationName}</strong>`,
+      buttonText: [
+        `View ${$('#tab-btn-1').html()} list`,
+        'View the map'
+      ]
+    }
+  }
+  /**
+   * @private
+   * @method
+   * @param {boolean} applyBtn
+   */
+  focusFacilities(applyBtn) {
+    const tabs = this.tabs
     this.setFacilitiesLabel()
-    this.tabs.open('#facilities')
+    if (!applyBtn && this.isMobile()) {
+      const options = this.mobileDiaOpts()
+      new Dialog({css: 'shw-lst'})
+        .yesNo(options).then(showFacilities => {
+          if (showFacilities) {
+            tabs.open('#facilities')
+          }
+        })
+    } else {
+      tabs.open('#facilities')
+    }
   }
   /**
    * @private
