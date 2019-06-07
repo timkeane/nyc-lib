@@ -232,6 +232,7 @@ class FinderApp extends MapMgr {
   /**
    * @private
    * @method
+   * @returns {boolean}
    */
   isMobile() {
     return $('#tabs .btns>h2:first:of-type').css('display') === 'block'
@@ -239,6 +240,7 @@ class FinderApp extends MapMgr {
   /**
    * @private
    * @method
+   * @returns {module:nyc/Dialog~Dialog.ShowOptions}
    */
   mobileDiaOpts() {
     const location = this.location
@@ -258,7 +260,7 @@ class FinderApp extends MapMgr {
   /**
    * @private
    * @method
-   * @param {boolean} applyBtn
+   * @param {boolean} applyBtn The filter apply button was pressed by a screen reader user
    */
   focusFacilities(applyBtn) {
     const tabs = this.tabs
