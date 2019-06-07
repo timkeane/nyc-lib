@@ -166,6 +166,9 @@ class Directions extends Contanier {
         $.proxy(this.handleResp, this)
       )
     }
+    $('#back-to-map').one('click', () => {
+      $(args.returnFocus).focus()
+    })
   }
   /**
    * @private
@@ -393,6 +396,7 @@ Directions.DEFAULT_GOOGLE_URL = 'https://maps.googleapis.com/maps/api/js?&sensor
  * @property {string} to The destination location
  * @property {google.maps.DirectionsTravelMode} mode The directions mode
  * @property {string} facility The name of the destination
+ * @property {JQuery|Element|string=} returnFocus The DOM element that should receive focus when leaving the directions view
  */
 Directions.Request
 

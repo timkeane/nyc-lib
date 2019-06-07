@@ -150,7 +150,6 @@ class FinderApp extends MapMgr {
    * @param {ol.Feature} feature OpenLayers feature
    */
   directionsTo(feature) {
-    const hookUp = this.directions
     this.directions = this.directions || new Directions({
       url: this.directionsUrl,
       toggle: '#tabs',
@@ -167,13 +166,9 @@ class FinderApp extends MapMgr {
       destination: {
         name: feature.getName(),
         coordinate: feature.getGeometry().getCoordinates()
-      }
+      },
+      returnFocus: document.activeElement
     })
-    if (!hookUp) {
-      $('#back-to-map').click(() => {
-        $('.srch input').focus()
-      })
-    }
   }
   /**
    * @desc Creates the filters for the facility features
