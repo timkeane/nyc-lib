@@ -273,10 +273,10 @@ class FinderApp extends MapMgr {
     if (!applyBtn && this.isMobile() && $('.shw-lst').css('display') === 'none') {
       const options = this.mobileDiaOpts()
       this.mobileDia.yesNo(options).then(showFacilities => {
-          if (showFacilities) {
-            tabs.open('#facilities')
-          }
-        })
+        if (showFacilities) {
+          tabs.open('#facilities')
+        }
+      })
     } else {
       tabs.open('#facilities')
     }
