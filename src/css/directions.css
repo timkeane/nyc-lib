@@ -12,6 +12,9 @@
 #back-to-map {
   top: 0;
 }
+#back-to-map * {
+  color: #fff;
+}
 #dir-tabs {
   width: 400px;
 }

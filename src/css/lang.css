@@ -81,3 +81,13 @@ body .goog-text-highlight {
 font {
 	color: inherit;
 }
+
+body.rtl * {
+  direction: rtl;
+}
+.shr, .srch-ctl, button.apply * {
+    direction: ltr !important;    
+}
+#banner * {
+    text-align: left;
+}
