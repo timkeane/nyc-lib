@@ -157,8 +157,7 @@ class Translate extends Container {
    */
   css() {
     $('body')[this.code === this.defaultLanguage ? 'removeClass' : 'addClass']('translated')
-      [this.languages[this.code].rtl ? 'addClass' : 'removeClass']('rtl')
-    
+    $('body')[this.languages[this.code].rtl ? 'addClass' : 'removeClass']('rtl')
   }
   /**
    * @private
