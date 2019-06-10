@@ -74,6 +74,11 @@ class FinderApp extends MapMgr {
      * @member {google.maps.TravelMode}
      */
     this.defaultDirectionsMode = options.defaultDirectionsMode
+    /**
+     * @private
+     * @member {module:nyc/Dialog~Dialog}
+     */
+    this.mobileDia = new Dialog({css: 'shw-lst'})
     this.pager.on('change', this.setFacilitiesLabel)
   }
   /**
@@ -265,10 +270,9 @@ class FinderApp extends MapMgr {
   focusFacilities(applyBtn) {
     const tabs = this.tabs
     this.setFacilitiesLabel()
-    if (!applyBtn && this.isMobile()) {
+    if (!applyBtn && this.isMobile() && $('.shw-lst').css('display') === 'none') {
       const options = this.mobileDiaOpts()
-      new Dialog({css: 'shw-lst'})
-        .yesNo(options).then(showFacilities => {
+      this.mobileDia.yesNo(options).then(showFacilities => {
           if (showFacilities) {
             tabs.open('#facilities')
           }

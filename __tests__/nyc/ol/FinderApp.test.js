@@ -88,7 +88,7 @@ afterEach(() => {
 })
 
 test('constructor mouseWheelZoom is undefined', () => {
-  expect.assertions(63)
+  expect.assertions(64)
 
   const finderApp = new FinderApp({
     title: 'Finder App',
@@ -169,7 +169,8 @@ test('constructor mouseWheelZoom is undefined', () => {
   expect(finderApp.view.fit.mock.calls[0][1].size).toEqual([100, 100])
   expect(finderApp.view.fit.mock.calls[0][1].duration).toBe(500)
 
-  expect(Dialog).toHaveBeenCalledTimes(1)
+  expect(Dialog).toHaveBeenCalledTimes(2)
+  expect(Dialog.mock.calls[1][0]).toEqual({css: 'shw-lst'})
   expect(Dialog.mock.calls[0][0]).toEqual({css: 'splash'})
   expect(Dialog.mock.instances[0].ok.mock.calls[0][0].message).toBe('splash page message')
   expect(Dialog.mock.instances[0].ok.mock.calls[0][0].buttonText[0]).toBe('Continue')
@@ -184,7 +185,7 @@ test('constructor mouseWheelZoom is undefined', () => {
 })
 
 test('constructor mouseWheelZoom = false', () => {
-  expect.assertions(63)
+  expect.assertions(64)
 
   const finderApp = new FinderApp({
     title: 'Finder App',
@@ -267,7 +268,8 @@ test('constructor mouseWheelZoom = false', () => {
   expect(finderApp.view.fit.mock.calls[0][1].size).toEqual([100, 100])
   expect(finderApp.view.fit.mock.calls[0][1].duration).toBe(500)
 
-  expect(Dialog).toHaveBeenCalledTimes(1)
+  expect(Dialog).toHaveBeenCalledTimes(2)
+  expect(Dialog.mock.calls[1][0]).toEqual({css: 'shw-lst'})
   expect(Dialog.mock.calls[0][0]).toEqual({css: 'splash'})
   expect(Dialog.mock.instances[0].ok.mock.calls[0][0].message).toBe('splash page message')
   expect(Dialog.mock.instances[0].ok.mock.calls[0][0].buttonText[0]).toBe('Continue')
@@ -470,7 +472,7 @@ test('createFilters', () => {
 })
 
 test('showSplash', () => {
-  expect.assertions(7)
+  expect.assertions(8)
   
   const finderApp = new FinderApp({
     title: 'Finder App',
@@ -496,10 +498,11 @@ test('showSplash', () => {
 
   finderApp.showSplash({message: 'splash page message'})
   
-  expect(Dialog).toHaveBeenCalledTimes(1)
-  expect(Dialog.mock.calls[0][0]).toEqual({css: 'splash'})
-  expect(Dialog.mock.instances[0].ok.mock.calls[0][0].message).toBe('splash page message')
-  expect(Dialog.mock.instances[0].ok.mock.calls[0][0].buttonText[0]).toBe('Continue')
+  expect(Dialog).toHaveBeenCalledTimes(2)
+  expect(Dialog.mock.calls[0][0]).toEqual({css: 'shw-lst'})
+  expect(Dialog.mock.calls[1][0]).toEqual({css: 'splash'})
+  expect(Dialog.mock.instances[1].ok.mock.calls[0][0].message).toBe('splash page message')
+  expect(Dialog.mock.instances[1].ok.mock.calls[0][0].buttonText[0]).toBe('Continue')
 
   return test().then(success => {expect(success).toBe(true)})
 })
