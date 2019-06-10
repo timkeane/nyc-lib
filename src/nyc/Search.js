@@ -218,13 +218,15 @@ class Search extends Container {
    * @param {jQuery.Event} event Event object
    */
   disambiguated(event) {
-    const li = $(event.currentTarget)
-    const data = li.data('location')
-    this.val(data.name)
-    data.isFeature = li.hasClass('feature')
-    this.trigger('disambiguated', data)
-    li.parent().slideUp()
-    this.emptyList()
+    if (!event.originalEvent) {
+      const li = $(event.currentTarget)
+      const data = li.data('location')
+      this.val(data.name)
+      data.isFeature = li.hasClass('feature')
+      this.trigger('disambiguated', data)
+      li.parent().slideUp()
+      this.emptyList()
+    }
   }
   /**
    * @private

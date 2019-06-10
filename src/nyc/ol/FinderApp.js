@@ -252,15 +252,20 @@ class FinderApp extends MapMgr {
     const locationName = location.name
     const feature = this.source.sort(location.coordinate)[0]
     const distance = feature.distanceHtml(true).html()
-    return {
-      message: `<strong>${feature.getName()}</strong><br>
-        is located ${distance} from your location<br>
-        <strong>${locationName}</strong>`,
+    const options = {
       buttonText: [
         `View ${$('#tab-btn-1').html()} list`,
         'View the map'
       ]
     }
+    if (feature.getName() !== locationName) {
+      options.message = `<strong>${feature.getName()}</strong><br>
+        is located ${distance} from your location<br>
+        <strong>${locationName}</strong>`
+    } else {
+      options.message = `<strong>${locationName}</strong>`
+    }
+    return options
   }
   /**
    * @private
@@ -270,13 +275,15 @@ class FinderApp extends MapMgr {
   focusFacilities(applyBtn) {
     const tabs = this.tabs
     this.setFacilitiesLabel()
-    if (!applyBtn && this.isMobile() && $('.shw-lst').css('display') === 'none') {
-      const options = this.mobileDiaOpts()
-      this.mobileDia.yesNo(options).then(showFacilities => {
-        if (showFacilities) {
-          tabs.open('#facilities')
-        }
-      })
+    if (!applyBtn && this.isMobile()) {
+      if ($('.shw-lst').css('display') === 'none') {
+        const options = this.mobileDiaOpts()
+        this.mobileDia.yesNo(options).then(showFacilities => {
+          if (showFacilities) {
+            tabs.open('#facilities')
+          }
+        })
+      }
     } else {
       tabs.open('#facilities')
     }
