@@ -56,6 +56,9 @@ html, body.fnd, .fnd #map {
   left: calc(50% - 208px);
   margin: 0;
 }
+.fnd.rtl .splash .dia-msg * {
+  text-align: right;
+}
 .fnd .splash .dia-msg, .fnd .splash .dia-msg * {
   color: var(--color-light);
   text-align: left;
