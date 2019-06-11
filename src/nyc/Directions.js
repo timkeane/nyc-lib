@@ -471,14 +471,10 @@ Directions.HTML = '<div id="directions">' +
         '<div class="no-trans">The origin and destination locations are so close that walking appears to be the best option.</div>' +
       '<div class="route"></div>' +
     '</div>' +
-    '<div id="map-tab" aria-hidden="true">' +
+    '<div id="map-tab" aria-hidden="true" tabindex="-1">' +
       '<div class="map"></div>' +
-      '<button class="btn-z-in btn-sq rad-all" data-zoom-incr="1" title="Zoom in">' +
-        '<span class="screen-reader-only">Zoom in</span>' +
-      '</button>' +
-      '<button class="btn-z-out btn-sq rad-all" data-zoom-incr="-1" title="Zoom out">' +
-        '<span class="screen-reader-only">Zoom out</span>' +
-      '</button>' +
+      '<button class="btn-z-in btn-sq rad-all" data-zoom-incr="1" title="Zoom in"></button>' +
+      '<button class="btn-z-out btn-sq rad-all" data-zoom-incr="-1" title="Zoom out"></button>' +
     '</div>' +
   '</div>' +
 '</div>'
