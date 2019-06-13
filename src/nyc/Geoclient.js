@@ -2,8 +2,6 @@
  * @module nyc/Geoclient
  */
 
-import $ from 'jquery'
-
 import nyc from 'nyc'
 import Locator from 'nyc/Locator'
 import Geocoder from 'nyc/Geocoder'
