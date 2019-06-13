@@ -2,6 +2,7 @@
  * @module nyc/ol/source/AutoLoad
  */
 
+import $ from 'jquery'
 import OlSourceVector from 'ol/source/Vector'
 import CsvAddr from 'nyc/ol/format/CsvAddr'
 
