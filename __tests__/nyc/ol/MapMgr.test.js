@@ -968,9 +968,9 @@ describe('createStyle', () => {
     expect(mapMgr.createStyle(options) instanceof Style).toBe(true)
     expect(Style.mock.calls[1][0]).toBeUndefined()
     expect(mapMgr.loadMarkerImage).toHaveBeenCalledTimes(2)
-    expect(mapMgr.loadMarkerImage.mock.calls[1][0]).toBe(Style.mock.instances[1])
+    expect(mapMgr.loadMarkerImage.mock.calls[1][0]).toBe(options.facilityStyle)
     expect(mapMgr.loadMarkerImage.mock.calls[1][1]).toBe(32)
-    expect(mapMgr.loadMarkerImage.mock.calls[1][2] instanceof Style).toBe(true)
+    expect(mapMgr.loadMarkerImage.mock.calls[1][2]).toBe(Style.mock.instances[1])
     expect(Style).toHaveBeenCalledTimes(2)
 
   })
