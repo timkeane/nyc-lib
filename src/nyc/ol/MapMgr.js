@@ -289,22 +289,50 @@ class MapMgr {
     })
     $('body').append(image.attr('src', url))
   }
+  isOlStyle(style) {
+    return style && (
+      style instanceof Style ||
+      (style instanceof Array && style[0] instanceof Style) ||
+      typeof style === 'function'
+    )
+  }
+  isBuckets(style) {
+    return style && !this.isOlStyle(style) && style.styles instanceof Object
+  }  
   /**
    * @private
    * @method
    * @param {module:nyc/ol/MapMgr~MapMgr.Options} options Constructor options
-   * @returns {ol.style.Style} The style
+   * @returns {ol.style.StyleLike} The style
    */
   createStyle(options) {
-    if (options.facilityStyle) {
-      return options.facilityStyle
-    } else if (options.facilityMarkerUrl) {
+    const me = this
+    const facilityStyle = options.facilityStyle
+    if (me.isOlStyle(facilityStyle)) {
+      return facilityStyle
+    } else if (me.isBuckets(facilityStyle)) {
+      return (feature, resolution) => {
+        const type = feature.get(facilityStyle.typeCol || 'TYPE')
+        return me.createFacilityStyle(facilityStyle.styles[type])
+      }
+    } else {
+      return me.createFacilityStyle(facilityStyle)
+    }
+  }
+  /**
+   * @private
+   * @method
+   * @param {module:nyc/ol/MapMgr~MapMgr.Style} style Constructor options
+   * @returns {ol.style.Style} The style
+   */
+  createFacilityStyle(style) {
+    if (typeof style === 'string') {
       const style = new Style()
-      this.loadMarkerImage(options.facilityMarkerUrl, 32, style)
+      this.loadMarkerImage(style, 32, style)
       return style
     }
-    const color = options.facilityMarkerColor || [0, 0, 255]
-    const rgb = color.join(',')
+    const color = style || [0, 0, 255]
+    const rgb = color.join(',')  
     return new Style({
       image: new Circle({
         radius: 6,
@@ -741,10 +769,7 @@ MapMgr.FEATURE_DECORATIONS = {
  * @property {jQuery|Element|string|boolean=} searchTarget The target element for search input
  * @property {jQuery|Element|string=} listTarget The target element for facility list
  * @property {string} [facilityType=Facilities] Title for the facilites list
- * @property {string=} locationMarkerUrl A URL to an image for use as the search location symbol
- * @property {string=} facilityMarkerUrl A URL to an image for use as a falcility symbol
- * @property {Array<number>=} facilityMarkerColor An RGB color for use as a falcility symbol
- * @property {ol.style.Style=} facilityStyle The styling for the facilities layer
+ * @property {module:nyc/ol/MapMgr~MapMgr.Style|module:nyc/ol/MapMgr~MapMgr.StyleByType|ol.style.Style=} facilityStyle The styling for the facilities layer
  * @property {ol.style.Style=} highlightStyle The styling for highlighting facilities layer
  * @property {module:nyc/Search~Search.FeatureSearchOptions|boolean} [facilitySearch=true] Search options for feature searches or true to use default search options
  * @property {boolean} [mouseWheelZoom=false] Allow mouse wheel map zooming
@@ -752,5 +777,21 @@ MapMgr.FEATURE_DECORATIONS = {
  * @property {boolean} [metric=false] Use metric distance units
  */
 MapMgr.Options
+
+/**
+ * @desc Constructor options for {@link module:nyc/ol/MapMgr~MapMgr}
+ * @public
+ * @typedef {string|Array<number>} A URL to an image for use as the search location symbol or an RGB color for use as a falcility symbol
+ */
+MapMgr.Style
+
+/**
+ * @desc Constructor options for {@link module:nyc/ol/MapMgr~MapMgr}
+ * @public
+ * @typedef {Object}
+ * @property {string} [typeCol=TYPE] A URL to an image for use as the search location symbol
+ * @property {Object<string, module:nyc/ol/MapMgr~MapMgr.Style} styles An RGB color for use as a falcility symbol
+ */
+MapMgr.StyleByType
 
 export default MapMgr
