@@ -53,7 +53,8 @@ class AutoLoad extends OlSourceVector {
       const features = format.readFeatures(responseText)
       this.addFeatures(features)
       if (csvAddr) {
-        csvAddr.on('geocode-complete', () => {
+        csvAddr.one('geocode-complete', () => {
+          console.warn('geocode-complete');
           this.set('autoload-complete', this)
           resolve(features)
         })

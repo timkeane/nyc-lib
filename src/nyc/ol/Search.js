@@ -45,14 +45,17 @@ class Search extends NycSearch {
    */
   featureAsLocation(feature, options) {
     const geom = feature.getGeometry()
-    return {
+    const location = {
       name: options.nameField ? feature.get(options.nameField) : feature.getName(),
-      coordinate: olExtentGetCenter(geom.getExtent()),
-      geometry: JSON.parse(this.geoJson.writeGeometry(geom)),
       data: feature.getProperties(),
       type: 'geocoded',
       accuracy: NycLocator.Accuracy.HIGH
     }
+    if (geom) {
+      location.coordinate = olExtentGetCenter(geom.getExtent())
+      location.geometry = JSON.parse(this.geoJson.writeGeometry(geom))
+    }
+    return location
   }
 }
 
