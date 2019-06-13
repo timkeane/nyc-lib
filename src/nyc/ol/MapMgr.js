@@ -790,7 +790,7 @@ MapMgr.Style
  * @public
  * @typedef {Object}
  * @property {string} typeCol The CSV column containig the type values
- * @property {Object<string, module:nyc/ol/MapMgr~MapMgr.Style} styles An RGB color for use as a falcility symbol
+ * @property {Object<string, module:nyc/ol/MapMgr~MapMgr.Style>} styles An RGB color for use as a falcility symbol
  */
 MapMgr.StyleByType
 
