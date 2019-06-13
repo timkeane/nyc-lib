@@ -43,7 +43,7 @@ class Directions extends Contanier {
         {tab: '#route-tab', title: 'Directions'}
       ]
     })
-    this.tabs.find('.btn-0').attr('aria-hidden', true)
+    this.tabs.find('.btn-0').parent().attr('aria-hidden', true)
     this.tabs.on('change', this.tabChange, this)
     /**
      * @public
