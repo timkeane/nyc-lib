@@ -43,7 +43,6 @@ class FrameworkMap extends MapMgr {
    * @returns {ol.format.Feature} The parent format
    */
   createParentFormat(options) {
-    console.warn(options.facilityLocationTemplate);
     if (options.facilityLocationTemplate) {
       return new CsvAddr({
         geocoder: new Geoclient({url: options.geoclientUrl}),

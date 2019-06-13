@@ -7,10 +7,6 @@
  *
  * &bull; CSV data must include <b><i>NAME</i></b> and <b><i>ADDR1</i></b>
  *
- * &bull; CSV data must include <b><i>X</i></b> and <b><i>Y</i></b> or <b><i>LNG</i></b> and <b><i>LAT</i></b>
- * &nbsp;&nbsp;&nbsp;&nbsp;&bull; If <b><i>X</i></b> and <b><i>Y</i></b> are included the projection of the data is assumed to be 'EPSG:2263'
- * &nbsp;&nbsp;&nbsp;&nbsp;&bull; If <b><i>LAT</i></b> and <b><i>LNG</i></b> are includednd <b><i>X</i></b> and <b><i>Y</i></b> are not the projection of the data is assumed to be 'EPSG:4326'
- *
  * &bull; CSV data must include <b><i>CITY</i></b> or <b><i>BORO</i></b>
  *
  * &bull; 'NY' is assumed when <b><i>STATE</i></b> is not included
