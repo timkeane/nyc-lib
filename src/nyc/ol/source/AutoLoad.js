@@ -39,6 +39,11 @@ class AutoLoad extends OlSourceVector {
   autoLoad() {
     return new Promise($.proxy(this.resolve, this))
   }
+  /**
+   * @private
+   * @method
+   * @param {function} resolve Resolve function
+   */
   resolve(resolve) {
     fetch(this.autoLoadOptions.url).then((response) => {
       return response.text()
