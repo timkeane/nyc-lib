@@ -35,7 +35,7 @@
       locationTemplate: '${ADDR1}, ${BORO}, ${ZIP}'
     });
     var source = new nyc.ol.source.AutoLoad({
-      url: '../data/data.csv',
+      url: '../data/addr.csv',
       format: csv
     });
     source.autoLoad().then(function() {

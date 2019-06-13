@@ -3,9 +3,11 @@
  */
 
 import $ from 'jquery'
+import Geoclient from 'nyc/Geoclient'
 import MapMgr from 'nyc/ol/MapMgr'
 import StandardCsv from 'nyc/ol/format/StandardCsv'
 import CsvPoint from 'nyc/ol/format/CsvPoint'
+import CsvAddr from 'nyc/ol/format/CsvAddr'
 
 /**
  * @desc Class that provides {@link module:nyc/ol/Basemap~Basemap}, {@link module:nyc/ol/LocationMgr~LocationMgr} and displays facility data from CSV
@@ -41,6 +43,13 @@ class FrameworkMap extends MapMgr {
    * @returns {ol.format.Feature} The parent format
    */
   createParentFormat(options) {
+    console.warn(options.facilityLocationTemplate);
+    if (options.facilityLocationTemplate) {
+      return new CsvAddr({
+        geocoder: new Geoclient({url: options.geoclientUrl}),
+        locationTemplate: options.facilityLocationTemplate
+      })
+    }
     return new CsvPoint({
       url: options.facilityUrl,
       autoDetect: true

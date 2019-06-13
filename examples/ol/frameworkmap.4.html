@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>nyc.ol.FrameworkMap Example</title>
+  <title>nyc.ol.FrameworkMap, nyc.ol.format.CsvAddr Example</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
   <link href="../../css/nyc-basic-lib.css" rel="stylesheet">
   <link href="https://cityofnewyork.github.io/nyc-core-framework/css/theme.css" rel="stylesheet">
@@ -31,12 +31,10 @@
   <script>
       var map = new nyc.ol.FrameworkMap({
           mapTarget: '#map',
-          startAt: '59 maiden',
           listTarget: '#list',
-          facilityUrl: '../data/data.csv',
-          facilityMarkerUrl: '../img/wifi.png',
-          locationMarkerUrl: '../img/map-marker.png',
-          geoclientUrl: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
+          facilityUrl: '../data/addr.csv',
+          geoclientUrl: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example',
+          facilityLocationTemplate: '${ADDR1}, ${BORO}, ${ZIP}'
       });
   </script>
 </body>
