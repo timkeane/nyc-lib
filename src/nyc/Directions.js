@@ -180,7 +180,7 @@ class Directions extends Contanier {
       this.monitoring = true
       if ('MutationObserver' in window) {
         new MutationObserver(fn)
-          .observe(this.find('.route').get(0), {childList: true})
+          .observe(this.getContainer().get(0), {childList: true})
       } else {
         setInterval(fn, 500)
       }

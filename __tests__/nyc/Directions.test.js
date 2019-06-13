@@ -520,7 +520,7 @@ describe('monitor', () => {
     expect(MockMutationObserver.constructorCalls[0]).toBe($.mocks.proxy.returnedValues[0])
 
     expect(MockMutationObserver.observeCalls.length).toBe(1)
-    expect(MockMutationObserver.observeCalls[0][0]).toBe(dir.find('.route').get(0))
+    expect(MockMutationObserver.observeCalls[0][0]).toBe(dir.getContainer().get(0))
     expect(MockMutationObserver.observeCalls[0][1]).toEqual({childList: true})
   
     expect(window.setInterval).toHaveBeenCalledTimes(0)
