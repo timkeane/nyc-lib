@@ -48,23 +48,42 @@ class Geoclient extends Geocoder {
    * @override
    * @method
    * @param {string} input The value to geocode
+   * @returns {Promise<module:nyc/Locator~Locator.Result|module:nyc/Locator~Locator.Ambiguous>} The result of the search request
    */
   search(input) {
-    input = input.trim()
-    if (input.length === 5 && !isNaN(input)) {
-      const p = this.project(Geoclient.ZIP_CODE_POINTS[input])
-      this.trigger(
-        p ? 'geocoded' : 'ambiguous',
-        p ? {coordinate: p, accuracy: Locator.Accuracy.ZIP_CODE, type: 'geocoded', zip: true, name: input} : {input: input, possible: []}
-      )
-    } else if (input.length) {
-      input = input.replace(/"/g, '').replace(/'/g, '').replace(/&/g, ' and ')
-      $.ajax({
-        url: `${this.url}${input}`,
-        dataType: 'jsonp',
-        success: $.proxy(this.geoclient, this),
-        error: $.proxy(this.error, this)
-      })
+    return new Promise((resolve, reject) => {
+      input = input.trim()
+      if (input.length === 5 && !isNaN(input)) {
+        this.resolveZip(input, resolve)
+      } else if (input.length) {
+        input = input.replace(/"/g, '').replace(/'/g, '').replace(/&/g, ' and ')
+        fetch(`${this.url}${input}`).then(response => {
+          return response.json()
+        }).then(json => {
+          this.geoclient(json, resolve)
+        }).catch(error => {
+          this.error(error)
+        })
+      }
+    })
+  }
+  resolveZip(input, resolve) {
+    const p = this.project(Geoclient.ZIP_CODE_POINTS[input])
+    let result
+    if (p) {
+      result = {
+        coordinate: p,
+        accuracy: Locator.Accuracy.ZIP_CODE,
+        type: 'geocoded',
+        zip: true,
+        name: input
+      }
+      resolve(result)
+      this.trigger('geocoded', result)
+    } else {
+      result = {input: input, type: 'ambiguous', possible: []}
+      resolve(result)
+      this.trigger('ambiguous', result)
     }
   }
   /**
@@ -83,36 +102,39 @@ class Geoclient extends Geocoder {
    * @private
    * @method
    * @param {Object} response Response object
+   * @param {function} resolve Resolve
    */
-  geoclient(response) {
+  geoclient(response, resolve) {
     const results = response.results
+    const nothing = {
+      type: 'ambiguous',
+      input: response.input,
+      possible: []
+    }
     if (response.status === 'OK') {
       if (results.length === 1) {
         const result = results[0]
         const location = this.parse(result)
         if (location) {
           location.type = 'geocoded'
+          resolve(location)
           this.trigger('geocoded', location)
         } else {
-          this.trigger('ambiguous', {
-            type: 'ambiguous',
-            input: response.input,
-            possible: []
-          })
+          resolve(nothing)
+          this.trigger('ambiguous', nothing)
         }
       } else {
-        this.trigger('ambiguous', {
+        const ambiguous = {
           type: 'ambiguous',
           input: response.input,
           possible: this.possible(results)
-        })
+        }
+        resolve(ambiguous)
+        this.trigger('ambiguous', ambiguous)
       }
     } else {
-      this.trigger('ambiguous', {
-        type: 'ambiguous',
-        input: response.input,
-        possible: []
-      })
+      resolve(nothing)
+      this.trigger('ambiguous', nothing)
     }
   }
   /**
@@ -171,13 +193,13 @@ class Geoclient extends Geocoder {
   /**
    * @private
    * @method
+   * @param {function} reject Resolve
    */
-  error() {
+  error(reject) {
+    const error = {type: 'error', error: arguments}
     console.error('Geoclient error', arguments)
-    this.trigger('error', {
-      type: 'error',
-      error: arguments
-    })
+    reject(error)
+    this.trigger('error', error)
   }
 }
 

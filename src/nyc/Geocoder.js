@@ -26,6 +26,7 @@ class Geocoder extends EventHandling {
    * @abstract
    * @method
    * @param {string} input Input
+   * @returns {Promise<Object>} The result of the search request
    */
   search(input) {
     throw 'Not implemented'

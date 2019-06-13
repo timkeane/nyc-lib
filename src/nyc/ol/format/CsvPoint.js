@@ -82,20 +82,32 @@ class CsvPoint extends OlFormatFeature {
       id = this.lastId
       this.lastId += 1
     }
+    const feature = new OlFeature(source)
+    feature.setId(id)
+    this.setGeometry(feature, source, options)
+    return feature
+
+  }
+  /**
+   * @desc Set the feature geometry
+   * @public
+   * @method
+   * @param {ol.Feature} feature The feature
+   * @param {Object<string, string>} source A row from a CSV data source
+   * @param {olx.format.ReadOptions=} options Read options
+   */
+  setGeometry(feature, source, options) {
     const x = source[this.x] = parseFloat(source[this.x])
     const y = source[this.y] = parseFloat(source[this.y])
     if (isNaN(x) || isNaN(y)) {
-      throw `Invalid coordinate [${x}, ${y}] for id ${id}`
+      throw `Invalid coordinate [${x}, ${y}] for id ${feature.getId()}`
     }
     const point = new OlGeomPoint([x, y])
-    const feature = new OlFeature(source)
     point.transform(
       options && options.dataProjection ? options.dataProjection : this.dataProjection,
       options && options.featureProjection ? options.featureProjection : this.featureProjection
     )
     feature.setGeometry(point)
-    feature.setId(id)
-    return feature
   }
   /**
    * @desc Read all features from a source

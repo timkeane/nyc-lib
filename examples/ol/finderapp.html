@@ -40,11 +40,11 @@
 <body class="loading">
 	<script>
     new nyc.ol.FinderApp({
-      title: 'Pre-K Finder',
+      title: 'Example Finder',
       splashOptions: {message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lobortis, massa id consequat lacinia, massa enim semper nunc, sit amet dapibus ex mi posuere tellus. Aenean vulputate iaculis lorem elementum finibus. Fusce mauris libero, lacinia sed ultricies nec, imperdiet vel diam.'},
       geoclientUrl: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example',
-      facilityTabTitle: 'Schools',
-      facilityUrl: '../data/pka.csv',
+      facilityTabTitle: 'Example Schools',
+      facilityUrl: '../data/example-pka.csv',
       facilityFormat: new nyc.ol.format.CsvPoint({
         x: 'X',
         y: 'Y',
@@ -60,7 +60,7 @@
       },
       filterChoiceOptions: [
         {
-          title: 'School Type',
+          title: 'Example School Type',
           radio: true,
           choices: [
             {name: 'TYPE', values: ['DOE', 'NYCEEC', 'CHARTER', 'PKC'], label: 'All Schools', checked: true},
@@ -71,7 +71,7 @@
           ]
         },
         {
-          title: 'Day Length',
+          title: 'Example Day Length',
           choices: [
             {name: 'DAY_LENGTH', values: ['1', '2', '5', '7'], label: 'Full Day', checked: true},
       			{name: 'DAY_LENGTH', values: ['3', '6', '7'], label: 'Half Day', checked: true},
@@ -115,7 +115,7 @@
           return $('<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lobortis, massa id consequat lacinia, massa enim semper nunc, sit amet dapibus ex mi posuere tellus. Aenean vulputate iaculis lorem elementum finibus. Fusce mauris libero, lacinia sed ultricies nec, imperdiet vel diam.</div>');
         },
       }],
-      directionsUrl: 'https://maps.googleapis.com/maps/api/js?client=gme-newyorkcitydepartment&channel=pka&sensor=false&libraries=visualization'
+      directionsUrl: 'https://maps.googleapis.com/maps/api/js?sensor=false&libraries=visualization'
     });
 	</script>
 </body>

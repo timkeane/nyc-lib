@@ -39,6 +39,7 @@ window.nyc.ol.FrameworkMap = _nyc_ol_FrameworkMap
 window.nyc.ol.FinderApp = _nyc_ol_FinderApp
 
 import _nyc_ol_format_StandardCsv from 'nyc/ol/format/StandardCsv'
+import _nyc_ol_format_CsvAddr from 'nyc/ol/format/CsvAddr'
 import _nyc_ol_format_CsvPoint from 'nyc/ol/format/CsvPoint'
 import _nyc_ol_format_CartoSql from 'nyc/ol/format/CartoSql'
 import _nyc_ol_format_Decorate from 'nyc/ol/format/Decorate'
@@ -47,6 +48,7 @@ import _nyc_ol_format_Waze from 'nyc/ol/format/Waze'
 
 window.nyc.ol.format = {}
 window.nyc.ol.format.StandardCsv = _nyc_ol_format_StandardCsv
+window.nyc.ol.format.CsvAddr = _nyc_ol_format_CsvAddr
 window.nyc.ol.format.CsvPoint = _nyc_ol_format_CsvPoint
 window.nyc.ol.format.CartoSql = _nyc_ol_format_CartoSql
 window.nyc.ol.format.Decorate = _nyc_ol_format_Decorate

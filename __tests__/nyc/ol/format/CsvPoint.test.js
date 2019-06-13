@@ -57,7 +57,7 @@ test('readFeatures has id and projections', () => {
 })
 
 test('readFeatures from ArrayBuffer no id or default projections', () => {
-  expect.assertions(16)
+  expect.assertions(10)
 
   const csvpoint = new CsvPoint({
     x: 'x',
@@ -71,16 +71,10 @@ test('readFeatures from ArrayBuffer no id or default projections', () => {
   expect(features[1].getGeometry().getCoordinates()).toEqual(new OlGeomPoint([1, 2]).transform('EPSG:4326', 'EPSG:3857').getCoordinates())
   expect(features[2].getGeometry().getCoordinates()).toEqual(new OlGeomPoint([2, 3]).transform('EPSG:4326', 'EPSG:3857').getCoordinates())
 
-  expect(features[0].getProperties().x).toBe(0)
-  expect(features[0].getProperties().y).toBe(0)
   expect(features[0].getProperties().name).toBe('foo')
 
-  expect(features[1].getProperties().x).toBe(1)
-  expect(features[1].getProperties().y).toBe(2)
   expect(features[1].getProperties().name).toBe('bar')
 
-  expect(features[2].getProperties().x).toBe(2)
-  expect(features[2].getProperties().y).toBe(3)
   expect(features[2].getProperties().name).toBe('wtf')
 
   expect(features[0].getId()).toBe(0)

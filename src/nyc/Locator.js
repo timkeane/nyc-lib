@@ -164,6 +164,7 @@ Locator.Result
  * @public
  * @typedef {Object}
  * @property {string} input The input string on which the geocoding attempt was made
+ * @property {string} type The event type
  * @property {Array<module:nyc/Locator~Locator.Result>} possible An array of possible results to the request
  */
 Locator.Ambiguous
