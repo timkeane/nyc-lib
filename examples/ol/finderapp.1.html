@@ -12,8 +12,46 @@
   <script src="../../js/nyc-ol-lib.js"></script>
   <link href="../../css/nyc-ol-fullscreen-lib.css" rel="stylesheet">
 	<style>
-    
-	</style>
+    .facility .name:before, .filter-chc-0 label:before {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border-width: 2px;
+      border-style: solid;
+      margin: 0 3px -2px 0;
+    }
+    .facility.elementary .name:before, label[for="chc-chc-0"]:before {
+      background-color: rgba(0, 255, 0, 0.5);
+      border-color: rgb(0, 255, 0);
+    }
+    .facility.k-8 .name:before, label[for="chc-chc-1"]:before {
+      background-color: rgba(255, 0, 0, 0.5);
+      border-color: rgb(255, 0, 0);
+    }
+    .facility.k-12-all-grades .name:before, label[for="chc-chc-2"]:before {
+      background-color: rgba(255, 165, 0, 0.5);
+      border-color: rgb(255, 165, 0);
+    }
+    .facility.middle-school .name:before, label[for="chc-chc-3"]:before {
+      background-color: rgba(128, 0, 128, 0.5);
+      border-color: rgb(128, 0, 128);
+    }
+    .facility.high-school .name:before, label[for="chc-chc-4"]:before {
+      background-color: rgba(0, 0, 255, 0.5);
+      border-color: rgb(0, 0, 255);
+    }
+    .facility.secondary-school .name:before, label[for="chc-chc-5"]:before {
+      background-color: rgba(0, 0, 0, 0.5);
+      border-color: rgb(0, 0, 0);
+    }
+    .fnd .facility a.btn.email {
+      display: block;
+      margin-bottom: 4px;
+      width: auto;
+    }	
+  </style>
 </head>
 <body class="loading">
 	<script>
@@ -53,7 +91,12 @@
         }
       ],
       facilitySearch: {nameField: 'NAME'},
-      decorations: [nyc.ol.FrameworkMap.FEATURE_DECORATIONS],
+      decorations: [
+        nyc.ol.FrameworkMap.FEATURE_DECORATIONS,
+        {cssClass: function() {
+          return this.get('TYPE').toLowerCase().replace(/ /, '-')
+        }}
+      ],
       directionsUrl: 'https://maps.googleapis.com/maps/api/js?sensor=false&libraries=visualization'
     });
 	</script>
