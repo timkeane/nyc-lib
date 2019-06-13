@@ -90,7 +90,6 @@ class CsvAddr extends CsvPoint {
         console.error('Geocoding error:', input, source, 'Geocoder response:', error)
       }).finally(() => {
         this.geocodedCount = this.geocodedCount + 1
-        console.warn(this.featureCount,'|',this.geocodedCount)
         if (this.geocodedCount === this.featureCount) {
           this.trigger('geocode-complete', this)
         }
