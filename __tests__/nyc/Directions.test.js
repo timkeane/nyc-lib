@@ -30,7 +30,7 @@ describe('constructor', () => {
   const key = Directions.prototype.key
   
   test('constructor no args', () => {
-    expect.assertions(28)
+    expect.assertions(29)
 
     const dir = new Directions()
 
@@ -72,6 +72,9 @@ describe('constructor', () => {
     dir.find('#fld-from input').focus()
     expect($.mocks.select).toHaveBeenCalledTimes(1)
     expect($.mocks.select.mock.instances[0].get(0)).toBe(dir.find('#fld-from input').get(0))
+  
+    expect(directions.tabs.find('.btn-0').parent().attr('aria-hidden')).toBe('true')
+
   })
 
   test('constructor with args', () => {
