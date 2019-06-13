@@ -2,7 +2,7 @@
  * @module nyc/ol/format/CsvAddr
  */
 
-import nyc from 'nyc'
+import $ from 'jquery'
 import CsvPoint from 'nyc/ol/format/CsvPoint'
 import OlGeomPoint from 'ol/geom/Point'
 import EventHandling from 'nyc/EventHandling'
