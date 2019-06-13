@@ -332,7 +332,7 @@ class MapMgr {
       return olStyle
     }
     const color = style || [0, 0, 255]
-    const rgb = color.join(',')  
+    const rgb = color.join(',')
     return new Style({
       image: new Circle({
         radius: 6,
