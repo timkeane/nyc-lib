@@ -3,6 +3,7 @@
  */
 
 import OlSourceVector from 'ol/source/Vector'
+import CsvAddr from 'nyc/ol/format/CsvAddr'
 
 require('isomorphic-fetch')
 
@@ -35,16 +36,34 @@ class AutoLoad extends OlSourceVector {
    * @return {Promise.<Array<ol.Feature>>} A promise that resolves to a list of features
    */
   autoLoad() {
-    const options = this.autoLoadOptions
-    return fetch(options.url).then((response) => {
+    return new Promise($.proxy(this.resolve, this))
+  }
+  resolve(resolve) {
+    fetch(this.autoLoadOptions.url).then((response) => {
       return response.text()
     }).then((responseText) => {
       const format = this.getFormat(responseText)
+      const csvAddr = this.getCsvAddrFormat(format)
       const features = format.readFeatures(responseText)
       this.addFeatures(features)
-      this.set('autoload-complete', true)
-      return features;
+      if (csvAddr) {
+        csvAddr.on('geocode-complete', () => {
+          this.set('autoload-complete', this)
+          resolve(features)
+        })
+      } else {
+        this.set('autoload-complete', this)
+        resolve(features)
+      }
     })
+  }
+  getCsvAddrFormat(format) {
+    if (format instanceof CsvAddr) {
+      return format
+    }
+    if (format.parentFormat instanceof CsvAddr) {
+      return format.parentFormat
+    }
   }
 }
 

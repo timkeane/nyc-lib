@@ -2,8 +2,10 @@
  * @module nyc/ol/format/CsvAddr
  */
 
+import nyc from 'nyc'
 import CsvPoint from 'nyc/ol/format/CsvPoint'
 import OlGeomPoint from 'ol/geom/Point'
+import EventHandling from 'nyc/EventHandling'
 import ReplaceTokens from 'nyc/ReplaceTokens'
 
 /**
@@ -33,14 +35,36 @@ class CsvAddr extends CsvPoint {
      */
     this.locationTemplate = options.locationTemplate
     /**
-     * @desc Replace tokens in a string with values from a provided object
-     * @public
-     * @method
-     * @param {string} str String with tokens to be replaced
-     * @param {Object<string, string>} values Values token for replacement
-     * @return {string} String with replacement value substitution
+     * @private
+     * @member {number}
      */
+    this.featureCount = undefined
+    /**
+     * @private
+     * @member {number}
+     */
+    this.geocodedCount = 0
     this.replace = new ReplaceTokens().replace
+
+    const eventHandling = new EventHandling()
+    this.on = $.proxy(eventHandling.on, eventHandling)
+    this.one = $.proxy(eventHandling.one, eventHandling)
+    this.off = $.proxy(eventHandling.off, eventHandling)
+    this.trigger = $.proxy(eventHandling.trigger, eventHandling)
+  }
+  /**
+   * @desc Read all features from a source
+   * @public
+   * @override
+   * @method
+   * @param {Object} source Rows from a CSV data source
+   * @param {olx.format.ReadOptions=} options Read options
+   * @return {Array.<ol.Feature>} Features
+   */
+  readFeatures(source, options) {
+    const features = super.readFeatures(source, options)
+    this.featureCount = (this.featureCount || 0) + features.length
+    return features
   }
   /**
    * @desc Set the feature geometry
@@ -64,6 +88,11 @@ class CsvAddr extends CsvPoint {
         }
       }).catch(error => {
         console.error('Geocoding error:', input, source, 'Geocoder response:', error)
+      }).finally(() => {
+        this.geocodedCount = this.geocodedCount + 1
+        if (this.geocodedCount === this.featureCount) {
+          this.trigger('geocode-complete', this)
+        }
       })
     }
   }
