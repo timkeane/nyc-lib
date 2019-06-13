@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>nyc.ol.FinderApp with nyc.Directions Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
+  <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.4.0/papaparse.min.js"></script>
+  <script src="../../js/babel-polyfill.js"></script>
+  <script src="../../js/nyc-ol-lib.js"></script>
+  <link href="../../css/nyc-ol-fullscreen-lib.css" rel="stylesheet">
+	<style>
+    
+	</style>
+</head>
+<body class="loading">
+	<script>
+    var GEOCLIENT_URL = 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example';
+
+    new nyc.ol.FinderApp({
+      title: 'Example Finder',
+      splashOptions: {message: '<h2>Sample text</h2><p>Use HTML if you want.</p>'},
+      geoclientUrl: GEOCLIENT_URL,
+      facilityTabTitle: 'Example Schools',
+      facilityUrl: 'https://docs.google.com/spreadsheets/d/1SQOzi8kY00b51WowbjSoSBam-dDHgNq6Kd9YZoADLp8/gviz/tq?tqx=out:csv&sheet=Sheet1',
+      facilityFormat: new nyc.ol.format.CsvAddr({
+        geocoder: new nyc.Geoclient({url: GEOCLIENT_URL}),
+        locationTemplate: '${ADDR1}, ${CITY}, ${STATE} ${ZIP}'
+      }),
+      facilityStyle: {
+        styles: {
+          'Elementary': [0, 255, 0],
+          'K-8': [255, 0, 0],
+          'K-12 all grades': [255, 165, 0],
+          'Middle School': [128, 0, 128],
+          'High school': [0, 0, 255],
+          'Secondary School': [0, 0, 0]
+        }
+      },
+      filterChoiceOptions: [
+        {
+          title: 'Grades',
+          choices: [
+            {name: 'TYPE', values: ['Elementary'], label: 'Elementary', checked: true},
+            {name: 'TYPE', values: ['K-8'], label: 'K-8', checked: true},
+            {name: 'TYPE', values: ['K-12 all grades'], label: 'K-12 all grades', checked: true},
+            {name: 'TYPE', values: ['Middle School'], label: 'Middle School', checked: true},
+            {name: 'TYPE', values: ['High school'], label: 'High school', checked: true},
+            {name: 'TYPE', values: ['Secondary School'], label: 'Secondary School', checked: true},
+          ]
+        }
+      ],
+      facilitySearch: {nameField: 'NAME'},
+      decorations: [nyc.ol.FrameworkMap.FEATURE_DECORATIONS],
+      directionsUrl: 'https://maps.googleapis.com/maps/api/js?sensor=false&libraries=visualization'
+    });
+	</script>
+</body>
+</html>
