@@ -13,7 +13,7 @@
         "comma-dangle": "error",
         "import/no-extraneous-dependencies": 1,
         "no-console": ["error", {
-            "allow" : ["warn", "error"]
+            "allow" : ["info", "warn", "error"]
         }],
         "no-plusplus" : ["error", {
             "allowForLoopAfterthoughts": true
