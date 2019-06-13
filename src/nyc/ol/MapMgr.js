@@ -298,7 +298,7 @@ class MapMgr {
   }
   isBuckets(style) {
     return style && !this.isOlStyle(style) && style.styles instanceof Object
-  }  
+  }
   /**
    * @private
    * @method
@@ -327,9 +327,9 @@ class MapMgr {
    */
   createFacilityStyle(style) {
     if (typeof style === 'string') {
-      const style = new Style()
-      this.loadMarkerImage(style, 32, style)
-      return style
+      const olStyle = new Style()
+      this.loadMarkerImage(style, 32, olStyle)
+      return olStyle
     }
     const color = style || [0, 0, 255]
     const rgb = color.join(',')  
