@@ -322,7 +322,7 @@ class MapMgr {
   /**
    * @private
    * @method
-   * @param {module:nyc/ol/MapMgr~MapMgr.Style} style Constructor options
+   * @param {module:nyc/ol/MapMgr~MapMgr.Style} style The style to create
    * @returns {ol.style.Style} The style
    */
   createFacilityStyle(style) {
@@ -781,7 +781,7 @@ MapMgr.Options
 /**
  * @desc Constructor options for {@link module:nyc/ol/MapMgr~MapMgr}
  * @public
- * @typedef {string|Array<number>} A URL to an image for use as the search location symbol or an RGB color for use as a falcility symbol
+ * @typedef {string|Array<number>} A URL to an image for use as a point marker or an RGB color for use in a point marker
  */
 MapMgr.Style
 
@@ -790,7 +790,7 @@ MapMgr.Style
  * @public
  * @typedef {Object}
  * @property {string} [typeCol=TYPE] The CSV column containig the type values
- * @property {Object<string, module:nyc/ol/MapMgr~MapMgr.Style>} styles An RGB color for use as a falcility symbol
+ * @property {Object<string, module:nyc/ol/MapMgr~MapMgr.Style>} styles Styles to apply by type
  */
 MapMgr.StyleByType
 
