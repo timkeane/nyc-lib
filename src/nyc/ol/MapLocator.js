@@ -79,16 +79,18 @@ class MapLocator extends NycMapLocator {
     const view = this.view
     const source = this.source
     const feature = this.feature(data)
-    const geom = feature.getGeometry()
-    source.clear()
-    source.addFeature(feature)
-    if (callback) {
-      map.once('moveend', callback)
-    }
-    if (geom.getType() === 'Point') {
-      view.animate({center: data.coordinate, zoom: this.zoom})
-    } else {
-      view.fit(geom.getExtent(), {size: map.getSize(), duration: 500})
+    if (feature) {
+      const geom = feature.getGeometry()
+      source.clear()
+      source.addFeature(feature)
+      if (callback) {
+        map.once('moveend', callback)
+      }
+      if (geom.getType() === 'Point') {
+        view.animate({center: data.coordinate, zoom: this.zoom})
+      } else {
+        view.fit(geom.getExtent(), {size: map.getSize(), duration: 500})
+      }
     }
   }
   /**
@@ -110,23 +112,30 @@ class MapLocator extends NycMapLocator {
    * @returns {string} The map projection
    */
   getProjection() {
-    return this.view.getProjection().getCode()
+    return this.view.getProjection()
   }
   /**
    * @private
    * @method
-   * @param {module:nyc/Locator~Locator.Result} location Location
-   * @return {ol.Feature} The OpenLayers feature
+   * @param {module:n
+   * lt} location Location
+   * @return {ol.Feat
+   * ture
    */
   feature(location) {
     const geoJson = location.geometry
-    const feature = new OlFeature({name: location.name, isFeature: location.isFeature})
-    if (geoJson) {
-      feature.setGeometry(this.format.readGeometry(geoJson))
+    const coord = location.coordinate
+    if (!geoJson && !coord) {
+      console.error('Unable to map invalid geometry:', location)
     } else {
-      feature.setGeometry(new OlGeomPoint(location.coordinate))
+      const feature = new OlFeature({name: location.name, isFeature: location.isFeature})
+      if (geoJson) {
+        feature.setGeometry(this.format.readGeometry(geoJson))
+      } else {
+        feature.setGeometry(new OlGeomPoint(coord))
+      }
+      return feature
     }
-    return feature
   }
   /**
    * @private

@@ -119,6 +119,9 @@ class FilterAndSort extends AutoLoad {
    * @return {module:nyc/FilterAndSort~FilterAndSort.Distance} Distance object
    */
   distance(coordinate, geom) {
+    if (!geom) {
+      return {distance: Infinity, units: 'ft'}
+    }
     const line = new OlGeomLineString([coordinate, geom.getClosestPoint(coordinate)])
     const projections = this.projections(this.getFormat())
     let units = projections[1].getUnits()

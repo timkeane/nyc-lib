@@ -172,5 +172,5 @@ test('zoomLocation not point geom', () => {
 test('getProjection', () =>{
   expect.assertions(1)
   const mapLocator = new MapLocator({map: map})
-  expect(mapLocator.getProjection()).toBe('EPSG:3857')
+  expect(mapLocator.getProjection().getCode()).toBe('EPSG:3857')
 })

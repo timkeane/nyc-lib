@@ -274,15 +274,18 @@ class FinderApp extends MapMgr {
    */
   focusFacilities(applyBtn) {
     const tabs = this.tabs
+    const dia = this.mobileDia
     this.setFacilitiesLabel()
     if (!applyBtn && this.isMobile()) {
       if ($('.shw-lst').css('display') === 'none') {
         const options = this.mobileDiaOpts()
-        this.mobileDia.yesNo(options).then(showFacilities => {
-          if (showFacilities) {
-            tabs.open('#facilities')
-          }
-        })
+        setTimeout(() => {
+          dia.yesNo(options).then(showFacilities => {
+            if (showFacilities) {
+              tabs.open('#facilities')
+            }
+          })
+        }, 250)
       }
     } else {
       tabs.open('#facilities')
