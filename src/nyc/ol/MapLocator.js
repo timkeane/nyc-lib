@@ -117,10 +117,8 @@ class MapLocator extends NycMapLocator {
   /**
    * @private
    * @method
-   * @param {module:n
-   * lt} location Location
-   * @return {ol.Feat
-   * ture
+   * @param {module:nyc/Locator~Locator.Result} location Location
+   * @return {ol.Feature} The OpenLayers feature
    */
   feature(location) {
     const geoJson = location.geometry
