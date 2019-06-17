@@ -148,8 +148,8 @@ class Goog extends Translate {
     ATTRS_TO_TRANSLATE.forEach(attr => {
       $(`*[${attr}]`).each(function(_, input) {
         const next = $(input).next()
-        if (!next.hasClass(`lng-${attr}`)) {
-          $(input).after(`<span class="lng-${attr}">${$(input).attr(attr)}</span>`)
+        if (!next.hasClass(`lng ${attr}`)) {
+          $(input).after(`<span class="lng ${attr}">${$(input).attr(attr)}</span>`)
         } else {
           let text = next.html()
           $.each(next.find('font'), (idx, font) => {

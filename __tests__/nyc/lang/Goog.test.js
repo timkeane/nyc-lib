@@ -242,15 +242,15 @@ describe('hack', () => {
       languages: languages
     })
 
-    expect($('span.lng-placeholder').length).toBe(2)
-    expect($('span.lng-placeholder').get(0).innerHTML).toBe('a placeholder')
-    expect($('span.lng-placeholder').get(1).innerHTML).toBe('another placeholder')
+    expect($('span.lng.placeholder').length).toBe(2)
+    expect($('span.lng.placeholder').get(0).innerHTML).toBe('a placeholder')
+    expect($('span.lng.placeholder').get(1).innerHTML).toBe('another placeholder')
   })
 
   test('hack is translated', () => {
     expect.assertions(3)
 
-    inputs = $('<input placeholder="a placeholder"><span class="lng-placeholder"><font>a translated</font></span><input><input placeholder="another placeholder"><span class="lng-placeholder"><font>another translated</font></span>')
+    inputs = $('<input placeholder="a placeholder"><span class="lng placeholder"><font>a translated</font></span><input><input placeholder="another placeholder"><span class="lng placeholder"><font>another translated</font></span>')
     $('body').append(inputs)
 
     const translate = new Goog({
