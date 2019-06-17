@@ -705,7 +705,10 @@ describe('adjustTabs', () => {
   })
 })
 
-describe('tabChange', () => {
+describe.only('tabChange', () => {
+  afterEach(() => {
+    tabs.remove
+  })
   test('tabChange tabs do not fill screen', () => {
     expect.assertions(3)
   
@@ -721,11 +724,12 @@ describe('tabChange', () => {
     })
   
     $('#map').attr('aria-hidden', true)
-    finderApp.tabs.getContainer().width(400)
-    $(window).width(900)
+
+    finderApp.isMobile = () => {return true}
+    
     $('#map').width(500)
     $('#map').height(400)
-  
+    
     finderApp.tabChange()
   
     expect($('#map').attr('aria-hidden')).toBe('false')
@@ -748,16 +752,17 @@ describe('tabChange', () => {
     })
   
     $('#map').attr('aria-hidden', true)
-    finderApp.tabs.getContainer().width(500)
-    $(window).width(500)
-    $('#map').width(500)
-    $('#map').height(400)
-  
+
+    finderApp.isMobile = () => {return false}
+    
+    $('#map').width(400)
+    $('#map').height(500)
+
     finderApp.tabChange()
   
     expect($('#map').attr('aria-hidden')).toBe('true')
     expect(finderApp.map.setSize).toHaveBeenCalledTimes(2)
-    expect(finderApp.map.setSize.mock.calls[1][0]).toEqual([500, 400])
+    expect(finderApp.map.setSize.mock.calls[1][0]).toEqual([400, 500])
   })
 })
 

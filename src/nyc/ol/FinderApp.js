@@ -245,6 +245,15 @@ class FinderApp extends MapMgr {
   /**
    * @private
    * @method
+   * @param {string} id The tab id
+   * @returns {boolean} The display state
+   */
+  isTab(id) {
+    return this.tabs.active.get(0).id === id
+  }
+  /**
+   * @private
+   * @method
    * @returns {module:nyc/Dialog~Dialog.ShowOptions} Dialog options
    */
   mobileDiaOpts() {
@@ -276,7 +285,7 @@ class FinderApp extends MapMgr {
     const tabs = this.tabs
     const dia = this.mobileDia
     this.setFacilitiesLabel()
-    if (!applyBtn && this.isMobile()) {
+    if (!applyBtn && this.isMobile() && this.isTab('map')) {
       if ($('.shw-lst').css('display') === 'none') {
         const options = this.mobileDiaOpts()
         setTimeout(() => {
@@ -311,14 +320,6 @@ class FinderApp extends MapMgr {
   /**
    * @private
    * @method
-   * @return {boolean} True if the tabs fill the screen
-   */
-  tabsFillScreen() {
-    return Math.abs(this.tabs.getContainer().width() - $(window).width()) < 1
-  }
-  /**
-   * @private
-   * @method
    */
   adjustTabs() {
     /*
@@ -327,8 +328,9 @@ class FinderApp extends MapMgr {
      * so we don't adjust tabs when input has focus
      */
     if ($('#directions').css('display') !== 'block' && !nyc.activeElement().isTextInput) {
-      this.tabs.open(this.tabsFillScreen() ? '#map' : '#facilities')
+      this.tabs.open(this.isMobile() ? '#map' : '#facilities')
     }
+    this.moveSearch(this.tabs)
   }
   /**
    * @desc Handles the tab change event
@@ -337,11 +339,25 @@ class FinderApp extends MapMgr {
    * @param {module:nyc/Tabs~Tabs} tabs Tabs
    */
   tabChange(tabs) {
-    if (!this.tabsFillScreen()) {
+    if (this.isMobile()) {
+      this.moveSearch(this.tabs)
       $('#map').attr('aria-hidden', false)
     }
     this.map.setSize([$('#map').width(), $('#map').height()])
   }
+
+  moveSearch(tabs) {
+    const map = this.map
+    const container = tabs.getContainer()
+    const search = $('.srch-ctl')
+    if (this.isTab('facilities') && this.isMobile()) {
+      container.prepend(search.addClass('lst-srch'))
+      container.prepend(tabs.find('.btns').get(0))
+    } else {
+      $(map.getTargetElement()).find('.ol-overlaycontainer-stopevent').append($('.srch-ctl').removeClass('lst-srch'))
+    }
+  }
+
 }
 
 /**

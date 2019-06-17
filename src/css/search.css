@@ -13,25 +13,27 @@
 	margin-top: 38px;
 	max-width: 398px;
 }
-.ol-overlaycontainer-stopevent .srch, .srch-ctl ul {
+.srch, .srch-ctl ul {
 	background-color: var(--color-light-translucent);
 }
-.ol-overlaycontainer-stopevent .srch input {
-  position: absolute;
+.srch input {
   padding-left: 23px;
   padding-right: 28px;
   width: calc(100% - 54px);
-  background-color: var(--color-light-translucent);
-  border: 1px solid var(--color-dark);
 	background-image: var(--magnify-icon-medium, none);
 	background-size: 14px;
 	background-repeat: no-repeat;
 	background-position: 3px center;
-	z-index: 1;
 	box-sizing: unset;
 	min-height: 31px;
 }
-.ol-overlaycontainer-stopevent .btn-srch {
+.ol-overlaycontainer-stopevent .srch input {
+  position: absolute;
+  border: 1px solid var(--color-dark);
+  background-color: var(--color-light-translucent);
+	z-index: 1;
+}
+.btn-srch {
 	display: none;
 }
 .srch-ctl ul {

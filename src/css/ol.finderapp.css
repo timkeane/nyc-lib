@@ -83,6 +83,9 @@ html, body.fnd, .fnd #map {
 .fnd #tabs .btns h2 {
   width: 33%;
 }
+.fnd #tabs .btns h2 button {
+  border: none;
+}
 .fnd #tabs .btns h2:first-of-type {
   display: none;
 }
@@ -115,8 +118,7 @@ html, body.fnd, .fnd #map {
   background-color: white;
 }
 .fnd #facilities {
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0;
   bottom: 0;
 }
 .fnd #facilities .lst-it {
@@ -203,6 +205,13 @@ html, body.fnd, .fnd #map {
   display: block !important;
   width: auto;
 }
+
+
+
+
+
+
+
 @media only screen and (max-width : 750px), screen and (max-device-height: 350px) {
   .fnd #tabs {
     width: 100%;
@@ -218,6 +227,28 @@ html, body.fnd, .fnd #map {
   }
   .fnd #map.tab.active {
     display: block;
+  }
+  .fnd .lst-srch .srch {
+    display: block;
+    border-bottom: 1px solid var(--color-dark);
+    background-color: var(--color-dark);
+    width: 100%;
+  }
+  .fnd .lst-srch .srch input {
+    width: calc(100% - 65px);
+    margin: 5px;
+  }
+  .fnd .lst-srch .srch .btn-x {
+    top: 8px !important;
+  }
+  .fnd #tabs .btns>h2 {
+    border-bottom: 1px solid var(--color-border);
+  }
+  .fnd #tabs .btns>h2.active {
+    border-bottom: 1px solid var(--color-dark);
+  }
+  #tab-btn-1 {
+    border: none;
   }
 }
 @media only screen and (max-width : 400px) {

@@ -45,6 +45,7 @@ class Tabs extends Container {
    */
   open(tab) {
     tab = this.find(tab)
+    this.find('.btns h2').removeClass('active')
     this.find('.tab')
       .attr('aria-hidden', true)
       .removeClass('active')
@@ -57,6 +58,7 @@ class Tabs extends Container {
     this.find('.btn').attr('aria-selected', false)
     tab.data('btn').addClass('active')
       .attr('aria-selected', true)
+      .parent().addClass('active')
     this.active = tab
     this.trigger('change', this)
   }
