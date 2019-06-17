@@ -55,7 +55,7 @@
 	position: absolute;
 	left: -1000px;
 }
-.lng-placeholder {
+.lng {
 	visibility: hidden;
 	position: fixed;
 	left: -10000px;

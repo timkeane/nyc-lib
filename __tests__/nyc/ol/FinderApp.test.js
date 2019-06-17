@@ -641,9 +641,7 @@ describe('adjustTabs', () => {
     })
 
     finderApp.tabs.open = jest.fn()
-
-    $(window).width(500)
-    finderApp.tabs.getContainer().width(400)
+    finderApp.isMobile = () => {return false}
 
     finderApp.adjustTabs()
 
@@ -693,10 +691,6 @@ describe('adjustTabs', () => {
     })
 
     finderApp.tabs.open = jest.fn()
-
-    $(window).width(500)
-    finderApp.tabs.getContainer().width(500)
-
     $('#directions').show()
 
     finderApp.adjustTabs()
@@ -721,11 +715,12 @@ describe('tabChange', () => {
     })
   
     $('#map').attr('aria-hidden', true)
-    finderApp.tabs.getContainer().width(400)
-    $(window).width(900)
+
+    finderApp.isMobile = () => {return true}
+    
     $('#map').width(500)
     $('#map').height(400)
-  
+    
     finderApp.tabChange()
   
     expect($('#map').attr('aria-hidden')).toBe('false')
@@ -748,16 +743,17 @@ describe('tabChange', () => {
     })
   
     $('#map').attr('aria-hidden', true)
-    finderApp.tabs.getContainer().width(500)
-    $(window).width(500)
-    $('#map').width(500)
-    $('#map').height(400)
-  
+
+    finderApp.isMobile = () => {return false}
+    
+    $('#map').width(400)
+    $('#map').height(500)
+
     finderApp.tabChange()
   
     expect($('#map').attr('aria-hidden')).toBe('true')
     expect(finderApp.map.setSize).toHaveBeenCalledTimes(2)
-    expect(finderApp.map.setSize.mock.calls[1][0]).toEqual([500, 400])
+    expect(finderApp.map.setSize.mock.calls[1][0]).toEqual([400, 500])
   })
 })
 
@@ -774,7 +770,7 @@ describe('located', () => {
     FinderApp.prototype.resetList = resetList
   })
   test('located', () => {
-    expect.assertions(4)
+    expect.assertions(3)
   
     const finderApp = new FinderApp({
       title: 'Finder App',
@@ -793,7 +789,6 @@ describe('located', () => {
     expect(finderApp.resetList).toHaveBeenCalledTimes(1)
   
     expect(finderApp.focusFacilities).toHaveBeenCalledTimes(1)
-    expect(document.activeElement).toBe($('#facilities')[0])
   })
 })
 

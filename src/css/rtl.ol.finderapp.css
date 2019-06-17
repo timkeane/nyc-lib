@@ -1,3 +1,6 @@
 .fnd.rtl .splash .dia-msg * {
   text-align: right;
 }
+.fnd.rtl #home {
+  position: unset;
+}

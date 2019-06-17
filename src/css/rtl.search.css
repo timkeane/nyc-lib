@@ -1,7 +1,7 @@
-.rtl .srch .btn-x {
+.rtl .srch .btn-x, .rtl .lst-srch .btn-x {
 	right: calc(100% - 28px);
 	left: unset;
 }
-.rtl .ol-overlaycontainer-stopevent .srch input {
+.rtl .srch input, .rtl .lst-srch input {
 	background-position: calc(100% - 3px) center;
 }

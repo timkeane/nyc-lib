@@ -517,7 +517,9 @@ MapMgr.FEATURE_DECORATIONS = {
    * @returns {string} Tip text
    */
   getTip() {
-    return this.getName()
+    return $('<span></span>')
+      .html(this.getName())
+      .addClass('notranslate')
   },
   /**
    * @desc Returns the name of a facility feature

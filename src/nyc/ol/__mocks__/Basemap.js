@@ -1,4 +1,5 @@
 /* global jest */
+import $ from 'jquery'
 import OlProjProjection from 'ol/proj/Projection'
 import MouseWheelZoom from 'ol/interaction/MouseWheelZoom'
 
@@ -11,10 +12,16 @@ const mockView = {
   })
 }
 
+let target
 const mockInteractions = [new MouseWheelZoom(), new MouseWheelZoom()]
 
-const mock = jest.fn().mockImplementation(() => {
+const mock = jest.fn().mockImplementation(options => {
+  target = $(options.target).get(0)
+  target = target || $(`#${options.target}`).get(0)
   return {
+    getTargetElement: jest.fn().mockImplementation(() => {
+      return target
+    }),
     getView: jest.fn().mockImplementation(() => {
       return mockView
     }),
