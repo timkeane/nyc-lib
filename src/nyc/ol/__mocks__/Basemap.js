@@ -1,4 +1,5 @@
 /* global jest */
+import $ from 'jquery'
 import OlProjProjection from 'ol/proj/Projection'
 import MouseWheelZoom from 'ol/interaction/MouseWheelZoom'
 
