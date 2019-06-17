@@ -1,5 +1,6 @@
 @import "base.icons.css";
 @import "base.theme.css";
+@import "rtl.base.css";
 @import "base.css";
 @import "btn-map.css";
 
@@ -7,6 +8,7 @@
 @import "directions.css";
 @import "drag.css";
 @import "choice.css";
+@import "rtl.collapsible.css";
 @import "collapsible.css";
 @import "itempager.css";
 @import "listpager.css";
@@ -17,5 +19,6 @@
 @import "tabs.css";
 @import "zoom.css";
 @import "geolocate.css";
+@import "rtl.search.css";
 @import "search.css";
 

@@ -1,6 +1,7 @@
 @import "nyc-lib.css";
 
 @import "ol.featuretip.css";
+@import "rtl.ol.popup.css";
 @import "ol.popup.css";
 
 .ol-overlaycontainer-stopevent .fas {

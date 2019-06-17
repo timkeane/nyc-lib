@@ -31,6 +31,9 @@
 	box-sizing: unset;
 	min-height: 31px;
 }
+/* .rtl .ol-overlaycontainer-stopevent .srch input {
+	background-position: calc(100% - 3px) center;
+} */
 .ol-overlaycontainer-stopevent .btn-srch {
 	display: none;
 }
@@ -51,6 +54,10 @@
 	top: 5px;
 	z-index: 2;
 }
+/* .rtl .srch .btn-x {
+	right: calc(100% - 28px);
+	left: unset;
+} */
 .ol-overlaycontainer-stopevent .srch-ctl {
   position: absolute;
   top: 0;

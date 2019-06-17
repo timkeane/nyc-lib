@@ -1,0 +1,3 @@
+.rtl .btn {
+  background-position: calc(100% - 3px) center;
+}
