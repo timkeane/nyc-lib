@@ -7,6 +7,12 @@ import $ from 'jquery'
 
 import Translate from 'nyc/lang/Translate'
 
+/*
+ * @private
+ * @constant {string}
+ */
+const ATTRS_TO_TRANSLATE = ['placeholder', 'title', 'alt', 'aria-label']
+
 /**
  * @desc Class for language translation using the Google Translate Gadget
  * @public
@@ -134,22 +140,24 @@ class Goog extends Translate {
    */
   hack() {
     /*
-     * google translate doesn't translate placeholder attributes
-     * so we'll add a hidden span after input elements that have placeholders
-     * then use the placeholder text for the span
-     * then apply the translation of the span back to the placeholder
+     * google translate doesn't translate certain attributes
+     * so we'll add a hidden span after input elements that have those attributes
+     * then use the attribute text for the span HTML
+     * then apply the translation of the span back to the attribute
      */
-    $('input[placeholder]').each(function(_, input) {
-      const next = $(input).next()
-      if (!next.hasClass('lng-placeholder')) {
-        $(input).after(`<span class="lng-placeholder">${$(input).attr('placeholder')}</span>`)
-      } else {
-        let text = next.html()
-        $.each(next.find('font'), (idx, font) => {
-          text = $(font).html()
-        })
-        $(input).attr('placeholder', text)
-      }
+    ATTRS_TO_TRANSLATE.forEach(attr => {
+      $(`*[${attr}]`).each(function(_, input) {
+        const next = $(input).next()
+        if (!next.hasClass(`lng-${attr}`)) {
+          $(input).after(`<span class="lng-${attr}">${$(input).attr(attr)}</span>`)
+        } else {
+          let text = next.html()
+          $.each(next.find('font'), (idx, font) => {
+            text = $(font).html()
+          })
+          $(input).attr(attr, text)
+        }
+      })
     })
     $('body').css('top', 'auto')
     $('#goog-gt-tt').remove()
