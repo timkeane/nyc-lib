@@ -641,9 +641,7 @@ describe('adjustTabs', () => {
     })
 
     finderApp.tabs.open = jest.fn()
-
-    $(window).width(500)
-    finderApp.tabs.getContainer().width(400)
+    finderApp.isMobile = () => {return false}
 
     finderApp.adjustTabs()
 
@@ -693,10 +691,6 @@ describe('adjustTabs', () => {
     })
 
     finderApp.tabs.open = jest.fn()
-
-    $(window).width(500)
-    finderApp.tabs.getContainer().width(500)
-
     $('#directions').show()
 
     finderApp.adjustTabs()
@@ -705,10 +699,7 @@ describe('adjustTabs', () => {
   })
 })
 
-describe.only('tabChange', () => {
-  afterEach(() => {
-    tabs.remove
-  })
+describe('tabChange', () => {
   test('tabChange tabs do not fill screen', () => {
     expect.assertions(3)
   
@@ -779,7 +770,7 @@ describe('located', () => {
     FinderApp.prototype.resetList = resetList
   })
   test('located', () => {
-    expect.assertions(4)
+    expect.assertions(3)
   
     const finderApp = new FinderApp({
       title: 'Finder App',
@@ -798,7 +789,6 @@ describe('located', () => {
     expect(finderApp.resetList).toHaveBeenCalledTimes(1)
   
     expect(finderApp.focusFacilities).toHaveBeenCalledTimes(1)
-    expect(document.activeElement).toBe($('#facilities')[0])
   })
 })
 
