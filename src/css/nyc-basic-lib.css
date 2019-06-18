@@ -3,6 +3,7 @@
 @import "dialog.css";
 @import "directions.css";
 @import "itempager.css";
+@import "rtl.itempager.css";
 @import "listpager.css";
 @import "zoom.css";
 @import "geolocate.css";
