@@ -79,6 +79,7 @@ class FinderApp extends MapMgr {
      * @member {module:nyc/Dialog~Dialog}
      */
     this.mobileDia = new Dialog({css: 'shw-lst'})
+    $('.shw-lst .btn-yes').attr('aria-label', `View nearby ${$('#tab-btn-1').html()} in anaccessible list`)
     this.pager.on('change', this.setFacilitiesLabel)
   }
   /**
