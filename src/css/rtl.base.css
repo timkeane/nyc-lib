@@ -1,3 +1,9 @@
 .translated-rtl .btn {
   background-position: calc(100% - 3px) center;
 }
+.translated-rtl .btn-prv {
+	background-image: var(--right-icon-light, none);
+}
+.translated-rtl .btn-nxt {
+	background-image: var(--left-icon-light, none);
+}
