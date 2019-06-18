@@ -1,0 +1,6 @@
+body.rtl * {
+  direction: rtl;
+}
+.shr, .srch-ctl, button.apply * {
+    direction: ltr !important;    
+}
