@@ -1,6 +1,9 @@
 .translated-rtl .btn {
   background-position: calc(100% - 3px) center;
 }
+.translated-rtl .btn-x, .translated-rtl .btn-prv, .translated-rtl .btn-nxt {
+  background-position: center center;
+}
 .translated-rtl .btn-prv {
 	background-image: var(--right-icon-light, none);
 }
