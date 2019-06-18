@@ -1,9 +1,10 @@
+yarn version --new-version $1
 git push origin dev
 git checkout master
 git merge dev
 git push origin master
-git tag $1
-git push origin $1
+git tag v$1
+git push origin v$1
 git checkout dev
 export NODE_ENV=stg
 yarn deploy
