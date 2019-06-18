@@ -13,5 +13,5 @@ yarn pkg
 cd dist
 npm publish
 cd ..
-EXPORT_NODE_ENV=dev
+export NODE_ENV=dev
 
