@@ -1,4 +1,3 @@
-yarn version --new-version $1
 git push origin dev
 git checkout master
 git merge dev
