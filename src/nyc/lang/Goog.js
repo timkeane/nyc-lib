@@ -108,12 +108,7 @@ class Goog extends Translate {
   monitor() {
     if (!this.monitoring) {
       this.monitoring = true
-      if ('MutationObserver' in window) {
-        new MutationObserver(this.hack)
-          .observe(document.body, {childList: true, subtree: true})
-      } else {
-        setInterval(this.hack, 500)
-      }
+      setInterval(this.hack, 500)
     }
   }
   /**

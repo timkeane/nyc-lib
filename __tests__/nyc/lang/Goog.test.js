@@ -176,33 +176,7 @@ describe('monitor', () => {
     window.setInterval = interval
   })
 
-  test('monitor has MutationObserver', () => {
-    expect.assertions(8)
-
-    const translate = new Goog({
-      target: target,
-      languages: languages
-    })
-  
-    window.setInterval.mockReset()
-
-    expect(translate.monitoring).toBe(false)
-
-    translate.monitor()
-
-    expect(translate.monitoring).toBe(true)
-
-    expect(MockMutationObserver.constructorCalls.length).toBe(1)
-    expect(MockMutationObserver.constructorCalls[0]).toBe(translate.hack)
-
-    expect(MockMutationObserver.observeCalls.length).toBe(1)
-    expect(MockMutationObserver.observeCalls[0][0]).toBe(document.body)
-    expect(MockMutationObserver.observeCalls[0][1]).toEqual({childList: true, subtree: true})
-  
-    expect(window.setInterval).toHaveBeenCalledTimes(0)
-  })
-
-  test('monitor no MutationObserver', () => {
+  test('monitor', () => {
     expect.assertions(4)
 
     delete window.MutationObserver
