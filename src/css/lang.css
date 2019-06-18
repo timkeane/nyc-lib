@@ -83,6 +83,7 @@ font {
 	padding: 0;
 	margin: 0;
 	line-height: inherit;
+	vertical-align: unset !important;
 }
 #banner * {
     text-align: left;
