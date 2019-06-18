@@ -33,7 +33,7 @@
   background-color: var(--color-light-translucent);
 	z-index: 1;
 }
-.btn-srch {
+.ol-overlaycontainer-stopevent .srch .btn-srch, .fnd .btn-srch {
 	display: none;
 }
 .srch-ctl ul {

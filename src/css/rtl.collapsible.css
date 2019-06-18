@@ -1,6 +1,6 @@
-.rtl .clps>button:before {
+.translated-rtl .clps>button:before {
   float: right;
 }
-.rtl .clps>button {
+.translated-rtl .clps>button {
   text-align: right;
 }
