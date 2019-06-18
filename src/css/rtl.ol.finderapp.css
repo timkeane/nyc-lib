@@ -1,6 +1,6 @@
-.fnd.rtl .splash .dia-msg * {
+.translated-rtl .fnd .splash .dia-msg * {
   text-align: right;
 }
-.fnd.rtl #home {
+.translated-rtl .fnd #home {
   position: unset;
 }

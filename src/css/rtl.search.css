@@ -1,7 +1,7 @@
-.rtl .srch .btn-x, .rtl .lst-srch .btn-x {
+.translated-rtl .srch .btn-x, .translated-rtl .lst-srch .btn-x {
 	right: calc(100% - 28px);
 	left: unset;
 }
-.rtl .srch input, .rtl .lst-srch input {
+.translated-rtl .srch input, .translated-rtl .lst-srch input {
 	background-position: calc(100% - 3px) center;
 }

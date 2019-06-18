@@ -1,4 +1,4 @@
-body.rtl * {
+html.translated-rtl * {
   direction: rtl;
 }
 .shr, .srch-ctl, button.apply * {
