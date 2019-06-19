@@ -4,3 +4,8 @@
 .translated-rtl .fnd #home {
   position: unset;
 }
+.translated-rtl .fnd #tabs .btns .btn-2.filtered:before {
+  left: 0;
+  right: auto;
+  margin: -3px 5px -3px 5px;
+}

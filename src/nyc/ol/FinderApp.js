@@ -330,8 +330,8 @@ class FinderApp extends MapMgr {
      */
     if ($('#directions').css('display') !== 'block' && !nyc.activeElement().isTextInput) {
       this.tabs.open(this.isMobile() ? '#map' : '#facilities')
+      this.moveSearch(this.tabs)
     }
-    this.moveSearch(this.tabs)
   }
   /**
    * @desc Handles the tab change event
