@@ -236,7 +236,8 @@ html, body.fnd, .fnd #map {
     margin: 5px;
   }
   .fnd .lst-srch .srch .btn-x {
-    top: 8px !important;
+    top: 11px !important;
+    left: calc(100% - 34px);
   }
   .fnd #tabs .btns>h2 {
     border-bottom: 1px solid var(--color-border);
