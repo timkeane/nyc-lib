@@ -1,6 +1,6 @@
 {
   "name": "nyc-lib",
-  "version": "1.3.05",
+  "version": "1.3.06",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "pushit": "cd etc && ./push.sh && cd ..",

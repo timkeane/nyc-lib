@@ -436,14 +436,14 @@ Directions.Options
   * @const
   * @type {string}
   */
-Directions.HTML = '' +
-'<div id="directions">' +
-  '<button id="back-to-map" class="btn rad-all">Back to finder</button>' +
+Directions.HTML = '<div id="directions">' +
+  '<button id="back-to-map" class="btn rad-all">' +
+    'Back to finder' +
+  '</button>' +
   '<div id="dir-tabs">' +
     '<div id="route-tab">' +
-    '<form>' +
       '<div class="fld-lbl">From my location:</div>' +
-      '<div id="fld-from"><input class="rad-all" type="text" placeholder="Enter an address..."></div>' +
+      '<div id="fld-from"><input class="rad-all" placeholder="Enter an address..."></div>' +
       '<div class="fld-lbl">To <span id="fld-facility"></span>:</div>' +
       '<div id="fld-to"></div>' +
       '<table id="mode">' +
@@ -476,8 +476,7 @@ Directions.HTML = '' +
           '</tr></tbody>' +
         '</table>' +
         '<div class="no-trans">The origin and destination locations are so close that walking appears to be the best option.</div>' +
-        '<div class="route"></div>' +
-    '</form>' +
+      '<div class="route"></div>' +
     '</div>' +
     '<div id="map-tab" aria-hidden="true" tabindex="-1">' +
       '<div class="map"></div>' +

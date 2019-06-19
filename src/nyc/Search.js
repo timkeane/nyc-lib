@@ -367,14 +367,14 @@ Search.FeatureSearchOptions
  * @type {string}
  */
 Search.HTML = '<div class="srch-ctl">' +
-  '<form class="srch" role="search">' +
+  '<div class="srch" role="search">' +
     '<input class="rad-all" type="text" placeholder="Search for an address...">' +
     '<button class="btn btn-rnd btn-x">' +
       '<span class="screen-reader-only">Clear</span>' +
       '<span class="fas fa-times" role="img"></span>' +
     '</button>' +
     '<button class="btn btn-srch btn-primary btn-lg">Search</button>' +
-  '</form>' +
+  '</div>' +
   '<ul class="rad-all" role="region" label="Possible matches for your search"></ul>' +
   '<ul class="retention"></ul>' +
 '</div>'
