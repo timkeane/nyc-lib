@@ -149,7 +149,7 @@ class Goog extends Translate {
         } else {
           const valueHolder = $(node).data(attr)
           let value = valueHolder.html()
-          valueHolder.find('font').each((_, font) => {
+          valueHolder.find('font').each((__, font) => {
             value = $(font).html()
           })
           $(node).attr(attr, value)
