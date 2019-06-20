@@ -13,6 +13,7 @@ import ReplaceTokens from 'nyc/ReplaceTokens'
  * @public
  * @class
  * @extends ol.format.Feature
+ * @mixes module:nyc/EventHandling~EventHandling
  * @see http://openlayers.org/en/latest/apidoc/module-ol_format_Feature-FeatureFormat.html
  */
 class CsvAddr extends CsvPoint {

@@ -274,7 +274,7 @@ Translate.DEFAULT_LANGUAGES = {
  */
 Translate.HTML = '<div id="lng" role="region" aria-label="Translate this page into another language">' +
   '<div class="btn-sq rad-all"><span class ="hint notranslate">Translate</span></div>' +
-  '<select class="notranslate" translate="no" title="Translate..." araia-label="Translate..."></select>' +
+  '<select class="notranslate" translate="no" title="Translate..." aria-label="Translate..."></select>' +
   '<div id="lng-goog"></div>' +
 '</div>'
 

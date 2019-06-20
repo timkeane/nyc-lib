@@ -141,16 +141,18 @@ class Goog extends Translate {
      * then apply the translation of the span back to the attribute
      */
     ATTRS_TO_TRANSLATE.forEach(attr => {
-      $(`*[${attr}]`).each(function(_, input) {
-        const next = $(input).next()
-        if (!next.hasClass(`lng ${attr}`)) {
-          $(input).after(`<span class="lng ${attr}">${$(input).attr(attr)}</span>`)
+      $(`*[${attr}]`).each(function(_, node) {
+        if (!$(node).data(attr)) {
+          const span = $(`<span class="lng ${attr}" aria-hidden="true">${$(node).attr(attr)}</span>`)
+          $('body').append(span)
+          $(node).data(attr, span)
         } else {
-          let text = next.html()
-          $.each(next.find('font'), (idx, font) => {
-            text = $(font).html()
+          const valueHolder = $(node).data(attr)
+          let value = valueHolder.html()
+          valueHolder.find('font').each((_, font) => {
+            value = $(font).html()
           })
-          $(input).attr(attr, text)
+          $(node).attr(attr, value)
         }
       })
     })
