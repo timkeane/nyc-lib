@@ -50,7 +50,6 @@ class FinderApp extends MapMgr {
      * @member {module:nyc/Tabs~Tabs}
      */
     this.tabs = this.createTabs(options)
-    $('#map').attr('tabindex', -1)
     this.adjustTabs()
     this.showSplash(options.splashOptions)
     new Share({target: '#map'})
