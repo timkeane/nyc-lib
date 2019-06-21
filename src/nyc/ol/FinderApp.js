@@ -50,6 +50,7 @@ class FinderApp extends MapMgr {
      * @member {module:nyc/Tabs~Tabs}
      */
     this.tabs = this.createTabs(options)
+    $('#map').attr('tabindex', -1)
     this.adjustTabs()
     this.showSplash(options.splashOptions)
     new Share({target: '#map'})
@@ -329,6 +330,9 @@ class FinderApp extends MapMgr {
      */
     if ($('#directions').css('display') !== 'block' && !nyc.activeElement().isTextInput) {
       this.tabs.open(this.isMobile() ? '#map' : '#facilities')
+      if (!this.isMobile()) {
+        $('#map').attr('aria-hidden', false)
+      }
       this.moveSearch(this.tabs)
     }
   }

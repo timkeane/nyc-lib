@@ -161,7 +161,7 @@ ListPager.Item
  * @const
  * @type {string}
  */
-ListPager.HTML = '<h2 class="info" aria-live="polite"></h2>' +
+ListPager.HTML = '<h2 class="info"></h2>' +
   '<div class="list" role="list"></div>' +
   '<button class="btn rad-all btn-more">More...</button>'
 

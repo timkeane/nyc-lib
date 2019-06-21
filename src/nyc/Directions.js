@@ -221,7 +221,7 @@ class Directions extends Contanier {
       })
     }
     setTimeout(() => {
-      target.children().first().attr('aria-live', true).focus()
+      target.prepend('<h2 class="screen-reader-only">Directions</h2>').children().first().focus()
     }, 200)
     this.trigger('change', {response: response, status: status})
   }
@@ -257,7 +257,8 @@ class Directions extends Contanier {
         first = false
       }
     })
-    this.find('.no-trans')[!hasTransit && this.modeBtn.id === 'transit' ? 'show' : 'hide']()
+    console.info(this.modeBtn)
+    this.find('.no-trans')[!hasTransit && $(this.modeBtn).attr('id') === 'transit' ? 'show' : 'hide']()
   }
   /**
    * @private
@@ -475,7 +476,7 @@ Directions.HTML = '<div id="directions">' +
           '</td>' +
           '</tr></tbody>' +
         '</table>' +
-        '<div class="no-trans">The origin and destination locations are so close that walking appears to be the best option.</div>' +
+        '<div class="no-trans" aria-live="polite">Only walking directions are available.</div>' +
       '<div class="route"></div>' +
     '</div>' +
     '<div id="map-tab" aria-hidden="true" tabindex="-1">' +

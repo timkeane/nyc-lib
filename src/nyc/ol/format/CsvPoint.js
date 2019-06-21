@@ -86,7 +86,6 @@ class CsvPoint extends OlFormatFeature {
     feature.setId(id)
     this.setGeometry(feature, source, options)
     return feature
-
   }
   /**
    * @desc Set the feature geometry

@@ -81,12 +81,13 @@ class CsvAddr extends CsvPoint {
       console.error('Invalid location:', input, 'Bad record:', source)
     } else {
       this.geocoder.search(input).then(result => {
-        feature.set('_geoclientResp', result.data)
+        feature.set('_geocodeResp', result)
         if (result.type === 'geocoded') {
           console.info('Geocoded:', input, source, 'Geocoder response:', result)
           feature.setGeometry(new OlGeomPoint(result.coordinate))
         } else {
           console.warn('Ambiguous location:', input, source, 'Geocoder response:', result)
+          feature.dispatchEvent('change', {target: feature})
         }
       }).catch(error => {
         console.error('Geocoding error:', input, source, 'Geocoder response:', error)

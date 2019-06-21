@@ -322,23 +322,39 @@ test('createLayer', () => {
   expect(Layer.mock.instances[0]).toBe(layer)
 })
 
-test('located', () => {
-  expect.assertions(4)
+describe('located', () => {
+  let h2
+  beforeEach(() => {
+    h2 = $('<h2 class="info"></h2>')
+    $('body').append(h2)
+  })
 
-  const mapMgr = new MapMgr(options)
-  mapMgr.resetList = jest.fn()
+  afterEach(() => {
+    h2.remove()
+  })
 
-  mapMgr.located('mock-location-1')
-
-  expect(mapMgr.location).toBe('mock-location-1')
-  expect(mapMgr.resetList).toHaveBeenCalledTimes(0)
-
-  mapMgr.pager = 'mock-pager'
-
-  mapMgr.located('mock-location-2')
-
-  expect(mapMgr.location).toBe('mock-location-2')
-  expect(mapMgr.resetList).toHaveBeenCalledTimes(1)
+  test('located', () => {
+    expect.assertions(5)
+  
+    const mapMgr = new MapMgr(options)
+    mapMgr.resetList = jest.fn()
+    
+    mapMgr.located('mock-location-1')
+  
+    expect(mapMgr.location).toBe('mock-location-1')
+    expect(mapMgr.resetList).toHaveBeenCalledTimes(0)
+  
+    mapMgr.pager = {
+      find: jest.fn().mockImplementation(qry => {
+        return h2
+      })
+    }
+    mapMgr.located('mock-location-2')
+  
+    expect(mapMgr.location).toBe('mock-location-2')
+    expect(mapMgr.resetList).toHaveBeenCalledTimes(1)
+    expect(h2.attr('aria-live')).toBe('polite')
+  })
 })
 
 describe('resetList', () => {

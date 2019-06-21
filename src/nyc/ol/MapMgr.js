@@ -176,6 +176,7 @@ class MapMgr {
     this.location = location
     if (this.pager) {
       this.resetList()
+      this.pager.find('h2.info').attr('aria-live', 'polite')
     }
   }
   /**
