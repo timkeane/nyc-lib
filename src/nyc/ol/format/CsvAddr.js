@@ -84,6 +84,7 @@ class CsvAddr extends CsvPoint {
         if (result.type === 'geocoded') {
           console.info('Geocoded:', input, source, 'Geocoder response:', result)
           feature.setGeometry(new OlGeomPoint(result.coordinate))
+          feature.set('_geoclientResp', result)
         } else {
           console.warn('Ambiguous location:', input, source, 'Geocoder response:', result)
         }
