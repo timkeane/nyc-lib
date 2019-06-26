@@ -24,7 +24,7 @@
 	background-size: 14px;
 	background-repeat: no-repeat;
 	background-position: 3px center;
-	box-sizing: unset;
+	box-sizing: content-box;
 	min-height: 31px;
 }
 .ol-overlaycontainer-stopevent .srch input {
@@ -90,4 +90,7 @@
 }
 .fm .srch-ctl {
 	left: -38px;
+}
+::-ms-clear {
+  display: none;
 }

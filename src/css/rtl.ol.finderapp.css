@@ -2,7 +2,7 @@
   text-align: right;
 }
 .translated-rtl .fnd #home {
-  position: unset;
+  position: auto;
 }
 .translated-rtl .fnd #tabs .btns .btn-2.filtered:before {
   left: 0;
