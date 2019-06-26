@@ -12,8 +12,8 @@
   background-size: 25px;
 }
 .fm .geoloc {
-	left: unset;
-	top: unset;
+	left: auto;
+	top: auto;
 	right: 1px;
 	bottom: 186px;
 	width: 37px;	

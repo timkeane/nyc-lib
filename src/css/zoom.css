@@ -5,8 +5,8 @@
 	right: 0;
 }
 .fm .zoom {
-	left: unset;
-	top: unset;
+	left: auto;
+	top: auto;
 	right: 3px;
 	bottom: 0;
 	width: 37px;
@@ -25,11 +25,11 @@
 	top: 37px;
 }
 .fm .btn-z-in {
-	left: unset;
+	left: auto;
 	right: 0;
 }
 .fm .btn-z-out {
-	left: unset;
+	left: auto;
 	top: 37px;
 	right: 0;
 }

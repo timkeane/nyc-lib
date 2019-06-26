@@ -44,6 +44,7 @@
 	box-shadow: var(--box-shadow, none);
 	overflow-x: hidden;
 	overflow-y: auto;
+	-ms-overflow-style: scrollbar;
 	margin: 1px 0 0 0;
 }
 .srch .btn-x {
@@ -93,4 +94,7 @@
 }
 ::-ms-clear {
   display: none;
+}
+.srch *, .srch *::before, .srch *::after {
+	box-sizing: content-box;
 }
