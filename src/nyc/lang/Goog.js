@@ -146,7 +146,7 @@ class Goog extends Translate {
           const span = $(`<span class="lng ${attr}" aria-hidden="true">${$(node).attr(attr)}</span>`)
           $('body').append(span)
           $(node).data(attr, span)
-        } else {
+        } else if (attr == 'placeholder') {
           const valueHolder = $(node).data(attr)
           let value = valueHolder.html()
           valueHolder.find('font').each((__, font) => {
@@ -177,5 +177,4 @@ class Goog extends Translate {
     })
   }
 }
-
 export default Goog
