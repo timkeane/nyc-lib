@@ -11,7 +11,7 @@ import Translate from 'nyc/lang/Translate'
  * @private
  * @constant {string}
  */
-const ATTRS_TO_TRANSLATE = ['placeholder', 'title', 'alt', 'aria-label']
+const ATTRS_TO_TRANSLATE = ['placeholder', 'title', 'alt']
 
 /**
  * @desc Class for language translation using the Google Translate Gadget
@@ -146,13 +146,9 @@ class Goog extends Translate {
           const span = $(`<span class="lng ${attr}" aria-hidden="true">${$(node).attr(attr)}</span>`)
           $('body').append(span)
           $(node).data(attr, span)
-        } else if (attr == 'placeholder') {
+        } else {
           const valueHolder = $(node).data(attr)
-          let value = valueHolder.html()
-          valueHolder.find('font').each((__, font) => {
-            value = $(font).html()
-          })
-          $(node).attr(attr, value)
+          $(node).attr(attr, valueHolder.text())
         }
       })
     })
@@ -177,4 +173,5 @@ class Goog extends Translate {
     })
   }
 }
+
 export default Goog

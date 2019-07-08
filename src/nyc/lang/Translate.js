@@ -130,7 +130,7 @@ class Translate extends Container {
     const select = this.find('select')
     Object.keys(this.languages).forEach(lang => {
       const code = this.languages[lang].code
-      const opt = $('<option></option>').attr('value', code).html(this.languages[lang].native)
+      const opt = $('<option class="notranslate" translate="no"></option>').attr('value', code).html(this.languages[lang].native)
       select.append(opt)
       codes.push(lang)
       this.hints.push(this.languages[lang].hint)
@@ -274,7 +274,7 @@ Translate.DEFAULT_LANGUAGES = {
  */
 Translate.HTML = '<div id="lng" role="region" aria-label="Translate this page into another language">' +
   '<div class="btn-sq rad-all"><span class ="hint notranslate">Translate</span></div>' +
-  '<select class="notranslate" translate="no" title="Translate..." aria-label="Translate..."></select>' +
+  '<select title="Translate" aria-label="Translate"></select>' +
   '<div id="lng-goog"></div>' +
 '</div>'
 
