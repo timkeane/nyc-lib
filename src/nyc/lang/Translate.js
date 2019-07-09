@@ -28,7 +28,7 @@ class Translate extends Container {
      * @private
      * @member {string}
      */
-    this.defaultLanguage = options.defaultLanguage || this.defaultLang()
+    this.defaultLanguage = options.defaultLanguage || 'en'
     /**
      * @private
      * @member {boolean}
