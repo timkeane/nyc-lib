@@ -83,7 +83,7 @@ Share.Options
  * @const
  * @type {string}
  */
-Share.HTML = '<div class="shr" role="region" aria-label="Share this page via social media or email">' +
+Share.HTML = '<div class="shr" role="region" title="Share this page via social media or email">' +
   '<a class="btn-shr btn-sq rad-all" role="button" href="#" title="Share..." aria-pressed="false">' +
     '<span class="screen-reader-only">Share...</span>' +
   '</a>' +

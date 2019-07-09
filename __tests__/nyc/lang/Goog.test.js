@@ -273,9 +273,7 @@ test('showOriginalText', () => {
 test('translate needs to wait for google to load', () => {
   expect.assertions(4)
 
-  const input = $('<input value="en">')
   const handler = jest.fn()
-  const event = {target: input.get(0)}
 
   const translate = new Goog({
     target: target,
@@ -296,7 +294,7 @@ test('translate needs to wait for google to load', () => {
       }, 500)
     })
   }
-  translate.translate(event)
+  translate.translate()
 
   createIframes()
 

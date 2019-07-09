@@ -11,7 +11,7 @@ import Translate from 'nyc/lang/Translate'
  * @private
  * @constant {string}
  */
-const ATTRS_TO_TRANSLATE = ['placeholder', 'title', 'alt']
+const ATTRS_TO_TRANSLATE = ['alt', 'placeholder']
 
 /**
  * @desc Class for language translation using the Google Translate Gadget
@@ -50,6 +50,7 @@ class Goog extends Translate {
       layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
       autoDisplay: false
     }, 'lng-goog')
+    $('#lng select').val(this.defaultLanguage)
     nycTranslateInstance.hack()
     nycTranslateInstance.trigger('ready', nycTranslateInstance)
   }
@@ -58,13 +59,12 @@ class Goog extends Translate {
    * @public
    * @override
    * @method
-   * @param {jQuery.Event} event Event object
    */
-  translate(event) {
+  translate() {
     const choices = $('iframe.goog-te-menu-frame:first').contents().find('.goog-te-menu2-item span.text')
     clearTimeout(nycTranslateInstance.timeout)
-    if (event && choices.length) {
-      this.code = $(event.target).val()
+    if (choices.length) {
+      this.code = $('#lng select').val()
       const lang = this.languages[this.code].name
       if (lang === 'English') {
         this.showOriginalText()
@@ -81,7 +81,7 @@ class Goog extends Translate {
       this.trigger('change', this)
     } else {
       nycTranslateInstance.timeout = setTimeout(() => {
-        nycTranslateInstance.translate(event)
+        nycTranslateInstance.translate()
       }, 200)
     }
   }
@@ -99,7 +99,7 @@ class Goog extends Translate {
       cookie = cookie[2]
       return cookie
     }
-    return ''
+    return this.defaultLanguage || 'en'
   }
   /**
    * @private
@@ -166,7 +166,7 @@ class Goog extends Translate {
         const code = this.find('select').val()
         $(button).trigger('click')
         if (this.languages[code].name !== 'English') {
-          this.find('select').val('en')
+          this.find('select').val(this.defaultLanguage)
         }
         return false
       }

@@ -79,8 +79,7 @@ class FinderApp extends MapMgr {
      * @member {module:nyc/Dialog~Dialog}
      */
     this.mobileDia = new Dialog({css: 'shw-lst'})
-    $('.shw-lst .btn-yes').attr('aria-label', `View nearby ${$('#tab-btn-1').html()} in an accessible list`)
-    this.pager.on('change', this.setFacilitiesLabel)
+    $('.shw-lst .btn-yes span').html(`View nearby ${$('#tab-btn-1').html()} in an accessible list`)
   }
   /**
    * @desc Reset the facilities list
@@ -228,16 +227,6 @@ class FinderApp extends MapMgr {
   /**
    * @private
    * @method
-   */
-  setFacilitiesLabel() {
-    $('#facilities>div[role="region"]').attr(
-      'aria-label',
-      $('#facilities h2.info').html()
-    )
-  }
-  /**
-   * @private
-   * @method
    * @returns {boolean} The display state
    */
   isMobile() {
@@ -264,7 +253,7 @@ class FinderApp extends MapMgr {
     const distance = feature.distanceHtml(true).html()
     const options = {
       buttonText: [
-        `View ${$('#tab-btn-1').html()} list`,
+        `View ${$('#tab-btn-1').html()} list<span class="screen-reader-only"></span>`,
         'View the map'
       ]
     }
@@ -285,7 +274,6 @@ class FinderApp extends MapMgr {
   focusFacilities(applyBtn) {
     const tabs = this.tabs
     const dia = this.mobileDia
-    this.setFacilitiesLabel()
     if (!applyBtn && this.isMobile() && this.isTab('map')) {
       if ($('.shw-lst').css('display') === 'none') {
         const options = this.mobileDiaOpts()

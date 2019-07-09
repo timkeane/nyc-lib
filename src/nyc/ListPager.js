@@ -22,6 +22,8 @@ class ListPager extends Container {
    */
   constructor(options) {
     super(options.target)
+    this.wtf = $('<div></div>')
+    $('body').append(this.wtf)
     /**
      * @private
      * @member {string}
@@ -29,10 +31,7 @@ class ListPager extends Container {
     this.itemType = options.itemType || 'facilities'
     this.getContainer().addClass('lst-pg')
       .append($(ListPager.HTML))
-      .attr({
-        role: 'region',
-        'aria-label': `List of ${this.itemType}`
-      })
+      .attr('role', 'region')
       /**
      * @private
      * @member {Array<ListPager.Item>}
@@ -114,11 +113,13 @@ class ListPager extends Container {
    * @param {Array<module:nyc/ListPager~ListPager.Item>} items List of items
    */
   render(items) {
+    const clone = this.list.clone(true)
     items.forEach(item => {
       this.list.append(
         $('<div class="lst-it" role="listitem"></div>').append(item.html())
       )
     })
+
   }
   /**
    * @private
@@ -162,7 +163,7 @@ ListPager.Item
  * @type {string}
  */
 ListPager.HTML = '<h2 class="info"></h2>' +
-  '<div class="list" role="list"></div>' +
-  '<button class="btn rad-all btn-more">More...</button>'
+'<div class="list" role="list"></div>' +
+'<button class="btn rad-all btn-more">More...</button>'
 
 export default ListPager

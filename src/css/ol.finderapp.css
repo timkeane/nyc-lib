@@ -202,13 +202,6 @@ html, body.fnd, .fnd #map {
   display: block !important;
   width: auto;
 }
-
-
-
-
-
-
-
 @media only screen and (max-width : 750px), screen and (max-device-height: 350px) {
   .fnd #tabs {
     width: 100%;
@@ -247,6 +240,12 @@ html, body.fnd, .fnd #map {
   }
   #tab-btn-1 {
     border: none;
+  }
+  #facilities .list {
+    margin-bottom: 72px;
+  }
+  #facilities .btn-more {
+    margin-top: -115px;
   }
 }
 @media only screen and (max-width : 400px) {

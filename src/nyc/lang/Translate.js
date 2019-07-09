@@ -272,9 +272,10 @@ Translate.DEFAULT_LANGUAGES = {
  * @const
  * @type {string}
  */
-Translate.HTML = '<div id="lng" role="region" aria-label="Translate this page into another language">' +
+Translate.HTML = '<div id="lng" role="region">' +
+  '<span class="screen-reader-only">Translate this page into another language</span>' +
   '<div class="btn-sq rad-all"><span class ="hint notranslate">Translate</span></div>' +
-  '<select title="Translate" aria-label="Translate"></select>' +
+  '<select title="Translate"></select>' +
   '<div id="lng-goog"></div>' +
 '</div>'
 
