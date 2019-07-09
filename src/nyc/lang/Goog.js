@@ -50,7 +50,7 @@ class Goog extends Translate {
       layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
       autoDisplay: false
     }, 'lng-goog')
-    $('#lng select').val(this.defaultLanguage)
+    $('#lng select').val(nycTranslateInstance.defaultLanguage)
     nycTranslateInstance.hack()
     nycTranslateInstance.trigger('ready', nycTranslateInstance)
   }
