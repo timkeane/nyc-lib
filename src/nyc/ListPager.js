@@ -113,7 +113,6 @@ class ListPager extends Container {
    * @param {Array<module:nyc/ListPager~ListPager.Item>} items List of items
    */
   render(items) {
-    const clone = this.list.clone(true)
     items.forEach(item => {
       this.list.append(
         $('<div class="lst-it" role="listitem"></div>').append(item.html())
