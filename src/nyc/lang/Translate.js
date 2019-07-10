@@ -248,7 +248,7 @@ Translate.DEFAULT_LANGUAGES = {
   bn: {code: 'bn', name: 'Bengali', native: '&#x9AC;&#x9BE;&#x999;&#x9BE;&#x9B2;&#x9BF;', hint: '&#x985;&#x9A8;&#x9C1;&#x9AC;&#x9BE;&#x9A6; &#x995;&#x9B0;&#x9BE;'},
   'zh-CN': {code: 'zh-CN', name: 'Chinese (Simplified)', native: '&#x4E2D;&#x56FD;', hint: '&#x7FFB;&#x8BD1;'},
   fr: {code: 'fr', name: 'French', native: 'Fran&#231;ais', hint: 'Traduire'},
-  he: {code: 'he', name: 'Hebrew', native: '&#x05EA;&#x05D9;&#x05E8;&#x05D1;&#x05E2;', hint: '&#x05DD;&#x05D2;&#x05E8;&#x05EA;&#x05DC;'},
+  iw: {code: 'iw', name: 'Hebrew', native: '&#x05EA;&#x05D9;&#x05E8;&#x05D1;&#x05E2;', hint: '&#x05DD;&#x05D2;&#x05E8;&#x05EA;&#x05DC;'},
   ht: {code: 'ht', name: 'Haitian Creole', native: 'Krey&#242;l Ayisyen', hint: 'Tradui'},
   ko: {code: 'ko', name: 'Korean', native: '&#xD55C;&#xAD6D;&#xC758;', hint: '&#xBC88;&#xC5ED;'},
   ru: {code: 'ru', name: 'Russian', native: 'P&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439;', hint: '&#x43F;&#x435;&#x440;&#x435;&#x432;&#x435;&#x441;&#x442;&#x438;'},
