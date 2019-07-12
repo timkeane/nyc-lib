@@ -54,7 +54,7 @@ class FinderApp extends MapMgr {
     this.adjustTabs()
     this.showSplash(options.splashOptions)
     new Share({target: '#map'})
-    new Goog({
+    this.goo = new Goog({
       target: '#map',
       languages: options.languages || Translate.DEFAULT_LANGUAGES,
       button: true
