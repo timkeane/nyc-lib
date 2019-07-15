@@ -422,7 +422,7 @@ class MapMgr {
     const locationMgr = new LocationMgr({
       map: this.map,
       searchTarget: options.searchTarget || undefined,
-      dialogTarget: options.mapTarget,
+      dialogTarget: options.dialogTarget || options.mapTarget,
       url: options.geoclientUrl
     })
     if (options.searchTarget === false) {

@@ -29,6 +29,7 @@ class FinderApp extends MapMgr {
     $('body').append(FinderApp.HTML).addClass('fnd')
     options.listTarget = '#facilities div'
     options.mapTarget = '#map'
+    options.dialogTarget = '#tabs'
     options.mouseWheelZoom = options.mouseWheelZoom === undefined ? true : options.mouseWheelZoom
     super(options)
     global.finderApp = this
