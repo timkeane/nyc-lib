@@ -98,3 +98,6 @@ html[lang="ur"] .fnd #banner>div {
 html[lang="ur"] font, html[lang="ur"] input {
   line-height: 25px;
 }
+.apply font {
+  color: inherit;
+}

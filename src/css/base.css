@@ -1,3 +1,6 @@
+html * {
+	direction: ltr;
+}
 html, body, body * {
 	font-size: 16px;
 	font-family: var(--font-family);
