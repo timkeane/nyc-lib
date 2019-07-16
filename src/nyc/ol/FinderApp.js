@@ -325,12 +325,12 @@ class FinderApp extends MapMgr {
           this.tabs.open('#map')
         }
       }
-      if (!this.isMobile()) {
-        $('#map').attr('aria-hidden', false)
-        this.tabs.open('#facilities')
-      }
-      this.moveSearch(this.tabs)
     }
+    if (!this.isMobile()) {
+      $('#map').attr('aria-hidden', false)
+      this.tabs.open('#facilities')
+    }
+    this.moveSearch(this.tabs)
   }
   /**
    * @desc Handles the tab change event
