@@ -324,7 +324,8 @@ class FinderApp extends MapMgr {
         } else {
           this.tabs.open('#map')
         }
-      } else {
+      }
+      if (!this.isMobile()) {
         $('#map').attr('aria-hidden', false)
         this.tabs.open('#facilities')
       }
