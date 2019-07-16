@@ -318,9 +318,15 @@ class FinderApp extends MapMgr {
      * so we don't adjust tabs when input has focus
      */
     if ($('#directions').css('display') !== 'block' && !nyc.activeElement().isTextInput) {
-      this.tabs.open(this.isMobile() ? '#map' : '#facilities')
-      if (!this.isMobile()) {
+      if (this.isMobile()) {
+        if ($('#facilities').css('display') === 'block') {
+          this.tabs.open('#facilities')
+        } else {
+          this.tabs.open('#map')
+        }
+      } else {
         $('#map').attr('aria-hidden', false)
+        this.tabs.open('#facilities')
       }
       this.moveSearch(this.tabs)
     }

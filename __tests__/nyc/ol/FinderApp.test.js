@@ -623,7 +623,7 @@ describe('adjustTabs', () => {
     finderApp.adjustTabs()
 
     expect(finderApp.tabs.open).toHaveBeenCalledTimes(1)
-    expect(finderApp.tabs.open.mock.calls[0][0]).toBe('#map')
+    expect(finderApp.tabs.open.mock.calls[0][0]).toBe('#facilities')
   })
 
   test('adjustTabs not full width', () => {
