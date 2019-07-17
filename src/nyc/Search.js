@@ -198,6 +198,7 @@ class Search extends Container {
       .data('displayField', displayField)
       .data('location', data)
       .click($.proxy(this.disambiguated, this))
+      .keyup($.proxy(this.disambiguated, this))
   }
   /**
    * @private
@@ -218,7 +219,7 @@ class Search extends Container {
    * @param {jQuery.Event} event Event object
    */
   disambiguated(event) {
-    if (!event.originalEvent) {
+    if (!event.originalEvent || event.keyCode === 13 || event.keyCode === 32) {
       const li = $(event.currentTarget)
       const data = li.data('location')
       this.val(data.name)
