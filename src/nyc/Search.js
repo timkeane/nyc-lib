@@ -219,9 +219,9 @@ class Search extends Container {
    * @param {jQuery.Event} event Event object
    */
   disambiguated(event) {
-    if (!event.originalEvent || event.keyCode === 13 || event.keyCode === 32) {
-      const li = $(event.currentTarget)
-      const data = li.data('location')
+    const li = $(event.currentTarget)
+    const data = li.data('location')
+    if (data) {
       this.val(data.name)
       data.isFeature = li.hasClass('feature')
       this.trigger('disambiguated', data)
