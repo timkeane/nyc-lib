@@ -250,7 +250,7 @@ class MapMgr {
    */
   getFromAddr() {
     const location = this.location
-    if (location.type === 'geolocated') {
+    if (location.type === 'geolocated' || location.isFeature) {
       const coordinates = proj4(
         this.view.getProjection().getCode(),
         'EPSG:4326',

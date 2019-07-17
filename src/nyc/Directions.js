@@ -257,7 +257,6 @@ class Directions extends Contanier {
         first = false
       }
     })
-    console.info(this.modeBtn)
     this.find('.no-trans')[!hasTransit && $(this.modeBtn).attr('id') === 'transit' ? 'show' : 'hide']()
   }
   /**
