@@ -723,7 +723,7 @@ describe('tabChange', () => {
     
     finderApp.tabChange()
   
-    expect($('#map').attr('aria-hidden')).toBe('false')
+    expect($('#map').attr('aria-hidden')).toBe('true')
     expect(finderApp.map.setSize).toHaveBeenCalledTimes(2)
     expect(finderApp.map.setSize.mock.calls[1][0]).toEqual([500, 400])
   })
@@ -751,7 +751,7 @@ describe('tabChange', () => {
 
     finderApp.tabChange()
   
-    expect($('#map').attr('aria-hidden')).toBe('true')
+    expect($('#map').attr('aria-hidden')).toBe('false')
     expect(finderApp.map.setSize).toHaveBeenCalledTimes(2)
     expect(finderApp.map.setSize.mock.calls[1][0]).toEqual([400, 500])
   })

@@ -328,7 +328,6 @@ class FinderApp extends MapMgr {
     }
     if (!this.isMobile()) {
       this.tabs.open('#facilities')
-      $('#map').attr('aria-hidden', false)
     }
     this.moveSearch(this.tabs)
   }
@@ -341,11 +340,16 @@ class FinderApp extends MapMgr {
   tabChange(tabs) {
     if (this.isMobile()) {
       this.moveSearch(this.tabs)
+    } else {
       $('#map').attr('aria-hidden', false)
     }
     this.map.setSize([$('#map').width(), $('#map').height()])
   }
-
+  /**
+   * @private
+   * @method
+   * @param {module:nyc/Tabs~Tabs} tabs Tabs
+   */
   moveSearch(tabs) {
     const map = this.map
     const container = tabs.getContainer()
