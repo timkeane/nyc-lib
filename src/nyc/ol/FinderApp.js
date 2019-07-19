@@ -321,6 +321,9 @@ class FinderApp extends MapMgr {
     this.screenReaderDialog.ok({
       message: FinderApp.SCREEN_READER_INFO,
       buttonText: ['Return to the map']
+    }).then(() => {
+      $('#tabs').attr('aria-hidden', false)
+      input.focus()
     })
     $('.screen-reader-info .dia').get(0).scrollTop = 0
   }
