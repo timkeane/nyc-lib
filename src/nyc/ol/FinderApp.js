@@ -410,23 +410,23 @@ FinderApp.Options
  * @type {string}
  */
 FinderApp.HTML = `<h1 id="banner" role="banner"></h1>
-'<a id="screen-reader-info" class="btn-sq" href="#">
-  '<span class="screen-reader-only">screen reader instructions</span>
-'</a>
-'<a id="home" role="button" href="#">
-  '<span class="screen-reader-only">Reload page</span>
-  '<svg xmlns="http://www.w3.org/2000/svg" width="152" height="52">
-    '<g transform="translate(1.5,0)">
-      '<polygon points="15.5,1.2 3.1,1.2 0,4.3 0,47.7 3.1,50.8 15.5,50.8 18.6,47.7 18.6,35.3 34.1,50.8 46.6,50.8 49.7,47.7 49.7,4.3 46.6,1.2 34.1,1.2 31,4.3 31,16.7 "/>
-      '<polygon points="83.8,47.7 83.8,38.4 99.3,22.9 99.3,10.5 99.3,4.3 96.2,1.2 83.8,1.2 80.7,4.3 80.7,10.5 74.5,16.7 68.3,10.5 68.3,4.3 65.2,1.2 52.8,1.2 49.7,4.3 49.7,22.9 65.2,38.4 65.2,47.7 68.3,50.8 80.7,50.8 "/>
-      '<polygon points="145.9,29.1 130.4,29.1 130.4,32.2 118,32.2 118,19.8 130.4,19.8 130.4,22.9 145.9,22.9 149,19.8 149,10.5 139.7,1.2 108.6,1.2 99.3,10.5 99.3,41.5 108.6,50.8 139.7,50.8 149,41.5 149,32.2 "/>
-    '</g>
-  '</svg>
-'</a>
-'<div id="map"></div>
-'<div id="tabs"></div>
-'<div id="facilities"><div role="region"></div></div>
-'<div id="filters"></div>`
+<a id="screen-reader-info" class="btn-sq" href="#">
+  <span class="screen-reader-only">screen reader instructions</span>
+</a>
+<a id="home" role="button" href="#">
+  <span class="screen-reader-only">Reload page</span>
+  <svg xmlns="http://www.w3.org/2000/svg" width="152" height="52">
+    <g transform="translate(1.5,0)">
+      <polygon points="15.5,1.2 3.1,1.2 0,4.3 0,47.7 3.1,50.8 15.5,50.8 18.6,47.7 18.6,35.3 34.1,50.8 46.6,50.8 49.7,47.7 49.7,4.3 46.6,1.2 34.1,1.2 31,4.3 31,16.7 "/>
+      <polygon points="83.8,47.7 83.8,38.4 99.3,22.9 99.3,10.5 99.3,4.3 96.2,1.2 83.8,1.2 80.7,4.3 80.7,10.5 74.5,16.7 68.3,10.5 68.3,4.3 65.2,1.2 52.8,1.2 49.7,4.3 49.7,22.9 65.2,38.4 65.2,47.7 68.3,50.8 80.7,50.8 "/>
+      <polygon points="145.9,29.1 130.4,29.1 130.4,32.2 118,32.2 118,19.8 130.4,19.8 130.4,22.9 145.9,22.9 149,19.8 149,10.5 139.7,1.2 108.6,1.2 99.3,10.5 99.3,41.5 108.6,50.8 139.7,50.8 149,41.5 149,32.2 "/>
+    </g>
+  </svg>
+</a>
+<div id="map"></div>
+<div id="tabs"></div>
+<div id="facilities"><div role="region"></div></div>
+<div id="filters"></div>`
 
 FinderApp.SCREEN_READER_INFO = `<h1>Screen reader Instructions NYC Finder Apps</h1>
 <h2>Getting started</h2>
