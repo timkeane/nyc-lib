@@ -318,6 +318,7 @@ class FinderApp extends MapMgr {
     }
   }
   screenReaderInfo() {
+    const input = this.locationMgr.search.input
     this.screenReaderDialog.ok({
       message: FinderApp.SCREEN_READER_INFO,
       buttonText: ['Return to the map']
