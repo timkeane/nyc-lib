@@ -202,6 +202,46 @@ html, body.fnd, .fnd #map {
   display: block !important;
   width: auto;
 }
+.fnd .splash .dia a.btn-yes, .fnd .splash .dia a.btn-no {
+  width: 280px;
+}
+.fnd .splash .dia a.btn-yes {
+  background-image: var(--speaker-icon-medium);
+  background-size: 28px;
+  background-position: 3px center;
+}
+.fnd .splash .dia a.btn-yes:hover {
+  background-image: var(--speaker-icon-dark);
+}
+#screen-reader-info {
+  position: fixed;
+  right: 0;
+  top: 0;
+  left: auto;
+  bottom: auto;
+  background-image: var(--speaker-icon-light);
+  background-size: 28px;
+  background-position: center;
+}
+.screen-reader-info .dia {
+  position: fixed;
+  top: 36px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  width: auto;
+  overflow-y: auto;
+}
+.screen-reader-info .dia-msg {
+  text-align: left;
+}
+.screen-reader-info h1 {
+  font-size: 24px;
+}
+.screen-reader-info a.btn-ok {
+  width: 300px;
+}
 @media only screen and (max-width : 750px), screen and (max-device-height: 350px) {
   .fnd #tabs {
     width: 100%;

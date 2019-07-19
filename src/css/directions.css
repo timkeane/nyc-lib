@@ -9,12 +9,6 @@
 	right: 0;
 	bottom: 0;
 }
-#back-to-map {
-  top: 0;
-}
-#back-to-map * {
-  color: #fff;
-}
 #dir-tabs {
   width: 400px;
 }
@@ -34,9 +28,10 @@
 	height: 100%;
 }
 #back-to-map {
+  top: 0;
 	left: auto;
 	padding: 5px 3px 0 3px;
-	background-color:transparent;
+	background-color: var(--color-dark);
 	color: var(--color-light);
 	border: none;
 }
@@ -59,6 +54,10 @@
 	background-color: var(--color-light);
 	background-image: var(--left-icon-dark, none);
 	border-color: transparent;
+}
+#back-to-map * {
+	background-color: var(--color-dark);
+  color: #fff;
 }
 #directions .tabs {
 	top: 35px;

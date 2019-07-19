@@ -80,6 +80,12 @@ class FinderApp extends MapMgr {
      * @member {module:nyc/Dialog~Dialog}
      */
     this.mobileDia = new Dialog({css: 'shw-lst'})
+    /**
+     * @private
+     * @member {module:nyc/Dialog~Dialog}
+     */
+    this.screenReaderDialog = new Dialog({css: 'screen-reader-info'})
+    $('#screen-reader-info').click($.proxy(this.screenReaderInfo, this))
     $('.shw-lst .btn-yes span').html(`View nearby ${$('#tab-btn-1').html()} in an accessible list`)
   }
   /**
@@ -298,14 +304,25 @@ class FinderApp extends MapMgr {
   showSplash(options) {
     const input = this.locationMgr.search.input
     if (options) {
-      options.buttonText = options.buttonText || ['Continue']
-      new Dialog({css: 'splash'}).ok(options).then(() => {
-        $('#tabs').attr('aria-hidden', false)
-        input.focus()
+      options.buttonText = options.buttonText || ['Screen Reader Instructions', 'Continue']
+      new Dialog({css: 'splash'}).yesNo(options).then(info => {
+        if (info) {
+          this.screenReaderInfo()
+        } else {
+          $('#tabs').attr('aria-hidden', false)
+          input.focus()
+        }
       })
     } else {
       input.focus()
     }
+  }
+  screenReaderInfo() {
+    this.screenReaderDialog.ok({
+      message: FinderApp.SCREEN_READER_INFO,
+      buttonText: ['Return to the map']
+    })
+    $('.screen-reader-info .dia').get(0).scrollTop = 0
   }
   /**
    * @private
@@ -389,20 +406,114 @@ FinderApp.Options
  * @const
  * @type {string}
  */
-FinderApp.HTML = '<h1 id="banner" role="banner"></h1>' +
-'<a id="home" role="button" href="#">' +
-  '<span class="screen-reader-only">Reload page</span>' +
-  '<svg xmlns="http://www.w3.org/2000/svg" width="152" height="52">' +
-    '<g transform="translate(1.5,0)">' +
-      '<polygon points="15.5,1.2 3.1,1.2 0,4.3 0,47.7 3.1,50.8 15.5,50.8 18.6,47.7 18.6,35.3 34.1,50.8 46.6,50.8 49.7,47.7 49.7,4.3 46.6,1.2 34.1,1.2 31,4.3 31,16.7 "/>' +
-      '<polygon points="83.8,47.7 83.8,38.4 99.3,22.9 99.3,10.5 99.3,4.3 96.2,1.2 83.8,1.2 80.7,4.3 80.7,10.5 74.5,16.7 68.3,10.5 68.3,4.3 65.2,1.2 52.8,1.2 49.7,4.3 49.7,22.9 65.2,38.4 65.2,47.7 68.3,50.8 80.7,50.8 "/>' +
-      '<polygon points="145.9,29.1 130.4,29.1 130.4,32.2 118,32.2 118,19.8 130.4,19.8 130.4,22.9 145.9,22.9 149,19.8 149,10.5 139.7,1.2 108.6,1.2 99.3,10.5 99.3,41.5 108.6,50.8 139.7,50.8 149,41.5 149,32.2 "/>' +
-    '</g>' +
-  '</svg>' +
-'</a>' +
-'<div id="map"></div>' +
-'<div id="tabs"></div>' +
-'<div id="facilities"><div role="region"></div></div>' +
-'<div id="filters"></div>'
+FinderApp.HTML = `<h1 id="banner" role="banner"></h1>
+'<a id="screen-reader-info" class="btn-sq" href="#">
+  '<span class="screen-reader-only">screen reader instructions</span>
+'</a>
+'<a id="home" role="button" href="#">
+  '<span class="screen-reader-only">Reload page</span>
+  '<svg xmlns="http://www.w3.org/2000/svg" width="152" height="52">
+    '<g transform="translate(1.5,0)">
+      '<polygon points="15.5,1.2 3.1,1.2 0,4.3 0,47.7 3.1,50.8 15.5,50.8 18.6,47.7 18.6,35.3 34.1,50.8 46.6,50.8 49.7,47.7 49.7,4.3 46.6,1.2 34.1,1.2 31,4.3 31,16.7 "/>
+      '<polygon points="83.8,47.7 83.8,38.4 99.3,22.9 99.3,10.5 99.3,4.3 96.2,1.2 83.8,1.2 80.7,4.3 80.7,10.5 74.5,16.7 68.3,10.5 68.3,4.3 65.2,1.2 52.8,1.2 49.7,4.3 49.7,22.9 65.2,38.4 65.2,47.7 68.3,50.8 80.7,50.8 "/>
+      '<polygon points="145.9,29.1 130.4,29.1 130.4,32.2 118,32.2 118,19.8 130.4,19.8 130.4,22.9 145.9,22.9 149,19.8 149,10.5 139.7,1.2 108.6,1.2 99.3,10.5 99.3,41.5 108.6,50.8 139.7,50.8 149,41.5 149,32.2 "/>
+    '</g>
+  '</svg>
+'</a>
+'<div id="map"></div>
+'<div id="tabs"></div>
+'<div id="facilities"><div role="region"></div></div>
+'<div id="filters"></div>`
+
+FinderApp.SCREEN_READER_INFO = `<h1>Screen reader Instructions NYC Finder Apps</h1>
+<h2>Getting started</h2>
+<p>
+  This finder app uses the NYC DoITT nyc-lib javascript library which templates mapping 
+  applications and provides accessibility functionality. Below are general screen reader 
+  instructions on how to use all of the finder apps that use this template. 
+  When the application first loads, there is a dialogue box with an introduction to each 
+  specific finder app. Users can navigate to the continue or view map link and press 
+  enter to proceed to the finder app. There is a "Reload" button that is always near 
+  the top of the page that takes users back to this initial dialogue.    
+</p>
+<h2>Search for an address</h2>
+<p>
+  Users can enter an address to get a list of nearby locations. When the finder app loads, 
+  screen reader and keyboard focus is dropped into a search field. Input an address then 
+  press enter to submit. 
+</p>
+<p>
+  If the address was entered correctly, the list of locations will 
+  update, screen readers will announce the number of results and shift focus to the 
+  beginning of the search results.
+</p>
+<p>
+  If there are address suggestions, focus will shift to the first suggestion. Press tab 
+  to cycle through suggestions and enter to select an address. Screen readers will announce
+  the number of results and focus will shift to the beginning of the results area.
+</p>
+<h2>Navigating results</h2>
+<p>
+  Screen reader users can navigate by headings to browse through each result. For JAWS and 
+  NVDA, press the "H" key. For Voiceover users, press Command, Option, Control and "H" or 
+  just "H" with Quicknav and single letter navigation turned on. 
+</p>
+<p>
+  Screen reader users can also use regions to navigate to different areas such as the banner,
+  search form, and list of results. Jaws users can press the "R" key. NVDA users can press 
+  the "D" key. Voiceover users can pull up a list of regions if it is included in their web
+  rotor settings.    
+</p>
+<h2>Filtering results</h2>
+<p>
+  Users can filter results to get more specific results. Screen reader users can navigate by 
+  headings to get to the "Filters" tab. It is towards the top of the page. JAWS and NVDA 
+  users can press enter on the "Filters" tab in order to navigate to the filters page. 
+  Voiceover users can press control, option and space bar.    
+</p>
+<p>
+  On the filters page are checkboxes with different filtering options. JAWS and NVDA users 
+  can press "X" to navigate through the various filter options and space bar to select 
+  each one. Voiceover users can use control, option and the arrow keys to navigate then 
+  control, option and space bar to select a filter.    
+</p>
+<p>
+  Once a user has selected the filters they would like to apply, they can navigate to the 
+  apply button. JAWS and NVDA users can press enter or spacebar to activate the "Apply" 
+  button. Voiceover users can press control, option and space bar. The finder app will then 
+  return to an updated list of results where screen reader users can navigate by heading 
+  from one entry to another.    
+</p>
+<h2>Translate and share</h2>
+<p>
+  Below the search field are options to translate or share this page. JAWS and NVDA users 
+  can use the tab key to navigate to them. Screen reader users can also navigate to them 
+  using regions. JAWS users can press the “R” key to navigate to the translate or share 
+  regions. NVDA users can use the “D” key to navigate to those regions. Voiceover users can 
+  pull up a list of regions if it is included in their web rotor settings.    
+</p>
+<p>
+  To translate, navigate to the translate combobox. JAWS and NVDA users can press enter to 
+  open the combobox and the arrow keys to navigate through the options. Voiceover users 
+  can open the combobox by pressing control, option and space bar then the arrow keys to 
+  navigate through the options. All users can then press enter or return to make a selection.    
+</p>
+<p>
+  To share this page, navigate to the share button or region. JAWS and NVDA users can press 
+  enter on the “Share” toggle button to expand the share options. Voiceover users can press 
+  control, option and space bar. All users can then use tab or the arrow keys to navigate 
+  through the different share options and press enter or return to make a selection.     
+</p>
+<h2>Travel directions</h2>
+<p>
+  When browsing through each result, users can press enter on the "Directions" button in 
+  order to get travel directions.     
+</p>
+<p>
+  The screen that follows has Google maps directions for transit, walking, driving and ride 
+  services. There is also an option for MTA Trip Planner which can give wheelchair accessible 
+  directions. Please note that if a user chooses MTA Trip Planner, they will be taken to an 
+  external website.    
+</p>`
 
 export default FinderApp
