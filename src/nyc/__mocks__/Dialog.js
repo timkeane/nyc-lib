@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 const mock = jest.fn().mockImplementation(() => {
   const it = {
     ok: jest.fn().mockImplementation(() => {
