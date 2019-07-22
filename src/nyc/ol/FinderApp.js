@@ -432,7 +432,7 @@ FinderApp.HTML = `<h1 id="banner" role="banner"></h1>
 <div id="facilities"><div role="region"></div></div>
 <div id="filters"></div>`
 
-FinderApp.SCREEN_READER_INFO = `<h1 aria-live="polite">Screen reader Instructions for NYC Finder Apps</h1>
+FinderApp.SCREEN_READER_INFO = `<h1 tabindex="0" aria-live="polite">Screen reader Instructions for NYC Finder Apps</h1>
 <h2>Getting started</h2>
 <p>
   This finder app uses the NYC DoITT nyc-lib javascript library which templates mapping 
