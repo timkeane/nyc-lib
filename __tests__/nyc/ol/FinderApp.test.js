@@ -88,7 +88,7 @@ afterEach(() => {
 })
 
 test('constructor mouseWheelZoom is undefined', () => {
-  expect.assertions(64)
+  expect.assertions(67)
 
   const finderApp = new FinderApp({
     title: 'Finder App',
@@ -169,11 +169,14 @@ test('constructor mouseWheelZoom is undefined', () => {
   expect(finderApp.view.fit.mock.calls[0][1].size).toEqual([100, 100])
   expect(finderApp.view.fit.mock.calls[0][1].duration).toBe(500)
 
-  expect(Dialog).toHaveBeenCalledTimes(2)
+  expect(Dialog).toHaveBeenCalledTimes(3)
+  expect(Dialog.mock.calls[2][0]).toEqual({css: 'screen-reader-info'})
   expect(Dialog.mock.calls[1][0]).toEqual({css: 'shw-lst'})
   expect(Dialog.mock.calls[0][0]).toEqual({css: 'splash'})
-  expect(Dialog.mock.instances[0].ok.mock.calls[0][0].message).toBe('splash page message')
-  expect(Dialog.mock.instances[0].ok.mock.calls[0][0].buttonText[0]).toBe('Continue')
+  expect(Dialog.mock.instances[0].ok.mock.calls.length).toBe(0)
+  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].message).toBe('splash page message')
+  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].buttonText[0]).toBe('Screen reader instructions')
+  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].buttonText[1]).toBe('Continue')
 
   expect(Share).toHaveBeenCalledTimes(1)
   expect(Share.mock.calls[0][0].target).toBe('#map')
@@ -185,7 +188,7 @@ test('constructor mouseWheelZoom is undefined', () => {
 })
 
 test('constructor mouseWheelZoom = false', () => {
-  expect.assertions(64)
+  expect.assertions(67)
 
   const finderApp = new FinderApp({
     title: 'Finder App',
@@ -268,11 +271,14 @@ test('constructor mouseWheelZoom = false', () => {
   expect(finderApp.view.fit.mock.calls[0][1].size).toEqual([100, 100])
   expect(finderApp.view.fit.mock.calls[0][1].duration).toBe(500)
 
-  expect(Dialog).toHaveBeenCalledTimes(2)
+  expect(Dialog).toHaveBeenCalledTimes(3)
+  expect(Dialog.mock.calls[2][0]).toEqual({css: 'screen-reader-info'})
   expect(Dialog.mock.calls[1][0]).toEqual({css: 'shw-lst'})
   expect(Dialog.mock.calls[0][0]).toEqual({css: 'splash'})
-  expect(Dialog.mock.instances[0].ok.mock.calls[0][0].message).toBe('splash page message')
-  expect(Dialog.mock.instances[0].ok.mock.calls[0][0].buttonText[0]).toBe('Continue')
+  expect(Dialog.mock.instances[0].ok.mock.calls.length).toBe(0)
+  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].message).toBe('splash page message')
+  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].buttonText[0]).toBe('Screen reader instructions')
+  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].buttonText[1]).toBe('Continue')
 
   expect(Share).toHaveBeenCalledTimes(1)
   expect(Share.mock.calls[0][0].target).toBe('#map')
@@ -472,7 +478,7 @@ test('createFilters', () => {
 })
 
 test('showSplash', () => {
-  expect.assertions(8)
+  expect.assertions(11)
   
   const finderApp = new FinderApp({
     title: 'Finder App',
@@ -498,80 +504,16 @@ test('showSplash', () => {
 
   finderApp.showSplash({message: 'splash page message'})
   
-  expect(Dialog).toHaveBeenCalledTimes(2)
+  expect(Dialog).toHaveBeenCalledTimes(3)
   expect(Dialog.mock.calls[0][0]).toEqual({css: 'shw-lst'})
-  expect(Dialog.mock.calls[1][0]).toEqual({css: 'splash'})
-  expect(Dialog.mock.instances[1].ok.mock.calls[0][0].message).toBe('splash page message')
-  expect(Dialog.mock.instances[1].ok.mock.calls[0][0].buttonText[0]).toBe('Continue')
+  expect(Dialog.mock.calls[1][0]).toEqual({css: 'screen-reader-info'})
+  expect(Dialog.mock.calls[2][0]).toEqual({css: 'splash'})
+  expect(Dialog.mock.instances[2].ok.mock.calls.length).toBe(0)
+  expect(Dialog.mock.instances[2].yesNo.mock.calls[0][0].message).toBe('splash page message')
+  expect(Dialog.mock.instances[2].yesNo.mock.calls[0][0].buttonText[0]).toBe('Screen reader instructions')
+  expect(Dialog.mock.instances[2].yesNo.mock.calls[0][0].buttonText[1]).toBe('Continue')
 
   return test().then(success => {expect(success).toBe(true)})
-})
-
-describe('createTabs', () => {
-  test('createTabs called from constructor no filters titles provided no splash', () => {
-    expect.assertions(13)
-
-    const finderApp = new FinderApp({
-      title: 'Finder App',
-      facilityTabTitle: 'Facility Title',
-      facilityUrl: 'http://facility',
-      facilityFormat: format,
-      facilityStyle: style,
-      geoclientUrl: 'http://geoclient'
-    })
-
-    expect(finderApp.tabs instanceof Tabs).toBe(true)
-    expect($('#tabs').attr('aria-hidden')).toBe(undefined)
-    expect(finderApp.tabs.tabs.children().length).toBe(2)
-    expect(finderApp.tabs.tabs.find('#map').length).toBe(1)
-    expect(finderApp.tabs.tabs.find('#map').data('btn').html()).toBe('Map')
-    expect(finderApp.tabs.tabs.find('#facilities').length).toBe(1)
-    expect(finderApp.tabs.tabs.find('#facilities').data('btn').html()).toBe('Facility Title')
-  
-    expect($.mocks.resize).toHaveBeenCalledTimes(1)
-    expect($.mocks.resize.mock.instances[0].get(0)).toBe(window)
-
-    expect($.mocks.proxy).toHaveBeenCalled()
-    const lastCall = $.mocks.proxy.mock.calls.length - 1
-    expect($.mocks.proxy.mock.calls[lastCall][0]).toBe(finderApp.adjustTabs)
-    expect($.mocks.proxy.mock.calls[lastCall][1]).toBe(finderApp)
-
-    expect($.mocks.resize.mock.calls[0][0]).toBe($.mocks.proxy.returnedValues[lastCall])
-  })
-
-  test('createTabs called from constructor has filters titles not provided has splash', () => {
-    expect.assertions(15)
-
-    const finderApp = new FinderApp({
-      title: 'Finder App',
-      facilityUrl: 'http://facility',
-      facilityFormat: format,
-      facilityStyle: style,
-      filterChoiceOptions: filterChoiceOptions,
-      geoclientUrl: 'http://geoclient',
-      splashOptions: {}
-    })
-
-    expect(finderApp.tabs instanceof Tabs).toBe(true)
-    expect($('#tabs').attr('aria-hidden')).toBe('true')
-    expect(finderApp.tabs.tabs.children().length).toBe(3)
-    expect(finderApp.tabs.tabs.find('#map').length).toBe(1)
-    expect(finderApp.tabs.tabs.find('#map').data('btn').html()).toBe('Map')
-    expect(finderApp.tabs.tabs.find('#facilities').length).toBe(1)
-    expect(finderApp.tabs.tabs.find('#facilities').data('btn').html()).toBe('Facilities')
-    expect(finderApp.tabs.tabs.find('#filters').length).toBe(1)
-    expect(finderApp.tabs.tabs.find('#filters').data('btn').html()).toBe('Filters')
-  
-    expect($.mocks.resize).toHaveBeenCalledTimes(1)
-    expect($.mocks.resize.mock.instances[0].get(0)).toBe(window)
-
-    expect($.mocks.proxy).toHaveBeenCalled()
-    const lastCall = $.mocks.proxy.mock.calls.length - 1
-    expect($.mocks.proxy.mock.calls[lastCall][0]).toBe(finderApp.adjustTabs)
-    expect($.mocks.proxy.mock.calls[lastCall][1]).toBe(finderApp)
-
-    expect($.mocks.resize.mock.calls[0][0]).toBe($.mocks.proxy.returnedValues[lastCall])
-  })
 })
 
 test('expandDetail', () => {
