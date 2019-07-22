@@ -319,7 +319,7 @@ class FinderApp extends MapMgr {
   }
   screenReaderInfo() {
     const input = this.locationMgr.search.input
-    this.screenReaderDialog.find('btn-ok').one('focus', () => {
+    this.screenReaderDialog.find('.btn-ok').one('focus', () => {
       $('.screen-reader-info h1').focus()
     })
     this.screenReaderDialog.ok({
