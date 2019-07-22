@@ -319,6 +319,9 @@ class FinderApp extends MapMgr {
   }
   screenReaderInfo() {
     const input = this.locationMgr.search.input
+    this.screenReaderDialog.find('btn-ok').one('focus', () => {
+      $('.screen-reader-info h1').focus()
+    })
     this.screenReaderDialog.ok({
       message: FinderApp.SCREEN_READER_INFO,
       buttonText: ['Return to the map']
@@ -327,7 +330,6 @@ class FinderApp extends MapMgr {
       input.focus()
     })
     $('.screen-reader-info .dia').get(0).scrollTop = 0
-    $('.screen-reader-info h1').focus()
   }
   /**
    * @private
@@ -430,8 +432,7 @@ FinderApp.HTML = `<h1 id="banner" role="banner"></h1>
 <div id="facilities"><div role="region"></div></div>
 <div id="filters"></div>`
 
-FinderApp.SCREEN_READER_INFO = `<div aria-live="polite">
-<h1>Screen reader Instructions for NYC Finder Apps</h1>
+FinderApp.SCREEN_READER_INFO = `<h1 aria-live="polite">Screen reader Instructions for NYC Finder Apps</h1>
 <h2>Getting started</h2>
 <p>
   This finder app uses the NYC DoITT nyc-lib javascript library which templates mapping 
@@ -520,7 +521,6 @@ FinderApp.SCREEN_READER_INFO = `<div aria-live="polite">
   services. There is also an option for MTA Trip Planner which can give wheelchair accessible 
   directions. Please note that if a user chooses MTA Trip Planner, they will be taken to an 
   external website.    
-</p>
-</div>`
+</p>`
 
 export default FinderApp
