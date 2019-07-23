@@ -521,6 +521,10 @@ FinderApp.SCREEN_READER_INFO = `<h1 tabindex="0" aria-live="polite">Screen reade
   services. There is also an option for MTA Trip Planner which can give wheelchair accessible 
   directions. Please note that if a user chooses MTA Trip Planner, they will be taken to an 
   external website.    
+</p>
+<h2>Contact support</h2>
+<p>To submit feedback about your experience or request assistance please <a href="https://www1.nyc.gov/nyc-resources/contact-the-citys-digital-accessibility-coordinator.page">contact the 
+  Digital Accessibility Coordinator</a> at the Mayor's Office for People with Disabilities.
 </p>`
 
 export default FinderApp
