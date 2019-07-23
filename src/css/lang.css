@@ -95,7 +95,7 @@ html[lang="ur"] .fnd #banner>div {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-html[lang="ur"] font, html[lang="ur"] input {
+html[lang="ur"] p, html[lang="ur"] font, html[lang="ur"] input {
   line-height: 25px;
 }
 .apply font {
