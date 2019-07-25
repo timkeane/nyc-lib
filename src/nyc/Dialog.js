@@ -122,13 +122,9 @@ class Dialog extends Container {
     const yesNo = this.yesNoBtns
     return new Promise(resolve => {
       yesNo.one('click', event => {
-        const target = event.target
         dia.checkHref(event)
         dia.hide()
-        resolve(
-          $(target).hasClass('btn-yes') ||
-          $.contains(dia.find('.btn-yes'), target)
-        )
+        resolve(dia.isYesBtn(event.target))
       })
     })
   }
@@ -156,7 +152,7 @@ class Dialog extends Container {
         dia.checkHref(event)
         $(document).off('keyup', keyup)
         dia.hide()
-        resolve($(event.target).hasClass('btn-yes'))
+        resolve(dia.isYesBtn(event.target))
       })
       cancel.one('click', event => {
         dia.checkHref(event)
@@ -165,6 +161,14 @@ class Dialog extends Container {
         resolve(undefined)
       })
     })
+  }
+  /**
+   * @private
+   * @method
+   * @param {Element} target
+   */
+  isYesBtn(target) {
+    return $(target).hasClass('btn-yes') || $.contains(this.find('.btn-yes').get(0), target)
   }
   /**
    * @private
