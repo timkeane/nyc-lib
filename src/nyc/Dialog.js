@@ -122,9 +122,13 @@ class Dialog extends Container {
     const yesNo = this.yesNoBtns
     return new Promise(resolve => {
       yesNo.one('click', event => {
+        const target = event.target
         dia.checkHref(event)
         dia.hide()
-        resolve($(event.target).hasClass('btn-yes'))
+        resolve(
+          $(target).hasClass('btn-yes') ||
+          $.contains(dia.find('.btn-yes'), target)
+        )
       })
     })
   }
