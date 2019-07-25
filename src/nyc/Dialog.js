@@ -166,7 +166,7 @@ class Dialog extends Container {
    * @private
    * @method
    * @param {Element} target The clicked element
-   * @returns {boolean}
+   * @returns {boolean} The button is/isn't the yes button
    */
   isYesBtn(target) {
     return $(target).hasClass('btn-yes') || $.contains(this.find('.btn-yes').get(0), target)
