@@ -349,11 +349,11 @@ class FinderApp extends MapMgr {
           this.tabs.open('#map')
         }
       }
+      this.moveSearch(this.tabs)
     }
     if (!this.isMobile()) {
       this.tabs.open('#facilities')
     }
-    this.moveSearch(this.tabs)
   }
   /**
    * @desc Handles the tab change event
