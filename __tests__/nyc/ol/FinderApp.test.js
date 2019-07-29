@@ -666,8 +666,8 @@ describe('tabChange', () => {
     finderApp.tabChange()
   
     expect($('#map').attr('aria-hidden')).toBe('true')
-    expect(finderApp.map.setSize).toHaveBeenCalledTimes(2)
-    expect(finderApp.map.setSize.mock.calls[1][0]).toEqual([500, 400])
+    expect(finderApp.map.setSize).toHaveBeenCalledTimes(3)
+    expect(finderApp.map.setSize.mock.calls[2][0]).toEqual([500, 400])
   })
 
   test('tabChange tabs do fill screen', () => {
@@ -694,8 +694,8 @@ describe('tabChange', () => {
     finderApp.tabChange()
   
     expect($('#map').attr('aria-hidden')).toBe('false')
-    expect(finderApp.map.setSize).toHaveBeenCalledTimes(2)
-    expect(finderApp.map.setSize.mock.calls[1][0]).toEqual([400, 500])
+    expect(finderApp.map.setSize).toHaveBeenCalledTimes(3)
+    expect(finderApp.map.setSize.mock.calls[2][0]).toEqual([400, 500])
   })
 })
 

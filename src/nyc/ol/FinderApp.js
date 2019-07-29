@@ -354,6 +354,7 @@ class FinderApp extends MapMgr {
     if (!this.isMobile() && !nyc.activeElement().isTextInput) {
       this.tabs.open('#facilities')
     }
+    this.map.setSize([$('#map').width(), $('#map').height()])
   }
   /**
    * @desc Handles the tab change event
