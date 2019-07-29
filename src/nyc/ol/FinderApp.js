@@ -351,7 +351,7 @@ class FinderApp extends MapMgr {
       }
       this.moveSearch(this.tabs)
     }
-    if (!this.isMobile()) {
+    if (!this.isMobile() && !nyc.activeElement().isTextInput) {
       this.tabs.open('#facilities')
     }
   }
