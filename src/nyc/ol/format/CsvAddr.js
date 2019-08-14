@@ -77,7 +77,7 @@ class CsvAddr extends CsvPoint {
   setGeocode(feature, geocode) {
     const input = feature.get('_input')
     const source = feature.get('_source')
-    feature.set('_geocodeResp', result)
+    feature.set('_geocodeResp', geocode)
     if (geocode.type === 'geocoded') {
       console.info('Geocoded:', input, source, 'Geocoder response:', geocode)
       feature.setGeometry(new OlGeomPoint(geocode.coordinate))
