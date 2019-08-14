@@ -72,7 +72,7 @@ class CsvAddr extends CsvPoint {
    * @public
    * @method
    * @param {ol.Feature} feature The feature
-   * @param {Locator.Resultmodule:nyc/Locator~Locator.Result} geocode A geocoder response
+   * @param {module:nyc/Locator~Locator.Result} geocode A geocoder response
    */
   setGeocode(feature, geocode) {
     const input = feature.get('_input')
