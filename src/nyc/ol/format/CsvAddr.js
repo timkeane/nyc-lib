@@ -70,7 +70,6 @@ class CsvAddr extends CsvPoint {
   /**
    * @desc Set the feature geocode result and geometry
    * @public
-   * @override
    * @method
    * @param {ol.Feature} feature The feature
    * @param {Locator.Resultmodule:nyc/Locator~Locator.Result} result A geocoder response
