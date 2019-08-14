@@ -68,6 +68,26 @@ class CsvAddr extends CsvPoint {
     return features
   }
   /**
+   * @desc Set the feature geocode result and geometry
+   * @public
+   * @override
+   * @method
+   * @param {ol.Feature} feature The feature
+   * @param {Locator.Resultmodule:nyc/Locator~Locator.Result} result A geocoder response
+   */
+  setGeocode(feature, result) {
+    const input = feature.get('_input')
+    const source = feature.get('_source')
+    feature.set('_geocodeResp', result)
+    if (result.type === 'geocoded') {
+      console.info('Geocoded:', input, source, 'Geocoder response:', result)
+      feature.setGeometry(new OlGeomPoint(result.coordinate))
+    } else {
+      console.warn('Ambiguous location:', input, source, 'Geocoder response:', result)
+      feature.dispatchEvent('change', {target: feature})
+    }
+  }
+  /**
    * @desc Set the feature geometry
    * @public
    * @override
@@ -77,18 +97,13 @@ class CsvAddr extends CsvPoint {
    */
   setGeometry(feature, source) {
     const input = this.replace(this.locationTemplate, source)
+    feature.set('_input', input)
+    feature.set('_source', source)
     if (input === this.locationTemplate) {
       console.error('Invalid location:', input, 'Bad record:', source)
     } else {
       this.geocoder.search(input).then(result => {
-        feature.set('_geocodeResp', result)
-        if (result.type === 'geocoded') {
-          console.info('Geocoded:', input, source, 'Geocoder response:', result)
-          feature.setGeometry(new OlGeomPoint(result.coordinate))
-        } else {
-          console.warn('Ambiguous location:', input, source, 'Geocoder response:', result)
-          feature.dispatchEvent('change', {target: feature})
-        }
+        this.setGeocode(feature, result)
       }).catch(error => {
         console.error('Geocoding error:', input, source, 'Geocoder response:', error)
       }).finally(() => {
