@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>nyc.LocationMgr With Searchable Features Example</title>
+  <title>nyc.CensusGeocoder Example</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
   <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
@@ -28,35 +28,13 @@
 <body>
   <div id="map"></div>
   <script>
-    var url = 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
     var map = new nyc.ol.Basemap({target: 'map'});
-
-    var source = new ol.source.Vector({
-      url: '../data/data.json',
-      format: new ol.format.GeoJSON({
-        dataProjection: 'EPSG:3857'
-      })
-    });
-    map.addLayer(new ol.layer.Vector({
-      source: source
-    }));
-
     var locationMgr = new nyc.ol.LocationMgr({
       map: map,
-      url: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
+      geocoder: new nyc.CensusGeocoder({
+        url: 'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?format=json&benchmark=4&vintage=4'
+      })
     });
-
-    var interval = setInterval(function() {
-      var features = source.getFeatures()
-      if (features.length) {
-        clearInterval(interval);
-        locationMgr.search.setFeatures({
-          layerName: 'facility',
-          features: features,
-          placeholder: 'Search for an address or facility...'
-        });
-      }
-    }, 200);
   </script>
 </body>
 </html>

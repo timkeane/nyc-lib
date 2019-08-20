@@ -35,14 +35,14 @@ class LocationMgr extends NycLocationMgr {
       searchTarget = $(map.getTargetElement()).find('.ol-overlaycontainer-stopevent')
     }
 
+    const geocoder = options.geocoder || new NycGeoclient({url: options.url})
+
     super({
       search: new NycOlSearch(searchTarget),
       zoom: new NycOlZoom(map),
       dialogTarget: options.dialogTarget,
       geolocate: new NycOlGeolocate(map),
-      locator: new NycOlLocator({
-        geocoder: new NycGeoclient({url: options.url})
-      }),
+      locator: new NycOlLocator({geocoder: geocoder}),
       mapLocator: new NycOlMapLocator({map: map})
     })
   }
@@ -53,7 +53,8 @@ class LocationMgr extends NycLocationMgr {
  * @public
  * @typedef {Object}
  * @property {ol.Map} map The map
- * @property {string} url The geoclient URL
+ * @property {string=} url The geoclient URL if geocoder is not provided
+ * @property {module:nyc/Geocoder~Geocoder=} geocoder The geocoder if geoclient URL is not provided
  * @property {jQuery|Element|string=} searchTarget The DOM target for the search box
  * @property {jQuery|Element|string} [dialogTarget=body] The DOM target in which to display error dialog
  */

@@ -11,6 +11,7 @@ import _nyc_Directions from 'nyc/Directions'
 import _nyc_EventHandling from 'nyc/EventHandling'
 import _nyc_Geoclient from 'nyc/Geoclient'
 import _nyc_Geocoder from 'nyc/Geocoder'
+import _nyc_CensusGeocoder from 'nyc/CensusGeocoder'
 import _nyc_LocalStorage from 'nyc/LocalStorage'
 import _nyc_LocationMgr from 'nyc/LocationMgr'
 import _nyc_Locator from 'nyc/Locator'
@@ -38,6 +39,7 @@ window.nyc.Directions = _nyc_Directions
 window.nyc.EventHandling = _nyc_EventHandling
 window.nyc.Geoclient = _nyc_Geoclient
 window.nyc.Geocoder = _nyc_Geocoder
+window.nyc.CensusGeocoder = _nyc_CensusGeocoder
 window.nyc.LocalStorage = _nyc_LocalStorage
 window.nyc.LocationMgr = _nyc_LocationMgr
 window.nyc.Locator = _nyc_Locator
