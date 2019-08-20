@@ -4,7 +4,6 @@
 
 import nyc from 'nyc'
 import $ from 'jquery'
-import Locator from 'nyc/Locator'
 import Geocoder from 'nyc/Geocoder'
 
 const proj4 = nyc.proj4
@@ -96,8 +95,7 @@ class CensusGeocoder extends Geocoder {
     }
     if (addressMatches.length) {
       if (addressMatches.length === 1) {
-        const result = addressMatches[0]
-        const location = this.parse(result)
+        const location = this.parse(addressMatches[0])
         if (location) {
           location.type = 'geocoded'
           resolve(location)
