@@ -38,7 +38,7 @@ class CensusGeocoder extends Geocoder {
      * @public
      * @member {string}
      */
-    this.projection = options.projection || 'EPSG:3857'
+    this.projection = options && options.projection ? options.projection : 'EPSG:3857'
   }
   /**
    * @desc Geocode an input string representing a location
