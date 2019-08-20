@@ -146,7 +146,7 @@ class CensusGeocoder extends Geocoder {
       type: 'geocoded',
       coordinate: this.project(p),
       data: result,
-      name: result.addressMatches
+      name: result.matchedAddress
     }
   }
   /**
