@@ -107,7 +107,7 @@ class CensusGeocoder extends Geocoder {
       } else {
         const ambiguous = {
           type: 'ambiguous',
-          input: response.input,
+          input: nothing.input,
           possible: this.possible(addressMatches)
         }
         resolve(ambiguous)

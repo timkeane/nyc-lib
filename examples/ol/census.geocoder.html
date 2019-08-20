@@ -28,7 +28,16 @@
 <body>
   <div id="map"></div>
   <script>
-    var map = new nyc.ol.Basemap({target: 'map'});
+    var map = new ol.Map({
+      target: 'map',
+      view: new ol.View({
+        center: nyc.ol.Basemap.CENTER,
+        zoom: 10
+      }),
+      layers: [new ol.layer.Tile({
+        source: new ol.source.OSM()
+      })]
+    });
     var locationMgr = new nyc.ol.LocationMgr({
       map: map,
       geocoder: new nyc.CensusGeocoder()
