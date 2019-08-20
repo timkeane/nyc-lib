@@ -32,7 +32,7 @@ class CensusGeocoder extends Geocoder {
      * @private
      * @member {string}
      */
-    this.url = `${options.url}&address=`
+    this.url = 'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?format=json&benchmark=4&vintage=4&address='
     /**
      * @desc The epsg code
      * @public
@@ -166,7 +166,6 @@ class CensusGeocoder extends Geocoder {
  * @desc Constructor options for {@link module:nyc/CensusGeocoder~CensusGeocoder}
  * @public
  * @typedef {Object}
- * @property {string} url The URL for accessing the Geoclient API (see {@link https://geocoding.geo.census.gov/})
  * @property {string} [projection=EPSG:3857] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
  */
 CensusGeocoder.Options

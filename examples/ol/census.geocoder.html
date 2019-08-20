@@ -31,9 +31,7 @@
     var map = new nyc.ol.Basemap({target: 'map'});
     var locationMgr = new nyc.ol.LocationMgr({
       map: map,
-      geocoder: new nyc.CensusGeocoder({
-        url: 'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?format=json&benchmark=4&vintage=4'
-      })
+      geocoder: new nyc.CensusGeocoder()
     });
   </script>
 </body>
