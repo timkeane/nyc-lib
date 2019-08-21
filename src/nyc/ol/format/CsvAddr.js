@@ -99,7 +99,7 @@ class CsvAddr extends CsvPoint {
     feature.set('_input', input)
     feature.set('_source', source)
     if (input.replace(/\,/g, '').trim() === '') {
-      feature.set('_geocodeResp', null)
+      feature.dispatchEvent({type: 'change', target: feature})
       console.error('Invalid location:', input, 'Bad record:', source)
     } else {
       this.geocoder.search(input).then(geocode => {
