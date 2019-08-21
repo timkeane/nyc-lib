@@ -60,7 +60,7 @@ class Geoclient extends Geocoder {
         }).then(json => {
           this.geoclient(json, resolve)
         }).catch(error => {
-          this.error(error)
+          this.error(error, reject)
         })
       }
     })
@@ -191,12 +191,12 @@ class Geoclient extends Geocoder {
   /**
    * @private
    * @method
+   * @param {Object} error Resolve
    * @param {function} reject Resolve
    */
-  error(reject) {
-    const error = {type: 'error', error: arguments}
-    console.error('Geoclient error', arguments)
-    reject(error)
+  error(error, reject) {
+    console.error('Geoclient error', error)
+    reject({type: 'error', error: error})
     this.trigger('error', error)
   }
 }
