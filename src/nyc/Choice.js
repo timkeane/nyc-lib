@@ -87,6 +87,9 @@ class Choice extends Container {
    */
   val(choices) {
     if (choices) {
+      choices.forEach(choice => {
+        this.extend(choice)
+      })
       $.each(this.inputs, (_, input) => {
         $(input).prop('checked', false)
         choices.some(chosen => {
