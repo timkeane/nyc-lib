@@ -39,7 +39,7 @@ if (!isDev) {
   plugins.push(new Minify())
 }
 
-module.exports = {
+const conf = {
   entry: {
     "nyc-lib": './src/nyc-index.js',
     "nyc-ol-lib": './src/nyc-ol.js',
@@ -110,3 +110,7 @@ module.exports = {
   },
   plugins: plugins
 }
+
+console.warn(conf)
+
+module.exports = conf

@@ -95,6 +95,7 @@ class CsvAddr extends CsvPoint {
    * @param {Object<string, string>} source A row from a CSV data source
    */
   setGeometry(feature, source) {
+    let changed = false
     const input = this.replace(this.locationTemplate, source)
     feature.set('_input', input)
     feature.set('_source', source)
@@ -104,9 +105,13 @@ class CsvAddr extends CsvPoint {
     } else {
       this.geocoder.search(input).then(geocode => {
         this.setGeocode(feature, geocode)
+        changed = true
       }).catch(error => {
         console.error('Geocoding error:', input, source, 'Geocoder response:', error)
       }).finally(() => {
+        if (!changed) {
+          feature.dispatchEvent({type: 'change', target: feature})
+        }
         this.geocodedCount = this.geocodedCount + 1
         if (this.geocodedCount === this.featureCount) {
           this.trigger('geocode-complete', this)
