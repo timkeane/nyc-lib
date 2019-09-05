@@ -17,15 +17,18 @@ const Minify = require('babel-minify-webpack-plugin')
 
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
-const copyFiles = [{
-  from: path.resolve(__dirname, 'examples'), 
-  to: path.resolve(__dirname, 'dist/examples'),
-  toType: 'dir'
-}, {
-  from: isDev ? path.resolve(__dirname, 'src/css') : path.resolve(__dirname, 'tmp/css'), 
-  to: path.resolve(__dirname, 'dist/css'),
-  toType: 'dir'
-}]
+const copyFiles = [
+  {
+    from: path.resolve(__dirname, 'examples'), 
+    to: path.resolve(__dirname, 'dist/examples'),
+    toType: 'dir'
+  }, {
+    from: isDev ? path.resolve(__dirname, 'src/css') : path.resolve(__dirname, 'tmp/css'), 
+    to: path.resolve(__dirname, 'dist/css'),
+    toType: 'dir'
+  },
+  path.resolve(__dirname, 'chmod-scripts.js')
+]
 
 const plugins = [
   // new BundleAnalyzerPlugin({analyzerMode: 'static'}),
