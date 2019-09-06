@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="128"
+   height="128"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="maps.nyc.gov.svg"
+   inkscape:export-filename="A:\git\nyc-lib\etc\img\png\maps.nyc.gov2.png"
+   inkscape:export-xdpi="360"
+   inkscape:export-ydpi="360">
+  <metadata
+     id="metadata16">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs14" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1280"
+     inkscape:window-height="632"
+     id="namedview12"
+     showgrid="false"
+     inkscape:zoom="3.6171875"
+     inkscape:cx="56.812095"
+     inkscape:cy="64.138229"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <g
+     id="g3363">
+    <g
+       id="g4"
+       transform="matrix(0.805343,0,0,0.805343,4.0019466,34.889307)"
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:3px">
+      <polygon
+         style="fill:#000000;fill-opacity:1;stroke:none"
+         id="polygon6"
+         points="3.1,50.8 15.5,50.8 18.6,47.7 18.6,35.3 34.1,50.8 46.6,50.8 49.7,47.7 49.7,4.3 46.6,1.2 34.1,1.2 31,4.3 31,16.7 15.5,1.2 3.1,1.2 0,4.3 0,47.7 " />
+      <polygon
+         style="fill:#000000;fill-opacity:1;stroke:none"
+         id="polygon8"
+         points="83.8,47.7 83.8,38.4 99.3,22.9 99.3,10.5 99.3,4.3 96.2,1.2 83.8,1.2 80.7,4.3 80.7,10.5 74.5,16.7 68.3,10.5 68.3,4.3 65.2,1.2 52.8,1.2 49.7,4.3 49.7,22.9 65.2,38.4 65.2,47.7 68.3,50.8 80.7,50.8 " />
+      <polygon
+         style="fill:#000000;fill-opacity:1;stroke:none"
+         id="polygon10"
+         points="130.4,32.2 118,32.2 118,19.8 130.4,19.8 130.4,22.9 145.9,22.9 149,19.8 149,10.5 139.7,1.2 108.6,1.2 99.3,10.5 99.3,41.5 108.6,50.8 139.7,50.8 149,41.5 149,32.2 145.9,29.1 130.4,29.1 " />
+    </g>
+    <text
+       sodipodi:linespacing="125%"
+       id="text4144"
+       y="26.143461"
+       x="0.57008016"
+       style="font-style:normal;font-weight:normal;font-size:101.77111053px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:41.34451675px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="26.143461"
+         x="0.57008016"
+         id="tspan4146"
+         sodipodi:role="line">maps</tspan></text>
+    <text
+       transform="scale(1.0000034,0.99999661)"
+       sodipodi:linespacing="125%"
+       id="text4144-7"
+       y="112.61127"
+       x="1.3360779"
+       style="font-style:normal;font-weight:normal;font-size:149.3274231px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:60.66427231px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         y="112.61127"
+         x="1.3360779"
+         id="tspan4146-0"
+         sodipodi:role="line">gov</tspan></text>
+  </g>
+</svg>
