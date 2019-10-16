@@ -270,8 +270,7 @@ class FinderApp extends MapMgr {
       if (location.type != 'geolocated') {
         options.message += `<strong>${locationName}</strong>`
       }
-    } 
-    else {
+    } else {
       options.message = `<strong>${locationName}</strong>`
     }
     return options
