@@ -1024,3 +1024,81 @@ describe('createDecorations', () => {
     expect(decorations[4]).toBe('mock-decorations-2')
   })
 })
+
+describe('mobile tests', () => {
+  const finderOptions = {
+    title: 'Finder App',
+    facilityTabTitle: 'Facility Title',
+    facilityUrl: 'http://facility',
+    facilityFormat: format,
+    facilityStyle: style,
+    filterTabTitle: 'Filter Title',
+    filterChoiceOptions: filterChoiceOptions,
+    geoclientUrl: 'http://geoclient'
+  }
+  const buttonText = [
+    `View ${$('#tab-btn-1').html()} list<span class="screen-reader-only"></span>`,
+    'View the map'
+  ]
+  let feature, features
+
+  beforeEach(() => {
+    feature = new OlFeature({geometry: new OlGeomPoint([0, 1])})
+    feature.getName = () => {
+      return 'feature name'
+    }
+    feature.getFullAddress = () => {
+      return 'feature address'
+    }
+    feature.distanceHtml = () => {
+      return $('<div>distance</div>')
+    }
+    features = [feature]
+    FilterAndSort.features = features
+  })
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
+  test('mobileDiaOpts - user location', () => {
+    const finderApp = new FinderApp(finderOptions)
+    finderApp.location = {
+      name: 'user location',
+      type: 'geolocated',
+      coordinate: [1, 0]
+    }
+    const options = {
+      buttonText: buttonText,
+      message: `<strong>${feature.getName()}</strong><br>
+        is located ${feature.distanceHtml(true).html()} from your location<br>`
+    }
+    
+    expect(finderApp.mobileDiaOpts()).toEqual(options)
+  })
+  test('mobileDiaOpts - finder location == location', () => {
+    const finderApp = new FinderApp(finderOptions)
+    finderApp.location = {
+      name: 'feature name'
+    }
+    const options = {
+      buttonText: buttonText,
+      message: `<strong>${finderApp.location.name}</strong>`
+    }
+    
+    expect(finderApp.mobileDiaOpts()).toEqual(options)
+  })
+  test('mobileDiaOpts - user searches for location', () => {
+    const finderApp = new FinderApp(finderOptions)
+    finderApp.location = {
+      name: 'user location',
+      type: 'located',
+      coordinate: [1, 0]
+    }
+    const options = {
+      buttonText: buttonText,
+      message: `<strong>${feature.getName()}</strong><br>
+        is located ${feature.distanceHtml(true).html()} from your location<br><strong>${finderApp.location.name}</strong>`
+    }
+    expect(finderApp.mobileDiaOpts()).toEqual(options)
+  })
+})

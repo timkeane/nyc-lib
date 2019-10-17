@@ -266,8 +266,10 @@ class FinderApp extends MapMgr {
     }
     if (feature.getName() !== locationName) {
       options.message = `<strong>${feature.getName()}</strong><br>
-        is located ${distance} from your location<br>
-        <strong>${locationName}</strong>`
+        is located ${distance} from your location<br>`
+      if (location.type != 'geolocated') {
+        options.message += `<strong>${locationName}</strong>`
+      }
     } else {
       options.message = `<strong>${locationName}</strong>`
     }
