@@ -316,6 +316,10 @@ class MapMgr {
         const type = feature.get(facilityStyle.typeCol || 'TYPE')
         return me.createFacilityStyle(facilityStyle.styles[type])
       }
+    } else if (options.facilityMarkerUrl) {
+      const style = new Style()
+      this.loadMarkerImage(options.facilityMarkerUrl, 32, style)
+      return style
     } else {
       return me.createFacilityStyle(facilityStyle)
     }

@@ -60,7 +60,7 @@ beforeEach(() => {
   options.mouseWheelZoom = false
   options.startAt = undefined
   options.facilityUrl = 'http://facility'
-
+  options.facilityMarkerUrl = undefined
 
   mapTarget = $('<div id="map"></div>')
   $('body').append(mapTarget)
@@ -972,6 +972,23 @@ describe('createStyle', () => {
     options.facilityStyle = () => {}
     const mapMgr = new MapMgr(options)
     expect(mapMgr.createStyle(options)).toBe(options.facilityStyle)
+
+  })
+
+  test('createStyle facilityMarkerUrl supplied', () => {
+    expect.assertions(7)
+
+    options.facilityStyle = undefined
+    options.facilityMarkerUrl = 'facility-marker-url'
+    const mapMgr = new MapMgr(options)
+
+    expect(mapMgr.createStyle(options) instanceof Style).toBe(true)
+    expect(Style.mock.calls[1][0]).toBeUndefined()
+    expect(mapMgr.loadMarkerImage).toHaveBeenCalledTimes(2)
+    expect(mapMgr.loadMarkerImage.mock.calls[1][0]).toBe(options.facilityMarkerUrl)
+    expect(mapMgr.loadMarkerImage.mock.calls[1][1]).toBe(32)
+    expect(mapMgr.loadMarkerImage.mock.calls[1][2]).toBe(Style.mock.instances[1])
+    expect(Style).toHaveBeenCalledTimes(2)
 
   })
 
