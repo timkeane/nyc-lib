@@ -9,12 +9,13 @@ import nycOl from 'nyc/ol'
 import BasemapHelper from 'nyc/BasemapHelper'
 import LocalStorage from 'nyc/ol/LocalStorage'
 
-import OlPluggableMap from 'ol/PluggableMap'
+import Map from 'ol/Map'
+// import OlPluggableMap from 'ol/PluggableMap'
 
-import CanvasMapRenderer from 'ol/renderer/canvas/Map'
-import CanvasTileLayerRenderer from 'ol/renderer/canvas/TileLayer'
-import CanvasVectorLayerRenderer from 'ol/renderer/canvas/VectorLayer'
-import CanvasVectorTileLayerRenderer from 'ol/renderer/canvas/VectorTileLayer'
+// import CompositeMapRenderer from 'ol/renderer/Composite'
+// import CanvasTileLayerRenderer from 'ol/renderer/canvas/TileLayer'
+// import CanvasVectorLayerRenderer from 'ol/renderer/canvas/VectorLayer'
+// import CanvasVectorTileLayerRenderer from 'ol/renderer/canvas/VectorTileLayer'
 
 import DoubleClickZoom from 'ol/interaction/DoubleClickZoom'
 import DragPan from 'ol/interaction/DragPan'
@@ -38,7 +39,7 @@ const proj4 = nyc.proj4
  * @mixes module:nyc/BasemapHelper~BasemapHelper
  * @see http://openlayers.org/en/latest/apidoc/module-ol_PluggableMap.html
  */
-class Basemap extends OlPluggableMap {
+class Basemap extends Map {
   /**
    * @desc Create an instance of Basemap
    * @public
@@ -91,15 +92,15 @@ class Basemap extends OlPluggableMap {
     this.defaultExtent(viewProvided)
     this.hookupEvents(this.getTargetElement())
   }
-  createRenderer() {
-    const renderer = new CanvasMapRenderer(this)
-    renderer.registerLayerRenderers([
-      CanvasTileLayerRenderer,
-      CanvasVectorLayerRenderer,
-      CanvasVectorTileLayerRenderer
-    ])
-    return renderer
-  }
+  // createRenderer() {
+  //   const renderer = new CompositeMapRenderer(this)
+  //   renderer.registerLayerRenderers([
+  //     CanvasTileLayerRenderer,
+  //     CanvasVectorLayerRenderer,
+  //     CanvasVectorTileLayerRenderer
+  //   ])
+  //   return renderer
+  // }
   /**
    * @desc Show photo layer
    * @public

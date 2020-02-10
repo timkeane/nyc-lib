@@ -87,16 +87,6 @@ test('readProjection', () => {
   expect(cartoSql.readProjection()).toBe('EPSG:3857')
 })
 
-test('getLastExtent', () => {
-  expect.assertions(1)
-
-  const cartoSql = new CartoSql({
-    from: 'table'
-  })
-
-  expect(cartoSql.getLastExtent()).toBeNull()
-})
-
 test('getType', () => {
   expect.assertions(1)
 

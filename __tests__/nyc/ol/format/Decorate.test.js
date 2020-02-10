@@ -188,14 +188,3 @@ test('readProjection', () => {
 
   expect(decorating.readProjection('anything')).toBe(decorating.parentFormat.dataProjection)
 })
-
-test('getLastExtent', () => {
-  expect.assertions(1)
-
-  const decorating = new Decorate({
-    parentFormat: parentFormat,
-    decorations: featureDecorations
-  })
-
-  expect(decorating.getLastExtent()).toBeNull()
-})

@@ -155,17 +155,6 @@ describe('hookupEvents called from constructor', () => {
     
     expect(csvpoint.readProjection('anything')).toBe(csvpoint.dataProjection)
   })
-
-  test('getLastExtent', () => {
-    expect.assertions(1)
-
-    const csvpoint = new CsvPoint({
-      x: 'x',
-      y: 'y'
-    })
-
-    expect(csvpoint.getLastExtent()).toBeNull()
-  })
 })
 
 describe('detectCsvFormat', () => {
