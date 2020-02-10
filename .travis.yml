@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - "v8.15.0"
+  - "v12.13.1"
 
 before_install:
   - export NODE_ENV=prd
