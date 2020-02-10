@@ -46,7 +46,6 @@ const conf = {
   entry: {
     "nyc-lib": './src/nyc-index.js',
     "nyc-ol-lib": './src/nyc-ol.js',
-    "nyc-leaf-lib": './src/nyc-leaf.js',
     "babel-polyfill": "babel-polyfill"
   },
   output: {
