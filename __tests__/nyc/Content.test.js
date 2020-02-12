@@ -1,5 +1,6 @@
 import Content from 'nyc/Content'
 import ReplaceTokens from 'nyc/ReplaceTokens'
+import $ from '../jquery.mock'
 
 const values = {
     speed: 'quick',
@@ -12,7 +13,9 @@ const messages = [
   {
     animal: '${color} ${animal} ',
     action: '${action} the ${otherAnimal}',
-    when: '${when} the ${clock}'
+    when: '${when} the ${clock}',
+    '.set-html': 'hello',
+    '#yup': 'hello ${name}'
   },
   {
     speed: 'the ${speed} ${animal} ',
@@ -23,19 +26,22 @@ const url = 'https://maps.nyc.gov/data.csv'
 const csv = 'key,value\nspeed,the ${speed} ${animal} \nwhen,${when} the ${clock}'
 
 const warn = console.warn
+let div0, div1
 beforeEach(() => {
+  div0 = $('<div class="set-html"></div>')
+  div1 = $('<div id="yup"></div>')
+  $('body').append(div0).append(div1)
   console.warn = jest.fn()
   fetch.resetMocks()
 })
 afterEach(() => {
+  div0.remove()
+  div1.remove()
   console.warn = warn
 })
 
 test('constructor', () => {
   expect.assertions(5)
-
-  const warn = console.warn
-  console.warn = jest.fn()
 
   const content = new Content(messages)
 
@@ -46,13 +52,13 @@ test('constructor', () => {
       animal: '${color} ${animal} ',
       action: '${action} the ${otherAnimal}',
       when: '${when} the ${clock}',
-      speed: 'the ${speed} ${animal} '
-    })
+      speed: 'the ${speed} ${animal} ',
+    '.set-html': 'hello',
+    '#yup': 'hello ${name}'
+  })
 
   expect(console.warn).toHaveBeenCalledTimes(1)
   expect(console.warn.mock.calls[0][0]).toBe("Overwriting message with key 'when'")
-
-  console.warn = warn
 })
 
 test('message', () => {
@@ -93,7 +99,9 @@ test('loadCsv with provided messages', () => {
       animal: '${color} ${animal} ',
       action: '${action} the ${otherAnimal}',
       when: '${when} the ${clock}',
-      speed: 'the ${speed} ${animal} '
+      speed: 'the ${speed} ${animal} ',
+      '.set-html': 'hello',
+      '#yup': 'hello ${name}'
     })
 
     expect(fetch.mock.calls.length).toEqual(1)
@@ -120,4 +128,19 @@ test('loadCsv with no messages', () => {
     expect(fetch.mock.calls.length).toEqual(1)
     expect(fetch.mock.calls[0][0]).toEqual(url)
   })
+})
+
+test('applyToDom', () => {
+  expect.assertions(4)
+
+  const content = new Content(messages)
+
+  expect(div0.html()).toBe('')
+  expect(div1.html()).toBe('')
+
+  content.applyToDom({name: 'fred'})
+
+  expect(div0.html()).toBe('hello')
+  expect(div1.html()).toBe('hello fred')
+
 })

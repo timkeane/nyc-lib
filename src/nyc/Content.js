@@ -2,8 +2,8 @@
  * @module nyc/Content
  */
 
+import $ from 'jquery'
 import Papa from 'papaparse'
-
 import ReplaceTokens from 'nyc/ReplaceTokens'
 
 require('isomorphic-fetch')
@@ -35,6 +35,21 @@ class Content extends ReplaceTokens {
         }
         this.messages[key] = msgs[key]
       })
+    })
+  }
+  /**
+   * @desc Sets the inner HTML of DOM nodes queryable by message keys
+   * @public
+   * @method
+   * @param {Object<string, string>=} values The substitution values
+   */
+  applyToDom(values) {
+    Object.keys(this.messages).forEach(key => {
+      const msg = this.message(key, values)
+      const node = $(key)
+      if (node.length === 1) {
+        node.html(msg)
+      }
     })
   }
   /**
