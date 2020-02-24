@@ -87,7 +87,7 @@ class SocrataJson extends OlJSONFeature {
    * @desc Set the last extent
    * @public
    * @method
-   * @param {ol.extent} extent
+   * @param {ol.extent} extent The last extent
    */
   setLastExtent(extent) {
     this.lastExtent = extent
