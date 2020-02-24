@@ -2,11 +2,18 @@
  * @module nyc/soda/Discover
  */
 
+/**
+ * @desc A class for discovering NYC OpenData resources using the SocrataJson SODA API
+ * @public
+ * @class
+ * @see https://opendata.cityofnewyork.us/
+ * @see https://dev.socrata.com/consumers/getting-started.html
+ */
 class Discover {
   /**
-   * @desc A class for discovering NYC OpenData resources using the SocrataJson SODA API
+   * @desc Create an instance of Discover
    * @public
-   * @class
+   * @constructor
    * @param {string} domain The host name for querying Socrate (i.e. https://opendata.cityofnewyork.us)
    * @see https://opendata.cityofnewyork.us/
    * @see https://dev.socrata.com/consumers/getting-started.html

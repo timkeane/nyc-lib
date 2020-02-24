@@ -15,7 +15,7 @@ import SocrataFormat from 'nyc/ol/format/SocrataJson'
  */
 class SocrataJson extends OlSourceVector {
   /**
-   * @desc Create an instance of AutoLoad
+   * @desc Create an instance of SocrataJson
    * @public
    * @constructor
    * @param {module:nyc/ol/source/SocrataJson~SocrataJson.Options} options Constructor options
