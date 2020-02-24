@@ -12,7 +12,6 @@ import $ from 'jquery'
  * @see https://opendata.cityofnewyork.us/
  * @see https://dev.socrata.com/consumers/getting-started.html
  */
-
 class Query {
   /**
    * @desc Create an instance of Query

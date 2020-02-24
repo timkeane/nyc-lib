@@ -29,6 +29,7 @@ class SocrataJson extends OlJSONFeature {
     this.geoJson = new GeoJSON()
     this.defaultFeatureProjection = olProjGet('EPSG:3857')
     this.dataProjection = olProjGet('EPSG:4326')
+    this.lastExtent = null
   }
   /**
    * @desc Read JSON features
@@ -72,6 +73,24 @@ class SocrataJson extends OlJSONFeature {
    */
   readProjection(source) {
     return new olProjGet('EPSG:4326')
+  }
+  /**
+   * @desc Get the last extent
+   * @public
+   * @method
+   * @returns {ol.extent} Extent
+   */
+  getLastExtent() {
+    return this.lastExtent
+  }
+  /**
+   * @desc Set the last extent
+   * @public
+   * @method
+   * @param {ol.extent} extent
+   */
+  setLastExtent(extent) {
+    this.lastExtent = extent
   }
 }
 

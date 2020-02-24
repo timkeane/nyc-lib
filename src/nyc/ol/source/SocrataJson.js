@@ -60,6 +60,7 @@ SocrataJson.urlFunction = (options) => {
     const ext = polygonFromExtent(extent)
       .transform(projection, 'EPSG:4326')
       .getExtent()
+    options.format.setLastExtent(ext)
     return `${url}&$where=within_box(${geom},${ext[1]},${ext[0]},${ext[3]},${ext[2]})`
   }
 }

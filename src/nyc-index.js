@@ -69,6 +69,8 @@ window.nyc.mta.TripPlanHack = _nyc_mta_TripPlanHack
 
 import _nyc_soda from 'nyc/soda'
 import _nyc_soda_Query from 'nyc/soda/Query'
+import _nyc_soda_Discover from 'nyc/soda/Discover'
 
 window.nyc.soda = _nyc_soda
 window.nyc.soda.Query = _nyc_soda_Query
+window.nyc.soda.Discover = _nyc_soda_Discover
