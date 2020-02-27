@@ -88,7 +88,7 @@ afterEach(() => {
 })
 
 test('constructor mouseWheelZoom is undefined', () => {
-  expect.assertions(67)
+  expect.assertions(63)
 
   const finderApp = new FinderApp({
     title: 'Finder App',
@@ -164,11 +164,6 @@ test('constructor mouseWheelZoom is undefined', () => {
   expect(finderApp.tabs instanceof Tabs).toBe(true)
   expect(finderApp.tabs.tabs.children().length).toBe(3)
 
-  expect(finderApp.view.fit).toHaveBeenCalledTimes(1)
-  expect(finderApp.view.fit.mock.calls[0][0]).toBe(Basemap.EXTENT)
-  expect(finderApp.view.fit.mock.calls[0][1].size).toEqual([100, 100])
-  expect(finderApp.view.fit.mock.calls[0][1].duration).toBe(500)
-
   expect(Dialog).toHaveBeenCalledTimes(3)
   expect(Dialog.mock.calls[2][0]).toEqual({css: 'screen-reader-info'})
   expect(Dialog.mock.calls[1][0]).toEqual({css: 'shw-lst'})
@@ -188,7 +183,7 @@ test('constructor mouseWheelZoom is undefined', () => {
 })
 
 test('constructor mouseWheelZoom = false', () => {
-  expect.assertions(67)
+  expect.assertions(63)
 
   const finderApp = new FinderApp({
     title: 'Finder App',
@@ -265,11 +260,6 @@ test('constructor mouseWheelZoom = false', () => {
 
   expect(finderApp.tabs instanceof Tabs).toBe(true)
   expect(finderApp.tabs.tabs.children().length).toBe(3)
-
-  expect(finderApp.view.fit).toHaveBeenCalledTimes(1)
-  expect(finderApp.view.fit.mock.calls[0][0]).toBe(Basemap.EXTENT)
-  expect(finderApp.view.fit.mock.calls[0][1].size).toEqual([100, 100])
-  expect(finderApp.view.fit.mock.calls[0][1].duration).toBe(500)
 
   expect(Dialog).toHaveBeenCalledTimes(3)
   expect(Dialog.mock.calls[2][0]).toEqual({css: 'screen-reader-info'})

@@ -132,7 +132,7 @@ describe('constructor', () => {
   })
 
   test('constructor minimum options', () => {
-    expect.assertions(43)
+    expect.assertions(39)
 
     const mapMgr = new MapMgr(options)
     expect(mapMgr instanceof MapMgr).toBe(true)
@@ -185,17 +185,12 @@ describe('constructor', () => {
     expect(FeatureTip.mock.calls[0][0].tips[0].layer).toBe(mapMgr.layer)
     expect(FeatureTip.mock.calls[0][0].tips[0].label).toBe(MapMgr.tipFunction)
 
-    expect(mapMgr.view.fit).toHaveBeenCalledTimes(1)
-    expect(mapMgr.view.fit.mock.calls[0][0]).toBe(Basemap.EXTENT)
-    expect(mapMgr.view.fit.mock.calls[0][1].size).toEqual([100, 100])
-    expect(mapMgr.view.fit.mock.calls[0][1].duration).toBe(500)
-
     expect(mapMgr.checkMouseWheel).toHaveBeenCalledTimes(1)
     expect(mapMgr.checkMouseWheel.mock.calls[0][0]).toBe(false)
   })
 
   test('constructor all options', () => {
-    expect.assertions(46)
+    expect.assertions(42)
 
     options.searchTarget = '#search'
     options.listTarget = '#list'
@@ -258,11 +253,6 @@ describe('constructor', () => {
     expect(FeatureTip.mock.calls[0][0].tips.length).toBe(1)
     expect(FeatureTip.mock.calls[0][0].tips[0].layer).toBe(mapMgr.layer)
     expect(FeatureTip.mock.calls[0][0].tips[0].label).toBe(MapMgr.tipFunction)
-
-    expect(mapMgr.view.fit).toHaveBeenCalledTimes(1)
-    expect(mapMgr.view.fit.mock.calls[0][0]).toBe(Basemap.EXTENT)
-    expect(mapMgr.view.fit.mock.calls[0][1].size).toEqual([100, 100])
-    expect(mapMgr.view.fit.mock.calls[0][1].duration).toBe(500)
 
     expect(mapMgr.checkMouseWheel).toHaveBeenCalledTimes(1)
     expect(mapMgr.checkMouseWheel.mock.calls[0][0]).toBe(true)
@@ -430,6 +420,17 @@ describe('ready', () => {
     nyc.ready = nycReady
   })
 
+  test('ready - fit view', () => {
+    expect.assertions(4)
+    
+    const mapMgr = new MapMgr(options)
+    mapMgr.ready('mock-features')
+
+    expect(mapMgr.view.fit).toHaveBeenCalledTimes(1)
+    expect(mapMgr.view.fit.mock.calls[0][0]).toBe(Basemap.EXTENT)
+    expect(mapMgr.view.fit.mock.calls[0][1].size).toEqual([100, 100])
+    expect(mapMgr.view.fit.mock.calls[0][1].duration).toBe(500)
+  })
   test('ready - facility search is false', () => {
     expect.assertions(5)
 

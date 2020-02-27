@@ -74,10 +74,6 @@ class MapMgr {
      */
     this.location = {}
 
-    this.view.fit(Basemap.EXTENT, {
-      size: this.map.getSize(),
-      duration: 500
-    })
     this.checkMouseWheel(options.mouseWheelZoom)
     if (options.startAt) {
       this.locationMgr.goTo(options.startAt)
@@ -203,6 +199,10 @@ class MapMgr {
    * @param {Array<ol.Feature>} features The facility features
    */
   ready(features) {
+    this.view.fit(Basemap.EXTENT, {
+      size: this.map.getSize(),
+      duration: 500
+    })
     if (this.source && this.facilitySearch) {
       const options = typeof this.facilitySearch === 'object' ? this.facilitySearch : {}
       options.features = features
