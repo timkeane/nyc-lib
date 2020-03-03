@@ -25,7 +25,7 @@ class Choice extends Container {
     super(options.target)
     this.getContainer().addClass('chc rad-all')
     /**
-     * @private
+     * @public
      * @member {boolean}
      */
     this.radio = options.radio
@@ -48,6 +48,7 @@ class Choice extends Container {
    * @param {Array<module:nyc/Choice~Choice.Choice>} choices The choices
    */
   setChoices(choices) {
+    this.choices = choices
     let type = 'checkbox'
     if (this.radio) {
       this.getContainer().attr('role', 'radiogroup')

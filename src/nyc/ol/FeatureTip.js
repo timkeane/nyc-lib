@@ -23,7 +23,7 @@ class FeatureTip extends OlOverlay {
    * @param {module:nyc/ol/FeatureTip~FeatureTip.Options} options Constructor options
    */
   constructor(options) {
-    const element = $(options.map.getTargetElement()).find('f-tip').get(0)
+    const element = $(options.map.getTargetElement()).find('.f-tip').get(0)
     super({
       id: nyc.nextId('FeatureTip'),
       element: element || $(FeatureTip.HTML).get(0),
