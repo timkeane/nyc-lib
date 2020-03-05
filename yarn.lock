@@ -6795,10 +6795,10 @@ nwsapi@^2.0.7:
   resolved "https://registry.yarnpkg.com/nwsapi/-/nwsapi-2.2.0.tgz#204879a9e3d068ff2a55139c2c772780681a38b7"
   integrity sha512-h2AatdwYH+JHiZpv7pt/gSX1XoRGb7L/qSIeuqA6GwYoF9w1vP1cw42TO0aI2pNyshRK5893hNSl+1//vHK7hQ==
 
-nyc-build-helper@^0.0.36:
-  version "0.0.36"
-  resolved "https://registry.yarnpkg.com/nyc-build-helper/-/nyc-build-helper-0.0.36.tgz#4ae05749f4c781dc7cf0a7153d40c77ba05af764"
-  integrity sha512-HJAJTGnuh1BSr6bzHMPJvLhCW1oM7DZfEpjEwiQQPyQo/aQR9F7zeGpHYPvbBejP6j0xu0vL8zEmRq84lutK4Q==
+nyc-build-helper@^0.0.38:
+  version "0.0.38"
+  resolved "https://registry.yarnpkg.com/nyc-build-helper/-/nyc-build-helper-0.0.38.tgz#7d15c9803c2eedd85b079fda44e1d64d4c3dc4d7"
+  integrity sha512-+WPhBh6gPxpKRHcDB9wLbVhhVyyrg6bZzq/naId+IUEeH5f+rxwBW5yeZc+ZIRqBqYHRyhEs19aUs5qCMocN2g==
   dependencies:
     clean-webpack-plugin "^3.0.0"
     copy-webpack-plugin "^5.0.3"
