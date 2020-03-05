@@ -16,14 +16,14 @@ class IconLib  {
     const clr = icon.split('#')[1]
     const style = new Style({})
     const scale = width / 15
-    let src = facilityStyle.icons[icon]
+    let src = this.icons[icon]
     if (!src) {
       fetch(`/icons/${ico}-15.svg`).then(response => {
         response.text().then(txt => {
           const div = $('<div></div>').append($(txt)[2])
           div.find('svg').attr('style', `${div.find('svg').attr('style')};fill:#${clr}`)
           src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(div.html())}`
-          facilityStyle.icons[icon] = src
+          this.icons[icon] = src
           style.setImage(new Icon({src, scale}))
         })
       })
