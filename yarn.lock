@@ -6795,10 +6795,10 @@ nwsapi@^2.0.7:
   resolved "https://registry.yarnpkg.com/nwsapi/-/nwsapi-2.2.0.tgz#204879a9e3d068ff2a55139c2c772780681a38b7"
   integrity sha512-h2AatdwYH+JHiZpv7pt/gSX1XoRGb7L/qSIeuqA6GwYoF9w1vP1cw42TO0aI2pNyshRK5893hNSl+1//vHK7hQ==
 
-nyc-build-helper@^0.0.35:
-  version "0.0.35"
-  resolved "https://registry.yarnpkg.com/nyc-build-helper/-/nyc-build-helper-0.0.35.tgz#e6d2f1bcaccf94da48f56c853acbb4d3c190e00d"
-  integrity sha512-MW225psuVokCV+iWD/n2levKkhgx7uzri0zL4uZ/x50z17JPDf2KZURuOS3mcJdzdceih6QCBDkFeoJ2eQhycw==
+nyc-build-helper@^0.0.36:
+  version "0.0.36"
+  resolved "https://registry.yarnpkg.com/nyc-build-helper/-/nyc-build-helper-0.0.36.tgz#4ae05749f4c781dc7cf0a7153d40c77ba05af764"
+  integrity sha512-HJAJTGnuh1BSr6bzHMPJvLhCW1oM7DZfEpjEwiQQPyQo/aQR9F7zeGpHYPvbBejP6j0xu0vL8zEmRq84lutK4Q==
   dependencies:
     clean-webpack-plugin "^3.0.0"
     copy-webpack-plugin "^5.0.3"
@@ -8430,21 +8430,21 @@ srcset@^1.0.0:
     array-uniq "^1.0.2"
     number-is-nan "^1.0.0"
 
-ssh2-streams@~0.4.8:
-  version "0.4.8"
-  resolved "https://registry.yarnpkg.com/ssh2-streams/-/ssh2-streams-0.4.8.tgz#2ff92df2e0063fef86cf934eaea197967deda715"
-  integrity sha512-auxXfgYySz2vYw7TMU7PK7vFI7EPvhvTH8/tZPgGaWocK4p/vwCMiV3icz9AEkb0R40kOKZtFtqYIxDJyJiytw==
+ssh2-streams@~0.4.9:
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/ssh2-streams/-/ssh2-streams-0.4.9.tgz#d3d92155410001437d27119d9c023b303cbe2309"
+  integrity sha512-glMQKeYKuA+rLaH16fJC3nZMV1BWklbxuYCR4C5/LlBSf2yaoNRpPU7Ul702xsi5nvYjIx9XDkKBJwrBjkDynw==
   dependencies:
     asn1 "~0.2.0"
     bcrypt-pbkdf "^1.0.2"
     streamsearch "~0.1.2"
 
 ssh2@^0.8.7:
-  version "0.8.7"
-  resolved "https://registry.yarnpkg.com/ssh2/-/ssh2-0.8.7.tgz#2dc15206f493010b98027201cf399b90bab79c89"
-  integrity sha512-/u1BO12kb0lDVxJXejWB9pxyF3/ncgRqI9vPCZuPzo05pdNDzqUeQRavScwSPsfMGK+5H/VRqp1IierIx0Bcxw==
+  version "0.8.8"
+  resolved "https://registry.yarnpkg.com/ssh2/-/ssh2-0.8.8.tgz#1d9815e287faef623ae2b7db32e674dadbef4664"
+  integrity sha512-egJVQkf3sbjECTY6rCeg8rgV/fab6S/7E5kpYqHT3Fe/YpfJbLYeA1qTcB2d+LRUUAjqKi7rlbfWkaP66YdpAQ==
   dependencies:
-    ssh2-streams "~0.4.8"
+    ssh2-streams "~0.4.9"
 
 sshpk@^1.7.0:
   version "1.16.1"
@@ -8767,9 +8767,9 @@ terser-webpack-plugin@^1.3.0:
     worker-farm "^1.7.0"
 
 terser@^4.1.2:
-  version "4.6.3"
-  resolved "https://registry.yarnpkg.com/terser/-/terser-4.6.3.tgz#e33aa42461ced5238d352d2df2a67f21921f8d87"
-  integrity sha512-Lw+ieAXmY69d09IIc/yqeBqXpEQIpDGZqT34ui1QWXIUpR2RjbqEkT8X7Lgex19hslSqcWM5iMN2kM11eMsESQ==
+  version "4.6.6"
+  resolved "https://registry.yarnpkg.com/terser/-/terser-4.6.6.tgz#da2382e6cafbdf86205e82fb9a115bd664d54863"
+  integrity sha512-4lYPyeNmstjIIESr/ysHg2vUPRGf2tzF9z2yYwnowXVuVzLEamPN1Gfrz7f8I9uEPuHcbFlW4PLIAsJoxXyJ1g==
   dependencies:
     commander "^2.20.0"
     source-map "~0.6.1"
