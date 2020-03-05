@@ -7,8 +7,8 @@ import Style from 'ol/style/Style'
 import Icon from 'ol/style/Icon'
 
 class IconLib {
-  constructor(host) {
-    this.host = host || IconLib.HOST
+  constructor(url) {
+    this.url = host || IconLib.URL
     this.icons = {}
   }
   style(icon, width) {
@@ -18,7 +18,7 @@ class IconLib {
     const scale = width / 15
     let src = this.icons[icon]
     if (!src) {
-      fetch(`/icons/${ico}-15.svg`).then(response => {
+      fetch(`${this.url}/${ico}-15.svg`).then(response => {
         response.text().then(txt => {
           const div = $('<div></div>').append($(txt)[2])
           div.find('svg').attr('style', `${div.find('svg').attr('style')};fill:#${clr}`)
@@ -34,6 +34,6 @@ class IconLib {
   }
 }
 
-IconLib.HOST = 'https://maps.nyc.gov'
+IconLib.HOST = 'https://maps.nyc.gov/icons'
 
 export default IconLib
