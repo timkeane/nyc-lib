@@ -14,18 +14,18 @@ test('constructor', () => {
 })
 
 test('style', done => {
-  expect.assertions(3)
+  expect.assertions(6)
   const iconLib = new IconLib()
-
   fetch.mockResponseOnce(SVG)
-
   let style = iconLib.style('mapbox-maki/danger#ff0000', 32)
-
-  expect(fetch.mock.calls[0][0]).toEqual(`${IconLib.URL}/mapbox-maki/danger-15.svg`)
-
   setTimeout(() => {
     expect(style.getImage().getScale()).toBe(32 / 15)
     expect(style.getImage().getSrc()).toBe(DATA_URI)
+    style = iconLib.style('mapbox-maki/danger#ff0000', 64)
+    expect(style.getImage().getScale()).toBe(64 / 15)
+    expect(style.getImage().getSrc()).toBe(DATA_URI)
+    expect(fetch.mock.calls.length).toBe(1)
+    expect(fetch.mock.calls[0][0]).toEqual(`${IconLib.URL}/mapbox-maki/danger-15.svg`)
     done()
   }, 2000)
   
