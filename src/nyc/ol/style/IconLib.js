@@ -8,7 +8,7 @@ import Icon from 'ol/style/Icon'
 
 class IconLib {
   constructor(url) {
-    this.url = host || IconLib.URL
+    this.url = url || IconLib.URL
     this.icons = {}
   }
   style(icon, width) {
