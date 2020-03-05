@@ -6,7 +6,7 @@ import $ from 'jquery'
 import Style from 'ol/style/Style'
 import Icon from 'ol/style/Icon'
 
-class IconLib  {
+class IconLib {
   constructor(host) {
     this.host = host || IconLib.HOST
     this.icons = {}
