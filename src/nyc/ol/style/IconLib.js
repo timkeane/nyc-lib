@@ -34,6 +34,6 @@ class IconLib {
   }
 }
 
-IconLib.HOST = 'https://maps.nyc.gov/icons'
+IconLib.HOST = 'https://maps.nyc.gov/nyc-lib/icons'
 
 export default IconLib
