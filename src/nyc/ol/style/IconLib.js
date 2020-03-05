@@ -20,7 +20,7 @@ class IconLib {
     if (!src) {
       fetch(`${this.url}/${ico}-15.svg`).then(response => {
         response.text().then(txt => {
-          const div = $('<div></div>').append($(txt)[2])
+        const div = $('<div></div>').append($(txt)[2])
           div.find('svg').attr('style', `${div.find('svg').attr('style')};fill:#${clr}`)
           src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(div.html())}`
           this.icons[icon] = src

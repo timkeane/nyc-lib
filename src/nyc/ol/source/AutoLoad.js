@@ -45,9 +45,9 @@ class AutoLoad extends OlSourceVector {
    * @param {function} resolve Resolve function
    */
   resolve(resolve) {
-    fetch(this.autoLoadOptions.url).then((response) => {
+    fetch(this.autoLoadOptions.url).then(response => {
       return response.text()
-    }).then((responseText) => {
+    }).then(responseText => {
       const format = this.getFormat(responseText)
       const csvAddr = this.getCsvAddrFormat(format)
       const features = format.readFeatures(responseText)
