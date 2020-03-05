@@ -61,3 +61,8 @@ window.nyc.ol.source = {}
 window.nyc.ol.source.AutoLoad = _nyc_ol_source_AutoLoad
 window.nyc.ol.source.FilterAndSort = _nyc_ol_source_FilterAndSort
 window.nyc.ol.source.SocrataJson = _nyc_ol_source_SocrataJson
+
+import _nyc_ol_style_IconLib from 'nyc/ol/style/IconLib'
+
+window.nyc.ol.style = {}
+window.nyc.ol.style.IconLib = _nyc_ol_style_IconLib
