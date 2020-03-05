@@ -28,5 +28,4 @@ test('style', done => {
     expect(fetch.mock.calls[0][0]).toEqual(`${IconLib.URL}/mapbox-maki/danger-15.svg`)
     done()
   }, 2000)
-  
 })
