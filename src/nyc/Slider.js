@@ -8,7 +8,7 @@ import nyc from 'nyc'
 import Container from 'nyc/Container'
 
 /**
- * @desc  A class to provide a numeric slider
+ * @desc A class to provide a numeric slider
  * @public
  * @class
  * @extends module:nyc/Container~Container
@@ -16,7 +16,7 @@ import Container from 'nyc/Container'
  */
 class Slider extends Container {
   /**
-   * @desc  Create an instance of Slider
+   * @desc Create an instance of Slider
    * @constructor
    * @param {module:nyc/Slider~Slider.Options} options Constructor options
    */
@@ -47,6 +47,8 @@ class Slider extends Container {
       .addClass('sld')
   }
   /**
+   * @public
+   * @method
    * @desc Get or set the input value
    * @param {number=} value The value of the slider input value
    * @return {string|JQuery} Returns the slider jQuery input element or its value
