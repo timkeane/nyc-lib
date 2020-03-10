@@ -1,12 +1,15 @@
+/**
+ * @module nyc/fetchTimeout
+ */
+
 const TIMEOUT = 15000
 
 /**
  * @desc Function to fetch a URL and fail if the response time exceeds the timeout value
  * @function
  * @param {string} url The url to fetch
- * @param {number=15000} timeout The timeout in milliseconds
+ * @param {number} [timeout=15000] The timeout in milliseconds
  * @returns {Promise} A promise that resolves to the HTTP response object or a timeout error
- * 
  */
 export default (url, timeout) => {
   let didTimeOut = false
@@ -16,12 +19,14 @@ export default (url, timeout) => {
       reject(new Error(`Request timeout for ${url}`))
     }, timeout || TIMEOUT)
     fetch(url).then(response => {
-      clearTimeout(timeout)
-      if(!didTimeOut) {
+      clearTimeout(timeOut)
+      if (!didTimeOut) {
         resolve(response)
       }
     }).catch(err => {
-      if(didTimeOut) return
+      if (didTimeOut) {
+        return
+      }
       reject(err)
     })
   })

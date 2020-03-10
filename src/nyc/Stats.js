@@ -5,7 +5,7 @@
 import * as ss from 'simple-statistics'
 
 /**
- * @desc  A class to simple statistics and classifications for choropleth maps
+ * @desc A class to simple statistics and classifications for choropleth maps
  * @public
  * @class
  */
@@ -68,7 +68,7 @@ class Stats {
    * @desc Get ckmeans clustered intervals from the data
    * @public
    * @method
-   * @param numClasses The number of classes
+   * @param {number} numClasses The number of classes
    * @return {Array<number>} An Array of numbers starting with the minimum value and incemented to the maximum value by ckmeans clustered intevrals
    */
   ckmeansClasses(numClasses) {
@@ -84,7 +84,7 @@ class Stats {
    * @desc Get equal intervals from the data
    * @public
    * @method
-   * @param numClasses The number of classes
+   * @param {number} numClasses The number of classes
    * @return {Array<number>} An Array of numbers starting with the minimum value and incemented to the maximum value by equal intevrals
    */
   equalIntervalClasses(numClasses) {
@@ -94,19 +94,17 @@ class Stats {
    * @desc Get standard deviation intervals from the data
    * @public
    * @method
-   * @param numClasses The number of classes (3, 5 or 7 only)
+   * @param {number} numClasses The number of classes (3, 5 or 7 only)
    * @return {Array<number>} An Array of numbers centered around the mean and distributed to the left and right by the standard deviation of the data
    */
   stdClasses(numClasses) {
     if (numClasses % 2) {
       const classes = new Array(numClasses + 1)
-      const mid = Math.ceil(numClasses / 2) -1
+      const mid = Math.ceil(numClasses / 2) - 1
       const std = ss.standardDeviation(this.data)
       const mean = this.mean()
       classes[mid] = mean + 2 * std
-      let i = 0
-      while (i < mid) {
-        i++
+      for (let i = 0; i < mid; i++) {
         classes[mid - i] = classes[mid] - (i * std)
         classes[mid + i] = classes[mid] + (i * std)
       }

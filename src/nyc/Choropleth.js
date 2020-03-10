@@ -24,7 +24,7 @@ class Choropleth extends Container {
    */
   constructor(options) {
     super(Choropleth.HTML)
-    
+
     this.colorSchemes = Object.assign({}, Choropleth.COLORS)
 
     const counts = []
@@ -60,15 +60,15 @@ class Choropleth extends Container {
   adjustCounts() {
     const lastCount = this.count.val()[0].values[0]
     const std = this.method.val()[0].values[0] === Stats.METHODS.stdDeviation.name
-    
+
     let checked = false
-    const counts = [] 
+    const counts = []
     for (let i = 7; i > 1; i--) {
       if (std) {
         if (i % 2) {
           counts.push({
-            name: 'count', 
-            label: `${i} classifications`, 
+            name: 'count',
+            label: `${i} classifications`,
             values: [i],
             checked: i === lastCount
           })
@@ -78,8 +78,8 @@ class Choropleth extends Container {
         }
       } else {
         counts.push({
-          name: 'count', 
-          label: `${i} classifications`, 
+          name: 'count',
+          label: `${i} classifications`,
           values: [i],
           checked: i === lastCount
         })
@@ -99,7 +99,6 @@ class Choropleth extends Container {
    * @method
    */
   adjustColors() {
-    const me = this
     const size = this.count.val()[0].values[0]
     const colorScheme = this.colorScheme.val()[0].label.toLowerCase()
     const colors = this.colorSchemes[colorScheme].values
@@ -109,8 +108,8 @@ class Choropleth extends Container {
       const label = $('<div>&nbsp;</div>')
       const values = this.resizeColors(color, size)
       const input = $(inputs.get(i))
-      values.forEach(color => {
-        label.append(`<div class="clr" style="background-color:${color}"></div>`)
+      values.forEach(clr => {
+        label.append(`<div class="clr" style="background-color:${clr}"></div>`)
       })
       const choice = {
         label,
@@ -130,7 +129,7 @@ class Choropleth extends Container {
   /**
    * @private
    * @method
-   * @param {JQuery.Event}
+   * @param {JQuery.Event} event The button click event
    */
   reverseColors(event) {
     const target = $(event.target)
@@ -144,7 +143,7 @@ class Choropleth extends Container {
    * @public
    * @method
    * @param {Chorpleth.Rules=} options The rules to set on the controls
-   * @return {Chorpleth.Rules=} The rules that are set on the controls
+   * @returns {Chorpleth.Rules} The rules that are set on the controls
    */
   val(options) {
     if (options) {
@@ -166,9 +165,9 @@ class Choropleth extends Container {
       this.colorScheme.trigger('change', this.colorScheme)
       this.colors.choices.some((choice, i) => {
         if (this.arrEq(choice.values, options.colors)) {
-          return true
           this.colors.val([choice])
           this.adjustColors()
+          return true
         } else if (this.arrEq(choice.values.reverse(), options.colors)) {
           this.colorSchemes[options.colorScheme].values[i].reverse()
           this.colors.val([choice])
@@ -192,9 +191,9 @@ class Choropleth extends Container {
   /**
    * @private
    * @method
-   * @param {Array<number>|Array<string>} array1
-   * @param {Array<number>|Array<string>} array2
-   * @returns {boolean}
+   * @param {Array<number>|Array<string>} array1 One array
+   * @param {Array<number>|Array<string>} array2 Another array
+   * @returns {boolean} True if the arrays are the same
    */
   arrEq(array1, array2) {
     let equal = true
@@ -209,9 +208,9 @@ class Choropleth extends Container {
   /**
    * @private
    * @method
-   * @param {Array<string>} original
-   * @param {number} size
-   * @returns {Array<string>}
+   * @param {Array<string>} original The original colors
+   * @param {number} size The new size
+   * @returns {Array<string>} The resized colors
    */
   resizeColors(original, size) {
     const modified = []
@@ -234,9 +233,10 @@ class Choropleth extends Container {
   /**
    * @private
    * @method
-   * @param {string} title
-   * @param {JQuery} content
-   * @param {string} css
+   * @param {string} title The title
+   * @param {JQuery} content The content
+   * @param {string} css A CSS class
+   * @returns {module:nyc/Collapsible~Collapsible} The collapsible that was appended
    */
   appendCollapsible(title, content, css) {
     const collapsible = new Collapsible({
@@ -251,16 +251,16 @@ class Choropleth extends Container {
   /**
    * @private
    * @method
-   * @param {Object} obj
-   * @param {string} name
-   * @param {string} css
-   * @returns {module:nyc/Choice~Choice}
+   * @param {Object} obj The object
+   * @param {string} name The name
+   * @param {string} css A CSS class
+   * @returns {module:nyc/Choice~Choice} The radio buttons
    */
   choicesFromKeys(obj, name, css) {
     const choices = []
     Object.keys(obj).forEach(key => {
       const props = obj[key]
-      let label = props.label
+      const label = props.label
       let values = props.values
       if (!$.isArray(values)) {
         values = [props.name]
@@ -287,15 +287,15 @@ class Choropleth extends Container {
           label.append(`<div style="background-color:${color}"></div>`)
         })
         choices.push({
-          name: 'colors', 
-          label, 
-          values: scheme, 
+          name: 'colors',
+          label,
+          values: scheme,
           checked: $(this.colors.inputs[i]).prop('checked')
         })
       })
     })
     this.colors.setChoices(choices)
-    if (!this.colorsClps.find('.content').is(':visible')){
+    if (!this.colorsClps.find('.content').is(':visible')) {
       this.colorsClps.toggle()
     }
     this.adjustColors()
@@ -306,11 +306,11 @@ class Choropleth extends Container {
   /**
    * @private
    * @method
-   * @param {string} color
-   * @param {number} min
-   * @param {number} max
-   * @param {number} places
-   * @returns {JQuery}
+   * @param {string} color An HTML hex color
+   * @param {number} min The minimum value
+   * @param {number} max The maximum value
+   * @param {number} places The number of places for rounding of values
+   * @returns {JQuery} The legend item
    */
   legItem(color, min, max, places) {
     places = places || 0
@@ -329,7 +329,7 @@ class Choropleth extends Container {
    * @param {Array<number>} classifications The numeric classification buckets for the legend
    * @param {Array<string>} colors The colors for the classifications
    * @param {number} places The nuber of places for rounding of the classifications
-   * @returns {JQuery}
+   * @returns {JQuery} The legend
    */
   legend(title, classifications, colors, places) {
     const legend = $(Choropleth.LEGEND_HTML)
@@ -375,7 +375,7 @@ Choropleth.COLORS = {
     values: [
       ['#feedde', '#fdd0a2', '#fdae6b', '#fd8d3c', '#f16913', '#d94801', '#8c2d04'],
       ['#fee5d9', '#fcbba1', '#fc9272', '#fb6a4a', '#ef3b2c', '#cb181d', '#99000d'],
-      ['#ffffb2', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#b10026']     
+      ['#ffffb2', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#b10026']
     ]
   }
 }

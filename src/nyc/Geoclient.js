@@ -5,6 +5,7 @@
 import nyc from 'nyc'
 import Locator from 'nyc/Locator'
 import Geocoder from 'nyc/Geocoder'
+import fetchTimeout from 'nyc/fetchTimeout'
 
 const proj4 = nyc.proj4
 
@@ -55,7 +56,7 @@ class Geoclient extends Geocoder {
         this.resolveZip(input, resolve)
       } else if (input.length) {
         input = input.replace(/"/g, '').replace(/'/g, '').replace(/&/g, ' and ')
-        fetch(`${this.url}${input}`).then(response => {
+        fetchTimeout(`${this.url}${input}`).then(response => {
           return response.json()
         }).then(json => {
           this.geoclient(json, resolve)
