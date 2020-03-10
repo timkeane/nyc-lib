@@ -13,7 +13,7 @@ class Stats {
   /**
    * @desc Create an instance of Stats
    * @constructor
-   * @param {Array<Number>} data The data on which to perfom statisitcal operations
+   * @param {Array<number>} data The data on which to perfom statisitcal operations
    */
   constructor(data) {
     this.data = data
