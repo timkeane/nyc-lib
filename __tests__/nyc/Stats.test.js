@@ -132,4 +132,3 @@ test('stdClasses', () => {
     expect(err).toBe("Invalid argument 6: 3, 5, 7 are the only valid arguments for 'Stats.stdClasses'")
   }
 })
-

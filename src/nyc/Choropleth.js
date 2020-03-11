@@ -20,10 +20,11 @@ class Choropleth extends Container {
    * @desc Create an instance of Choropleth
    * @public
    * @constructor
-   * @param {module:nyc/Choropleth~Choropleth.Rules} options The rules to set on the controls
+   * @param {module:nyc/Choropleth~Choropleth.Rules=} options The rules to set on the controls
    */
   constructor(options) {
     super(Choropleth.HTML)
+    options = options || {}
 
     this.colorSchemes = Object.assign({}, Choropleth.COLORS)
 
@@ -149,19 +150,28 @@ class Choropleth extends Container {
     if (options) {
       this.count.choices.forEach(choice => {
         if (choice.values[0] === options.count) {
-          this.method.val([choice])
+          this.count.val([choice])
         }
       })
+      if (this.count.val().length === 0) {
+        this.count.val([this.count.choices[0]])
+      }
       this.method.choices.forEach(choice => {
         if (choice.values[0] === options.method) {
           this.method.val([choice])
         }
       })
+      if (this.method.val().length === 0) {
+        this.method.val([this.method.choices[0]])
+      }
       this.colorScheme.choices.forEach(choice => {
         if (choice.label.toLowerCase() === options.colorScheme) {
           this.colorScheme.val([choice])
         }
       })
+      if (this.colorScheme.val().length === 0) {
+        this.colorScheme.val([this.colorScheme.choices[0]])
+      }
       this.colorScheme.trigger('change', this.colorScheme)
       this.colors.choices.some((choice, i) => {
         if (this.arrEq(choice.values, options.colors)) {
@@ -196,14 +206,17 @@ class Choropleth extends Container {
    * @returns {boolean} True if the arrays are the same
    */
   arrEq(array1, array2) {
-    let equal = true
-    if (array1.length === array2.length) {
-      array1.some((a, i) => {
-        equal = a === array2[i]
-        return !equal
-      })
+    if (array1 !== undefined && array2 !== undefined) {
+      let equal = true
+      if (array1.length === array2.length) {
+        array1.some((a, i) => {
+          equal = a === array2[i]
+          return !equal
+        })
+      }
+      return equal
     }
-    return equal
+    return false
   }
   /**
    * @private
