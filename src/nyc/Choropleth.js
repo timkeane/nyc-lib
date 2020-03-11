@@ -26,7 +26,7 @@ class Choropleth extends Container {
     super(Choropleth.HTML)
     options = options || {}
 
-    this.colorSchemes = Object.assign({}, Choropleth.COLORS)
+    this.colorSchemes = JSON.parse(JSON.stringify(Choropleth.COLORS))
 
     const counts = []
     for (let i = 7; i > 1; i--) {
@@ -187,6 +187,7 @@ class Choropleth extends Container {
           choice.values.reverse()
         }
       })
+      this.adjustCounts()
     } else {
       let colors = this.colors.val()[0].values
       colors = this.resizeColors(colors, this.count.val())
@@ -206,14 +207,12 @@ class Choropleth extends Container {
    * @returns {boolean} True if the arrays are the same
    */
   arrEq(array1, array2) {
-    if (array1 !== undefined && array2 !== undefined) {
+    if (array1 && array2 && array1.length === array2.length) {
       let equal = true
-      if (array1.length === array2.length) {
-        array1.some((a, i) => {
-          equal = a === array2[i]
-          return !equal
-        })
-      }
+      array1.some((a, i) => {
+        equal = a === array2[i]
+        return !equal
+      })
       return equal
     }
     return false
@@ -308,9 +307,6 @@ class Choropleth extends Container {
       })
     })
     this.colors.setChoices(choices)
-    if (!this.colorsClps.find('.content').is(':visible')) {
-      this.colorsClps.toggle()
-    }
     this.adjustColors()
     if (this.colors.val().length === 0) {
       this.colors.val([this.colors.choices[0]])
