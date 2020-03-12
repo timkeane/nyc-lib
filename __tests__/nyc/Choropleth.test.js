@@ -387,8 +387,8 @@ test('legItem', () => {
   expect($(it.children().get(3)).html()).toBe('10.35')
 })
 
-test.only('legend', () => {
-  expect.assertions(25)
+test('legend', () => {
+  expect.assertions(37)
 
   const choro = new Choropleth()
 
@@ -400,10 +400,30 @@ test.only('legend', () => {
   let leg = choro.legend('legend-title', classifications, resized)
 
   expect(leg.hasClass('leg')).toBe(true)
+
+  const items = leg.find('.it')
+  console.warn(leg.html());
   
-  //todo - first and last legend items
+  expect($($(items.get(0)).children().get(0)).hasClass('sym')).toBe(true)
+  expect($($(items.get(0)).children().get(0)).attr('style')).toBe(`background-color:${resized[0]}`)
+  
+  expect($($(items.get(0)).children().get(1)).hasClass('op')).toBe(true)
+  expect($($(items.get(0)).children().get(1)).html()).toBe('&lt;')
+
+  expect($($(items.get(0)).children().get(2)).hasClass('lt')).toBe(true)
+  expect($($(items.get(0)).children().get(2)).html()).toBe(`${new Number(classifications[1].toFixed(0)).toLocaleString()}`)
+
+  expect($($(items.get(items.length - 1)).children().get(0)).hasClass('sym')).toBe(true)
+  expect($($(items.get(items.length - 1)).children().get(0)).attr('style')).toBe(`background-color:${resized[resized.length - 1]}`)
+  
+  expect($($(items.get(items.length - 1)).children().get(1)).hasClass('op')).toBe(true)
+  expect($($(items.get(items.length - 1)).children().get(1)).html()).toBe('&gt;')
+
+  expect($($(items.get(items.length - 1)).children().get(2)).hasClass('gt')).toBe(true)
+  expect($($(items.get(items.length - 1)).children().get(2)).html()).toBe(`${new Number(classifications[classifications.length - 2].toFixed(0)).toLocaleString()}`)
+
   for (let i = 1; i < resized.length - 1; i++) {
-    const it = $(leg.find('.its .it').get(i))
+    const it = $(items.get(i))
 
     expect($(it.children().get(0)).hasClass('sym')).toBe(true)
     expect($(it.children().get(0)).attr('style')).toBe(`background-color:${resized[i]}`)
