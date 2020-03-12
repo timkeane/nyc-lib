@@ -2,6 +2,8 @@
  * @module nyc/fetchTimeout
  */
 
+require('isomorphic-fetch')
+
 const TIMEOUT = 15000
 
 /**

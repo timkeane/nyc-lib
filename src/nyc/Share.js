@@ -27,16 +27,16 @@ class Share extends Container {
     super(options.target)
     const share = this
     fetch(options.url || './manifest.webmanifest').then(respose => {
-      return respose.json()
-    }).then(manifest => {
-      manifest.url = document.location.href
-      share.append(new ReplaceTokens().replace(Share.HTML, manifest))
-      const id = nyc.nextId('share')
-      share.btn = share.find('.btn-shr')
-        .attr('aria-controls', id)
-        .one('click', $.proxy(share.show, share))
-      share.btns = share.btn.next()
-        .attr('id', id)
+      respose.json().then(manifest => {
+        manifest.url = document.location.href
+        share.append(new ReplaceTokens().replace(Share.HTML, manifest))
+        const id = nyc.nextId('share')
+        share.btn = share.find('.btn-shr')
+          .attr('aria-controls', id)
+          .one('click', $.proxy(share.show, share))
+        share.btns = share.btn.next()
+          .attr('id', id)
+      })
     })
   }
   /**

@@ -5,8 +5,7 @@
 import $ from 'jquery'
 import OlSourceVector from 'ol/source/Vector'
 import CsvAddr from 'nyc/ol/format/CsvAddr'
-
-require('isomorphic-fetch')
+import fetchTimeout from 'nyc/fetchTimeout'
 
 /**
  * @desc Class to auto load all features from a URL
@@ -43,26 +42,30 @@ class AutoLoad extends OlSourceVector {
    * @private
    * @method
    * @param {function} resolve Resolve function
+   * @param {function} reject Reject function
    */
-  resolve(resolve) {
-    fetch(this.autoLoadOptions.url).then(response => {
-      return response.text()
-    }).then(responseText => {
-      const format = this.getFormat(responseText)
-      const csvAddr = this.getCsvAddrFormat(format)
-      const features = format.readFeatures(responseText)
-      this.addFeatures(features)
-      if (csvAddr) {
-        csvAddr.one('geocode-complete', () => {
+  resolve(resolve, reject) {
+    fetchTimeout(this.autoLoadOptions.url).then(response => {
+      response.text().then(responseText => {
+        const format = this.getFormat(responseText)        
+        const csvAddr = this.getCsvAddrFormat(format)
+        const features = format.readFeatures(responseText)
+        this.addFeatures(features)
+        if (csvAddr) {
+          csvAddr.one('geocode-complete', () => {
+            this.set('autoload-complete', this)
+            resolve(features)
+          })
+        } else {
           this.set('autoload-complete', this)
           resolve(features)
-        })
-      } else {
-        this.set('autoload-complete', this)
-        resolve(features)
-      }
+        }
+      })
+    }).catch(err => {
+      reject(err)
     })
   }
+
   getCsvAddrFormat(format) {
     if (format instanceof CsvAddr) {
       return format

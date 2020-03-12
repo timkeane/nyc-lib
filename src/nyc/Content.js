@@ -5,8 +5,7 @@
 import $ from 'jquery'
 import Papa from 'papaparse'
 import ReplaceTokens from 'nyc/ReplaceTokens'
-
-require('isomorphic-fetch')
+import fetchTimeout from 'nyc/fetchTimeout'
 
 /**
  * @desc A class to provide messages with substitution values
@@ -81,17 +80,19 @@ Content.loadCsv = (options) => {
   const key = options.key || 'key'
   const value = options.value || 'value'
   return new Promise((resolve, reject) => {
-    fetch(options.url).then(respose => {
-      return respose.text()
-    }).then(resposeText => {
-      const csvRows = Papa.parse(resposeText, {header: true}).data
-      csvRows.forEach((row, i) => {
-        if (messages[0][row[key]]) {
-          console.warn(`Overwriting message with key '${[row[key]]}'`)
-        }
-        messages[0][row[key]] = row[value]
+    fetchTimeout(options.url).then(respose => {
+      respose.text().then(resposeText => {
+        const csvRows = Papa.parse(resposeText, {header: true}).data
+        csvRows.forEach((row, i) => {
+          if (messages[0][row[key]]) {
+            console.warn(`Overwriting message with key '${[row[key]]}'`)
+          }
+          messages[0][row[key]] = row[value]
+        })
+        resolve(new Content(messages))
       })
-      resolve(new Content(messages))
+    }).catch(err => {
+      console.error(`Failed to load CSV from ${options.url}`, err)
     })
   })
 }

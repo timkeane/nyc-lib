@@ -11,7 +11,7 @@ describe('fetchTimeout times out', () => {
   let promise
   beforeEach(() => {
     promise = new Promise((resolve, reject) => {})
-    jest.setTimeout(20000)
+    jest.setTimeout(16000)
     global.fetch = url => {
       return promise
     }
@@ -54,16 +54,16 @@ describe('fetchTimeout times out', () => {
       setTimeout(() => {
         reject(new Error('late'))
         done()
-      }, 10)
+      }, 20)
     })
     const start = new Date().getTime()
   
-    fetchTimeout('http://whatev', 5).then(resp => {
+    fetchTimeout('http://whatev', 15).then(resp => {
       expect(true).toBe(false) //fail
     }).catch(err => {
       const end = new Date().getTime()
       expect(err.message).toBe('Request timeout for http://whatev')
-      expect(end - start >= 5).toBe(true)
+      expect(end - start >= 15).toBe(true)
     })
   })
 
