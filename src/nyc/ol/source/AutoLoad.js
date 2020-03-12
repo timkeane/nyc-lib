@@ -47,7 +47,7 @@ class AutoLoad extends OlSourceVector {
   resolve(resolve, reject) {
     fetchTimeout(this.autoLoadOptions.url).then(response => {
       response.text().then(responseText => {
-        const format = this.getFormat(responseText)        
+        const format = this.getFormat(responseText)
         const csvAddr = this.getCsvAddrFormat(format)
         const features = format.readFeatures(responseText)
         this.addFeatures(features)
