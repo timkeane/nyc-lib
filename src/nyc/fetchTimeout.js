@@ -12,22 +12,21 @@ const TIMEOUT = 15000
  * @returns {Promise} A promise that resolves to the HTTP response object or a timeout error
  */
 export default (url, timeout) => {
-  let didTimeOut = false
+  let timedOut = false
   return new Promise((resolve, reject) => {
     const timeOut = setTimeout(() => {
-      didTimeOut = true
+      timedOut = true
       reject(new Error(`Request timeout for ${url}`))
     }, timeout || TIMEOUT)
     fetch(url).then(response => {
       clearTimeout(timeOut)
-      if (!didTimeOut) {
+      if (!timedOut) {
         resolve(response)
       }
     }).catch(err => {
-      if (didTimeOut) {
-        return
+      if (!timedOut) {
+        reject(err)
       }
-      reject(err)
     })
   })
 }
