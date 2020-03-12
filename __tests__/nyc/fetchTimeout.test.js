@@ -8,8 +8,9 @@ afterEach(() => {
 })
 
 describe('fetchTimeout times out', () => {
-  let promise = new Promise((resolve, reject) => {})
+  let promise
   beforeEach(() => {
+    promise = new Promise((resolve, reject) => {})
     jest.setTimeout(20000)
     global.fetch = url => {
       return promise
