@@ -313,7 +313,7 @@ class MapMgr {
     if (me.isOlStyle(facilityStyle)) {
       return facilityStyle
     } else if (me.isBuckets(facilityStyle)) {
-      return (feature, resolution) => {
+        return (feature, resolution) => {
         const type = feature.get(facilityStyle.typeCol || 'TYPE')
         return me.createFacilityStyle(facilityStyle.styles[type])
       }
@@ -763,7 +763,8 @@ MapMgr.FEATURE_DECORATIONS = {
    */
   handleOver(event) {
     const target = $(event.currentTarget)
-    this.app.highlight(target.data('feature'))
+    const feature = target.data('feature')
+    feature.app.highlight(target.data('feature'))
   },
   /**
    * @desc Handles mouse out a feature's HTML
@@ -773,7 +774,9 @@ MapMgr.FEATURE_DECORATIONS = {
    * @param {jQuery.Event} event Event object
    */
   handleOut(event) {
-    this.app.highlight()
+    const target = $(event.currentTarget)
+    const feature = target.data('feature')
+    feature.app.highlight()
   }
 }
 

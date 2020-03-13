@@ -6,7 +6,6 @@ import ListPager from 'nyc/ListPager'
 import Layer from 'ol/layer/Vector'
 import FilterAndSort from 'nyc/ol/source/FilterAndSort'
 import LocationMgr from 'nyc/ol/LocationMgr'
-import OlFeature from 'ol/Feature'
 import OlGeomPoint from 'ol/geom/Point'
 import MapLocator from 'nyc/MapLocator'
 import Icon from 'ol/style/Icon'
@@ -20,6 +19,7 @@ import Vector from 'ol/source/Vector'
 import Dialog from 'nyc/Dialog'
 
 import nyc from 'nyc'
+import Feature from 'ol/Feature'
 
 jest.mock('../../../src/nyc/ol/Basemap')
 jest.mock('../../../src/nyc/ol/MultiFeaturePopup')
@@ -512,7 +512,7 @@ describe('ready', () => {
 
 test('zoomTo', () => {
   expect.assertions(8)
-  const feature = new OlFeature({geometry: new OlGeomPoint([0, 0])})
+  const feature = new Feature({geometry: new OlGeomPoint([0, 0])})
 
   const mapMgr = new MapMgr(options)
   mapMgr.zoomTo(feature)
@@ -532,7 +532,7 @@ test('zoomTo', () => {
 
 describe('directionsTo', () => {
   const getFromAddr = MapMgr.prototype.getFromAddr
-  const getFullAddress = OlFeature.prototype.getFullAddress
+  const getFullAddress = Feature.prototype.getFullAddress
   const open = window.open
 
   beforeEach(() => {
@@ -540,7 +540,7 @@ describe('directionsTo', () => {
       return 'mock name'
     })
 
-    OlFeature.prototype.getFullAddress = jest.fn().mockImplementation(() => {
+    Feature.prototype.getFullAddress = jest.fn().mockImplementation(() => {
       return 'mock address'
     })
 
@@ -548,14 +548,14 @@ describe('directionsTo', () => {
   })
   afterEach(() => {
     MapMgr.prototype.getFromAddr = getFromAddr
-    OlFeature.prototype.getFullAddress = getFullAddress
+    Feature.prototype.getFullAddress = getFullAddress
     window.open = open
 
   })
 
   test('directionsTo - from addr provided', () => {
     expect.assertions(4)
-    const feature = new OlFeature({geometry: new OlGeomPoint([0, 0])})
+    const feature = new Feature({geometry: new OlGeomPoint([0, 0])})
     const mapMgr = new MapMgr(options)
     mapMgr.directionsTo(feature)
 
@@ -576,7 +576,7 @@ describe('directionsTo', () => {
       return ''
     })
 
-    const feature = new OlFeature({geometry: new OlGeomPoint([0, 0])})
+    const feature = new Feature({geometry: new OlGeomPoint([0, 0])})
     const mapMgr = new MapMgr(options)
     mapMgr.directionsTo(feature)
 
@@ -937,7 +937,7 @@ describe('highlight', () => {
   test('highlight w/ feature', () => {
     expect.assertions(3)
 
-    const feature = new OlFeature()
+    const feature = new Feature()
     const mapMgr = new MapMgr(options)
 
     mapMgr.highlight(feature)
@@ -1041,8 +1041,28 @@ describe('createStyle', () => {
 
   })
 
+  test('createStyle for types', () => {
+    expect.assertions(2)
 
-  
+    options.facilityStyle = {
+      styles: {
+        R: [255, 0, 0],
+        W: [255, 255, 255],
+        B: [0, 0, 255]
+      }
+    }
+
+    const mapMgr = new MapMgr(options)
+    
+    mapMgr.createFacilityStyle = jest.fn()
+    
+    const styleFn = mapMgr.createStyle(options)
+
+    styleFn(new Feature({TYPE: 'A'}), 1)
+
+    expect(mapMgr.createFacilityStyle).toHaveBeenCalledTimes(1)
+    expect(mapMgr.createFacilityStyle.mock.calls[0][0]).toBe(options.facilityStyle.styles.A)
+  })
 })
 
 describe('loadFailed', () => {
@@ -1110,7 +1130,7 @@ test('checkMouseWheel - false', () => {
 
 test('tipFunction', () => {
   expect.assertions(2)
-  const feature = new OlFeature({geometry: new OlGeomPoint([0, 0])})
+  const feature = new Feature({geometry: new OlGeomPoint([0, 0])})
   feature.getTip = jest.fn().mockImplementation(() => {
     return 'feature-tip'
   })
@@ -1392,6 +1412,7 @@ describe('decorations', () => {
 
   test('handleButton', () => {
     expect.assertions(6)
+
     const mockFeature = {
       app: {
         zoomTo: jest.fn(),
@@ -1412,4 +1433,36 @@ describe('decorations', () => {
     expect(mockFeature.app.zoomTo.mock.calls[0][0]).toBe(mockFeature)
     expect(mockFeature.app.directionsTo).toHaveBeenCalledTimes(1)
   })
+
+  test('handleOver', () => {
+    expect.assertions(2)
+
+    const mockFeature = {
+      app: {
+        highlight: jest.fn()
+      }
+    }
+    button.data('feature', mockFeature)
+  
+    extendedDecorations.handleOver({currentTarget: button})
+    expect(mockFeature.app.highlight).toHaveBeenCalledTimes(1)
+    expect(mockFeature.app.highlight.mock.calls[0][0]).toBe(mockFeature)
+  })
+
+  test('handleOut', () => {
+    expect.assertions(1)
+
+    const mockFeature = {
+      app: {
+        highlight: jest.fn()
+      }
+    }
+    button.data('feature', mockFeature)
+  
+    extendedDecorations.handleOut({currentTarget: button})
+    expect(mockFeature.app.highlight).toHaveBeenCalledTimes(1)
+  })
 })
+
+
+
