@@ -446,7 +446,7 @@ class MapMgr {
   /**
    * @protected
    * @method
-   * @param {boolean} mouseWheelZoom Allow mouse wheel zoom
+   * @param {Error} err The Error
    */
   loadFailed(err) {
     console.error(err)

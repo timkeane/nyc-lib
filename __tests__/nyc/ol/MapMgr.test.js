@@ -17,10 +17,9 @@ import Fill from 'ol/style/Fill'
 import Stroke from 'ol/style/Stroke'
 import MouseWheelZoom from 'ol/interaction/MouseWheelZoom'
 import Vector from 'ol/source/Vector'
-
+import Dialog from 'nyc/Dialog'
 
 import nyc from 'nyc'
-
 
 jest.mock('../../../src/nyc/ol/Basemap')
 jest.mock('../../../src/nyc/ol/MultiFeaturePopup')
@@ -28,6 +27,7 @@ jest.mock('../../../src/nyc/ol/FeatureTip')
 jest.mock('../../../src/nyc/ListPager')
 jest.mock('../../../src/nyc/ol/source/FilterAndSort')
 jest.mock('../../../src/nyc/ol/LocationMgr')
+jest.mock('../../../src/nyc/Dialog')
 jest.mock('ol/style/Style')
 jest.mock('ol/style/Icon')
 jest.mock('ol/layer/Vector')
@@ -44,9 +44,14 @@ const createParentFormat = MapMgr.prototype.createParentFormat
 const createDecorations = MapMgr.prototype.createDecorations
 const createLocationMgr = MapMgr.prototype.createLocationMgr
 const checkMouseWheel = MapMgr.prototype.checkMouseWheel
+const loadFailed = MapMgr.prototype.loadFailed
 
 const createLocationMgrMock = jest.fn().mockImplementation(() => {
-  return 'mock-location-mgr'
+  return {
+    search: {
+      setFeatures: jest.fn()
+    }
+  }
 })
 
 let mapTarget
@@ -74,12 +79,13 @@ beforeEach(() => {
   LocationMgr.resetMocks()
   ListPager.mockClear()
   Style.mockClear()
-  // Decorate.mockClear()
+  Dialog.mockClear()
 
   MapMgr.prototype.createParentFormat = jest.fn()
   MapMgr.prototype.createDecorations = jest.fn()
   MapMgr.prototype.createLocationMgr = createLocationMgrMock
   MapMgr.prototype.checkMouseWheel = jest.fn()
+  MapMgr.prototype.loadFailed = jest.fn()
 })
 
 afterEach(() => {
@@ -88,6 +94,7 @@ afterEach(() => {
   MapMgr.prototype.createDecorations = createDecorations
   MapMgr.prototype.createLocationMgr = createLocationMgr
   MapMgr.prototype.checkMouseWheel = checkMouseWheel
+  MapMgr.prototype.loadFailed = loadFailed
 })
 
 describe('constructor', () => {
@@ -102,7 +109,8 @@ describe('constructor', () => {
   const mockLocationMgr = {}
 
   beforeEach(() => {
-    mockPromise.then = jest.fn()
+    mockPromise.then = jest.fn(() => {return mockPromise})
+    mockPromise.catch = jest.fn()
     mockSource.autoLoad = jest.fn().mockImplementation(() => {
       return mockPromise
     })
@@ -132,7 +140,7 @@ describe('constructor', () => {
   })
 
   test('constructor minimum options', () => {
-    expect.assertions(39)
+    expect.assertions(38)
 
     const mapMgr = new MapMgr(options)
     expect(mapMgr instanceof MapMgr).toBe(true)
@@ -148,7 +156,6 @@ describe('constructor', () => {
     expect(mapMgr.map.addLayer.mock.calls[1][0]).toBe(mapMgr.highlightLayer)
     expect(mapMgr.source).toBe(mockSource)
     expect(mapMgr.source.autoLoad).toHaveBeenCalledTimes(1)
-    expect($.mocks.proxy).toHaveBeenCalledTimes(1)
     expect($.mocks.proxy.mock.calls[0][0]).toBe(mapMgr.ready)
     expect($.mocks.proxy.mock.calls[0][1]).toBe(mapMgr)
     expect(mockPromise.then).toHaveBeenCalledTimes(1)
@@ -190,7 +197,7 @@ describe('constructor', () => {
   })
 
   test('constructor all options', () => {
-    expect.assertions(42)
+    expect.assertions(41)
 
     options.searchTarget = '#search'
     options.listTarget = '#list'
@@ -220,7 +227,6 @@ describe('constructor', () => {
     expect($.mocks.proxy.mock.calls[0][0]).toBe(mapMgr.ready)
     expect($.mocks.proxy.mock.calls[0][1]).toBe(mapMgr)
     expect(mockPromise.then).toHaveBeenCalledTimes(1)
-    expect($.mocks.proxy).toHaveBeenCalledTimes(1)
     expect(mockPromise.then.mock.calls[0][0]).toBe($.mocks.proxy.returnedValues[0])
 
     expect(Basemap).toHaveBeenCalledTimes(1)
@@ -318,7 +324,7 @@ describe('located', () => {
     h2 = $('<h2 class="info"></h2>')
     $('body').append(h2)
   })
-
+  
   afterEach(() => {
     h2.remove()
   })
@@ -327,6 +333,7 @@ describe('located', () => {
     expect.assertions(5)
   
     const mapMgr = new MapMgr(options)
+    mapMgr.ready = jest.fn()
     mapMgr.resetList = jest.fn()
     
     mapMgr.located('mock-location-1')
@@ -337,10 +344,11 @@ describe('located', () => {
     mapMgr.pager = {
       find: jest.fn().mockImplementation(qry => {
         return h2
-      })
+      }),
+      reset: jest.fn()
     }
     mapMgr.located('mock-location-2')
-  
+
     expect(mapMgr.location).toBe('mock-location-2')
     expect(mapMgr.resetList).toHaveBeenCalledTimes(1)
     expect(h2.attr('aria-live')).toBe('polite')
@@ -403,18 +411,10 @@ describe('resetList', () => {
 
 describe('ready', () => {
   const nycReady = nyc.ready
-  const createSource = MapMgr.prototype.createSource
 
   beforeEach(() => {
     nyc.ready = jest.fn()
     options.listTarget = '#list'
-    MapMgr.prototype.createLocationMgr = jest.fn().mockImplementation(() => {
-      return {
-        search: {
-          setFeatures: jest.fn()
-        }
-      }
-    })
   })
   afterEach(() => {
     nyc.ready = nycReady
@@ -466,8 +466,6 @@ describe('ready', () => {
 
     expect(nyc.ready).toHaveBeenCalledTimes(1)
     expect(nyc.ready.mock.calls[0][0].get(0)).toBe(document.body)
-
-    MapMgr.prototype.createSource = createSource
 
   })
 
@@ -1042,6 +1040,40 @@ describe('createStyle', () => {
     expect(Style).toHaveBeenCalledTimes(2)
 
   })
+
+
+  
+})
+
+describe('loadFailed', () => {
+  const error = console.error
+  
+  beforeEach(() => {
+    console.error = jest.fn()
+  })
+  
+  afterEach(() => {
+    console.error = error
+  })
+
+  test('loadFailed', () => {
+    expect.assertions(7)
+  
+    const mapMgr = new MapMgr(options)
+  
+    mapMgr.loadFailed = loadFailed
+    mapMgr.ready = jest.fn()
+
+    mapMgr.loadFailed('mock-error')
+  
+    expect(console.error).toHaveBeenCalledTimes(1)
+    expect(console.error.mock.calls[0][0]).toBe('mock-error')
+    expect(mapMgr.ready).toHaveBeenCalledTimes(1)
+    expect(Dialog).toHaveBeenCalledTimes(1)
+    expect(Dialog.mock.calls[0][0]).toEqual({})
+    expect(Dialog.mock.instances[0].ok).toHaveBeenCalledTimes(1)
+    expect(Dialog.mock.instances[0].ok.mock.calls[0][0]).toEqual({message: 'Failed to load map data'})
+  })
 })
 
 test('checkMouseWheel - true', () => {
@@ -1380,5 +1412,4 @@ describe('decorations', () => {
     expect(mockFeature.app.zoomTo.mock.calls[0][0]).toBe(mockFeature)
     expect(mockFeature.app.directionsTo).toHaveBeenCalledTimes(1)
   })
-  
 })
