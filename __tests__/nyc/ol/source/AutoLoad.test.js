@@ -118,11 +118,14 @@ describe('fetch times out', () => {
   })
 
   test('fetch times out', done => {
+    expect.assertions(2)
+
     const autoload = new AutoLoad({
       url: jsonUrl,
       format: new OlFormatGeoJson()
     }).autoLoad().catch(err => {
-      expect(err.message).toBe(`Request timeout for ${jsonUrl}`)
+      expect(err.message).toBe(`Failed to load ${jsonUrl}`)
+      expect(err.cause.message).toBe(`Request timeout for ${jsonUrl}`)
       done()
     })
   })

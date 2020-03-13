@@ -21,6 +21,7 @@ import Icon from 'ol/style/Icon'
 import Circle from 'ol/style/Circle'
 import Fill from 'ol/style/Fill'
 import Stroke from 'ol/style/Stroke'
+import Dialog from 'nyc/Dialog'
 
 const proj4 = nyc.proj4
 
@@ -99,7 +100,7 @@ class MapMgr {
     if (this.source) {
       this.layer = this.createLayer(this.source, this.createStyle(options))
       this.map.addLayer(this.layer)
-      this.source.autoLoad().then($.proxy(this.ready, this))
+      this.source.autoLoad().then($.proxy(this.ready, this)).catch($.proxy(this.loadFailed, this))
       this.createHighlightLayer(options)
     } else {
       this.ready()
@@ -441,6 +442,16 @@ class MapMgr {
     locationMgr.on('geocoded', this.located, this)
     locationMgr.on('geolocated', this.located, this)
     return locationMgr
+  }
+  /**
+   * @protected
+   * @method
+   * @param {boolean} mouseWheelZoom Allow mouse wheel zoom
+   */
+  loadFailed(err) {
+    console.error(err)
+    this.ready()
+    new Dialog({}).ok({message: 'Failed to load map data'})
   }
   /**
    * @private

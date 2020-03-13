@@ -47,25 +47,33 @@ class AutoLoad extends OlSourceVector {
   resolve(resolve, reject) {
     fetchTimeout(this.autoLoadOptions.url).then(response => {
       response.text().then(responseText => {
-        const format = this.getFormat(responseText)
-        const csvAddr = this.getCsvAddrFormat(format)
-        const features = format.readFeatures(responseText)
-        this.addFeatures(features)
-        if (csvAddr) {
-          csvAddr.one('geocode-complete', () => {
+        try {
+          const format = this.getFormat(responseText)
+          const csvAddr = this.getCsvAddrFormat(format)
+          const features = format.readFeatures(responseText)
+          this.addFeatures(features)
+          if (csvAddr) {
+            csvAddr.one('geocode-complete', () => {
+              this.set('autoload-complete', this)
+              resolve(features)
+            })
+          } else {
             this.set('autoload-complete', this)
             resolve(features)
-          })
-        } else {
-          this.set('autoload-complete', this)
-          resolve(features)
+          }
+        } catch (err) {
+          const error = new Error(`Failed to load ${this.autoLoadOptions.url}`)
+          error.cause = err
+          error.responseText = responseText
+          reject(error)
         }
       })
     }).catch(err => {
-      reject(err)
+      const error = new Error(`Failed to load ${this.autoLoadOptions.url}`)
+      error.cause = err
+      reject(error)
     })
   }
-
   getCsvAddrFormat(format) {
     if (format instanceof CsvAddr) {
       return format
