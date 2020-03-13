@@ -313,7 +313,7 @@ class MapMgr {
     if (me.isOlStyle(facilityStyle)) {
       return facilityStyle
     } else if (me.isBuckets(facilityStyle)) {
-        return (feature, resolution) => {
+      return (feature, resolution) => {
         const type = feature.get(facilityStyle.typeCol || 'TYPE')
         return me.createFacilityStyle(facilityStyle.styles[type])
       }
