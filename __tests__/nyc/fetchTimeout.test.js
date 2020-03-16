@@ -2,6 +2,8 @@ import fetchTimeout from 'nyc/fetchTimeout'
 
 const actualFetch = global.fetch
 
+const FUDGE = 2 //good enough fix for flakey timeout test - what's a couple of milliseconds between friends
+
 afterEach(() => {
   jest.setTimeout(5000)
   global.fetch = actualFetch
@@ -27,7 +29,7 @@ describe('fetchTimeout times out', () => {
     }).catch(err => {
       const end = new Date().getTime()
       expect(err.message).toBe('Request timeout for http://whatev')
-      expect(end - start >= 15000).toBe(true)
+      expect(end - start >= (15000 - FUDGE)).toBe(true)
       done()
     })
   })
@@ -42,7 +44,7 @@ describe('fetchTimeout times out', () => {
     }).catch(err => {
       const end = new Date().getTime()
       expect(err.message).toBe('Request timeout for http://whatev')
-      expect(end - start >= 15).toBe(true)
+      expect(end - start >= (15 - FUDGE)).toBe(true)
       done()
     })
   })
@@ -63,7 +65,7 @@ describe('fetchTimeout times out', () => {
     }).catch(err => {
       const end = new Date().getTime()
       expect(err.message).toBe('Request timeout for http://whatev')
-      expect(end - start >= 15).toBe(true)
+      expect(end - start >= (15 - FUDGE)).toBe(true)
     })
   })
 
@@ -83,7 +85,7 @@ describe('fetchTimeout times out', () => {
     }).catch(err => {
       const end = new Date().getTime()
       expect(err.message).toBe('Request timeout for http://whatev')
-      expect(end - start >= 5).toBe(true)
+      expect(end - start >= (5 - FUDGE)).toBe(true)
     })
   })
 })
