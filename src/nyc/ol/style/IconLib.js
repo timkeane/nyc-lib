@@ -48,20 +48,19 @@ class IconLib {
    * @return {ol.style.Style} The icon style
    */
   style(icon, width) {
-    icon = this.parseIcon(icon)
-    const ico = `${icon.library}/${icon.name}`
+    const ico = this.parseIcon(icon)
+    const url = `${this.url}/${ico.library}/${ico.name}-15.svg`
     const style = new Style({})
     const scale = width / 15
-    let src = this.icons[icon]
+    const src = this.icons[url]
     if (!src) {
-      fetch(`${this.url}/${ico}-15.svg`).then(response => {
+      fetch(url).then(response => {
         response.text().then(txt => {
           const div = $('<div></div>').append($(txt)[2])
           const css = div.find('svg').attr('style') || ''
-          div.find('svg').attr('style', `${css};fill:#${icon.color}`)
-          src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(div.html())}`
-          this.icons[icon] = src
-          style.setImage(new Icon({src, scale}))
+          div.find('svg').attr('style', `${css};fill:#${ico.color}`)
+          this.icons[url] = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(div.html())}`
+          style.setImage(new Icon({src: this.icons[url], scale}))
         })
       })
     } else {
