@@ -51,7 +51,7 @@ IconArcGis.fetch = url => {
       response.json().then(layerInfo => {
         try {
           resolve(new IconArcGis(layerInfo.drawingInfo.renderer))
-        } catch(err) {
+        } catch (err) {
           reject(error(url, err))
         }
       })
