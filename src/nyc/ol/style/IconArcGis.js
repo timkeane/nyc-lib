@@ -2,9 +2,9 @@
  * @module nyc/ol/style/IconArcGis
  */
 
-import $ from 'jquery'
 import Style from 'ol/style/Style'
 import Icon from 'ol/style/Icon'
+import fetchTimeout from 'nyc/fetchTimeout'
 
 //https://services1.arcgis.com/8cuieNI8NbqQZQVJ/ArcGIS/rest/services/CCs_test_for_DoITT/FeatureServer/0/?f=pjson&token=_4vEnhiWZZLtLpwt0uooePbbomuF-tlBpHsyzEhj0UBZjrePC5uxz3sG5HXuVT0yCyh8JFDdX8NbVFPZAIq2CZ5T-ABEmAoYdmMP2J_2zVbqJ-uAZBFfmu7ZQr7f1zA13TfGlgPL-ORBKNk9WWLSaQ
 
@@ -39,10 +39,10 @@ class IconArcGis {
   }
 }
 
-const error = err => {
-  const error = Error(`Unable to load drawingInfo from ${url}`)
-  error.cause = err
-  return error
+const error = (url, err) => {
+  const e = Error(`Unable to load drawingInfo from ${url}`)
+  e.cause = err
+  return e
 }
 
 IconArcGis.fetch = url => {
@@ -52,11 +52,11 @@ IconArcGis.fetch = url => {
         try {
           resolve(new IconArcGis(layerInfo.drawingInfo.renderer))
         } catch(err) {
-          reject(error(err))
+          reject(error(url, err))
         }
       })
     }).catch(err => {
-      reject(error(err))
+      reject(error(url, err))
     })
   })
 }
