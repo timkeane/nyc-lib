@@ -6,8 +6,6 @@ import Style from 'ol/style/Style'
 import Icon from 'ol/style/Icon'
 import fetchTimeout from 'nyc/fetchTimeout'
 
-//https://services1.arcgis.com/8cuieNI8NbqQZQVJ/ArcGIS/rest/services/CCs_test_for_DoITT/FeatureServer/0/?f=pjson&token=_4vEnhiWZZLtLpwt0uooePbbomuF-tlBpHsyzEhj0UBZjrePC5uxz3sG5HXuVT0yCyh8JFDdX8NbVFPZAIq2CZ5T-ABEmAoYdmMP2J_2zVbqJ-uAZBFfmu7ZQr7f1zA13TfGlgPL-ORBKNk9WWLSaQ
-
 class IconArcGis {
   constructor(renderer) {
     if (renderer.type !== 'uniqueValue') {
@@ -24,11 +22,12 @@ class IconArcGis {
         values.push(feature.get(prop))
       }
     }
-    const value = values.concat(',')
+    const value = values.join(',')
+
     this.renderer.uniqueValueInfos.some(info => {
       if (info.value === value) {
         const sym = info.symbol
-        style.setIcon(new Icon({
+        style.setImage(new Icon({
           src: `data:${sym.contentType};base64,${sym.imageData}`,
           scale: width / sym.width
         }))
@@ -60,3 +59,4 @@ IconArcGis.fetch = url => {
     })
   })
 }
+export default IconArcGis

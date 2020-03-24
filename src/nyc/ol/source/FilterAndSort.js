@@ -154,6 +154,18 @@ class FilterAndSort extends AutoLoad {
     return [olProjGetProjection(dataProj), olProjGetProjection(featureProj)]
   }
   /**
+   * @desc Remove a feature
+   * @public
+   * @override
+   * @method
+   * @param {ol.Feature} feature
+   */
+  removeFeature(feature) {
+    super.removeFeature(feature)
+    const idx = $.inArray(feature, this.allFeatures)
+    this.allFeatures.splice(idx, 1)
+  }
+  /**
    * @private
    * @method
    */

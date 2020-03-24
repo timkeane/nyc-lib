@@ -269,3 +269,24 @@ test('distance - not metric', () => {
   expect(distance.distance.toFixed(2)).toBe('4.11')
   expect(distance.units).toBe('ft')
 })
+
+test('removeFeature', () => {
+  expect.assertions(2)
+
+  const f0 = new OlFeature({id: 'f0', geometry: new OlGeomPoint([0, 0])})
+  const f1 = new OlFeature({id: 'f1', geometry: new OlGeomPoint([0, 1])})
+  const f2 = new OlFeature({id: 'f2', geometry: new OlGeomPoint([0, 2])})
+  const f3 = new OlFeature({id: 'f3', geometry: new OlGeomPoint([0, 2])})
+  const f4 = new OlFeature({id: 'f4', geometry: new OlGeomPoint([0, 3])})
+
+  const filterAndSort = new FilterAndSort({
+    features: [f0, f4, f2, f1, f3]
+  })
+
+  filterAndSort.removeFeature(f4)
+
+  const features = filterAndSort.getFeatures()
+
+  expect(features.length).toBe(4)
+  expect(features).toEqual([f0, f2, f1, f3])
+})
