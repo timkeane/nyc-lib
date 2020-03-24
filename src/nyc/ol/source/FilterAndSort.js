@@ -158,7 +158,7 @@ class FilterAndSort extends AutoLoad {
    * @public
    * @override
    * @method
-   * @param {ol.Feature} feature
+   * @param {ol.Feature} feature The feature to remove
    */
   removeFeature(feature) {
     super.removeFeature(feature)
