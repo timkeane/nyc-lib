@@ -63,6 +63,8 @@ window.nyc.ol.source.FilterAndSort = _nyc_ol_source_FilterAndSort
 window.nyc.ol.source.SocrataJson = _nyc_ol_source_SocrataJson
 
 import _nyc_ol_style_IconLib from 'nyc/ol/style/IconLib'
+import _nyc_ol_style_IconArcGis from 'nyc/ol/style/IconArcGis'
 
 window.nyc.ol.style = {}
 window.nyc.ol.style.IconLib = _nyc_ol_style_IconLib
+window.nyc.ol.style.IconArcGis = _nyc_ol_style_IconArcGis
