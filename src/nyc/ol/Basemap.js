@@ -111,7 +111,6 @@ class Basemap extends Map {
    * @param {string=} name The name of the file to write
    */
   saveGeoJson(source, name) {
-    const geojson = {}
     const format = new GeoJSON({
       featureProjection: this.getView().getProjection(),
       dataProjection: 'EPSG:4326'
