@@ -29,6 +29,8 @@ import OlView from 'ol/View'
 import OlSourceXYZ from 'ol/source/XYZ'
 import OlLayerTile from 'ol/layer/Tile'
 
+import GeoJSON from 'ol/format/GeoJSON'
+
 const proj4 = nyc.proj4
 
 /**
@@ -85,7 +87,7 @@ class Basemap extends Map {
     this.photos = {}
     /**
      * @private
-     * @member {storage.Local}
+     * @member {module:nyc/LocalStorage~LocalStorage}
      */
     this.storage = new LocalStorage()
     this.setupLayers(options, preload)
@@ -101,6 +103,21 @@ class Basemap extends Map {
   //   ])
   //   return renderer
   // }
+  /**
+   * @desc Save source as GeoJSON
+   * @public
+   * @method
+   * @param {ol.source.Vector} source The source
+   * @param {string=} name The name of the file to write
+   */
+  saveGeoJson(source, name) {
+    const geojson = {}
+    const format = new GeoJSON({
+      featureProjection: this.getView().getProjection(),
+      dataProjection: 'EPSG:4326'
+    })
+    this.storage.saveGeoJson(name || 'layer.json', format.writeFeatures(source.getFeatures()))
+  }
   /**
    * @desc Show photo layer
    * @public
