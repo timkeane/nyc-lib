@@ -55,11 +55,7 @@ class FinderApp extends MapMgr {
     this.adjustTabs()
     this.showSplash(options.splashOptions)
     new Share({target: '#map'})
-    this.goo = new Goog({
-      target: '#map',
-      languages: options.languages || Translate.DEFAULT_LANGUAGES,
-      button: true
-    })
+    this.translateBtn(options)
     /**
      * @private
      * @member {module:nyc/Directions~Directions}
@@ -87,6 +83,19 @@ class FinderApp extends MapMgr {
     this.screenReaderDialog = new Dialog({css: 'screen-reader-info'})
     $('#screen-reader-info').click($.proxy(this.screenReaderInfo, this))
     $('.shw-lst .btn-yes span').html(`View nearby ${$('#tab-btn-1').html()} in an accessible list`)
+  }
+  /**
+   * @desc Create the translate button
+   * @public
+   * @method
+   * @param {module:nyc/ol/FinderApp~FinderApp.Options} options Constructor options
+   */
+  translateBtn(options) {
+    new Goog({
+      target: '#map',
+      languages: options.languages || Translate.DEFAULT_LANGUAGES,
+      button: true
+    })
   }
   /**
    * @desc Reset the facilities list
