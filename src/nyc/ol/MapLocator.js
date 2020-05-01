@@ -166,7 +166,7 @@ class MapLocator extends NycMapLocator {
  * @typedef {Object}
  * @property {ol.Map} map The map on which location will be managed
  * @property {ol.style.Style=} style The style for the layer on which user-specified locations will be displayed
- * @property {number} [zoom={@link NycMapLocator.ZOOM_LEVEL}] The zoom level used when locating coordinate
+ * @property {number} [zoom={@link module:nyc/MapLocator~MapLocator.ZOOM_LEVEL}] The zoom level used when locating coordinate
  */
 MapLocator.Options
 
