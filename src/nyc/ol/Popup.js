@@ -112,7 +112,7 @@ class Popup extends OlOverlay {
    */
   pan() {
     if (!this.isFullscreen() && this.popup.css('display') !== 'none') {
-      this.panIntoView()
+      this.panIntoView({margin: 10})
     }
   }
   /**
