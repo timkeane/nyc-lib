@@ -148,10 +148,10 @@ class FinderApp extends MapMgr {
    * @param {ol.Feature} feature OpenLayers feature
    */
   zoomTo(feature) {
-    super.zoomTo(feature)
     if ($('#tabs .btns h2:first-of-type').css('display') !== 'none') {
       this.tabs.open('#map')
     }
+    super.zoomTo(feature)
   }
   /**
    * @desc Handles geocoded and geolocated events
