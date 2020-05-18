@@ -1,6 +1,6 @@
 .tog .chc-chc {
   display: table-cell;
-  max-width: 50%;
+  width: 50%;
   text-align: center;
   overflow: hidden;
   padding: 0;
