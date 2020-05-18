@@ -639,7 +639,7 @@ MapMgr.FEATURE_DECORATIONS = {
    * @return {jQuery} The map button as jQuery
    */
   mapButton() {
-    return $('<button class="btn rad-all map">Map</button>')
+    return $('<button class="btn btn-ico rad-all map">Map</button>')
       .prepend('<span class="screen-reader-only">Locate this facility on the </span>')
       .data('feature', this)
       .click(this.handleButton)
@@ -651,7 +651,7 @@ MapMgr.FEATURE_DECORATIONS = {
    * @return {jQuery} The directions button as jQuery
    */
   directionsButton() {
-    return $('<button class="btn rad-all dir">Directions</button>')
+    return $('<button class="btn btn-ico rad-all dir">Directions</button>')
       .data('feature', this)
       .click(this.handleButton)
   },
@@ -664,7 +664,7 @@ MapMgr.FEATURE_DECORATIONS = {
   phoneButton() {
     const phone = this.getPhone()
     if (phone) {
-      return $(`<a class="btn rad-all phone" role="button">${phone}</a>`)
+      return $(`<a class="btn btn-ico rad-all phone" role="button">${phone}</a>`)
         .attr('href', `tel:${phone}`)
     }
   },
@@ -677,7 +677,7 @@ MapMgr.FEATURE_DECORATIONS = {
   emailButton() {
     const email = this.getEmail()
     if (email) {
-      return $('<a class="btn rad-all email" role="button">Email</a>')
+      return $('<a class="btn btn-ico rad-all email" role="button">Email</a>')
         .attr('href', `mailto:${email}`)
     }
   },
@@ -690,7 +690,7 @@ MapMgr.FEATURE_DECORATIONS = {
   websiteButton() {
     const url = this.getWebsite()
     if (url) {
-      return $('<a class="btn rad-all web" target="blank" role="button">Website</a>')
+      return $('<a class="btn btn-ico rad-all web" target="blank" role="button">Website</a>')
         .attr('href', url)
     }
   },

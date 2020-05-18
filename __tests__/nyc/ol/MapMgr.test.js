@@ -1282,7 +1282,7 @@ describe('decorations', () => {
     expect(html.length).toBe(1)
     expect(html.data('feature')).toBe(extendedDecorations)
     expect($('<div></div>').append(html).html()).toBe(
-      '<button class="btn rad-all map"><span class="screen-reader-only">Locate this facility on the </span>Map</button>'
+      '<button class="btn btn-ico rad-all map"><span class="screen-reader-only">Locate this facility on the </span>Map</button>'
     )
   })
 
@@ -1292,7 +1292,7 @@ describe('decorations', () => {
     expect(html.length).toBe(1)
     expect(html.data('feature')).toBe(extendedDecorations)
     expect($('<div></div>').append(html).html()).toBe(
-      '<button class="btn rad-all dir">Directions</button>'
+      '<button class="btn btn-ico rad-all dir">Directions</button>'
     )
   })
 
@@ -1301,7 +1301,7 @@ describe('decorations', () => {
     const html = extendedDecorations.phoneButton()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a>'
+      '<a class="btn btn-ico rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a>'
     )
   })
 
@@ -1316,7 +1316,7 @@ describe('decorations', () => {
     const html = extendedDecorations.emailButton()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a>'
+      '<a class="btn btn-ico rad-all email" role="button" href="mailto:email@email.com">Email</a>'
     )
   })
 
@@ -1331,7 +1331,7 @@ describe('decorations', () => {
     const html = extendedDecorations.websiteButton()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a>'
+      '<a class="btn btn-ico rad-all web" target="blank" role="button" href="http://website">Website</a>'
     )
   })
 
@@ -1340,7 +1340,6 @@ describe('decorations', () => {
     extendedDecorations.getWebsite = () => {}
     expect(extendedDecorations.websiteButton()).toBe(undefined)
   })
-
 
   test('distanceHtml has distance in feet', () => {
     expect.assertions(2)
@@ -1406,7 +1405,7 @@ describe('decorations', () => {
     expect.assertions(1)
     const html = extendedDecorations.html()
     expect($('<div></div>').append(html).html()).toBe(
-      '<div class="facility css-class"><h3 class="name notranslate">A Name</h3><div class="addr notranslate"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn rad-all email" role="button" href="mailto:email@email.com">Email</a><a class="btn rad-all web" target="blank" role="button" href="http://website">Website</a><button class="btn rad-all map"><span class="screen-reader-only">Locate this facility on the </span>Map</button><button class="btn rad-all dir">Directions</button><div class="dtl"><div class="clps rad-all"><button class="btn rad-all" aria-pressed="false" id="clsp-btn-1" aria-controls="clsp-pnl-1">Details</button><div class="content rad-bot" aria-expanded="false" aria-collapsed="true" aria-hidden="true" style="display: none;" id="clsp-pnl-1" aria-labelledby="clsp-btn-1"></div></div></div></div>'
+      '<div class="facility css-class"><h3 class="name notranslate">A Name</h3><div class="addr notranslate"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn btn-ico rad-all phone" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn btn-ico rad-all email" role="button" href="mailto:email@email.com">Email</a><a class="btn btn-ico rad-all web" target="blank" role="button" href="http://website">Website</a><button class="btn btn-ico rad-all map"><span class="screen-reader-only">Locate this facility on the </span>Map</button><button class="btn btn-ico rad-all dir">Directions</button><div class="dtl"><div class="clps rad-all"><button class="btn rad-all" aria-pressed="false" id="clsp-btn-1" aria-controls="clsp-pnl-1">Details</button><div class="content rad-bot" aria-expanded="false" aria-collapsed="true" aria-hidden="true" style="display: none;" id="clsp-pnl-1" aria-labelledby="clsp-btn-1"></div></div></div></div>'
     )
   })
 

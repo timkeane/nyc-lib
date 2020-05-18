@@ -48,6 +48,9 @@ html, body, body * {
 	text-overflow: ellipsis;
 	text-transform: capitalize;
 }
+.btn-ico {
+	padding-left: 30px;
+}
 h2.btn, h3.btn, a.btn, div.btn {
 	padding-top: 9px;
 	height: 26px;
