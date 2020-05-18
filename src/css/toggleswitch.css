@@ -1,0 +1,29 @@
+.tog .chc-chc {
+  display: table-cell;
+  width: 50%;
+  text-align: center;
+  overflow: hidden;
+  padding: 0;
+}
+.tog label {
+  border: none;
+  display: block;
+}
+.tog .chc-chc:first-of-type label {
+  border-top-left-radius: 3px;  
+  border-bottom-left-radius: 3px;  
+}
+.tog .chc-chc:last-of-type label {
+  border-top-right-radius: 3px;  
+  border-bottom-right-radius: 3px;  
+}
+.tog input {
+    display: none;
+}
+.tog input:checked+label, .tog input:checked+label * {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+}
+.tog .chc-chc label:before {
+  display: none;
+}

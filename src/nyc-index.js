@@ -24,6 +24,7 @@ import _nyc_Slider from 'nyc/Slider'
 import _nyc_Zoom from 'nyc/Zoom'
 import _nyc_Geolocate from 'nyc/Geolocate'
 import _nyc_Search from 'nyc/Search'
+import _nyc_ToggleSwitch from 'nyc/ToggleSwitch'
 
 
 window.nyc = _nyc
@@ -52,6 +53,7 @@ window.nyc.Tabs = _nyc_Tabs
 window.nyc.Zoom = _nyc_Zoom
 window.nyc.Geolocate = _nyc_Geolocate
 window.nyc.Search = _nyc_Search
+window.nyc.ToggleSwitch = _nyc_ToggleSwitch
 
 import _nyc_lang from 'nyc/lang'
 import _nyc_lang_Translate from 'nyc/lang/Translate'
