@@ -79,6 +79,35 @@ class Translate extends Container {
      */
     this.code = this.defaultLanguage
     this.render(options.target)
+    /**
+     * @private
+     * @member {boolean}
+     */
+    this.monitoring = false
+  }
+  /**
+   * @private
+   * @method
+   */
+  monitor() {
+    if (!this.monitoring) {
+      const select = this.find('select')
+      const fn = () => {
+        if (global.nycTranslateInstance.monitoring === true) {
+          global.nycTranslateInstance.monitoring = false
+          select.trigger('change')
+        }
+        setTimeout(() => {
+          global.nycTranslateInstance.monitoring = true
+        }, 500)
+      }
+      this.monitoring = true
+      if ('MutationObserver' in window) {
+        new MutationObserver(fn).observe($('body').get(0), {subtree: true, childList: true})
+      } else {
+        setInterval(fn, 500)
+      }
+    }
   }
   /**
    * @desc Sets the chosen language and performs message substitution
@@ -150,7 +179,7 @@ class Translate extends Container {
     select.blur(() => {
       select.prev().removeClass('focused')
     })
-    this.trigger('ready', this)
+    this.trigger('ready', this)    
   }
   /**
    * @private
