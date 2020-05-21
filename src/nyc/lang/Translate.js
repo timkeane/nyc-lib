@@ -84,6 +84,7 @@ class Translate extends Container {
      * @member {boolean}
      */
     this.monitoring = false
+    this.monitor()
   }
   /**
    * @private
