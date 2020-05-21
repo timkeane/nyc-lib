@@ -180,7 +180,7 @@ class Translate extends Container {
     select.blur(() => {
       select.prev().removeClass('focused')
     })
-    this.trigger('ready', this)    
+    this.trigger('ready', this)
   }
   /**
    * @private
