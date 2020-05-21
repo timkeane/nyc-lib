@@ -92,8 +92,9 @@ class Translate extends Container {
     Object.keys(this.defaultMessages).forEach(key => {
       const messages = this.messages[lang] || this.defaultMessages
       const msg = messages[key] || this.defaultMessages[key]
-      $('.' + key).html(msg)
-      $('*[data-msg-key="' + key + '"]').each((_, element) => {
+      $(`.${key}`).html(msg)
+      $(`*[data-lng-key="${key}"]`).html(msg)
+      $(`*[data-msg-key="${key}"]`).each((_, element) => {
         $(element).attr($(element).data('msg-attr'), msg)
       })
     })
