@@ -127,20 +127,22 @@ class Goog extends Translate {
      * then use the attribute text for the span HTML
      * then apply the translation of the span back to the attribute
      */
-    ATTRS_TO_TRANSLATE.forEach(attr => {
-      $(`*[${attr}]`).each(function(_, node) {
-        if (!$(node).data(attr)) {
-          const span = $(`<span class="lng ${attr}" aria-hidden="true">${$(node).attr(attr)}</span>`)
-          $('body').append(span)
-          $(node).data(attr, span)
-        } else {
-          const valueHolder = $(node).data(attr)
-          $(node).attr(attr, valueHolder.text())
-        }
+    if ($('body').hasClass('translated')) {
+      ATTRS_TO_TRANSLATE.forEach(attr => {
+        $(`*[${attr}]`).each(function(_, node) {
+          if (!$(node).data(attr)) {
+            const span = $(`<span class="lng ${attr}" aria-hidden="true">${$(node).attr(attr)}</span>`)
+            $('body').append(span)
+            $(node).data(attr, span)
+          } else {
+            const valueHolder = $(node).data(attr)
+            $(node).attr(attr, valueHolder.text())
+          }
+        })
       })
-    })
-    $('body').css('top', 'auto')
-    $('#goog-gt-tt').remove()
+      $('body').css('top', 'auto')
+      $('#goog-gt-tt').remove()
+    }
   }
   /**
    * @private

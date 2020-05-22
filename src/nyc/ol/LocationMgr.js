@@ -57,6 +57,7 @@ class LocationMgr extends NycLocationMgr {
  * @property {module:nyc/Geocoder~Geocoder=} geocoder The geocoder if geoclient URL is not provided
  * @property {jQuery|Element|string=} searchTarget The DOM target for the search box
  * @property {jQuery|Element|string} [dialogTarget=body] The DOM target in which to display error dialog
+ * @property {string=} placeholder The placeholder text to display on the input element
  */
 LocationMgr.Options
 

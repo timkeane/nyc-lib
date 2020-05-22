@@ -424,11 +424,13 @@ class MapMgr {
    * @returns {module:nyc/ol/LocationMgr~LocationMgr} The LocationMgr instance
    */
   createLocationMgr(options) {
+    const facilitySearch = options.facilitySearch
     const locationMgr = new LocationMgr({
       map: this.map,
       searchTarget: options.searchTarget || undefined,
       dialogTarget: options.dialogTarget || options.mapTarget,
-      url: options.geoclientUrl
+      url: options.geoclientUrl,
+      placeholder: facilitySearch ? facilitySearch.placeholder : undefined
     })
     if (options.searchTarget === false) {
       locationMgr.search.getContainer().hide()
