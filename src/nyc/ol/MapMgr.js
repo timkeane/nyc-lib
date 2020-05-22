@@ -536,7 +536,7 @@ MapMgr.FEATURE_DECORATIONS = {
     if (!phone && website) {
       return 'no-phone'
     }
-  },  
+  },
   /**
    * @desc Returns the feature tip value
    * @public
