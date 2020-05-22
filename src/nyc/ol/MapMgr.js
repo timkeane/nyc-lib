@@ -512,6 +512,7 @@ MapMgr.FEATURE_DECORATIONS = {
   html() {
     return $('<div class="facility"></div>')
       .addClass(this.cssClass())
+      .addClass(this.moreCss())
       .append(this.distanceHtml())
       .append(this.nameHtml())
       .append(this.distanceHtml(true))
@@ -526,6 +527,16 @@ MapMgr.FEATURE_DECORATIONS = {
       .mouseover($.proxy(this.handleOver, this))
       .mouseout($.proxy(this.handleOut, this))
   },
+  moreCss() {
+    const phone = this.getPhone()
+    const website = this.getWebsite()
+    if (phone && !website) {
+      return 'no-website'
+    }
+    if (!phone && website) {
+      return 'no-phone'
+    }
+  },  
   /**
    * @desc Returns the feature tip value
    * @public
