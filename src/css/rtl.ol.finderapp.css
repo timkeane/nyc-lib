@@ -10,3 +10,7 @@
   right: auto;
   margin: -3px 5px -3px 5px;
 }
+.translated-rtl .fnd .facility a.btn-ico {
+  padding-left: 0;
+  padding-right: 30px;
+}
