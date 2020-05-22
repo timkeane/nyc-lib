@@ -84,7 +84,6 @@ class Translate extends Container {
      * @member {boolean}
      */
     this.monitoring = false
-    this.monitor()
   }
   /**
    * @private
@@ -94,20 +93,10 @@ class Translate extends Container {
     if (!this.monitoring) {
       const select = this.find('select')
       const fn = () => {
-        if (global.nycTranslateInstance.monitoring === true) {
-          global.nycTranslateInstance.monitoring = false
-          select.trigger('change')
-        }
-        setTimeout(() => {
-          global.nycTranslateInstance.monitoring = true
-        }, 500)
+        select.trigger('change')
       }
+      setInterval(fn, 1000)
       this.monitoring = true
-      if ('MutationObserver' in window) {
-        new MutationObserver(fn).observe($('body').get(0), {subtree: true, childList: true})
-      } else {
-        setInterval(fn, 500)
-      }
     }
   }
   /**
@@ -118,6 +107,7 @@ class Translate extends Container {
    */
   translate(event) {
     const lang = $(event.target).val()
+    this.monitor()
     this.code = lang
     Object.keys(this.defaultMessages).forEach(key => {
       const messages = this.messages[lang] || this.defaultMessages
