@@ -115,7 +115,7 @@
 	width: calc(100% - 9px);
 	margin-bottom: 5px;
 }
-.fld-lbl {
+.fld-lbl, .to-lbl, .to-facility {
 	font-weight: bold;
 }
 .adp-directions {
