@@ -1,3 +1,6 @@
+.tog {
+  display: inline-block;
+}
 .tog .chc-chc {
   display: block;
   width: 50%;
