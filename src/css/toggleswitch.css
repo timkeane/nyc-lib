@@ -1,24 +1,27 @@
 .tog .chc-chc {
-  display: table-cell;
+  display: block;
   width: 50%;
   text-align: center;
-  overflow: hidden;
   padding: 0;
   background-color: var(--color-button);
   font-weight: bold;
-}
-.tog label {
-  border: none;
-  display: block;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.tog .chc-chc:first-of-type label {
-  border-top-left-radius: 3px;  
-  border-bottom-left-radius: 3px;  
+.tog label {
+  border: none;
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;  
 }
-.tog .chc-chc:last-of-type label {
+.tog .chc-chc:first-of-type {
+  float: left;
+  border-top-left-radius: 3px;  
+  border-bottom-left-radius: 3px;
+}
+.tog .chc-chc:last-of-type {
+  float: right;
   border-top-right-radius: 3px;  
   border-bottom-right-radius: 3px;  
 }
