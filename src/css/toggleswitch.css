@@ -4,6 +4,8 @@
   text-align: center;
   overflow: hidden;
   padding: 0;
+  background-color: var(--color-button);
+  font-weight: bold;
 }
 .tog label {
   border: none;

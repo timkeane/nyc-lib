@@ -8,6 +8,7 @@ import nyc from 'nyc'
 import Container from 'nyc/Container'
 import Collapsible from 'nyc/Collapsible'
 import Choice from 'nyc/Choice'
+import ToggleSwitch from 'nyc/ToggleSwitch'
 
 /**
  * @desc Class for managing controls for filtering a {@link module:nyc/ol/source/FilterAndSort~FilterAndSort} vector data source
@@ -38,7 +39,12 @@ class Filters extends Container {
       const target = $(`<div class="${nyc.nextId('filter')}"></div>`)
       choiceOptions.target = choiceOptions.target || $(`<div class="${nyc.nextId('filter-chc')}"></div>`)
       this.append($(target))
-      const choice = new Choice(choiceOptions)
+      let choice
+      if (choiceOptions.toggle === true) {
+        choice = new ToggleSwitch(choiceOptions)
+      } else {
+        choice = new Choice(choiceOptions)
+      }
       // TODO check if this is needed
       new Collapsible({
         target: target,
