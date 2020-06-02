@@ -369,7 +369,7 @@ Search.FeatureSearchOptions
  */
 Search.HTML = '<div class="srch-ctl">' +
   '<div class="srch" role="search">' +
-    '<input class="rad-all" type="text" placeholder="Search for an address...">' +
+    '<input class="rad-all" type="text" data-msg-key="search-addr-input" data-msg-attr="placeholder" placeholder="Search for an address...">' +
     '<button class="btn btn-rnd btn-x">' +
       '<span class="screen-reader-only">Clear</span>' +
       '<span class="fas fa-times" role="img"></span>' +
