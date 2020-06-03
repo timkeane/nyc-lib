@@ -1027,7 +1027,7 @@ describe('mobile tests', () => {
     geoclientUrl: 'http://geoclient'
   }
   const buttonText = [
-    `View ${$('#tab-btn-1').html()} list<span class="screen-reader-only"></span>`,
+    `View ${$('#tab-btn-1').html()} list`,
     'View the map'
   ]
   let feature, features

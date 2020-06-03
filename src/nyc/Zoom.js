@@ -49,12 +49,12 @@ class Zoom extends Container {
  * @type {string}
  */
 Zoom.HTML = '<div class="zoom">' +
-  '<button class="btn-z-in btn-sq rad-all" data-msg-key="btn-zoom-in" data-msg-attr="title" data-zoom-incr="1" title="Zoom in">' +
-    '<span class="screen-reader-only">Zoom in</span>' +
+  '<button class="btn-z-in btn-sq rad-all" data-msg-key="msg-z-in" data-msg-attr="title" data-zoom-incr="1" title="Zoom in">' +
+    '<span class="screen-reader-only msg-z-in">Zoom in</span>' +
     '<span class="fas fa-plus" role="img"></span>' +
   '</button>' +
-  '<button class="btn-z-out btn-sq rad-all" data-msg-key="btn-zoom-out" data-msg-attr="title" data-zoom-incr="-1" title="Zoom out">' +
-    '<span class="screen-reader-only">Zoom out</span>' +
+  '<button class="btn-z-out btn-sq rad-all" data-msg-key="msg-z-out" data-msg-attr="title" data-zoom-incr="-1" title="Zoom out">' +
+    '<span class="screen-reader-only msg-z-out">Zoom out</span>' +
     '<span class="fas fa-minus" role="img"></span>' +
   '</button>' +
 '</div>'

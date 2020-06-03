@@ -112,12 +112,12 @@ ItemPager.HTML = '<div class="it-pg">' +
   '<div class="it"></div>' +
   '<div class="btns">' +
     '<button class="btn btn-rnd btn-prv" data-incr="-1">' +
-      '<span class="screen-reader-only">Previous</span>' +
+      '<span class="screen-reader-only msg-prv">Previous</span>' +
       '<span class="fas fa-angle-left" role="img"></span>' +
       '</button>' +
     '<span class="current"></span> of <span class="total"></span>' +
     '<button class="btn btn-rnd btn-nxt" data-incr="1">' +
-      '<span class="screen-reader-only">Next</span>' +
+      '<span class="screen-reader-only msg-nxt">Next</span>' +
       '<span class="fas fa-angle-right" role="img"></span>' +
       '</button>' +
   '</div>' +

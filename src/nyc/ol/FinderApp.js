@@ -226,14 +226,14 @@ class FinderApp extends MapMgr {
    */
   createTabs(options) {
     const pages = [
-      {tab: '#map', title: 'Map'},
-      {tab: '#facilities', title: options.facilityTabTitle || 'Facilities'}
+      {tab: '#map', title: '<span class="msg-map">Map</span>'},
+      {tab: '#facilities', title: options.facilityTabTitle || '<span class="msg-facilities">Facilities</span>'}
     ]
     if (options.splashOptions) {
       $('#tabs').attr('aria-hidden', true)
     }
     if (this.filters) {
-      pages.push({tab: '#filters', title: options.filterTabTitle || 'Filters'})
+      pages.push({tab: '#filters', title: options.filterTabTitle || '<span class="msg-filters">Filters</span>'})
     }
     const tabs = new Tabs({target: '#tabs', tabs: pages})
     tabs.on('change', this.tabChange, this)
@@ -269,7 +269,7 @@ class FinderApp extends MapMgr {
     const distance = feature.distanceHtml(true).html()
     const options = {
       buttonText: [
-        `View ${$('#tab-btn-1').html()} list<span class="screen-reader-only"></span>`,
+        `View ${$('#tab-btn-1').html()} list`,
         'View the map'
       ]
     }

@@ -84,24 +84,24 @@ Share.Options
  * @type {string}
  */
 Share.HTML = '<div class="shr" role="region" title="Share this page via social media or email">' +
-  '<a class="btn-shr btn-sq rad-all" role="button" data-msg-key="btn-share-tip" data-msg-attr="title" href="#" title="Share..." aria-pressed="false">' +
-    '<span class="screen-reader-only">Share...</span>' +
+  '<a class="btn-shr btn-sq rad-all" role="button" data-msg-key="msg-shr" data-msg-attr="title" href="#" title="Share" aria-pressed="false">' +
+    '<span class="screen-reader-only msg-shr">Share</span>' +
   '</a>' +
   '<div class="btns" aria-expanded="false" aria-collapsed="true">' +
     '<a class="btn-sq rad-all facebook" role="button" href="https://www.facebook.com/sharer/sharer.php?u=${url}" target="_blank" rel="noopener noreferrer" title="Facebook">' +
-      '<span class="screen-reader-only">Facebook</span>' +
+      '<span class="screen-reader-only notranslate" translate="no">Facebook</span>' +
     '</a>' +
     '<a class="btn-sq rad-all twitter" role="button" href="https://twitter.com/intent/tweet?text=${url} @nycgov&source=webclient" target="_blank" rel="noopener noreferrer" title="Twitter">' +
-      '<span class="screen-reader-only">Twitter</span>' +
+      '<span class="screen-reader-only notranslate" translate="no">Twitter</span>' +
     '</a>' +
     '<a class="btn-sq rad-all linkedin" role="button" href="http://www.linkedin.com/shareArticle?mini=true&url=${url}" target="_blank" rel="noopener noreferrer" title="LinkedIn">' +
-      '<span class="screen-reader-only">LinkedIn</span>' +
+      '<span class="screen-reader-only notranslate" translate="no">LinkedIn</span>' +
     '</a>' +
     '<a class="btn-sq rad-all tumblr" role="button" href="http://www.tumblr.com/share/link?url=${url}&name=${name}&description=via%20NYC.gov" target="_blank" rel="noopener noreferrer" title="Tumblr">' +
-      '<span class="screen-reader-only">Tumblr</span>' +
+      '<span class="screen-reader-only notranslate" translate="no">Tumblr</span>' +
     '</a>' +
     '<a class="btn-sq rad-all email" role="button" href="mailto:?subject=${name}&body=${description}%0A%0A${url}" title="email">' +
-      '<span class="screen-reader-only">Email</span>' +
+      '<span class="screen-reader-only msg-email">Email</span>' +
     '</a>' +
   '</div>' +
 '</div>'

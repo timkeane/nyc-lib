@@ -62,8 +62,8 @@ test('constructor is button', () => {
   expect(translate.find('#lng').hasClass('button')).toBe(true)
   expect(translate.defaultLanguage).toBe('en')
   expect(translate.defaultMessages).toBe(messages.en)
-	expect(translate.messages).toBe(messages);
-	expect(translate.languages).toBe(languages);
+	expect(translate.messages).toEqual(Object.assign(Translate.DEFAULT_MESSAGES, messages))
+	expect(translate.languages).toBe(languages)
 	expect(translate.isButton).toBe(undefined)
 	expect(translate.hints).toEqual(expectedHints)
 	expect(translate.namedCodes).toEqual(expectedCodes)
@@ -84,8 +84,8 @@ test('constructor not button', () => {
   expect(translate.find('#lng').hasClass('button')).toBe(false)
   expect(translate.defaultLanguage).toBe('en')
   expect(translate.defaultMessages).toBe(messages.en)
-	expect(translate.messages).toBe(messages);
-	expect(translate.languages).toBe(languages);
+	expect(translate.messages).toEqual(Object.assign(Translate.DEFAULT_MESSAGES, messages))
+	expect(translate.languages).toBe(languages)
 	expect(translate.isButton).toBe(undefined)
 	expect(translate.hints).toEqual(expectedHints)
 	expect(translate.namedCodes).toEqual(expectedCodes)

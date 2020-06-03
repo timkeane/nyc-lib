@@ -38,7 +38,7 @@ class Translate extends Container {
      * @private
      * @member {Array<string>}
      */
-    this.languages = options.languages
+    this.languages = options.languages || Translate.DEFAULT_LANGUAGES
     /**
      * @private
      * @member {Array<string>}
@@ -58,7 +58,7 @@ class Translate extends Container {
      * @private
      * @member {Object<string,Object<string,string>>}
      */
-    this.messages = options.messages
+    this.messages = Object.assign(Translate.DEFAULT_MESSAGES, options.messages || {})
     /**
      * @private
      * @member {Object<string,Object<string,string>>}
@@ -109,8 +109,8 @@ class Translate extends Container {
     const lang = $(event.target).val()
     this.monitor()
     this.code = lang
+    const messages = this.messages[lang] || this.defaultMessages
     Object.keys(this.defaultMessages).forEach(key => {
-      const messages = this.messages[lang] || this.defaultMessages
       const msg = messages[key] || this.defaultMessages[key]
       $(`.${key}`).html(msg)
       $(`*[data-lng-key="${key}"]`).html(msg)
@@ -277,6 +277,69 @@ Translate.DEFAULT_LANGUAGES = {
   ur: {code: 'ur', name: 'Urdu', native: '&#x648;&#x62F;&#x631;&#x627;', hint: '&#x6BA;&#x6CC;&#x631;&#x6A9;&#x6C1;&#x645;&#x62C;&#x631;&#x62A;'}
 }
 
+Translate.DEFAULT_MESSAGES = {
+  en: {
+    'msg-filters': 'Filters',
+    'msg-map': 'Map',
+    'msg-facilities': 'Facilities',
+    'msg-dir': 'Directions',
+    'msg-dir-map': 'Route map',
+    'msg-dtl': 'Details',
+    'msg-phone': 'Phone',
+    'msg-web': 'Website',
+    'msg-email': 'Email',
+    'msg-srch': 'Search for an address...',
+    'msg-back-to-finder': 'Back to finder',
+    'msg-dir-from': 'From my location: ',
+    'msg-dir-input': 'Enter an address...',
+    'msg-dir-to': 'To: ',
+    'msg-z-in': 'Zoom in',
+    'msg-z-out': 'Zoom out',
+    'msg-geo': 'Current location',
+    'msg-shr': 'Share',
+    'msg-translate': 'Translate',
+    'msg-transit': 'Get transit directions',
+    'msg-bike': 'Get bicycling directions',
+    'msg-car': 'Get driving directions',
+    'msg-walk': 'Get walking directions',
+    'msg-mta': 'Get accessible transit directions from the MTA',
+    'msg-sr-map': 'Locate this facility on the map',
+    'msg-prv': 'Previous',
+    'msg-nxt': 'Next',
+    'msg-clr': 'Clear'
+  },
+  es: {
+    'msg-filters': 'Filtros',
+    'msg-map': 'Mapa',
+    'msg-facilities': 'Instalaciones',
+    'msg-dir': 'Dirección',
+    'msg-dir-map': 'Mapa de ruta',
+    'msg-dtl': 'Detalles',
+    'msg-phone': 'Teléfono',
+    'msg-web': 'Sitio web',
+    'msg-email': 'correo electrónico',
+    'msg-srch': 'Busque una dirección...',
+    'msg-back-to-finder': 'Volver al buscador',
+    'msg-dir-from': 'Desde mi ubicación: ',
+    'msg-dir-input': 'Escriba una dirección...',
+    'msg-dir-to': 'A: ',
+    'msg-z-in': 'Zoom in (es)',
+    'msg-z-out': 'Zoom out (es)',
+    'msg-geo': 'Current location (es)',
+    'msg-shr': 'Share (es)',
+    'msg-translate': 'Translate (es)',
+    'msg-transit': 'Get transit directions (es)',
+    'msg-bike': 'Get bicycling directions (es)',
+    'msg-car': 'Get driving directions (es)',
+    'msg-walk': 'Get walking directions (es)',
+    'msg-mta': 'Obtenga indicaciones de tránsito accesibles de la MTA',
+    'msg-sr-map': 'Ubique esta instalación en el mapa',
+    'msg-prv': 'Previo',
+    'msg-nxt': 'Siguiente',
+    'msg-clr': 'Claro'
+  }
+}
+
 /**
  * @desc The class has completed initialization
  * @event module:nyc/lang/Translate~Translate#ready
@@ -297,7 +360,7 @@ Translate.DEFAULT_LANGUAGES = {
 Translate.HTML = '<div id="lng" role="region">' +
   '<span class="screen-reader-only">Translate this page into another language</span>' +
   '<div class="btn-sq rad-all"><span class ="hint notranslate">Translate</span></div>' +
-  '<select data-msg-key="select-translate" data-msg-attr="title" title="Translate"></select>' +
+  '<select data-msg-key="msg-translate" data-msg-attr="title" title="Translate"></select>' +
   '<div id="lng-goog"></div>' +
 '</div>'
 
