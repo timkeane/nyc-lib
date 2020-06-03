@@ -84,7 +84,7 @@ Share.Options
  * @type {string}
  */
 Share.HTML = '<div class="shr" role="region" title="Share this page via social media or email">' +
-  '<a class="btn-shr btn-sq rad-all" role="button" href="#" title="Share..." aria-pressed="false">' +
+  '<a class="btn-shr btn-sq rad-all" role="button" data-msg-key="btn-share-tip" data-msg-attr="title" href="#" title="Share..." aria-pressed="false">' +
     '<span class="screen-reader-only">Share...</span>' +
   '</a>' +
   '<div class="btns" aria-expanded="false" aria-collapsed="true">' +

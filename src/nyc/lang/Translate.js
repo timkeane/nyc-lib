@@ -297,7 +297,7 @@ Translate.DEFAULT_LANGUAGES = {
 Translate.HTML = '<div id="lng" role="region">' +
   '<span class="screen-reader-only">Translate this page into another language</span>' +
   '<div class="btn-sq rad-all"><span class ="hint notranslate">Translate</span></div>' +
-  '<select title="Translate"></select>' +
+  '<select data-msg-key="select-translate" data-msg-attr="title" title="Translate"></select>' +
   '<div id="lng-goog"></div>' +
 '</div>'
 
