@@ -272,6 +272,7 @@ Translate.DEFAULT_LANGUAGES = {
   iw: {code: 'iw', name: 'Hebrew', native: '&#x05E2;&#x05D1;&#x05E8;&#x05D9;&#x05EA;', hint: '&#x05DC;&#x05EA;&#x05E8;&#x05D2;&#x05DD;'},
   ht: {code: 'ht', name: 'Haitian Creole', native: 'Krey&#242;l Ayisyen', hint: 'Tradui'},
   ko: {code: 'ko', name: 'Korean', native: '&#xD55C;&#xAD6D;&#50612;', hint: '&#xBC88;&#xC5ED;'},
+	po: {code: 'po', name: 'Polish', native: 'język polski', hint: 'język polski'},
   ru: {code: 'ru', name: 'Russian', native: 'P&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439;', hint: '&#x43F;&#x435;&#x440;&#x435;&#x432;&#x435;&#x441;&#x442;&#x438;'},
   es: {code: 'es', name: 'Spanish', native: 'Espa&#241;ol', hint: 'Traducir'},
   ur: {code: 'ur', name: 'Urdu', native: '&#x648;&#x62F;&#x631;&#x627;', hint: '&#x6BA;&#x6CC;&#x631;&#x6A9;&#x6C1;&#x645;&#x62C;&#x631;&#x62A;'}
