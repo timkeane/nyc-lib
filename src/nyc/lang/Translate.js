@@ -109,6 +109,7 @@ class Translate extends Container {
     const lang = $(event.target).val()
     this.monitor()
     this.code = lang
+    $('html').attr('lang', lang)
     if (this.languages[lang].rtl) {
       $('html').removeClass('translated-ltr').addClass('translated-rtl')
     } else {
@@ -117,9 +118,9 @@ class Translate extends Container {
     const messages = this.messages[lang] || this.defaultMessages
     Object.keys(this.defaultMessages).forEach(key => {
       const msg = messages[key] || this.defaultMessages[key]
-      $(`.${key}`).html(msg)
-      $(`*[data-lng-key="${key}"]`).html(msg)
-      $(`*[data-msg-key="${key}"]`).each((_, element) => {
+      $(`.${key}`).not('.notranslate').html(msg)
+      $(`*[data-lng-key="${key}"]`).not('.notranslate').html(msg)
+      $(`*[data-msg-key="${key}"]`).not('.notranslate').each((_, element) => {
         $(element).attr($(element).data('msg-attr'), msg)
       })
     })
@@ -291,7 +292,6 @@ Translate.DEFAULT_MESSAGES = {
     'msg-dir': 'Directions',
     'msg-dir-map': 'Route map',
     'msg-dtl': 'Details',
-    'msg-phone': 'Phone',
     'msg-web': 'Website',
     'msg-email': 'Email',
     'msg-srch': 'Search for an address...',
@@ -321,7 +321,6 @@ Translate.DEFAULT_MESSAGES = {
     'msg-dir': 'Dirección',
     'msg-dir-map': 'Mapa de ruta',
     'msg-dtl': 'Detalles',
-    'msg-phone': 'Teléfono',
     'msg-web': 'Sitio web',
     'msg-email': 'correo electrónico',
     'msg-srch': 'Busque una dirección...',
