@@ -1,6 +1,10 @@
 html.translated-rtl * {
   direction: rtl;
 }
+html.translated-rtl *.notranslate {
+  direction: ltr;
+  text-align: right;
+}
 .shr, .srch-ctl, button.apply * {
     direction: ltr !important;    
 }
