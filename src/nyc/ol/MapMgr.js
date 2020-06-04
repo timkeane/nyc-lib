@@ -744,7 +744,7 @@ MapMgr.FEATURE_DECORATIONS = {
     if (details) {
       const collapsible = new Collapsible({
         target: $('<div class="dtl"></div>'),
-        title: this.detailButtonText || '<span class="mgs-dtl">Details</span>',
+        title: this.detailButtonText || '<span class="msg-dtl">Details</span>',
         content: details,
         collapsed: true
       })

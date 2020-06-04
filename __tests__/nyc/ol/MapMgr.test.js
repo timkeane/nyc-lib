@@ -1391,7 +1391,7 @@ describe('decorations', () => {
     const html = extendedDecorations.detailsCollapsible()
     expect(html.length).toBe(1)
     expect($('<div></div>').append(html).html()).toBe(
-      '<div class="dtl"><div class="clps rad-all"><button class="btn rad-all" aria-pressed="false" id="clsp-btn-0" aria-controls="clsp-pnl-0"><span class="mgs-dtl">Details</span></button><div class="content rad-bot" aria-expanded="false" aria-collapsed="true" aria-hidden="true" style="display: none;" id="clsp-pnl-0" aria-labelledby="clsp-btn-0"></div></div></div>'
+      '<div class="dtl"><div class="clps rad-all"><button class="btn rad-all" aria-pressed="false" id="clsp-btn-0" aria-controls="clsp-pnl-0"><span class="msg-dtl">Details</span></button><div class="content rad-bot" aria-expanded="false" aria-collapsed="true" aria-hidden="true" style="display: none;" id="clsp-pnl-0" aria-labelledby="clsp-btn-0"></div></div></div>'
     )
   })
 
@@ -1405,7 +1405,7 @@ describe('decorations', () => {
     expect.assertions(1)
     const html = extendedDecorations.html()
     expect($('<div></div>').append(html).html()).toBe(
-      '<div class="facility css-class"><h3 class="name notranslate">A Name</h3><div class="addr notranslate"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn btn-ico rad-all phone msg-phone" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn btn-ico rad-all email msg-email" role="button" href="mailto:email@email.com">Email</a><a class="btn btn-ico rad-all web msg-web" target="blank" role="button" href="http://website">Website</a><button class="btn btn-ico rad-all map"><span class="msg-map" aria-hidden="true">Map</span><span class="screen-reader-only msg-sr-map">Locate this facility on the map</span></button><button class="btn btn-ico rad-all dir msg-dir">Directions</button><div class="dtl"><div class="clps rad-all"><button class="btn rad-all" aria-pressed="false" id="clsp-btn-1" aria-controls="clsp-pnl-1"><span class="mgs-dtl">Details</span></button><div class="content rad-bot" aria-expanded="false" aria-collapsed="true" aria-hidden="true" style="display: none;" id="clsp-pnl-1" aria-labelledby="clsp-btn-1"></div></div></div></div>'
+      '<div class="facility css-class"><h3 class="name notranslate">A Name</h3><div class="addr notranslate"><div class="ln1">Address line 1</div><div class="ln2">Address line 2</div><div class="ln3">City, State Zip</div></div><a class="btn btn-ico rad-all phone msg-phone" role="button" href="tel:212-867-5309">212-867-5309</a><a class="btn btn-ico rad-all email msg-email" role="button" href="mailto:email@email.com">Email</a><a class="btn btn-ico rad-all web msg-web" target="blank" role="button" href="http://website">Website</a><button class="btn btn-ico rad-all map"><span class="msg-map" aria-hidden="true">Map</span><span class="screen-reader-only msg-sr-map">Locate this facility on the map</span></button><button class="btn btn-ico rad-all dir msg-dir">Directions</button><div class="dtl"><div class="clps rad-all"><button class="btn rad-all" aria-pressed="false" id="clsp-btn-1" aria-controls="clsp-pnl-1"><span class="msg-dtl">Details</span></button><div class="content rad-bot" aria-expanded="false" aria-collapsed="true" aria-hidden="true" style="display: none;" id="clsp-pnl-1" aria-labelledby="clsp-btn-1"></div></div></div></div>'
     )
   })
 
