@@ -3,9 +3,6 @@
 @import "ol.popup.css";
 @import "rtl.ol.popup.css";
 
-.ol-overlaycontainer-stopevent .fas {
-  display: none;
-}
-.ol-zoom {
+.ol-overlaycontainer-stopevent .fas, .ol-control {
   display: none;
 }
