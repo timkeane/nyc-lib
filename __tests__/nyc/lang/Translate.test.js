@@ -153,21 +153,6 @@ describe('defaultLanguage from system', () => {
     expect(translate.defaultLanguage).toBe('es')
     expect(translate.defaultMessages).toBe(messages.es)
   })
-
-  test('constructor (is button, system defaultLanguage available)', () => {
-    expect.assertions(2)
-
-    Translate.prototype.defaultLang = () => {return 'ru'}
-    const translate = new Translate({
-  		target: target,
-  		languages: languages,
-  		defaultLanguage: 'yi',
-  		messages: messages
-  	})
-
-    expect(translate.defaultLanguage).toBe('en')
-    expect(translate.defaultMessages).toBe(messages.en)
-  })
 })
 
 test('translate', () => {
