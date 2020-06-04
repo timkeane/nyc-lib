@@ -111,6 +111,9 @@
 	margin: -5px 0;
 	fill: var(--color-light);
 }
+#mta span.notranslate {
+	color: var(--color-light);
+}
 #fld-from input {
 	width: calc(100% - 9px);
 	margin-bottom: 5px;
