@@ -240,16 +240,16 @@ test('translate', () => {
 })
 
 describe('selectDefault', () => {
-  const getCookieValue = Translate.prototype.getCookieValue
+  const langFromCookie = Translate.prototype.langFromCookie
   afterEach(() => {
-    Translate.prototype.getCookieValue = getCookieValue
+    Translate.prototype.langFromCookie = langFromCookie
   })
 
   test('selectDefault matches cookie', () => {
     expect.assertions(1)
 
-    Translate.prototype.getCookieValue = () => {
-      return 'fr-CA'
+    Translate.prototype.langFromCookie = () => {
+      return 'fr'
     }
 
     const translate = new Translate({
@@ -264,8 +264,8 @@ describe('selectDefault', () => {
   test('selectDefault cookie is defaultLanguage', () => {
     expect.assertions(1)
 
-    Translate.prototype.getCookieValue = () => {
-      return 'en-US'
+    Translate.prototype.langFromCookie = () => {
+      return 'en'
     }
 
     const translate = new Translate({
@@ -280,8 +280,8 @@ describe('selectDefault', () => {
   test('selectDefault does not match cookie', () => {
     expect.assertions(1)
 
-    Translate.prototype.getCookieValue = () => {
-      return 'zh'
+    Translate.prototype.langFromCookie = () => {
+      return 'cookie/zh-CN'
     }
 
     const translate = new Translate({
@@ -319,10 +319,11 @@ test('showHint not button', () => {
 
   const test = async () => {
     return new Promise((resolve) => {
+      const langs = Object.keys(translate.languages)
       let i = 0
       setInterval(() => {
-        const code = translate.codes.split(',')[i]
-        expect(translate.find('.hint').html()).toBe(languages[code].hint || 'Translate')
+        const lang = langs[i]
+        expect(translate.find('.hint').html()).toBe(translate.languages[lang].hint || 'Translate')
         i++
         if (i === translate.hints.length) {
           resolve(true)

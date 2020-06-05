@@ -62,13 +62,14 @@ class Goog extends Translate {
     const choices = $('iframe.goog-te-menu-frame:first').contents().find('.goog-te-menu2-item span.text')
     clearTimeout(nycTranslateInstance.timeout)
     if (choices.length) {
-      this.code = $('#lng select').val()
-      const lang = this.languages[this.code].name
-      if (lang === 'English') {
+      const lang = $('#lng select').val()
+      const langName = this.languages[lang].name
+      this.code = this.languages[lang].code
+      if (langName === 'English') {
         this.showOriginalText()
       } else {
         $(choices).each((_, choice) => {
-          if ($(choice).text() === lang) {
+          if ($(choice).text() === langName) {
             $(choice).trigger('click')
             return false
           }
@@ -83,20 +84,22 @@ class Goog extends Translate {
     }
   }
   /**
-   * @desc Gets the google translate cookie value
+   * @desc Gets a cookie value
    * @access protected
-   * @override
    * @method
-   * @return {string} Value from cookie
+   * @return {string} cookie
    */
-  getCookieValue() {
+  langFromCookie() {
     let cookie = this.getCookie()
     if (cookie) {
-      cookie = cookie.split('/')
-      cookie = cookie[2]
-      return this.languages[cookie] ? this.namedCodes[cookie] : cookie
+      try {
+        cookie = cookie.split('/')
+        cookie = cookie[2].split('-')[0]
+      } catch (e) {
+        //swallow
+      }
     }
-    return this.defaultLanguage || 'en'
+    return this.namedCodes[cookie] || this.defaultLanguage || 'en'
   }
   /**
    * @private

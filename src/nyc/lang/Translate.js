@@ -146,28 +146,13 @@ class Translate extends Container {
     return this.code
   }
   /**
-   * @desc Gets a cookie
+   * @desc Gets a cookie value
    * @access protected
    * @method
    * @return {string} cookie
    */
-  getCookie() {
+  langFromCookie() {
     return ''
-  }
-  /**
-   * @desc Gets a cookie value
-   * @private
-   * @method
-   * @return {string} cookie
-   */
-  getCookieValue() {
-    let cookie = this.getCookie()
-    if (cookie) {
-      cookie = cookie.split('/')
-      cookie = cookie[2]
-      return this.languages[cookie] ? this.namedCodes[cookie] : cookie
-    }
-    return this.defaultLanguage || 'en'
   }
   /**
    * @private
@@ -183,7 +168,7 @@ class Translate extends Container {
       const code = this.languages[lang].code
       const opt = $('<option class="notranslate" translate="no"></option>').attr('value', lang).html(this.languages[lang].native)
       select.append(opt)
-      codes.push(lang)
+      codes.push(code)
       this.hints.push(this.languages[lang].hint)
       this.namedCodes[code] = lang
     })
@@ -223,7 +208,7 @@ class Translate extends Container {
    */
   selectDefault() {
     const defLang = this.defaultLang()
-    const cookie = this.getCookieValue()
+    const cookie = this.langFromCookie()
     const exact = []
     const possible = []
     Object.values(this.languages).forEach(language => {
