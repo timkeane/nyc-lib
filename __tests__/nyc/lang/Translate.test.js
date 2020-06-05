@@ -5,7 +5,7 @@ const languages = {
     en: {code: 'en', name: 'English'},
     ar: {code: 'ar', name: 'Arabic' , hint: 'Translate-ar'},
     bn: {code: 'bn', name: 'Bengali', hint: 'Translate-bn'},
-    cn: {code: 'cn', name: 'Chinese', hint: 'Translate-cn'},
+    zh: {code: 'zh-CN', name: 'Chinese', hint: 'Translate-cn'},
     fr: {code: 'fr', name: 'French', hint: 'Translate-fr'},
     ht: {code: 'ht', name: 'Hatian', hint: 'Translate-ht'},
     ko: {code: 'ko', name: 'Korean' , hint: 'Translate-ko'},
@@ -29,8 +29,17 @@ const messages = {
     msg3: 'msg3-es'
   }
 }
-const expectedCodes = {en: 'en', ar: 'ar', bn: 'bn', cn: 'cn', fr: 'fr', ht: 'ht', ko: 'ko', ru: 'ru', es: 'es', ur: 'ur'}
+const expectedCodes = {en: 'en', ar: 'ar', bn: 'bn', 'zh-CN': 'zh', fr: 'fr', ht: 'ht', ko: 'ko', ru: 'ru', es: 'es', ur: 'ur'}
 const expectedHints = [undefined, 'Translate-ar', 'Translate-bn', 'Translate-cn', 'Translate-fr', 'Translate-ht', 'Translate-ko', 'Translate-ru', 'Translate-es', 'Translate-ur']
+
+const COMBINED_MESSAGES = {}
+Object.keys(languages).forEach(lang => {
+  COMBINED_MESSAGES[lang] = {}
+  Object.assign(COMBINED_MESSAGES[lang], Translate.DEFAULT_MESSAGES[lang])
+  if (messages && messages[lang]) {
+    Object.assign(COMBINED_MESSAGES[lang], messages[lang])
+  }
+})
 
 let target
 let content
@@ -46,91 +55,122 @@ afterEach(() => {
   content.remove()
 })
 
-test('constructor is button', () => {
-  expect.assertions(10)
+describe('constructor', () => {
+  test('constructor is button', () => {
+    expect.assertions(11)
 
-  const translate = new Translate({
-    target: target,
-    languages: languages,
-    messages: messages,
-    button: true
+    const translate = new Translate({
+      target: target,
+      languages: languages,
+      messages: messages,
+      button: true
+    })
+
+    expect(translate instanceof Container).toBe(true)
+    expect(translate instanceof Translate).toBe(true)
+
+    expect(translate.find('#lng').hasClass('button')).toBe(true)
+    expect(translate.defaultLanguage).toBe('en')
+    expect(translate.defaultMessages).toEqual(translate.messages.en)
+    expect(translate.defaultMessages).toEqual(COMBINED_MESSAGES.en)
+    expect(translate.messages).toEqual(COMBINED_MESSAGES)
+
+    expect(translate.languages).toBe(languages)
+    expect(translate.isButton).toBe(undefined)
+    expect(translate.hints).toEqual(expectedHints)
+    expect(translate.namedCodes).toEqual(expectedCodes)
   })
 
-  expect(translate instanceof Container).toBe(true)
-  expect(translate instanceof Translate).toBe(true)
+  test('constructor not button', () => {
+    expect.assertions(10)
 
-  expect(translate.find('#lng').hasClass('button')).toBe(true)
-  expect(translate.defaultLanguage).toBe('en')
-  expect(translate.defaultMessages).toBe(messages.en)
-	expect(translate.messages).toEqual(Object.assign(Translate.DEFAULT_MESSAGES, messages))
-	expect(translate.languages).toBe(languages)
-	expect(translate.isButton).toBe(undefined)
-	expect(translate.hints).toEqual(expectedHints)
-	expect(translate.namedCodes).toEqual(expectedCodes)
-})
+    const translate = new Translate({
+      target: target,
+      languages: languages,
+      messages: messages
+    })
 
-test('constructor not button', () => {
-  expect.assertions(10)
+    expect(translate instanceof Container).toBe(true)
+    expect(translate instanceof Translate).toBe(true)
 
-  const translate = new Translate({
-    target: target,
-    languages: languages,
-    messages: messages
+    expect(translate.find('#lng').hasClass('button')).toBe(false)
+    expect(translate.defaultLanguage).toBe('en')
+    expect(translate.defaultMessages).toBe(translate.messages.en)
+    expect(translate.messages).toEqual(COMBINED_MESSAGES)
+    expect(translate.languages).toBe(languages)
+    expect(translate.isButton).toBe(undefined)
+    expect(translate.hints).toEqual(expectedHints)
+    expect(translate.namedCodes).toEqual(expectedCodes)
   })
 
-  expect(translate instanceof Container).toBe(true)
-  expect(translate instanceof Translate).toBe(true)
+  test('constructor (is button, defaultLanguage in messages)', () => {
+    expect.assertions(2)
 
-  expect(translate.find('#lng').hasClass('button')).toBe(false)
-  expect(translate.defaultLanguage).toBe('en')
-  expect(translate.defaultMessages).toBe(messages.en)
-	expect(translate.messages).toEqual(Object.assign(Translate.DEFAULT_MESSAGES, messages))
-	expect(translate.languages).toBe(languages)
-	expect(translate.isButton).toBe(undefined)
-	expect(translate.hints).toEqual(expectedHints)
-	expect(translate.namedCodes).toEqual(expectedCodes)
-})
+    const translate = new Translate({
+      target: target,
+      languages: languages,
+      defaultLanguage: 'ar',
+      messages: messages
+    })
 
-test('constructor (is button, defaultLanguage in messages)', () => {
-  expect.assertions(2)
+    expect(translate.defaultLanguage).toBe('ar')
+    expect(translate.defaultMessages).toEqual(COMBINED_MESSAGES.ar)
+  })
 
-  const translate = new Translate({
-		target: target,
-		languages: languages,
-		defaultLanguage: 'ar',
-		messages: messages
-	})
+  test('constructor (is button, defaultLanguage not messages)', () => {
+    expect.assertions(2)
 
-  expect(translate.defaultLanguage).toBe('ar')
-  expect(translate.defaultMessages).toBe(messages.ar)
-})
+    const translate = new Translate({
+      target: target,
+      languages: languages,
+      defaultLanguage: 'yi',
+      messages: messages
+    })
 
-test('constructor (is button, defaultLanguage not messages)', () => {
-  expect.assertions(2)
+    expect(translate.defaultLanguage).toBe('en')
+    expect(translate.defaultMessages).toEqual(COMBINED_MESSAGES.en)
+  })
 
-  const translate = new Translate({
-		target: target,
-		languages: languages,
-		defaultLanguage: 'yi',
-		messages: messages
-	})
+  test('constructor (is button, defaultLanguage in messages)', () => {
+    expect.assertions(2)
 
-  expect(translate.defaultLanguage).toBe('en')
-  expect(translate.defaultMessages).toBe(messages.en)
-})
+    const translate = new Translate({
+      target: target,
+      languages: languages,
+      defaultLanguage: 'ar',
+      messages: messages
+    })
 
-test('constructor (is button, defaultLanguage in messages)', () => {
-  expect.assertions(2)
+    expect(translate.defaultLanguage).toBe('ar')
+    expect(translate.defaultMessages).toEqual(COMBINED_MESSAGES.ar)
+  })
 
-  const translate = new Translate({
-		target: target,
-		languages: languages,
-		defaultLanguage: 'ar',
-		messages: messages
-	})
+  test('constructor (no messages)', () => {
+    expect.assertions(10)
 
-  expect(translate.defaultLanguage).toBe('ar')
-  expect(translate.defaultMessages).toBe(messages.ar)
+    const translate = new Translate({
+      target: target,
+      languages: languages,
+      defaultLanguage: 'ar'
+    })
+
+    Object.keys(languages).forEach(lang => {
+      expect(translate.messages[lang]).toEqual(Translate.DEFAULT_MESSAGES[lang])
+    })
+  })
+
+  test('constructor (messages step on defaults)', () => {
+    expect.assertions(1)
+
+    const translate = new Translate({
+      target: target,
+      languages: languages,
+      messages: {en: {'msg-map': 'Cartographic representation'}}
+    })
+
+    expect(translate.messages.en['msg-map']).toBe('Cartographic representation')
+  })
+
 })
 
 describe('defaultLanguage from system', () => {
@@ -151,7 +191,7 @@ describe('defaultLanguage from system', () => {
   	})
 
     expect(translate.defaultLanguage).toBe('es')
-    expect(translate.defaultMessages).toBe(messages.es)
+    expect(translate.defaultMessages).toEqual(COMBINED_MESSAGES.es)
   })
 })
 
@@ -241,7 +281,7 @@ describe('selectDefault', () => {
     expect.assertions(1)
 
     Translate.prototype.getCookieValue = () => {
-      return 'zh-CN'
+      return 'zh'
     }
 
     const translate = new Translate({
@@ -318,3 +358,6 @@ test('focus/blur', () => {
   select.trigger('blur')
   expect(btn.hasClass('focused')).toBe(false)
 })
+
+
+

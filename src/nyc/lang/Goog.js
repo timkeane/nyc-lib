@@ -94,7 +94,7 @@ class Goog extends Translate {
     if (cookie) {
       cookie = cookie.split('/')
       cookie = cookie[2]
-      return cookie
+      return this.languages[cookie] ? this.namedCodes[cookie] : cookie
     }
     return this.defaultLanguage || 'en'
   }

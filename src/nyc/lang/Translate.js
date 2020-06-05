@@ -58,7 +58,16 @@ class Translate extends Container {
      * @private
      * @member {Object<string,Object<string,string>>}
      */
-    this.messages = Object.assign(Translate.DEFAULT_MESSAGES, options.messages || {})
+    this.messages = {}
+
+    Object.keys(this.languages).forEach(lang => {
+      this.messages[lang] = {}
+      Object.assign(this.messages[lang], Translate.DEFAULT_MESSAGES[lang])
+      if (options.messages && options.messages[lang]) {
+        Object.assign(this.messages[lang], options.messages[lang])
+      }
+    })
+
     /**
      * @private
      * @member {Object<string,Object<string,string>>}
@@ -137,13 +146,28 @@ class Translate extends Container {
     return this.code
   }
   /**
-   * @desc Gets a cookie value
+   * @desc Gets a cookie
    * @access protected
    * @method
    * @return {string} cookie
    */
-  getCookieValue() {
+  getCookie() {
     return ''
+  }
+  /**
+   * @desc Gets a cookie value
+   * @private
+   * @method
+   * @return {string} cookie
+   */
+  getCookieValue() {
+    let cookie = this.getCookie()
+    if (cookie) {
+      cookie = cookie.split('/')
+      cookie = cookie[2]
+      return this.languages[cookie] ? this.namedCodes[cookie] : cookie
+    }
+    return this.defaultLanguage || 'en'
   }
   /**
    * @private
@@ -157,7 +181,7 @@ class Translate extends Container {
     const select = this.find('select')
     Object.keys(this.languages).forEach(lang => {
       const code = this.languages[lang].code
-      const opt = $('<option class="notranslate" translate="no"></option>').attr('value', code).html(this.languages[lang].native)
+      const opt = $('<option class="notranslate" translate="no"></option>').attr('value', lang).html(this.languages[lang].native)
       select.append(opt)
       codes.push(lang)
       this.hints.push(this.languages[lang].hint)
@@ -273,7 +297,7 @@ Translate.DEFAULT_LANGUAGES = {
   en: {code: 'en', name: 'English', native: 'English', hint: 'Translate'},
   ar: {code: 'ar', name: 'Arabic', native: '&#x629;&#x64A;&#x628;&#x631;&#x639;&#x644;&#x627;', hint: '&#x645;&#x62C;&#x631;&#x62A;', rtl: true},
   bn: {code: 'bn', name: 'Bengali', native: '&#x9AC;&#x9BE;&#x999;&#x9BE;&#x9B2;&#x9BF;', hint: '&#x985;&#x9A8;&#x9C1;&#x9AC;&#x9BE;&#x9A6; &#x995;&#x9B0;&#x9BE;'},
-  'zh-CN': {code: 'zh-CN', name: 'Chinese (Simplified)', native: '&#x4E2D;&#x56FD;', hint: '&#x7FFB;&#x8BD1;'},
+  zh: {code: 'zh-CN', name: 'Chinese (Simplified)', native: '&#x4E2D;&#x56FD;', hint: '&#x7FFB;&#x8BD1;'},
   fr: {code: 'fr', name: 'French', native: 'Fran&#231;ais', hint: 'Traduire'},
   iw: {code: 'iw', name: 'Hebrew', native: '&#x05E2;&#x05D1;&#x05E8;&#x05D9;&#x05EA;', hint: '&#x05DC;&#x05EA;&#x05E8;&#x05D2;&#x05DD;', rtl: true},
   ht: {code: 'ht', name: 'Haitian Creole', native: 'Krey&#242;l Ayisyen', hint: 'Tradui'},
@@ -372,7 +396,7 @@ Translate.DEFAULT_MESSAGES = {
     'msg-nxt': 'পরবর্তী',
     'msg-clr': 'পরিষ্কার'
   },
-  'zh-CN': {
+  zh: {
     'msg-filters': '篩選',
     'msg-map': '地圖',
     'msg-facilities': '设备',
