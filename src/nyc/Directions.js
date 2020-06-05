@@ -452,7 +452,7 @@ Directions.HTML = `
       <div class="fld-lbl msg-dir-from">From my location:</div>
       <div id="fld-from"><input class="rad-all" data-msg-key="msg-dir-input" data-msg-attr="placeholder" placeholder="Enter an address..."></div>
       <div>
-        <div class="to-lbl msg-dir to">To:</div>
+        <div class="to-lbl msg-dir-to">To:</div>
         <div id="fld-facility" class="to-facility notranslate" translate="no"></div>
       </div>
       <div id="fld-to" class="notranslate" translate="no"></div>
