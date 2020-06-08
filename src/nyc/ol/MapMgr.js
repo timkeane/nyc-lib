@@ -678,7 +678,7 @@ MapMgr.FEATURE_DECORATIONS = {
   phoneButton() {
     const phone = this.getPhone()
     if (phone) {
-      return $(`<a class="btn btn-ico rad-all phone msg-phone" role="button">${phone}</a>`)
+      return $(`<a class="btn btn-ico rad-all phone notranslate" role="button">${phone}</a>`)
         .attr('href', `tel:${phone}`)
     }
   },

@@ -10,3 +10,15 @@
 .translated-rtl .btn-nxt {
 	background-image: var(--left-icon-light, none);
 }
+html.translated-rtl *.notranslate .btn,
+html.translated-rtl *.notranslate .btn-sq,
+html.translated-rtl *.notranslate .btn-rnd,
+html.translated-rtl *.notranslate .btn.btn-sq,
+html.translated-rtl *.notranslate .btn.btn-rnd,
+html.translated-rtl *.notranslate.btn,
+html.translated-rtl *.notranslate.btn-sq,
+html.translated-rtl *.notranslate.btn-rnd,
+html.translated-rtl *.notranslate.btn.btn-sq,
+html.translated-rtl *.notranslate.btn.btn-rnd {
+	text-align: center;
+}
