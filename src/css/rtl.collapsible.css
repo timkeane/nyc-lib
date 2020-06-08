@@ -4,3 +4,6 @@
 .translated-rtl .clps>button {
   text-align: right;
 }
+.translated-rtl .clps .content {
+  margin-right: 3px;
+}

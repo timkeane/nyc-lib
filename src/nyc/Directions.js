@@ -490,8 +490,8 @@ Directions.HTML = `
     </div>
     <div id="map-tab" aria-hidden="true" tabindex="-1">
       <div class="map"></div>
-      <button class="btn-z-in btn-sq rad-all" tabindex="-1" data-zoom-incr="1" title="Zoom in"></button>
-      <button class="btn-z-out btn-sq rad-all" tabindex="-1" data-zoom-incr="-1" title="Zoom out"></button>
+      <button class="btn-z-in btn-sq rad-all" tabindex="-1" data-zoom-incr="1" title="Zoom in" data-msg-key="msg-z-in" data-msg-attr="title"></button>
+      <button class="btn-z-out btn-sq rad-all" tabindex="-1" data-zoom-incr="-1" title="Zoom out"data-msg-key="msg-z-out" data-msg-attr="title"></button>
     </div>
   </div>
 </div>`
