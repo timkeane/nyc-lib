@@ -102,7 +102,7 @@ class Translate extends Container {
     if (!this.monitoring) {
       const select = this.find('select')
       const fn = () => {
-        select.trigger('change')
+        this.translate()
       }
       setInterval(fn, 1000)
       this.monitoring = true
@@ -115,7 +115,7 @@ class Translate extends Container {
    * @param {jQuery.Event} event Event object
    */
   translate(event) {
-    const lang = $(event.target).val()
+    const lang = event ? $(event.target).val() : this.lang()
     this.monitor()
     this.code = lang
     $('html').attr('lang', lang)
@@ -134,7 +134,7 @@ class Translate extends Container {
       })
     })
     this.css()
-    this.trigger('change', this)
+    if (event) this.trigger('change', this)
   }
   /**
    * @desc Get the currently chosen language code
