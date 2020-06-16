@@ -134,7 +134,9 @@ class Translate extends Container {
       })
     })
     this.css()
-    if (event) this.trigger('change', this)
+    if (event) {
+      this.trigger('change', this)
+    }
   }
   /**
    * @desc Get the currently chosen language code
