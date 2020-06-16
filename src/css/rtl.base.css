@@ -1,5 +1,11 @@
+.translated-rtl * {
+	text-align: right;
+}
 .translated-rtl .btn {
   background-position: calc(100% - 3px) center;
+}
+.translated-rtl .btn, .translated-rtl .btn-rnd, .translated-rtl .btn-sq {
+	text-align: center;
 }
 .translated-rtl .btn-x, .translated-rtl .btn-prv, .translated-rtl .btn-nxt {
   background-position: center center;
@@ -9,6 +15,10 @@
 }
 .translated-rtl .btn-nxt {
 	background-image: var(--left-icon-light, none);
+}
+.translated-rtl .btn-ico {
+	padding-right: 30px;
+	padding-left: unset;
 }
 html.translated-rtl *.notranslate .btn,
 html.translated-rtl *.notranslate .btn-sq,
