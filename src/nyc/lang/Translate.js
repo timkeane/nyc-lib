@@ -100,7 +100,6 @@ class Translate extends Container {
    */
   monitor() {
     if (!this.monitoring) {
-      const select = this.find('select')
       const fn = () => {
         this.translate()
       }
