@@ -13,8 +13,7 @@
       margin: 30px auto 0;
       width: 200px;
     }
-    .chc-chc label:before {
-      content: " ";
+    #radio .chc-chc label:before {
       display: block;
       width: 22px;
       height: 22px;
@@ -23,13 +22,16 @@
       background-size: 22px;
       margin:  5px 7px 0 -3px;
     }
-    .chc-chc.dog label:before {
+    #radio .chc-chc label:before {
+      content: " ";
+    }
+    .chc-chc.dog .ico {
       background-image: url("img/dog.svg");
     }
-    .chc-chc.cat label:before {
+    .chc-chc.cat .ico {
       background-image: url("img/cat.svg");
     }
-    .chc-chc.robot label:before {
+    .chc-chc.robot .ico {
       background-image: url("img/robot.svg");
     }
     .chc-chc.plant-0 label:before {
@@ -41,13 +43,13 @@
     .chc-chc.plant-2 label:before {
       background-image: url("img/leaf.svg");
     }
-    .chc-chc:hover.dog label:before {
+    .chc-chc:hover.dog .ico {
       background-image: url("img/dog-white.svg");
     }
-    .chc-chc:hover.cat label:before {
+    .chc-chc:hover.cat .ico {
       background-image: url("img/cat-white.svg");
     }
-    .chc-chc:hover.robot label:before {
+    .chc-chc:hover.robot .ico {
       background-image: url("img/robot-white.svg");
     }
     .chc-chc:hover.plant-0 label:before {
@@ -71,9 +73,9 @@
     var check = new nyc.Choice({
       target: '#check',
       choices: [
-        {name: 'dog', label: 'Dog', values: [1]},
-        {name: 'cat', label: 'Cat', values: [2, 3, 4]},
-        {name: 'robot', label: 'Robot', values: [5]}
+        {name: 'dog', label: 'Dog', values: [1], icon: true},
+        {name: 'cat', label: 'Cat', values: [2, 3, 4], icon: true},
+        {name: 'robot', label: 'Robot', values: [5], icon: true}
       ]
     });
     var radio = new nyc.Choice({

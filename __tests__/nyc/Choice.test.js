@@ -16,6 +16,11 @@ const radioChoices = [
   {name: 'choice', label: 'Choice B', values: ['b', 'c', 'd'], checked: true},
   {name: 'choice', label: 'Choice C', values: ['z', 'q']}
 ]
+const iconChoices = [
+  {name: 'choice', label: 'Choice A', values: ['a'], icon: true},
+  {name: 'choice', label: 'Choice B', values: ['b', 'c', 'd'], checked: true, icon: true},
+  {name: 'choice', label: 'Choice C', values: ['choice +&- choice', 'another    choice'], icon: true}
+]
 beforeEach(() => {
   container = $('<div></div>')
   $('body').append(container)
@@ -24,6 +29,16 @@ afterEach(() => {
   container.remove()
 })
 
+test('constructor - hasIcon', () => {
+  expect.assertions(3)
+  const choice = new Choice({
+    target: container,
+    choices: iconChoices
+  })
+  expect($(choice.find('label').get(0)).html()).toBe('<div class="ico chc-a"></div>Choice A')
+  expect($(choice.find('label').get(1)).html()).toBe('<div class="ico chc-b_c_d"></div>Choice B')
+  expect($(choice.find('label').get(2)).html()).toBe('<div class="ico chc-choice-choice_another-choice"></div>Choice C')
+})
 test('constructor checkbox', () => {
   expect.assertions(22)
 

@@ -10,6 +10,15 @@
 	width: 100%;
 	background-color: var(--color-medium);
 }
+.chc-chc .ico {
+  display: block;
+  width: 22px;
+  height: 22px;
+  float: left;
+  background-repeat: no-repeat;
+  background-size: 22px;
+  margin:  5px 7px 0 -3px;
+}
 .chc-chc input, .chc-chc label {
 	display: table-cell;
 	border-bottom: 1px solid var(--color-border);

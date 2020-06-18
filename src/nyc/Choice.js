@@ -72,13 +72,28 @@ class Choice extends Container {
         .prop('checked', choice.checked === true)
         .data('choice', choice)
         .change($.proxy(this.change, this))
-      div.find('label').html(choice.label)
-        .attr('for', id)
+      this.labelHtml(div.find('label'), choice, id)
       this.append(div)
       this.extend(choice)
     })
     this.inputs = this.find('input')
   }
+  /**
+   * @private
+   * @desc Create HTML for label
+   * @method
+   * @param {jQuery} label The label for the choice
+   * @param {module:nyc/Choice~Choice.Choice} choice The choice
+   * @param {string} id The id of the input element
+   */
+  labelHtml(label, choice, id) {
+    label.html(choice.label).attr('for', id)
+    if (choice.icon) {
+      const css = choice.values.join('_').replace(/[^A-Za-z0-9\s|^_]/g, '').replace(/\s+/g, '-').toLowerCase()
+      label.prepend(`<div class="ico chc-${css}"></div>`)
+    }
+  }
+
   /**
    * @desc Get or set the seleced choices
    * @public
@@ -147,6 +162,7 @@ class Choice extends Container {
  * @property {string} label The label for the choice
  * @property {Array<Object>} value The value of the choice
  * @property {boolean} [checked=false] The value of the checked state of the choice
+ * @property {boolean} [icon=false] The value of the icon state of the choice
  */
 Choice.Choice
 

@@ -281,7 +281,7 @@ class Choropleth extends Container {
     })
     const radio = new Choice({
       target: $(`<div class="${css}"></div>`),
-      choices: choices,
+      choices,
       radio: true
     })
     return radio
