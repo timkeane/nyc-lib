@@ -167,7 +167,9 @@ class Translate extends Container {
     const select = this.find('select')
     Object.keys(this.languages).forEach(lang => {
       const code = this.languages[lang].code
-      const opt = $('<option class="notranslate" translate="no"></option>').attr('value', lang).html(this.languages[lang].native)
+      const opt = $('<option class="notranslate" translate="no"></option>')
+        .attr('value', lang).html(this.languages[lang].native)
+        .addClass(this.languages[lang].rtl ? 'rtl' : '')
       select.append(opt)
       codes.push(code)
       this.hints.push(this.languages[lang].hint)
@@ -281,7 +283,7 @@ Translate.Choices
  */
 Translate.DEFAULT_LANGUAGES = {
   en: {code: 'en', name: 'English', native: 'English', hint: 'Translate'},
-  ar: {code: 'ar', name: 'Arabic', native: '&#x629;&#x64A;&#x628;&#x631;&#x639;&#x644;&#x627;', hint: '&#x645;&#x62C;&#x631;&#x62A;', rtl: true},
+  ar: {code: 'ar', name: 'Arabic', native: 'لاعربية', rtl: true},
   bn: {code: 'bn', name: 'Bengali', native: '&#x9AC;&#x9BE;&#x999;&#x9BE;&#x9B2;&#x9BF;', hint: '&#x985;&#x9A8;&#x9C1;&#x9AC;&#x9BE;&#x9A6; &#x995;&#x9B0;&#x9BE;'},
   zh: {code: 'zh-CN', name: 'Chinese (Simplified)', native: '&#x4E2D;&#x56FD;', hint: '&#x7FFB;&#x8BD1;'},
   fr: {code: 'fr', name: 'French', native: 'Fran&#231;ais', hint: 'Traduire'},
