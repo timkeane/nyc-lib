@@ -41,6 +41,9 @@ html, body.fnd, .fnd #map {
   background-color: var(--color-dark);
   text-transform: capitalize;
 }
+.translated.fnd #banner {
+  text-transform: none;
+}
 .fnd #banner>div {
   margin-right: 150px;
   overflow: hidden;

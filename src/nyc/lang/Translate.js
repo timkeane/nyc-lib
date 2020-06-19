@@ -283,17 +283,17 @@ Translate.Choices
  */
 Translate.DEFAULT_LANGUAGES = {
   en: {code: 'en', name: 'English', native: 'English', hint: 'Translate'},
-  ar: {code: 'ar', name: 'Arabic', native: 'لاعربية', rtl: true},
-  bn: {code: 'bn', name: 'Bengali', native: '&#x9AC;&#x9BE;&#x999;&#x9BE;&#x9B2;&#x9BF;', hint: '&#x985;&#x9A8;&#x9C1;&#x9AC;&#x9BE;&#x9A6; &#x995;&#x9B0;&#x9BE;'},
-  zh: {code: 'zh-CN', name: 'Chinese (Simplified)', native: '&#x4E2D;&#x56FD;', hint: '&#x7FFB;&#x8BD1;'},
+  ar: {code: 'ar', name: 'Arabic', native: 'العربية', rtl: true},
+  bn: {code: 'bn', name: 'Bengali', native: 'বাংলা', hint: '&#x985;&#x9A8;&#x9C1;&#x9AC;&#x9BE;&#x9A6; &#x995;&#x9B0;&#x9BE;'},
+  zh: {code: 'zh-CN', name: 'Chinese (Simplified)', native: '繁體中文', hint: '&#x7FFB;&#x8BD1;'},
   fr: {code: 'fr', name: 'French', native: 'Fran&#231;ais', hint: 'Traduire'},
   iw: {code: 'iw', name: 'Hebrew', native: '&#x05E2;&#x05D1;&#x05E8;&#x05D9;&#x05EA;', hint: '&#x05DC;&#x05EA;&#x05E8;&#x05D2;&#x05DD;', rtl: true},
   ht: {code: 'ht', name: 'Haitian Creole', native: 'Krey&#242;l Ayisyen', hint: 'Tradui'},
   ko: {code: 'ko', name: 'Korean', native: '&#xD55C;&#xAD6D;&#50612;', hint: '&#xBC88;&#xC5ED;'},
-  po: {code: 'po', name: 'Polish', native: 'język polski', hint: 'język polski'},
+  po: {code: 'po', name: 'Polish', native: 'polski', hint: 'język polski'},
   ru: {code: 'ru', name: 'Russian', native: 'P&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439;', hint: '&#x43F;&#x435;&#x440;&#x435;&#x432;&#x435;&#x441;&#x442;&#x438;'},
   es: {code: 'es', name: 'Spanish', native: 'Espa&#241;ol', hint: 'Traducir'},
-  ur: {code: 'ur', name: 'Urdu', native: '&#x648;&#x62F;&#x631;&#x627;', hint: '&#x6BA;&#x6CC;&#x631;&#x6A9;&#x6C1;&#x645;&#x62C;&#x631;&#x62A;', rtl: true}
+  ur: {code: 'ur', name: 'Urdu', native: 'اردو', hint: '&#x6BA;&#x6CC;&#x631;&#x6A9;&#x6C1;&#x645;&#x62C;&#x631;&#x62A;', rtl: true}
 }
 
 Translate.DEFAULT_MESSAGES = {
@@ -324,7 +324,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-sr-map': 'Locate this facility on the map',
     'msg-prv': 'Previous',
     'msg-nxt': 'Next',
-    'msg-clr': 'Clear'
+    'msg-clr': 'Clear',
+    'msg-more': 'More...'
   },
   ar: {
     'msg-filters': 'المرشحات',
@@ -353,7 +354,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-sr-map': 'حدد هذا المرفق على الخريطة',
     'msg-prv': 'السابق',
     'msg-nxt': 'التالى',
-    'msg-clr': 'واضح'
+    'msg-clr': 'واضح',
+    'msg-more': 'المزيد...'
   },
   bn: {
     'msg-filters': 'ফিল্টার',
@@ -382,7 +384,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-sr-map': 'মানচিত্রে এই সুবিধাটি সনাক্ত করুন',
     'msg-prv': 'আগে',
     'msg-nxt': 'পরবর্তী',
-    'msg-clr': 'পরিষ্কার'
+    'msg-clr': 'পরিষ্কার',
+    'msg-more': 'আরো...'
   },
   zh: {
     'msg-filters': '篩選',
@@ -411,7 +414,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-sr-map': '在地图上找到该设施',
     'msg-prv': '以前',
     'msg-nxt': '下一个',
-    'msg-clr': '明确'
+    'msg-clr': '明确',
+    'msg-more': '閱讀更多...'
   },
   fr: {
     'msg-filters': 'Filtres',
@@ -424,7 +428,7 @@ Translate.DEFAULT_MESSAGES = {
     'msg-email': 'Email',
     'msg-srch': 'Rechercher une adresse ...',
     'msg-back-to-finder': 'Retour à la recherche',
-    'msg-dir-from': 'Mon point de départ: ',
+    'msg-dir-from': 'Mon point de départ : ',
     'msg-dir-input': 'Entrer une adresse..',
     'msg-dir-to': 'De: ',
     'msg-z-in': 'Zoomer',
@@ -440,7 +444,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-sr-map': 'Localiser cette installation sur la carte',
     'msg-prv': 'Précédent',
     'msg-nxt': 'Prochain',
-    'msg-clr': 'Clair'
+    'msg-clr': 'Clair',
+    'msg-more': 'Plus...'
   },
   iw: {
     'msg-filters': 'מסננים',
@@ -469,7 +474,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-sr-map': 'אתר את המתקן הזה על המפה',
     'msg-prv': 'קודם',
     'msg-nxt': 'הבא',
-    'msg-clr': 'ברור'
+    'msg-clr': 'ברור',
+    'msg-more': 'יותר...'
   },
   ht: {
     'msg-filters': 'Filtè yo',
@@ -498,7 +504,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-sr-map': 'Jwenn etablisman sa a sou kat la',
     'msg-prv': 'Anvan yo',
     'msg-nxt': 'Pwochen',
-    'msg-clr': 'Klè'
+    'msg-clr': 'Klè',
+    'msg-more': 'Plis...'
   },
   ko: {
     'msg-filters': '필터',
@@ -527,7 +534,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-sr-map': '지도에서이 시설을 찾으십시오',
     'msg-prv': '이전',
     'msg-nxt': '다음',
-    'msg-clr': '명확한'
+    'msg-clr': '명확한',
+    'msg-more': '더 보기...'
   },
   po: {
     'msg-filters': 'Filtry',
@@ -555,8 +563,9 @@ Translate.DEFAULT_MESSAGES = {
     'msg-mta': 'Uzyskaj dostępne wskazówki dojazdu tranzytem z MTA',
     'msg-sr-map': 'Znajdź ten obiekt na mapie',
     'msg-prv': 'Poprzedni',
-    'msg-nxt': 'w następnym tygodniu',
-    'msg-clr': 'oczyścić'
+    'msg-nxt': 'Kolejny',
+    'msg-clr': 'Jasny',
+    'msg-more': 'Więcej...'
   },
   ru: {
     'msg-filters': 'Фильтры',
@@ -585,7 +594,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-sr-map': 'Найдите этот объект на карте',
     'msg-prv': 'предыдущий',
     'msg-nxt': 'следующий',
-    'msg-clr': 'Очистить'
+    'msg-clr': 'Очистить',
+    'msg-more': 'Еще...'
   },
   es: {
     'msg-filters': 'Filtros',
@@ -614,7 +624,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-sr-map': 'Ubique esta instalación en el mapa',
     'msg-prv': 'Previo',
     'msg-nxt': 'Siguiente',
-    'msg-clr': 'Claro'
+    'msg-clr': 'Claro',
+    'msg-more': 'Más...'
   },
   ur: {
     'msg-filters': 'فلٹرز',
@@ -626,10 +637,10 @@ Translate.DEFAULT_MESSAGES = {
     'msg-web': 'ویب سائٹ',
     'msg-email': 'ای میل',
     'msg-srch': 'ایڈریس کو تلاش کریں...',
-    'msg-back-to-finder': 'میری لوکیشن سے',
-    'msg-dir-from': 'فائنڈر پر واپسی: ',
-    'msg-dir-input': 'ٹرپ پلاننر...',
-    'msg-dir-to': 'کیلئے: ',
+    'msg-back-to-finder': 'فائنڈر پر واپسی',
+    'msg-dir-from': 'میری لوکیشن سے: ',
+    'msg-dir-input': 'ایڈریس لکھیں...',
+    'msg-dir-to': 'اس جگہ کیلئے: ',
     'msg-z-in': 'زوم ان',
     'msg-z-out': 'زوم آوٹ',
     'msg-geo': 'موجودہ لوکیشن',
@@ -643,7 +654,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-sr-map': 'نقشہ پر اس سہولت کا پتہ لگائیں',
     'msg-prv': 'پچھلا',
     'msg-nxt': 'اگلے',
-    'msg-clr': 'صاف'
+    'msg-clr': 'صاف',
+    'msg-more': 'مزید...'
   }
 }
 

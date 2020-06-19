@@ -48,6 +48,9 @@ html, body, body * {
 	text-overflow: ellipsis;
 	text-transform: capitalize;
 }
+.translated .btn {
+	text-transform: none;
+}
 .btn-ico {
 	padding-left: 30px;
 }
