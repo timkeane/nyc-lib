@@ -638,7 +638,7 @@ Translate.DEFAULT_MESSAGES = {
     'msg-email': 'ای میل',
     'msg-srch': 'ایڈریس کو تلاش کریں...',
     'msg-back-to-finder': 'فائنڈر پر واپسی',
-    'msg-dir-from': 'میری لوکیشن سے: ',
+    'msg-dir-from': 'اپنی لوکیشن سے: ',
     'msg-dir-input': 'ایڈریس لکھیں...',
     'msg-dir-to': 'اس جگہ کیلئے: ',
     'msg-z-in': 'زوم ان',

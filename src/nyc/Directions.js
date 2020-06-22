@@ -4,12 +4,12 @@
  */
 
 import $ from 'jquery'
-
 import Contanier from 'nyc/Container'
 import Dialog from 'nyc/Dialog'
 import Tabs from 'nyc/Tabs'
 import TripPlanHack from 'nyc/mta/TripPlanHack'
 import nyc from 'nyc'
+import Translate from 'nyc/lang/Translate'
 
 const proj4 = nyc.proj4
 
@@ -194,6 +194,9 @@ class Directions extends Contanier {
    */
   handleResp(response, status) {
     const target = $(this.routeTarget)
+    if (global.nycTranslateInstance instanceof Translate) {
+      target.attr('style', '')
+    }
     if (status === google.maps.DirectionsStatus.OK) {
       this.marker.setMap(null)
       const leg = response.routes[0].legs[0]

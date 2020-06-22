@@ -4,4 +4,5 @@
 }
 .translated-rtl .srch input, .translated-rtl .lst-srch input {
 	background-position: calc(100% - 3px) center;
+	direction: ltr;
 }

@@ -114,9 +114,11 @@
 #mta span.notranslate {
 	color: var(--color-light);
 }
-#fld-from input {
+#fld-from input,
+html.translated-rtl	#fld-from input {
 	width: calc(100% - 9px);
 	margin-bottom: 5px;
+	direction: ltr;
 }
 .fld-lbl, .to-lbl, .to-facility {
 	font-weight: bold;
@@ -127,16 +129,20 @@
 button.gm-fullscreen-control {
 	display: none;
 }
-#route-tab .route {
+#route-tab .route,
+html.translated-rtl #route-tab .route  {
 	height: calc(100% - 145px);
 	overflow-y: auto;
 	overflow-x: hidden;
+	direction: ltr;
 }
-#directions div.map *, div.route * {
+#directions div.map *, div.route *,
+html.translated-rtl	#directions div.map *, html.translated-rtl div.route * {
 	font-family: var(--font-family) !important;
 	color: var(--color-dark);
 	font-size: 16px;
 	font-weight: normal;
+	direction: ltr;
 }
 div.route b {
 	font-weight: bold;
@@ -144,7 +150,8 @@ div.route b {
 div.route .adp-placemark {
 	padding: 3px 3px 0 3px;
 }
-div.route .adp-placemark, div.route .adp-placemark * {
+div.route .adp-placemark, div.route .adp-placemark *,
+html.translated-rtl div.route .adp-placemark, html.translated-rtl div.route .adp-placemark * {
 	background-color: var(--color-dark);
 	font-weight: 500;
 	color: var(--color-light);
