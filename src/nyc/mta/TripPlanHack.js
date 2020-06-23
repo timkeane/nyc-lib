@@ -49,11 +49,7 @@ class TripPlanHack {
     if (this.url) {
       return this.url
     }
-    const host = document.location.hostname
-    const path = document.location.pathname
-    let port = document.location.port
-    port = port ? `:${port}` : ''
-    return `http://${host}${port}${path}/mta.html`
+    return './mta.html'
 
   }
   /**
