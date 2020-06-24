@@ -92,7 +92,7 @@ class FinderApp extends MapMgr {
    */
   translateBtn(options) {
     new Goog({
-      target: '#map',
+      target: 'body',
       languages: options.languages || Translate.DEFAULT_LANGUAGES,
       button: true
     })
