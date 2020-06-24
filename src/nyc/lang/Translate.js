@@ -366,9 +366,9 @@ Translate.DEFAULT_MESSAGES = {
     'msg-nxt': 'التالى',
     'msg-clr': 'واضح',
     'msg-more': 'المزيد...',
-    'msg-yes': "نعم",
-    'msg-no': "لا"
-},
+    'msg-yes': 'نعم',
+    'msg-no': 'لا'
+  },
   bn: {
     'msg-filters': 'ফিল্টার',
     'msg-map': 'মানচিত্র',
@@ -398,9 +398,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-nxt': 'পরবর্তী',
     'msg-clr': 'পরিষ্কার',
     'msg-more': 'আরো...',
-    'msg-yes': "হ্যাঁ",
-    'msg-no': "না",
-
+    'msg-yes': 'হ্যাঁ',
+    'msg-no': 'না'
   },
   zh: {
     'msg-filters': '篩選',
@@ -431,8 +430,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-nxt': '下一个',
     'msg-clr': '明确',
     'msg-more': '閱讀更多...',
-    'msg-yes': "有",
-    'msg-no': "沒有",
+    'msg-yes': '有',
+    'msg-no': '沒有'
   },
   fr: {
     'msg-filters': 'Filtres',
@@ -463,8 +462,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-nxt': 'Prochain',
     'msg-clr': 'Clair',
     'msg-more': 'Plus...',
-    'msg-yes': "Oui",
-    'msg-no': "Non",
+    'msg-yes': 'Oui',
+    'msg-no': 'Non'
   },
   iw: {
     'msg-filters': 'מסננים',
@@ -494,7 +493,9 @@ Translate.DEFAULT_MESSAGES = {
     'msg-prv': 'קודם',
     'msg-nxt': 'הבא',
     'msg-clr': 'ברור',
-    'msg-more': 'יותר...'
+    'msg-more': 'יותר...',
+    'msg-yes': 'כן',
+    'msg-no': 'לא'
   },
   ht: {
     'msg-filters': 'Filtè yo',
@@ -526,7 +527,7 @@ Translate.DEFAULT_MESSAGES = {
     'msg-clr': 'Klè',
     'msg-more': 'Plis...',
     'msg-yes': 'Wi',
-    'msg-no': 'Non',
+    'msg-no': 'Non'
   },
   ko: {
     'msg-filters': '필터',
@@ -557,8 +558,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-nxt': '다음',
     'msg-clr': '명확한',
     'msg-more': '더 보기...',
-    'msg-yes': "예",
-    'msg-no': "아니요",
+    'msg-yes': '예',
+    'msg-no': '아니요'
   },
   po: {
     'msg-filters': 'Filtry',
@@ -589,8 +590,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-nxt': 'Kolejny',
     'msg-clr': 'Jasny',
     'msg-more': 'Więcej...',
-    'msg-yes': "Tak",
-    'msg-no': "Nie",  
+    'msg-yes': 'Tak',
+    'msg-no': 'Nie'
   },
   ru: {
     'msg-filters': 'Фильтры',
@@ -621,8 +622,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-nxt': 'следующий',
     'msg-clr': 'Очистить',
     'msg-more': 'Еще...',
-    'msg-yes': "Да",
-    'msg-no': "Нет",
+    'msg-yes': 'Да',
+    'msg-no': 'Нет'
   },
   es: {
     'msg-filters': 'Filtros',
@@ -653,8 +654,8 @@ Translate.DEFAULT_MESSAGES = {
     'msg-nxt': 'Siguiente',
     'msg-clr': 'Claro',
     'msg-more': 'Más...',
-    'msg-yes': "Si",
-    'msg-no': "No",
+    'msg-yes': 'Si',
+    'msg-no': 'No'
   },
   ur: {
     'msg-filters': 'فلٹرز',
@@ -686,7 +687,7 @@ Translate.DEFAULT_MESSAGES = {
     'msg-clr': 'صاف',
     'msg-more': 'مزید...',
     'msg-yes': 'ہاں',
-    'msg-no': 'نہیں',
+    'msg-no': 'نہیں'
   }
 }
 
