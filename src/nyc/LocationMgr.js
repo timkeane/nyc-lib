@@ -148,7 +148,8 @@ class LocationMgr extends EventHandling {
     if (data.possible.length) {
       this.search.disambiguate(data)
     } else {
-      this.dialog.ok({message: 'The location you entered was not understood'})
+      const message = '<span class="msg-unk-addr">The location you entered was not understood</span>'
+      this.dialog.ok({message})
     }
   }
   /**

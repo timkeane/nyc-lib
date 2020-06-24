@@ -276,7 +276,9 @@ test('ambiguous no possible', () => {
 
   expect(options.search.disambiguate).toHaveBeenCalledTimes(0)
   expect(locationMgr.dialog.ok).toHaveBeenCalledTimes(1)
-  expect(locationMgr.dialog.ok.mock.calls[0][0].message).toBe('The location you entered was not understood')
+  expect(locationMgr.dialog.ok.mock.calls[0][0].message).toBe(
+    '<span class="msg-unk-addr">The location you entered was not understood</span>'
+  )
 })
 
 test('ambiguous has possible', () => {

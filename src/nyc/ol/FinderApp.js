@@ -269,13 +269,13 @@ class FinderApp extends MapMgr {
     const distance = feature.distanceHtml(true).html()
     const options = {
       buttonText: [
-        `View ${$('#tab-btn-1').html()} list`,
-        'View the map'
+        `<span class="msg-vw-list">View ${$('#tab-btn-1').text()} list</span>`,
+        '<span class="msg-vw-map">View the map</span>'
       ]
     }
     if (feature.getName() !== locationName) {
-      options.message = `<strong>${feature.getName()}</strong><br>
-        is located ${distance} from your location<br>`
+      options.message = `<strong>${feature.getName()}</strong><br>` +
+        `<span class="msg-closest">is closest to your location</span><br>`
       if (location.type != 'geolocated') {
         options.message += `<strong>${locationName}</strong>`
       }

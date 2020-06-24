@@ -1027,8 +1027,8 @@ describe('mobile tests', () => {
     geoclientUrl: 'http://geoclient'
   }
   const buttonText = [
-    `View ${$('#tab-btn-1').html()} list`,
-    'View the map'
+    `<span class="msg-vw-list">View ${$('#tab-btn-1').text()} list</span>`,
+    '<span class="msg-vw-map">View the map</span>'
   ]
   let feature, features
 
@@ -1059,8 +1059,8 @@ describe('mobile tests', () => {
     }
     const options = {
       buttonText: buttonText,
-      message: `<strong>${feature.getName()}</strong><br>
-        is located ${feature.distanceHtml(true).html()} from your location<br>`
+      message: `<strong>${feature.getName()}</strong><br>` +
+      '<span class="msg-closest">is closest to your location</span><br>'
     }
     
     expect(finderApp.mobileDiaOpts()).toEqual(options)
@@ -1086,8 +1086,9 @@ describe('mobile tests', () => {
     }
     const options = {
       buttonText: buttonText,
-      message: `<strong>${feature.getName()}</strong><br>
-        is located ${feature.distanceHtml(true).html()} from your location<br><strong>${finderApp.location.name}</strong>`
+      message: `<strong>${feature.getName()}</strong><br>` +
+        '<span class="msg-closest">is closest to your location</span><br>' +
+        `<strong>${finderApp.location.name}</strong>`
     }
     expect(finderApp.mobileDiaOpts()).toEqual(options)
   })

@@ -219,9 +219,9 @@ class Directions extends Contanier {
       $('#fld-to').html(addrB)
     } else {
       target.empty()
-      new Dialog().ok({
-        message: `Could not determine directions from '${this.args.from}' to '${this.args.to}'`
-      })
+      const message = '<span class="msg-no-dir">Could not determine directions from</span>' +
+        `'${this.args.from}' <span class="msg-to">to</span> '${this.args.to}'`
+      new Dialog().ok({message})
     }
     setTimeout(() => {
       let dir = target.find('h2.screen-reader-only.dir')

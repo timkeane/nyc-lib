@@ -325,7 +325,17 @@ Translate.DEFAULT_MESSAGES = {
     'msg-prv': 'Previous',
     'msg-nxt': 'Next',
     'msg-clr': 'Clear',
-    'msg-more': 'More...'
+    'msg-more': 'More...',
+    'msg-yes': 'Yes',
+    'msg-no': 'No',
+    'msg-no-dir': 'Could not determine directions from',
+    'msg-to': 'to',
+    'msg-unk-addr': 'The location you entered was not understood',
+    'msg-ok': 'OK',
+    'msg-cancel': 'Cancel',
+    'msg-vw-list': 'View facilities list',
+    'msg-vw-map': 'View map',
+    'msg-closest': 'is closest to your location'
   },
   ar: {
     'msg-filters': 'المرشحات',
@@ -355,8 +365,10 @@ Translate.DEFAULT_MESSAGES = {
     'msg-prv': 'السابق',
     'msg-nxt': 'التالى',
     'msg-clr': 'واضح',
-    'msg-more': 'المزيد...'
-  },
+    'msg-more': 'المزيد...',
+    'msg-yes': "نعم",
+    'msg-no': "لا"
+},
   bn: {
     'msg-filters': 'ফিল্টার',
     'msg-map': 'মানচিত্র',
@@ -385,7 +397,10 @@ Translate.DEFAULT_MESSAGES = {
     'msg-prv': 'আগে',
     'msg-nxt': 'পরবর্তী',
     'msg-clr': 'পরিষ্কার',
-    'msg-more': 'আরো...'
+    'msg-more': 'আরো...',
+    'msg-yes': "হ্যাঁ",
+    'msg-no': "না",
+
   },
   zh: {
     'msg-filters': '篩選',
@@ -415,7 +430,9 @@ Translate.DEFAULT_MESSAGES = {
     'msg-prv': '以前',
     'msg-nxt': '下一个',
     'msg-clr': '明确',
-    'msg-more': '閱讀更多...'
+    'msg-more': '閱讀更多...',
+    'msg-yes': "有",
+    'msg-no': "沒有",
   },
   fr: {
     'msg-filters': 'Filtres',
@@ -445,7 +462,9 @@ Translate.DEFAULT_MESSAGES = {
     'msg-prv': 'Précédent',
     'msg-nxt': 'Prochain',
     'msg-clr': 'Clair',
-    'msg-more': 'Plus...'
+    'msg-more': 'Plus...',
+    'msg-yes': "Oui",
+    'msg-no': "Non",
   },
   iw: {
     'msg-filters': 'מסננים',
@@ -505,7 +524,9 @@ Translate.DEFAULT_MESSAGES = {
     'msg-prv': 'Anvan yo',
     'msg-nxt': 'Pwochen',
     'msg-clr': 'Klè',
-    'msg-more': 'Plis...'
+    'msg-more': 'Plis...',
+    'msg-yes': 'Wi',
+    'msg-no': 'Non',
   },
   ko: {
     'msg-filters': '필터',
@@ -535,7 +556,9 @@ Translate.DEFAULT_MESSAGES = {
     'msg-prv': '이전',
     'msg-nxt': '다음',
     'msg-clr': '명확한',
-    'msg-more': '더 보기...'
+    'msg-more': '더 보기...',
+    'msg-yes': "예",
+    'msg-no': "아니요",
   },
   po: {
     'msg-filters': 'Filtry',
@@ -565,7 +588,9 @@ Translate.DEFAULT_MESSAGES = {
     'msg-prv': 'Poprzedni',
     'msg-nxt': 'Kolejny',
     'msg-clr': 'Jasny',
-    'msg-more': 'Więcej...'
+    'msg-more': 'Więcej...',
+    'msg-yes': "Tak",
+    'msg-no': "Nie",  
   },
   ru: {
     'msg-filters': 'Фильтры',
@@ -595,7 +620,9 @@ Translate.DEFAULT_MESSAGES = {
     'msg-prv': 'предыдущий',
     'msg-nxt': 'следующий',
     'msg-clr': 'Очистить',
-    'msg-more': 'Еще...'
+    'msg-more': 'Еще...',
+    'msg-yes': "Да",
+    'msg-no': "Нет",
   },
   es: {
     'msg-filters': 'Filtros',
@@ -625,7 +652,9 @@ Translate.DEFAULT_MESSAGES = {
     'msg-prv': 'Previo',
     'msg-nxt': 'Siguiente',
     'msg-clr': 'Claro',
-    'msg-more': 'Más...'
+    'msg-more': 'Más...',
+    'msg-yes': "Si",
+    'msg-no': "No",
   },
   ur: {
     'msg-filters': 'فلٹرز',
@@ -655,7 +684,9 @@ Translate.DEFAULT_MESSAGES = {
     'msg-prv': 'پچھلا',
     'msg-nxt': 'اگلے',
     'msg-clr': 'صاف',
-    'msg-more': 'مزید...'
+    'msg-more': 'مزید...',
+    'msg-yes': 'ہاں',
+    'msg-no': 'نہیں',
   }
 }
 
