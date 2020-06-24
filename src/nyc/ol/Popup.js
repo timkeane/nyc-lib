@@ -96,6 +96,7 @@ class Popup extends OlOverlay {
    */
   hide() {
     this.popup.fadeOut()
+    $('#lng').hide()
   }
   /**
    * @private
@@ -144,6 +145,7 @@ class Popup extends OlOverlay {
     this.closeFullscreen.click(() => {
       fullscreen.fadeOut()
       pop.append(content)
+      $('#lng').show()
     })
     fullscreen.fadeIn(hide)
   }
