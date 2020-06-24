@@ -123,7 +123,9 @@ class Directions extends Contanier {
 
     const tog = this.toggle
     $('#back-to-map').click(() => {
-      $('#directions').slideUp()
+      $('#directions').slideUp(() => {
+        $('#lng').show()
+      })
       tog.show().attr('aria-hidden', false)
     })
   }
@@ -152,6 +154,7 @@ class Directions extends Contanier {
     $('#fld-facility').html(args.facility)
     $('#directions').slideDown(() => {
       tog.hide()
+      $('#lng').hide()
     })
     tog.attr('aria-hidden', true)
     this.createMarker(this.getLatLng())
