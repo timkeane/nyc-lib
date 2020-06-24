@@ -383,7 +383,11 @@ class FinderApp extends MapMgr {
       $('#map').attr('aria-hidden', false)
     }
     this.map.setSize([$('#map').width(), $('#map').height()])
-    $('#lng')[$('#map').is(':visible') ? 'show' : 'hide']()
+    if ($('#map').is(':visible') && !$('.pop.fullscreen').is(':visible')) {
+      $('#lng').show()
+    } else {
+      $('#lng').hide()
+    }
   }
   /**
    * @private
