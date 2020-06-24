@@ -314,7 +314,11 @@ class FinderApp extends MapMgr {
   showSplash(options) {
     const input = this.locationMgr.search.input
     if (options) {
-      options.buttonText = options.buttonText || ['Screen reader instructions', 'Continue']
+      options.buttonText = options.buttonText ||
+        [
+          '<span class="msg-sr-info">Screen reader instructions</span>',
+          '<span class="msg-continue">Continue</span>'
+        ]
       new Dialog({css: 'splash'}).yesNo(options).then(info => {
         if (info) {
           this.screenReaderInfo()

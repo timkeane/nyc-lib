@@ -170,8 +170,8 @@ test('constructor mouseWheelZoom is undefined', () => {
   expect(Dialog.mock.calls[0][0]).toEqual({css: 'splash'})
   expect(Dialog.mock.instances[0].ok.mock.calls.length).toBe(0)
   expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].message).toBe('splash page message')
-  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].buttonText[0]).toBe('Screen reader instructions')
-  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].buttonText[1]).toBe('Continue')
+  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].buttonText[0]).toBe('<span class="msg-sr-info">Screen reader instructions</span>')
+  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].buttonText[1]).toBe('<span class="msg-continue">Continue</span>')
 
   expect(Share).toHaveBeenCalledTimes(1)
   expect(Share.mock.calls[0][0].target).toBe('#map')
@@ -267,8 +267,8 @@ test('constructor mouseWheelZoom = false', () => {
   expect(Dialog.mock.calls[0][0]).toEqual({css: 'splash'})
   expect(Dialog.mock.instances[0].ok.mock.calls.length).toBe(0)
   expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].message).toBe('splash page message')
-  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].buttonText[0]).toBe('Screen reader instructions')
-  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].buttonText[1]).toBe('Continue')
+  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].buttonText[0]).toBe('<span class="msg-sr-info">Screen reader instructions</span>')
+  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].buttonText[1]).toBe('<span class="msg-continue">Continue</span>')
 
   expect(Share).toHaveBeenCalledTimes(1)
   expect(Share.mock.calls[0][0].target).toBe('#map')
@@ -500,8 +500,8 @@ test('showSplash', () => {
   expect(Dialog.mock.calls[2][0]).toEqual({css: 'splash'})
   expect(Dialog.mock.instances[2].ok.mock.calls.length).toBe(0)
   expect(Dialog.mock.instances[2].yesNo.mock.calls[0][0].message).toBe('splash page message')
-  expect(Dialog.mock.instances[2].yesNo.mock.calls[0][0].buttonText[0]).toBe('Screen reader instructions')
-  expect(Dialog.mock.instances[2].yesNo.mock.calls[0][0].buttonText[1]).toBe('Continue')
+  expect(Dialog.mock.instances[2].yesNo.mock.calls[0][0].buttonText[0]).toBe('<span class="msg-sr-info">Screen reader instructions</span>')
+  expect(Dialog.mock.instances[2].yesNo.mock.calls[0][0].buttonText[1]).toBe('<span class="msg-continue">Continue</span>')
 
   return test().then(success => {expect(success).toBe(true)})
 })

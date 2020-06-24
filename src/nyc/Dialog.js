@@ -348,11 +348,11 @@ Dialog.HTML = '<div class="dia-container" role="dialog">' +
     '<div class="dia-msg"></div>' +
     '<input class="rad-all">' +
     '<div class="dia-btns">' +
-      '<a class="btn rad-all btn-ok msg-ok">OK</a>' +
-      '<a class="btn rad-all btn-yes msg-yes">Yes</a>' +
-      '<a class="btn rad-all btn-no" msg-no>No</a>' +
-      '<a class="btn rad-all btn-submit msg-yes">OK</a>' +
-      '<a class="btn rad-all btn-cancel msg-cancel">Cancel</a>' +
+      '<a class="btn rad-all btn-ok"><span class="msg-ok">OK</span></a>' +
+      '<a class="btn rad-all btn-yes"><span class="msg-yes">Yes</span></a>' +
+      '<a class="btn rad-all btn-no"><span class="msg-no">No</span></a>' +
+      '<a class="btn rad-all btn-submit"><span class="msg-ok">OK</span></a>' +
+      '<a class="btn rad-all btn-cancel"><span class="msg-cancel">Cancel</span></a>' +
     '</div>' +
   '</div>' +
 '</div>'

@@ -335,7 +335,9 @@ Translate.DEFAULT_MESSAGES = {
     'msg-cancel': 'Cancel',
     'msg-vw-list': 'View facilities list',
     'msg-vw-map': 'View map',
-    'msg-closest': 'is closest to your location'
+    'msg-closest': 'is closest to your location',
+    'msg-sr-info': 'Screen reader instructions',
+    'msg-continue': 'Continue'
   },
   ar: {
     'msg-filters': 'المرشحات',
