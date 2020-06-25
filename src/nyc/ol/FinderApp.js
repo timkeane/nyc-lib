@@ -12,6 +12,7 @@ import Directions from 'nyc/Directions'
 import Translate from 'nyc/lang/Translate'
 import Goog from 'nyc/lang/Goog'
 import Filters from 'nyc/ol/Filters'
+import FilterAndSort from 'nyc/ol/source/FilterAndSort'
 
 /**
  * @desc A class that provides a template for creating basic finder apps
@@ -84,6 +85,29 @@ class FinderApp extends MapMgr {
     $('#screen-reader-info').click($.proxy(this.screenReaderInfo, this))
     $('.shw-lst .btn-yes span').html(`View nearby ${$('#tab-btn-1').html()} in an accessible list`)
     this.popup.on('fullscreen', this.hideTranlateBtn, this)
+    this.setRefresh(options.refresh)
+  }
+  setRefresh(refresh) {
+    if (refresh && refresh.minutes) {
+      const me = this
+      const url = me.source.getUrl().split('?')[0]
+      setInterval(() => {
+        const source = new FilterAndSort({
+          url: `${url}?${nyc.cacheBust(.33)}`,
+          format: me.source.getFormat()
+        })
+        source.autoLoad().then(features => {
+          me.source = source
+          me.filters.source = source
+          me.filters.filter()
+          me.layer.setSource(source)
+          me.resetList()
+          if (refresh.callback) {
+            refresh.callback()
+          }
+        })
+      }, refresh.minutes * 60 * 1000)
+    }
   }
   /**
    * @desc Create the translate button
@@ -434,8 +458,18 @@ class FinderApp extends MapMgr {
  * @property {string} directionsUrl The URL for the Google directions API with approriate keys
  * @property {google.maps.TravelMode} defaultDirectionsMode The mode for Google directions
  * @property {boolean} [mouseWheelZoom=true] Allow mouse wheel map zooming
+ * @property {module:nyc/ol/FinderApp~FinderApp.RefreshOptions=} refresh Options for periodically refreshing facility data
  */
 FinderApp.Options
+
+/**
+ * @desc Constructor options for {@link module:nyc/ol/FinderApp~FinderApp}
+ * @public
+ * @typedef {Object}
+ * @property {number} minutes Number of minutes for refresh interval
+ * @property {function} callback Callback function for refresh
+ */
+FinderApp.RefreshOptions
 
 /**
  * @private
