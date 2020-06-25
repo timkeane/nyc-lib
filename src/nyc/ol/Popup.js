@@ -7,7 +7,7 @@ import $ from 'jquery'
 import OlOverlay from 'ol/Overlay'
 import {linear} from 'ol/easing'
 import nyc from 'nyc'
-
+import EventHandling from 'nyc/EventHandling'
 /**
  * @desc A class to display popups on a map
  * @public
@@ -33,6 +33,11 @@ class Popup extends OlOverlay {
         easing: linear
       } : options.autoPanAnimation
     })
+    const eventHandling = new EventHandling()
+    this.on = $.proxy(eventHandling.on, eventHandling)
+    this.one = $.proxy(eventHandling.one, eventHandling)
+    this.off = $.proxy(eventHandling.off, eventHandling)
+    this.trigger = $.proxy(eventHandling.trigger, eventHandling)
     /**
      * @private
      * @member {jQuery}
@@ -96,7 +101,6 @@ class Popup extends OlOverlay {
    */
   hide() {
     this.popup.fadeOut()
-    $('.fnd #lng').hide()
   }
   /**
    * @private
@@ -148,6 +152,7 @@ class Popup extends OlOverlay {
       $('.fnd #lng').show()
     })
     fullscreen.fadeIn(hide)
+    this.trigger('fullscreen', this)
   }
 }
 

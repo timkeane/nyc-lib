@@ -83,6 +83,7 @@ class FinderApp extends MapMgr {
     this.screenReaderDialog = new Dialog({css: 'screen-reader-info'})
     $('#screen-reader-info').click($.proxy(this.screenReaderInfo, this))
     $('.shw-lst .btn-yes span').html(`View nearby ${$('#tab-btn-1').html()} in an accessible list`)
+    this.popup.on('fullscreen', this.hideTranlateBtn, this)
   }
   /**
    * @desc Create the translate button
@@ -383,6 +384,14 @@ class FinderApp extends MapMgr {
       $('#map').attr('aria-hidden', false)
     }
     this.map.setSize([$('#map').width(), $('#map').height()])
+    this.hideTranlateBtn()
+  }
+  /**
+   * @desc Handles the fullscreen popup event
+   * @private
+   * @method
+   */
+  hideTranlateBtn() {
     if ($('#map').is(':visible') && !$('.pop.fullscreen').is(':visible')) {
       $('#lng').show()
     } else {
