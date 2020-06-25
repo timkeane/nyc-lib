@@ -56,7 +56,8 @@ class Filters extends Container {
     })
   }
   /**
-   * @private
+   * @desc Filter the source according to current state of choices
+   * @public
    * @method
    */
   filter() {
