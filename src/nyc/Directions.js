@@ -222,8 +222,7 @@ class Directions extends Contanier {
       $('#fld-to').html(addrB)
     } else {
       target.empty()
-      const message = '<span class="msg-no-dir">Could not determine directions from</span>' +
-        `'${this.args.from}' <span class="msg-to">to</span> '${this.args.to}'`
+      const message = '<span class="msg-no-dir">Could not determine directions from your location</span>'
       new Dialog().ok({message})
     }
     setTimeout(() => {

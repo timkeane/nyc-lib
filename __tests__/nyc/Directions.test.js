@@ -672,8 +672,7 @@ describe('handleResp', () => {
 
     expect(Dialog).toHaveBeenCalledTimes(1)
     expect(Dialog.mock.instances[0].ok.mock.calls[0][0].message).toBe(
-      '<span class="msg-no-dir">Could not determine directions from</span>' +
-      `'${dir.args.from}' <span class="msg-to">to</span> '${dir.args.to}'`
+      '<span class="msg-no-dir">Could not determine directions from your location</span>'
     )
   })
 })
