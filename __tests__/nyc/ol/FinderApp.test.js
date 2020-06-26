@@ -1093,3 +1093,114 @@ describe('mobile tests', () => {
     expect(finderApp.mobileDiaOpts()).toEqual(options)
   })
 })
+
+describe('setRefresh', () => {
+  const setInterval_ = global.setInterval
+  const cacheBust = nyc.cacheBust
+  const resetList = FinderApp.prototype.resetList
+
+  beforeEach(() => {
+    global.setInterval = jest.fn((fn, ms) => {
+      fn.call()
+    })
+    FinderApp.prototype.resetList = jest.fn()
+    nyc.cacheBust = jest.fn(() => {
+      return 'cache-bust'
+    })
+  })
+
+  afterEach(() => {
+    global.setInterval = setInterval_
+    FinderApp.prototype.resetList = resetList
+    nyc.cacheBust = cacheBust
+  })
+
+  test('setRefresh with callback', done => {
+    expect.assertions(13)
+
+    FilterAndSort.url = 'url?query'
+    FilterAndSort.format = 'mock-format'
+
+    const refresh = {minutes: 5, callback: jest.fn()}
+
+    const app = new FinderApp({
+      title: 'Finder App',
+      splashOptions: {message: 'splash page message'},
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    FilterAndSort.mockClear()
+
+    app.setRefresh(refresh)
+
+    expect(global.setInterval).toHaveBeenCalledTimes(1)
+    expect(typeof global.setInterval.mock.calls[0][0]).toBe('function')
+    expect(global.setInterval.mock.calls[0][1]).toBe(5 * 60 * 1000)
+
+    expect(FilterAndSort).toHaveBeenCalledTimes(1)
+    expect(FilterAndSort.mock.calls[0][0].url).toBe('url?cache-bust')
+    expect(FilterAndSort.mock.calls[0][0].format).toBe('mock-format')
+    
+    setTimeout(() => {
+      expect(app.source).toBe(FilterAndSort.mock.results[0].value)
+      expect(app.layer.setSource).toHaveBeenCalledTimes(1)
+      expect(app.filters.source).toBe(app.source)
+      expect(app.filters.filter).toHaveBeenCalledTimes(1)
+      expect(app.layer.setSource.mock.calls[0][0]).toBe(app.source)
+      expect(app.resetList).toHaveBeenCalledTimes(1)
+      expect(refresh.callback).toHaveBeenCalledTimes(1)
+      done()
+  }, 500)
+
+  })
+
+  test('setRefresh without callback', done => {
+    expect.assertions(12)
+
+    FilterAndSort.url = 'url?query'
+    FilterAndSort.format = 'mock-format'
+
+    const refresh = {minutes: 5}
+
+    const app = new FinderApp({
+      title: 'Finder App',
+      splashOptions: {message: 'splash page message'},
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    FilterAndSort.mockClear()
+
+    app.setRefresh(refresh)
+
+    expect(global.setInterval).toHaveBeenCalledTimes(1)
+    expect(typeof global.setInterval.mock.calls[0][0]).toBe('function')
+    expect(global.setInterval.mock.calls[0][1]).toBe(5 * 60 * 1000)
+
+    expect(FilterAndSort).toHaveBeenCalledTimes(1)
+    expect(FilterAndSort.mock.calls[0][0].url).toBe('url?cache-bust')
+    expect(FilterAndSort.mock.calls[0][0].format).toBe('mock-format')
+    
+    setTimeout(() => {
+      expect(app.source).toBe(FilterAndSort.mock.results[0].value)
+      expect(app.layer.setSource).toHaveBeenCalledTimes(1)
+      expect(app.filters.source).toBe(app.source)
+      expect(app.filters.filter).toHaveBeenCalledTimes(1)
+      expect(app.layer.setSource.mock.calls[0][0]).toBe(app.source)
+      expect(app.resetList).toHaveBeenCalledTimes(1)
+      done()
+  }, 500)
+
+  })
+})

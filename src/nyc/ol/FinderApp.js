@@ -87,16 +87,21 @@ class FinderApp extends MapMgr {
     this.popup.on('fullscreen', this.hideTranlateBtn, this)
     this.setRefresh(options.refresh)
   }
+  /**
+   * @private
+   * @method
+   * @param {module:nyc/ol/FinderApp~FinderApp.RefreshOptions} refresh Refresh options
+   */
   setRefresh(refresh) {
-    if (refresh && refresh.minutes) {
+    if (refresh) {
       const me = this
-      const url = me.source.getUrl().split('?')[0]
       setInterval(() => {
+        const url = me.source.getUrl().split('?')[0]
         const source = new FilterAndSort({
           url: `${url}?${nyc.cacheBust(.33)}`,
           format: me.source.getFormat()
         })
-        source.autoLoad().then(features => {
+        source.autoLoad().then(() => {
           me.source = source
           me.filters.source = source
           me.filters.filter()

@@ -1,5 +1,11 @@
 const mock = jest.fn().mockImplementation(() => {
   return {
+    getUrl: jest.fn().mockImplementation(() => {
+      return mock.url || ''
+    }),
+    getFormat: jest.fn().mockImplementation(() => {
+      return mock.format
+    }),
     sort: jest.fn().mockImplementation(() => {
       return mock.features || []
     }),
