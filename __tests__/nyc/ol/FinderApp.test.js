@@ -1126,11 +1126,9 @@ describe('setRefresh', () => {
     const app = new FinderApp({
       title: 'Finder App',
       splashOptions: {message: 'splash page message'},
-      facilityTabTitle: 'Facility Title',
       facilityUrl: 'http://facility',
       facilityFormat: format,
       facilityStyle: style,
-      filterTabTitle: 'Filter Title',
       filterChoiceOptions: filterChoiceOptions,
       geoclientUrl: 'http://geoclient'
     })
