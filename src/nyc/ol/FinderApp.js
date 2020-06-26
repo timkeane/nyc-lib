@@ -256,6 +256,8 @@ class FinderApp extends MapMgr {
     ]
     if (options.splashOptions) {
       $('#tabs').attr('aria-hidden', true)
+    } else {
+      $('#screen-reader-info').attr('role', 'alert')
     }
     if (this.filters) {
       pages.push({tab: '#filters', title: options.filterTabTitle || '<span class="msg-filters">Filters</span>'})
