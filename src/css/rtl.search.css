@@ -6,3 +6,6 @@
 	background-position: calc(100% - 3px) center;
 	direction: ltr;
 }
+.translated-rtl .srch input[data-msg-attr="placeholder"], .translated-rtl .lst-srch input[data-msg-attr="placeholder"] {
+	direction: rtl;
+}
