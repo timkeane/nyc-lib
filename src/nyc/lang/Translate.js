@@ -328,7 +328,7 @@ Translate.DEFAULT_MESSAGES = {
     'msg-more': 'More...',
     'msg-yes': 'Yes',
     'msg-no': 'No',
-    'msg-no-dir': 'Could not determine directions from',
+    'msg-no-dir': 'Could not determine directions from your location',
     'msg-to': 'to',
     'msg-unk-addr': 'The location you entered was not understood',
     'msg-ok': 'OK',
