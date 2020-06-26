@@ -22,6 +22,13 @@ beforeEach(() => {
         {name: 'field3', label: 'Choice B', values: ['b', 'c', 'd'], checked: true},
         {name: 'field3', label: 'Choice C', values: ['z', 'q']}
       ]
+    },
+    {
+      toggle: true,
+      choices: [
+        {name: 'toggle', label: 'all', values: ['on', 'off'], checked: true},
+        {name: 'toggle', label: 'some', values: ['on']}
+      ]
     }
   ]
   target = $('<div></div>')
@@ -35,7 +42,7 @@ afterEach(() => {
 })
 
 test('constructor', () => {
-  expect.assertions(16)
+  expect.assertions(17)
 
   const filters = new Filters({
     target: target,
@@ -49,11 +56,12 @@ test('constructor', () => {
   expect(filters.getContainer().length).toBe(1)
   expect(filters.getContainer().get(0)).toBe(target.get(0))
 
-  expect(filters.choiceControls.length).toBe(2)
-  expect(filters.find('.clps').length).toBe(2)
-  expect(filters.find('.chc').length).toBe(2)
+  expect(filters.choiceControls.length).toBe(3)
+  expect(filters.find('.clps').length).toBe(3)
+  expect(filters.find('.chc').length).toBe(3)
   expect(filters.find('#choice').length).toBe(1)
   expect(filters.find('.filter-0').length).toBe(1)
+  expect(filters.find('.tog').length).toBe(1)
 
   expect(filters.choiceControls[0].getContainer().length).toBe(1)
   expect(filters.choiceControls[0].radio).toBe(undefined)
@@ -66,7 +74,7 @@ test('constructor', () => {
 })
 
 test('filter has checked options', () => {
-  expect.assertions(9)
+  expect.assertions(11)
 
   const filters = new Filters({
     target: target,
@@ -83,7 +91,7 @@ test('filter has checked options', () => {
   filters.choiceControls[0].trigger('change')
 
   expect(filters.source.filter).toHaveBeenCalledTimes(1)
-  expect(filters.source.filter.mock.calls[0][0].length).toBe(2)
+  expect(filters.source.filter.mock.calls[0][0].length).toBe(3)
 
   expect(filters.source.filter.mock.calls[0][0][0][0].property).toBe('field1')
   expect(filters.source.filter.mock.calls[0][0][0][0].values).toEqual([1, 2, 3, 4])
@@ -93,6 +101,9 @@ test('filter has checked options', () => {
 
   expect(filters.source.filter.mock.calls[0][0][1][0].property).toBe('field3')
   expect(filters.source.filter.mock.calls[0][0][1][0].values).toEqual(['b', 'c', 'd'])
+
+  expect(filters.source.filter.mock.calls[0][0][2][0].property).toBe('toggle')
+  expect(filters.source.filter.mock.calls[0][0][2][0].values).toEqual(['on', 'off'])
 })
 
 test('filter no checked options', () => {
