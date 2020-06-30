@@ -196,8 +196,9 @@ html, body.fnd, .fnd #map {
 }
 #lng {
   position: absolute;
-  left: 3px;
-  bottom: 40px;
+  left: 2px;
+  bottom: 43px;
+  z-index: 6000;
 }
 #filters .apply {
   border: none;
@@ -253,9 +254,6 @@ html, body.fnd, .fnd #map {
 }
 .facility.no-phone a.btn-ico.web {
   width: calc(100% - 35px);
-}
-#lng {
-  z-index: 6000;
 }
 @media only screen and (max-width : 750px), screen and (max-device-height: 350px) {
   .fnd #tabs {
