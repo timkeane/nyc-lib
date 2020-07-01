@@ -373,7 +373,7 @@ test('buttons Dialog.Type.OK', () => {
 
   dialog.buttons(Dialog.Type.OK, {})
 
-  expect(dialog.okBtn.html()).toBe('OK')
+  expect(dialog.okBtn.html()).toBe('<span class=\"msg-ok\">OK</span>')
   expect(dialog.okBtn.attr('href')).toBe('#')
 
   dialog.buttons(Dialog.Type.OK, {
@@ -392,9 +392,9 @@ test('buttons Dialog.Type.INPUT', () => {
 
   dialog.buttons(Dialog.Type.INPUT, {})
 
-  expect(dialog.find('.btn-submit').html()).toBe('Submit')
+  expect(dialog.find('.btn-submit').html()).toBe('<span class=\"msg-ok\">OK</span>')
   expect(dialog.find('.btn-submit').attr('href')).toBe('#')
-  expect(dialog.find('.btn-cancel').html()).toBe('Cancel')
+  expect(dialog.find('.btn-cancel').html()).toBe('<span class=\"msg-cancel\">Cancel</span>')
   expect(dialog.find('.btn-cancel').attr('href')).toBe('#')
 
   dialog.buttons(Dialog.Type.INPUT, {
@@ -415,9 +415,9 @@ test('buttons Dialog.Type.YES_NO', () => {
 
   dialog.buttons(Dialog.Type.YES_NO, {})
 
-  expect(dialog.find('.btn-yes').html()).toBe('Yes')
+  expect(dialog.find('.btn-yes').html()).toBe('<span class=\"msg-yes\">Yes</span>')
   expect(dialog.find('.btn-yes').attr('href')).toBe('#')
-  expect(dialog.find('.btn-no').html()).toBe('No')
+  expect(dialog.find('.btn-no').html()).toBe('<span class=\"msg-no\">No</span>')
   expect(dialog.find('.btn-no').attr('href')).toBe('#')
 
   dialog.buttons(Dialog.Type.YES_NO, {
@@ -438,11 +438,11 @@ test('buttons Dialog.Type.YES_NO_CANCEL', () => {
 
   dialog.buttons(Dialog.Type.YES_NO_CANCEL, {})
 
-  expect(dialog.find('.btn-yes').html()).toBe('Yes')
+  expect(dialog.find('.btn-yes').html()).toBe('<span class=\"msg-yes\">Yes</span>')
   expect(dialog.find('.btn-yes').attr('href')).toBe('#')
-  expect(dialog.find('.btn-no').html()).toBe('No')
+  expect(dialog.find('.btn-no').html()).toBe('<span class=\"msg-no\">No</span>')
   expect(dialog.find('.btn-no').attr('href')).toBe('#')
-  expect(dialog.find('.btn-cancel').html()).toBe('Cancel')
+  expect(dialog.find('.btn-cancel').html()).toBe('<span class=\"msg-cancel\">Cancel</span>')
   expect(dialog.find('.btn-cancel').attr('href')).toBe('#')
 
   dialog.buttons(Dialog.Type.YES_NO_CANCEL, {

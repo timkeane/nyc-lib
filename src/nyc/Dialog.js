@@ -192,27 +192,27 @@ class Dialog extends Container {
     const buttonHref = options.buttonHref || []
     switch (type) {
       case Dialog.Type.OK:
-        this.find('.btn-ok').html(buttonText[0] || 'OK')
+        this.find('.btn-ok').html(buttonText[0] || '<span class="msg-ok">OK</span>')
           .attr('href', buttonHref[0] || '#')
         break
       case Dialog.Type.INPUT:
-        this.find('.btn-submit').html(buttonText[0] || 'Submit')
+        this.find('.btn-submit').html(buttonText[0] || '<span class="msg-ok">OK</span>')
           .attr('href', buttonHref[0] || '#')
-        this.find('.btn-cancel').html(buttonText[1] || 'Cancel')
+        this.find('.btn-cancel').html(buttonText[1] || '<span class="msg-cancel">Cancel</span>')
           .attr('href', buttonHref[1] || '#')
         break
       case Dialog.Type.YES_NO:
-        this.find('.btn-yes').html(buttonText[0] || 'Yes')
+        this.find('.btn-yes').html(buttonText[0] || '<span class="msg-yes">Yes</span>')
           .attr('href', buttonHref[0] || '#')
-        this.find('.btn-no').html(buttonText[1] || 'No')
+        this.find('.btn-no').html(buttonText[1] || '<span class="msg-no">No</span>')
           .attr('href', buttonHref[1] || '#')
         break
       case Dialog.Type.YES_NO_CANCEL:
-        this.find('.btn-yes').html(buttonText[0] || 'Yes')
+        this.find('.btn-yes').html(buttonText[0] || '<span class="msg-yes">Yes</span>')
           .attr('href', buttonHref[0] || '#')
-        this.find('.btn-no').html(buttonText[1] || 'No')
+        this.find('.btn-no').html(buttonText[1] || '<span class="msg-no">No</span>')
           .attr('href', buttonHref[1] || '#')
-        this.find('.btn-cancel').html(buttonText[2] || 'Cancel')
+        this.find('.btn-cancel').html(buttonText[2] || '<span class="msg-cancel">Cancel</span>')
           .attr('href', buttonHref[2] || '#')
         break
       default:
