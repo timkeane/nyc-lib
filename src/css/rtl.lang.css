@@ -1,4 +1,4 @@
-html.translated-rtl * {
+html.translated-rtl * :not(.ol-overlaycontainer-stopevent) {
   direction: rtl;
 }
 html.translated-rtl *.notranslate {
