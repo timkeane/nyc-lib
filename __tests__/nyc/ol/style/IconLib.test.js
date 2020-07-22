@@ -1,30 +1,34 @@
 import IconLib from 'nyc/ol/style/IconLib'
+import Layer from 'ol/layer/Vector'
 
 const SVG = [
-`<?xml version="1.0" encoding="UTF-8"?>
-<svg id="danger" version="1.1" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 15 15"></svg>`,
-`<?xml version="1.0" encoding="UTF-8"?>
-<svg id="library" version="1.1" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 15 15"></svg>`
+  `<?xml version="1.0" encoding="UTF-8"?>
+  <svg id="danger" version="1.1" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 15 15"></svg>`,
+  `<?xml version="1.0" encoding="UTF-8"?>
+  <svg id="library" version="1.1" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 15 15"></svg>`
 ]
 const DATA_URI = [
-'data:image/svg+xml;charset=utf-8,%3Csvg%20id%3D%22danger%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2215px%22%20height%3D%2215px%22%20viewBox%3D%220%200%2015%2015%22%20style%3D%22%3Bfill%3A%23%23ff0000%22%3E%3C%2Fsvg%3E',
-'data:image/svg+xml;charset=utf-8,%3Csvg%20id%3D%22library%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2215px%22%20height%3D%2215px%22%20viewBox%3D%220%200%2015%2015%22%20style%3D%22%3Bfill%3A%23%230000ff%22%3E%3C%2Fsvg%3E'
+  'data:image/svg+xml;charset=utf-8,%3Csvg%20id%3D%22danger%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2215px%22%20height%3D%2215px%22%20viewBox%3D%220%200%2015%2015%22%20style%3D%22%3Bfill%3A%23ff0000%22%3E%3C%2Fsvg%3E',
+  'data:image/svg+xml;charset=utf-8,%3Csvg%20id%3D%22library%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2215px%22%20height%3D%2215px%22%20viewBox%3D%220%200%2015%2015%22%20style%3D%22%3Bfill%3A%230000ff%22%3E%3C%2Fsvg%3E'
 ]
+const layer = new Layer()
 
 beforeEach(() => {
   fetch.mockReset()
 })
 
 test('constructor', () => {
-  expect.assertions(2)
-  let iconLib = new IconLib()
+  expect.assertions(4)
+  let iconLib = new IconLib({layer})
   expect(iconLib.url).toBe(IconLib.URL)
-  iconLib = new IconLib('mock-url')
+  expect(iconLib.layer).toBe(layer)
+  iconLib = new IconLib({url: 'mock-url', layer})
   expect(iconLib.url).toBe('mock-url')
+  expect(iconLib.layer).toBe(layer)
 })
 
 describe('style from string', () => {
-  const iconLib = new IconLib()
+  const iconLib = new IconLib({layer})
 
   test('style from string', done => {
     expect.assertions(6)
@@ -61,7 +65,7 @@ describe('style from string', () => {
 })
 
 describe('style from object', () => {
-  const iconLib = new IconLib()
+  const iconLib = new IconLib({layer})
 
   test('style from object', done => {
     expect.assertions(6)
