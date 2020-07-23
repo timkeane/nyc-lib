@@ -11,24 +11,21 @@ const DATA_URI = [
   'data:image/svg+xml;charset=utf-8,%3Csvg%20id%3D%22danger%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2215px%22%20height%3D%2215px%22%20viewBox%3D%220%200%2015%2015%22%20style%3D%22%3Bfill%3A%23ff0000%22%3E%3C%2Fsvg%3E',
   'data:image/svg+xml;charset=utf-8,%3Csvg%20id%3D%22library%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2215px%22%20height%3D%2215px%22%20viewBox%3D%220%200%2015%2015%22%20style%3D%22%3Bfill%3A%230000ff%22%3E%3C%2Fsvg%3E'
 ]
-const layer = new Layer()
 
 beforeEach(() => {
   fetch.mockReset()
 })
 
 test('constructor', () => {
-  expect.assertions(4)
-  let iconLib = new IconLib({layer})
+  expect.assertions(2)
+  let iconLib = new IconLib()
   expect(iconLib.url).toBe(IconLib.URL)
-  expect(iconLib.layer).toBe(layer)
-  iconLib = new IconLib({url: 'mock-url', layer})
+  iconLib = new IconLib('mock-url')
   expect(iconLib.url).toBe('mock-url')
-  expect(iconLib.layer).toBe(layer)
 })
 
 describe('style from string', () => {
-  const iconLib = new IconLib({layer})
+  const iconLib = new IconLib()
 
   test('style from string', done => {
     expect.assertions(6)
@@ -65,7 +62,7 @@ describe('style from string', () => {
 })
 
 describe('style from object', () => {
-  const iconLib = new IconLib({layer})
+  const iconLib = new IconLib()
 
   test('style from object', done => {
     expect.assertions(6)

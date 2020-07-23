@@ -5,23 +5,23 @@
 import $ from 'jquery'
 import Style from 'ol/style/Style'
 import Icon from 'ol/style/Icon'
-import Source from 'ol/source/Vector'
+import EventHandling from 'nyc/EventHandling'
 
 /**
  * @desc Class to load icons from a library
  * @public
  * @class
  */
-class IconLib {
+class IconLib extends EventHandling {
   /**
    * @desc Create an instance of IconLib
    * @public
    * @constructor
-   * @param {string=} options The constructor options
+   * @param {url=} url The URL to the icon library
    */
-  constructor(options) {
-    this.layer = options.layer
-    this.url = options.url || IconLib.URL
+  constructor(url) {
+    super()
+    this.url = url || IconLib.URL
     this.svg = {}
     this.icons = {}
   }
@@ -64,9 +64,7 @@ class IconLib {
         response.text().then(txt => {
           this.svg[url] = $(txt)[2]
           this.style(icon, width, style)
-          const source = this.layer.getSource()
-          this.layer.setSource(new Source())
-          this.layer.setSource(source)
+          this.trigger('icon-loaded', this)
         })
       })
     } else {
@@ -112,14 +110,5 @@ IconLib.LIBRARIES = {
     suffix: '-15'
   }
 }
-
-/**
- * @desc Constructor options for {@link module:nyc/ol/style.IconLib~IconLib}
- * @public
- * @typedef {Object}
- * @property {ol.layer.Vector} layer The layer that will use the style
- * @property {string=} url The URL for the icons
- */
-IconLib.Options
 
 export default IconLib
