@@ -28,16 +28,17 @@ class IconLib extends EventHandling {
   /**
    * @private
    * @method
-   * @param {module:nyc/ol/style/IconLib~IconLib.Icon|string} icon The icon
+   * @param {module:nyc/ol/style/IconLib~IconLib.StyleOptions} options The icon style options
    * @returns {module:nyc/ol/style/IconLib~IconLib.Icon} The icon
    */
-  parseIcon(icon) {
+  parseIcon(options) {
+    const icon = options.icon
     if (typeof icon === 'string') {
       const ico = icon.split('#')[0]
       return {
         library: ico.split('/')[0],
         name: ico.split('/')[1],
-        color: `#${icon.split('#')[1]}`
+        color: options.color || `#${icon.split('#')[1]}`
       }
     }
     return icon
@@ -46,24 +47,23 @@ class IconLib extends EventHandling {
    * @desc Create an icon style
    * @public
    * @method
-   * @param {Object|string} icon The icon in the following format 'library-name/icon-name#hexclr'
-   * @param {number} width The icon width
+   * @param {module:nyc/ol/style/IconLib~IconLib.StyleOptions} options Icon style options
    * @param {ol.style.Style=} style The style on which to set the icon image
    * @return {ol.style.Style} The icon style
    */
-  style(icon, width, style) {
-    const ico = this.parseIcon(icon)
+  style(options, style) {
+    const ico = this.parseIcon(options)
     const prefix = IconLib.LIBRARIES[ico.library].prefix
     const suffix = IconLib.LIBRARIES[ico.library].suffix
     const url = `${this.url}/${ico.library}/${prefix}${ico.name}${suffix}.svg`
-    const scale = width / IconLib.LIBRARIES[ico.library].width
+    const scale = options.width / IconLib.LIBRARIES[ico.library].width
     const svg = this.svg[url]
     style = style || new Style({})
     if (!svg) {
       fetch(url).then(response => {
         response.text().then(txt => {
           this.svg[url] = $(txt)[2]
-          this.style(icon, width, style)
+          this.style(options, style)
           this.trigger('icon-loaded', this)
         })
       })
@@ -80,6 +80,16 @@ class IconLib extends EventHandling {
     return style
   }
 }
+
+/**
+ * @desc Option for {@link module:nyc/ol/style/IconLib~IconLib#style}
+ * @public
+ * @typedef {Object}
+ * @property {string|module:nyc/ol/style/IconLib~IconLib.Icon} icon The icon in the following format 'library-name/icon-name#hexclr'
+ * @property {number} width The icon width
+ * @property {string=} color An override color for the icon
+ */
+IconLib.StyleOptions
 
 /**
  * @desc Icon definition object

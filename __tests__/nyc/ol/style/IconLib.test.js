@@ -1,15 +1,19 @@
 import IconLib from 'nyc/ol/style/IconLib'
 import Layer from 'ol/layer/Vector'
+import { inView } from 'ol/layer/Layer'
 
 const SVG = [
   `<?xml version="1.0" encoding="UTF-8"?>
   <svg id="danger" version="1.1" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 15 15"></svg>`,
   `<?xml version="1.0" encoding="UTF-8"?>
-  <svg id="library" version="1.1" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 15 15"></svg>`
+  <svg id="library" version="1.1" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 15 15"></svg>`,
+  `<?xml version="1.0" encoding="UTF-8"?>
+  <svg id="danger2" version="1.1" xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 15 15"></svg>`
 ]
 const DATA_URI = [
   'data:image/svg+xml;charset=utf-8,%3Csvg%20id%3D%22danger%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2215px%22%20height%3D%2215px%22%20viewBox%3D%220%200%2015%2015%22%20style%3D%22%3Bfill%3A%23ff0000%22%3E%3C%2Fsvg%3E',
-  'data:image/svg+xml;charset=utf-8,%3Csvg%20id%3D%22library%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2215px%22%20height%3D%2215px%22%20viewBox%3D%220%200%2015%2015%22%20style%3D%22%3Bfill%3A%230000ff%22%3E%3C%2Fsvg%3E'
+  'data:image/svg+xml;charset=utf-8,%3Csvg%20id%3D%22library%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2215px%22%20height%3D%2215px%22%20viewBox%3D%220%200%2015%2015%22%20style%3D%22%3Bfill%3A%230000ff%22%3E%3C%2Fsvg%3E',
+  'data:image/svg+xml;charset=utf-8,%3Csvg%20id%3D%22danger2%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2215px%22%20height%3D%2215px%22%20viewBox%3D%220%200%2015%2015%22%20style%3D%22%3Bfill%3A%23ffffff%22%3E%3C%2Fsvg%3E'
 ]
 
 beforeEach(() => {
@@ -30,11 +34,11 @@ describe('style from string', () => {
   test('style from string', done => {
     expect.assertions(6)
     fetch.mockResponseOnce(SVG[0])
-    const style1 = iconLib.style('mapbox-maki/danger#ff0000', 32)
+    const style1 = iconLib.style({icon: 'mapbox-maki/danger#ff0000', width: 32})
     setTimeout(() => {
       expect(style1.getImage().getScale()).toBe(32 / 15)
       expect(style1.getImage().getSrc()).toBe(DATA_URI[0])
-      const style2 = iconLib.style('mapbox-maki/danger#ff0000', 64)
+      const style2 = iconLib.style({icon: 'mapbox-maki/danger#ff0000', width: 64})
       expect(style2.getImage().getScale()).toBe(64 / 15)
       expect(style2.getImage().getSrc()).toBe(DATA_URI[0])
       expect(fetch.mock.calls.length).toBe(1)
@@ -45,12 +49,13 @@ describe('style from string', () => {
 
   test('style from string - something different', done => {
     expect.assertions(6)
+
     fetch.mockResponseOnce(SVG[1])
-    const style1 = iconLib.style('mapbox-maki/library#0000ff', 32)
+    const style1 = iconLib.style({icon: 'mapbox-maki/library#0000ff', width: 32})
     setTimeout(() => {
       expect(style1.getImage().getScale()).toBe(32 / 15)
       expect(style1.getImage().getSrc()).toBe(DATA_URI[1])
-      const style2 = iconLib.style('mapbox-maki/library#0000ff', 64)
+      const style2 = iconLib.style({icon: 'mapbox-maki/library#0000ff', width: 64})
       expect(style2.getImage().getScale()).toBe(64 / 15)
       expect(style2.getImage().getSrc()).toBe(DATA_URI[1])
       expect(fetch.mock.calls.length).toBe(1)
@@ -58,6 +63,20 @@ describe('style from string', () => {
       done()
     }, 100)
 
+  })
+  test('style with optional color', done => {
+    expect.assertions(4)
+
+    fetch.mockResponseOnce(SVG[2])
+    const style1 = iconLib.style({icon: 'mapbox-maki/danger2#ff0000', width: 32, color: '#ffffff'})
+
+    setTimeout(() => {
+      expect(style1.getImage().getScale()).toBe(32 / 15)
+      expect(style1.getImage().getSrc()).toBe(DATA_URI[2])
+      expect(fetch.mock.calls.length).toBe(1)
+      expect(fetch.mock.calls[0][0]).toEqual(`${IconLib.URL}/mapbox-maki/danger2-15.svg`)
+      done()
+    }, 100)
   })
 })
 
@@ -67,15 +86,18 @@ describe('style from object', () => {
   test('style from object', done => {
     expect.assertions(6)
     fetch.mockResponseOnce(SVG[0])
-    const style1 = iconLib.style({
-      library: 'mapbox-maki',
-      name: 'danger',
-      color: '#ff0000'
-    }, 32)
+    const style1 = iconLib.style({ 
+      icon: {
+        library: 'mapbox-maki',
+        name: 'danger',
+        color: '#ff0000'
+      },
+      width: 32
+    })
     setTimeout(() => {
       expect(style1.getImage().getScale()).toBe(32 / 15)
       expect(style1.getImage().getSrc()).toBe(DATA_URI[0])
-      const style2 = iconLib.style('mapbox-maki/danger#ff0000', 64)
+      const style2 = iconLib.style({icon: 'mapbox-maki/danger#ff0000', width: 64})
       expect(style2.getImage().getScale()).toBe(64 / 15)
       expect(style2.getImage().getSrc()).toBe(DATA_URI[0])
       expect(fetch.mock.calls.length).toBe(1)
@@ -86,15 +108,18 @@ describe('style from object', () => {
   test('style from object - different', done => {
     expect.assertions(6)
     fetch.mockResponseOnce(SVG[1])
-    const style1 = iconLib.style({
-      library: 'mapbox-maki',
-      name: 'library',
-      color: '#0000ff'
-    }, 32)
+    const style1 = iconLib.style({ 
+      icon: {
+        library: 'mapbox-maki',
+        name: 'library',
+        color: '#0000ff'
+      },
+      width: 32
+    })
     setTimeout(() => {
       expect(style1.getImage().getScale()).toBe(32 / 15)
       expect(style1.getImage().getSrc()).toBe(DATA_URI[1])
-      const style2 = iconLib.style('mapbox-maki/library#0000ff', 64)
+      const style2 = iconLib.style({icon: 'mapbox-maki/library#0000ff', width: 64})
       expect(style2.getImage().getScale()).toBe(64 / 15)
       expect(style2.getImage().getSrc()).toBe(DATA_URI[1])
       expect(fetch.mock.calls.length).toBe(1)
