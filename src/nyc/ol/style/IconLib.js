@@ -7,6 +7,7 @@ import Style from 'ol/style/Style'
 import Icon from 'ol/style/Icon'
 import EventHandling from 'nyc/EventHandling'
 
+
 /**
  * @desc Class to load icons from a library
  * @public
@@ -47,7 +48,7 @@ class IconLib extends EventHandling {
    * @desc Create an icon style
    * @public
    * @method
-   * @param {module:nyc/ol/style/IconLib~IconLib.StyleOptions} options Icon style options
+   * @param {module:nyc/ol/style/IconLib~IconLib.Icon} options The style options
    * @param {ol.style.Style=} style The style on which to set the icon image
    * @return {ol.style.Style} The icon style
    */
@@ -56,23 +57,35 @@ class IconLib extends EventHandling {
     const prefix = IconLib.LIBRARIES[ico.library].prefix
     const suffix = IconLib.LIBRARIES[ico.library].suffix
     const url = `${this.url}/${ico.library}/${prefix}${ico.name}${suffix}.svg`
-    const scale = options.width / IconLib.LIBRARIES[ico.library].width
     const svg = this.svg[url]
     style = style || new Style({})
     if (!svg) {
       fetch(url).then(response => {
-        response.text().then(txt => {
-          this.svg[url] = $(txt)[2]
+        if (response.ok) {
+          response.text().then(txt => {
+            this.svg[url] = $(txt)[2]
+            this.style(options, style)
+            this.trigger('icon-loaded', this)
+          })
+        } else {
+          this.svg[url] = IconLib.NOT_FOUND_ICON.svg
           this.style(options, style)
-          this.trigger('icon-loaded', this)
-        })
+          console.error('Icon not found', url)
+          this.trigger('icon-not-found', this)
+        }
       })
     } else {
       const key = `${ico.library}-${ico.name}-${ico.color}`
+      let scale = options.width / IconLib.LIBRARIES[ico.library].width
+      if (svg === IconLib.NOT_FOUND_ICON.svg) {
+        scale = options.width / IconLib.NOT_FOUND_ICON.width
+      }
       if (!this.icons[key]) {
         const div = $('<div></div>').html(svg)
-        const css = div.find('svg').attr('style') || ''
-        div.find('svg').attr('style', `${css};fill:${ico.color}`)
+        if (svg !== IconLib.NOT_FOUND_ICON.svg) {
+          const css = div.find('svg').attr('style') || ''
+          div.find('svg').attr('style', `${css};fill:${ico.color}`)
+        }
         this.icons[key] = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(div.html())}`
       }
       style.setImage(new Icon({src: this.icons[key], scale}))
@@ -80,16 +93,6 @@ class IconLib extends EventHandling {
     return style
   }
 }
-
-/**
- * @desc Option for {@link module:nyc/ol/style/IconLib~IconLib#style}
- * @public
- * @typedef {Object}
- * @property {string|module:nyc/ol/style/IconLib~IconLib.Icon} icon The icon in the following format 'library-name/icon-name#hexclr'
- * @property {number} width The icon width
- * @property {string=} color An override color for the icon
- */
-IconLib.StyleOptions
 
 /**
  * @desc Icon definition object
@@ -120,5 +123,25 @@ IconLib.LIBRARIES = {
     suffix: '-15'
   }
 }
+
+/**
+ * @desc Default icon when requested icon is unavailable
+ * @const
+ * @type {Object}
+ */
+IconLib.NOT_FOUND_ICON = {
+  svg: '<svg xmlns="http://www.w3.org/2000/svg" height="32" width="32"><circle cx="16" cy="16" r="14" stroke="#000" stroke-width="2" fill="rgba(0,0,0,.5)" /></svg>',
+  width: 32
+}
+
+/**
+ * @desc Option for {@link module:nyc/ol/style/IconLib~IconLib#style}
+ * @public
+ * @typedef {Object}
+ * @property {string|module:nyc/ol/style/IconLib~IconLib.Icon} icon The icon
+ * @property {number} width The icon width
+ * @property {string=} color An override color for the icon
+ */
+IconLib.StyleOptions
 
 export default IconLib
