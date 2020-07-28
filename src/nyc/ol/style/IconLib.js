@@ -86,7 +86,7 @@ class IconLib extends EventHandling {
         if (svg !== IconLib.NOT_FOUND_ICON.svg) {
           const stroke = ico.stroke
           const css = div.find('svg').attr('style') || ''
-          let cssAdd =`fill:${ico.fill}`
+          let cssAdd = `fill:${ico.fill}`
           if (stroke) {
             cssAdd = `${cssAdd};stroke-width:${stroke.width};stroke:${stroke.color}`
           }
