@@ -76,7 +76,7 @@ class IconLib extends EventHandling {
         }
       })
     } else {
-      const key = `${ico.library}-${ico.name}-${ico.color}`
+      const key = `${ico.library}-${ico.name}-${ico.fill}`
       let scale = options.width / IconLib.LIBRARIES[ico.library].width
       if (svg === IconLib.NOT_FOUND_ICON.svg) {
         scale = options.width / IconLib.NOT_FOUND_ICON.width
