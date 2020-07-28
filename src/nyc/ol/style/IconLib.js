@@ -39,7 +39,8 @@ class IconLib extends EventHandling {
       return {
         library: ico.split('/')[0],
         name: ico.split('/')[1],
-        color: options.color || `#${icon.split('#')[1]}`
+        fill: options.fill || `#${icon.split('#')[1]}`,
+        stroke: options.stroke
       }
     }
     return icon
@@ -83,8 +84,13 @@ class IconLib extends EventHandling {
       if (!this.icons[key]) {
         const div = $('<div></div>').html(svg)
         if (svg !== IconLib.NOT_FOUND_ICON.svg) {
+          const stroke = ico.stroke
           const css = div.find('svg').attr('style') || ''
-          div.find('svg').attr('style', `${css};fill:${ico.color}`)
+          let cssAdd =`fill:${ico.fill}`
+          if (stroke) {
+            cssAdd = `${cssAdd};stroke-width:${stroke.width};stroke:${stroke.color}`
+          }
+          div.find('svg').attr('style', `${css};${cssAdd}`)
         }
         this.icons[key] = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(div.html())}`
       }
@@ -100,9 +106,19 @@ class IconLib extends EventHandling {
  * @typedef {Object}
  * @property {string} library The icon library
  * @property {string} name The icon name
- * @property {string} color The icon color
+ * @property {string} fill The icon fill color
+ * @property {module:nyc/ol/style/IconLib~IconLib.Stroke} stroke The icon stroke
  */
 IconLib.Icon
+
+/**
+ * @desc Icon definition object
+ * @public
+ * @typedef {Object}
+ * @property {number} width The width
+ * @property {string} color The stroke color
+ */
+IconLib.Stroke
 
 /**
  * @private
@@ -140,7 +156,8 @@ IconLib.NOT_FOUND_ICON = {
  * @typedef {Object}
  * @property {string|module:nyc/ol/style/IconLib~IconLib.Icon} icon The icon
  * @property {number} width The icon width
- * @property {string=} color An override color for the icon
+ * @property {string=} fill An override color for the icon
+ * @property {module:nyc/ol/style/IconLib~IconLib.Stroke=} stroke An override color for the stroke
  */
 IconLib.StyleOptions
 

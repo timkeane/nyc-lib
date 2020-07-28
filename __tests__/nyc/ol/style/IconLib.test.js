@@ -64,11 +64,11 @@ describe('style from string', () => {
     }, 100)
 
   })
-  test('style with optional color', done => {
+  test('style with optional fill color', done => {
     expect.assertions(4)
 
     fetch.mockResponseOnce(SVG[2])
-    const style1 = iconLib.style({icon: 'mapbox-maki/danger2#ff0000', width: 32, color: '#ffffff'})
+    const style1 = iconLib.style({icon: 'mapbox-maki/danger2#ff0000', width: 32, fill: '#ffffff'})
 
     setTimeout(() => {
       expect(style1.getImage().getScale()).toBe(32 / 15)
@@ -90,7 +90,7 @@ describe('style from object', () => {
       icon: {
         library: 'mapbox-maki',
         name: 'danger',
-        color: '#ff0000'
+        fill: '#ff0000'
       },
       width: 32
     })
@@ -112,7 +112,7 @@ describe('style from object', () => {
       icon: {
         library: 'mapbox-maki',
         name: 'library',
-        color: '#0000ff'
+        fill: '#0000ff'
       },
       width: 32
     })
