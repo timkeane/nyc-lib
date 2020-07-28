@@ -65,7 +65,7 @@ class IconLib extends EventHandling {
           response.text().then(txt => {
             this.svg[url] = $(txt)[2]
             this.style(options, style)
-            this.trigger('icon-loaded', this)
+            this.trigger('icon-loaded', style)
           })
         } else {
           this.svg[url] = IconLib.NOT_FOUND_ICON.svg
