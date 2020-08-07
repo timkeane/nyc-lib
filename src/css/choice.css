@@ -35,8 +35,6 @@
 	margin: 0 8px;
 	width: 14px;
 	height: 14px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
   background-color: transparent;
 }
