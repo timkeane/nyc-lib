@@ -11,12 +11,16 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  border: none;
 }
 .tog label {
   border: none;
   display: block;
   text-overflow: ellipsis;
-  overflow: hidden;  
+  overflow: hidden;
+  height: 35px;
+  line-height: 35px;
+  padding: 0 5px;
 }
 .tog .chc-chc:first-of-type {
   float: left;
@@ -25,8 +29,6 @@
 }
 .tog .chc-chc:last-of-type {
   float: right;
-  border-top-right-radius: 3px;  
-  border-bottom-right-radius: 3px;  
 }
 .tog input {
     display: none;

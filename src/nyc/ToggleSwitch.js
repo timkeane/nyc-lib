@@ -2,6 +2,7 @@
  * @module nyc/ToggleSwitch
  */
 
+import $ from 'jquery'
 import Choice from 'nyc/Choice'
 
 /**
@@ -26,6 +27,22 @@ class ToggleSwitch extends Choice {
     super(options)
     this.getContainer().addClass('tog')
   }
+  /**
+   * @desc Set the available choices
+   * @overrides
+   * @method
+   * @returns {JQuery} The container
+   */
+  createContainer() {
+    return $(ToggleSwitch.HTML)
+  }
 }
+
+/**
+* @private
+* @const
+* @type {string}
+*/
+ToggleSwitch.HTML = '<div class="chc-chc"><input><label></label></div>'
 
 export default ToggleSwitch

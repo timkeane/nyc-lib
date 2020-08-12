@@ -1,14 +1,24 @@
 .chc {
 	border: 1px solid var(--color-border);
-	display: table;
-	width: 100%;
+  width: 100%;
 }
 .chc-chc {
-	display: table-row;
 	height: 33px;
-	padding: 3px;
 	width: 100%;
-	background-color: var(--color-medium);
+  background-color: var(--color-medium);
+}
+.chc-chc {
+  border-bottom: 1px solid var(--color-border);
+}
+.chc-chc:last-of-type {
+  border-bottom: none;
+}
+
+.chc table {
+  border-collapse: collapse;
+}
+.chc td {
+  padding: 5px;
 }
 .chc-chc .ico {
   display: block;
@@ -17,53 +27,49 @@
   float: left;
   background-repeat: no-repeat;
   background-size: 22px;
-  margin:  5px 7px 0 -3px;
+  margin: 0 5px 0 -7px;
 }
 .chc-chc input, .chc-chc label {
-	display: table-cell;
-	border-bottom: 1px solid var(--color-border);
-	line-height: 35px;
-	padding: 0 5px;
+  height: 20px;
 }
-.chc-chc:last-of-type input, .chc-chc:last-of-type label {
+.chc-chc:last-of-type {
 	border: none;
 }
 .chc-chc:hover {
 	background-color: var(--color-border);
 }
 .chc-chc input {
-	margin: 0 8px;
-	width: 14px;
-	height: 14px;
+  -webkit-appearance: none;
   appearance: none;
-  background-color: transparent;
-}
-.chc-chc input:before {
-  content: " ";
-  display: block;
   position: relative;
-  margin: -3px 2px;
-  font-size: 14px;
-  background-color: var(--color-light);
+  /* Set here so that Windows' High-Contrast Mode can override */
+  color: green;
+  outline: none;
+  width: 15px;
+  height: 15px;
+}
+.chc-chc input::before {
+  content: " ";
+  position: absolute;
   border: 1px solid var(--color-dark);
-  color: transparent;
-  text-align: center;
+  background-color: var(--color-light);
   width: 15px;
   height: 15px;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center center;
+  margin: 0 0 0 -5px;
 }
-input[type="checkbox"]:before {
-  border-radius: 3px;
+.chc-chc input[type="checkbox"]::before {
+  background-size: 14px;
+  border-radius: var(--border-radius);
 }
-input[type="radio"]:before {
+.chc-chc input[type="radio"]::before {
+  background-size: 10px;
   border-radius: 50%;
 }
-input[type="checkbox"]:checked:before {
-  background-image: var(--check-icon-dark, none);
-  background-size: 13px;
+.chc-chc input[type="checkbox"]:checked::before {
+  background-image: var(--check-icon-dark);
 }
-input[type="radio"]:checked:before {
-  background-image: var(--dot-icon-dark, none);
-  background-size: 9px;
+.chc-chc input[type="radio"]:checked::before {
+  background-image: var(--dot-icon-dark);
 }

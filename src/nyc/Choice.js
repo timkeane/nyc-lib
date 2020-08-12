@@ -43,6 +43,15 @@ class Choice extends Container {
   }
   /**
    * @desc Set the available choices
+   * @protected
+   * @method
+   * @returns {JQuery} The container
+   */
+  createContainer() {
+    return $(Choice.HTML)
+  }
+  /**
+   * @desc Set the available choices
    * @public
    * @method
    * @param {Array<module:nyc/Choice~Choice.Choice>} choices The choices
@@ -58,7 +67,7 @@ class Choice extends Container {
     }
     this.getContainer().empty()
     choices.forEach((choice, i) => {
-      const div = $(Choice.HTML)
+      const div = this.createContainer()
       const id = nyc.nextId('chc-chc')
       const input = div.find('input')
       div.addClass(this.radio ? `${choice.name}-${i}` : choice.name)
@@ -183,10 +192,10 @@ Choice.Options
  */
 
 /**
-  * @private
-  * @const
-  * @type {string}
-  */
-Choice.HTML = '<div class="chc-chc"><input><label></label></div>'
+ * @private
+ * @const
+ * @type {string}
+ */
+Choice.HTML = '<div class="chc-chc"><table><tbody><tr><td><input></td><td><label></label></td></tr></tbody></table></div>'
 
 export default Choice
