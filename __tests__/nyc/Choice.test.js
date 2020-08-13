@@ -30,14 +30,17 @@ afterEach(() => {
 })
 
 test('constructor - hasIcon', () => {
-  expect.assertions(3)
+  expect.assertions(6)
   const choice = new Choice({
     target: container,
     choices: iconChoices
   })
-  expect($(choice.find('label').get(0)).html()).toBe('<div class="ico chc-a"></div>Choice A')
-  expect($(choice.find('label').get(1)).html()).toBe('<div class="ico chc-b_c_d"></div>Choice B')
-  expect($(choice.find('label').get(2)).html()).toBe('<div class="ico chc-choice-choice_another-choice"></div>Choice C')
+  expect($(choice.find('table').get(0).rows[0].cells).length).toBe(3)
+  expect($(choice.find('table').get(1).rows[0].cells).length).toBe(3)
+  expect($(choice.find('table').get(2).rows[0].cells).length).toBe(3)
+  expect($(choice.find('td.ico').get(0)).hasClass('chc-a')).toBe(true)
+  expect($(choice.find('td.ico').get(1)).hasClass('chc-b_c_d')).toBe(true)
+  expect($(choice.find('td.ico').get(2)).hasClass('chc-choice-choice_another-choice')).toBe(true)
 })
 test('constructor checkbox', () => {
   expect.assertions(22)

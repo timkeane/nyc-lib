@@ -81,7 +81,8 @@ class Choice extends Container {
         .prop('checked', choice.checked === true)
         .data('choice', choice)
         .change($.proxy(this.change, this))
-      this.labelHtml(div.find('label'), choice, id)
+      div.find('label').html(choice.label).attr('for', id)
+      this.iconHtml(div, choice)
       this.append(div)
       this.extend(choice)
     })
@@ -89,17 +90,17 @@ class Choice extends Container {
   }
   /**
    * @private
-   * @desc Create HTML for label
+   * @desc Create HTML for icon
    * @method
    * @param {jQuery} label The label for the choice
    * @param {module:nyc/Choice~Choice.Choice} choice The choice
    * @param {string} id The id of the input element
    */
-  labelHtml(label, choice, id) {
-    label.html(choice.label).attr('for', id)
+  iconHtml(div, choice) {
     if (choice.icon) {
+      const inputCell = div.find('td.input')
       const css = choice.values.join('_').replace(/[^A-Za-z0-9\s|^_]/g, '').replace(/\s+/g, '-').toLowerCase()
-      label.prepend(`<div class="ico chc-${css}"></div>`)
+      $(`<td class="ico chc-${css}"></td>`).insertAfter(inputCell)
     }
   }
 
@@ -196,6 +197,6 @@ Choice.Options
  * @const
  * @type {string}
  */
-Choice.HTML = '<div class="chc-chc"><table><tbody><tr><td><input></td><td><label></label></td></tr></tbody></table></div>'
+Choice.HTML = '<div class="chc-chc"><table><tbody><tr><td class="input"><input></td><td><label></label></td></tr></tbody></table></div>'
 
 export default Choice

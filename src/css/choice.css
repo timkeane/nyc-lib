@@ -20,17 +20,20 @@
 .chc td {
   padding: 5px;
 }
+.chc td.input {
+  width: 20px;
+}
 .chc-chc .ico {
-  display: block;
   width: 22px;
-  height: 22px;
-  float: left;
   background-repeat: no-repeat;
   background-size: 22px;
-  margin: 0 5px 0 -7px;
+  background-position: center center;
 }
-.chc-chc input, .chc-chc label {
-  height: 20px;
+.chc-chc input[type="checkbox"] {
+  height: 12px;
+}
+.chc-chc input[type="radio"] {
+  height: 15px;
 }
 .chc-chc:last-of-type {
 	border: none;
@@ -45,8 +48,6 @@
   /* Set here so that Windows' High-Contrast Mode can override */
   color: green;
   outline: none;
-  width: 15px;
-  height: 15px;
 }
 .chc-chc input::before {
   content: " ";
