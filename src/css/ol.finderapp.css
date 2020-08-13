@@ -167,9 +167,9 @@ html, body.fnd, .fnd #map {
 .fnd .dtl .content {
   width: calc(100% - 15px);
 }
-.lst-it:nth-child(odd) .dtl .clps .content {
+/* .lst-it:nth-child(odd) .dtl .clps .content {
   background-color: var(--color-medium);
-}
+} */
 .facility .name {
   font-weight: bold;
   margin: 0;
