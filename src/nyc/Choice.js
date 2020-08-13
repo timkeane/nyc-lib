@@ -92,9 +92,8 @@ class Choice extends Container {
    * @private
    * @desc Create HTML for icon
    * @method
-   * @param {jQuery} label The label for the choice
+   * @param {jQuery} div The label for the choice
    * @param {module:nyc/Choice~Choice.Choice} choice The choice
-   * @param {string} id The id of the input element
    */
   iconHtml(div, choice) {
     if (choice.icon) {
