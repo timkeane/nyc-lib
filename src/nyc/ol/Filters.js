@@ -61,6 +61,16 @@ class Filters extends Container {
    * @method
    */
   filter() {
+    this.source.filter(this.getFilters())
+    this.trigger('change', this)
+  }
+  /**
+   * @desc Get the filters
+   * @public
+   * @method
+   * @return {Array<module:nyc/ol/source/FilterAndSort~FilterAndSort.Filter>} The filters
+   */
+  getFilters() {
     const allFilters = []
     this.choiceControls.forEach((filterControl, i) => {
       const namedFilters = {}
@@ -76,8 +86,7 @@ class Filters extends Container {
         allFilters.push(filters)
       }
     })
-    this.source.filter(allFilters)
-    this.trigger('change', this)
+    return allFilters
   }
 }
 
