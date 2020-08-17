@@ -83,6 +83,8 @@ class Popup extends OlOverlay {
     this.setPosition(options.coordinate)
     this.popup.fadeIn($.proxy(this.pan, this))
     $('.f-tip').fadeOut()
+    $(this.getElement()).attr('tabindex', 0).focus()
+    this.trigger('show', this)
   }
   /**
    * @desc Set a CSS class for the popup content
@@ -100,7 +102,10 @@ class Popup extends OlOverlay {
    * @method
    */
   hide() {
-    this.popup.fadeOut()
+    const me = this
+    me.popup.fadeOut(() => {
+      me.trigger('hide', me)
+    })
   }
   /**
    * @private
