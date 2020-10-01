@@ -35,7 +35,7 @@ class FinderApp extends MapMgr {
     super(options)
     global.finderApp = this
     this.pager.find('h2.info').addClass('screen-reader-only')
-    const title = $('<div></div>').html(options.title)
+    const title = $('<span></span>').html(options.title)
     nyc.noSpaceBarScroll()
     $('#banner').html(title)
     $('#home').attr('title', title.text())
@@ -56,7 +56,11 @@ class FinderApp extends MapMgr {
     this.adjustTabs()
     this.showSplash(options.splashOptions)
     new Share({target: '#map'})
-    this.translateBtn(options)
+    /**
+     * @private
+     * @member {module:nyc/lang/Goog~Goog}
+     */
+    this.translate = this.translateBtn(options)
     /**
      * @private
      * @member {module:nyc/Directions~Directions}
@@ -86,6 +90,77 @@ class FinderApp extends MapMgr {
     $('.shw-lst .btn-yes span').html(`View nearby ${$('#tab-btn-1').html()} in an accessible list`)
     this.popup.on('fullscreen', this.hideTranlateBtn, this)
     this.setRefresh(options.refresh)
+    this.setupBanner()
+  }
+  /**
+   * @desc Hooks up events for call to scaleFontSize
+   * @public
+   * @method
+   */
+  setupBanner() {
+    /* Will scale banner font size on window load & resize + when a new language is selected + when directions tab becomes visible */
+
+    this.translate.on('change', () => {
+      setTimeout(() => {
+        this.scaleFontSize()
+      }, 1500)
+    })
+    // global.nycTranslateInstance.find('select').on('change', () => {
+    //   setTimeout(() => {
+    //     this.scaleFontSize()
+    //   }, 2500)
+    // })
+
+    $(window).on('load resize', (event) => {
+      setTimeout(() => {
+        this.scaleFontSize()
+      }, 500)
+    })
+
+    const observer = new MutationObserver(() => {
+      setTimeout(() => {
+        this.scaleFontSize()
+      }, 500)
+    })
+    /* Will watch for changes to the tab display style property */
+    const targetNode = $('#tabs')[0]
+    const config = {attributes: true, attributeFilter: ['style']}
+    observer.observe(targetNode, config)
+  }
+  /**
+   * @desc Scale font size responsively
+   * @public
+   * @method
+   */
+  scaleFontSize() {
+    let bannerText
+    // sets banner text to leaf node given banner is translated by google
+    if ($('h1#banner>span').children().length > 0) {
+      bannerText = $('h1#banner>span').find(':not(:has(*))')
+    } else {
+      bannerText = $('h1#banner>span')
+    }
+    const banner = $('h1#banner')
+    const screenReaderBtn = $('a#screen-reader-info')
+    const backToMapBtn = $('button#back-to-map')
+    // this should come directly from the element but the svg width is larger than this
+    const NYC_WIDTH = parseInt(banner.css('padding-left'))
+
+    let offsetButton
+
+    if ($('div#dir-tabs.tabs').is(':visible') == true) {
+      offsetButton = backToMapBtn
+    } else {
+      offsetButton = screenReaderBtn
+    }
+
+    bannerText.css('fontSize', '100%')
+    banner.css('padding-right', '0px')
+    // calculate container width that text lies in (exclude NYC logo + screenReader/backToMap button)
+    if (bannerText.width() >= (banner.innerWidth() - NYC_WIDTH - offsetButton.innerWidth())) {
+      bannerText.css('fontSize', '70%')
+      banner.css('padding-right', `${offsetButton.innerWidth()}px`)
+    }
   }
   /**
    * @private
@@ -119,9 +194,10 @@ class FinderApp extends MapMgr {
    * @public
    * @method
    * @param {module:nyc/ol/FinderApp~FinderApp.Options} options Constructor options
+   * @return {nyc.lang.Goog~Goog} Goog instance
    */
   translateBtn(options) {
-    new Goog({
+    return new Goog({
       target: 'body',
       languages: options.languages || Translate.DEFAULT_LANGUAGES,
       button: true

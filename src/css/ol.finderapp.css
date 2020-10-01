@@ -40,6 +40,9 @@ html, body.fnd, .fnd #map {
   padding: 4px 0 0 80px;
   background-color: var(--color-dark);
   text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .translated.fnd #banner {
   text-transform: none;

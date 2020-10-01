@@ -17,3 +17,6 @@
 .translated-rtl .fnd .notranslate * {
   direction: ltr;
 }
+.translated-rtl .fnd #banner {
+  text-align: left;
+}
