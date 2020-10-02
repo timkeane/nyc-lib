@@ -1228,7 +1228,7 @@ describe('adjustBanner', () => {
       geoclientUrl: 'http://geoclient'
     })
 
-    const bannerText = $('h1#banner>span, h1#banner>span *')
+    const bannerText = $('h1#banner>span')
     const banner = $('h1#banner')
 
     $('#screen-reader-info').css('width', '50px')
@@ -1260,7 +1260,7 @@ describe('adjustBanner', () => {
       geoclientUrl: 'http://geoclient'
     })
 
-    const bannerText = $('h1#banner>span, h1#banner>span *')
+    const bannerText = $('h1#banner>span')
     const banner = $('h1#banner')
 
     $('#screen-reader-info').css('width', '50px')
@@ -1292,7 +1292,7 @@ describe('adjustBanner', () => {
       geoclientUrl: 'http://geoclient'
     })
 
-    const bannerText = $('h1#banner>span, h1#banner>span *')
+    const bannerText = $('h1#banner>span')
     const banner = $('h1#banner')
 
     $('#screen-reader-info').css('width', '50px')
@@ -1309,5 +1309,39 @@ describe('adjustBanner', () => {
     }, 600)
 
   })
+
+  test('adjustBanner is translated by google, not directions, no shrinkage', done => {
+    expect.assertions(2)
+
+    const app = new FinderApp({
+      title: '<font>Facility Title</font>',
+      splashOptions: {message: 'splash page message'},
+      facilityTabTitle: 'Finder App',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    const bannerText = $('h1#banner>span font')
+    const banner = $('h1#banner')
+
+    $('#screen-reader-info').css('width', '50px')
+    bannerText.css('width', '300px')
+    banner.css('width', '500px')
+
+    app.adjustBanner()
+
+    setTimeout(() => {
+      expect(bannerText.css('font-size')).toBe('24px')
+      expect(banner.css('padding-right')).toBe('0px')
+      done()
+    }, 600)
+
+  })
+
+
 })
 
