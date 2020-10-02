@@ -86,46 +86,37 @@ class FinderApp extends MapMgr {
      * @member {module:nyc/Dialog~Dialog}
      */
     this.screenReaderDialog = new Dialog({css: 'screen-reader-info'})
-    $('#screen-reader-info').click($.proxy(this.screenReaderInfo, this))
+    $('#screen-reader-info').on('click', $.proxy(this.screenReaderInfo, this))
     $('.shw-lst .btn-yes span').html(`View nearby ${$('#tab-btn-1').html()} in an accessible list`)
     this.popup.on('fullscreen', this.hideTranlateBtn, this)
     this.setRefresh(options.refresh)
-    $(window).on('load resize', $.proxy(this.scaleFontSize, this))
-    this.translate.on('change', this.scaleFontSize, this)
+    $(window).on('load resize', $.proxy(this.adjustBanner, this))
+    this.translate.on('change', this.adjustBanner, this)
   }
   /**
    * @desc Scale font size responsively
    * @public
    * @method
    */
-  scaleFontSize() {
+  adjustBanner() {
     setTimeout(() => {
-      let bannerText
-      // sets banner text to leaf node given banner is translated by google
-      if ($('h1#banner>span').children().length > 0) {
-        bannerText = $('h1#banner>span').find(':not(:has(*))')
-      } else {
-        bannerText = $('h1#banner>span')
-      }
+      const bannerText = $('h1#banner>span, h1#banner>span *')
       const banner = $('h1#banner')
       const screenReaderBtn = $('a#screen-reader-info')
       const backToMapBtn = $('button#back-to-map')
-      // this should come directly from the element but the svg width is larger than this
-      const NYC_WIDTH = parseInt(banner.css('padding-left'))
+      const logoWidth = parseInt(banner.css('padding-left') || 0)
+      let offsetButton = backToMapBtn
 
-      let offsetButton
-
-      if ($('div#dir-tabs.tabs').is(':visible') == true) {
-        offsetButton = backToMapBtn
-      } else {
+      if ($('#directions').css('display') === 'none') {
         offsetButton = screenReaderBtn
       }
 
-      bannerText.css('fontSize', '100%')
-      banner.css('padding-right', '0px')
+      bannerText.css('font-size', '24px')
+      banner.css('padding-right', '0')
       // calculate container width that text lies in (exclude NYC logo + screenReader/backToMap button)
-      if (bannerText.width() >= (banner.innerWidth() - NYC_WIDTH - offsetButton.innerWidth())) {
-        bannerText.css('fontSize', '70%')
+
+      if (bannerText.width() >= (banner.innerWidth() - logoWidth - offsetButton.innerWidth())) {
+        bannerText.css('font-size', '16px')
         banner.css('padding-right', `${offsetButton.innerWidth()}px`)
       }
 
@@ -253,7 +244,7 @@ class FinderApp extends MapMgr {
         toggle: '#tabs',
         mode: this.defaultDirectionsMode
       })
-      $('button#back-to-map').on('click', $.proxy(this.scaleFontSize, this))
+      $('button#back-to-map').on('click', $.proxy(this.adjustBanner, this))
     }
     const to = feature.getFullAddress()
     const name = feature.getName()
@@ -269,7 +260,7 @@ class FinderApp extends MapMgr {
       },
       returnFocus: returnFocus
     })
-    this.scaleFontSize()
+    this.adjustBanner()
   }
   /**
    * @desc Creates the filters for the facility features
