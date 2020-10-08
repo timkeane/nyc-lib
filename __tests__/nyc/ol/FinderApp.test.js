@@ -29,6 +29,8 @@ import OlStyleStyle from 'ol/style/Style'
 
 import FinderApp from 'nyc/ol/FinderApp'
 
+import EventHandling from 'nyc/EventHandling'
+
 jest.mock('../../../src/nyc/Dialog')
 jest.mock('../../../src/nyc/Directions')
 jest.mock('../../../src/nyc/Share')
@@ -1341,7 +1343,34 @@ describe('adjustBanner', () => {
     }, 600)
 
   })
-
-
 })
 
+describe('adjustBanner triggered by events', () => {
+  const adjustBanner = FinderApp.prototype.adjustBanner
+  beforeEach(() => {
+    FinderApp.prototype.adjustBanner = jest.fn()
+  })
+  afterEach(() => {
+    FinderApp.prototype.adjustBanner = adjustBanner
+  })
+
+  test('adjustBanner triggered by translation', () => {
+    expect.assertions(1)
+
+    const app = new FinderApp({
+      title: 'Finder App',
+      splashOptions: {message: 'splash page message'},
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    app.translate.trigger('change', 'mock-event')
+
+    expect(app.adjustBanner).toHaveBeenCalledTimes(1)
+  })
+})
