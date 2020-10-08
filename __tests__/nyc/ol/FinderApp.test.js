@@ -1354,8 +1354,8 @@ describe('adjustBanner triggered by events', () => {
     FinderApp.prototype.adjustBanner = adjustBanner
   })
 
-  test('adjustBanner triggered by translation', () => {
-    expect.assertions(1)
+  test.only('adjustBanner triggered by translation', () => {
+    expect.assertions(3)
 
     const app = new FinderApp({
       title: 'Finder App',
@@ -1372,5 +1372,13 @@ describe('adjustBanner triggered by events', () => {
     app.translate.trigger('change', 'mock-event')
 
     expect(app.adjustBanner).toHaveBeenCalledTimes(1)
+
+    $(window).trigger('load')
+
+    expect(app.adjustBanner).toHaveBeenCalledTimes(2)
+  
+    $(window).trigger('resize')
+  
+    expect(app.adjustBanner).toHaveBeenCalledTimes(3)
   })
 })
