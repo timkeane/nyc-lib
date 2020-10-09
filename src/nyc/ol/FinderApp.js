@@ -107,7 +107,7 @@ class FinderApp extends MapMgr {
       const logoWidth = parseInt(banner.css('padding-left') || 0)
       let offsetButton = backToMapBtn
 
-      if ($('#directions').css('display') === 'none') {
+      if (!document.contains($('#directions')[0]) || $('#directions').css('display') === 'none') {
         offsetButton = screenReaderBtn
       }
 
@@ -120,7 +120,7 @@ class FinderApp extends MapMgr {
         banner.css('padding-right', `${offsetButton.innerWidth()}px`)
       }
 
-    }, 500)
+    }, 1200)
   }
   /**
    * @private

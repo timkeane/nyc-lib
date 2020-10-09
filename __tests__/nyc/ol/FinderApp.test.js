@@ -1243,7 +1243,42 @@ describe('adjustBanner', () => {
       expect(bannerText.css('font-size')).toBe('24px')
       expect(banner.css('padding-right')).toBe('0px')
       done()
-    }, 600)
+    }, 1200)
+
+  })
+
+  test('adjustBanner not translated by google, no directions in DOM, no shrinkage', done => {
+    expect.assertions(2)
+
+    directions.remove()
+    console.warn(directions)
+    
+    const app = new FinderApp({
+      title: 'Finder App',
+      splashOptions: {message: 'splash page message'},
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    const bannerText = $('h1#banner>span')
+    const banner = $('h1#banner')
+
+    $('#screen-reader-info').css('width', '50px')
+    bannerText.css('width', '300px')
+    banner.css('width', '500px')
+
+    app.adjustBanner()
+
+    setTimeout(() => {
+      expect(bannerText.css('font-size')).toBe('24px')
+      expect(banner.css('padding-right')).toBe('0px')
+      done()
+    }, 1200)
 
   })
 
@@ -1275,7 +1310,7 @@ describe('adjustBanner', () => {
       expect(bannerText.css('font-size')).toBe('16px')
       expect(banner.css('padding-right')).toBe('50px')
       done()
-    }, 600)
+    }, 1200)
 
   })
 
@@ -1308,7 +1343,7 @@ describe('adjustBanner', () => {
       expect(bannerText.css('font-size')).toBe('24px')
       expect(banner.css('padding-right')).toBe('0px')
       done()
-    }, 600)
+    }, 1200)
 
   })
 
@@ -1340,7 +1375,7 @@ describe('adjustBanner', () => {
       expect(bannerText.css('font-size')).toBe('24px')
       expect(banner.css('padding-right')).toBe('0px')
       done()
-    }, 600)
+    }, 1200)
 
   })
 })
