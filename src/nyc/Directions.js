@@ -124,7 +124,9 @@ class Directions extends Contanier {
     const tog = this.toggle
     $('#back-to-map').click(() => {
       $('#directions').slideUp(() => {
-        $('.fnd #lng').show()
+        if ($('#map').is(':visible')) {
+          $('.fnd #lng').show()
+        }
       })
       tog.show().attr('aria-hidden', false)
     })
