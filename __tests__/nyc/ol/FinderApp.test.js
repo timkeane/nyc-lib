@@ -1354,7 +1354,7 @@ describe('adjustBanner triggered by events', () => {
     FinderApp.prototype.adjustBanner = adjustBanner
   })
 
-  test.only('adjustBanner triggered by translation', () => {
+  test('adjustBanner triggered by translation', () => {
     expect.assertions(3)
 
     const app = new FinderApp({
@@ -1380,5 +1380,31 @@ describe('adjustBanner triggered by events', () => {
     $(window).trigger('resize')
   
     expect(app.adjustBanner).toHaveBeenCalledTimes(3)
+  })
+
+  test('adjustBanner triggered by load/resize', () => {
+    expect.assertions(3)
+
+    const app = new FinderApp({
+      title: 'Finder App',
+      splashOptions: {message: 'splash page message'},
+      facilityTabTitle: 'Facility Title',
+      facilityUrl: 'http://facility',
+      facilityFormat: format,
+      facilityStyle: style,
+      filterTabTitle: 'Filter Title',
+      filterChoiceOptions: filterChoiceOptions,
+      geoclientUrl: 'http://geoclient'
+    })
+
+    expect(app.adjustBanner).toHaveBeenCalledTimes(0)
+
+    $(window).trigger('load')
+
+    expect(app.adjustBanner).toHaveBeenCalledTimes(1)
+  
+    $(window).trigger('resize')
+  
+    expect(app.adjustBanner).toHaveBeenCalledTimes(2)
   })
 })
