@@ -152,7 +152,7 @@ class Directions extends Contanier {
     }
     args.from = args.from || $('#fld-from input').val()
     $('#fld-from input').val(args.from)
-    $('#fld-to').html(args.to)
+    $('#fld-to').html(args.to.replace(/\n/g, ' ').replace(/ ,/g, ','))
     $('#fld-facility').html(args.facility)
     $('#directions').slideDown(() => {
       tog.hide()

@@ -468,7 +468,7 @@ describe('directions', () => {
     dir.handleResp = jest.fn()
 
     const args = {
-      to: 'to addr',
+      to: 'to ,\naddr',
       facility: 'facility name',
       mode: 'DRIVING'
     }
@@ -476,7 +476,7 @@ describe('directions', () => {
 
     expect($.mocks.getScript).toHaveBeenCalledTimes(0)
     expect($('#fld-from input').val()).toBe('')
-    expect($('#fld-to').html()).toBe(args.to)
+    expect($('#fld-to').html()).toBe('to, addr')
     expect($('#fld-facility').html()).toBe(args.facility)
     expect($.mocks.slideDown).toHaveBeenCalledTimes(1)
     expect($.mocks.slideDown.mock.instances[0].get(0)).toBe($('#directions').get(0))
