@@ -121,6 +121,36 @@ describe('constructor', () => {
     expect($.mocks.proxy.mock.calls[4][0]).toBe(dir.key)
     expect($.mocks.proxy.mock.calls[4][1]).toBe(dir)
   })
+
+  describe('translate button', () => {
+    beforeEach(() => {
+      $('body').append('<div id="map" style="display: none;">Map</div>')
+      $('body').append('<div class="fnd"><div id="lng" style="display:none;">Translate</div></div>')
+    })
+    test('translate btn not hidden - map visible', () => {
+      expect.assertions(3)
+
+      $('#map').show()
+      const dir = new Directions()
+      $('#back-to-map').trigger('click')
+
+      expect($.mocks.slideUp).toHaveBeenCalledTimes(1)
+      expect($.mocks.slideUp.mock.instances[0].get(0)).toBe($('#directions').get(0))
+      expect($('.fnd #lng').css('display')).toBe('block')
+    })
+    test('translate btn hidden - map not visible', () => {
+      expect.assertions(3)
+    
+      $('#map').hide()
+      const dir = new Directions()
+      $('#back-to-map').trigger('click')
+
+      expect($.mocks.slideUp).toHaveBeenCalledTimes(1)
+      expect($.mocks.slideUp.mock.instances[0].get(0)).toBe($('#directions').get(0))
+      expect($('.fnd #lng').css('display')).toBe('none')
+    })
+  })
+
 })
 
 describe('back to finder', () => {
