@@ -310,3 +310,7 @@ html, body.fnd, .fnd #map {
     left: calc(50% - 194px)
   }
 }
+.fnd .splash a.btn.rad-all.btn-yes {
+	width: 245px;
+	padding-left: 35px;
+}
