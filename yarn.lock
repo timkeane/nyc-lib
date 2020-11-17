@@ -961,6 +961,35 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
+"@mapbox/jsonlint-lines-primitives@~2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@mapbox/jsonlint-lines-primitives/-/jsonlint-lines-primitives-2.0.2.tgz#ce56e539f83552b58d10d672ea4d6fc9adc7b234"
+  integrity sha1-zlblOfg1UrWNENZy6k1vya3HsjQ=
+
+"@mapbox/mapbox-gl-style-spec@^13.14.0":
+  version "13.17.1"
+  resolved "https://registry.yarnpkg.com/@mapbox/mapbox-gl-style-spec/-/mapbox-gl-style-spec-13.17.1.tgz#8db3f08ece6274a67a36392b04e77613f86bf1d8"
+  integrity sha512-8Z+53JP3TAUC2FihyCDNEiOkfSNnQH/iZ7Jkm02xRKdWeTWAKtmsyCcPn2HKXkundiaYvaZsbEd4AwvX3+MsrQ==
+  dependencies:
+    "@mapbox/jsonlint-lines-primitives" "~2.0.2"
+    "@mapbox/point-geometry" "^0.1.0"
+    "@mapbox/unitbezier" "^0.0.0"
+    csscolorparser "~1.0.2"
+    json-stringify-pretty-compact "^2.0.0"
+    minimist "^1.2.5"
+    rw "^1.3.3"
+    sort-object "^0.3.2"
+
+"@mapbox/point-geometry@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@mapbox/point-geometry/-/point-geometry-0.1.0.tgz#8a83f9335c7860effa2eeeca254332aa0aeed8f2"
+  integrity sha1-ioP5M1x4YO/6Lu7KJUMyqgru2PI=
+
+"@mapbox/unitbezier@^0.0.0":
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/@mapbox/unitbezier/-/unitbezier-0.0.0.tgz#15651bd553a67b8581fb398810c98ad86a34524e"
+  integrity sha1-FWUb1VOme4WB+zmIEMmK2Go0Uk4=
+
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.3.tgz#3a582bdb53804c6ba6d146579c46e52130cf4a3b"
@@ -981,11 +1010,6 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
-
-"@openlayers/pepjs@^0.5.3":
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/@openlayers/pepjs/-/pepjs-0.5.3.tgz#298c5994cc12de5f149f841affdd8a3e506228b5"
-  integrity sha512-Bgvi5c14BS0FJWyYWWFstNEnXsB30nK8Jt8hkAAdqr7E0gDdBBWVDglF3Ub19wTxvgJ/CVHyTY6VuCtnyRzglg==
 
 "@types/anymatch@*":
   version "1.3.1"
@@ -2884,6 +2908,11 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
+csscolorparser@~1.0.2:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/csscolorparser/-/csscolorparser-1.0.3.tgz#b34f391eea4da8f3e98231e2ccd8df9c041f171b"
+  integrity sha1-s085HupNqPPpgjHizNjfnAQfFxs=
+
 cssfontparser@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/cssfontparser/-/cssfontparser-1.2.1.tgz#f4022fc8f9700c68029d542084afbaf425a3f3e3"
@@ -4173,7 +4202,12 @@ iconv-lite@0.4.24, iconv-lite@^0.4.24:
   dependencies:
     safer-buffer ">= 2.1.2 < 3"
 
-ieee754@^1.1.12, ieee754@^1.1.4:
+ieee754@^1.1.12:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.2.1.tgz#8eb7a10a63fff25d15a57b001586d177d1b0d352"
+  integrity sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
+
+ieee754@^1.1.4:
   version "1.1.13"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.13.tgz#ec168558e95aa181fd87d37f55c32bbcb6708b84"
   integrity sha512-4vf7I2LYV/HaWerSo3XmlMkp5eZ83i+/CDluXi/IGTs/O1sejBNhTtnxzmRZfvOUqj7lZjqHkeTvpgSFDlWZTg==
@@ -5110,6 +5144,11 @@ json-stable-stringify-without-jsonify@^1.0.1:
   resolved "https://registry.yarnpkg.com/json-stable-stringify-without-jsonify/-/json-stable-stringify-without-jsonify-1.0.1.tgz#9db7b59496ad3f3cfef30a75142d2d930ad72651"
   integrity sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE=
 
+json-stringify-pretty-compact@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/json-stringify-pretty-compact/-/json-stringify-pretty-compact-2.0.0.tgz#e77c419f52ff00c45a31f07f4c820c2433143885"
+  integrity sha512-WRitRfs6BGq4q8gTgOy4ek7iPFXjbra0H3PmDLKm2xnZ+Gh1HUhiKGgCZkSPNULlP7mvfu6FV/mOLhCarspADQ==
+
 json-stringify-safe@~5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
@@ -5440,6 +5479,11 @@ map-visit@^1.0.0:
   integrity sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
   dependencies:
     object-visit "^1.0.0"
+
+mapbox-to-css-font@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/mapbox-to-css-font/-/mapbox-to-css-font-2.4.0.tgz#a23b51664a1ee839beaefade013f2655bee9a390"
+  integrity sha512-v674D0WtpxCXlA6E+sBlG1QJWdUkz/s9qAD91bJSXBGuBL5lL4tJXpoJEftecphCh2SVQCjWMS2vhylc3AIQTg==
 
 markdown-it-anchor@^5.2.7:
   version "5.3.0"
@@ -5912,14 +5956,22 @@ object.values@^1.1.0:
     function-bind "^1.1.1"
     has "^1.0.3"
 
-ol@6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/ol/-/ol-6.1.0.tgz#81882524f554a58e1c588a1e6dbec262b26b87db"
-  integrity sha512-qAoa26yq8jZ9bKA/QlQcyvjlfi84DJh4yHQiTwF+yVKxug4B8IUUEiRlll0Mi9/fjKbKajjLMMXZFB59MAgofw==
+ol-mapbox-style@^6.1.1:
+  version "6.1.4"
+  resolved "https://registry.yarnpkg.com/ol-mapbox-style/-/ol-mapbox-style-6.1.4.tgz#5caec1e26e45371091cb68488541b0f9d56d531f"
+  integrity sha512-XyOk6oGTGtFnj6gRvMwdKZft9s1QeSh9toQRGT7vFr8fS9yV8fSVJnrdmicGTYDYkUVmL+B3Sebi2jc1oEdouQ==
   dependencies:
-    "@openlayers/pepjs" "^0.5.3"
+    "@mapbox/mapbox-gl-style-spec" "^13.14.0"
+    mapbox-to-css-font "^2.4.0"
+    webfont-matcher "^1.1.0"
+
+ol@^6.4.3:
+  version "6.4.3"
+  resolved "https://registry.yarnpkg.com/ol/-/ol-6.4.3.tgz#2277bb583fe2848e4b2062f85f1c5136b4b0c1b2"
+  integrity sha512-JcoZ/VJE9cUoxfhpa2EFYH0AHFYty1x47aITsQgLkyvWIWWigWp1N9LBcCSlCuu2QkE+DutomI2oKfnFbQA/xw==
+  dependencies:
+    ol-mapbox-style "^6.1.1"
     pbf "3.2.1"
-    pixelworks "1.1.0"
     rbush "^3.0.1"
 
 once@^1.3.0, once@^1.3.1, once@^1.4.0:
@@ -6270,11 +6322,6 @@ pirates@^4.0.1:
   integrity sha512-WuNqLTbMI3tmfef2TKxlQmAiLHKtFhlsCZnPIpuv2Ow0RDVO8lfy1Opf4NUzlMXLjPl+Men7AuVdX6TA+s+uGA==
   dependencies:
     node-modules-regexp "^1.0.0"
-
-pixelworks@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/pixelworks/-/pixelworks-1.1.0.tgz#1f095ad48dca8bf8a1c8258e0092031a44f22ca5"
-  integrity sha1-Hwla1I3Ki/ihyCWOAJIDGkTyLKU=
 
 pkg-dir@^1.0.0:
   version "1.0.0"
@@ -6945,6 +6992,11 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
+rw@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/rw/-/rw-1.3.3.tgz#3f862dfa91ab766b14885ef4d01124bfda074fb4"
+  integrity sha1-P4Yt+pGrdmsUiF700BEkv9oHT7Q=
+
 rxjs@^6.4.0:
   version "6.5.5"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.5.tgz#c5c884e3094c8cfee31bf27eb87e54ccfc87f9ec"
@@ -7184,6 +7236,24 @@ snapdragon@^0.8.1:
     source-map "^0.5.6"
     source-map-resolve "^0.5.0"
     use "^3.1.0"
+
+sort-asc@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/sort-asc/-/sort-asc-0.1.0.tgz#ab799df61fc73ea0956c79c4b531ed1e9e7727e9"
+  integrity sha1-q3md9h/HPqCVbHnEtTHtHp53J+k=
+
+sort-desc@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/sort-desc/-/sort-desc-0.1.1.tgz#198b8c0cdeb095c463341861e3925d4ee359a9ee"
+  integrity sha1-GYuMDN6wlcRjNBhh45JdTuNZqe4=
+
+sort-object@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/sort-object/-/sort-object-0.3.2.tgz#98e0d199ede40e07c61a84403c61d6c3b290f9e2"
+  integrity sha1-mODRme3kDgfGGoRAPGHWw7KQ+eI=
+  dependencies:
+    sort-asc "^0.1.0"
+    sort-desc "^0.1.1"
 
 source-list-map@^2.0.0:
   version "2.0.1"
@@ -7976,6 +8046,11 @@ watchpack@^1.5.0, watchpack@^1.6.1:
   optionalDependencies:
     chokidar "^3.4.0"
     watchpack-chokidar2 "^2.0.0"
+
+webfont-matcher@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/webfont-matcher/-/webfont-matcher-1.1.0.tgz#98ce95097b29e31fbe733053e10e571642d1c6c7"
+  integrity sha1-mM6VCXsp4x++czBT4Q5XFkLRxsc=
 
 webidl-conversions@^4.0.2:
   version "4.0.2"

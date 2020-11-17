@@ -13,8 +13,7 @@ class MockMap {
   constructor(options) {
     const target = options.target
     this.view = new MockView({zoom: 11})
-    this.target = $(target).html('<div class="ol-overlaycontainer-stopevent"></div>')
-      .get(0)
+    this.target = $(target).get(0)
   }
   getTargetElement() {
     return this.target
@@ -29,7 +28,7 @@ let mockMap
 let tip
 
 beforeEach(() => {
-  target = $('<div></div>')
+  target = $('<div id="map"></div>')
   $('body').append(target)
   mockMap = new MockMap({target: target})
   tip = $('<div class="f-tip"></div>')

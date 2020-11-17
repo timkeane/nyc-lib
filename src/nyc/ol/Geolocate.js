@@ -20,7 +20,7 @@ class Geolocate extends NycGeolocate {
    * @param {ol.Map} map The OpenLayers map that will be controlled
    */
   constructor(map) {
-    super($(map.getTargetElement()).find('.ol-overlaycontainer-stopevent'))
+    super($(map.getTargetElement()))
     this.getContainer().on('click dblclick mouseover mousemove', () => {
       $('.f-tip').hide()
     })

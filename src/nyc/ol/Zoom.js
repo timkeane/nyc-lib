@@ -19,7 +19,7 @@ class Zoom extends NycZoom {
    * @param {ol.Map} map The OpenLayers map that will be controlled
    */
   constructor(map) {
-    super($(map.getTargetElement()).find('.ol-overlaycontainer-stopevent'))
+    super($(map.getTargetElement()))
     /**
      * @private
      * @member {ol.Map}
