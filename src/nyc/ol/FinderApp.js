@@ -88,7 +88,6 @@ class FinderApp extends MapMgr {
     this.screenReaderDialog = new Dialog({css: 'screen-reader-info'})
     $('#screen-reader-info').on('click', $.proxy(this.screenReaderInfo, this))
     $('.shw-lst .btn-yes span').html(`View nearby ${$('#tab-btn-1').html()} in an accessible list`)
-    this.popup.on('fullscreen', this.hideTranlateBtn, this)
     this.setRefresh(options.refresh)
     $(window).on('load resize', $.proxy(this.adjustBanner, this))
     this.translate.on('change', this.adjustBanner, this)
@@ -157,9 +156,18 @@ class FinderApp extends MapMgr {
    * @return {nyc.lang.Goog~Goog} Goog instance
    */
   translateBtn(options) {
+    const languages = options.languages || Translate.DEFAULT_LANGUAGES
+    if (options.splashOptions) {
+      const translate = new Goog({
+        target: '.fnd .splash .dia-btns',
+        languages
+      })
+      $('.splash .dia-btns').append($('.splash .btn-no'))
+      return translate
+    }
     return new Goog({
       target: 'body',
-      languages: options.languages || Translate.DEFAULT_LANGUAGES,
+      languages,
       button: true
     })
   }
@@ -396,6 +404,7 @@ class FinderApp extends MapMgr {
           this.screenReaderInfo()
         } else {
           $('#tabs').attr('aria-hidden', false)
+          this.translate.showButton('#map')
           input.focus()
         }
       })
@@ -455,19 +464,6 @@ class FinderApp extends MapMgr {
       $('#map').attr('aria-hidden', false)
     }
     this.map.setSize([$('#map').width(), $('#map').height()])
-    this.hideTranlateBtn()
-  }
-  /**
-   * @desc Handles the fullscreen popup event
-   * @private
-   * @method
-   */
-  hideTranlateBtn() {
-    if ($('#map').is(':visible') && !$('.pop.fullscreen').is(':visible')) {
-      $('#lng').show()
-    } else {
-      $('#lng').hide()
-    }
   }
   /**
    * @private

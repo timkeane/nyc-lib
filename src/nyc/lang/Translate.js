@@ -180,7 +180,9 @@ class Translate extends Container {
     this.selectDefault()
     this.showHint()
     if (this.button) {
-      $('#lng').addClass('button')
+      this.showButton()
+    } else {
+      this.showMenu()
     }
     select.focus(() => {
       select.prev().addClass('focused')
@@ -189,6 +191,42 @@ class Translate extends Container {
       select.prev().removeClass('focused')
     })
     this.trigger('ready', this)
+  }
+  /**
+   * @desc Show as button
+   * @public
+   * @method
+   * @param {JQuery|Element|string=} target Target node
+   */
+  showButton(target) {
+    this.alterDisplay(true, target)
+  }
+  /**
+   * @desc Show as menu
+   * @public
+   * @method
+   * @param {JQuery|Element|string=} target Target node
+   */
+  showMenu(target) {
+    this.alterDisplay(false, target)
+  }
+  /**
+   * @private
+   * @method
+   * @param {boolean} button Show as button
+   * @param {JQuery|Element|string=} target Target node
+   */
+  alterDisplay(button, target) {
+    if (button) {
+      $('#lng div.rad-all').removeClass('btn').addClass('btn-sq')
+      $('#lng select').removeClass('menu')
+    } else {
+      $('#lng div.rad-all').addClass('btn').removeClass('btn-sq')
+      $('#lng select').addClass('menu')
+    }
+    if (target) {
+      $(target).append($('#lng'))
+    }
   }
   /**
    * @private
@@ -810,7 +848,7 @@ Translate.DEFAULT_MESSAGES = {
  */
 Translate.HTML = '<div id="lng" role="region">' +
   '<span class="screen-reader-only">Translate this page into another language</span>' +
-  '<div class="btn-sq rad-all"><span class ="hint notranslate">Translate</span></div>' +
+  '<div class="btn rad-all"><span class ="hint notranslate">Translate</span></div>' +
   '<select data-msg-key="msg-translate" data-msg-attr="title" title="Translate"></select>' +
   '<div id="lng-goog"></div>' +
 '</div>'

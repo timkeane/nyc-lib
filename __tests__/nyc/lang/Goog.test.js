@@ -79,7 +79,7 @@ test('constructor is button', () => {
   expect(translate instanceof Translate).toBe(true)
   expect(translate instanceof Goog).toBe(true)
 
-  expect(translate.find('#lng').hasClass('button')).toBe(true)
+  expect(translate.find('#lng div.rad-all').hasClass('btn-sq')).toBe(true)
   expect(translate.defaultLanguage).toBe('en')
 	expect(translate.languages).toBe(languages)
 	expect(translate.isButton).toBe(undefined)

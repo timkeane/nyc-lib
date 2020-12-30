@@ -69,7 +69,7 @@ describe('constructor', () => {
     expect(translate instanceof Container).toBe(true)
     expect(translate instanceof Translate).toBe(true)
 
-    expect(translate.find('#lng').hasClass('button')).toBe(true)
+    expect(translate.find('#lng div.rad-all').hasClass('btn-sq')).toBe(true)
     expect(translate.defaultLanguage).toBe('en')
     expect(translate.defaultMessages).toEqual(translate.messages.en)
     expect(translate.defaultMessages).toEqual(COMBINED_MESSAGES.en)

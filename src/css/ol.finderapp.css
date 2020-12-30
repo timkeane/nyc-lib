@@ -55,27 +55,6 @@ html, body.fnd, .fnd #map {
   font-size: 24px;
   color: var(--color-light);
 }
-.fnd .splash .dia {
-  background-color: var(--color-dark);
-  width: 400px;
-  top: 30%;
-  left: calc(50% - 208px);
-  margin: 0;
-}
-.fnd .splash .dia-msg, .fnd .splash .dia-msg * {
-  color: var(--color-light);
-  text-align: left;
-}
-.fnd .splash .dia-msg:focus {
-  box-shadow: none;
-}
-.fnd .splash .dia .btn-ok {
-  width: 100px;
-  background-color: rgba(255,255,255,.9);
-}
-.fnd .splash .dia .btn-ok:hover {
-  background-color: #fff;
-}
 .fnd #tabs {
   position: fixed;
   top: 35px;
@@ -197,12 +176,6 @@ html, body.fnd, .fnd #map {
   background-size: 24px;
   background-image: var(--web-icon-medium, none);
 }
-#lng {
-  position: absolute;
-  left: 2px;
-  bottom: 43px;
-  z-index: 6000;
-}
 #filters .apply {
   border: none;
   background-color: transparent;
@@ -211,17 +184,6 @@ html, body.fnd, .fnd #map {
 .shw-lst a.btn-yes, .shw-lst a.btn-no {
   display: block !important;
   width: auto;
-}
-.fnd .splash .dia a.btn-yes, .fnd .splash .dia a.btn-no {
-  width: 280px;
-}
-.fnd .splash .dia a.btn-yes {
-  background-image: var(--speaker-icon-medium);
-  background-size: 28px;
-  background-position: 3px center;
-}
-.fnd .splash .dia a.btn-yes:hover {
-  background-image: var(--speaker-icon-dark);
 }
 #screen-reader-info {
   position: fixed;
@@ -304,13 +266,81 @@ html, body.fnd, .fnd #map {
     margin-top: -115px;
   }
 }
-@media only screen and (max-width : 400px) {
-  .fnd .splash .dia {
-    width: 370px;
-    left: calc(50% - 194px)
-  }
+
+
+#lng {
+  position: absolute;
+  left: 3px;
+  bottom: 40px;
+}
+
+.fnd .splash #lng {
+    position: unset;
+    left: auto;
+    bottom: auto;
+    text-align: center;
+    margin: 3px 0;
+}
+#lng div.btn {
+  background-color: var(--color-button);
+  color: var(--color-dark);  
+}
+
+.fnd .splash .dia {
+  background-color: var(--color-dark);
+  width: 400px;
+  top: 20%;
+  left: calc(50% - 208px);
+  margin: 0;
+  height: 55%;
+}
+.fnd .splash .dia-msg, .fnd .splash .dia-msg * {
+  color: var(--color-light);
+  text-align: left;
+}
+.fnd .splash .dia-msg:focus {
+  box-shadow: none;
+}
+.fnd .splash .dia .btn-ok {
+  width: 100px;
+  background-color: rgba(255,255,255,.9);
+}
+.fnd .splash .dia .btn-ok:hover {
+  background-color: #fff;
+}
+.fnd .splash .dia a.btn-yes, 
+.fnd .splash .dia a.btn-no,  
+.fnd .splash #lang select {
+  width: 280px;
+}
+.fnd .splash .dia a.btn-yes {
+  background-image: var(--speaker-icon-medium);
+  background-size: 28px;
+  background-position: 3px center;
+}
+.fnd .splash .dia a.btn-yes:hover {
+  background-image: var(--speaker-icon-dark);
 }
 .fnd .splash a.btn.rad-all.btn-yes {
 	width: 245px;
 	padding-left: 35px;
+}
+.fnd .splash .dia-msg {
+  height: calc(100% - 145px);
+  overflow-y: auto;
+}
+.fnd .splash .dia-btns {
+  height: 90px;
+}
+
+@media only screen and (max-width : 400px), (max-height: 600px) {
+  .fnd .splash .dia {
+    top: 35px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+    border-top: 1px solid var(--color-light);
+  }
 }

@@ -179,9 +179,9 @@ test('constructor mouseWheelZoom is undefined', () => {
   expect(Share.mock.calls[0][0].target).toBe('#map')
 
   expect(Goog).toHaveBeenCalledTimes(1),
-  expect(Goog.mock.calls[0][0].target).toBe('body')
+  expect(Goog.mock.calls[0][0].target).toBe('.fnd .splash .dia-btns')
   expect(Goog.mock.calls[0][0].languages).toBe(Translate.DEFAULT_LANGUAGES)
-  expect(Goog.mock.calls[0][0].button).toBe(true)
+  expect(Goog.mock.calls[0][0].button).toBeUndefined()
 })
 
 test('constructor mouseWheelZoom = false', () => {
@@ -276,9 +276,9 @@ test('constructor mouseWheelZoom = false', () => {
   expect(Share.mock.calls[0][0].target).toBe('#map')
 
   expect(Goog).toHaveBeenCalledTimes(1)
-  expect(Goog.mock.calls[0][0].target).toBe('body')
+  expect(Goog.mock.calls[0][0].target).toBe('.fnd .splash .dia-btns' )
   expect(Goog.mock.calls[0][0].languages).toBe(Translate.DEFAULT_LANGUAGES)
-  expect(Goog.mock.calls[0][0].button).toBe(true)
+  expect(Goog.mock.calls[0][0].button).toBeUndefined()
 })
 
 describe('reload button', () => {
