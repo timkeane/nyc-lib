@@ -333,7 +333,7 @@ html, body.fnd, .fnd #map {
   height: 90px;
 }
 
-@media only screen and (max-width : 400px), (max-height: 600px) {
+@media only screen and (max-width : 400px), (max-height: 400px) {
   .fnd .splash .dia {
     top: 35px;
     left: 0;
