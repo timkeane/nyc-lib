@@ -422,6 +422,7 @@ class FinderApp extends MapMgr {
       buttonText: ['Return to the map']
     }).then(() => {
       $('#tabs').attr('aria-hidden', false)
+      this.translate.showButton('#map')
       input.focus()
     })
     $('.screen-reader-info .dia').get(0).scrollTop = 0
