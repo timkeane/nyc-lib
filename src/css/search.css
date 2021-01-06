@@ -8,6 +8,7 @@
 	left: 41px;
 	right: 3px;
 	max-width: 400px;
+	pointer-events: all;
 }
 .ol-overlaycontainer-stopevent .srch-ctl>ul {
 	margin-top: 38px;
