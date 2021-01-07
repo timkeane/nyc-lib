@@ -275,7 +275,7 @@ html, body.fnd, .fnd #map {
 }
 
 .fnd .splash #lng {
-    position: unset;
+    position: relative;
     left: auto;
     bottom: auto;
     text-align: center;
