@@ -378,12 +378,14 @@ class FinderApp extends MapMgr {
           dia.yesNo(options).then(showFacilities => {
             if (showFacilities) {
               tabs.open('#facilities')
+              this.focusInfo()
             }
           })
         }, 250)
       }
     } else {
       tabs.open('#facilities')
+      this.focusInfo()
     }
   }
   /**
@@ -411,17 +413,18 @@ class FinderApp extends MapMgr {
         } else {
           $('#tabs').attr('aria-hidden', false)
           this.translate.showButton('#map')
-          input.focus()
+          console.warn(input)
+          input.trigger('focus')
         }
       })
     } else {
-      input.focus()
+      input.trigger('focus')
     }
   }
   screenReaderInfo() {
     const input = this.locationMgr.search.input
     this.screenReaderDialog.find('.btn-ok').one('focus', () => {
-      $('.screen-reader-info h1').focus()
+      $('.screen-reader-info h1').trigger('focus')
     })
     this.screenReaderDialog.ok({
       message: FinderApp.SCREEN_READER_INFO,
@@ -429,7 +432,7 @@ class FinderApp extends MapMgr {
     }).then(() => {
       $('#tabs').attr('aria-hidden', false)
       this.translate.showButton('#map')
-      input.focus()
+      input.trigger('focus')
     })
     $('.screen-reader-info .dia').get(0).scrollTop = 0
   }

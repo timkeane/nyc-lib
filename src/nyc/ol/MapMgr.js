@@ -173,8 +173,22 @@ class MapMgr {
     this.location = location
     if (this.pager) {
       this.resetList()
-      this.pager.find('h2.info').attr('aria-live', 'polite')
+      this.pager.find('h2.info')
+        .append(' sorted by closest to ')
+        .append(location.name)
+      this.focusInfo()
     }
+  }
+  /**
+   * @desc Focus on screen reader alert
+   * @access protected
+   * @method
+   */
+  focusInfo() {
+    this.pager.find('h2.info')
+      .attr('aria-live', 'alert')
+      .attr('tabindex', 0)
+      .trigger('focus')
   }
   /**
    * @desc Reset the facilities list

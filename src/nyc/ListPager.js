@@ -92,9 +92,9 @@ class ListPager extends Container {
     this.render(result)
     this.info()
     if (first) {
-      this.find('.lst-it').first().focus()
+      this.find('.lst-it').first().trigger('focus')
     } else {
-      last.next().attr('tabindex', 0).focus()
+      last.next().attr('tabindex', 0).trigger('focus')
     }
     this.trigger('change', this)
     return result

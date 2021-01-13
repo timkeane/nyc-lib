@@ -10,7 +10,7 @@ const mockLocationMgr = {
   search: {
     setFeatures: jest.fn(),
     input: {
-      focus: jest.fn()
+      trigger: jest.fn()
     },
     getContainer: jest.fn(() => {
       return mockSearchContainer
@@ -36,7 +36,7 @@ mock.resetMocks = () => {
   mock.mockClear()
   mockLocationMgr.on.mockClear()
   mockLocationMgr.search.setFeatures.mockClear()
-  mockLocationMgr.search.input.focus.mockClear()
+  mockLocationMgr.search.input.trigger.mockClear()
   mockLocationMgr.search.getContainer.mockClear()
   mockLocationMgr.mapLocator.layer.setStyle.mockClear()
   mockLocationMgr.mapLocator.layer.getStyle.mockClear()

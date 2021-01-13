@@ -351,7 +351,7 @@ describe('located', () => {
 
     expect(mapMgr.location).toBe('mock-location-2')
     expect(mapMgr.resetList).toHaveBeenCalledTimes(1)
-    expect(h2.attr('aria-live')).toBe('polite')
+    expect(h2.attr('aria-live')).toBe('alert')
   })
 })
 

@@ -470,7 +470,7 @@ test('createFilters', () => {
 })
 
 test('showSplash - no H1', () => {
-  expect.assertions(11)
+  expect.assertions(12)
   
   const finderApp = new FinderApp({
     title: 'Finder App',
@@ -481,14 +481,15 @@ test('showSplash - no H1', () => {
     geoclientUrl: 'http://geoclient'
   })
 
-  finderApp.locationMgr.search.input.focus.mockReset()
+  finderApp.locationMgr.search.input.trigger.mockReset()
   $('#tabs').attr('aria-hidden', true)
 
   const test = async () => {
     return new Promise(resolve => {
       setTimeout(() => {
         expect($('#tabs').attr('aria-hidden')).toBe('false')
-        expect(finderApp.locationMgr.search.input.focus).toHaveBeenCalledTimes(1)
+        expect(finderApp.locationMgr.search.input.trigger).toHaveBeenCalledTimes(1)
+        expect(finderApp.locationMgr.search.input.trigger.mock.calls[0][0]).toBe('focus')
         resolve(true)
       }, 500)
     })
