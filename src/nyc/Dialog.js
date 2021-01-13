@@ -240,12 +240,8 @@ class Dialog extends Container {
       this.yesNoBtns.css('display', 'inline-block')
       this.find('.btn-cancel').css('display', 'inline-block')
     }
-    let message
-    try {
-      message = $(options.message)
-    } catch (ignore) {
-      /* empty */
-    }
+    const div = $('<div></div>')
+    const message = div.append(options.message).html()
     if (message && message.length) {
       this.msg.html(message)
     } else {
