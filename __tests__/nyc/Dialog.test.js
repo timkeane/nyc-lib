@@ -10,7 +10,7 @@ afterEach(() => {
 })
 
 test('constructor', () => {
-  expect.assertions(16)
+  expect.assertions(17)
 
   const dialog = new Dialog()
 
@@ -30,6 +30,8 @@ test('constructor', () => {
   expect(dialog.field.get(0).tagName).toBe('INPUT')
   expect(dialog.msg.length).toBe(1)
   expect(dialog.msg.hasClass('dia-msg')).toBe(true)
+
+  expect(dialog.getContainer().find('[role="button"]').length).toBe(5)
 })
 
 test('ok check buttons', () => {

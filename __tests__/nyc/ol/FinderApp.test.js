@@ -89,7 +89,7 @@ afterEach(() => {
   $('body').empty()
 })
 
-test('constructor mouseWheelZoom is undefined', () => {
+test('constructor mouseWheelZoom is undefined - no H1 in splash message', () => {
   expect.assertions(63)
 
   const finderApp = new FinderApp({
@@ -171,7 +171,7 @@ test('constructor mouseWheelZoom is undefined', () => {
   expect(Dialog.mock.calls[1][0]).toEqual({css: 'shw-lst'})
   expect(Dialog.mock.calls[0][0]).toEqual({css: 'splash'})
   expect(Dialog.mock.instances[0].ok.mock.calls.length).toBe(0)
-  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].message).toBe('splash page message')
+  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].message).toBe('<h1 class="screen-reader-only">Finder App</h1>splash page message')
   expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].buttonText[0]).toBe('<span class="msg-sr-info">Screen reader instructions</span>')
   expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].buttonText[1]).toBe('<span class="msg-continue">Continue</span>')
 
@@ -184,12 +184,12 @@ test('constructor mouseWheelZoom is undefined', () => {
   expect(Goog.mock.calls[0][0].button).toBeUndefined()
 })
 
-test('constructor mouseWheelZoom = false', () => {
+test('constructor mouseWheelZoom = false - has H1 in splash message', () => {
   expect.assertions(63)
 
   const finderApp = new FinderApp({
     title: 'Finder App',
-    splashOptions: {message: 'splash page message'},
+    splashOptions: {message: '<h1>Finder App</h1>splash page message'},
     facilityTabTitle: 'Facility Title',
     facilityUrl: 'http://facility',
     facilityFormat: format,
@@ -268,7 +268,7 @@ test('constructor mouseWheelZoom = false', () => {
   expect(Dialog.mock.calls[1][0]).toEqual({css: 'shw-lst'})
   expect(Dialog.mock.calls[0][0]).toEqual({css: 'splash'})
   expect(Dialog.mock.instances[0].ok.mock.calls.length).toBe(0)
-  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].message).toBe('splash page message')
+  expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].message).toBe('<h1>Finder App</h1>splash page message')
   expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].buttonText[0]).toBe('<span class="msg-sr-info">Screen reader instructions</span>')
   expect(Dialog.mock.instances[0].yesNo.mock.calls[0][0].buttonText[1]).toBe('<span class="msg-continue">Continue</span>')
 
@@ -469,7 +469,7 @@ test('createFilters', () => {
   expect(filters.on.mock.calls[0][2]).toBe(finderApp)
 })
 
-test('showSplash', () => {
+test('showSplash - no H1', () => {
   expect.assertions(11)
   
   const finderApp = new FinderApp({
@@ -494,14 +494,14 @@ test('showSplash', () => {
     })
   }
 
-  finderApp.showSplash({message: 'splash page message'})
+  finderApp.showSplash({message: 'splash page message'}, 'Finder App')
   
   expect(Dialog).toHaveBeenCalledTimes(3)
   expect(Dialog.mock.calls[0][0]).toEqual({css: 'shw-lst'})
   expect(Dialog.mock.calls[1][0]).toEqual({css: 'screen-reader-info'})
   expect(Dialog.mock.calls[2][0]).toEqual({css: 'splash'})
   expect(Dialog.mock.instances[2].ok.mock.calls.length).toBe(0)
-  expect(Dialog.mock.instances[2].yesNo.mock.calls[0][0].message).toBe('splash page message')
+  expect(Dialog.mock.instances[2].yesNo.mock.calls[0][0].message).toBe('<h1 class="screen-reader-only">Finder App</h1>splash page message')
   expect(Dialog.mock.instances[2].yesNo.mock.calls[0][0].buttonText[0]).toBe('<span class="msg-sr-info">Screen reader instructions</span>')
   expect(Dialog.mock.instances[2].yesNo.mock.calls[0][0].buttonText[1]).toBe('<span class="msg-continue">Continue</span>')
 

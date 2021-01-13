@@ -54,7 +54,7 @@ class FinderApp extends MapMgr {
     this.tabs = this.createTabs(options)
     $('#map').attr('tabindex', -1)
     this.adjustTabs()
-    this.showSplash(options.splashOptions)
+    this.showSplash(options.splashOptions, options.title)
     new Share({target: '#map'})
     /**
      * @private
@@ -390,10 +390,16 @@ class FinderApp extends MapMgr {
    * @private
    * @method
    * @param {module:nyc/Dialog~Dialog.Options} options Dialog options
+   * @param {string} title App title
    */
-  showSplash(options) {
+  showSplash(options, title) {
     const input = this.locationMgr.search.input
     if (options) {
+      const msg = $('<div></div>').append(options.message)
+      if (msg.find('h1').length === 0) {
+        msg.prepend(`<h1 class="screen-reader-only">${title}</h1>`)
+        options.message = msg.html()
+      }
       options.buttonText = options.buttonText ||
         [
           '<span class="msg-sr-info">Screen reader instructions</span>',
