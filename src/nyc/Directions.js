@@ -157,7 +157,6 @@ class Directions extends Contanier {
     $('#directions').slideDown(() => {
       tog.hide()
       $('.fnd #lng').hide()
-      console.warn('WTF')
     })
     tog.attr('aria-hidden', true)
     this.createMarker(this.getLatLng())
