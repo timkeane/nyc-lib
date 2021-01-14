@@ -643,7 +643,7 @@ MapMgr.FEATURE_DECORATIONS = {
    * @return {jQuery} The name of a facility feature as jQuery
    */
   nameHtml() {
-    return $('<h3 class="name notranslate"></h3>').html(this.getName())
+    return $('<h3 class="name notranslate" tabindex="0"></h3>').html(this.getName())
   },
   /**
    * @desc Returns the full address of a facility feature as jQuery
