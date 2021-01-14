@@ -219,18 +219,18 @@ class Search extends Container {
    * @param {jQuery.Event} event Event object
    */
   disambiguated(event) {
-    // if ((event.type === 'keyup' && 
-    //     (event.keyCode === 13 || event.keyCode === 32)) 
+    // if ((event.type === 'keyup' &&
+    //     (event.keyCode === 13 || event.keyCode === 32))
     //     || event.type === 'click') {
-      const li = $(event.currentTarget)
-      const data = li.data('location')
-      if (data) {
-        this.val(data.name)
-        data.isFeature = li.hasClass('feature')
-        this.trigger('disambiguated', data)
-        li.parent().slideUp()
-        this.emptyList()
-      }
+    const li = $(event.currentTarget)
+    const data = li.data('location')
+    if (data) {
+      this.val(data.name)
+      data.isFeature = li.hasClass('feature')
+      this.trigger('disambiguated', data)
+      li.parent().slideUp()
+      this.emptyList()
+    }
     // }
   }
   /**
