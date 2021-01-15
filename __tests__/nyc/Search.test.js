@@ -779,7 +779,7 @@ test('listClick list open is clicked and has autoComplete', () => {
   return test().then(visible => expect(visible).toBe('block'))
 })
 
-describe.only('listKey', () => {
+describe('listKey', () => {
   const event = new Event('keyup')
   const featureAsLocation = Search.prototype.featureAsLocation
   const ambiguous = {
