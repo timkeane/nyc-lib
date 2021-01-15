@@ -197,8 +197,8 @@ class Search extends Container {
       .data('nameField', options.nameField)
       .data('displayField', displayField)
       .data('location', data)
-      .click($.proxy(this.disambiguated, this))
-      .keyup($.proxy(this.disambiguated, this))
+      .on('click', this.disambiguated.bind(this))
+      .on('keyup', this.disambiguated.bind(this))
   }
   /**
    * @private
@@ -217,21 +217,32 @@ class Search extends Container {
    * @private
    * @method
    * @param {jQuery.Event} event Event object
+   * @return {boolean} should code proceed with disambiguated based on event keycode/type
+   */
+  processDisambiguated(event) {
+    console.warn(event, event.type, event.keyCode)
+    return ((event.type === 'keyup' &&
+      (event.keyCode === 13 || event.keyCode === 32))
+      || event.type === 'click')
+  }
+
+  /**
+   * @private
+   * @method
+   * @param {jQuery.Event} event Event object
    */
   disambiguated(event) {
-    // if ((event.type === 'keyup' &&
-    //     (event.keyCode === 13 || event.keyCode === 32))
-    //     || event.type === 'click') {
-    const li = $(event.currentTarget)
-    const data = li.data('location')
-    if (data) {
-      this.val(data.name)
-      data.isFeature = li.hasClass('feature')
-      this.trigger('disambiguated', data)
-      li.parent().slideUp()
-      this.emptyList()
+    if (this.processDisambiguated()) {
+      const li = $(event.currentTarget)
+      const data = li.data('location')
+      if (data) {
+        this.val(data.name)
+        data.isFeature = li.hasClass('feature')
+        this.trigger('disambiguated', data)
+        li.parent().slideUp()
+        this.emptyList()
+      }
     }
-    // }
   }
   /**
    * @private

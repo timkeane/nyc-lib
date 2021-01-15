@@ -634,39 +634,104 @@ test('emptyList', () => {
   expect($(search.retention.children().get(2)).find('a').html()).toBe('three')
 })
 
-test('disambiguated is LI', () => {
-  expect.assertions(6)
+describe('disambiguated', () => {
+  const processDisambiguated = Search.prototype.processDisambiguated
+  let check
+  beforeEach(() => {
+    Search.prototype.processDisambiguated = jest.fn(() => {return check})
+  })
+  afterEach(() => {
+    Search.prototype.processDisambiguated = processDisambiguated
+  })
+  test('disambiguated is LI', () => {
+    expect.assertions(6)
+  
+    check = true
 
-  const handler = jest.fn()
-  const data = {name: 'a name', data: {label: 'a label'}}
-  const li = $('<li class="feature">a label</li>')
-    .data('location', data)
+    const handler = jest.fn()
+    const data = {name: 'a name', data: {label: 'a label'}}
+    const li = $('<li class="feature">a label</li>')
+      .data('location', data)
+  
+    const search = new Search(container)
+  
+    search.emptyList = jest.fn()
+    search.list.append(li).show()
+    search.on('disambiguated', handler)
+  
+    search.disambiguated({currentTarget: li.get(0)})
+  
+    expect(handler).toHaveBeenCalledTimes(1)
+    expect(handler.mock.calls[0][0]).toBe(data)
+    expect(handler.mock.calls[0][0].isFeature).toBe(true)
+    expect(search.val()).toBe('a name')
+  
+    expect(search.emptyList).toHaveBeenCalledTimes(1)
+  
+    const test = async () => {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(search.list.css('display'))
+        }, 500)
+      })
+    }
+    return test().then(visible => expect(visible).toBe('none'))
+  })
+  test('disambiguated code not called', () => {
+    expect.assertions(1)
+    
+    check = false
 
-  const search = new Search(container)
+    const handler = jest.fn()
+    const data = {name: 'a name', data: {label: 'a label'}}
+    const li = $('<li class="feature">a label</li>')
+      .data('location', data)
 
-  search.emptyList = jest.fn()
-  search.list.append(li).show()
-  search.on('disambiguated', handler)
+    const search = new Search(container)
 
-  search.disambiguated({currentTarget: li.get(0)})
+    search.emptyList = jest.fn()
+    search.list.append(li).show()
+    search.on('disambiguated', handler)
+  
+    search.disambiguated({currentTarget: li.get(0)})
+  
+    expect(handler).toHaveBeenCalledTimes(0)
 
-  expect(handler).toHaveBeenCalledTimes(1)
-  expect(handler.mock.calls[0][0]).toBe(data)
-  expect(handler.mock.calls[0][0].isFeature).toBe(true)
-  expect(search.val()).toBe('a name')
-
-  expect(search.emptyList).toHaveBeenCalledTimes(1)
-
-  const test = async () => {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(search.list.css('display'))
-      }, 500)
-    })
-  }
-  return test().then(visible => expect(visible).toBe('none'))
+  })
 })
 
+
+describe('processDisambiguated', () => {
+  test('processDisambiguated - mouse click', () => {
+    const search = new Search(container)
+    const event = new Event('click')
+    expect(search.processDisambiguated(event)).toBe(true)
+  })
+
+  test('processDisambiguated - enter pressed', () => {
+    const search = new Search(container)
+    const event = new KeyboardEvent('keyup', {keyCode: 13})
+    expect(search.processDisambiguated(event)).toBe(true)
+  })
+
+  test('processDisambiguated - spacebar pressed', () => {
+    const search = new Search(container)
+    const event = new KeyboardEvent('keyup', {keyCode: 32})
+    expect(search.processDisambiguated(event)).toBe(true)
+  })
+
+  test('processDisambiguated - tab pressed', () => {
+    const search = new Search(container)
+    const event = new KeyboardEvent('keyup', {keyCode: 9})
+    expect(search.processDisambiguated(event)).toBe(false)
+  })
+
+  test('processDisambiguated - keydown event type', () => {
+    const search = new Search(container)
+    const event = new KeyboardEvent('keydown', {keyCode: 32})
+    expect(search.processDisambiguated(event)).toBe(false)
+  })
+})
 test('listClick list closed', () => {
   expect.assertions(1)
 
