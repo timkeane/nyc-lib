@@ -635,18 +635,8 @@ test('emptyList', () => {
 })
 
 describe('disambiguated', () => {
-  const processDisambiguated = Search.prototype.processDisambiguated
-  let check
-  beforeEach(() => {
-    Search.prototype.processDisambiguated = jest.fn(() => {return check})
-  })
-  afterEach(() => {
-    Search.prototype.processDisambiguated = processDisambiguated
-  })
   test('disambiguated is LI', () => {
     expect.assertions(6)
-  
-    check = true
 
     const handler = jest.fn()
     const data = {name: 'a name', data: {label: 'a label'}}
@@ -677,61 +667,9 @@ describe('disambiguated', () => {
     }
     return test().then(visible => expect(visible).toBe('none'))
   })
-  test('disambiguated code not called', () => {
-    expect.assertions(1)
-    
-    check = false
-
-    const handler = jest.fn()
-    const data = {name: 'a name', data: {label: 'a label'}}
-    const li = $('<li class="feature">a label</li>')
-      .data('location', data)
-
-    const search = new Search(container)
-
-    search.emptyList = jest.fn()
-    search.list.append(li).show()
-    search.on('disambiguated', handler)
   
-    search.disambiguated({currentTarget: li.get(0)})
-  
-    expect(handler).toHaveBeenCalledTimes(0)
-
-  })
 })
 
-
-describe('processDisambiguated', () => {
-  test('processDisambiguated - mouse click', () => {
-    const search = new Search(container)
-    const event = new Event('click')
-    expect(search.processDisambiguated(event)).toBe(true)
-  })
-
-  test('processDisambiguated - enter pressed', () => {
-    const search = new Search(container)
-    const event = new KeyboardEvent('keyup', {keyCode: 13})
-    expect(search.processDisambiguated(event)).toBe(true)
-  })
-
-  test('processDisambiguated - spacebar pressed', () => {
-    const search = new Search(container)
-    const event = new KeyboardEvent('keyup', {keyCode: 32})
-    expect(search.processDisambiguated(event)).toBe(true)
-  })
-
-  test('processDisambiguated - tab pressed', () => {
-    const search = new Search(container)
-    const event = new KeyboardEvent('keyup', {keyCode: 9})
-    expect(search.processDisambiguated(event)).toBe(false)
-  })
-
-  test('processDisambiguated - keydown event type', () => {
-    const search = new Search(container)
-    const event = new KeyboardEvent('keydown', {keyCode: 32})
-    expect(search.processDisambiguated(event)).toBe(false)
-  })
-})
 test('listClick list closed', () => {
   expect.assertions(1)
 
@@ -839,4 +777,117 @@ test('listClick list open is clicked and has autoComplete', () => {
 
   expect(handler).toHaveBeenCalledTimes(1)
   return test().then(visible => expect(visible).toBe('block'))
+})
+
+describe.only('listKey', () => {
+  const event = new Event('keyup')
+  const featureAsLocation = Search.prototype.featureAsLocation
+  const ambiguous = {
+    possible: [
+      {name: 'feature 1', data: {name: 'feature 1'}},
+      {name: 'feature 2', data: {name: 'feature 2'}},
+      {name: 'feature 3', data: {name: 'feature 3'}}
+    ]
+  }
+
+  beforeEach(() => {
+    Search.prototype.featureAsLocation = () => {return {data: {}}}
+  })
+  afterEach(() => {
+    Search.prototype.featureAsLocation = featureAsLocation
+  })
+  test('key is up arrow - not first', () => {
+    expect.assertions(2)
+
+    const search = new Search(container)
+    const list = search.list
+
+    search.disambiguate(ambiguous)
+    list.show()
+
+    event.keyCode = 38
+
+    list.find('li').get(2).dispatchEvent(event)
+    expect($(list.find('a').get(1)).is(':focus')).toBe(true)
+
+    list.find('li').get(1).dispatchEvent(event)
+
+    expect(list.find('a').first().is(':focus')).toBe(true)
+  })
+
+  test('key is up arrow - is first', () => {
+    expect.assertions(1)
+
+    const search = new Search(container)
+    const list = search.list
+
+    search.disambiguate(ambiguous)
+    list.show()
+
+    event.keyCode = 38
+
+    list.find('li').first().get(0).dispatchEvent(event)
+
+    expect(list.find('a').first().is(':focus')).toBe(true)
+  })
+
+  test('key is down arrow - not last', () => {
+    expect.assertions(2)
+
+    const search = new Search(container)
+    const list = search.list
+
+    search.disambiguate(ambiguous)
+    list.show()
+
+    event.keyCode = 40
+
+    list.find('li').get(0).dispatchEvent(event)
+
+    expect($(list.find('a').get(1)).is(':focus')).toBe(true)
+
+    list.find('li').get(1).dispatchEvent(event)
+
+    expect(list.find('a').last().is(':focus')).toBe(true)
+
+  })
+
+  test('key is down arrow - is last', () => {
+    expect.assertions(1)
+
+    const search = new Search(container)
+    const list = search.list
+
+    search.disambiguate(ambiguous)
+    list.show()
+
+    event.keyCode = 40
+
+    list.find('a').last().trigger('focus')
+    list.find('li').last().get(0).dispatchEvent(event)
+
+    expect(list.find('a').last().is(':focus')).toBe(true)
+  })
+
+  test('key is not an arrow ', () => {
+    expect.assertions(2)
+
+    const search = new Search(container)
+    const list = search.list
+
+    search.disambiguate(ambiguous)
+    list.show()
+
+    event.keyCode = 40000
+
+    list.find('a').last().trigger('focus')
+    list.find('li').last().get(0).dispatchEvent(event)
+
+    expect(list.find('a').last().is(':focus')).toBe(true)
+
+    $(list.find('a').get(1)).trigger('focus')
+    list.find('li').get(1).dispatchEvent(event)
+
+    expect($(list.find('a').get(1)).is(':focus')).toBe(true)
+  })
 })
