@@ -23,7 +23,7 @@ test('constructor target is input', () => {
   expect(search instanceof Container).toBe(true)
   expect(search instanceof Search).toBe(true)
   expect(search.isAddrSrch).toBe(true)
-  expect(search.getContainer().html()).toBe('<div class="srch input-group" role="search"><input class="rad-all" type="text" data-msg-key="msg-srch" data-msg-attr="placeholder" placeholder="Search for an address..."><button class="btn btn-srch btn-primary btn-lg">Search</button></div><ul class="rad-all" role="region" label="Possible matches for your search"></ul><ul class="retention"></ul>')
+  expect(search.getContainer().html()).toBe('<div class="srch input-group" role="search"><input class="rad-all" type="text" data-msg-key="msg-srch" data-msg-attr="placeholder" placeholder="Search for an address..."><button class="btn btn-srch btn-primary btn-lg">Search</button></div><ul class="rad-all" role="application" label="Possible matches for your search"></ul><ul class="retention"></ul>')
   expect(search.getContainer().hasClass('srch-ctl')).toBe(true)
 })
 
@@ -779,7 +779,7 @@ test('listClick list open is clicked and has autoComplete', () => {
   return test().then(visible => expect(visible).toBe('block'))
 })
 
-describe.only('listKey', () => {
+describe('listKey', () => {
   const event = new Event('keydown')
   const featureAsLocation = Search.prototype.featureAsLocation
   const ambiguous = {
