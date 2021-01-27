@@ -780,7 +780,7 @@ test('listClick list open is clicked and has autoComplete', () => {
 })
 
 describe.only('listKey', () => {
-  const event = new Event('keydown')
+  const event = new Event('keyup')
   const featureAsLocation = Search.prototype.featureAsLocation
   const ambiguous = {
     possible: [
