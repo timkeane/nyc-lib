@@ -198,7 +198,7 @@ class Search extends Container {
       .data('displayField', displayField)
       .data('location', data)
       .on('click', this.disambiguated.bind(this))
-      .on('keyup', this.listKey.bind(this))
+      .on('keydown', this.listKey.bind(this))
   }
   /**
    * @private
@@ -396,7 +396,7 @@ Search.HTML = '<div class="srch-ctl">' +
     '</button>' +
     '<button class="btn btn-srch btn-primary btn-lg">Search</button>' +
   '</div>' +
-  '<ul class="rad-all" role="region" label="Possible matches for your search"></ul>' +
+  '<ul class="rad-all" role="application" label="Possible matches for your search"></ul>' +
   '<ul class="retention"></ul>' +
 '</div>'
 
