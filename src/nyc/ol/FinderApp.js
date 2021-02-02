@@ -413,7 +413,6 @@ class FinderApp extends MapMgr {
         } else {
           $('#tabs').attr('aria-hidden', false)
           this.translate.showButton('#map')
-          console.warn(input)
           input.trigger('focus')
         }
       })
