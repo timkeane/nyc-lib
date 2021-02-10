@@ -115,14 +115,17 @@ class Directions extends Contanier {
      * @member {google.maps.TravelMode}
      */
     this.defaultMode = options.mode || 'TRANSIT'
-    $('#mta').click($.proxy(this.tripPlanHack, this))
-    $('#mode button').not('#mta').click($.proxy(this.mode, this))
+    $('#mta').on('click', nyc.bind(this.tripPlanHack, this))
+    $('#mode button').not('#mta').on('click', this.mode.bind(this))
 
     const input = $('#fld-from input')
-    input.keypress($.proxy(this.key, this)).focus(() => input.select())
+      .on('keypress', nyc.bind(this.key.bind, this))
+      .on('focus', () => {
+        input.trigger('select')
+      })
 
     const tog = this.toggle
-    $('#back-to-map').click(() => {
+    $('#back-to-map').on('click', () => {
       $('#directions').slideUp(() => {
         if ($('#map').css('display') != 'none') {
           $('.fnd #lng').show()
@@ -168,11 +171,11 @@ class Directions extends Contanier {
           destination: args.to,
           travelMode: google.maps.TravelMode[mode]
         },
-        $.proxy(this.handleResp, this)
+        nyc.bind(this.handleResp, this)
       )
     }
     $('#back-to-map').one('click', () => {
-      $(args.returnFocus).focus()
+      $(args.returnFocus).trigger('focus')
     })
   }
   /**
@@ -181,7 +184,7 @@ class Directions extends Contanier {
    */
   monitor() {
     if (!this.monitoring) {
-      const fn = $.proxy(this.routeAlt, this)
+      const fn = nyc.bind(this.routeAlt, this)
       this.monitoring = true
       if ('MutationObserver' in window) {
         new MutationObserver(fn)
@@ -247,7 +250,7 @@ class Directions extends Contanier {
       'aria-hidden': true,
       tabindex: -1
     })
-    global.directions.find('.route img').each((_, img) => {
+    this.find('.route img').each((_, img) => {
       const src = img.src
       let imgName = src.match(/([^\/]+)(?=\.\w+$)/)
       imgName = imgName ? imgName[0] : ''
@@ -304,7 +307,7 @@ class Directions extends Contanier {
     })
     this.service = new google.maps.DirectionsService()
     this.renderer = new google.maps.DirectionsRenderer()
-    this.find('.btn-z-in, .btn-z-out').click($.proxy(this.zoom, this))
+    this.find('.btn-z-in, .btn-z-out').on('click', $.proxy(this.zoom, this))
     this.directions(this.args)
   }
   /**

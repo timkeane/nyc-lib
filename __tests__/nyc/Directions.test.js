@@ -1,4 +1,3 @@
-import nyc from 'nyc'
 import Directions from 'nyc/Directions'
 import Contanier from 'nyc/Container'
 import Tabs from 'nyc/Tabs'
@@ -15,6 +14,7 @@ jest.mock('../../src/nyc/mta/TripPlanHack')
 
 beforeEach(() => {
   $.resetMocks()
+  bindMock.resetMocks()
   googleMock.resetMocks()
   Dialog.mockClear()
   TripPlanHack.mockClear()
@@ -30,7 +30,7 @@ describe('constructor', () => {
   const key = Directions.prototype.key
   
   test('constructor no args', () => {
-    expect.assertions(29)
+    expect.assertions(27)
 
     const dir = new Directions()
 
@@ -58,27 +58,24 @@ describe('constructor', () => {
     expect(dir.lastDir).toBe('')
     
     expect(dir.styles).toBe(Directions.DEFAULT_STYLES)
-    expect($.mocks.proxy).toHaveBeenCalledTimes(5)
-    
-    expect($.mocks.proxy.mock.calls[2][0]).toBe(dir.tripPlanHack)
-    expect($.mocks.proxy.mock.calls[2][1]).toBe(dir)
 
-    expect($.mocks.proxy.mock.calls[3][0]).toBe(dir.mode)
-    expect($.mocks.proxy.mock.calls[3][1]).toBe(dir)
+    dir.find('#fld-from input').trigger('focus')
+    expect($.mocks.trigger).toHaveBeenCalledTimes(3)
 
-    expect($.mocks.proxy.mock.calls[4][0]).toBe(dir.key)
-    expect($.mocks.proxy.mock.calls[4][1]).toBe(dir)
-
-    dir.find('#fld-from input').focus()
-    expect($.mocks.select).toHaveBeenCalledTimes(1)
-    expect($.mocks.select.mock.instances[0].get(0)).toBe(dir.find('#fld-from input').get(0))
+    expect($.mocks.trigger.mock.instances[0].get(0)).toBe(dir.find('#map-tab').get(0))
+    expect($.mocks.trigger.mock.calls[0][0]).toBe('focus')
+  
+    expect($.mocks.trigger.mock.instances[1].get(0)).toBe(dir.find('#fld-from input').get(0))
+    expect($.mocks.trigger.mock.calls[1][0]).toBe('focus')
+  
+    expect($.mocks.trigger.mock.instances[2].get(0)).toBe(dir.find('#fld-from input').get(0))
+    expect($.mocks.trigger.mock.calls[2][0]).toBe('select')
   
     expect(directions.tabs.find('.btn-0').parent().attr('aria-hidden')).toBe('true')
-
   })
 
   test('constructor with args', () => {
-    expect.assertions(26)
+    expect.assertions(19)
 
     const dir = new Directions({
       url: 'http://directions.url', 
@@ -110,16 +107,6 @@ describe('constructor', () => {
     expect(dir.lastDir).toBe('')
     
     expect(dir.styles).toBe('mock-styles')
-    expect($.mocks.proxy).toHaveBeenCalledTimes(5)
-    
-    expect($.mocks.proxy.mock.calls[2][0]).toBe(dir.tripPlanHack)
-    expect($.mocks.proxy.mock.calls[2][1]).toBe(dir)
-
-    expect($.mocks.proxy.mock.calls[3][0]).toBe(dir.mode)
-    expect($.mocks.proxy.mock.calls[3][1]).toBe(dir)
-
-    expect($.mocks.proxy.mock.calls[4][0]).toBe(dir.key)
-    expect($.mocks.proxy.mock.calls[4][1]).toBe(dir)
   })
 
   describe('translate button', () => {
@@ -528,14 +515,15 @@ describe('monitor', () => {
     window.MutationObserver = mutationObserver
   })
 
-  test ('monitor has MutationObserver', () => {
-    expect.assertions(11)
+  test('monitor has MutationObserver', () => {
+    expect.assertions(8)
 
     window.MutationObserver = MockMutationObserver
 
     const dir = new Directions()
 
     $.resetMocks()
+    bindMock.resetMocks()
 
     expect(dir.monitoring).toBe(false)
 
@@ -543,11 +531,8 @@ describe('monitor', () => {
 
     expect(dir.monitoring).toBe(true)
 
-    expect($.mocks.proxy).toHaveBeenCalledTimes(1)
-    expect($.mocks.proxy.mock.calls[0][0]).toBe(dir.routeAlt)
-    expect($.mocks.proxy.mock.calls[0][1]).toBe(dir)
     expect(MockMutationObserver.constructorCalls.length).toBe(1)
-    expect(MockMutationObserver.constructorCalls[0]).toBe($.mocks.proxy.returnedValues[0])
+    expect(MockMutationObserver.constructorCalls[0]).toBe(bindMock.boundFunctions[0])
 
     expect(MockMutationObserver.observeCalls.length).toBe(1)
     expect(MockMutationObserver.observeCalls[0][0]).toBe(dir.getContainer().get(0))
@@ -557,7 +542,7 @@ describe('monitor', () => {
   })
 
   test('monitor no MutationObserver', () => {
-    expect.assertions(7)
+    expect.assertions(4)
 
     delete window.MutationObserver
 
@@ -566,6 +551,7 @@ describe('monitor', () => {
     expect(dir.monitoring).toBe(false)
 
     $.resetMocks()
+    bindMock.resetMocks()
 
     dir.monitor()
 
@@ -573,10 +559,7 @@ describe('monitor', () => {
 
     expect(window.setInterval).toHaveBeenCalledTimes(1)
 
-    expect($.mocks.proxy).toHaveBeenCalledTimes(1)
-    expect($.mocks.proxy.mock.calls[0][0]).toBe(dir.routeAlt)
-    expect($.mocks.proxy.mock.calls[0][1]).toBe(dir)
-    expect(window.setInterval.mock.calls[0][0]).toBe($.mocks.proxy.returnedValues[0])
+    expect(window.setInterval.mock.calls[0][0]).toBe(bindMock.boundFunctions[0])
   })
 })
 

@@ -256,7 +256,10 @@ const nyc = {
    * @static
    * @member {Object<string, number>}
    */
-  uniqueIds: {}
+  uniqueIds: {},
+  bind: (fn, scope) => {
+    return fn.bind(scope)
+  }
 }
 
 /**

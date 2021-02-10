@@ -1,4 +1,4 @@
-import Encoding from 'text-encoding'
+import util from 'util'
 
 import OlGeomPoint from 'ol/geom/Point'
 import OlFormatFormatType from 'ol/format/FormatType'
@@ -64,7 +64,7 @@ test('readFeatures from ArrayBuffer no id or default projections', () => {
     y: 'y'
   })
 
-  const features = csvpoint.readFeatures(new Encoding.TextEncoder().encode(csv).buffer)
+  const features = csvpoint.readFeatures(new util.TextEncoder().encode(csv).buffer)
 
   expect(features.length).toBe(3)
   expect(features[0].getGeometry().getCoordinates()).toEqual(new OlGeomPoint([0, 0]).transform('EPSG:4326', 'EPSG:3857').getCoordinates())

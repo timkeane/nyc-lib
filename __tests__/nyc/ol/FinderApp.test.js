@@ -282,12 +282,12 @@ test('constructor mouseWheelZoom = false - has H1 in splash message', () => {
 })
 
 describe('reload button', () => {
-  const reload = document.location.reload
+  const reload = FinderApp.reload
   beforeEach(() => {
-    document.location.reload = jest.fn()
+    FinderApp.reload = jest.fn()
   })
   afterEach(() => {
-    document.location.reload = reload
+    FinderApp.reload = reload
   })
 
   test('reload button', () => {
@@ -306,7 +306,7 @@ describe('reload button', () => {
     })
 
     $('.fnd #home').trigger('click')
-    expect(document.location.reload).toHaveBeenCalledTimes(1)
+    expect(FinderApp.reload).toHaveBeenCalledTimes(1)
   })
 })
 

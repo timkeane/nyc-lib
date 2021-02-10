@@ -5,7 +5,8 @@ $.originalFunctions = {
   height: $.fn.height,
   proxy: $.proxy,
   ajax: $.ajax,
-  getScript: $.getScript
+  getScript: $.getScript,
+  trigger: $.fn.trigger
 }
 
 $.resetMocks = () => {
@@ -79,6 +80,12 @@ $.resetMocks = () => {
     }
   })
 
+  $.fn.trigger = jest.fn(event => {
+    const instances = $.mocks.trigger.mock.instances
+    const instance = instances[instances.length - 1]
+    $.originalFunctions.trigger.apply(instance, [event])
+  })
+
   $.fn.select = jest.fn()
   
   $.proxy = jest.fn()
@@ -123,6 +130,7 @@ $.resetMocks = () => {
     height: $.fn.height,
     select: $.fn.select,
     proxy: $.proxy,
+    trigger: $.fn.trigger,
     ajax: $.ajax,
     getScript: $.getScript
   }

@@ -39,7 +39,7 @@ class FinderApp extends MapMgr {
     nyc.noSpaceBarScroll()
     $('#banner').html(title)
     $('#home').attr('title', title.text())
-    $('.fnd #home').on('click', () => document.location.reload())
+    $('.fnd #home').on('click', () => FinderApp.reload())
     /**
      * @desc The filters for filtering the facilities
      * @public
@@ -491,6 +491,16 @@ class FinderApp extends MapMgr {
     }
   }
 
+}
+
+/**
+ * @desc Reload the page
+ * @static
+ * @public
+ * @method
+ */
+FinderApp.reload = () => {
+  document.location.reload()
 }
 
 /**

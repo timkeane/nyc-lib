@@ -3,9 +3,7 @@
  */
 
 import Papa from 'papaparse'
-
-import Encoding from 'text-encoding'
-
+import util from 'util'
 import OlFeature from 'ol/Feature'
 import OlFormatFeature from 'ol/format/Feature'
 import OlGeomPoint from 'ol/geom/Point'
@@ -132,11 +130,11 @@ class CsvPoint extends OlFormatFeature {
    * @private
    * @method
    * @param {Object} source Rows from a CSV data source
-   * @return {ol.proj.Projection} The projection
+   * @return {Array<Object>} The projection
    */
   parseSource(source) {
     if (source instanceof ArrayBuffer) {
-      source = new Encoding.TextDecoder('utf-8').decode(source)
+      source = new util.TextDecoder().decode(source)
     }
     if (typeof source === 'string') {
       source = Papa.parse(source, {header: true}).data

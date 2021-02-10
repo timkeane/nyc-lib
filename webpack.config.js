@@ -99,7 +99,6 @@ const conf = {
     'ol/geom/Polygon': 'ol.geom.Polygon',
     'ol/proj/Projection': 'ol.proj.Projection',
     'ol/proj/proj4': 'ol.proj.proj4',
-    'text-encoding': 'window',
     leaflet: 'L',
     shapefile: '(window.shapefile || {})',
     papaparse: '(window.Papa || {})',
