@@ -34,6 +34,14 @@
   background-color: var(--color-light-translucent);
 	z-index: 1;
 }
+
+.ol-overlaycontainer-stopevent {
+    z-index: 1 !important;
+}
+.ol-overlaycontainer-stopevent .srch-ctl {
+    z-index: -1;
+}
+
 .ol-overlaycontainer-stopevent .srch .btn-srch, .fnd .btn-srch {
 	display: none;
 }
