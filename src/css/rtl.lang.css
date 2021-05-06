@@ -1,6 +1,3 @@
-html.translated-rtl * :not(.ol-overlaycontainer-stopevent) {
-  direction: rtl;
-}
 html.translated-rtl *.notranslate {
   direction: ltr;
   text-align: right;

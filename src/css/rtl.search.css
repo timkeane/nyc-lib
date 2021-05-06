@@ -9,3 +9,6 @@
 .translated-rtl .srch input[data-msg-attr="placeholder"], .translated-rtl .lst-srch input[data-msg-attr="placeholder"] {
 	direction: rtl;
 }
+html.translated-rtl .ol-overlaycontainer-stopevent .srch input {
+  position: static;
+}
