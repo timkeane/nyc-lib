@@ -330,6 +330,7 @@ Translate.DEFAULT_LANGUAGES = {
   ko: {code: 'ko', name: 'Korean', native: '&#xD55C;&#xAD6D;&#50612;', hint: '&#xBC88;&#xC5ED;'},
   pl: {code: 'pl', name: 'Polish', native: 'polski', hint: 'język polski'},
   ru: {code: 'ru', name: 'Russian', native: 'P&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439;', hint: '&#x43F;&#x435;&#x440;&#x435;&#x432;&#x435;&#x441;&#x442;&#x438;'},
+  it: {code: 'it', name: 'Italian', native: 'Italiano', hint: 'Tradurre'},
   es: {code: 'es', name: 'Spanish', native: 'Espa&#241;ol', hint: 'Traducir'},
   ur: {code: 'ur', name: 'Urdu', native: 'اردو', hint: '&#x6BA;&#x6CC;&#x631;&#x6A9;&#x6C1;&#x645;&#x62C;&#x631;&#x62A;', rtl: true},
   yi: {code: 'yi', name: 'Yiddish', native: 'ייִדיש', hint: 'איבערזעץ', rtl: true}

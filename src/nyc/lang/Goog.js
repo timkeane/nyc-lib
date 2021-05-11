@@ -153,12 +153,15 @@ class Goog extends Translate {
    */
   showOriginalText() {
     const googBar = $('iframe.goog-te-banner-frame:first')
+    const select = $('#lng select')
+    const languages = this.languages
+    const defaultLanguage = this.defaultLanguage
     $(googBar.contents().find('.goog-te-button button')).each((_, button) => {
       if ($(button).text() === 'Show original') {
-        const code = this.find('select').val()
+        const code = select.val()
         $(button).trigger('click')
-        if (this.languages[code].name !== 'English') {
-          this.find('select').val(this.defaultLanguage)
+        if (languages[code].name !== 'English') {
+          select.val(defaultLanguage)
         }
         return false
       }
