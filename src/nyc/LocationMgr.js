@@ -135,9 +135,13 @@ class LocationMgr extends EventHandling {
    */
   located(data) {
     this.search.val(data.type === 'geolocated' ? '' : data.name)
-    this.mapLocator.zoomLocation(data, () => {
-      this.trigger(data.type, data)
-    })
+    if (data.coordinate) {
+      this.mapLocator.zoomLocation(data, () => {
+        this.trigger(data.type, data)
+      })
+    } else {
+      this.search.triggerSearch(data.name)
+    }
   }
   /**
    * @private

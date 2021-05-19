@@ -123,17 +123,12 @@ class Geoclient extends Geocoder {
       possible: []
     }
     if (response.status === 'OK') {
-      if (results.length === 1) {
+      if (results.length === 1 && this.isMappable(results[0])) {
         const result = results[0]
         const location = this.parse(result)
-        if (this.isMappable(location)) {
-          location.type = 'geocoded'
-          resolve(location)
-          this.trigger('geocoded', location)
-        } else {
-          resolve(nothing)
-          this.trigger('ambiguous', nothing)
-        }
+        location.type = 'geocoded'
+        resolve(location)
+        this.trigger('geocoded', location)
       } else {
         const possible = this.possible(results, resolve)
         if (possible.length > 1) {
@@ -171,6 +166,31 @@ class Geoclient extends Geocoder {
       const location = this.parse(result)
       if (location) {
         possible.push(location)
+      } else {
+        const response = result.response
+        let more = true
+        let i = 1
+        while(more) {
+          const names = []
+          const lowHouseNumber = response['giLowHouseNumber' + i]
+          const highHouseNumber = response['giHighHouseNumber' + i]
+          if (lowHouseNumber) {
+            const lowName = nyc.capitalize(`${lowHouseNumber} ${response['giStreetName' + i]}, ${Geoclient.BOROS[response['giBoroughCode' + i]]}`)
+            if (names.indexOf(lowName) < 0) {
+              names.push(lowName)
+              possible.push({name: lowName})
+            }
+          }
+          if (highHouseNumber) {
+            const highName = nyc.capitalize(`${highHouseNumber} ${response['giStreetName' + i]}, ${Geoclient.BOROS[response['giBoroughCode' + i]]}`)
+            if (names.indexOf(highName) < 0) {
+              names.push(highName)
+              possible.push({name: highName})
+            }
+          }
+          i++
+          more = lowHouseNumber || highHouseNumber
+        }
       }
     })
     return possible
@@ -209,7 +229,7 @@ class Geoclient extends Geocoder {
         coordinate: this.project(p),
         data: r,
         accuracy: a, /* approximation */
-        name: nyc.capitalize(`${ln1.replace(/  +/g, ' ')}, ${r.firstBoroughName}`) +
+        name: nyc.capitalize(`${ln1.replace(/  +/g, ' ')}, ${Geoclient.BOROS[r.firstBoroughName]}`) +
           `, NY ${(r.zipCode || r.leftSegmentZipCode || '')}`
       }
     } catch (badCoord) {
@@ -237,6 +257,24 @@ class Geoclient extends Geocoder {
  * @property {string} [projection=EPSG:3857] The EPSG code of the projection for output geometries (i.e. EPSG:2263)
  */
 Geoclient.Options
+
+/**
+ * @private
+ * @const
+ * @type {Object<string, string>}
+ */
+Geoclient.BOROS = {
+  '1': 'Manhattan',
+  '2': 'Bronx',
+  '3': 'Brooklyn',
+  '4': 'Queens',
+  '5': 'Staten Island',
+  'MANHATTAN': 'Manhattan',
+  'BRONX': 'Bronx',
+  'BROOKLYN': 'Brooklyn',
+  'QUEENS': 'Queens',
+  'STATEN IS': 'Staten Island',  
+}
 
 /**
  * @private

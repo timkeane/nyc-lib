@@ -222,6 +222,7 @@ test('located GEOCODE', () => {
 
   const data = {
     type: 'geocoded',
+    coordinate: [1, 2],
     name: 'a name'
   }
 
@@ -250,6 +251,7 @@ test('located GEOLOCATION', () => {
 
   const data = {
     type: 'geolocated',
+    coordinate: [1, 2],
     name: 'a name'
   }
 

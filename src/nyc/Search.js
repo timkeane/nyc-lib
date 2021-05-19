@@ -186,7 +186,13 @@ class Search extends Container {
   listItem(options, data) {
     const li = $('<li></li>')
     const displayField = options.displayField
-    const name = `${data.data[displayField] || data.name}`
+    let name
+    if (data.data) {
+      name = data.data[displayField]
+    }
+    if (!name) {
+      name = data.name
+    }
     li.addClass(options.layerName)
     if (options.layerName !== 'addr') {
       li.addClass('feature')
@@ -346,11 +352,12 @@ class Search extends Container {
     }
   }
   /**
-   * @private
+   * @public
    * @method
+   * @param {string=} input The search input
    */
-  triggerSearch() {
-    const input = this.val().trim()
+  triggerSearch(input) {
+    input = input || this.val().trim()
     if (input.length) {
       this.input.blur()
       this.trigger('search', input)
