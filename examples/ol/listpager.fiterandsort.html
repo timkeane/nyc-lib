@@ -98,7 +98,7 @@
 
     var locationMgr = new nyc.ol.LocationMgr({
       map: map,
-      url: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
+      url: 'https://maps.nyc.gov/geoclient/v2/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
     });
     locationMgr.on('geocoded', function(location) {
       var features = source.sort(location.coordinate);

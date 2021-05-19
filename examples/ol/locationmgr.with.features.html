@@ -28,7 +28,7 @@
 <body>
   <div id="map"></div>
   <script>
-    var url = 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
+    var url = 'https://maps.nyc.gov/geoclient/v2/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
     var map = new nyc.ol.Basemap({target: 'map'});
 
     var source = new ol.source.Vector({
@@ -43,7 +43,7 @@
 
     var locationMgr = new nyc.ol.LocationMgr({
       map: map,
-      url: 'https://maps.nyc.gov/geoclient/v1/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
+      url: 'https://maps.nyc.gov/geoclient/v2/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example'
     });
 
     var interval = setInterval(function() {

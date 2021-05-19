@@ -100,6 +100,17 @@ class Geoclient extends Geocoder {
   /**
    * @private
    * @method
+   * @param {Object} location Response object
+   */
+  isMappable(location) {
+    return location && 
+      location.coordinate &&
+      !isNaN(location.coordinate[0]) && 
+      !isNaN(location.coordinate[1])
+  }
+  /**
+   * @private
+   * @method
    * @param {Object} response Response object
    * @param {function} resolve Resolve
    */
@@ -114,7 +125,7 @@ class Geoclient extends Geocoder {
       if (results.length === 1) {
         const result = results[0]
         const location = this.parse(result)
-        if (location) {
+        if (this.isMappable(location)) {
           location.type = 'geocoded'
           resolve(location)
           this.trigger('geocoded', location)
@@ -123,13 +134,23 @@ class Geoclient extends Geocoder {
           this.trigger('ambiguous', nothing)
         }
       } else {
-        const ambiguous = {
-          type: 'ambiguous',
-          input: response.input,
-          possible: this.possible(results)
+        const possible = this.possible(results, resolve)
+        if (possible.length > 1) {
+          const ambiguous = {
+            type: 'ambiguous',
+            input: response.input,
+            possible
+          }
+          resolve(ambiguous)
+          this.trigger('ambiguous', ambiguous)
+        } else if (possible.length === 1) {
+          location.type = 'geocoded'
+          resolve(possible[0])
+          this.trigger('geocoded', possible[0])      
+        } else {
+          resolve(nothing)
+          this.trigger('ambiguous', nothing)
         }
-        resolve(ambiguous)
-        this.trigger('ambiguous', ambiguous)
       }
     } else {
       resolve(nothing)
@@ -142,7 +163,7 @@ class Geoclient extends Geocoder {
    * @param {Array<module:nyc.Locator~Locator.Ambiguous>} results Results
    * @returns {Array} Possible results
    */
-  possible(results) {
+  possible(results, resolve) {
     const possible = []
     results.forEach(result => {
       const location = this.parse(result)
@@ -175,6 +196,10 @@ class Geoclient extends Geocoder {
       ln1 = (r.houseNumber ? (r.houseNumber + ' ') : '') + (r.firstStreetNameNormalized || r.giStreetName1)
       p = [(x && y ? x : r.xCoordinate) * 1, (x && y ? y : r.yCoordinate) * 1]
       a = x && y ? Locator.Accuracy.HIGH : Locator.Accuracy.MEDIUM
+    }
+    if (!this.isMappable({coordinate: p})) {
+      console.warn('No coordinate', result)
+      return
     }
     try {
       return {
