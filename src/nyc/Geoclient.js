@@ -170,7 +170,7 @@ class Geoclient extends Geocoder {
         const response = result.response
         let more = true
         let i = 1
-        while(more) {
+        while (more) {
           const names = []
           const lowHouseNumber = response['giLowHouseNumber' + i]
           const highHouseNumber = response['giHighHouseNumber' + i]
@@ -188,7 +188,7 @@ class Geoclient extends Geocoder {
               possible.push({name: highName})
             }
           }
-          i++
+          i = i + 1
           more = lowHouseNumber || highHouseNumber
         }
       }
@@ -273,7 +273,7 @@ Geoclient.BOROS = {
   'BRONX': 'Bronx',
   'BROOKLYN': 'Brooklyn',
   'QUEENS': 'Queens',
-  'STATEN IS': 'Staten Island',  
+  'STATEN IS': 'Staten Island'
 }
 
 /**
