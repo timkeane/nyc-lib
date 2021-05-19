@@ -101,11 +101,12 @@ class Geoclient extends Geocoder {
    * @private
    * @method
    * @param {Object} location Response object
+   * @return {boolean} If mappable
    */
   isMappable(location) {
-    return location && 
+    return location &&
       location.coordinate &&
-      !isNaN(location.coordinate[0]) && 
+      !isNaN(location.coordinate[0]) &&
       !isNaN(location.coordinate[1])
   }
   /**
@@ -146,7 +147,7 @@ class Geoclient extends Geocoder {
         } else if (possible.length === 1) {
           location.type = 'geocoded'
           resolve(possible[0])
-          this.trigger('geocoded', possible[0])      
+          this.trigger('geocoded', possible[0])
         } else {
           resolve(nothing)
           this.trigger('ambiguous', nothing)
@@ -161,6 +162,7 @@ class Geoclient extends Geocoder {
    * @private
    * @method
    * @param {Array<module:nyc.Locator~Locator.Ambiguous>} results Results
+   * @param {function} resolve Resolve
    * @returns {Array} Possible results
    */
   possible(results, resolve) {
