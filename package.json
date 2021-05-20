@@ -1,6 +1,6 @@
 {
   "name": "nyc-lib",
-  "version": "1.4.39",
+  "version": "1.4.40",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "pushit": "cd etc && ./push.sh && cd ..",
@@ -130,7 +130,7 @@
   },
   "config": {
     "ghooks": {
-      "pre-commit": "yarn test",
+      "pre-commit": "yarn build",
       "pre-push": "yarn build && yarn pushit"
     }
   }

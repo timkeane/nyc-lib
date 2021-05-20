@@ -123,9 +123,8 @@ class Geoclient extends Geocoder {
       possible: []
     }
     if (response.status === 'OK') {
-      if (results.length === 1 && this.isMappable(results[0])) {
-        const result = results[0]
-        const location = this.parse(result)
+      const location = this.parse(results[0])
+      if (results.length === 1 && this.isMappable(location)) {
         location.type = 'geocoded'
         resolve(location)
         this.trigger('geocoded', location)
@@ -140,7 +139,7 @@ class Geoclient extends Geocoder {
           resolve(ambiguous)
           this.trigger('ambiguous', ambiguous)
         } else if (possible.length === 1) {
-          location.type = 'geocoded'
+          possible[0].type = 'geocoded'
           resolve(possible[0])
           this.trigger('geocoded', possible[0])
         } else {
@@ -161,36 +160,31 @@ class Geoclient extends Geocoder {
    * @returns {Array} Possible results
    */
   possible(results, resolve) {
-    const possible = []
+    let possible = []
     results.forEach(result => {
       const location = this.parse(result)
       if (location) {
         possible.push(location)
       } else {
+        const possibleMap = {}
         const response = result.response
         let more = true
         let i = 1
         while (more) {
-          const names = []
           const lowHouseNumber = response['giLowHouseNumber' + i]
           const highHouseNumber = response['giHighHouseNumber' + i]
           if (lowHouseNumber) {
-            const lowName = nyc.capitalize(`${lowHouseNumber} ${response['giStreetName' + i]}, ${Geoclient.BOROS[response['giBoroughCode' + i]]}`)
-            if (names.indexOf(lowName) < 0) {
-              names.push(lowName)
-              possible.push({name: lowName})
-            }
+            const lowName = nyc.capitalize(`${lowHouseNumber} ${response['giStreetName' + i]}, ${Geoclient.BOROS[response['giBoroughCode' + i]]}`) + ', NY'
+            possibleMap[lowName] = {name: lowName}
           }
           if (highHouseNumber) {
-            const highName = nyc.capitalize(`${highHouseNumber} ${response['giStreetName' + i]}, ${Geoclient.BOROS[response['giBoroughCode' + i]]}`)
-            if (names.indexOf(highName) < 0) {
-              names.push(highName)
-              possible.push({name: highName})
-            }
+            const highName = nyc.capitalize(`${highHouseNumber} ${response['giStreetName' + i]}, ${Geoclient.BOROS[response['giBoroughCode' + i]]}`) + ', NY'
+            possibleMap[highName] = {name: highName}
           }
           i = i + 1
           more = lowHouseNumber || highHouseNumber
         }
+        possible = Object.values(possibleMap)
       }
     })
     return possible
