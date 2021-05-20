@@ -55,7 +55,7 @@ class Geoclient extends Geocoder {
       if (input.length === 5 && !isNaN(input)) {
         this.resolveZip(input, resolve)
       } else if (input.length) {
-        input = input.replace(/"/g, '').replace(/'/g, '').replace(/&/g, ' and ')
+        input = encodeURIComponent(input.replace(/"/g, '').replace(/'/g, '').replace(/&/g, ' and '))
         fetchTimeout(`${this.url}${input}`).then(response => {
           return response.json()
         }).then(json => {

@@ -2,10 +2,13 @@ import nyc from 'nyc'
 import Locator from 'nyc/Locator'
 import Geocoder from 'nyc/Geocoder'
 import Geoclient from 'nyc/Geoclient'
+import fetchTimeout from 'nyc/fetchTimeout'
+
+jest.mock('../../src/nyc/fetchTimeout')
 
 const proj4 = nyc.proj4
 
-const URL = 'http://geoclient.url.gov/'
+const URL = 'http://geoclient.url.gov/?key=key'
 
 const GEOCLIENT_OK_ADDRESS_RESPONSE = {"id":"msplva-gisapp01-1652-1524786213802","status":"OK","input":"59 maiden","results":[{"level":"1","status":"POSSIBLE_MATCH","request":"address [houseNumber=59, street=maiden, borough=MANHATTAN, zip=null]","response":{"assemblyDistrict":"65","bbl":"1000670001","bblBoroughCode":"1","bblTaxBlock":"00067","bblTaxLot":"0001","boardOfElectionsPreferredLgc":"1","boePreferredStreetName":"MAIDEN LANE","boePreferredstreetCode":"12563001","boroughCode1In":"1","buildingIdentificationNumber":"1079043","businessImprovementDistrict":"113140","censusBlock2000":"2008","censusBlock2010":"1006","censusTract1990":"  1502","censusTract2000":"  1502","censusTract2010":"  1502","cityCouncilDistrict":"01","civilCourtDistrict":"01","coincidentSegmentCount":"1","communityDistrict":"101","communityDistrictBoroughCode":"1","communityDistrictNumber":"01","communitySchoolDistrict":"02","condominiumBillingBbl":"0000000000","congressionalDistrict":"10","cooperativeIdNumber":"0000","cornerCode":"CR","crossStreetNamesFlagIn":"E","dcpCommercialStudyArea":"11004","dcpPreferredLgc":"01","dotStreetLightContractorArea":"1","dynamicBlock":"206","electionDistrict":"010","fireBattalion":"01","fireCompanyNumber":"004","fireCompanyType":"E","fireDivision":"01","firstBoroughName":"MANHATTAN","firstStreetCode":"12563001010","firstStreetNameNormalized":"MAIDEN LANE","fromLionNodeId":"0015262","fromPreferredLgcsFirstSetOf5":"01","genericId":"0000631","geosupportFunctionCode":"1B","geosupportReturnCode":"00","geosupportReturnCode2":"00","gi5DigitStreetCode1":"25630","gi5DigitStreetCode2":"45440","gi5DigitStreetCode3":"45440","gi5DigitStreetCode4":"24050","giBoroughCode1":"1","giBoroughCode2":"1","giBoroughCode3":"1","giBoroughCode4":"1","giBuildingIdentificationNumber1":"1079043","giBuildingIdentificationNumber2":"1079043","giBuildingIdentificationNumber3":"1079043","giBuildingIdentificationNumber4":"1079043","giDcpPreferredLgc1":"01","giDcpPreferredLgc2":"01","giDcpPreferredLgc3":"01","giDcpPreferredLgc4":"01","giHighHouseNumber1":"65","giHighHouseNumber2":"99","giHighHouseNumber3":"105","giHighHouseNumber4":"68","giLowHouseNumber1":"41","giLowHouseNumber2":"85","giLowHouseNumber3":"101","giLowHouseNumber4":"50","giSideOfStreetIndicator1":"L","giSideOfStreetIndicator2":"L","giSideOfStreetIndicator3":"L","giSideOfStreetIndicator4":"R","giStreetCode1":"12563001","giStreetCode2":"14544001","giStreetCode3":"14544001","giStreetCode4":"12405001","giStreetName1":"MAIDEN LANE","giStreetName2":"WILLIAM STREET","giStreetName3":"WILLIAM STREET","giStreetName4":"JOHN STREET","healthArea":"7700","healthCenterDistrict":"15","highBblOfThisBuildingsCondominiumUnits":"1000670001","highCrossStreetB5SC1":"145440","highCrossStreetCode1":"14544001","highCrossStreetName1":"WILLIAM STREET","highHouseNumberOfBlockfaceSortFormat":"000065000AA","houseNumber":"59","houseNumberIn":"59","houseNumberSortFormat":"000059000AA","hurricaneEvacuationZone":"5","instructionalRegion":"MS","interimAssistanceEligibilityIndicator":"I","internalLabelXCoordinate":"0982037","internalLabelYCoordinate":"0197460","latitude":40.708266006244315,"latitudeInternalLabel":40.7086585249236,"legacySegmentId":"0023213","lionBoroughCode":"1","lionBoroughCodeForVanityAddress":"1","lionFaceCode":"3140","lionFaceCodeForVanityAddress":"3140","lionKey":"1314000030","lionKeyForVanityAddress":"1314000030","lionSequenceNumber":"00030","lionSequenceNumberForVanityAddress":"00030","listOf4Lgcs":"01","longitude":-74.0082309440472,"longitudeInternalLabel":-74.00798211500157,"lowBblOfThisBuildingsCondominiumUnits":"1000670001","lowCrossStreetB5SC1":"127100","lowCrossStreetCode1":"12710001","lowCrossStreetName1":"NASSAU STREET","lowHouseNumberOfBlockfaceSortFormat":"000029000AA","lowHouseNumberOfDefiningAddressRange":"000041000AA","nta":"MN25","ntaName":"Battery Park City-Lower Manhattan","numberOfCrossStreetB5SCsHighAddressEnd":"1","numberOfCrossStreetB5SCsLowAddressEnd":"1","numberOfCrossStreetsHighAddressEnd":"1","numberOfCrossStreetsLowAddressEnd":"1","numberOfEntriesInListOfGeographicIdentifiers":"0004","numberOfExistingStructuresOnLot":"0001","numberOfStreetFrontagesOfLot":"03","physicalId":"0000753","policePatrolBoroughCommand":"1","policePrecinct":"001","returnCode1a":"00","returnCode1e":"00","roadwayType":"1","rpadBuildingClassificationCode":"O4","rpadSelfCheckCodeForBbl":"7","sanbornBoroughCode":"1","sanbornPageNumber":"011","sanbornVolumeNumber":"01","sanbornVolumeNumberSuffix":"S","sanitationCollectionSchedulingSectionAndSubsection":"1B","sanitationDistrict":"101","sanitationRecyclingCollectionSchedule":"ETH","sanitationRegularCollectionSchedule":"TTHS","sanitationSnowPriorityCode":"C","segmentAzimuth":"302","segmentIdentifier":"0023213","segmentLengthInFeet":"00460","segmentOrientation":"4","segmentTypeCode":"U","sideOfStreetIndicator":"L","sideOfStreetOfVanityAddress":"L","splitLowHouseNumber":"000029000AA","stateSenatorialDistrict":"26","streetName1In":"MAIDEN","streetStatus":"2","streetWidth":"22","taxMapNumberSectionAndVolume":"10102","toLionNodeId":"0015337","toPreferredLgcsFirstSetOf5":"01","trafficDirection":"A","underlyingStreetCode":"12563001","uspsPreferredCityName":"NEW YORK","workAreaFormatIndicatorIn":"C","xCoordinate":"0981968","xCoordinateHighAddressEnd":"0982031","xCoordinateLowAddressEnd":"0981785","xCoordinateOfCenterofCurvature":"0000000","yCoordinate":"0197317","yCoordinateHighAddressEnd":"0197212","yCoordinateLowAddressEnd":"0197601","yCoordinateOfCenterofCurvature":"0000000","zipCode":"10038"}}],"parseTree":null,"policy":null}
 const GEOCLIENT_OK_INTERSECTION_RESPONSE = {"status":"OK","input":"w43 st and 9 ave mn","results":[{"level":"0","status":"EXACT_MATCH","request":"intersection [crossStreetOne=w43 st, crossStreetTwo=9 ave, borough=MANHATTAN, compassDirection=null]","response":{"assemblyDistrict":"75","boroughCode1In":"1","censusTract1990":" 121  ","censusTract2000":" 121  ","censusTract2010":" 121  ","cityCouncilDistrict":"03","civilCourtDistrict":"03","communityDistrict":"104","communityDistrictBoroughCode":"1","communityDistrictNumber":"04","communitySchoolDistrict":"02","congressionalDistrict":"10","crossStreetNamesFlagIn":"E","dcpPreferredLgcForStreet1":"01","dcpPreferredLgcForStreet2":"01","dotStreetLightContractorArea":"1","fireBattalion":"09","fireCompanyNumber":"054","fireCompanyType":"E","fireDivision":"03","firstBoroughName":"MANHATTAN","firstStreetCode":"13463001010","firstStreetNameNormalized":"WEST   43 STREET","geosupportFunctionCode":"2","geosupportReturnCode":"00","healthArea":"4500","healthCenterDistrict":"15","instructionalRegion":"MS","interimAssistanceEligibilityIndicator":"E","intersectingStreet1":"110910","intersectingStreet2":"134630","latitude":40.759104364276126,"lionNodeNumber":"0021355","listOfPairsOfLevelCodes":"MMMM","longitude":-73.992141787218,"numberOfIntersectingStreets":"2","numberOfStreetCodesAndNamesInList":"02","policePatrolBoroughCommand":"1","policePrecinct":"014","sanbornBoroughCode1":"1","sanbornBoroughCode2":"1","sanbornPageNumber1":"041","sanbornPageNumber2":"043","sanbornVolumeNumber1":"05","sanbornVolumeNumber2":"05","sanbornVolumeNumberSuffix1":"N","sanbornVolumeNumberSuffix2":"N","sanitationCollectionSchedulingSectionAndSubsection":"3A","sanitationDistrict":"104","secondStreetCode":"11091001010","secondStreetNameNormalized":"9 AVENUE","stateSenatorialDistrict":"27","streetCode1":"11091001","streetCode2":"13463001","streetName1":"9 AVENUE","streetName1In":"W43 ST","streetName2":"WEST   43 STREET","streetName2In":"9 AVE","workAreaFormatIndicatorIn":"C","xCoordinate":"0986427","yCoordinate":"0215839","zipCode":"10036"}}],"parseTree":null,"policy":null}
@@ -89,6 +92,69 @@ test('search for bad ZIP', () => {
   expect(handler).toHaveBeenCalledTimes(1)
   expect(handler.mock.calls[0][0]).toEqual({type: 'ambiguous', input: '00000', possible: []})
 })
+
+describe('search for text', () => {
+  const rejectPromise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject('mock-error')
+    }, 20)
+  })
+  const resolvePromise = new Promise((resolve, reject) => {
+    resolve({
+      json: () => {
+        return new Promise((resolve, reject) => {
+          resolve('mock-json')
+        })
+      }
+    })
+  })
+
+  afterEach(() => {
+    fetchTimeout.mockClear()
+  })
+
+  test('search for text - error', done => {
+    expect.assertions(5)
+  
+    fetchTimeout.promise = rejectPromise
+
+    const geoclient = new Geoclient({url: URL})
+    geoclient.error = jest.fn()
+
+    geoclient.search(`"double quoted" & 'single quoted'`)
+    
+    setTimeout(() => {
+      expect(fetchTimeout).toHaveBeenCalledTimes(1)
+      expect(fetchTimeout.mock.calls[0][0]).toBe(`${URL}&input=double%20quoted%20%20and%20%20single%20quoted`)
+      expect(geoclient.error).toHaveBeenCalledTimes(1)
+      expect(geoclient.error.mock.calls[0][0]).toBe('mock-error')
+      expect(typeof geoclient.error.mock.calls[0][1]).toBe('function')
+      done()
+    }, 500)
+  })
+
+  test('search for text - success', done => {
+    expect.assertions(6)
+  
+    fetchTimeout.promise = resolvePromise
+
+    const geoclient = new Geoclient({url: URL})
+    geoclient.geoclient = jest.fn((json, resolve) => {
+      resolve('mock-location')
+    })
+
+    geoclient.search(`"double quoted" & 'single quoted'`).then(location => {
+      expect(fetchTimeout).toHaveBeenCalledTimes(1)
+      expect(fetchTimeout.mock.calls[0][0]).toBe(`${URL}&input=double%20quoted%20%20and%20%20single%20quoted`)
+      expect(geoclient.geoclient).toHaveBeenCalledTimes(1)
+      expect(geoclient.geoclient.mock.calls[0][0]).toBe('mock-json')
+      expect(typeof geoclient.geoclient.mock.calls[0][1]).toBe('function')
+      expect(location).toBe('mock-location')
+      done()
+    })
+  })
+})
+
 
 test('project', () => {
   expect.assertions(3)
