@@ -529,3 +529,59 @@ test('geoclient GEOCLIENT_OK_NOT_MAPPABLE_ADDRESS_RANGE_AVAILABLE', () => {
   expect(resolve.mock.calls[0][0].possible[6].name).toBe('3333 Garage Broadway, Manhattan, NY')
   expect(resolve.mock.calls[0][0].possible[6].data).toBeUndefined()
 })
+
+describe('error', () => {
+  const error = console.error
+  beforeEach(() => {
+    console.error = jest.fn()
+  })
+  afterEach(() => {
+    console.error = error
+  })
+  test('geoclient error', () => {
+    expect.assertions(8)
+    
+    const reject = jest.fn()
+    const handler = jest.fn()
+    
+    const geoclient = new Geoclient({url: URL})
+  
+    geoclient.on('error', handler)
+    geoclient.error('mock-error', reject)
+  
+    expect(console.error).toHaveBeenCalledTimes(1)
+    expect(console.error.mock.calls[0][0]).toBe('Geoclient error')
+    expect(console.error.mock.calls[0][1]).toBe('mock-error')
+  
+    expect(reject).toHaveBeenCalledTimes(1)
+    expect(reject.mock.calls[0][0].type).toBe('error')
+    expect(reject.mock.calls[0][0].error).toBe('mock-error')
+    
+    expect(handler).toHaveBeenCalledTimes(1)
+    expect(handler.mock.calls[0][0]).toBe('mock-error')
+  })
+})
+
+
+describe('parse bad coordinate', () => {
+  const warn = console.warn
+  beforeEach(() => {
+    console.warn = jest.fn()
+  })
+  afterEach(() => {
+    console.warn = warn
+  })
+  test('parse bad coordinate', () => {
+    expect.assertions(3)
+
+    const geoclient = new Geoclient({url: URL})
+    geoclient.project = () => {
+      throw 'mock-error'
+    }
+    geoclient.parse(GEOCLIENT_OK_ADDRESS_RESPONSE.results[0])
+
+    expect(console.warn).toHaveBeenCalledTimes(1)
+    expect(console.warn.mock.calls[0][0]).toBe('No coordinate')
+    expect(console.warn.mock.calls[0][1]).toEqual(GEOCLIENT_OK_ADDRESS_RESPONSE.results[0])
+  })
+})
