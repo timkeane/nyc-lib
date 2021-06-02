@@ -1,10 +1,11 @@
 #lng {
 	overflow: visible;
-	height: 35px;
+	height: 33px;
 }
 #lng .menu {
-	width: 280px;
+	width: 100%;
 	margin: -35px auto;
+	height: 100%;
 }
 #lng .btn {
 	position: relative;
@@ -51,7 +52,6 @@
 	left: 0;
 	top: 0;
 	width: 100%;
-	height: 33px;
 	opacity: 0;
 }
 #lng select option.rtl {
@@ -60,7 +60,6 @@
 #lng .btn-sq, #lng select {
 	padding: 0;
 	width: 33px;
-	height: 33px;
 }
 #lng .btn-sq .hint {
 	position: absolute;
