@@ -119,7 +119,7 @@ class Directions extends Contanier {
     $('#mode button').not('#mta').on('click', this.mode.bind(this))
 
     const input = $('#fld-from input')
-      .on('keypress', nyc.bind(this.key.bind, this))
+      .on('keypress', nyc.bind(this.key, this))
       .on('focus', () => {
         input.trigger('select')
       })
