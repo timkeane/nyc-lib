@@ -134,7 +134,7 @@ describe('constructor', () => {
 
       expect($.mocks.slideUp).toHaveBeenCalledTimes(1)
       expect($.mocks.slideUp.mock.instances[0].get(0)).toBe($('#directions').get(0))
-      expect($('.fnd #lng').css('display')).toBe('none')
+      expect($('.fnd #lng').css('display')).toBe('block')
     })
   })
 
