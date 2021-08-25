@@ -55,7 +55,8 @@ class MapMgr {
      * @member {ol.Map}
      */
     this.map = new Basemap({
-      target: $(options.mapTarget).get(0)
+      target: $(options.mapTarget).get(0),
+      osm: options.osm
     })
     /**
      * @desc The view

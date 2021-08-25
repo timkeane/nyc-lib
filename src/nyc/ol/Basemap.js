@@ -28,7 +28,6 @@ import PinchZoom from 'ol/interaction/PinchZoom'
 import OlView from 'ol/View'
 import OlSourceXYZ from 'ol/source/XYZ'
 import OlLayerTile from 'ol/layer/Tile'
-
 import GeoJSON from 'ol/format/GeoJSON'
 
 const proj4 = nyc.proj4
@@ -75,6 +74,11 @@ class Basemap extends Map {
      * @member {OlLayerTile}
      */
     this.base = null
+    /**
+     * @private
+     * @member {OlLayerTile}
+     */
+    this.osm = null
     /**
      * @private
      * @member {Object<string, OlLayerTile>}
@@ -136,7 +140,7 @@ class Basemap extends Map {
    * @method
    */
   hidePhoto() {
-    this.base.setVisible(true)
+    this[this.osm ? 'osm' : 'base'].setVisible(true)
     this.showLabels(BasemapHelper.LabelType.BASE)
     Object.entries(this.photos).forEach(([year, layer]) => {
       layer.setVisible(false)
@@ -150,7 +154,9 @@ class Basemap extends Map {
    * @param {nyc.Basemap.BaseLayers} labelType The label type to show
    */
   showLabels(labelType) {
-    this.labels.base.setVisible(labelType === BasemapHelper.LabelType.BASE)
+    if (!this.osm) {
+      this.labels.base.setVisible(labelType === BasemapHelper.LabelType.BASE)
+    }
     this.labels.photo.setVisible(labelType === BasemapHelper.LabelType.PHOTO)
   }
   /**
@@ -162,6 +168,7 @@ class Basemap extends Map {
    */
   getBaseLayers() {
     return {
+      osm: this.osm,
       base: this.base,
       labels: this.labels,
       photos: this.photos
@@ -195,27 +202,43 @@ class Basemap extends Map {
    */
   setupLayers(options, preload) {
     const projection = 'EPSG:3857';
-    this.base = new OlLayerTile({
-      extent: this.layerExtent(Basemap.UNIVERSE_EXTENT, options.view),
-      source: new OlSourceXYZ({
-        url: Basemap.BASE_URL,
-        projection: projection
-      }),
-      preload: preload || 0
-    })
-    this.addLayer(this.base)
-
-    Object.entries(Basemap.LABEL_URLS).forEach(([labelType, url]) => {
-      this.labels[labelType] = new OlLayerTile({
-        extent: this.layerExtent(Basemap.LABEL_EXTENT, options.view),
+    if (options.osm) {
+      this.osm = new OlLayerTile({
         source: new OlSourceXYZ({
-          url: url,
+          urls: [
+            'https://cartodb-basemaps-1.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+            'https://cartodb-basemaps-2.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+            'https://cartodb-basemaps-3.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+            'https://cartodb-basemaps-4.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'
+          ]
+        })
+      })
+      this.addLayer(this.osm)
+    } else {
+      this.base = new OlLayerTile({
+        extent: this.layerExtent(Basemap.UNIVERSE_EXTENT, options.view),
+        source: new OlSourceXYZ({
+          url: Basemap.BASE_URL,
           projection: projection
         }),
-        zIndex: 1000,
-        visible: labelType === BasemapHelper.LabelType.BASE
+        preload: preload || 0
       })
-      this.addLayer(this.labels[labelType])
+      this.addLayer(this.base)
+    }
+
+    Object.entries(Basemap.LABEL_URLS).forEach(([labelType, url]) => {
+      if (!this.osm || labelType === 'photo') {
+        this.labels[labelType] = new OlLayerTile({
+          extent: this.layerExtent(Basemap.LABEL_EXTENT, options.view),
+          source: new OlSourceXYZ({
+            url: url,
+            projection: projection
+          }),
+          zIndex: 1000,
+          visible: labelType === BasemapHelper.LabelType.BASE
+        })
+        this.addLayer(this.labels[labelType])
+      }
     })
 
     Object.entries(Basemap.PHOTO_URLS).forEach(([year, url]) => {

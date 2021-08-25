@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>nyc.ol.FinderApp with nyc.Directions Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.15/proj4.js"></script>
+  <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v6.5.0/build/ol.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.4.0/papaparse.min.js"></script>
+  <script src="../../js/babel-polyfill.js"></script>
+  <script src="../../js/nyc-ol-lib.js"></script>
+  <link href="../../css/nyc-ol-fullscreen-lib.css" rel="stylesheet">
+	<style>
+    .facility .name, .filter-chc-0 label {
+      padding-left: 25px;
+      background-position: 0 center;
+      background-repeat: no-repeat;
+      background-size: 20px;
+    }
+    .translated-rtl .facility .name, .translated-rtl .filter-chc-0 label {
+      margin-right: unset;
+      padding-right: 25px;
+      background-position: right center;
+    }
+    .facility.DOE .name, label[for="chc-chc-1"] {
+      background-image: url("../img/DOE.png")
+    }
+    .facility.NYCEEC .name, label[for="chc-chc-2"] {
+      background-image: url("../img/NYCEEC.png")
+    }
+    .facility.CHARTER .name, label[for="chc-chc-3"] {
+      background-image: url("../img/CHARTER.png")
+    }
+    .facility.PKC .name, label[for="chc-chc-4"] {
+      background-image: url("../img/PKC.png")
+    }
+    .fnd .facility a.btn.phone {
+      display: block;
+      margin-bottom: 4px;
+      width: auto;
+    }
+	</style>
+</head>
+<body class="loading">
+	<script>
+    var MSG = '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>'
+    new nyc.ol.FinderApp({
+      osm: true,
+      title: 'Example Finder',
+      splashOptions: {message: MSG},
+      geoclientUrl: 'https://maps.nyc.gov/geoclient/v2/search.json?app_key=74DF5DB1D7320A9A2&app_id=nyc-lib-example',
+      facilityTabTitle: 'Ex. Schools',
+      facilityUrl: '../data/example-pka.csv',
+      facilityFormat: new nyc.ol.format.CsvPoint({
+        x: 'X',
+        y: 'Y',
+        dataProjection: 'EPSG:2263'
+      }),
+      facilityStyle: function(feature, resolution) {
+        return new ol.style.Style({
+          image: new ol.style.Icon({
+            src: '../img/' + feature.get('TYPE') + '.png',
+            scale: 24 / 64
+          })
+        });
+      },
+      filterChoiceOptions: [
+        {
+          title: 'Example School Type',
+          radio: true,
+          choices: [
+            {name: 'TYPE', values: ['DOE', 'NYCEEC', 'CHARTER', 'PKC'], label: 'All Schools', checked: true},
+            {name: 'TYPE', values: ['DOE'], label: 'District School'},
+            {name: 'TYPE', values: ['NYCEEC'], label: 'Early Ed Center'},
+            {name: 'TYPE', values: ['CHARTER'], label: 'Charter School'},
+            {name: 'TYPE', values: ['PKC'], label: 'Pre-K Center'}
+          ]
+        },
+        {
+          title: 'Example Day Length',
+          choices: [
+            {name: 'DAY_LENGTH', values: ['1', '2', '5', '7'], label: 'Full Day', checked: true},
+      			{name: 'DAY_LENGTH', values: ['3', '6', '7'], label: 'Half Day', checked: true},
+      			{name: 'DAY_LENGTH', values: ['4', '5', '6', '7'], label: '5-hour', checked: true}
+          ]
+        }
+      ],
+      facilitySearch: {nameField: 'NAME', placeholder: 'Find a location near you...'},
+      decorations: [{
+        getName: function() {
+          return this.get('NAME');
+        },
+        getAddress1: function() {
+          return this.get('ADDRESS');
+        },
+        getBorough: function() {
+          return {
+            M: 'Manhattan',
+            X: 'Bronx',
+            Q: 'Queens',
+            K: 'Brooklyn',
+            R: 'Staten Island'
+          }[this.get('BOROUGH')];
+        },
+        getCityStateZip: function() {
+          return this.getBorough() + ', NY ' + this.get('ZIP');
+        },
+        getPhone: function() {
+          return this.get('PHONE');
+        },
+        getEmail: function() {
+          return this.get('EMAIL');
+        },
+        getWebsite: function() {
+          return this.get('WEBSITE');
+        },
+        cssClass: function() {
+          return this.get('TYPE');
+        },
+        detailsHtml: function() {
+          return $('<ul><li>Detail 1</li><li>Detail 2</li><li>Detail 3</li></ul>');
+        },
+      }],
+      directionsUrl: 'https://maps.googleapis.com/maps/api/js?&sensor=false&libraries=visualization'
+    });
+	</script>
+</body>
+</html>

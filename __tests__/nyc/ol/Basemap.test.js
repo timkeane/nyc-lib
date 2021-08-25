@@ -199,7 +199,7 @@ test('getBaseLayers', () => {
 
   const baseLayers = basemap.getBaseLayers()
 
-  expect(Object.entries(baseLayers).length).toBe(3)
+  expect(Object.entries(baseLayers).length).toBe(4)
 
   expect(baseLayers.base instanceof OlLayerTile).toBe(true)
   expect(baseLayers.base).toBe(basemap.base)
