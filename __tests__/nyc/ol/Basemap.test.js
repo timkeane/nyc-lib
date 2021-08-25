@@ -174,6 +174,30 @@ test('hidePhoto', () => {
   expect(basemap.labels.photo.getVisible()).toBe(false)
 })
 
+test('hidePhoto OSM', () => {
+  expect.assertions(30)
+
+  const basemap = new Basemap({target: 'map', osm: true})
+
+  basemap.showPhoto(1996)
+
+  expect(Object.entries(basemap.photos).length).toBe(12)
+  Object.entries(basemap.photos).forEach(([year, layer]) => {
+    expect(layer.getVisible()).toBe(year === '1996')
+  })
+  expect(basemap.labels.base).toBe(undefined)
+  expect(basemap.labels.photo.getVisible()).toBe(true)
+
+  basemap.hidePhoto()
+  expect(basemap['osm'].getVisible()).toBe(true)
+
+  Object.entries(basemap.photos).forEach(([year, layer]) => {
+    expect(layer.getVisible()).toBe(false)
+  })
+  expect(basemap.labels.base).toBe(undefined)
+  expect(basemap.labels.photo.getVisible()).toBe(false)
+})
+
 test('showLabels', () => {
   expect.assertions(6)
 
@@ -192,6 +216,24 @@ test('showLabels', () => {
   expect(basemap.labels.photo.getVisible()).toBe(false)
 })
 
+test('showLabels OSM', () => {
+  expect.assertions(6)
+
+  const basemap = new Basemap({target: 'map', osm: true})
+
+  expect(basemap.labels.base).toBe(undefined)
+  expect(basemap.labels.photo.getVisible()).toBe(false)
+
+  basemap.showLabels(BasemapHelper.LabelType.PHOTO)
+
+  expect(basemap.labels.base).toBe(undefined)
+  expect(basemap.labels.photo.getVisible()).toBe(true)
+
+  basemap.showLabels(BasemapHelper.LabelType.BASE)
+  expect(basemap.labels.base).toBe(undefined)
+  expect(basemap.labels.photo.getVisible()).toBe(false)
+})
+
 test('getBaseLayers', () => {
   expect.assertions(21)
 
@@ -207,6 +249,30 @@ test('getBaseLayers', () => {
   expect(baseLayers.labels).toBe(basemap.labels)
   expect(Object.entries(baseLayers.labels).length).toBe(2)
   expect(baseLayers.labels.base instanceof OlLayerTile).toBe(true)
+  expect(baseLayers.labels.photo instanceof OlLayerTile).toBe(true)
+
+  expect(baseLayers.photos).toBe(basemap.photos)
+  expect(Object.entries(baseLayers.photos).length).toBe(12)
+  Object.entries(baseLayers.photos).forEach(([year, layer]) => {
+    expect(layer instanceof OlLayerTile).toBe(true)
+  })
+})
+
+test('getBaseLayers OSM', () => {
+  expect.assertions(21)
+
+  const basemap = new Basemap({target: 'map', osm: true})
+
+  const baseLayers = basemap.getBaseLayers()
+
+  expect(Object.entries(baseLayers).length).toBe(4)
+
+  expect(baseLayers.osm instanceof OlLayerTile).toBe(true)
+  expect(baseLayers.osm).toBe(basemap.osm)
+
+  expect(baseLayers.labels).toBe(basemap.labels)
+  expect(Object.entries(baseLayers.labels).length).toBe(1)
+  expect(baseLayers.labels.base instanceof OlLayerTile).toBe(false)
   expect(baseLayers.labels.photo instanceof OlLayerTile).toBe(true)
 
   expect(baseLayers.photos).toBe(basemap.photos)
