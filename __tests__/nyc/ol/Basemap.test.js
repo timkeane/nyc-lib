@@ -320,21 +320,53 @@ test('setupLayers as called by constructor', () => {
 })
 
 test('setupLayers using OSM tiles as called by constructor', () => {
-  expect.assertions(8)
+  expect.assertions(102)
 
-  const basemap_osm = new Basemap({target: 'map', osm: true})
-  expect(basemap_osm.base instanceof OlLayerTile).toBe(false)
-  expect(basemap_osm.osm instanceof OlLayerTile).toBe(true)
+  const basemap = new Basemap({target: 'map', osm: true})
+  expect(basemap.base instanceof OlLayerTile).toBe(false)
+  expect(basemap.osm instanceof OlLayerTile).toBe(true)
 
-  expect(basemap_osm.osm).toBe(basemap_osm.getLayers().getArray()[0])
-  expect(basemap_osm.osm.getVisible()).toBe(true)
-  expect(basemap_osm.osm.getSource() instanceof OlSourceXYZ).toBe(true)
-  expect(basemap_osm.osm.getSource().getProjection().getCode()).toBe('EPSG:3857')
-  expect(basemap_osm.osm.getSource().getUrls()).toEqual(
+  expect(basemap.osm).toBe(basemap.getLayers().getArray()[0])
+  expect(basemap.osm.getVisible()).toBe(true)
+  expect(basemap.osm.getSource() instanceof OlSourceXYZ).toBe(true)
+  expect(basemap.osm.getSource().getProjection().getCode()).toBe('EPSG:3857')
+  expect(basemap.osm.getSource().getUrls()).toEqual(
     Basemap.OSM_URLS
   )
+  
+  expect(basemap.labels.base instanceof OlLayerTile).toBe(false)
+  expect(Object.entries(basemap.labels).length).toBe(1) // photo layer only
+  expect(basemap.labels.photo instanceof OlLayerTile).toBe(true)
+  expect(basemap.labels.photo).toBe(basemap.getLayers().getArray()[1])
+  expect(basemap.labels.photo.getVisible()).toBe(false)
+  expect(basemap.labels.photo.getExtent()).toEqual(Basemap.LABEL_EXTENT)
+  expect(basemap.labels.photo.getSource() instanceof OlSourceXYZ).toBe(true)
+  expect(basemap.labels.photo.getSource().getProjection().getCode()).toBe('EPSG:3857')
+  expect(basemap.labels.photo.getSource().getUrls()).toEqual([
+    'https://maps1.nyc.gov/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8',
+    'https://maps2.nyc.gov/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8',
+    'https://maps3.nyc.gov/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8',
+    'https://maps4.nyc.gov/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8'
+  ])
 
-  expect(Object.entries(basemap_osm.labels).length).toBe(1) // photo layer only
+  let i = 2
+  expect(Object.entries(basemap.photos).length).toBe(12)
+  Object.entries(basemap.photos).forEach(([year, layer]) => {
+    expect(basemap.photos[year] instanceof OlLayerTile).toBe(true)
+    expect(basemap.photos[year]).toBe(basemap.getLayers().getArray()[i])
+    expect(basemap.photos[year].getVisible()).toBe(false)
+    expect(basemap.photos[year].getExtent()).toEqual(Basemap.PHOTO_EXTENT)
+    expect(basemap.photos[year].getSource() instanceof OlSourceXYZ).toBe(true)
+    expect(basemap.photos[year].getSource().getProjection().getCode()).toBe('EPSG:3857')
+    expect(basemap.photos[year].getSource().getUrls()).toEqual([
+      `https://maps1.nyc.gov/tms/1.0.0/photo/${year}/{z}/{x}/{-y}.png8`,
+      `https://maps2.nyc.gov/tms/1.0.0/photo/${year}/{z}/{x}/{-y}.png8`,
+      `https://maps3.nyc.gov/tms/1.0.0/photo/${year}/{z}/{x}/{-y}.png8`,
+      `https://maps4.nyc.gov/tms/1.0.0/photo/${year}/{z}/{x}/{-y}.png8`
+    ])
+    i++
+  })
+  expect(i).toBe(14)
 })
 
 test('layerExtent', () => {
