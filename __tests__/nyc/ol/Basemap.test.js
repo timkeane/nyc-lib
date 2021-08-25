@@ -174,10 +174,10 @@ test('hidePhoto', () => {
   expect(basemap.labels.photo.getVisible()).toBe(false)
 })
 
-test('hidePhoto OSM', () => {
+test('hidePhoto alternate basemap', () => {
   expect.assertions(30)
 
-  const basemap = new Basemap({target: 'map', osm: true})
+  const basemap = new Basemap({target: 'map', altBasemap: true})
 
   basemap.showPhoto(1996)
 
@@ -189,7 +189,7 @@ test('hidePhoto OSM', () => {
   expect(basemap.labels.photo.getVisible()).toBe(true)
 
   basemap.hidePhoto()
-  expect(basemap['osm'].getVisible()).toBe(true)
+  expect(basemap['altBasemap'].getVisible()).toBe(true)
 
   Object.entries(basemap.photos).forEach(([year, layer]) => {
     expect(layer.getVisible()).toBe(false)
@@ -216,10 +216,10 @@ test('showLabels', () => {
   expect(basemap.labels.photo.getVisible()).toBe(false)
 })
 
-test('showLabels OSM', () => {
+test('showLabels aternate basemap', () => {
   expect.assertions(6)
 
-  const basemap = new Basemap({target: 'map', osm: true})
+  const basemap = new Basemap({target: 'map', altBasemap: true})
 
   expect(basemap.labels.base).toBe(undefined)
   expect(basemap.labels.photo.getVisible()).toBe(false)
@@ -258,17 +258,17 @@ test('getBaseLayers', () => {
   })
 })
 
-test('getBaseLayers OSM', () => {
+test('getBaseLayers aternate basemap', () => {
   expect.assertions(21)
 
-  const basemap = new Basemap({target: 'map', osm: true})
+  const basemap = new Basemap({target: 'map', altBasemap: true})
 
   const baseLayers = basemap.getBaseLayers()
 
   expect(Object.entries(baseLayers).length).toBe(4)
 
-  expect(baseLayers.osm instanceof OlLayerTile).toBe(true)
-  expect(baseLayers.osm).toBe(basemap.osm)
+  expect(baseLayers.altBasemap instanceof OlLayerTile).toBe(true)
+  expect(baseLayers.altBasemap).toBe(basemap.altBasemap)
 
   expect(baseLayers.labels).toBe(basemap.labels)
   expect(Object.entries(baseLayers.labels).length).toBe(1)
@@ -385,19 +385,19 @@ test('setupLayers as called by constructor', () => {
   expect(i).toBe(15)
 })
 
-test('setupLayers using OSM tiles as called by constructor', () => {
+test('setupLayers using aternate basemap tiles as called by constructor', () => {
   expect.assertions(102)
 
-  const basemap = new Basemap({target: 'map', osm: true})
+  const basemap = new Basemap({target: 'map', altBasemap: true})
   expect(basemap.base instanceof OlLayerTile).toBe(false)
-  expect(basemap.osm instanceof OlLayerTile).toBe(true)
+  expect(basemap.altBasemap instanceof OlLayerTile).toBe(true)
 
-  expect(basemap.osm).toBe(basemap.getLayers().getArray()[0])
-  expect(basemap.osm.getVisible()).toBe(true)
-  expect(basemap.osm.getSource() instanceof OlSourceXYZ).toBe(true)
-  expect(basemap.osm.getSource().getProjection().getCode()).toBe('EPSG:3857')
-  expect(basemap.osm.getSource().getUrls()).toEqual(
-    Basemap.OSM_URLS
+  expect(basemap.altBasemap).toBe(basemap.getLayers().getArray()[0])
+  expect(basemap.altBasemap.getVisible()).toBe(true)
+  expect(basemap.altBasemap.getSource() instanceof OlSourceXYZ).toBe(true)
+  expect(basemap.altBasemap.getSource().getProjection().getCode()).toBe('EPSG:3857')
+  expect(basemap.altBasemap.getSource().getUrls()).toEqual(
+    Basemap.ALT_BASEMAP_URLS
   )
   
   expect(basemap.labels.base instanceof OlLayerTile).toBe(false)

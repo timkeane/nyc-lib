@@ -44,10 +44,10 @@
   <div id="map"></div>
   <h3>Drag and drop shapefiles or GeoJSON files</h3>
   <select>
-    <option value="base">OSM Base Map</option>
+    <option value="base">Alternate Basemap Base Map</option>
   </select>
   <script>
-    var map = new nyc.ol.Basemap({target: 'map', osm: true});
+    var map = new nyc.ol.Basemap({target: 'map', altBasemap: true});
 
     function showPhoto(event) {
       var year = $(event.target).val()

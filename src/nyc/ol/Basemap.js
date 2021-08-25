@@ -78,7 +78,7 @@ class Basemap extends Map {
      * @private
      * @member {OlLayerTile}
      */
-    this.osm = null
+    this.altBasemap = null
     /**
      * @private
      * @member {Object<string, OlLayerTile>}
@@ -140,7 +140,7 @@ class Basemap extends Map {
    * @method
    */
   hidePhoto() {
-    this[this.osm ? 'osm' : 'base'].setVisible(true)
+    this[this.altBasemap ? 'altBasemap' : 'base'].setVisible(true)
     this.showLabels(BasemapHelper.LabelType.BASE)
     Object.entries(this.photos).forEach(([year, layer]) => {
       layer.setVisible(false)
@@ -154,7 +154,7 @@ class Basemap extends Map {
    * @param {nyc.Basemap.BaseLayers} labelType The label type to show
    */
   showLabels(labelType) {
-    if (!this.osm) {
+    if (!this.altBasemap) {
       this.labels.base.setVisible(labelType === BasemapHelper.LabelType.BASE)
     }
     this.labels.photo.setVisible(labelType === BasemapHelper.LabelType.PHOTO)
@@ -168,7 +168,7 @@ class Basemap extends Map {
    */
   getBaseLayers() {
     return {
-      osm: this.osm,
+      altBasemap: this.altBasemap,
       base: this.base,
       labels: this.labels,
       photos: this.photos
@@ -202,13 +202,13 @@ class Basemap extends Map {
    */
   setupLayers(options, preload) {
     const projection = 'EPSG:3857';
-    if (options.osm) {
-      this.osm = new OlLayerTile({
+    if (options.altBasemap) {
+      this.altBasemap = new OlLayerTile({
         source: new OlSourceXYZ({
-          urls: Basemap.OSM_URLS
+          urls: Basemap.ALT_BASEMAP_URLS
         })
       })
-      this.addLayer(this.osm)
+      this.addLayer(this.altBasemap)
     } else {
       this.base = new OlLayerTile({
         extent: this.layerExtent(Basemap.UNIVERSE_EXTENT, options.view),
@@ -222,7 +222,7 @@ class Basemap extends Map {
     }
 
     Object.entries(Basemap.LABEL_URLS).forEach(([labelType, url]) => {
-      if (!this.osm || labelType === 'photo') {
+      if (!this.altBasemap || labelType === 'photo') {
         this.labels[labelType] = new OlLayerTile({
           extent: this.layerExtent(Basemap.LABEL_EXTENT, options.view),
           source: new OlSourceXYZ({
@@ -339,12 +339,12 @@ Basemap.PHOTO_URLS = {
 }
 
 /**
- * @desc The URLs of the Carto OSM map tiles
+ * @desc The URLs of the alternate base map tiles
  * @private
  * @const
  * @type {Array<string>}
  */
-Basemap.OSM_URLS = [
+Basemap.ALT_BASEMAP_URLS = [
   'https://cartodb-basemaps-1.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
   'https://cartodb-basemaps-2.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
   'https://cartodb-basemaps-3.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',

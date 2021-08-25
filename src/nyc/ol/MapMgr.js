@@ -56,7 +56,7 @@ class MapMgr {
      */
     this.map = new Basemap({
       target: $(options.mapTarget).get(0),
-      osm: options.osm
+      altBasemap: options.altBasemap
     })
     /**
      * @desc The view
