@@ -205,12 +205,7 @@ class Basemap extends Map {
     if (options.osm) {
       this.osm = new OlLayerTile({
         source: new OlSourceXYZ({
-          urls: [
-            'https://cartodb-basemaps-1.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
-            'https://cartodb-basemaps-2.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
-            'https://cartodb-basemaps-3.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
-            'https://cartodb-basemaps-4.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'
-          ]
+          urls: Basemap.OSM_URLS
         })
       })
       this.addLayer(this.osm)
@@ -237,6 +232,7 @@ class Basemap extends Map {
           zIndex: 1000,
           visible: labelType === BasemapHelper.LabelType.BASE
         })
+
         this.addLayer(this.labels[labelType])
       }
     })
@@ -341,6 +337,19 @@ Basemap.PHOTO_URLS = {
   '2016': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2016/{z}/{x}/{-y}.png8`,
   '2018': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2018/{z}/{x}/{-y}.png8`
 }
+
+/**
+ * @desc The URLs of the Carto OSM map tiles
+ * @private
+ * @const
+ * @type {Array<string>}
+ */
+Basemap.OSM_URLS = [
+  'https://cartodb-basemaps-1.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+  'https://cartodb-basemaps-2.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+  'https://cartodb-basemaps-3.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+  'https://cartodb-basemaps-4.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'
+]
 
 /**
  * @desc The URLs of the New York City base map label tiles

@@ -319,6 +319,24 @@ test('setupLayers as called by constructor', () => {
   expect(i).toBe(15)
 })
 
+test('setupLayers using OSM tiles as called by constructor', () => {
+  expect.assertions(8)
+
+  const basemap_osm = new Basemap({target: 'map', osm: true})
+  expect(basemap_osm.base instanceof OlLayerTile).toBe(false)
+  expect(basemap_osm.osm instanceof OlLayerTile).toBe(true)
+
+  expect(basemap_osm.osm).toBe(basemap_osm.getLayers().getArray()[0])
+  expect(basemap_osm.osm.getVisible()).toBe(true)
+  expect(basemap_osm.osm.getSource() instanceof OlSourceXYZ).toBe(true)
+  expect(basemap_osm.osm.getSource().getProjection().getCode()).toBe('EPSG:3857')
+  expect(basemap_osm.osm.getSource().getUrls()).toEqual(
+    Basemap.OSM_URLS
+  )
+
+  expect(Object.entries(basemap_osm.labels).length).toBe(1) // photo layer only
+})
+
 test('layerExtent', () => {
   expect.assertions(2)
 
