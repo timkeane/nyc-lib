@@ -17,7 +17,7 @@
 .notranslate.rtl {
 	direction: rtl !important;
 }
-#map .ol-overlaycontainer-stopevent * {
+.translated-rtl #map .ol-overlaycontainer-stopevent * {
 	direction: rtl;
 }
 .translated-rtl .btn {
