@@ -10,8 +10,9 @@
 .phone, 
 .phone *, 
 .notranslate,
-.notranslate * {
-	direction:ltr !important;
+.notranslate *,
+.ol-overlaycontainer {
+	direction: ltr !important;
 }
 .notranslate.rtl {
 	direction: rtl !important;
