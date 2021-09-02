@@ -18,10 +18,11 @@
   border-collapse: collapse;
   width: 100%;
 }
+.chc td {
+  vertical-align: middle;
+}
 .chc td label {
   display: block;
-  height: 30px;
-  line-height: 30px;
 }
 .chc td.input {
   width: 20px;
