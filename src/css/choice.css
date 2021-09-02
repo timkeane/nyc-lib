@@ -27,9 +27,13 @@
   width: 20px;
   padding: 5px;
 }
-.chc-chc .ico {
+.chc-chc td.ico {
+  width: 32px;
+}
+.chc-chc .ico div {
   width: 22px;
-  padding: 5px;
+  height: 22px;
+  margin: 5px;
   background-repeat: no-repeat;
   background-size: 22px;
   background-position: center center;

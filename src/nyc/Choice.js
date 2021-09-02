@@ -99,7 +99,7 @@ class Choice extends Container {
     if (choice.icon) {
       const inputCell = div.find('td.input')
       const css = choice.values.join('_').replace(/[^A-Za-z0-9\s|^_]/g, '').replace(/\s+/g, '-').toLowerCase()
-      $(`<td class="ico chc-${css}"></td>`).insertAfter(inputCell)
+      $(`<td class="ico chc-${css}"><div></div></td>`).insertAfter(inputCell)
     }
   }
 
