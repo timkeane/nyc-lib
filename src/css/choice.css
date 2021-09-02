@@ -23,6 +23,7 @@
 }
 .chc td label {
   display: block;
+  line-height: 20px;
 }
 .chc td.input {
   width: 20px;
