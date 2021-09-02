@@ -14,27 +14,33 @@
 .chc-chc:last-of-type {
   border-bottom: none;
 }
-
 .chc table {
   border-collapse: collapse;
+  width: 100%;
 }
-.chc td {
-  padding: 5px;
+.chc td label {
+  display: block;
+  height: 30px;
+  line-height: 30px;
 }
 .chc td.input {
   width: 20px;
+  padding: 5px;
 }
 .chc-chc .ico {
   width: 22px;
+  padding: 5px;
   background-repeat: no-repeat;
   background-size: 22px;
   background-position: center center;
 }
 .chc-chc input[type="checkbox"] {
-  height: 12px;
+  height: 15px;
+  width: 15px;
 }
 .chc-chc input[type="radio"] {
-  height: 15px;
+  height: 16px;
+  width: 14px;
 }
 .chc-chc:last-of-type {
 	border: none;
