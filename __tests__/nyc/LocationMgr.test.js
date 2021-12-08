@@ -192,7 +192,7 @@ test('locateFromQueryString', () => {
 
   locationMgr.mapLocator.zoomLocation = jest.fn()
   locationMgr.mapLocator.getProjection = jest.fn(() => {
-    return 'EPSG:3857'
+    return {getCode: () => 'EPSG:3857'}
   })
 
   locationMgr.locateFromQueryString('?foo=bar&bar=foo&location=1,2,EPSG:4326')

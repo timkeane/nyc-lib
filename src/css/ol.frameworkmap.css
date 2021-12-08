@@ -24,7 +24,9 @@
 	margin-left: -183px;
 	max-height: 300px;
 }
-
 .posbl .dia-msg * {
 	text-align: left;
+}
+.ol-overlaycontainer-stopevent .fas, .ol-control {
+  display: none;
 }
