@@ -17,6 +17,7 @@
     "postbuild": "yarn jsdoc && rm -rf ./tmp",
     "build-no-test": "webpack",
     "jsdoc": "jsdoc -c ./jsdoc/conf.json",
+    "postjsdoc": "node versiondoc.js",
     "pkg-css": "cp -r ./src/css/ ./dist/css/",
     "postcss": "rm -rf ./tmp && mkdir tmp && yarn nyc-css && yarn nyc-ol-css && yarn nyc-ol-fullscreen-css && yarn nyc-basic-css",
     "nyc-css": "postcss ./src/css/nyc-lib.css --o ./tmp/css/nyc-lib.css --no-map --config postcss.config.js",
