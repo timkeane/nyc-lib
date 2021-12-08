@@ -61,7 +61,7 @@ Note: If you plan on load testing an application that uses this library you must
 
 ### Geocoding
 
-* To use `nyc.Geoclient` as the implementation of `nyc.Geocoder` you must first get your Geoclient App ID and App Key from the [NYC Developer Portal] (https://developer.cityofnewyork.us/api/geoclient-api)
+* To use `nyc.Geoclient` as the implementation of `nyc.Geocoder` you must first get your Geoclient App ID and App Key from the [NYC Developer Portal](https://api-portal.nyc.gov/docs/services/geoclient/operations/geoclient)
   * Register if you don't have an NYC Developer Portal account
   * Developer Management > View or Create a New Project...
 * If you work for NYC you may contect the DoITT GIS unit for your App ID and App Key to use a DoITT hosted and supported version of Geoclient
