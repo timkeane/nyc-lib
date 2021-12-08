@@ -15,7 +15,6 @@
 }
 *.screen-reader-only {
 	position: absolute !important;
-	left:-1000px !important;
 	top: auto !important;
 	width: 1px !important;
 	height: 1px !important;
@@ -23,4 +22,5 @@
 	border: none !important;
 	color: transparent !important;
 	background-color: transparent !important;
+  z-index: -1000;
 }

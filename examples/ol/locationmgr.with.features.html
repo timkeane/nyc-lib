@@ -57,6 +57,13 @@
         });
       }
     }, 200);
+
+    function located(location) {
+      console.info(location.type, location);
+    };
+
+    locationMgr.on('geocoded', located);
+    locationMgr.on('geolocated', located);    
   </script>
 </body>
 </html>

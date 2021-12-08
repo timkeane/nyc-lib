@@ -70,7 +70,7 @@ class ListPager extends Container {
     this.list.empty()
     this.items = items || []
     this.index = 0
-    this.moreBtn.fadeIn()
+    $(this.moreBtn).fadeIn()
     return this.next(true)
   }
   /**

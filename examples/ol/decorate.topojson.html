@@ -9,6 +9,7 @@
   <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
   <script src="../../js/babel-polyfill.js"></script>
   <script src="../../js/nyc-ol-lib.js"></script>
+  <link href="../../css/nyc-ol-fullscreen-lib.css" rel="stylesheet">
   <style>
     html, body, #map {
       margin: 0;
@@ -27,7 +28,7 @@
 <body>
   <div id="map"></div>
   <script>
-    var decorations = [{getZone() {return this.get('zone')}}];
+    var decorations = [{getZone() {return 'Hurricane Evacuation Zone ' + this.get('zone')}}];
     var source = new ol.source.Vector({
       url: '../data/zone.json',
       format: new nyc.ol.format.Decorate({
@@ -41,7 +42,7 @@
 
     map.on('click', function(event) {
       map.forEachFeatureAtPixel(event.pixel, function(feature) {
-        console.info('Zone', feature.getZone());
+        console.info('You clicked ', feature.getZone());
       });
     });
 </script>

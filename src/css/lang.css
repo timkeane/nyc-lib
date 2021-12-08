@@ -63,9 +63,11 @@
 }
 #lng .btn-sq .hint {
 	position: absolute;
-	left: -1000px;
-}
-.lng {
+	top: -1000px;
+	color: transparent;
+	z-index: -1000;
+ }
+ .lng {
 	visibility: hidden;
 	position: fixed;
 	left: -10000px;

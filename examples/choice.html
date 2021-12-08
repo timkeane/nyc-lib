@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>nyc.Choice Example</title>
+  <title>nyc.Choice and nyc.ToggleSwitch Example</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
   <script src="../js/babel-polyfill.js"></script>
   <script src="../js/nyc-lib.js"></script>
@@ -12,6 +12,12 @@
     #check, #radio, #toggle {
       margin: 30px auto 0;
       width: 200px;
+    }
+    #toggle {
+      margin-left: calc(50% - 101px);
+    }
+    .chc-chc .ico {
+      background-repeat: no-repeat;
     }
     .chc-chc.dog .ico {
       background-image: url("img/dog.svg");
@@ -83,10 +89,11 @@
       ]
     });
     function hadler(event) {
-      console.info(event, event.val())
+      console.info(event, event.val());
     };
     check.on('change', hadler);
     radio.on('change', hadler);
+    toggle.on('change', hadler);
 	</script>
 </body>
 </html>
