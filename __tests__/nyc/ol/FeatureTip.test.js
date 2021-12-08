@@ -195,7 +195,7 @@ test('label no label', () => {
   expect(tip.position).toHaveBeenCalledTimes(0)
 })
 
-test('position bottom-right', () => {
+test('position top-left', () => {
   expect.assertions(1)
 
   const tip = new FeatureTip({map: map, tips: tips})
@@ -205,15 +205,15 @@ test('position bottom-right', () => {
 
   tip.map.getPixelFromCoordinate = jest.fn()
   tip.map.getPixelFromCoordinate.mockReturnValueOnce([50, 50])
-  tip.map.getGetSize = jest.fn()
-  tip.map.getGetSize.mockReturnValueOnce([200, 200])
+  tip.map.getSize = jest.fn()
+  tip.map.getSize.mockReturnValueOnce([200, 200])
 
   tip.position()
 
   expect(tip.getPositioning()).toBe('top-left')
 })
 
-test('position bottom-right', () => {
+test('position top-right', () => {
   expect.assertions(1)
   
   const tip = new FeatureTip({map: map, tips: tips})
@@ -249,7 +249,7 @@ test('position bottom-right', () => {
   expect(tip.getPositioning()).toBe('bottom-right')
 })
 
-test('position bottom-right', () => {
+test('position bottom-left', () => {
   expect.assertions(1)
   
   const tip = new FeatureTip({map: map, tips: tips})
