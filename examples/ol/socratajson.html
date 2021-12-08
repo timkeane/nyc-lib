@@ -24,23 +24,23 @@
       bottom: 0;
       right: 0;
     }
+    h2 {
+      position: fixed;
+      left: 5px;
+      bottom: 5px;
+    }
   </style>
 </head>
 <body>
   <div id="map"></div>
+  <h2>search for an address to load polygons</h2>
   <script>
 
     var map = new nyc.ol.Basemap({target: 'map'});
 
-    // var source = new nyc.ol.source.SocrataJson({
-    //   url: 'https://services5.arcgis.com/GfwWNkhOj9bNBqoJ/arcgis/rest/services/NYC_Community_Districts_Water_Included/FeatureServer/0/query?where=1=1&outFields=BoroCD&outSR=4326&f=geojson',
-    //   strategy: ol.loadingstrategy.bbox
-    // });
-
-    var source = new ol.source.Vector({
-      url: 'https://services5.arcgis.com/GfwWNkhOj9bNBqoJ/arcgis/rest/services/NYC_Community_Districts_Water_Included/FeatureServer/0/query?where=1=1&outFields=BoroCD&outSR=4326&f=geojson',
-      strategy: ol.loadingstrategy.bbox,
-      format: new ol.format.GeoJSON()
+    var source = new nyc.ol.source.SocrataJson({
+      url: 'https://data.cityofnewyork.us/resource/wgbs-damt.json',
+      strategy: ol.loadingstrategy.bbox
     });
 
     var layer = new ol.layer.Vector({

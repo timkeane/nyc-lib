@@ -65,7 +65,11 @@ describe('fetch', () => {
       expect(true).toBe(false)
     }).catch(err => {
       expect(err.message).toBe('Unable to load drawingInfo from mock-url')
-      expect(err.cause.message).toBe("Cannot read property 'renderer' of undefined")
+      expect(
+        err.cause.message === "Cannot read property 'renderer' of undefined"
+        ||
+        err.cause.message === "Cannot read properties of undefined (reading 'renderer')"
+      ).toBe(true)
       done()
     })
   })

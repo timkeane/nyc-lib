@@ -115,8 +115,11 @@ class CartoSql extends OlFormatFeature {
  * @return {string} SQL statement
  */
 CartoSql.createSql = options => {
+  console.warn({options})
   const select = options.select ? options.select : 'cartodb_id, ST_AsText(the_geom_webmercator) wkt_geom, *'
+  console.warn({select});
   const where = options.where ? ` WHERE ${options.where}` : ''
+  console.warn(`SELECT ${select} FROM ${options.from}${where}`);
   return `SELECT ${select} FROM ${options.from}${where}`
 }
 

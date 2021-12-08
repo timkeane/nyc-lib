@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>nyc.ol.source.AutoLoad Example</title>
+  <title>nyc.ol.format.CartoSql Example</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
@@ -11,7 +11,7 @@
   <script src="../../js/babel-polyfill.js"></script>
   <script src="../../js/nyc-ol-lib.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css">
-  <style>
+	<style>
     html, body, #map {
       margin: 0;
       padding: 0;
@@ -23,21 +23,31 @@
       left: 0;
       bottom: 0;
       right: 0;
-    }
+    }     
   </style>
 </head>
 <body>
   <div id="map"></div>
   <script>
+
     var map = new nyc.ol.Basemap({target: 'map'});
-    var source = new nyc.ol.source.AutoLoad({
-      url: '../data/data.json',
-      format: new ol.format.GeoJSON()
-    })
-    source.autoLoad().then(function(features) {
-      console.log(features);
+
+    var cartoSql = nyc.ol.format.CartoSql.createSql({from: 'nycwin_data_copy'});
+    var url = 'https://nycdoitt-admin.carto.com/api/v2/sql?q=' + encodeURIComponent(cartoSql);
+
+    var format = new nyc.ol.format.CartoSql();
+
+    var source = new ol.source.Vector({
+      url: url,
+      format: format
     });
-    map.addLayer(new ol.layer.Vector({source: source}));
-  </script>
+    
+    var layer = new ol.layer.Vector({
+      source: source
+    });
+
+    map.addLayer(layer);
+
+	</script>
 </body>
 </html>

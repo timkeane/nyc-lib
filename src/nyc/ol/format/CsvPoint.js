@@ -3,7 +3,6 @@
  */
 
 import Papa from 'papaparse'
-import util from 'util'
 import OlFeature from 'ol/Feature'
 import OlFormatFeature from 'ol/format/Feature'
 import OlGeomPoint from 'ol/geom/Point'
@@ -11,6 +10,8 @@ import OlFormatFormatType from 'ol/format/FormatType'
 import StandardCsv from 'nyc/ol/format/StandardCsv'
 
 import {get as olProjGet} from 'ol/proj'
+
+const util = require('util')
 
 /**
  * @desc Class to create point features from CSV data
@@ -134,7 +135,8 @@ class CsvPoint extends OlFormatFeature {
    */
   parseSource(source) {
     if (source instanceof ArrayBuffer) {
-      source = new util.TextDecoder().decode(source)
+      const TD = util.TextDecoder || TextDecoder
+      source = new TD().decode(source)
     }
     if (typeof source === 'string') {
       source = Papa.parse(source, {header: true}).data
