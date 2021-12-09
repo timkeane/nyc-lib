@@ -8,10 +8,8 @@ import OlFormatFeature from 'ol/format/Feature'
 import OlGeomPoint from 'ol/geom/Point'
 import OlFormatFormatType from 'ol/format/FormatType'
 import StandardCsv from 'nyc/ol/format/StandardCsv'
-
+import util from 'util'
 import {get as olProjGet} from 'ol/proj'
-
-const util = require('util')
 
 /**
  * @desc Class to create point features from CSV data
