@@ -55,7 +55,7 @@ Note: If you plan on load testing an application that uses this library you must
 ### Building
 
 * Set environment variable `NODE_ENV` to `dev`, `stg`, or `prd`
-* Contact author for addition evnvironment variables that should be included in your `.env` file
+* Until webpack and dependencies are upgraded `export NODE_OPTIONS=--openssl-legacy-provider`
 * If you plan on load testing an application that uses this library you must do so using a staging build
 * Once the environment is set run `yarn build`
 
