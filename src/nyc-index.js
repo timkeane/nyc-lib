@@ -9,6 +9,8 @@ import _nyc_Dialog from 'nyc/Dialog'
 import _nyc_Directions from 'nyc/Directions'
 //import _nyc_Drag from 'nyc/Drag'
 import _nyc_EventHandling from 'nyc/EventHandling'
+import _fetchTimeout from 'nyc/fetchTimeout'
+console.warn(_fetchTimeout)
 import _nyc_Geoclient from 'nyc/Geoclient'
 import _nyc_Geocoder from 'nyc/Geocoder'
 import _nyc_CensusGeocoder from 'nyc/CensusGeocoder'
@@ -38,6 +40,7 @@ window.nyc.Dialog = _nyc_Dialog
 window.nyc.Directions = _nyc_Directions
 //window.nyc.Drag = _nyc_Drag
 window.nyc.EventHandling = _nyc_EventHandling
+window.nyc.fetchTimeout = _fetchTimeout
 window.nyc.Geoclient = _nyc_Geoclient
 window.nyc.Geocoder = _nyc_Geocoder
 window.nyc.CensusGeocoder = _nyc_CensusGeocoder
