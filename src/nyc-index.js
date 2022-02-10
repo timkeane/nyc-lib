@@ -10,7 +10,6 @@ import _nyc_Directions from 'nyc/Directions'
 //import _nyc_Drag from 'nyc/Drag'
 import _nyc_EventHandling from 'nyc/EventHandling'
 import _fetchTimeout from 'nyc/fetchTimeout'
-console.warn(_fetchTimeout)
 import _nyc_Geoclient from 'nyc/Geoclient'
 import _nyc_Geocoder from 'nyc/Geocoder'
 import _nyc_CensusGeocoder from 'nyc/CensusGeocoder'
