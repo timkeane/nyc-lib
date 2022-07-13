@@ -279,11 +279,11 @@ class Search extends Container {
    * @param {jQuery} input Input element
    */
   hookupEvents(input) {
-    input.on('keyup change', $.proxy(this.key, this))
+    input.on('keyup change', this.key.bind(this))
     input.focus(() => input.select())
-    this.clear.click($.proxy(this.clearTxt, this))
-    $(document).mouseup($.proxy(this.listClick, this))
-    this.find('.btn-srch').click($.proxy(this.triggerSearch, this))
+    this.clear.click(this.clearTxt.bind(this))
+    $(document).on('mouseup', this.listClick.bind(this))
+    this.find('.btn-srch').click(this.triggerSearch.bind(this))
   }
   /**
    * @private
@@ -291,7 +291,7 @@ class Search extends Container {
    * @param {jQuery.Event} event Event object
    */
   key(event) {
-    if (event.keyCode === 13 && this.isAddrSrch) {
+    if ((event.keyCode === 13 || event.keyCode === 261) && this.isAddrSrch) {
       this.triggerSearch()
       this.list.slideUp()
     } else {
