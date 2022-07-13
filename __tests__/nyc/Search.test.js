@@ -1,7 +1,7 @@
 import Search from 'nyc/Search'
 import Container from 'nyc/Container'
 import AutoComplete from 'nyc/AutoComplete'
-
+import $ from 'jquery'
 
 let input
 let container
@@ -23,7 +23,7 @@ test('constructor target is input', () => {
   expect(search instanceof Container).toBe(true)
   expect(search instanceof Search).toBe(true)
   expect(search.isAddrSrch).toBe(true)
-  expect(search.getContainer().html()).toBe('<div class="srch input-group" role="search"><input class="rad-all" type="text" data-msg-key="msg-srch" data-msg-attr="placeholder" placeholder="Search for an address..."><button class="btn btn-srch btn-primary btn-lg">Search</button></div><ul class="rad-all" role="application" label="Possible matches for your search"></ul><ul class="retention"></ul>')
+  expect(search.getContainer().html()).toBe('<div class="srch input-group" role="search"><form><input class="rad-all" type="text" data-msg-key="msg-srch" data-msg-attr="placeholder" placeholder="Search for an address..."></form><button class="btn btn-srch btn-primary btn-lg">Search</button></div><ul class="rad-all" role="application" label="Possible matches for your search"></ul><ul class="retention"></ul>')
   expect(search.getContainer().hasClass('srch-ctl')).toBe(true)
 })
 
@@ -108,7 +108,7 @@ test('key keyCode is 13 and isAddrSrch is true', () => {
     })
   }
 
-  search.key({keyCode: 13})
+  search.key({code: 'Enter'})
 
   expect(search.triggerSearch).toHaveBeenCalledTimes(1)
   expect(search.filterList).toHaveBeenCalledTimes(0)
@@ -133,7 +133,7 @@ test('key keyCode not 13 and isAddrSrch is true', () => {
     })
   }
 
-  search.key({keyCode: 39})
+  search.key({code: 39})
 
   expect(search.triggerSearch).toHaveBeenCalledTimes(0)
   expect(search.filterList).toHaveBeenCalledTimes(1)
@@ -159,7 +159,7 @@ test('key keyCode not 13 and isAddrSrch is false', () => {
     })
   }
 
-  search.key({keyCode: 39})
+  search.key({code: 39})
 
   expect(search.triggerSearch).toHaveBeenCalledTimes(0)
   expect(search.filterList).toHaveBeenCalledTimes(1)
@@ -185,7 +185,7 @@ test('key keyCode is 13 and isAddrSrch is false', () => {
     })
   }
 
-  search.key({keyCode: 13})
+  search.key({code: 13})
 
   expect(search.triggerSearch).toHaveBeenCalledTimes(0)
   expect(search.filterList).toHaveBeenCalledTimes(1)
@@ -642,15 +642,15 @@ describe('disambiguated', () => {
     const data = {name: 'a name', data: {label: 'a label'}}
     const li = $('<li class="feature">a label</li>')
       .data('location', data)
-  
+
     const search = new Search(container)
-  
+
     search.emptyList = jest.fn()
     search.list.append(li).show()
     search.on('disambiguated', handler)
-  
+
     search.disambiguated({currentTarget: li.get(0)})
-  
+
     expect(handler).toHaveBeenCalledTimes(1)
     expect(handler.mock.calls[0][0]).toBe(data)
     expect(handler.mock.calls[0][0].isFeature).toBe(true)
@@ -861,7 +861,7 @@ describe('listKey', () => {
     search.disambiguate(ambiguous)
     list.show()
 
-    event.keyCode = 40
+    event.code = 40
 
     list.find('a').last().trigger('focus')
     list.find('li').last().get(0).dispatchEvent(event)

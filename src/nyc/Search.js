@@ -279,6 +279,7 @@ class Search extends Container {
    * @param {jQuery} input Input element
    */
   hookupEvents(input) {
+    this.find('form').on('submit', this.key.bind(this))
     input.on('keyup change', this.key.bind(this))
     input.focus(() => input.select())
     this.clear.click(this.clearTxt.bind(this))
@@ -291,7 +292,11 @@ class Search extends Container {
    * @param {jQuery.Event} event Event object
    */
   key(event) {
-    if ((event.keyCode === 13 || event.keyCode === 261) && this.isAddrSrch) {
+    console.warn(event)
+    if ((event.type === 'submit' || event.code === 'Enter') && this.isAddrSrch) {
+      if (event.type === 'submit') {
+        event.preventDefault()
+      }
       this.triggerSearch()
       this.list.slideUp()
     } else {
@@ -396,7 +401,9 @@ Search.FeatureSearchOptions
  */
 Search.HTML = '<div class="srch-ctl">' +
   '<div class="srch" role="search">' +
-    '<input class="rad-all" type="text" data-msg-key="msg-srch" data-msg-attr="placeholder" placeholder="Search for an address...">' +
+    '<form>' +
+      '<input class="rad-all" type="text" data-msg-key="msg-srch" data-msg-attr="placeholder" placeholder="Search for an address...">' +
+    '</form>' +
     '<button class="btn btn-rnd btn-x">' +
       '<span class="screen-reader-only msg-clr">Clear</span>' +
       '<span class="fas fa-times" role="img"></span>' +
