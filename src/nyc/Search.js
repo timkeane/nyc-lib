@@ -292,7 +292,6 @@ class Search extends Container {
    * @param {jQuery.Event} event Event object
    */
   key(event) {
-    console.warn(event)
     if ((event.type === 'submit' || event.code === 'Enter') && this.isAddrSrch) {
       if (event.type === 'submit') {
         event.preventDefault()
