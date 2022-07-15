@@ -9,7 +9,6 @@ cp $1 $DIR/tmp/
 cp $2 $DIR/tmp/
 theme=$(basename $1)
 other=$(basename $2)
-NODE_ENV=$2
 
 cat $DIR/tmp/$theme >> $DIR/tmp/base.theme.css
 cat $DIR/tmp/$other >> $DIR/tmp/nyc-ol-fullscreen-lib.css
