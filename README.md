@@ -48,7 +48,7 @@ Note: If you plan on load testing an application that uses this library you must
 <link href="https://maps.nyc.gov/nyc-lib/@@VERSION@@/css/nyc-ol-lib.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v7.1.0/build/ol.js"></script>
 <script src="https://maps.nyc.gov/nyc-lib/@@VERSION@@/js/nyc-ol-lib.js"></script>
 ```
 
