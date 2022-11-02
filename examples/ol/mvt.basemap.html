@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>Alternate Basemap Example</title>
+  <title>MVT Basemap Example</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
@@ -44,10 +44,10 @@
   <div id="map"></div>
   <h3>Drag and drop shapefiles or GeoJSON files</h3>
   <select>
-    <option value="base">Alternate Basemap</option>
+    <option value="base">MVT Basemap</option>
   </select>
   <script>
-    var map = new nyc.ol.Basemap({target: 'map', altBasemap: true});
+    var map = new nyc.ol.Basemap({target: 'map', mvt: true});
 
     function showPhoto(event) {
       var year = $(event.target).val()

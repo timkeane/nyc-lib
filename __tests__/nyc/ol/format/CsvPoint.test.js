@@ -1,11 +1,8 @@
 import util from 'util'
 
 import OlGeomPoint from 'ol/geom/Point'
-import OlFormatFormatType from 'ol/format/FormatType'
-
 import CsvPoint from 'nyc/ol/format/CsvPoint'
 import StandardCsv from 'nyc/ol/format/StandardCsv'
-
 import nyc from 'nyc'
 import nycOl from 'nyc/ol'
 
@@ -117,7 +114,7 @@ test('readFeatures no id or default projections', () => {
 test('getType', () => {
   expect.assertions(1)
 
-  expect(new CsvPoint({x: 'x', y: 'y'}).getType()).toBe(OlFormatFormatType.ARRAY_BUFFER)
+  expect(new CsvPoint({x: 'x', y: 'y'}).getType()).toBe('arraybuffer')
 })
 
 describe('hookupEvents called from constructor', () => {

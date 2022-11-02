@@ -6,7 +6,6 @@ import Papa from 'papaparse'
 import OlFeature from 'ol/Feature'
 import OlFormatFeature from 'ol/format/Feature'
 import OlGeomPoint from 'ol/geom/Point'
-import OlFormatFormatType from 'ol/format/FormatType'
 import StandardCsv from 'nyc/ol/format/StandardCsv'
 import util from 'util'
 import {get as olProjGet} from 'ol/proj'
@@ -155,6 +154,7 @@ class CsvPoint extends OlFormatFeature {
         this.x = StandardCsv.X
         this.y = StandardCsv.Y
         this.dataProjection = olProjGet('EPSG:2263')
+        console.warn(this.dataProjection);
       } else {
         this.x = StandardCsv.LNG
         this.y = StandardCsv.LAT
@@ -181,7 +181,7 @@ class CsvPoint extends OlFormatFeature {
    * @return {ol.format.FormatType} The format type
    */
   getType() {
-    return OlFormatFormatType.ARRAY_BUFFER
+    return 'arraybuffer'
   }
 }
 

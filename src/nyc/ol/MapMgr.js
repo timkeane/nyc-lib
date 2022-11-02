@@ -56,7 +56,7 @@ class MapMgr {
      */
     this.map = new Basemap({
       target: $(options.mapTarget).get(0),
-      altBasemap: options.altBasemap
+      mvt: options.mvt
     })
     /**
      * @desc The view
@@ -467,7 +467,7 @@ class MapMgr {
    */
   loadFailed(err) {
     console.error(err)
-    this.ready()
+    this.ready([])
     new Dialog({}).ok({message: 'Failed to load map data'})
   }
   /**

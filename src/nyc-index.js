@@ -1,6 +1,5 @@
 import _nyc from 'nyc'
 import _nyc_AutoComplete from 'nyc/AutoComplete'
-import _nyc_BasemapHelper from 'nyc/BasemapHelper'
 import _nyc_Choice from 'nyc/Choice'
 import _nyc_Collapsible from 'nyc/Collapsible'
 import _nyc_Container from 'nyc/Container'
@@ -30,7 +29,6 @@ import _nyc_ToggleSwitch from 'nyc/ToggleSwitch'
 
 window.nyc = _nyc
 window.nyc.AutoComplete = _nyc_AutoComplete
-window.nyc.BasemapHelper = _nyc_BasemapHelper
 window.nyc.Choice = _nyc_Choice
 window.nyc.Collapsible = _nyc_Collapsible
 window.nyc.Container = _nyc_Container

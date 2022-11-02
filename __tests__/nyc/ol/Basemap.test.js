@@ -1,9 +1,8 @@
 import nyc from 'nyc'
 import Basemap from 'nyc/ol/Basemap'
 import LocalStorage from 'nyc/ol/LocalStorage'
-import BasemapHelper from 'nyc/BasemapHelper'
 
-import OlMap from 'ol/PluggableMap'
+import OlMap from 'ol/Map'
 import OlView from 'ol/View'
 import OlLayerTile from 'ol/layer/Tile'
 import OlSourceXYZ from 'ol/source/XYZ'
@@ -22,38 +21,32 @@ afterEach(() => {
 })
 
 describe('constructor tests', () => {
-  const mixin = nyc.mixin
   const setupView = Basemap.setupView
-  const setupLayers = Basemap.prototype.setupLayers
+  const setupPhotos = Basemap.prototype.setupPhotos
   const defaultExtent = Basemap.prototype.defaultExtent
+  const hookupEvents = Basemap.prototype.hookupEvents
   beforeEach(() => {
     Basemap.setupView = jest.fn()
-    Basemap.prototype.setupLayers = jest.fn()
+    Basemap.prototype.setupPhotos = jest.fn()
     Basemap.prototype.defaultExtent = jest.fn()
+    Basemap.prototype.hookupEvents = jest.fn()
   })
   afterEach(() => {
     Basemap.setupView = setupView
-    Basemap.prototype.setupLayers = setupLayers
+    Basemap.prototype.setupPhotos = setupPhotos
     Basemap.prototype.defaultExtent = defaultExtent
-    nyc.mixin = mixin
+    Basemap.prototype.hookupEvents = hookupEvents
   })
 
   test('constructor no view in options, has interations in options', () => {
-    expect.assertions(13)
+    expect.assertions(11)
 
     const options = {
       target: 'map',
       interactions: []
     }
 
-    const hookupEvents = jest.fn(targetNode => {
-      expect(targetNode).toBe(target.get(0))
-    })
-    nyc.mixin = jest.fn(obj => {
-      obj.hookupEvents = hookupEvents
-    })
-
-    const basemap = new Basemap(options, 5)
+    const basemap = new Basemap(options)
 
     expect(basemap instanceof OlMap).toBe(true)
     expect(basemap instanceof Basemap).toBe(true)
@@ -63,31 +56,23 @@ describe('constructor tests', () => {
     expect(Basemap.setupView).toHaveBeenCalledTimes(1)
     expect(Basemap.setupView.mock.calls[0][0]).toEqual(options)
 
-    expect(Basemap.prototype.setupLayers).toHaveBeenCalledTimes(1)
-    expect(Basemap.prototype.setupLayers.mock.calls[0][0]).toEqual(options)
-    expect(Basemap.prototype.setupLayers.mock.calls[0][1]).toBe(5)
+    expect(Basemap.prototype.setupPhotos).toHaveBeenCalledTimes(1)
+    expect(Basemap.prototype.setupPhotos.mock.calls[0][0]).toEqual(options)
 
     expect(Basemap.prototype.defaultExtent).toHaveBeenCalledTimes(1)
     expect(Basemap.prototype.defaultExtent.mock.calls[0][0]).toBe(false)
 
-    expect(hookupEvents).toHaveBeenCalledTimes(1)
-    expect(hookupEvents.mock.calls[0][0]).toBe(target.get(0))
+    expect(Basemap.prototype.hookupEvents).toHaveBeenCalledTimes(1)
+    expect(Basemap.prototype.hookupEvents.mock.calls[0][0]).toBe(target.get(0))
   })
 
   test('constructor has view in options, no interations in options', () => {
-    expect.assertions(13)
+    expect.assertions(11)
 
     const view = new OlView({})
     const options = {target: 'map', view: view}
 
-    const hookupEvents = jest.fn(targetNode => {
-      expect(targetNode).toBe(target.get(0))
-    })
-    nyc.mixin = jest.fn(obj => {
-      obj.hookupEvents = hookupEvents
-    })
-
-    const basemap = new Basemap(options, 5)
+    const basemap = new Basemap(options)
 
     expect(basemap instanceof OlMap).toBe(true)
     expect(basemap instanceof Basemap).toBe(true)
@@ -97,24 +82,23 @@ describe('constructor tests', () => {
     expect(Basemap.setupView).toHaveBeenCalledTimes(1)
     expect(Basemap.setupView.mock.calls[0][0]).toEqual(options)
 
-    expect(Basemap.prototype.setupLayers).toHaveBeenCalledTimes(1)
-    expect(Basemap.prototype.setupLayers.mock.calls[0][0]).toEqual(options)
-    expect(Basemap.prototype.setupLayers.mock.calls[0][1]).toBe(5)
+    expect(Basemap.prototype.setupPhotos).toHaveBeenCalledTimes(1)
+    expect(Basemap.prototype.setupPhotos.mock.calls[0][0]).toEqual(options)
 
     expect(Basemap.prototype.defaultExtent).toHaveBeenCalledTimes(1)
     expect(Basemap.prototype.defaultExtent.mock.calls[0][0]).toBe(true)
 
-    expect(hookupEvents).toHaveBeenCalledTimes(1)
-    expect(hookupEvents.mock.calls[0][0]).toBe(target.get(0))
+    expect(Basemap.prototype.hookupEvents).toHaveBeenCalledTimes(1)
+    expect(Basemap.prototype.hookupEvents.mock.calls[0][0]).toBe(target.get(0))
   })
 })
 
 test('showPhoto no year', () => {
-  expect.assertions(29)
+  expect.assertions(31)
 
   const basemap = new Basemap({target: 'map'})
 
-  expect(Object.entries(basemap.photos).length).toBe(12)
+  expect(Object.entries(basemap.photos).length).toBe(13)
   Object.entries(basemap.photos).forEach(([year, layer]) => {
     expect(layer.getVisible()).toBe(false)
   })
@@ -131,11 +115,11 @@ test('showPhoto no year', () => {
 })
 
 test('showPhoto 1996', () => {
-  expect.assertions(29)
+  expect.assertions(31)
 
   const basemap = new Basemap({target: 'map'})
 
-  expect(Object.entries(basemap.photos).length).toBe(12)
+  expect(Object.entries(basemap.photos).length).toBe(13)
   Object.entries(basemap.photos).forEach(([year, layer]) => {
     expect(layer.getVisible()).toBe(false)
   })
@@ -152,13 +136,13 @@ test('showPhoto 1996', () => {
 })
 
 test('hidePhoto', () => {
-  expect.assertions(29)
+  expect.assertions(31)
 
   const basemap = new Basemap({target: 'map'})
 
   basemap.showPhoto(1996)
 
-  expect(Object.entries(basemap.photos).length).toBe(12)
+  expect(Object.entries(basemap.photos).length).toBe(13)
   Object.entries(basemap.photos).forEach(([year, layer]) => {
     expect(layer.getVisible()).toBe(year === '1996')
   })
@@ -171,30 +155,6 @@ test('hidePhoto', () => {
     expect(layer.getVisible()).toBe(false)
   })
   expect(basemap.labels.base.getVisible()).toBe(true)
-  expect(basemap.labels.photo.getVisible()).toBe(false)
-})
-
-test('hidePhoto alternate basemap', () => {
-  expect.assertions(30)
-
-  const basemap = new Basemap({target: 'map', altBasemap: true})
-
-  basemap.showPhoto(1996)
-
-  expect(Object.entries(basemap.photos).length).toBe(12)
-  Object.entries(basemap.photos).forEach(([year, layer]) => {
-    expect(layer.getVisible()).toBe(year === '1996')
-  })
-  expect(basemap.labels.base).toBe(undefined)
-  expect(basemap.labels.photo.getVisible()).toBe(true)
-
-  basemap.hidePhoto()
-  expect(basemap['altBasemap'].getVisible()).toBe(true)
-
-  Object.entries(basemap.photos).forEach(([year, layer]) => {
-    expect(layer.getVisible()).toBe(false)
-  })
-  expect(basemap.labels.base).toBe(undefined)
   expect(basemap.labels.photo.getVisible()).toBe(false)
 })
 
@@ -206,42 +166,23 @@ test('showLabels', () => {
   expect(basemap.labels.base.getVisible()).toBe(true)
   expect(basemap.labels.photo.getVisible()).toBe(false)
 
-  basemap.showLabels(BasemapHelper.LabelType.PHOTO)
+  basemap.showLabels(Basemap.LabelType.PHOTO)
 
   expect(basemap.labels.base.getVisible()).toBe(false)
   expect(basemap.labels.photo.getVisible()).toBe(true)
 
-  basemap.showLabels(BasemapHelper.LabelType.BASE)
+  basemap.showLabels(Basemap.LabelType.BASE)
   expect(basemap.labels.base.getVisible()).toBe(true)
   expect(basemap.labels.photo.getVisible()).toBe(false)
 })
 
-test('showLabels aternate basemap', () => {
-  expect.assertions(6)
-
-  const basemap = new Basemap({target: 'map', altBasemap: true})
-
-  expect(basemap.labels.base).toBe(undefined)
-  expect(basemap.labels.photo.getVisible()).toBe(false)
-
-  basemap.showLabels(BasemapHelper.LabelType.PHOTO)
-
-  expect(basemap.labels.base).toBe(undefined)
-  expect(basemap.labels.photo.getVisible()).toBe(true)
-
-  basemap.showLabels(BasemapHelper.LabelType.BASE)
-  expect(basemap.labels.base).toBe(undefined)
-  expect(basemap.labels.photo.getVisible()).toBe(false)
-})
-
 test('getBaseLayers', () => {
-  expect.assertions(21)
+  expect.assertions(22)
 
   const basemap = new Basemap({target: 'map'})
 
   const baseLayers = basemap.getBaseLayers()
-
-  expect(Object.entries(baseLayers).length).toBe(4)
+  expect(Object.entries(baseLayers).length).toBe(3)
 
   expect(baseLayers.base instanceof OlLayerTile).toBe(true)
   expect(baseLayers.base).toBe(basemap.base)
@@ -252,31 +193,7 @@ test('getBaseLayers', () => {
   expect(baseLayers.labels.photo instanceof OlLayerTile).toBe(true)
 
   expect(baseLayers.photos).toBe(basemap.photos)
-  expect(Object.entries(baseLayers.photos).length).toBe(12)
-  Object.entries(baseLayers.photos).forEach(([year, layer]) => {
-    expect(layer instanceof OlLayerTile).toBe(true)
-  })
-})
-
-test('getBaseLayers aternate basemap', () => {
-  expect.assertions(21)
-
-  const basemap = new Basemap({target: 'map', altBasemap: true})
-
-  const baseLayers = basemap.getBaseLayers()
-
-  expect(Object.entries(baseLayers).length).toBe(4)
-
-  expect(baseLayers.altBasemap instanceof OlLayerTile).toBe(true)
-  expect(baseLayers.altBasemap).toBe(basemap.altBasemap)
-
-  expect(baseLayers.labels).toBe(basemap.labels)
-  expect(Object.entries(baseLayers.labels).length).toBe(1)
-  expect(baseLayers.labels.base instanceof OlLayerTile).toBe(false)
-  expect(baseLayers.labels.photo instanceof OlLayerTile).toBe(true)
-
-  expect(baseLayers.photos).toBe(basemap.photos)
-  expect(Object.entries(baseLayers.photos).length).toBe(12)
+  expect(Object.entries(baseLayers.photos).length).toBe(13)
   Object.entries(baseLayers.photos).forEach(([year, layer]) => {
     expect(layer instanceof OlLayerTile).toBe(true)
   })
@@ -319,54 +236,13 @@ test('defaultExtent view is provided', () => {
   expect(fit).toHaveBeenCalledTimes(0)
 })
 
-test('setupLayers as called by constructor', () => {
-  expect.assertions(109)
+test('setupPhotos as called by constructor', () => {
+  expect.assertions(93)
 
   const basemap = new Basemap({target: 'map'})
 
-  expect(basemap.base instanceof OlLayerTile).toBe(true)
-  expect(basemap.base).toBe(basemap.getLayers().getArray()[0])
-  expect(basemap.base.getVisible()).toBe(true)
-  expect(basemap.base.getExtent()).toEqual(Basemap.UNIVERSE_EXTENT)
-  expect(basemap.base.getSource() instanceof OlSourceXYZ).toBe(true)
-  expect(basemap.base.getSource().getProjection().getCode()).toBe('EPSG:3857')
-  expect(basemap.base.getSource().getUrls()).toEqual([
-    'https://maps1.nyc.gov/tms/1.0.0/carto/basemap/{z}/{x}/{-y}.jpg',
-    'https://maps2.nyc.gov/tms/1.0.0/carto/basemap/{z}/{x}/{-y}.jpg',
-    'https://maps3.nyc.gov/tms/1.0.0/carto/basemap/{z}/{x}/{-y}.jpg',
-    'https://maps4.nyc.gov/tms/1.0.0/carto/basemap/{z}/{x}/{-y}.jpg'
-  ])
-
-  expect(Object.entries(basemap.labels).length).toBe(2)
-  expect(basemap.labels.base instanceof OlLayerTile).toBe(true)
-  expect(basemap.labels.base).toBe(basemap.getLayers().getArray()[1])
-  expect(basemap.labels.base.getVisible()).toBe(true)
-  expect(basemap.labels.base.getZIndex()).toBe(1000)
-  expect(basemap.labels.base.getExtent()).toEqual(Basemap.LABEL_EXTENT)
-  expect(basemap.labels.base.getSource() instanceof OlSourceXYZ).toBe(true)
-  expect(basemap.labels.base.getSource().getProjection().getCode()).toBe('EPSG:3857')
-  expect(basemap.labels.base.getSource().getUrls()).toEqual([
-    'https://maps1.nyc.gov/tms/1.0.0/carto/label/{z}/{x}/{-y}.png8',
-    'https://maps2.nyc.gov/tms/1.0.0/carto/label/{z}/{x}/{-y}.png8',
-    'https://maps3.nyc.gov/tms/1.0.0/carto/label/{z}/{x}/{-y}.png8',
-    'https://maps4.nyc.gov/tms/1.0.0/carto/label/{z}/{x}/{-y}.png8'
-  ])
-
-  expect(basemap.labels.photo instanceof OlLayerTile).toBe(true)
-  expect(basemap.labels.photo).toBe(basemap.getLayers().getArray()[2])
-  expect(basemap.labels.photo.getVisible()).toBe(false)
-  expect(basemap.labels.photo.getExtent()).toEqual(Basemap.LABEL_EXTENT)
-  expect(basemap.labels.photo.getSource() instanceof OlSourceXYZ).toBe(true)
-  expect(basemap.labels.photo.getSource().getProjection().getCode()).toBe('EPSG:3857')
-  expect(basemap.labels.photo.getSource().getUrls()).toEqual([
-    'https://maps1.nyc.gov/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8',
-    'https://maps2.nyc.gov/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8',
-    'https://maps3.nyc.gov/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8',
-    'https://maps4.nyc.gov/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8'
-  ])
-
   let i = 3
-  expect(Object.entries(basemap.photos).length).toBe(12)
+  expect(Object.entries(basemap.photos).length).toBe(13)
   Object.entries(basemap.photos).forEach(([year, layer]) => {
     expect(basemap.photos[year] instanceof OlLayerTile).toBe(true)
     expect(basemap.photos[year]).toBe(basemap.getLayers().getArray()[i])
@@ -374,66 +250,23 @@ test('setupLayers as called by constructor', () => {
     expect(basemap.photos[year].getExtent()).toEqual(Basemap.PHOTO_EXTENT)
     expect(basemap.photos[year].getSource() instanceof OlSourceXYZ).toBe(true)
     expect(basemap.photos[year].getSource().getProjection().getCode()).toBe('EPSG:3857')
-    expect(basemap.photos[year].getSource().getUrls()).toEqual([
-      `https://maps1.nyc.gov/tms/1.0.0/photo/${year}/{z}/{x}/{-y}.png8`,
-      `https://maps2.nyc.gov/tms/1.0.0/photo/${year}/{z}/{x}/{-y}.png8`,
-      `https://maps3.nyc.gov/tms/1.0.0/photo/${year}/{z}/{x}/{-y}.png8`,
-      `https://maps4.nyc.gov/tms/1.0.0/photo/${year}/{z}/{x}/{-y}.png8`
-    ])
-    i++
+    if (year !== '2020') {
+      expect(basemap.photos[year].getSource().getUrls()).toEqual([
+        `https://maps1.nyc.gov/tms/1.0.0/photo/${year}/{z}/{x}/{-y}.png8`,
+        `https://maps2.nyc.gov/tms/1.0.0/photo/${year}/{z}/{x}/{-y}.png8`,
+        `https://maps3.nyc.gov/tms/1.0.0/photo/${year}/{z}/{x}/{-y}.png8`,
+        `https://maps4.nyc.gov/tms/1.0.0/photo/${year}/{z}/{x}/{-y}.png8`
+      ])
+    } else {
+      expect(basemap.photos[year].getSource().getUrls()).toEqual([
+        'https://tiles.arcgis.com/tiles/yG5s3afENB5iO9fj/arcgis/rest/services/NYC_Orthos_-_2020/MapServer/tile/{z}/{y}/{x}'
+      ])
+    }
+    i = i + 1
   })
-  expect(i).toBe(15)
+  expect(i).toBe(16)
 })
 
-test('setupLayers using aternate basemap tiles as called by constructor', () => {
-  expect.assertions(102)
-
-  const basemap = new Basemap({target: 'map', altBasemap: true})
-  expect(basemap.base instanceof OlLayerTile).toBe(false)
-  expect(basemap.altBasemap instanceof OlLayerTile).toBe(true)
-
-  expect(basemap.altBasemap).toBe(basemap.getLayers().getArray()[0])
-  expect(basemap.altBasemap.getVisible()).toBe(true)
-  expect(basemap.altBasemap.getSource() instanceof OlSourceXYZ).toBe(true)
-  expect(basemap.altBasemap.getSource().getProjection().getCode()).toBe('EPSG:3857')
-  expect(basemap.altBasemap.getSource().getUrls()).toEqual(
-    Basemap.ALT_BASEMAP_URLS
-  )
-  
-  expect(basemap.labels.base instanceof OlLayerTile).toBe(false)
-  expect(Object.entries(basemap.labels).length).toBe(1) // photo layer only
-  expect(basemap.labels.photo instanceof OlLayerTile).toBe(true)
-  expect(basemap.labels.photo).toBe(basemap.getLayers().getArray()[1])
-  expect(basemap.labels.photo.getVisible()).toBe(false)
-  expect(basemap.labels.photo.getExtent()).toEqual(Basemap.LABEL_EXTENT)
-  expect(basemap.labels.photo.getSource() instanceof OlSourceXYZ).toBe(true)
-  expect(basemap.labels.photo.getSource().getProjection().getCode()).toBe('EPSG:3857')
-  expect(basemap.labels.photo.getSource().getUrls()).toEqual([
-    'https://maps1.nyc.gov/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8',
-    'https://maps2.nyc.gov/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8',
-    'https://maps3.nyc.gov/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8',
-    'https://maps4.nyc.gov/tms/1.0.0/carto/label-lt/{z}/{x}/{-y}.png8'
-  ])
-
-  let i = 2
-  expect(Object.entries(basemap.photos).length).toBe(12)
-  Object.entries(basemap.photos).forEach(([year, layer]) => {
-    expect(basemap.photos[year] instanceof OlLayerTile).toBe(true)
-    expect(basemap.photos[year]).toBe(basemap.getLayers().getArray()[i])
-    expect(basemap.photos[year].getVisible()).toBe(false)
-    expect(basemap.photos[year].getExtent()).toEqual(Basemap.PHOTO_EXTENT)
-    expect(basemap.photos[year].getSource() instanceof OlSourceXYZ).toBe(true)
-    expect(basemap.photos[year].getSource().getProjection().getCode()).toBe('EPSG:3857')
-    expect(basemap.photos[year].getSource().getUrls()).toEqual([
-      `https://maps1.nyc.gov/tms/1.0.0/photo/${year}/{z}/{x}/{-y}.png8`,
-      `https://maps2.nyc.gov/tms/1.0.0/photo/${year}/{z}/{x}/{-y}.png8`,
-      `https://maps3.nyc.gov/tms/1.0.0/photo/${year}/{z}/{x}/{-y}.png8`,
-      `https://maps4.nyc.gov/tms/1.0.0/photo/${year}/{z}/{x}/{-y}.png8`
-    ])
-    i++
-  })
-  expect(i).toBe(14)
-})
 
 test('layerExtent', () => {
   expect.assertions(2)
@@ -457,17 +290,17 @@ test('layerExtent', () => {
 })
 
 test('photoChange triggered by visible change', () => {
-  expect.assertions(63)
+  expect.assertions(68)
 
   const basemap = new Basemap({target: 'map'})
 
-  expect(Object.entries(basemap.photos).length).toBe(12)
+  expect(Object.entries(basemap.photos).length).toBe(13)
   Object.entries(basemap.photos).forEach(([year, layer]) => {
     expect(layer.getVisible()).toBe(false)
   })
 
-  expect(basemap.labels.base.getVisible()).toBe(true)
   expect(basemap.labels.photo.getVisible()).toBe(false)
+  expect(basemap.labels.base.getVisible()).toBe(true)
 
   Object.entries(basemap.photos).forEach(([year, layer]) => {
     layer.setVisible(true)

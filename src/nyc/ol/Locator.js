@@ -2,8 +2,6 @@
  * @module nyc/ol/Locator
  */
 
-import $ from 'jquery'
-
 import nyc from 'nyc'
 
 import NycLocator from 'nyc/Locator'
@@ -50,8 +48,8 @@ class Locator extends NycLocator {
         timeout: 600000
       }
     })
-    this.geolocation.on('change', $.proxy(this.geolocationChange, this))
-    this.geolocation.on('error', $.proxy(this.geolocationError, this))
+    this.geolocation.on('change', this.geolocationChange.bind(this))
+    this.geolocation.on('error', this.geolocationError.bind(this))
   }
   /**
    * @desc Locate once using device geolocation
@@ -88,7 +86,7 @@ class Locator extends NycLocator {
   geolocationChange() {
     const geo = this.geolocation
     let p = geo.getPosition()
-    const name = olCoordinanteToStringHDMS(p)
+    const name = olCoordinanteToStringHDMS(p, 1)
     p = proj4('EPSG:4326', this.projection, p)
     if (this.withinLimit(p)) {
       if (this.locating) {

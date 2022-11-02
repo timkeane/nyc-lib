@@ -176,7 +176,7 @@ test('geolocationChange not currently locating, no limit', () => {
   expect(handler.mock.calls[0][0].heading).toBe(90)
   expect(handler.mock.calls[0][0].accuracy).toBe(500 / locator.metersPerUnit())
   expect(handler.mock.calls[0][0].type).toBe('geolocated')
-  expect(handler.mock.calls[0][0].name).toBe('0° 00′ 00″ 0° 00′ 00″')
+  expect(handler.mock.calls[0][0].name).toBe('0° 0°')
 })
 
 test('geolocationChange not currently locating, within limit', () => {
@@ -208,7 +208,7 @@ test('geolocationChange not currently locating, within limit', () => {
   expect(handler.mock.calls[0][0].heading).toBe(90)
   expect(handler.mock.calls[0][0].accuracy).toBe(500 / locator.metersPerUnit())
   expect(handler.mock.calls[0][0].type).toBe('geolocated')
-  expect(handler.mock.calls[0][0].name).toBe('0° 00′ 00″ 0° 00′ 00″')
+  expect(handler.mock.calls[0][0].name).toBe('0° 0°')
 })
 
 test('geolocationChange not currently locating, not within limit', () => {
@@ -291,5 +291,5 @@ test('geolocationChange IS currently locating, within limit', () => {
   expect(handler.mock.calls[0][0].heading).toBe(90)
   expect(handler.mock.calls[0][0].accuracy).toBe(500 / locator.metersPerUnit())
   expect(handler.mock.calls[0][0].type).toBe('geolocated')
-  expect(handler.mock.calls[0][0].name).toBe('0° 00′ 00″ 0° 00′ 00″')
+  expect(handler.mock.calls[0][0].name).toBe('0° 0°')
 })
