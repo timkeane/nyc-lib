@@ -202,10 +202,12 @@ class Basemap extends Map {
    * @param {nyc.Basemap.BaseLayers} labelType The label type to show
    */
   showLabels(labelType) {
-    if (!this.mvt) {
-      this.labels.base?.setVisible(labelType === Basemap.LabelType.BASE)
+    if (!this.mvt && this.labels.base) {
+      this.labels.base.setVisible(labelType === Basemap.LabelType.BASE);
     }
-    this.labels.photo?.setVisible(labelType === Basemap.LabelType.PHOTO)
+    if (this.labels.photo) {
+      this.labels.photo.setVisible(labelType === Basemap.LabelType.PHOTO);
+    }
   }
   /**
    * @private
