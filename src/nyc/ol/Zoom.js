@@ -4,7 +4,7 @@
 
 import $ from 'jquery'
 
-import NycZoom from 'nyc/Zoom'
+import NycZoom from '../Zoom'
 
 /**
  * @desc Class for providing a set of buttons to zoom and search.

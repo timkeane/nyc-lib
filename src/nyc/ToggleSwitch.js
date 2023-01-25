@@ -3,7 +3,7 @@
  */
 
 import $ from 'jquery'
-import Choice from 'nyc/Choice'
+import Choice from './Choice'
 
 /**
  * @desc Class for creating checkbox and radio input widgets

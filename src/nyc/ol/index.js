@@ -2,7 +2,7 @@
  * @module nyc/ol
  */
 
-import nyc from 'nyc'
+import nyc from '../index'
 import {createXYZ as olTileGridCreateXYZ} from 'ol/tilegrid'
 import {register as olProjRegister} from 'ol/proj/proj4'
 

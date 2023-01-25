@@ -2,8 +2,6 @@
  * @module nyc/ol/format/Decorate
  */
 
-import nyc from 'nyc'
-
 import OlFormatFeature from 'ol/format/Feature'
 
 /**
@@ -88,7 +86,9 @@ class Decorate extends OlFormatFeature {
   decorate(feature) {
     if (!feature.decorated) {
       feature.decorated = true
-      nyc.mixin(feature, this.decorations)
+      this.decorations.forEach(decore => {
+        Object.assign(feature, decore)
+      })
       if (feature.extendFeature) {
         feature.extendFeature()
       }

@@ -2,9 +2,9 @@
  * @module nyc/ol/Locator
  */
 
-import nyc from 'nyc'
+import nyc from '../index'
 
-import NycLocator from 'nyc/Locator'
+import NycLocator from '../Locator'
 
 import OlGeolocation from 'ol/Geolocation'
 import {toStringHDMS as olCoordinanteToStringHDMS} from 'ol/coordinate';

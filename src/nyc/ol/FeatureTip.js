@@ -6,7 +6,7 @@ import $ from 'jquery'
 
 import OlOverlay from 'ol/Overlay'
 
-import nyc from 'nyc'
+import nyc from '../index'
 
 /**
  * @desc A class for providing tool tips on mouseover for vector features

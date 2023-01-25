@@ -4,7 +4,7 @@
 
 import OlSourceVector from 'ol/source/Vector'
 import {fromExtent as polygonFromExtent} from 'ol/geom/Polygon'
-import SocrataFormat from 'nyc/ol/format/SocrataJson'
+import SocrataFormat from '../format/SocrataJson'
 
 /**
  * @desc Class to load all features from a SocrataJson json endpoint

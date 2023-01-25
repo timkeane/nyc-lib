@@ -2,7 +2,7 @@
  * @module nyc/mta/TripPlanHack
  */
 
-import nyc from 'nyc'
+import nyc from '../index'
 import $ from 'jquery'
 
 const proj4 = nyc.proj4

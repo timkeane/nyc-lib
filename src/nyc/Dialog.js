@@ -4,7 +4,7 @@
 
 import $ from 'jquery'
 
-import Container from 'nyc/Container'
+import Container from './Container'
 
 /**
  * @desc Class for alert, yes/no and input dialogs

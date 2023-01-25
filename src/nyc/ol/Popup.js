@@ -6,8 +6,8 @@ import $ from 'jquery'
 
 import OlOverlay from 'ol/Overlay'
 import {linear} from 'ol/easing'
-import nyc from 'nyc'
-import EventHandling from 'nyc/EventHandling'
+import nyc from '../index'
+import EventHandling from '../EventHandling'
 /**
  * @desc A class to display popups on a map
  * @public

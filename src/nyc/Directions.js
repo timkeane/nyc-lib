@@ -4,12 +4,12 @@
  */
 
 import $ from 'jquery'
-import Contanier from 'nyc/Container'
-import Dialog from 'nyc/Dialog'
-import Tabs from 'nyc/Tabs'
-import TripPlanHack from 'nyc/mta/TripPlanHack'
-import nyc from 'nyc'
-import Translate from 'nyc/lang/Translate'
+import Contanier from './Container'
+import Dialog from './Dialog'
+import Tabs from './Tabs'
+import TripPlanHack from './mta/TripPlanHack'
+import nyc from './index'
+import Translate from './lang/Translate'
 
 const proj4 = nyc.proj4
 

@@ -4,9 +4,9 @@
 
 import $ from 'jquery'
 
-import Container from 'nyc/Container'
-import AutoComplete from 'nyc/AutoComplete'
-import Dialog from 'nyc/Dialog'
+import Container from './Container'
+import AutoComplete from './AutoComplete'
+import Dialog from './Dialog'
 
 /**
  * @desc Abstract class for zoom and search controls

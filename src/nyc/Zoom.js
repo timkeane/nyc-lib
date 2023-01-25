@@ -4,7 +4,7 @@
 
 import $ from 'jquery'
 
-import Container from 'nyc/Container'
+import Container from './Container'
 
 /**
  * @desc Abstract class for zoom and search controls

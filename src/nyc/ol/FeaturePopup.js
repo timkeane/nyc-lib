@@ -5,8 +5,8 @@
 import $ from 'jquery'
 
 import {getCenter as olExtentGetCenter} from 'ol/extent'
-import nyc from 'nyc'
-import Popup from 'nyc/ol/Popup'
+import nyc from '../index'
+import Popup from './Popup'
 
 /**
  * @desc A class to display popups on a map that display feature data

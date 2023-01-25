@@ -2,7 +2,7 @@
  * @module nyc/Geocoder
  */
 
-import EventHandling from 'nyc/EventHandling'
+import EventHandling from './EventHandling'
 
 /**
  * @desc A class for geocoding

@@ -3,10 +3,10 @@
  */
 
 import $ from 'jquery'
-import CsvPoint from 'nyc/ol/format/CsvPoint'
+import CsvPoint from './CsvPoint'
 import OlGeomPoint from 'ol/geom/Point'
-import EventHandling from 'nyc/EventHandling'
-import ReplaceTokens from 'nyc/ReplaceTokens'
+import EventHandling from '../../EventHandling'
+import ReplaceTokens from '../../ReplaceTokens'
 
 /**
  * @desc Class to create point features from CSV data

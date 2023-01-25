@@ -2,9 +2,9 @@
  * @module nyc/CensusGeocoder
  */
 
-import nyc from 'nyc'
+import nyc from './index'
 import $ from 'jquery'
-import Geocoder from 'nyc/Geocoder'
+import Geocoder from './Geocoder'
 
 const proj4 = nyc.proj4
 

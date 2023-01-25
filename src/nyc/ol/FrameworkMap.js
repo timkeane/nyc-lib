@@ -3,11 +3,11 @@
  */
 
 import $ from 'jquery'
-import Geoclient from 'nyc/Geoclient'
-import MapMgr from 'nyc/ol/MapMgr'
-import StandardCsv from 'nyc/ol/format/StandardCsv'
-import CsvPoint from 'nyc/ol/format/CsvPoint'
-import CsvAddr from 'nyc/ol/format/CsvAddr'
+import Geoclient from '../Geoclient'
+import MapMgr from './MapMgr'
+import StandardCsv from './format/StandardCsv'
+import CsvPoint from './format/CsvPoint'
+import CsvAddr from './format/CsvAddr'
 
 /**
  * @desc Class that provides {@link module:nyc/ol/Basemap~Basemap}, {@link module:nyc/ol/LocationMgr~LocationMgr} and displays facility data from CSV

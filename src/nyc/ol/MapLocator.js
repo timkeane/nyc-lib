@@ -10,8 +10,8 @@ import OlLayerVector from 'ol/layer/Vector'
 import OlFeature from 'ol/Feature'
 import OlGeomPoint from 'ol/geom/Point'
 
-import NycMapLocator from 'nyc/MapLocator'
-import FeatureTip from 'nyc/ol/FeatureTip'
+import NycMapLocator from '../MapLocator'
+import FeatureTip from './FeatureTip'
 
 /**
  * @desc A class for managing map location

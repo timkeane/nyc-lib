@@ -4,8 +4,8 @@
 
 import $ from 'jquery'
 import OlSourceVector from 'ol/source/Vector'
-import CsvAddr from 'nyc/ol/format/CsvAddr'
-import fetchTimeout from 'nyc/fetchTimeout'
+import CsvAddr from '../format/CsvAddr'
+import fetchTimeout from '../../fetchTimeout'
 
 /**
  * @desc Class to auto load all features from a URL

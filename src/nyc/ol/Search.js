@@ -7,8 +7,8 @@ import $ from 'jquery'
 import OlGeoJSON from 'ol/format/GeoJSON'
 import {getCenter as olExtentGetCenter} from 'ol/extent'
 
-import NycSearch from 'nyc/Search'
-import NycLocator from 'nyc/Locator'
+import NycSearch from '../Search'
+import NycLocator from '../Locator'
 
 /**
  * @desc Class for providing a set of buttons to zoom and search.

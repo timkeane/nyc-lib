@@ -3,16 +3,16 @@
  */
 
 import $ from 'jquery'
-import nyc from 'nyc'
-import MapMgr from 'nyc/ol/MapMgr'
-import Dialog from 'nyc/Dialog'
-import Share from 'nyc/Share'
-import Tabs from 'nyc/Tabs'
-import Directions from 'nyc/Directions'
-import Translate from 'nyc/lang/Translate'
-import Goog from 'nyc/lang/Goog'
-import Filters from 'nyc/ol/Filters'
-import FilterAndSort from 'nyc/ol/source/FilterAndSort'
+import nyc from '../index'
+import MapMgr from './MapMgr'
+import Dialog from '../Dialog'
+import Share from '../Share'
+import Tabs from '../Tabs'
+import Directions from '../Directions'
+import Translate from '../lang/Translate'
+import Goog from '../lang/Goog'
+import Filters from './Filters'
+import FilterAndSort from './source/FilterAndSort'
 
 /**
  * @desc A class that provides a template for creating basic finder apps

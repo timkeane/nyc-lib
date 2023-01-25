@@ -4,7 +4,7 @@
 
 import $ from 'jquery'
 
-import Container from 'nyc/Container'
+import Container from './Container'
 
 /**
  * @desc A class to page through sub-lists of a list of objects rendered as HTML

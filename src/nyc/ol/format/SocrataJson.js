@@ -5,7 +5,7 @@
 import OlFeature from 'ol/Feature'
 import OlJSONFeature from 'ol/format/JSONFeature'
 import GeoJSON from 'ol/format/GeoJSON'
-import nyc from 'nyc'
+import nyc from '../../index'
 
 import {get as olProjGet} from 'ol/proj'
 

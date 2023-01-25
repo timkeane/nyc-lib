@@ -402,7 +402,6 @@ test('legend', () => {
   expect(leg.hasClass('leg')).toBe(true)
 
   const items = leg.find('.it')
-  console.warn(leg.html());
   
   expect($($(items.get(0)).children().get(0)).hasClass('sym')).toBe(true)
   expect($($(items.get(0)).children().get(0)).attr('style')).toBe(`background-color:${resized[0]}`)

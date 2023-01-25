@@ -6,7 +6,7 @@ import $ from 'jquery'
 
 import {get as olProjGetProjection} from 'ol/proj'
 import OlGeomLineString from 'ol/geom/LineString'
-import AutoLoad from 'nyc/ol/source/AutoLoad'
+import AutoLoad from './AutoLoad'
 
 import {get as olProjGet} from 'ol/proj'
 

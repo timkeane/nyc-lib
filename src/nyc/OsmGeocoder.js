@@ -2,7 +2,7 @@
  * @module nyc/OsmGeocoder
  */
 
-import Geocoder from 'nyc/Geocoder'
+import Geocoder from './Geocoder'
 import proj4 from 'proj4'
 
 /**

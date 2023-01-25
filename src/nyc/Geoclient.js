@@ -2,10 +2,10 @@
  * @module nyc/Geoclient
  */
 
-import nyc from 'nyc'
-import Locator from 'nyc/Locator'
-import Geocoder from 'nyc/Geocoder'
-import fetchTimeout from 'nyc/fetchTimeout'
+import nyc from './index'
+import Locator from './Locator'
+import Geocoder from './Geocoder'
+import fetchTimeout from './fetchTimeout'
 
 const proj4 = nyc.proj4
 

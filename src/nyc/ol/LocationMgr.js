@@ -3,13 +3,13 @@
  */
 
 import $ from 'jquery'
-import NycLocationMgr from 'nyc/LocationMgr'
-import NycGeoclient from 'nyc/Geoclient'
-import NycOlLocator from 'nyc/ol/Locator'
-import NycOlMapLocator from 'nyc/ol/MapLocator'
-import NycOlZoom from 'nyc/ol/Zoom'
-import NycOlGeolocate from 'nyc/ol/Geolocate'
-import NycOlSearch from 'nyc/ol/Search'
+import NycLocationMgr from '../LocationMgr'
+import NycGeoclient from '../Geoclient'
+import NycOlLocator from './Locator'
+import NycOlMapLocator from './MapLocator'
+import NycOlZoom from './Zoom'
+import NycOlGeolocate from './Geolocate'
+import NycOlSearch from './Search'
 
 /**
  * @desc A class for managing user-specified location information

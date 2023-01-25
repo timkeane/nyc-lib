@@ -4,7 +4,7 @@
 
 import Style from 'ol/style/Style'
 import Icon from 'ol/style/Icon'
-import fetchTimeout from 'nyc/fetchTimeout'
+import fetchTimeout from '../../fetchTimeout'
 
 class IconArcGis {
   constructor(renderer) {

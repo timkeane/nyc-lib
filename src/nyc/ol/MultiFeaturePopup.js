@@ -5,7 +5,7 @@
 import {getCenter as olExtentGetCenter} from 'ol/extent'
 
 import ItemPager from 'nyc/ItemPager'
-import FeaturePopup from 'nyc/ol/FeaturePopup'
+import FeaturePopup from './FeaturePopup'
 
 /**
  * @desc A class to display popups on a map

@@ -4,7 +4,7 @@
 
 import $ from 'jquery'
 
-import EventHandling from 'nyc/EventHandling'
+import EventHandling from './EventHandling'
 
 /**
   * @desc  An abstract class for accessing a control container and elements within it

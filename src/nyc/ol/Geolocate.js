@@ -4,7 +4,7 @@
 
 import $ from 'jquery'
 
-import NycGeolocate from 'nyc/Geolocate'
+import NycGeolocate from '../Geolocate'
 
 /**
  * @desc Class for providing a set of buttons to zoom and search.

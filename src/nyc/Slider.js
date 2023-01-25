@@ -4,8 +4,8 @@
 
 import $ from 'jquery'
 
-import nyc from 'nyc'
-import Container from 'nyc/Container'
+import nyc from './index'
+import Container from './Container'
 
 /**
  * @desc A class to provide a numeric slider

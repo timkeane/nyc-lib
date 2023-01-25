@@ -23,71 +23,6 @@ const nyc = {
    */
   proj4: proj4,
   /**
-   * @desc Provide inheritance for function-based classes using prototype
-   * @public
-   * @static
-   * @function
-   * @param {function} childCtor The constructor of the subclass
-   * @param {function} parentCtor The constructor of the superclass
-   */
-  inherits(childCtor, parentCtor) {
-    nyc.copyFromParentProperties(childCtor.prototype, parentCtor.prototype)
-  },
-  /**
-   * @desc Provide for function-based classes to inherit from ES5 and ES6 classes
-   * @public
-   * @static
-   * @function
-   * @param {Object} childObj An instance of the subclass
-   * @param {Object} parentObj An instance of the superclass
-   */
-  subclass(childObj, parentObj) {
-    const parentProto = Object.getPrototypeOf(parentObj)
-    nyc.copyFromParentProperties(childObj, parentProto)
-    nyc.copyFromParentKeys(childObj, parentObj)
-  },
-  /**
-   * @desc Provide mixin functionality
-   * @public
-   * @static
-   * @function
-   * @param {Object} obj The target of the mixins
-   * @param {Array<Object>} mixins An array of mixin objects - last in wins
-   */
-  mixin(obj, mixins) {
-    mixins.forEach(mixin => {
-      $.extend(obj, mixin)
-    })
-  },
-  /**
-   * @private
-   * @static
-   * @function
-   * @param {Object} childObj Child object
-   * @param {Object} parentObj Parent object
-   */
-  copyFromParentProperties(childObj, parentObj) {
-    Object.getOwnPropertyNames(parentObj).forEach(member => {
-      if (!(member in childObj)) {
-        childObj[member] = parentObj[member]
-      }
-    })
-  },
-  /**
-   * @private
-   * @static
-   * @function
-   * @param {Object} childObj Child object
-   * @param {Object} parentObj Parent object
-   */
-  copyFromParentKeys(childObj, parentObj) {
-    Object.keys(parentObj).forEach(member => {
-      if (!(member in childObj)) {
-        childObj[member] = parentObj[member]
-      }
-    })
-  },
-  /**
    * @public
    * @static
    * @function
@@ -257,6 +192,14 @@ const nyc = {
    * @member {Object<string, number>}
    */
   uniqueIds: {},
+  /**
+   * @public
+   * @static
+   * @function
+   * @param {function} fn Function
+   * @param {Object} scope Scope object
+   * @return {function} Scoped function
+   */
   bind: (fn, scope) => {
     return fn.bind(scope)
   }

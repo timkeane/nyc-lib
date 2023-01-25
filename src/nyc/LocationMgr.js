@@ -1,9 +1,9 @@
 /**
  * @module nyc/LocationMgr
  */
-import nyc from 'nyc'
-import EventHandling from 'nyc/EventHandling'
-import Dialog from 'nyc/Dialog'
+import nyc from './index'
+import EventHandling from './EventHandling'
+import Dialog from './Dialog'
 
 const proj4 = nyc.proj4
 

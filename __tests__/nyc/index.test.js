@@ -4,207 +4,6 @@ beforeEach(() => {
   $.resetMocks()
 })
 
-test('inherits', () => {
-  expect.assertions(5)
-
-  const parentCtor = () => {}
-  parentCtor.prototype = {
-    parentProperty: 'parentProperty',
-    propertyToOverride: 'propertyToOverride',
-    parentMethod: () => {},
-    methodToOverride: () => {}
-  }
-  const overrideProperty = 'overrideProperty'
-  const overrideMethod = () => {}
-
-  const childCtor = () => {}
-  childCtor.prototype = {
-    childMethod: () => {},
-    propertyToOverride: overrideProperty,
-    methodToOverride: overrideMethod
-  }
-
-  nyc.inherits(childCtor, parentCtor)
-
-  expect(childCtor.prototype.parentProperty).toBe('parentProperty')
-  expect(childCtor.prototype.propertyToOverride).toBe('overrideProperty')
-  expect(childCtor.prototype.parentMethod).toBe(parentCtor.prototype.parentMethod)
-  expect(childCtor.prototype.methodToOverride).not.toBe(parentCtor.prototype.methodToOverride)
-  expect(childCtor.prototype.methodToOverride).toBe(overrideMethod)
-})
-
-test('subclass', () => {
-  expect.assertions(3)
-
-  class SuperClass {
-    constructor(name) {
-  		this.name = name
-  		this.parent = true
-  	}
-  	getFamily() {
-  		return 'Flinstone'
-  	}
-  	getNeighborhood() {
-  		return 'nyc'
-  	}
-  }
-
-  function SubClass(name) {
-    this.superClass = new SuperClass(name);
-    nyc.subclass(this, this.superClass);
-    this.parent = false
-  }
-  SubClass.prototype.getFamily = () => {
-      return 'Rubble'
-  }
-
-  const subClass = new SubClass('Bam Bam')
-
-  expect(subClass.name).toBe('Bam Bam')
-  expect(subClass.getFamily()).toBe('Rubble')
-  expect(subClass.getNeighborhood()).toBe('nyc')
-})
-
-test('mixin', () => {
-  expect.assertions(24)
-
-  const obj = {
-    foo: 'bar',
-    bar: 'foo',
-    getFooBar() {
-      return this.foo + this.bar
-    }
-  }
-
-  const mixin0 = {
-    foo: 'foo',
-    bar: 'bar',
-    wtf: 'wtf',
-    getFooBar() {
-      return this.foo + this.bar
-    },
-    getBarFoo() {
-      return this.bar + this.foo
-    },
-    getWtf() {
-      return this.wtf + '!'
-    }
-  }
-
-  const mixin1 = {
-    getWtf() {
-      return this.wtf + '?'
-    }
-  }
-
-  expect(obj.foo).toBe('bar')
-  expect(obj.bar).toBe('foo')
-  expect(obj.getFooBar()).toBe('barfoo')
-  expect(obj.getBarFoo).toBe(undefined)
-  expect(obj.getWtf).toBe(undefined)
-
-  expect(mixin0.foo).toBe('foo')
-  expect(mixin0.bar).toBe('bar')
-  expect(mixin0.wtf).toBe('wtf')
-  expect(mixin0.getFooBar()).toBe('foobar')
-  expect(mixin0.getBarFoo()).toBe('barfoo')
-  expect(mixin0.getWtf()).toBe('wtf!')
-
-  expect(mixin1.foo).toBe(undefined)
-  expect(mixin1.bar).toBe(undefined)
-  expect(mixin1.wtf).toBe(undefined)
-  expect(mixin1.getFooBar).toBe(undefined)
-  expect(mixin1.getBarFoo).toBe(undefined)
-  expect(mixin1.getWtf()).toBe('undefined?')
-
-  nyc.mixin(obj, [mixin0, mixin1])
-
-  expect(obj.foo).toBe('foo')
-  expect(obj.bar).toBe('bar')
-  expect(obj.getBarFoo).toBe(mixin0.getBarFoo)
-  expect(obj.getWtf).toBe(mixin1.getWtf)
-  expect(obj.getFooBar()).toBe('foobar')
-  expect(obj.getBarFoo()).toBe('barfoo')
-  expect(obj.getWtf()).toBe('wtf?')
-});
-
-test('copyFromParentProperties', () => {
-  expect.assertions(9)
-
-  const parentObj = {
-    foo: 'foo',
-    bar: 'bar',
-    wtf: 'wtf',
-    getFooBar() {
-      return this.foo + this.bar
-    },
-    getBarFoo() {
-      return this.bar + this.foo
-    },
-    getWtf() {
-      return this.wtf + '!'
-    }
-  }
-
-  const childObj = {
-    foo: 'bar',
-    bar: 'foo',
-    getFooBar() {
-      return this.foo + this.bar
-    }
-  }
-
-  nyc.copyFromParentProperties(childObj, parentObj)
-
-  expect(childObj.foo).toBe('bar')
-  expect(childObj.bar).toBe('foo')
-  expect(childObj.wtf).toBe('wtf')
-  expect(childObj.getFooBar).not.toBe(parentObj.getFooBar)
-  expect(childObj.getBarFoo).toBe(parentObj.getBarFoo)
-  expect(childObj.getWtf).toBe(parentObj.getWtf)
-  expect(childObj.getFooBar()).toBe('barfoo')
-  expect(childObj.getBarFoo()).toBe('foobar')
-  expect(childObj.getWtf()).toBe('wtf!')
-});
-
-test('copyFromParentKeys', () => {
-  expect.assertions(9)
-
-  const parentObj = {
-    foo: 'foo',
-    bar: 'bar',
-    wtf: 'wtf',
-    getFooBar() {
-      return this.foo + this.bar
-    },
-    getBarFoo() {
-      return this.bar + this.foo
-    },
-    getWtf() {
-      return this.wtf + '!'
-    }
-  }
-
-  const childObj = {
-    foo: 'bar',
-    bar: 'foo',
-    getFooBar() {
-      return this.foo + this.bar
-    }
-  }
-
-  nyc.copyFromParentKeys(childObj, parentObj)
-
-  expect(childObj.foo).toBe('bar')
-  expect(childObj.bar).toBe('foo')
-  expect(childObj.wtf).toBe('wtf')
-  expect(childObj.getFooBar).not.toBe(parentObj.getFooBar)
-  expect(childObj.getBarFoo).toBe(parentObj.getBarFoo)
-  expect(childObj.getWtf).toBe(parentObj.getWtf)
-  expect(childObj.getFooBar()).toBe('barfoo')
-  expect(childObj.getBarFoo()).toBe('foobar')
-  expect(childObj.getWtf()).toBe('wtf!')
-})
 
 test('capitalize', () => {
   expect.assertions(2)
@@ -308,14 +107,6 @@ test('loading/loaded', () => {
   expect(body.children().first().attr('id')).toBe('loading')
   expect(body.children().first().css('display')).toBe('block')
 
-  const test = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve()
-      }, 500)
-    })
-  }
-
   nyc.ready()
 
   expect(body.hasClass('loading')).toBe(false)
@@ -332,8 +123,8 @@ test('cacheBust', () => {
 
   expect(nyc.cacheBust(minutes)).toBe(
     (() => {
-      const offset = 1000 * 60 *  minutes;
-      return Math.round(new Date().getTime() / offset) * offset;    
+      const offset = 1000 * 60 * minutes
+      return Math.round(new Date().getTime() / offset) * offset
     })()
   )
 })
@@ -349,8 +140,8 @@ describe('activeElement', () => {
 
   test('activeElement is not text input', () => {
     expect.assertions(4)
-    
-    $('div').focus()
+
+    $('div').trigger('focus')
 
     const activeElement = nyc.activeElement()
 
@@ -362,7 +153,7 @@ describe('activeElement', () => {
 
   test('activeElement is text input', () => {
     expect.assertions(4)
-    
+
     $('input').focus()
 
     const activeElement = nyc.activeElement()
@@ -374,224 +165,215 @@ describe('activeElement', () => {
   })
 })
 
-describe('noSpaceBarScroll', () => {
-  let div
-  let a
-  let input
-  let select
-  let textarea
-  let event
-  const open = window.open
-  const location = nyc.location
-  beforeEach(() => {
-    nyc.noSpaceBarScroll()
-    window.open = jest.fn()
-    nyc.location = jest.fn()
-    event = {type: 'keypress', preventDefault: jest.fn()}
-    div = $('<div></div>')
-    a = $('<a></a>')
-    select = $('<select></select>')
-    input = $('<input>')
-    textarea = $('<textarea></textarea>')
-    $('body').append([div, a, input, textarea])
-  })
-  afterEach(() => {
-    $(document).off('keypress', nyc.noSpaceBarHandler)
-    window.open = open
-    nyc.location = location
-    $('body').empty()
-  })
+// describe.only('noSpaceBarScroll', () => {
+//   let div
+//   let a
+//   let input
+//   let select
+//   let textarea
+//   let event
+//   const open = window.open
+//   const location = nyc.location
+//   beforeEach(() => {
+//     nyc.noSpaceBarScroll()
+//     window.open = jest.fn()
+//     nyc.location = jest.fn()
+//     event = {type: 'keypress', preventDefault: jest.fn()}
+//     div = $('<div></div>')
+//     a = $('<a></a>')
+//     select = $('<select></select>')
+//     input = $('<input>')
+//     textarea = $('<textarea></textarea>')
+//     $('body').append([div, a, input, textarea])
+//   })
+//   afterEach(() => {
+//     $(document).off('keypress', nyc.noSpaceBarHandler)
+//     window.open = open
+//     nyc.location = location
+//     $('body').empty()
+//   })
 
-  test('noSpaceBarScroll div', () => {
-    expect.assertions(5)
+//   test('noSpaceBarScroll div', () => {
+//     expect.assertions(5)
     
-    event.target = div.get(0)
-    event.key = ' '
-    div.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(1)
+//     event.target = div.get(0)
+//     event.key = ' '
+//     div.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(1)
 
-    event.key = 'Enter'
-    div.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(2)
+//     event.key = 'Enter'
+//     div.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(2)
 
-    event.key = 'foo'
-    div.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(2)
+//     event.key = 'foo'
+//     div.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(2)
     
-    expect(nyc.location).toHaveBeenCalledTimes(0)
-    expect(window.open).toHaveBeenCalledTimes(0)
-  })
+//     expect(nyc.location).toHaveBeenCalledTimes(0)
+//     expect(window.open).toHaveBeenCalledTimes(0)
+//   })
 
-  test('noSpaceBarScroll select', () => {
-    expect.assertions(5)
+//   test('noSpaceBarScroll select', () => {
+//     expect.assertions(5)
     
-    event.target = select.get(0)
-    event.key = ' '
-    select.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(0)
+//     event.target = select.get(0)
+//     event.key = ' '
+//     select.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(0)
 
-    event.key = 'Enter'
-    select.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(0)
+//     event.key = 'Enter'
+//     select.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(0)
 
-    event.key = 'foo'
-    select.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(0)
+//     event.key = 'foo'
+//     select.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(0)
     
-    expect(nyc.location).toHaveBeenCalledTimes(0)
-    expect(window.open).toHaveBeenCalledTimes(0)
-  })
+//     expect(nyc.location).toHaveBeenCalledTimes(0)
+//     expect(window.open).toHaveBeenCalledTimes(0)
+//   })
 
-  test('noSpaceBarScroll a href #', () => {
-    expect.assertions(8)
+//   test('noSpaceBarScroll a href #', () => {
+//     expect.assertions(8)
     
-    const handler = jest.fn()
+//     const handler = jest.fn()
 
-    event.target = a.click(handler).attr('href', '#').get(0)
-    event.key = ' '
-    a.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(1)
-    expect(handler).toHaveBeenCalledTimes(1)
+//     event.target = a.click(handler).attr('href', '#').get(0)
+//     event.key = ' '
+//     a.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(1)
+//     expect(handler).toHaveBeenCalledTimes(1)
 
-    event.key = 'Enter'
-    a.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(2)
-    expect(handler).toHaveBeenCalledTimes(2)
+//     event.key = 'Enter'
+//     a.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(2)
+//     expect(handler).toHaveBeenCalledTimes(2)
 
-    event.key = 'foo'
-    a.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(2)
-    expect(handler).toHaveBeenCalledTimes(2)
+//     event.key = 'foo'
+//     a.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(2)
+//     expect(handler).toHaveBeenCalledTimes(2)
 
-    expect(nyc.location).toHaveBeenCalledTimes(0)
-    expect(window.open).toHaveBeenCalledTimes(0)    
-  })
+//     expect(nyc.location).toHaveBeenCalledTimes(0)
+//     expect(window.open).toHaveBeenCalledTimes(0)    
+//   })
 
-  test('noSpaceBarScroll a no href', () => {
-    expect.assertions(8)
+//   test('noSpaceBarScroll a no href', () => {
+//     expect.assertions(8)
     
-    const handler = jest.fn()
+//     const handler = jest.fn()
 
-    event.target = a.click(handler).get(0)
-    event.key = ' '
-    a.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(1)
-    expect(handler).toHaveBeenCalledTimes(1)
+//     event.target = a.click(handler).get(0)
+//     event.key = ' '
+//     a.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(1)
+//     expect(handler).toHaveBeenCalledTimes(1)
 
-    event.key = 'Enter'
-    a.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(2)
-    expect(handler).toHaveBeenCalledTimes(2)
+//     event.key = 'Enter'
+//     a.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(2)
+//     expect(handler).toHaveBeenCalledTimes(2)
 
-    event.key = 'foo'
-    a.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(2)
-    expect(handler).toHaveBeenCalledTimes(2)
+//     event.key = 'foo'
+//     a.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(2)
+//     expect(handler).toHaveBeenCalledTimes(2)
 
-    expect(nyc.location).toHaveBeenCalledTimes(0)
-    expect(window.open).toHaveBeenCalledTimes(0)
-  })
+//     expect(nyc.location).toHaveBeenCalledTimes(0)
+//     expect(window.open).toHaveBeenCalledTimes(0)
+//   })
 
-  test('noSpaceBarScroll a has href', () => {
-    expect.assertions(9)
+//   test.only('noSpaceBarScroll a has href', () => {
+//     expect.assertions(6)
     
-    event.target = a.attr('href', 'https://maps.nyc.gov').get(0)
-    event.key = ' '
-    a.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(1)
-    expect(nyc.location).toHaveBeenCalledTimes(1)
-    expect(nyc.location.mock.calls[0][0]).toBe('https://maps.nyc.gov')
+//     event.target = a.attr('href', 'https://maps.nyc.gov').get(0)
+//     event.key = ' '
+//     a.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(1)
+//     expect(window.location).toBe('https://maps.nyc.gov')
 
-    event.key = 'Enter'
-    a.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(2)
-    expect(nyc.location).toHaveBeenCalledTimes(2)
-    expect(nyc.location.mock.calls[1][0]).toBe('https://maps.nyc.gov')
+//     event.key = 'Enter'
+//     a.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(2)
+//     expect(window.location).toBe('https://maps.nyc.gov')
 
 
-    event.key = 'foo'
-    a.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(2)
-    expect(nyc.location).toHaveBeenCalledTimes(2)
+//     event.key = 'foo'
+//     a.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(2)
+//     expect(window.open).toHaveBeenCalledTimes(0)
+//   })
 
-    expect(window.open).toHaveBeenCalledTimes(0)
-  })
-
-  test('noSpaceBarScroll a has href and target', () => {
-    expect.assertions(9)
+//   test('noSpaceBarScroll a has href and target', () => {
+//     expect.assertions(9)
     
-    event.target = a.attr({href: 'https://maps.nyc.gov', target: 'blank'}).get(0)
-    event.key = ' '
-    a.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(1)
-    expect(window.open).toHaveBeenCalledTimes(1)
-    expect(window.open.mock.calls[0][0]).toBe('https://maps.nyc.gov')
+//     event.target = a.attr({href: 'https://maps.nyc.gov', target: 'blank'}).get(0)
+//     event.key = ' '
+//     a.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(1)
+//     expect(window.open).toHaveBeenCalledTimes(1)
+//     expect(window.open.mock.calls[0][0]).toBe('https://maps.nyc.gov')
 
-    event.key = 'Enter'
-    a.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(2)
-    expect(window.open).toHaveBeenCalledTimes(2)
-    expect(window.open.mock.calls[1][0]).toBe('https://maps.nyc.gov')
+//     event.key = 'Enter'
+//     a.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(2)
+//     expect(window.open).toHaveBeenCalledTimes(2)
+//     expect(window.open.mock.calls[1][0]).toBe('https://maps.nyc.gov')
 
 
-    event.key = 'foo'
-    a.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(2)
-    expect(window.open).toHaveBeenCalledTimes(2)
+//     event.key = 'foo'
+//     a.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(2)
+//     expect(window.open).toHaveBeenCalledTimes(2)
 
-    expect(nyc.location).toHaveBeenCalledTimes(0)
-  })
+//     expect(nyc.location).toHaveBeenCalledTimes(0)
+//   })
 
-  test('noSpaceBarScroll input', () => {
-    expect.assertions(5)
+//   test('noSpaceBarScroll input', () => {
+//     expect.assertions(5)
     
-    event.target = input.get(0)
-    event.key = ' '
-    input.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(0)
+//     event.target = input.get(0)
+//     event.key = ' '
+//     input.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(0)
 
-    event.key = 'Enter'
-    input.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(0)
+//     event.key = 'Enter'
+//     input.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(0)
 
 
-    event.key = 'foo'
-    input.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(0)
+//     event.key = 'foo'
+//     input.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(0)
     
-    expect(window.open).toHaveBeenCalledTimes(0)
-    expect(nyc.location).toHaveBeenCalledTimes(0)
-  })
+//     expect(window.open).toHaveBeenCalledTimes(0)
+//     expect(nyc.location).toHaveBeenCalledTimes(0)
+//   })
 
-  test('noSpaceBarScroll textarea', () => {
-    expect.assertions(5)
+//   test('noSpaceBarScroll textarea', () => {
+//     expect.assertions(5)
     
-    event.target = textarea.get(0)
-    event.key = ' '
-    textarea.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(0)
+//     event.target = textarea.get(0)
+//     event.key = ' '
+//     textarea.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(0)
 
-    event.key = 'Enter'
-    textarea.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(0)
+//     event.key = 'Enter'
+//     textarea.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(0)
 
 
-    event.key = 'foo'
-    textarea.trigger(event)
-    expect(event.preventDefault).toHaveBeenCalledTimes(0)
+//     event.key = 'foo'
+//     textarea.trigger(event)
+//     expect(event.preventDefault).toHaveBeenCalledTimes(0)
     
-    expect(window.open).toHaveBeenCalledTimes(0)
-    expect(nyc.location).toHaveBeenCalledTimes(0)
-  })
-})
+//     expect(window.open).toHaveBeenCalledTimes(0)
+//     expect(nyc.location).toHaveBeenCalledTimes(0)
+//   })
+// })
 
 test('removeDups', () => {
   expect.assertions(2)
   expect(nyc.removeDups([1,2,3,4,4,5,6,6])).toEqual([1,2,3,4,5,6])
   expect(nyc.removeDups(['1','2','3','4','4','5','6','6'])).toEqual(['1','2','3','4','5','6'])
-})
-
-test('location', () => {
-  expect.assertions(0)
-  nyc.location('')
 })

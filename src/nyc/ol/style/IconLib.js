@@ -5,7 +5,7 @@
 import $ from 'jquery'
 import Style from 'ol/style/Style'
 import Icon from 'ol/style/Icon'
-import EventHandling from 'nyc/EventHandling'
+import EventHandling from '../../EventHandling'
 
 
 /**

@@ -4,11 +4,11 @@
 
 import $ from 'jquery'
 
-import nyc from 'nyc'
-import Container from 'nyc/Container'
-import Collapsible from 'nyc/Collapsible'
-import Choice from 'nyc/Choice'
-import ToggleSwitch from 'nyc/ToggleSwitch'
+import nyc from '../index'
+import Container from '../Container'
+import Collapsible from '../Collapsible'
+import Choice from '../Choice'
+import ToggleSwitch from '../ToggleSwitch'
 
 /**
  * @desc Class for managing controls for filtering a {@link module:nyc/ol/source/FilterAndSort~FilterAndSort} vector data source
@@ -25,6 +25,7 @@ class Filters extends Container {
    */
   constructor(options) {
     super(options.target)
+
     /**
      * @private
      * @member {Array<Choice>}

@@ -4,9 +4,9 @@
 
 import $ from 'jquery'
 
-import nyc from 'nyc'
-import Container from 'nyc/Container'
-import ReplaceTokens from 'nyc/ReplaceTokens'
+import nyc from './index'
+import Container from './Container'
+import ReplaceTokens from './ReplaceTokens'
 
 require('isomorphic-fetch')
 

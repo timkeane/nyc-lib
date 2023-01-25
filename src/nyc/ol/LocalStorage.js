@@ -2,10 +2,10 @@ import OlFormatGeoJSON from 'ol/format/GeoJSON'
 import OlSourceVector from 'ol/source/Vector'
 import OlLayerVector from 'ol/layer/Vector'
 
-import NycLocalStorage from 'nyc/LocalStorage'
+import NycLocalStorage from '../LocalStorage'
 import {register as olProjRegister} from 'ol/proj/proj4'
 
-import nyc from 'nyc'
+import nyc from '../index'
 
 const proj4 = nyc.proj4
 

@@ -3,7 +3,7 @@
  */
 
 import $ from 'jquery'
-import nyc from 'nyc'
+import nyc from './index'
 
 /**
  * @desc Class to provide access to localStorage and filesystem

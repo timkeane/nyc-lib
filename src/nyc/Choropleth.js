@@ -3,10 +3,10 @@
  */
 
 import $ from 'jquery'
-import Choice from 'nyc/Choice'
-import Collapsible from 'nyc/Collapsible'
-import Container from 'nyc/Container'
-import Stats from 'nyc/Stats'
+import Choice from './Choice'
+import Collapsible from './Collapsible'
+import Container from './Container'
+import Stats from './Stats'
 
 /**
  * @desc Class for creating a set of controls for gerating rules for choropleth maps

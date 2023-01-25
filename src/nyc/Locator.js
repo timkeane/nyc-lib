@@ -2,9 +2,9 @@
  * @module nyc/Locator
  */
 
-import EventHandling from 'nyc/EventHandling'
+import EventHandling from './EventHandling'
 
-import nyc from 'nyc'
+import nyc from './index'
 
 const proj4 = nyc.proj4
 

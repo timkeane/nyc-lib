@@ -4,8 +4,8 @@
 
 import $ from 'jquery'
 import Papa from 'papaparse'
-import ReplaceTokens from 'nyc/ReplaceTokens'
-import fetchTimeout from 'nyc/fetchTimeout'
+import ReplaceTokens from './ReplaceTokens'
+import fetchTimeout from './fetchTimeout'
 
 /**
  * @desc A class to provide messages with substitution values
