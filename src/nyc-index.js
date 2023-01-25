@@ -11,6 +11,7 @@ import _nyc_EventHandling from 'nyc/EventHandling'
 import _fetchTimeout from 'nyc/fetchTimeout'
 import _nyc_Geoclient from 'nyc/Geoclient'
 import _nyc_Geocoder from 'nyc/Geocoder'
+import _nyc_OsmGeocoder from 'nyc/OsmGeocoder'
 import _nyc_CensusGeocoder from 'nyc/CensusGeocoder'
 import _nyc_LocalStorage from 'nyc/LocalStorage'
 import _nyc_LocationMgr from 'nyc/LocationMgr'
@@ -41,6 +42,7 @@ window.nyc.fetchTimeout = _fetchTimeout
 window.nyc.Geoclient = _nyc_Geoclient
 window.nyc.Geocoder = _nyc_Geocoder
 window.nyc.CensusGeocoder = _nyc_CensusGeocoder
+window.nyc.OsmGeocoder = _nyc_OsmGeocoder
 window.nyc.LocalStorage = _nyc_LocalStorage
 window.nyc.LocationMgr = _nyc_LocationMgr
 window.nyc.Locator = _nyc_Locator
