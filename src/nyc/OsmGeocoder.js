@@ -2,9 +2,8 @@
  * @module nyc/OsmGeocoder
  */
 
-import Geocoder from ''
-import proj4 from 'proj4'
 import Geocoder from 'nyc/Geocoder'
+import proj4 from 'proj4'
 
 /**
  * @desc A class for geocoding
@@ -15,7 +14,7 @@ class OsmGeocoder extends Geocoder {
    * @desc Create an instance of Geocoder
    * @public
    * @constructor
-   * @param {Object<string, Object>} options
+   * @param {Object<string, Object>} options Constructor options
    */
   constructor(options) {
     super()
@@ -39,15 +38,15 @@ class OsmGeocoder extends Geocoder {
   /**
    * @private
    * @method
-   * @param {Object} result Result
+   * @param {Object} feature feature
    * @return {Locator.Result} Locator result
    */
   parse(feature) {
     return {
       type: 'geocoded',
       coordinate: this.project(feature.geometry.coordinates),
-      data: feature.properties,
-      name: feature.label
+      data: feature,
+      name: feature.properties.geocoding.label
     }
   }
   /**
@@ -64,13 +63,17 @@ class OsmGeocoder extends Geocoder {
         response.json().then(result => {
           const features = result.features
           if (features.length === 0) {
-            resolve({
+            const nothing = {
               type: 'ambiguous',
               input: result.geocoding.query,
               possible: []
-            })
+            }
+            resolve(nothing)
+            this.trigger('ambiguous', nothing)
           } else {
-            resolve(parse(features[0]))
+            const location = this.parse(features[0])
+            resolve(location)
+            this.trigger('geocoded', location)
           }
         })
       })
@@ -78,4 +81,4 @@ class OsmGeocoder extends Geocoder {
   }
 }
 
-export default Geocoder
+export default OsmGeocoder
