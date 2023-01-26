@@ -14,7 +14,8 @@ import proj4 from 'proj4'
  * @fires module:nyc/Locator~Locator#geolocated
  * @fires module:nyc/Locator~Locator#ambiguous
  * @fires module:nyc/Locator~Locator#error
- * @see https://developer.cityofnewyork.us/api/geoclient-api
+ * @see https://www.openstreetmap.org/
+ * @see https://nominatim.org/
  */
 class OsmGeocoder extends Geocoder {
   /**
@@ -22,8 +23,6 @@ class OsmGeocoder extends Geocoder {
    * @public
    * @constructor
    * @param {module:nyc/OsmGeocoder~OsmGeocoder.Options} options Constructor options
-   * @see https://www.openstreetmap.org/
-   * @see https://nominatim.org/
    */
   constructor(options) {
     super()
