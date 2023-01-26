@@ -21,14 +21,14 @@ class OsmGeocoder extends Geocoder {
    * @desc Create an instance of OsmGeocoder
    * @public
    * @constructor
- * @param {module:nyc/OsmGeocoder~OsmGeocoder.Options} options Constructor options
+   * @param {module:nyc/OsmGeocoder~OsmGeocoder.Options} options Constructor options
    */
   constructor(options) {
     super()
-    this.countryCodes = options?.countryCodes?.join() || 'us'
-    this.viewbox = options?.viewbox?.join() || ''
+    const countryCodes = options?.countryCodes ? options.countryCodes.join() : 'us'
+    const viewbox = options?.viewbox?.join() || ''
     this.projection = options?.projection || 'EPSG:3857'
-    this.url = `https://nominatim.openstreetmap.org/search.php?format=geocodejson&dedupe=1&countrycodes=${this.countryCodes}&viewbox=${this.viewbox}`
+    this.url = `https://nominatim.openstreetmap.org/search.php?format=geocodejson&dedupe=1&countrycodes=${countryCodes}&viewbox=${viewbox}`
   }
   /**
    * @private
@@ -93,7 +93,7 @@ class OsmGeocoder extends Geocoder {
  * @public
  * @typedef {Object}
  * @property {Array<string>} [countryCodes=['us']] The countries in which your events are located
- * @property {Array<number>} [viewBox=['us']] A bounding box for the geocoder in EPSG:4326
+ * @property {Array<number>} [viewBox=undefined] A restricting bounding box for the geocoder in EPSG:4326
  * @property {string} [projection=EPSG:3857] The EPSG code of the projection for output coordinates
  */
 OsmGeocoder.Options
