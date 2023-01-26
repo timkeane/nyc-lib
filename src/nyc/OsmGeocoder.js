@@ -6,7 +6,7 @@ import Geocoder from './Geocoder'
 import proj4 from 'proj4'
 
 /**
- * @desc A class for geocoding utilizing the OSM Nominatim API
+ * @desc A class for geocoding utilizing the OSM Nominatim API (Data © OpenStreetMap contributors, ODbL 1.0. <a href="https://osm.org/copyright">https://osm.org/copyright</a>)
  * @public
  * @class
  * @extends module:nyc/Geocoder~Geocoder
@@ -22,13 +22,15 @@ class OsmGeocoder extends Geocoder {
    * @public
    * @constructor
    * @param {module:nyc/OsmGeocoder~OsmGeocoder.Options} options Constructor options
+   * @see https://www.openstreetmap.org/
+   * @see https://nominatim.org/
    */
   constructor(options) {
     super()
-    const countryCodes = options?.countryCodes ? options.countryCodes.join() : 'us'
-    const viewbox = options?.viewbox?.join() || ''
+    this.countryCodes = options?.countryCodes?.join() || 'us'
+    this.viewbox = options?.viewbox?.join() || ''
     this.projection = options?.projection || 'EPSG:3857'
-    this.url = `https://nominatim.openstreetmap.org/search.php?format=geocodejson&dedupe=1&countrycodes=${countryCodes}&viewbox=${viewbox}`
+    this.url = `https://nominatim.openstreetmap.org/search.php?format=geocodejson&dedupe=1&countrycodes=${this.countryCodes}&viewbox=${this.viewbox}`
   }
   /**
    * @private
