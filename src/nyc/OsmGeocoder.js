@@ -6,15 +6,22 @@ import Geocoder from './Geocoder'
 import proj4 from 'proj4'
 
 /**
- * @desc A class for geocoding
+ * @desc A class for geocoding utilizing the OSM Nominatim API
  * @public
+ * @class
+ * @extends module:nyc/Geocoder~Geocoder
+ * @fires module:nyc/Locator~Locator#geocoded
+ * @fires module:nyc/Locator~Locator#geolocated
+ * @fires module:nyc/Locator~Locator#ambiguous
+ * @fires module:nyc/Locator~Locator#error
+ * @see https://developer.cityofnewyork.us/api/geoclient-api
  */
 class OsmGeocoder extends Geocoder {
   /**
-   * @desc Create an instance of Geocoder
+   * @desc Create an instance of OsmGeocoder
    * @public
    * @constructor
-   * @param {Object<string, Object>} options Constructor options
+ * @param {module:nyc/OsmGeocoder~OsmGeocoder.Options} options Constructor options
    */
   constructor(options) {
     super()
@@ -80,5 +87,15 @@ class OsmGeocoder extends Geocoder {
     })
   }
 }
+
+/**
+ * @desc Constructor options for {@link module:nyc/OsmGeocoder~OsmGeocoder}
+ * @public
+ * @typedef {Object}
+ * @property {Array<string>} [countryCodes=['us']] The countries in which your events are located
+ * @property {Array<number>} [viewBox=['us']] A bounding box for the geocoder in EPSG:4326
+ * @property {string} [projection=EPSG:3857] The EPSG code of the projection for output coordinates
+ */
+OsmGeocoder.Options
 
 export default OsmGeocoder
