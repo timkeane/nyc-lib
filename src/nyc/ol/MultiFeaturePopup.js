@@ -4,7 +4,7 @@
 
 import {getCenter as olExtentGetCenter} from 'ol/extent'
 
-import ItemPager from 'nyc/ItemPager'
+import ItemPager from '../ItemPager'
 import FeaturePopup from './FeaturePopup'
 
 /**

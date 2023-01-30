@@ -5,7 +5,7 @@
 
 import $ from 'jquery'
 
-import Translate from 'nyc/lang/Translate'
+import Translate from './Translate'
 
 /*
  * @private

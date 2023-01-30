@@ -4,7 +4,7 @@
 
 import $ from 'jquery'
 
-import Container from 'nyc/Container'
+import Container from '../Container'
 
 /**
  * @desc Class for language translation using the Google Translate Gadget
