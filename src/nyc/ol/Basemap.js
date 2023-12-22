@@ -72,6 +72,7 @@ class Basemap extends Map {
         this.base = layers[layers.length - 1]
         olms(this, Basemap.MVT_PHOTO_LABEL_STYLE_URL).then(mp => {
           const lyrs = mp.getLayers().getArray()
+          lyrs[lyrs.length - 1].setVisible(false)
           this.labels.photos = lyrs[lyrs.length - 1]
           this.setupPhotos(options)
         }).catch(err => console.error(err))
@@ -361,7 +362,8 @@ Basemap.PHOTO_URLS = {
   '2014': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2014/{z}/{x}/{-y}.png8`,
   '2016': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2016/{z}/{x}/{-y}.png8`,
   '2018': `https://${nycOl.TILE_HOSTS}/tms/1.0.0/photo/2018/{z}/{x}/{-y}.png8`,
-  '2020': 'https://tiles.arcgis.com/tiles/yG5s3afENB5iO9fj/arcgis/rest/services/NYC_Orthos_-_2020/MapServer/tile/{z}/{y}/{x}'
+  '2020': 'https://tiles.arcgis.com/tiles/yG5s3afENB5iO9fj/arcgis/rest/services/NYC_Orthos_-_2020/MapServer/tile/{z}/{y}/{x}',
+  '2022': 'https://tiles.arcgis.com/tiles/yG5s3afENB5iO9fj/arcgis/rest/services/DO_NOT_USE_NYC_2022_Orthos_WMA/MapServer/tile/{z}/{y}/{x}'
 }
 
 /**
