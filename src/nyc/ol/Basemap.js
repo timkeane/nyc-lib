@@ -67,10 +67,14 @@ class Basemap extends Map {
     this.storage = new LocalStorage()
 
     if (options.mvt) {
-      olms(this, Basemap.MVT_STYLE_URL).then(map => {
+      olms(this, Basemap.MVT_BASEMAP_STYLE_URL).then(map => {
         const layers = map.getLayers().getArray()
         this.base = layers[layers.length - 1]
-        this.setupPhotos(options)
+        olms(this, Basemap.MVT_PHOTO_LABEL_STYLE_URL).then(mp => {
+          const lyrs = mp.getLayers().getArray()
+          this.labels.photos = lyrs[lyrs.length - 1]
+          this.setupPhotos(options)
+        }).catch(err => console.error(err))
       }).catch(err => console.error(err))
     } else {
       this.base = new LayerTile({
@@ -188,9 +192,7 @@ class Basemap extends Map {
    * @method
    */
   hidePhoto() {
-    if (!this.mvt) {
-      this.showLabels(Basemap.LabelType.BASE)
-    }
+    this.showLabels(Basemap.LabelType.BASE)
     Object.entries(this.photos).forEach(([year, layer]) => {
       layer.setVisible(false)
     })
@@ -395,6 +397,6 @@ Basemap.LabelType = {
  * @const
  * @type {string}
  */
-Basemap.MVT_STYLE_URL = 'https://www.arcgis.com/sharing/rest/content/items/df7862bfd7984baab51ff9df8e214278/resources/styles/root.json?f=json'
-
+Basemap.MVT_BASEMAP_STYLE_URL = 'https://www.arcgis.com/sharing/rest/content/items/df7862bfd7984baab51ff9df8e214278/resources/styles/root.json?f=json'
+Basemap.MVT_PHOTO_LABEL_STYLE_URL = 'https://nyc.maps.arcgis.com/sharing/rest/content/items/c7afdaef353f46c4a1196b4d2f296abe/resources/styles/root.json?f=pjson'
 export default Basemap
