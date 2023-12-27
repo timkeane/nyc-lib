@@ -4,3 +4,6 @@ global.bindMock = require('./bind.mock').default
 global.nyc.bind = global.bindMock.bind
 global.fetch = require('jest-fetch-mock')
 global.$ = require('./jquery.mock').default
+
+global.ResizeObserver = require('resize-observer-polyfill')
+

@@ -44,19 +44,18 @@ if (!isDev) {
 
 const conf = {
   entry: {
-    "nyc-lib": './src/nyc-index.js',
-    "nyc-ol-lib": './src/nyc-ol.js',
-    "babel-polyfill": "babel-polyfill"
+    'nyc-lib': './src/nyc-index.js',
+    'nyc-ol-lib': './src/nyc-ol.js',
+    'babel-polyfill': "babel-polyfill"
   },
   output: {
-     path: path.resolve(__dirname, 'dist/js'),
-     filename: '[name].js'
+    path: path.resolve(__dirname, 'dist/js'),
+    filename: '[name].js'
   },
   devtool: devtools,
   module: {
     rules: [{
       test: /\.js$/,
-      exclude: /node_modules/,
       loader: 'babel-loader',
       query: {
         presets: ['@babel/preset-env']
