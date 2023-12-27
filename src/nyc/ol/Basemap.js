@@ -399,6 +399,6 @@ Basemap.LabelType = {
  * @const
  * @type {string}
  */
-Basemap.MVT_BASEMAP_STYLE_URL = 'https://nyc.maps.arcgis.com/sharing/rest/content/items/a6fab56e9dca46c8a653c3388936696e/resources/styles/root.json?f=pjson'
+Basemap.MVT_BASEMAP_STYLE_URL = 'https://tiles.arcgis.com/tiles/yG5s3afENB5iO9fj/arcgis/rest/services/Poletop_2263/VectorTileServer/resources/styles/root.json'
 Basemap.MVT_PHOTO_LABEL_STYLE_URL = 'https://nyc.maps.arcgis.com/sharing/rest/content/items/c7afdaef353f46c4a1196b4d2f296abe/resources/styles/root.json?f=pjson'
 export default Basemap
