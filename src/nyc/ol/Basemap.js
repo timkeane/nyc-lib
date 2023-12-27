@@ -74,6 +74,7 @@ class Basemap extends Map {
           const lyrs = mp.getLayers().getArray()
           lyrs[lyrs.length - 1].setVisible(false)
           this.labels.photos = lyrs[lyrs.length - 1]
+          this.labels.photos.setVisible(false)
           this.setupPhotos(options)
         }).catch(err => console.error(err))
       }).catch(err => console.error(err))
