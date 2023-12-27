@@ -399,6 +399,6 @@ Basemap.LabelType = {
  * @const
  * @type {string}
  */
-Basemap.MVT_BASEMAP_STYLE_URL = 'https://www.arcgis.com/sharing/rest/content/items/df7862bfd7984baab51ff9df8e214278/resources/styles/root.json?f=json'
+Basemap.MVT_BASEMAP_STYLE_URL = 'https://nyc.maps.arcgis.com/sharing/rest/content/items/a6fab56e9dca46c8a653c3388936696e/resources/styles/root.json?f=pjson'
 Basemap.MVT_PHOTO_LABEL_STYLE_URL = 'https://nyc.maps.arcgis.com/sharing/rest/content/items/c7afdaef353f46c4a1196b4d2f296abe/resources/styles/root.json?f=pjson'
 export default Basemap
