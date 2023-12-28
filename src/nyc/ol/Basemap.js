@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import View from 'ol/View'
 import Map from 'ol/Map'
-import olms from 'ol-mapbox-style'
+import olms, {apply} from 'ol-mapbox-style'
 import DoubleClickZoom from 'ol/interaction/DoubleClickZoom'
 import DragPan from 'ol/interaction/DragPan'
 import DragZoom from 'ol/interaction/DragZoom'
@@ -67,9 +67,12 @@ class Basemap extends Map {
     this.storage = new LocalStorage()
 
     if (options.mvt) {
-      olms(this, Basemap.MVT_BASEMAP_STYLE_URL).then(map => {
+      olms(this, Basemap.MVT_BASEMAP_STYLE_URLS[0]).then(map => {
         const layers = map.getLayers().getArray()
         this.base = layers[layers.length - 1]
+        for (let i = 1; i < Basemap.MVT_BASEMAP_STYLE_URLS.length; i = i + 1) {
+          apply(this.base, Basemap.MVT_BASEMAP_STYLE_URLS[i]);
+        }
         olms(this, Basemap.MVT_PHOTO_LABEL_STYLE_URL).then(mp => {
           const lyrs = mp.getLayers().getArray()
           lyrs[lyrs.length - 1].setVisible(false)
@@ -400,6 +403,6 @@ Basemap.LabelType = {
  * @const
  * @type {string}
  */
-Basemap.MVT_BASEMAP_STYLE_URL = 'https://www.arcgis.com/sharing/rest/content/items/2ee3ac7f481548c88d53ea50268525e7/resources/styles/root.json?f=json'
+Basemap.MVT_BASEMAP_STYLE_URLS = ['https://www.arcgis.com/sharing/rest/content/items/2ee3ac7f481548c88d53ea50268525e7/resources/styles/root.json?f=json']
 Basemap.MVT_PHOTO_LABEL_STYLE_URL = 'https://nyc.maps.arcgis.com/sharing/rest/content/items/c7afdaef353f46c4a1196b4d2f296abe/resources/styles/root.json?f=pjson'
 export default Basemap
