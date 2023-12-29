@@ -76,8 +76,13 @@ class Basemap extends Map {
         olms(this, Basemap.MVT_PHOTO_LABEL_STYLE_URL).then(mp => {
           const lyrs = mp.getLayers().getArray()
           lyrs[lyrs.length - 1].setVisible(false)
-          this.labels.photos = lyrs[lyrs.length - 1]
-          this.labels.photos.setVisible(false)
+          this.labels.photo = lyrs[lyrs.length - 1]
+          this.labels.photo.setVisible(false)
+          this.removeLayer(this.labels.photo)
+          setTimeout(() => {
+            this.addLayer(this.labels.photo)
+            this.labels.photo.setVisible(false)
+          }, 1000);
           this.setupPhotos(options)
         }).catch(err => console.error(err))
       }).catch(err => console.error(err))
@@ -187,9 +192,7 @@ class Basemap extends Map {
   showPhoto(year) {
     this.hidePhoto()
     this.photos[(year || this.latestPhoto) + ''].setVisible(true)
-    if (!this.mvt) {
-      this.showLabels(Basemap.LabelType.PHOTO)
-    }
+    this.showLabels(Basemap.LabelType.PHOTO)
   }
   /**
    * @desc Hide photo layer
@@ -212,9 +215,7 @@ class Basemap extends Map {
     if (!this.mvt && this.labels.base) {
       this.labels.base.setVisible(labelType === Basemap.LabelType.BASE);
     }
-    if (this.labels.photo) {
-      this.labels.photo.setVisible(labelType === Basemap.LabelType.PHOTO);
-    }
+    this.labels.photo.setVisible(labelType === Basemap.LabelType.PHOTO);
   }
   /**
    * @private
