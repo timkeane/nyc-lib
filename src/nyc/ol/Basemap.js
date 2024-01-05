@@ -39,6 +39,12 @@ class Basemap extends Map {
      * @private
      * @member {boolean}
      */
+    this.hasPhoto = false
+
+    /**
+     * @private
+     * @member {boolean}
+     */
     this.mvt = options.mvt
     /**
      * @private
@@ -72,6 +78,19 @@ class Basemap extends Map {
         this.base = layers[layers.length - 1]
         this.base.setZIndex(-3)
 
+        const basempStyle = this.base.getStyle();
+        this.base.setStyle((a, b, c) => {
+          if (
+            this.hasPhoto
+            && (
+              a.get('layer').toLowerCase().indexOf('label') > -1
+              || a.get('layer').toLowerCase().indexOf('neighborhoods') > -1
+            )
+          ) {
+            return [];
+          }
+          return basempStyle(a, b, c);
+        });
         olms(this, Basemap.MVT_PHOTO_LABEL_STYLE_URL).then(mp => {
           const lyrs = mp.getLayers().getArray()
           lyrs[lyrs.length - 1].setVisible(false)
@@ -192,6 +211,10 @@ class Basemap extends Map {
    */
   showPhoto(year) {
     this.hidePhoto()
+    this.hasPhoto = true
+    if (this.base.getStyle !== undefined) {
+      this.base.setStyle(this.base.getStyle())
+    }
     this.photos[(year || this.latestPhoto) + ''].setVisible(true)
     this.showLabels(Basemap.LabelType.PHOTO)
   }
@@ -201,6 +224,10 @@ class Basemap extends Map {
    * @method
    */
   hidePhoto() {
+    this.hasPhoto = false
+    if (this.base.getStyle !== undefined) {
+      this.base.setStyle(this.base.getStyle())
+    }
     this.showLabels(Basemap.LabelType.BASE)
     Object.entries(this.photos).forEach(([year, layer]) => {
       layer.setVisible(false)

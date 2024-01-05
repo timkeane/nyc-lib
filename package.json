@@ -1,6 +1,6 @@
 {
   "name": "nyc-lib",
-  "version": "1.4.86",
+  "version": "1.4.87",
   "description": "A set of common libraries used to develop NYC mapping applications",
   "scripts": {
     "pushit": "cd etc && ./push.sh && cd ..",
@@ -38,7 +38,7 @@
       "**/__tests__/**/*.test.js"
     ],
     "transformIgnorePatterns": [
-      "/node_modules/(?!(ol|color-space|color-rgba|color-parse)/)"
+      "/node_modules/(?!(ol|color-space|color-rgba|color-parse|ol-mapbox-style)/)"
     ],
     "moduleNameMapper": {
       "^nyc(.*)$": "<rootDir>/src/nyc/$1"
