@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import View from 'ol/View'
 import Map from 'ol/Map'
-import olms, {apply} from 'ol-mapbox-style'
+import olms from 'ol-mapbox-style'
 import DoubleClickZoom from 'ol/interaction/DoubleClickZoom'
 import DragPan from 'ol/interaction/DragPan'
 import DragZoom from 'ol/interaction/DragZoom'
@@ -67,16 +67,16 @@ class Basemap extends Map {
     this.storage = new LocalStorage()
 
     if (options.mvt) {
-      olms(this, Basemap.MVT_BASEMAP_STYLE_URLS[0]).then(map => {
+      olms(this, Basemap.MVT_BASEMAP_STYLE_URL).then(map => {
         const layers = map.getLayers().getArray()
         this.base = layers[layers.length - 1]
-        for (let i = 1; i < Basemap.MVT_BASEMAP_STYLE_URLS.length; i = i + 1) {
-          apply(this.base, Basemap.MVT_BASEMAP_STYLE_URLS[i]);
-        }
+        this.base.setZIndex(-3)
+
         olms(this, Basemap.MVT_PHOTO_LABEL_STYLE_URL).then(mp => {
           const lyrs = mp.getLayers().getArray()
           lyrs[lyrs.length - 1].setVisible(false)
           this.labels.photo = lyrs[lyrs.length - 1]
+          this.labels.photo.setZIndex(-1)
           this.labels.photo.setVisible(false)
           this.removeLayer(this.labels.photo)
           setTimeout(() => {
@@ -143,6 +143,7 @@ class Basemap extends Map {
       if ((year.split('-')[0] * 1) > this.latestPhoto) {
         this.latestPhoto = year
       }
+      photo.setZIndex(-2)
       photo.set('name', year)
       this.addLayer(photo)
       photo.on('change:visible', this.photoChange.bind(this))
@@ -215,6 +216,7 @@ class Basemap extends Map {
     if (!this.mvt && this.labels.base) {
       this.labels.base.setVisible(labelType === Basemap.LabelType.BASE);
     }
+    this.labels.photo.setVisible(labelType === Basemap.LabelType.BASE);
     this.labels.photo.setVisible(labelType === Basemap.LabelType.PHOTO);
   }
   /**
@@ -404,6 +406,7 @@ Basemap.LabelType = {
  * @const
  * @type {string}
  */
-Basemap.MVT_BASEMAP_STYLE_URLS = ['https://www.arcgis.com/sharing/rest/content/items/2ee3ac7f481548c88d53ea50268525e7/resources/styles/root.json?f=json']
+Basemap.MVT_BASEMAP_STYLE_URL = 'https://www.arcgis.com/sharing/rest/content/items/2ee3ac7f481548c88d53ea50268525e7/resources/styles/root.json?f=json'
 Basemap.MVT_PHOTO_LABEL_STYLE_URL = 'https://nyc.maps.arcgis.com/sharing/rest/content/items/c7afdaef353f46c4a1196b4d2f296abe/resources/styles/root.json?f=pjson'
+
 export default Basemap
